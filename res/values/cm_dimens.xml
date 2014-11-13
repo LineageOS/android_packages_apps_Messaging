@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- QuickMessage -->
+    <dimen name="qm_dialog_button_bar_height">48dip</dimen>
+    <dimen name="input_text_height">48dip</dimen>
+    <dimen name="material_16dp_keyline">16dp</dimen>
+    <dimen name="qm_message_width">300dp</dimen>
+    <dimen name="qm_dialog_button_bar_height">48dip</dimen>
+    <dimen name="qm_window_elevation">10dp</dimen>
+    <dimen name="qm_received_msg_max_height">75dp</dimen>
+    <dimen name="qm_fading_edge_length">3dp</dimen>
+    <dimen name="qm_received_msg_bubble_start">56dp</dimen>
+    <dimen name="avatar_width_height">36dp</dimen>
+    <dimen name="qm_message_padding_default">8dp</dimen>
+    <dimen name="qm_message_count_height">18dp</dimen>
+</resources>
