@@ -623,4 +623,39 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="BugleTheme.QMPopUp">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowElevation">@dimen/qm_window_elevation</item>
+        <item name="android:buttonBarStyle">@android:style/Widget.Material.ButtonBar.AlertDialog</item>
+    </style>
+
+    <style name="BugleTheme.QMButtonStyle" parent="android:Widget.Material.Button.Borderless">
+        <item name="android:textColor">@color/qm_dialog_text_color</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="QMConversationComposeSendText">
+        <item name="android:textColor">@color/compose_send_text_color</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:textSize">@dimen/conversation_compose_send_text_size</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:paddingLeft">@dimen/compose_message_text_box_padding_side</item>
+        <item name="android:paddingRight">@dimen/compose_message_text_box_padding_side</item>
+        <item name="android:minHeight">@dimen/conversation_message_contact_icon_size</item>
+        <item name="android:maxLines">4</item>
+        <item name="android:background">@drawable/msg_bubble_input</item>
+        <item name="android:backgroundTint">@color/outgoing_message_bg</item>
+        <item name="android:scrollHorizontally">false</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:inputType">textShortMessage|textAutoCorrect|textCapSentences|textMultiLine</item>
+    </style>
 </resources>

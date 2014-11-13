@@ -82,6 +82,25 @@
         android:defaultValue="false"
         android:persistent="true" />
 
+    <!-- QuickMessage settings -->
+    <PreferenceCategory android:title="@string/pref_quickmessage">
+
+        <SwitchPreference
+            android:key="pref_key_quickmessage"
+            android:title="@string/pref_quickmessage_title"
+            android:dependency="@string/notifications_enabled_pref_key"
+            android:summary="@string/pref_quickmessage_summary"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:key="pref_key_close_all"
+            android:title="@string/pref_close_all_title"
+            android:summary="@string/pref_close_all_summary"
+            android:layout="?android:attr/preferenceLayoutChild"
+            android:dependency="pref_key_quickmessage"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
     <PreferenceScreen
         android:key="@string/advanced_pref_key"
         android:title="@string/advanced_settings" />
