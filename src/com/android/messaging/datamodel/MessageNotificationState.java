@@ -18,6 +18,7 @@ package com.android.messaging.datamodel;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -58,6 +59,8 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PendingIntentConstants;
 import com.android.messaging.util.UriUtil;
 import com.google.common.collect.Lists;
+
+import com.cyanogenmod.messaging.quickmessage.NotificationInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -213,11 +216,20 @@ public abstract class MessageNotificationState extends NotificationState {
         // Contact uri of sender
         final Uri mContactUri;
 
+        // Contact id of sender
+        final long mSenderContactId;
+
         // Subscription id.
         final int mSubId;
 
         // Number of participants
         final int mParticipantCount;
+
+        // Display number of the sender
+        final String mSenderDisplayDestination;
+
+        // Normalized number of the sender
+        final String mSenderNormalizedDestination;
 
         public ConversationLineInfo(final String conversationId,
                 final boolean isGroup,
@@ -230,8 +242,11 @@ public abstract class MessageNotificationState extends NotificationState {
                 final boolean notificationVibrate,
                 final Uri avatarUri,
                 final Uri contactUri,
+                final long senderContactId,
                 final int subId,
-                final int participantCount) {
+                final int participantCount,
+                final String senderDisplayDestination,
+                final String senderNormalizedDestination) {
             mConversationId = conversationId;
             mIsGroup = isGroup;
             mGroupConversationName = groupConversationName;
@@ -243,10 +258,13 @@ public abstract class MessageNotificationState extends NotificationState {
             mRingtoneUri = ringtoneUri;
             mAvatarUri = avatarUri;
             mContactUri = contactUri;
+            mSenderContactId = senderContactId;
             mNotificationEnabled = notificationEnabled;
             mNotificationVibrate = notificationVibrate;
             mSubId = subId;
             mParticipantCount = participantCount;
+            mSenderDisplayDestination = senderDisplayDestination;
+            mSenderNormalizedDestination = senderNormalizedDestination;
         }
 
         public int getLatestMessageNotificationType() {
@@ -603,6 +621,21 @@ public abstract class MessageNotificationState extends NotificationState {
             return notifStyle;
         }
 
+        @Override
+        public NotificationInfo getNotificationInfo() {
+            ConversationLineInfo convInfo = mConvList.mConvInfos.get(0);
+            NotificationInfo ni = null;
+            if (convInfo != null && !convInfo.mIsGroup) {
+                String name = mTitle;
+                String number = convInfo.mSenderDisplayDestination;
+                ni = new NotificationInfo(name, number, convInfo.mContactUri, convInfo.mAvatarUri,
+                        convInfo.mSenderContactId,
+                        convInfo.getLatestMessageLineInfo().mText, convInfo.mReceivedTimestamp,
+                        convInfo.mConversationId, convInfo.mSelfParticipantId, convInfo.mSubId,
+                        convInfo.mSenderNormalizedDestination);
+            }
+            return ni;
+        }
     }
 
     private static boolean firstNameUsedMoreThanOnce(
@@ -850,6 +883,7 @@ public abstract class MessageNotificationState extends NotificationState {
                     String authorFullName = convMessageData.getSenderFullName();
                     String authorFirstName = convMessageData.getSenderFirstName();
                     final String messageText = convMessageData.getText();
+                    final String senderDestination = convMessageData.getSenderDisplayDestination();
 
                     final String convId = convMessageData.getConversationId();
                     final String messageId = convMessageData.getMessageId();
@@ -891,8 +925,11 @@ public abstract class MessageNotificationState extends NotificationState {
                                 convData.getNotifiationVibrate(),
                                 avatarUri,
                                 convMessageData.getSenderContactLookupUri(),
+                                convMessageData.getSenderContactId(),
                                 subId,
-                                convData.getParticipantCount());
+                                convData.getParticipantCount(),
+                                senderDestination,
+                                convMessageData.getSenderNormalizedDestination());
                         convLineInfos.put(convId, currConvInfo);
                     }
                     // Prepare the message line
