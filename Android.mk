@@ -80,7 +80,7 @@ include $(CONTACTS_COMMON_LOOKUP_PROVIDER)/phonenumber_lookup_provider.mk
 
 LOCAL_PROGUARD_FLAGS := -ignorewarnings -include build/core/proguard_basic_keeps.flags
 
-LOCAL_PROGUARD_ENABLED := nosystem
+LOCAL_PROGUARD_ENABLED := disabled
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
 ifeq (eng,$(TARGET_BUILD_VARIANT))
