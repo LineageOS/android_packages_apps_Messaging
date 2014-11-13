@@ -23,4 +23,32 @@
     <string name="pref_unicode_stripping_non_encodable">Strip non-encodable characters</string>
     <string name="pref_unicode_stripping_all">Strip all unicode characters</string>
     <string name="swipe_deletes_conversation_text">Swipe deletes conversation</string>
+
+    <!-- QUICKMESSAGE SUPPORT -->
+    <!-- Preferences -->
+    <string name="pref_quickmessage">QuickMessage and Reply</string>
+    <string name="pref_quickmessage_title">Show QuickMessage</string>
+    <string name="pref_quickmessage_summary">Display the QuickMessage pop-up for incoming SMS messages</string>
+    <string name="pref_close_all_title">Close all</string>
+    <string name="pref_close_all_summary">Close button closes all messages</string>
+    <string name="message_counter_separator">of</string>
+
+    <!-- QM Dialog box buttons -->
+    <string name="button_close">Close</string>
+    <string name="button_view">View</string>
+    <string name="button_templates">Templates</string>
+    <string name="qm_button_full_conversation">Full conversation</string>
+
+    <!-- Hint text in message body field when keyboard is exposed -->
+    <string name="type_to_reply_text_enter_to_send">Type to reply</string>
+
+    <!-- QM Toast -->
+    <string name="toast_sending_message">Sending message</string>
+
+    <!-- QM - Quick reply -->
+    <string name="qm_quick_reply">Quick reply</string>
+
+    <string name="send">Send</string>
+
+    <string name="compose_message_hint_text">Enter message</string>
 </resources>
