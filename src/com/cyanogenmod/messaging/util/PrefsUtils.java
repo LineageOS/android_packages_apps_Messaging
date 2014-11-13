@@ -22,6 +22,17 @@ import com.android.messaging.R;
 import com.android.messaging.util.BuglePrefs;
 
 public class PrefsUtils {
+
+    // QuickMessage
+    public static final String QUICKMESSAGE_ENABLED      = "pref_key_quickmessage";
+    public static final String QM_LOCKSCREEN_ENABLED     = "pref_key_qm_lockscreen";
+    public static final String QM_CLOSE_ALL_ENABLED      = "pref_key_close_all";
+
+    // Unicode
+    public static final String UNICODE_STRIPPING = "pref_key_unicode_stripping_value";
+    public static final String UNICODE_STRIPPING_LEAVE_INTACT  = "0";
+    public static final String UNICODE_STRIPPING_NON_DECODABLE = "1";
+
     private PrefsUtils() {
         //Don't instantiate
     }
