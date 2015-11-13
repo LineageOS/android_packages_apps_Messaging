@@ -22,13 +22,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Telephony;
 import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
 
+import android.util.Log;
+import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.datamodel.DatabaseWrapper;
+import com.android.messaging.datamodel.MessagingContentProvider;
+import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
+import com.android.messaging.datamodel.action.UpdateDestinationBlockedAction;
 import com.android.messaging.receiver.SmsReceiver;
 import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.BugleApnSettingsLoader;
@@ -44,6 +54,8 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
+import com.android.messaging.util.BlacklistObserver;
+import com.android.messaging.util.BlacklistSync;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
@@ -83,8 +95,19 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             LogUtil.e(TAG, "BugleApplication.onCreate: FactoryImpl.register skipped for test run");
         }
 
+        BlacklistObserver observer = new BlacklistObserver(new Handler(), getContentResolver());
+        // TODO - need to extract URI from TelephonyProvider
+        Uri CONTENT_URI = Uri.parse("content://blacklist");
+        getContentResolver().registerContentObserver(CONTENT_URI, true, observer);
+
+        BlacklistSync blacklistSync = new BlacklistSync(getApplicationContext());
+        blacklistSync.execute();
+
+
         sSystemUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
+
+
         Trace.endSection();
     }
 

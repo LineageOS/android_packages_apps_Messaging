@@ -18,6 +18,8 @@ package com.android.messaging.datamodel;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
@@ -25,7 +27,10 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
+import android.text.format.Time;
+import com.android.internal.telephony.util.BlacklistUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
@@ -48,6 +53,7 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UriUtil;
+import com.android.messaging.util.BlacklistSync;
 import com.android.messaging.widget.WidgetConversationProvider;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -1768,16 +1774,51 @@ public class BugleDatabaseOperations {
     }
 
     @DoesNotRunOnMainThread
-    public static void updateDestination(final DatabaseWrapper dbWrapper,
-            final String destination, final boolean blocked) {
+    public static int updateDestination(final DatabaseWrapper dbWrapper,
+             final String destination, final boolean blocked) {
+        // by default, the framework DB is updated
+        int updateCount;
+        updateCount = updateDestination(dbWrapper, destination, blocked, true);
+        return updateCount;
+    }
+
+    private static long updateTimestamp(Context context) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(BlacklistSync
+                .BLACKLIST_TIMESTAMP_FILE, Context.MODE_PRIVATE).edit();
+        Time time = new Time();
+        time.setToNow();
+        long now = time.toMillis(true);
+        editor.putLong(BlacklistSync.BLACKLIST_TIMESTAMP, now);
+        editor.commit();
+        return now;
+    }
+
+    @DoesNotRunOnMainThread
+    public static int updateDestination(final DatabaseWrapper dbWrapper,
+            final String destination, final boolean blocked, final boolean frameworkDb) {
         Assert.isNotMainThread();
         final ContentValues values = new ContentValues();
         values.put(ParticipantColumns.BLOCKED, blocked ? 1 : 0);
-        dbWrapper.update(DatabaseHelper.PARTICIPANTS_TABLE, values,
+        int updateCount = dbWrapper.update(DatabaseHelper.PARTICIPANTS_TABLE, values,
                 ParticipantColumns.NORMALIZED_DESTINATION + "=? AND " +
                         ParticipantColumns.SUB_ID + "=?",
                 new String[] { destination, Integer.toString(
                         ParticipantData.OTHER_THAN_SELF_SUB_ID) });
+
+
+        // update the timestamp for the local blacklist database
+        updateTimestamp(dbWrapper.getContext());
+
+        // update framework database in addition to the local database
+        if (frameworkDb) {
+            // update the framework database with the blacklisting information
+            String nn = PhoneNumberUtils.normalizeNumber(destination);
+            BlacklistUtils.addOrUpdate(dbWrapper.getContext(), nn,
+                    blocked ? BlacklistUtils.BLOCK_MESSAGES : 0,
+                    BlacklistUtils.BLOCK_MESSAGES);
+        }
+
+        return updateCount;
     }
 
     @DoesNotRunOnMainThread
