@@ -32,6 +32,8 @@ LOCAL_RESOURCE_DIR += frameworks/opt/colorpicker/res
 LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/res
 LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/activity/res
 
+LOCAL_JAVA_LIBRARIES += telephony-common
+
 LOCAL_STATIC_JAVA_LIBRARIES := android-common
 LOCAL_STATIC_JAVA_LIBRARIES += android-common-framesequence
 LOCAL_STATIC_JAVA_LIBRARIES += android-support-v4

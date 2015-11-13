@@ -25,7 +25,9 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
+import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
+import com.android.internal.telephony.util.BlacklistUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
@@ -1778,6 +1780,12 @@ public class BugleDatabaseOperations {
                         ParticipantColumns.SUB_ID + "=?",
                 new String[] { destination, Integer.toString(
                         ParticipantData.OTHER_THAN_SELF_SUB_ID) });
+
+        // update the framework database with the blacklisting information
+        String nn = PhoneNumberUtils.normalizeNumber(destination);
+        BlacklistUtils.addOrUpdate(dbWrapper.getContext(), nn,
+                blocked ? BlacklistUtils.BLOCK_MESSAGES : 0,
+                BlacklistUtils.BLOCK_MESSAGES);
     }
 
     @DoesNotRunOnMainThread
