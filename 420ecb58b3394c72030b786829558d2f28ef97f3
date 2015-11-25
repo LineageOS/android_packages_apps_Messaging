@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff82abbf_5c7135e0",
+        "filename": "src/com/android/messaging/BugleApplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "Need to fix these imports",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_fc75a9cd",
+        "filename": "src/com/android/messaging/BugleApplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "fix imports",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_1c73ade9",
+        "filename": "src/com/android/messaging/BugleApplication.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "extra vertical space",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_bc7f21aa",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "imports",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_dc7c65b7",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1794,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "consolidate this and 1796?",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_77fe9206",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "Should make this real javadoc and lose attribution as it is redundant (git has author)",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_772772b8",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "Log might be too chatty",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_972c769a",
+        "filename": "src/com/android/messaging/util/BlacklistSync.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "Javadoc",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_3721eaa0",
+        "filename": "src/com/android/messaging/util/BlacklistSync.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "extra spaces",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff82abbf_5726eeb9",
+        "filename": "src/com/android/messaging/util/BlacklistSync.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-11-25T06:19:53Z",
+      "side": 1,
+      "message": "chatty",
+      "revId": "420ecb58b3394c72030b786829558d2f28ef97f3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
