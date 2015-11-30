@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.action.DeleteConversationAction;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
@@ -41,18 +42,16 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
 import com.android.messaging.ui.conversationlist.ConversationListFragment.ConversationListFragmentHost;
 import com.android.messaging.ui.conversationlist.MultiSelectActionModeCallback.SelectedConversation;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.DebugUtils;
+import com.android.messaging.util.DialogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
 import com.android.messaging.util.UiUtils;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 /**
  * Base class for many Conversation List activities. This will handle the common actions of multi
@@ -223,44 +222,49 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
     @Override
     public void onActionBarBlock(final SelectedConversation conversation) {
         final Resources res = getResources();
-        new AlertDialog.Builder(this)
-                .setTitle(res.getString(R.string.block_confirmation_title,
-                        conversation.otherParticipantNormalizedDestination))
-                .setMessage(res.getString(R.string.block_confirmation_message))
-                .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+        DialogInterface.OnClickListener positiveClickListener =
+                new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface arg0, final int arg1) {
+                final Context context = AbstractConversationListActivity.this;
+                final View listView = findViewById(android.R.id.list);
+                final List<SnackBarInteraction> interactions =
+                        mConversationListFragment.getSnackBarInteractions();
+                final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
+                        undoListener =
+                        new UpdateDestinationBlockedActionSnackBar(
+                                context, listView, null /* undoRunnable */,
+                                interactions);
+                final Runnable undoRunnable = new Runnable() {
                     @Override
-                    public void onClick(final DialogInterface arg0, final int arg1) {
-                        final Context context = AbstractConversationListActivity.this;
-                        final View listView = findViewById(android.R.id.list);
-                        final List<SnackBarInteraction> interactions =
-                                mConversationListFragment.getSnackBarInteractions();
-                        final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
-                                undoListener =
-                                        new UpdateDestinationBlockedActionSnackBar(
-                                                context, listView, null /* undoRunnable */,
-                                                interactions);
-                        final Runnable undoRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                UpdateDestinationBlockedAction.updateDestinationBlocked(
-                                        conversation.otherParticipantNormalizedDestination, false,
-                                        conversation.conversationId,
-                                        undoListener);
-                            }
-                        };
-                        final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
-                              listener = new UpdateDestinationBlockedActionSnackBar(
-                                      context, listView, undoRunnable, interactions);
+                    public void run() {
                         UpdateDestinationBlockedAction.updateDestinationBlocked(
-                                conversation.otherParticipantNormalizedDestination, true,
+                                conversation.otherParticipantNormalizedDestination, false,
                                 conversation.conversationId,
-                                listener);
-                        exitMultiSelectState();
+                                undoListener);
+
+                        if (BugleApplication.getLookupProviderClient().hasSpamReporting()) {
+                            BugleApplication.getLookupProviderClient().markAsSpam(conversation
+                                    .otherParticipantNormalizedDestination);
+                        }
                     }
-                })
-                .create()
-                .show();
+                };
+                final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
+                        listener = new UpdateDestinationBlockedActionSnackBar(
+                        context, listView, undoRunnable, interactions);
+                UpdateDestinationBlockedAction.updateDestinationBlocked(
+                        conversation.otherParticipantNormalizedDestination, true,
+                        conversation.conversationId,
+                        listener);
+                exitMultiSelectState();
+            }
+        };
+
+        String title = res.getString(R.string.block_confirmation_title, conversation
+                .otherParticipantNormalizedDestination);
+        DialogUtil.createBlockContactConfirmationDialog(this, title, positiveClickListener).show();
+
     }
 
     @Override
