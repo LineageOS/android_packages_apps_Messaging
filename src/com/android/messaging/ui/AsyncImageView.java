@@ -18,12 +18,15 @@ package com.android.messaging.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.rastermill.FrameSequenceDrawable;
 import android.text.TextUtils;
@@ -42,17 +45,22 @@ import com.android.messaging.datamodel.media.MediaRequest;
 import com.android.messaging.datamodel.media.MediaResourceManager;
 import com.android.messaging.datamodel.media.MediaResourceManager.MediaResourceLoadListener;
 import com.android.messaging.util.Assert;
+import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
+import com.cyanogenmod.messaging.lookup.cache.LookupProviderAvatarImageCache;
+import com.cyanogenmod.messaging.lookup.cache.LookupProviderAvatarImageCache.LookupProviderAvatarImageCacheCallback;
 import com.google.common.annotations.VisibleForTesting;
 
+import java.io.IOException;
 import java.util.HashSet;
 
 /**
  * An ImageView used to asynchronously request an image from MediaResourceManager and render it.
  */
-public class AsyncImageView extends ImageView implements MediaResourceLoadListener<ImageResource> {
+public class AsyncImageView extends ImageView implements
+        MediaResourceLoadListener<ImageResource>, LookupProviderAvatarImageCacheCallback {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     // 100ms delay before disposing the image in case the AsyncImageView is re-added to the UI
     private static final int DISPOSE_IMAGE_DELAY = 100;
@@ -98,6 +106,8 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
 
     private AsyncImageViewDelayLoader mDelayLoader;
     private ImageRequestDescriptor mDetachedRequestDescriptor;
+    private DownloadAvatarTask mDownloadAvatarTask;
+    private String mUrl;
 
     public AsyncImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -111,6 +121,17 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
         mRoundedCornerClipPath = new Path();
 
         attr.recycle();
+    }
+
+    public void setImageUrl(String url) {
+        if (TextUtils.isEmpty(url)) {
+            throw new IllegalArgumentException("'url' cannot be null or empty!");
+        }
+        if (mUrl != null && !mUrl.equals(url)) {
+            mDownloadAvatarTask.cancel();
+        }
+        mUrl = url;
+        LookupProviderAvatarImageCache.fetchBitmap(mUrl, this);
     }
 
     /**
@@ -295,6 +316,10 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
         // Dispose the bitmap, but if an AysncImageView is removed from the window, then quickly
         // re-added, we shouldn't dispose, so wait a short time before disposing
         ThreadUtil.getMainThreadHandler().postDelayed(mDisposeRunnable, DISPOSE_IMAGE_DELAY);
+        if (mDownloadAvatarTask != null) {
+            mDownloadAvatarTask.cancel();
+            mDownloadAvatarTask = null;
+        }
     }
 
     @Override
@@ -454,4 +479,79 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
             }
         }
     }
+
+    // [TODO][MSB]: Maybe do something with delayed loading
+    private class DownloadAvatarTask extends AsyncTask<Void, Void, Bitmap> {
+
+        // Members
+        private String mUrl;
+        private ImageView mImageView;
+        private boolean mCancel;
+
+        public DownloadAvatarTask(String url, ImageView imageView) {
+            if (TextUtils.isEmpty(url)) {
+                throw new IllegalArgumentException("'url' cannot be null or empty!");
+            }
+            if (imageView == null) {
+                throw new IllegalArgumentException("'imageView' cannot be null!");
+            }
+            this.mUrl = url;
+            mImageView = imageView;
+        }
+
+        public void cancel() {
+            mCancel = true;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... params) {
+            try {
+                Bitmap src = ImageUtils.loadBitmapFromUrl(getContext(), this.mUrl);
+                Bitmap tgt =  Bitmap.createBitmap(
+                        src.getWidth(), src.getHeight(), Config.ARGB_8888);
+                // Reusing rects or target bitmaps for drawing might be a possibility
+                // but this should only happen once per url as long as it is in the cache
+                RectF dest = new RectF(0, 0, src.getWidth(), src.getHeight());
+                ImageUtils.drawBitmapWithCircleOnCanvas(src, new Canvas(tgt), dest, dest,
+                        null, false, 0, 0);
+                // [TODO][MSB]: Check size, and resize as needed
+                return tgt;
+            } catch (IOException e) {
+                LogUtil.e(TAG, "Error loading image", e);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            // Ensure we get it into the cache
+            LookupProviderAvatarImageCache.addBitmap(this.mUrl, bitmap);
+            if (!mCancel && mImageView != null) {
+                if (mUrl.equals(AsyncImageView.this.mUrl)) {
+                    mImageView.setImageBitmap(bitmap);
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void onImageFound(String key, Bitmap bitmap) {
+        if (bitmap == null && !TextUtils.isEmpty(key)) {
+            // If we don't have a bitmap but have a valid url/key
+            if (mDownloadAvatarTask != null) {
+                mDownloadAvatarTask.cancel();
+                mDownloadAvatarTask = null;
+            }
+            mDownloadAvatarTask = new DownloadAvatarTask(key, this);
+            mDownloadAvatarTask.execute();
+        } else {
+            // We have a valid bitmap, lets make sure its the same key (i.e. nothing else has been
+            // bound to the image view)
+            if (mUrl != null && mUrl.equals(key)) {
+                setImageBitmap(bitmap);
+            }
+        }
+    }
+
 }

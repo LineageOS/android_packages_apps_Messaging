@@ -18,6 +18,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := $(call all-java-files-under, src)
+LOCAL_SRC_FILES += ../ContactsCommon/src
 
 LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/res
 ifeq ($(TARGET_BUILD_APPS),)
@@ -31,6 +32,7 @@ LOCAL_RESOURCE_DIR += frameworks/opt/chips/res
 LOCAL_RESOURCE_DIR += frameworks/opt/colorpicker/res
 LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/res
 LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/activity/res
+LOCAL_RESOURCE_DIR += packages/apps/ContactsCommon/res
 
 LOCAL_STATIC_JAVA_LIBRARIES := android-common
 LOCAL_STATIC_JAVA_LIBRARIES += android-common-framesequence
@@ -57,12 +59,17 @@ LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.chips
 LOCAL_AAPT_FLAGS += --extra-packages com.android.vcard
 LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.photo
 LOCAL_AAPT_FLAGS += --extra-packages com.android.colorpicker
+LOCAL_AAPT_FLAGS += --extra-packages com.android.contacts.common
 
 ifdef TARGET_BUILD_APPS
     LOCAL_JNI_SHARED_LIBRARIES := libframesequence libgiftranscode
 else
     LOCAL_REQUIRED_MODULES:= libframesequence libgiftranscode
 endif
+
+# utilize ContactsCommon's phone-number-based contact-info lookup
+CONTACTS_COMMON_LOOKUP_PROVIDER ?= $(LOCAL_PATH)/$(contacts_common_dir)/info_lookup
+include $(CONTACTS_COMMON_LOOKUP_PROVIDER)/phonenumber_lookup_provider.mk
 
 LOCAL_PROGUARD_FLAGS := -ignorewarnings -include build/core/proguard_basic_keeps.flags
 

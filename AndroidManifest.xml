@@ -519,6 +519,7 @@
         </activity>
 
         <service android:name="android.support.v7.mms.MmsService"/>
+        <receiver android:name="com.cyanogenmod.messaging.lookup.cache.MarkAndSweepReceiver" />
     </application>
 
 </manifest>

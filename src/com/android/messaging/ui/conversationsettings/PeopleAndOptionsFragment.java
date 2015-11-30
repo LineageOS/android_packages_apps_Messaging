@@ -50,6 +50,7 @@ import com.android.messaging.ui.PersonItemView;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.conversation.ConversationActivity;
 import com.android.messaging.util.Assert;
+import com.android.messaging.util.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,22 +159,17 @@ public class PeopleAndOptionsFragment extends Fragment
                 }
                 final Resources res = getResources();
                 final Activity activity = getActivity();
-                new AlertDialog.Builder(activity)
-                        .setTitle(res.getString(R.string.block_confirmation_title,
-                                item.getOtherParticipant().getDisplayDestination()))
-                        .setMessage(res.getString(R.string.block_confirmation_message))
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                mBinding.getData().setDestinationBlocked(mBinding, true);
-                                activity.setResult(ConversationActivity.FINISH_RESULT_CODE);
-                                activity.finish();
-                            }
-                        })
-                        .create()
-                        .show();
+                final DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        mBinding.getData().setDestinationBlocked(mBinding, true);
+                        activity.setResult(ConversationActivity.FINISH_RESULT_CODE);
+                        activity.finish();
+                    }
+                };
+                String title = res.getString(R.string.block_confirmation_title,
+                                                item.getOtherParticipant().getDisplayDestination());
+                DialogUtil.createBlockContactConfirmationDialog(activity, title, listener).show();
                 break;
         }
     }

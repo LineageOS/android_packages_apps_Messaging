@@ -44,6 +44,9 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
+import com.cyanogenmod.messaging.lookup.ILookupClient;
+import com.cyanogenmod.messaging.lookup.LookupProviderManager;
+import com.cyanogenmod.messaging.lookup.cache.LookupProviderAvatarImageCache;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
@@ -57,6 +60,9 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
 
     private UncaughtExceptionHandler sSystemUncaughtExceptionHandler;
     private static boolean sRunningTests = false;
+
+    // Lookup provider members
+    private static LookupProviderManager mLookupProviderManager;
 
     @VisibleForTesting
     protected static void setTestsRunning() {
@@ -86,6 +92,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         sSystemUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
         Trace.endSection();
+        mLookupProviderManager = new LookupProviderManager(this);
+        LookupProviderAvatarImageCache.initialize(this);
     }
 
     @Override
@@ -178,6 +186,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             LogUtil.d(TAG, "BugleApplication.onLowMemory");
         }
         Factory.get().reclaimMemory();
+        mLookupProviderManager.onLowMemory();
+        LookupProviderAvatarImageCache.onLowMemory();
     }
 
     @Override
@@ -259,4 +269,14 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
                     "oldVersion = " + existingVersion + ", newVersion = " + targetVersion);
         }
     }
+
+    /**
+     * Get the reference to
+     *
+     * @return {@link LookupProviderManager} or null
+     */
+    public static ILookupClient getLookupProviderClient() {
+        return mLookupProviderManager;
+    }
+
 }
