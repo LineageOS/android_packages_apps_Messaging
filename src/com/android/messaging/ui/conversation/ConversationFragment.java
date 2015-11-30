@@ -63,6 +63,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.MessagingContentProvider;
@@ -95,6 +96,7 @@ import com.android.messaging.util.AccessibilityUtil;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.ChangeDefaultSmsAppHelper;
+import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
@@ -104,6 +106,8 @@ import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.TextUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
+import com.cyanogenmod.messaging.lookup.LookupProviderManager.LookupProviderListener;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
@@ -115,7 +119,7 @@ import java.util.List;
  */
 public class ConversationFragment extends Fragment implements ConversationDataListener,
         IComposeMessageViewHost, ConversationMessageViewHost, ConversationInputHost,
-        DraftMessageDataListener {
+        DraftMessageDataListener, LookupProviderListener {
 
     public interface ConversationFragmentHost extends ImeUtil.ImeStateHost {
         void onStartComposeMessage();
@@ -176,6 +180,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     // Attachment data for the attachment within the selected message that was long pressed
     private MessagePartData mSelectedAttachment;
+
+    private ActionBar mActionBar;
 
     // Normally, as soon as draft message is loaded, we trust the UI state held in
     // ComposeMessageView to be the only source of truth (incl. the conversation self id). However,
@@ -805,7 +811,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 Assert.notNull(participant);
                 final String destination = participant.getNormalizedDestination();
                 final Uri avatarUri = AvatarUriUtil.createAvatarUri(participant);
-                (new AddContactsConfirmationDialog(getActivity(), avatarUri, destination)).show();
+                (new AddContactsConfirmationDialog(getActivity(), avatarUri, destination))
+                        .onClick(null, DialogInterface.BUTTON_POSITIVE);
                 return true;
 
             case R.id.action_delete:
@@ -988,6 +995,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
         LocalBroadcastManager.getInstance(getActivity())
                 .unregisterReceiver(mConversationSelfIdChangeReceiver);
+        BugleApplication.getLookupProviderClient().removeLookupProviderListener(mBinding.getData
+                ().getParticipantPhoneNumber(), this);
     }
 
     @Override
@@ -1541,6 +1550,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     }
 
     public void updateActionBar(final ActionBar actionBar) {
+        mActionBar = actionBar;
         if (mComposeMessageView == null || !mComposeMessageView.updateActionBar(actionBar)) {
             updateActionAndStatusBarColor(actionBar);
             // We update this regardless of whether or not the action bar is showing so that we
@@ -1587,6 +1597,19 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 final String appName = getString(R.string.app_name);
                 conversationNameView.setText(appName);
                 getActivity().setTitle(appName);
+            }
+
+            if (mBinding != null && mBinding.getData() != null) {
+                ParticipantData otherParticipant = mBinding.getData().getOtherParticipant();
+                if (otherParticipant != null && ContactUtil.isValidContactId(
+                        otherParticipant.getContactId())) {
+                    if (!TextUtils.isEmpty(mBinding.getData().getParticipantPhoneNumber())) {
+                        BugleApplication.getLookupProviderClient().addLookupProviderListener(
+                                mBinding.getData().getParticipantPhoneNumber(), this);
+                        BugleApplication.getLookupProviderClient().lookupInfoForPhoneNumber(
+                                mBinding.getData().getParticipantPhoneNumber());
+                    }
+                }
             }
 
             // When conversation is showing and media picker is not showing, then hide the action
@@ -1659,4 +1682,17 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     public int getAttachmentsClearedFlags() {
         return DraftMessageData.ATTACHMENTS_CHANGED;
     }
+
+    @Override
+    public void onNewInfoAvailable(LookupResponse response) {
+        if (response != null) {
+            Activity activity = getActivity();
+            if (activity != null) {
+                if (!TextUtils.isEmpty(response.mName)) {
+                    activity.setTitle(response.mName);
+                }
+            }
+        }
+    }
+
 }

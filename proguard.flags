@@ -56,3 +56,6 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+
+-dontwarn com.squareup.picasso.**
