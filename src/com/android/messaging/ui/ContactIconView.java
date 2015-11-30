@@ -31,6 +31,7 @@ import com.android.messaging.datamodel.media.AvatarRequestDescriptor;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.ContactUtil;
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 
 /**
  * A view used to render contact icons. This class derives from AsyncImageView, so it loads contact
@@ -50,6 +51,7 @@ public class ContactIconView extends AsyncImageView {
     private String mNormalizedDestination;
     private Uri mAvatarUri;
     private boolean mDisableClickHandler;
+    private LookupResponse mLookupResponse;
 
     public ContactIconView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -138,7 +140,7 @@ public class ContactIconView extends AsyncImageView {
                     @Override
                     public void onClick(final View view) {
                         ContactUtil.showOrAddContact(view, mContactId, mContactLookupKey,
-                                mAvatarUri, mNormalizedDestination);
+                                mAvatarUri, mNormalizedDestination, mLookupResponse);
                     }
                 });
             }
@@ -149,4 +151,14 @@ public class ContactIconView extends AsyncImageView {
             setOnClickListener(null);
         }
     }
+
+    /**
+     * Need to set this for relaying the correct uri to the contact details card
+     *
+     * @param response {@link LookupResponse}
+     */
+    public void setLookupResponse(LookupResponse response) {
+        mLookupResponse = response;
+    }
+
 }

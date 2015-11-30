@@ -22,23 +22,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.database.ContentObserver;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Telephony;
 import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
 
-import android.util.Log;
-import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.datamodel.DatabaseWrapper;
-import com.android.messaging.datamodel.MessagingContentProvider;
-import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
-import com.android.messaging.datamodel.action.UpdateDestinationBlockedAction;
 import com.android.messaging.receiver.SmsReceiver;
 import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.BugleApnSettingsLoader;
@@ -56,6 +47,9 @@ import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
 import com.android.messaging.util.BlacklistObserver;
 import com.android.messaging.util.BlacklistSync;
+import com.cyanogenmod.messaging.lookup.ILookupClient;
+import com.cyanogenmod.messaging.lookup.LookupProviderManager;
+import com.cyanogenmod.messaging.cache.AsyncImageViewWebImageCache;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
@@ -69,6 +63,9 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
 
     private UncaughtExceptionHandler sSystemUncaughtExceptionHandler;
     private static boolean sRunningTests = false;
+
+    // Lookup provider members
+    private static LookupProviderManager mLookupProviderManager;
 
     @VisibleForTesting
     protected static void setTestsRunning() {
@@ -109,6 +106,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
 
 
         Trace.endSection();
+        mLookupProviderManager = new LookupProviderManager(this);
+        AsyncImageViewWebImageCache.initialize(this);
     }
 
     @Override
@@ -201,6 +200,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             LogUtil.d(TAG, "BugleApplication.onLowMemory");
         }
         Factory.get().reclaimMemory();
+        mLookupProviderManager.onLowMemory();
+        AsyncImageViewWebImageCache.onLowMemory();
     }
 
     @Override
@@ -282,4 +283,14 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
                     "oldVersion = " + existingVersion + ", newVersion = " + targetVersion);
         }
     }
+
+    /**
+     * Get the reference to
+     *
+     * @return {@link LookupProviderManager} or null
+     */
+    public static ILookupClient getLookupProviderClient() {
+        return mLookupProviderManager;
+    }
+
 }
