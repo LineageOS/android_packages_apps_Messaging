@@ -33,6 +33,8 @@ import android.provider.ContactsContract.Profile;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.android.contacts.common.model.ContactBuilder;
+import com.android.contacts.common.model.ContactBuilder.Address;
 import com.android.ex.chips.RecipientEntry;
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.CursorQueryData;
@@ -40,6 +42,7 @@ import com.android.messaging.datamodel.FrequentContactsCursorQueryData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
@@ -187,6 +190,28 @@ public class ContactUtil {
     /**
      * Shows a contact card or add to contacts dialog for the given contact info
      * @param view The view whose click triggered this to show
+     * @param lookupResponse The response from the lookup provider
+     */
+    public static void showOrAddContact(final View view, final LookupResponse lookupResponse) {
+        if (lookupResponse != null) {
+            ContactBuilder builder = new ContactBuilder(ContactBuilder.REVERSE_LOOKUP,
+                    lookupResponse.mNumber, lookupResponse.mNumber);
+            builder.setName(ContactBuilder.Name.createDisplayName(lookupResponse.mName));
+            builder.addPhoneNumber(ContactBuilder.PhoneNumber.createMainNumber(lookupResponse
+                    .mNumber));
+            builder.setPhotoUri(lookupResponse.mPhotoUrl);
+            builder.setSpamCount(lookupResponse.mSpamCount);
+            builder.setInfoProviderName(lookupResponse.mProviderName);
+            builder.addAddress(Address.createFormattedHome(lookupResponse.mAddress));
+            final Uri lookupUri = builder.build().getLookupUri();
+            ContactsContract.QuickContact.showQuickContact(view.getContext(), view, lookupUri,
+                    ContactsContract.QuickContact.MODE_LARGE, null);
+        }
+    }
+
+    /**
+     * Shows a contact card or add to contacts dialog for the given contact info
+     * @param view The view whose click triggered this to show
      * @param contactId The id of the contact in the android contacts DB
      * @param contactLookupKey The lookup key from contacts DB
      * @param avatarUri Uri to the avatar image if available
@@ -197,8 +222,8 @@ public class ContactUtil {
             final String normalizedDestination) {
         if (contactId > ParticipantData.PARTICIPANT_CONTACT_ID_NOT_RESOLVED
                 && !TextUtils.isEmpty(contactLookupKey)) {
-            final Uri lookupUri =
-                    ContactsContract.Contacts.getLookupUri(contactId, contactLookupKey);
+            final Uri lookupUri = ContactsContract.Contacts.getLookupUri(contactId,
+                    contactLookupKey);
             ContactsContract.QuickContact.showQuickContact(view.getContext(), view, lookupUri,
                     ContactsContract.QuickContact.MODE_LARGE, null);
         } else if (!TextUtils.isEmpty(normalizedDestination) && !TextUtils.equals(
