@@ -1,4 +1,5 @@
 /*
+
  * Copyright (C) 2015 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,6 +42,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.data.ConversationMessageData;
@@ -64,12 +66,16 @@ import com.android.messaging.ui.VideoThumbnailView;
 import com.android.messaging.util.AccessibilityUtil;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
+import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.YouTubeUtil;
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
+import com.cyanogenmod.messaging.lookup.LookupProviderManager.LookupProviderListener;
+import com.cyanogenmod.messaging.ui.AttributionContactIconView;
 import com.google.common.base.Predicate;
 
 import java.util.Collections;
@@ -80,7 +86,8 @@ import java.util.List;
  * The view for a single entry in a conversation.
  */
 public class ConversationMessageView extends FrameLayout implements View.OnClickListener,
-        View.OnLongClickListener, OnAttachmentClickListener {
+        View.OnLongClickListener, OnAttachmentClickListener, LookupProviderListener {
+
     public interface ConversationMessageViewHost {
         boolean onAttachmentClick(ConversationMessageView view, MessagePartData attachment,
                 Rect imageBounds, boolean longPress);
@@ -101,7 +108,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     private TextView mMmsInfoTextView;
     private LinearLayout mMessageTitleLayout;
     private TextView mSenderNameTextView;
-    private ContactIconView mContactIconView;
+    private AttributionContactIconView mContactIconView;
     private ConversationMessageBubbleView mMessageBubble;
     private View mSubjectView;
     private TextView mSubjectLabel;
@@ -122,7 +129,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     @Override
     protected void onFinishInflate() {
-        mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
+        mContactIconView = (AttributionContactIconView) findViewById(R.id.conversation_icon);
         mContactIconView.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
@@ -479,6 +486,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                     mData.getSenderContactLookupKey());
             mContactIconView.setImageResourceUri(avatarUri, mData.getSenderContactId(),
                     mData.getSenderContactLookupKey(), mData.getSenderNormalizedDestination());
+            if (mData.getIsIncoming()
+                    && !ContactUtil.isValidContactId(mData.getSenderContactId())) {
+                BugleApplication.getLookupProviderClient().addLookupProviderListener(
+                        mData.getSenderNormalizedDestination(), this);
+                BugleApplication.getLookupProviderClient().lookupInfoForPhoneNumber(
+                        mData.getSenderNormalizedDestination());
+            }
         }
     }
 
@@ -1203,4 +1217,33 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             return false;
         }
     }
+
+    @Override
+    public void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mData.getIsIncoming()
+                && !ContactUtil.isValidContactId(mData.getSenderContactId())) {
+            BugleApplication.getLookupProviderClient().removeLookupProviderListener(
+                    mData.getSenderNormalizedDestination(), this);
+        }
+    }
+
+    @Override
+    public void onNewInfoAvailable(LookupResponse response) {
+        if (response != null) {
+            if (mData.getSenderNormalizedDestination() != null && mData
+                    .getSenderNormalizedDestination().equals(response.mNumber)) {
+                if (mContactIconView != null) {
+                    if (response.mAttributionLogo != null) {
+                        mContactIconView.setAttributionDrawable(response.mAttributionLogo);
+                    }
+                    if (!TextUtils.isEmpty(response.mPhotoUrl)) {
+                        mContactIconView.setImageUrl(response.mPhotoUrl);
+                    }
+                    mContactIconView.setLookupResponse(response);
+                }
+            }
+        }
+    }
+
 }
