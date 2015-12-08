@@ -109,6 +109,11 @@ public class MmsConfig {
      * Retrieves the MmsConfig instance associated with the given {@code subId}
      */
     public static MmsConfig get(final int subId) {
+        if (subId == 0) {
+            synchronized (sSubIdToMmsConfigMap) {
+                return sFallback;
+            }
+        }
         final int realSubId = PhoneUtils.getDefault().getEffectiveSubId(subId);
         synchronized (sSubIdToMmsConfigMap) {
             final MmsConfig mmsConfig = sSubIdToMmsConfigMap.get(realSubId);

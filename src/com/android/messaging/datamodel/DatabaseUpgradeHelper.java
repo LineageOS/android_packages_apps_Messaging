@@ -17,8 +17,12 @@ package com.android.messaging.datamodel;
 
 import android.database.sqlite.SQLiteDatabase;
 
+import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
+import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
+
+import static com.android.messaging.datamodel.DatabaseHelper.MESSAGES_TABLE;
 
 public class DatabaseUpgradeHelper {
     private static final String TAG = LogUtil.BUGLE_DATABASE_TAG;
@@ -27,6 +31,12 @@ public class DatabaseUpgradeHelper {
         Assert.isTrue(newVersion >= oldVersion);
         if (oldVersion == newVersion) {
             return;
+        }
+
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + MESSAGES_TABLE
+                    + " ADD COLUMN " + MessageColumns.PROVIDER_ID
+                    + " INT DEFAULT(" + MessageData.PROVIDER_DEFAULT + ")");
         }
 
         LogUtil.i(TAG, "Database upgrade started from version " + oldVersion + " to " + newVersion);

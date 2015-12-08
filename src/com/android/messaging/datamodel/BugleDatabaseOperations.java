@@ -320,7 +320,23 @@ public class BugleDatabaseOperations {
     @DoesNotRunOnMainThread
     public static boolean isBlockedDestination(final DatabaseWrapper db, final String destination) {
         Assert.isNotMainThread();
-        return isBlockedParticipant(db, destination, ParticipantColumns.NORMALIZED_DESTINATION);
+
+        // do not use isBlockedParticipant(final DatabaseWrapper db, final String value, final String column)
+        // it doesn't compare the same numbers in different formats
+        Cursor cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
+                new String[] { ParticipantColumns.NORMALIZED_DESTINATION },
+                ParticipantColumns.BLOCKED + "=1", null,null, null, null);
+        try {
+            while (cursor.moveToNext()) {
+                String blockedNumber = cursor.getString(0);
+                if (PhoneNumberUtils.compare(destination, blockedNumber)) {
+                    return true;
+                }
+                }
+            } finally {
+                cursor.close();
+            }
+        return false;
     }
 
     static boolean isBlockedParticipant(final DatabaseWrapper db, final String participantId) {
@@ -1487,6 +1503,26 @@ public class BugleDatabaseOperations {
                 cursor.close();
             }
         }
+    }
+
+    /**
+     * @return participant count or -1 if conversation doesn't exist
+     */
+    public static int getConversationParticipantCount(final DatabaseWrapper dbWrapper,
+                                                      final String conversationId) {
+        Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns.PARTICIPANT_COUNT },
+                ConversationColumns._ID + "=?",
+                new String[] { conversationId },
+                null, null, null);
+        try {
+            if (cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            }
+        } finally {
+            cursor.close();
+        }
+        return -1;
     }
 
     /** Preserve parts in message but clear the stored draft */

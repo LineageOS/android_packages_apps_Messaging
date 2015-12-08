@@ -623,4 +623,13 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <style name="DialogTextAppearanceGrey" parent="@android:style/TextAppearance.Theme.Dialog">
+        <item name="android:textColor">@color/dialog_text_grey</item>
+    </style>
+
+    <style name="CheckBoxStyleGrey" parent="@android:style/Widget.Holo.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/dialog_btn_grey</item>
+        <item name="buttonTint">@color/dialog_btn_grey</item>
+    </style>
 </resources>

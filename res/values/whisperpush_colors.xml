@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="whisperpush_theme_primary">@color/action_bar_background_color</color>
+    <color name="whisperpush_theme_primary_dark">@color/action_bar_background_color_dark</color>
+    <color name="whisperpush_theme_accent">@color/action_bar_background_color</color>
+</resources>

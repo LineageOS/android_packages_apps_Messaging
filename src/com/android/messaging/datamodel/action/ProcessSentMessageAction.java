@@ -68,6 +68,7 @@ public class ProcessSentMessageAction extends Action {
     private static final String KEY_CONTENT_URI = "content_uri";
     private static final String KEY_RESPONSE = "response";
     private static final String KEY_RESPONSE_IMPORTANT = "response_important";
+    private static final String KEY_IS_SECURE = "is_secure";
 
     // These are set for messages we sent ourself (legacy), or which we fast-failed before sending.
     private static final String KEY_STATUS = "status";
@@ -78,8 +79,10 @@ public class ProcessSentMessageAction extends Action {
             final Bundle extras) {
         final ProcessSentMessageAction action = new ProcessSentMessageAction();
         final Bundle params = action.actionParameters;
+        final boolean isSecure = extras.getBoolean(SendMessageAction.EXTRA_IS_SECURE);
         params.putBoolean(KEY_SMS, false);
-        params.putBoolean(KEY_SENT_BY_PLATFORM, true);
+        params.putBoolean(KEY_SENT_BY_PLATFORM, !isSecure);
+        params.putBoolean(KEY_IS_SECURE, isSecure);
         params.putString(KEY_MESSAGE_ID, extras.getString(SendMessageAction.EXTRA_MESSAGE_ID));
         params.putParcelable(KEY_MESSAGE_URI, messageUri);
         params.putParcelable(KEY_UPDATED_MESSAGE_URI,
@@ -129,6 +132,8 @@ public class ProcessSentMessageAction extends Action {
         final Uri updatedMessageUri = actionParameters.getParcelable(KEY_UPDATED_MESSAGE_URI);
         final boolean isSms = actionParameters.getBoolean(KEY_SMS);
         final boolean sentByPlatform = actionParameters.getBoolean(KEY_SENT_BY_PLATFORM);
+        final int resultCode = actionParameters.getInt(KEY_RESULT_CODE);
+        final boolean isSecure = actionParameters.getBoolean(KEY_IS_SECURE);
 
         int status = actionParameters.getInt(KEY_STATUS, MmsUtils.MMS_REQUEST_MANUAL_RETRY);
         int rawStatus = actionParameters.getInt(KEY_RAW_STATUS,
@@ -150,7 +155,6 @@ public class ProcessSentMessageAction extends Action {
                 }
             }
 
-            final int resultCode = actionParameters.getInt(KEY_RESULT_CODE);
             final boolean responseImportant = actionParameters.getBoolean(KEY_RESPONSE_IMPORTANT);
             if (resultCode == Activity.RESULT_OK) {
                 if (responseImportant) {
@@ -182,9 +186,16 @@ public class ProcessSentMessageAction extends Action {
                     }
                 }
             }
+        } else if (isSecure) {
+            if (resultCode == Activity.RESULT_OK) {
+                status = MmsUtils.MMS_REQUEST_SUCCEEDED;
+            } else if (resultCode == SmsManager.MMS_ERROR_IO_ERROR) {
+                status = MmsUtils.MMS_REQUEST_AUTO_RETRY;
+            } else {
+                status = MmsUtils.MMS_REQUEST_MANUAL_RETRY;
+            }
         }
         if (messageId != null) {
-            final int resultCode = actionParameters.getInt(KEY_RESULT_CODE);
             final int httpStatusCode = actionParameters.getInt(KEY_HTTP_STATUS_CODE);
             processResult(
                     messageId, updatedMessageUri, status, rawStatus, isSms, this, subId,
@@ -219,6 +230,7 @@ public class ProcessSentMessageAction extends Action {
                 update.updateMessageId(message.getMessageId());
                 // Update image sizes.
                 update.updateSizesForImageParts();
+                update.setProviderId(message.getProviderId());
                 // Temp attachments are no longer needed
                 for (final MessagePartData part : message.getParts()) {
                     part.destroySync();

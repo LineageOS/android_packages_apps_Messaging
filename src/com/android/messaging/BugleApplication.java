@@ -39,6 +39,7 @@ import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
 import com.android.messaging.datamodel.action.UpdateDestinationBlockedAction;
+import com.android.messaging.metrics.MetricsSendService;
 import com.android.messaging.receiver.SmsReceiver;
 import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.BugleApnSettingsLoader;
@@ -57,6 +58,8 @@ import com.android.messaging.util.Trace;
 import com.android.messaging.util.BlacklistObserver;
 import com.android.messaging.util.BlacklistSync;
 import com.google.common.annotations.VisibleForTesting;
+
+import org.whispersystems.whisperpush.WhisperPush;
 
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -109,6 +112,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
 
 
         Trace.endSection();
+
+        MetricsSendService.schedule(this);
     }
 
     @Override
@@ -144,6 +149,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         if (OsUtil.isAtLeastM()) {
             registerCarrierConfigChangeReceiver(context);
         }
+        WhisperPush.setMessagingBridge(new WhisperPushMessagingBridge(this));
 
         Trace.endSection();
     }
