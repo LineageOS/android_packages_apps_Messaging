@@ -140,7 +140,8 @@
     <string name="auto_delete_oldest_messages_confirmation">Delete messages older than <xliff:g id="duration">%s</xliff:g> and turn on auto-delete?</string>
 
     <!-- ####### Strings to support the mms/sms service ####### -->
-
+    <!-- Prefix for accessibility to indicate if a message was sent securely -->
+    <string name="message_securely_sent">Securely Sent:\u0020</string>
     <!-- Prefix for accessibility to indicate who the sender of a plain text message is. -->
     <string name="incoming_text_sender_content_description"><xliff:g id="sender">%s</xliff:g> said</string>
     <string name="outgoing_text_sender_content_description">You said</string>
@@ -549,34 +550,36 @@
     <string name="participant_list_title">People in this conversation</string>
     <!-- Title for the phone call button in the action bar that lets the user call a participant in an SMS conversation -->
     <string name="action_call">Make a call</string>
+    <!-- Text to insert into message hint text for messages that will be sent securely -->
+    <string name="secure_text">\u0020secure\u0020</string>
     <!-- The hint text shown in the message compose input box prompting the user to send a message -->
-    <string name="compose_message_view_hint_text">Send message</string>
+    <string name="compose_message_view_hint_text">Send<xliff:g id="secure_text">%1$s</xliff:g>message</string>
     <!-- The hint text shown in the message compose input box prompting the user to send a message when there are multiple SIMs. -->
-    <string name="compose_message_view_hint_text_multi_sim">Send message&lt;br/&gt;&lt;small&gt;from <xliff:g id="sim_name">%s</xliff:g>&lt;/small&gt;</string>
+    <string name="compose_message_view_hint_text_multi_sim">Send<xliff:g id="secure_text">%1$s</xliff:g>message&lt;br/&gt;&lt;small&gt;from <xliff:g id="sim_name">%2$s</xliff:g>&lt;/small&gt;</string>
     <!-- The hint text shown in the message compose input box when photo(s) is attached -->
     <plurals name="compose_message_view_hint_text_photo">
-        <item quantity="one">Send photo</item>
-        <item quantity="other">Send photos</item>
+        <item quantity="one">Send<xliff:g id="secure_text">%1$s</xliff:g>photo</item>
+        <item quantity="other">Send<xliff:g id="secure_text">%1$s</xliff:g>photos</item>
     </plurals>
     <!-- The hint text shown in the message compose input box when audio recording(s) is attached -->
     <plurals name="compose_message_view_hint_text_audio">
-        <item quantity="one">Send audio</item>
-        <item quantity="other">Send audios</item>
+        <item quantity="one">Send<xliff:g id="secure_text">%1$s</xliff:g>audio</item>
+        <item quantity="other">Send<xliff:g id="secure_text">%1$s</xliff:g>audios</item>
     </plurals>
     <!-- The hint text shown in the message compose input box when video(s) is attached -->
     <plurals name="compose_message_view_hint_text_video">
-        <item quantity="one">Send video</item>
-        <item quantity="other">Send videos</item>
+        <item quantity="one">Send<xliff:g id="secure_text">%1$s</xliff:g>video</item>
+        <item quantity="other">Send<xliff:g id="secure_text">%1$s</xliff:g>videos</item>
     </plurals>
     <!-- The hint text shown in the message compose input box when vcard(s) is attached -->
     <plurals name="compose_message_view_hint_text_vcard">
-        <item quantity="one">Send contact card</item>
-        <item quantity="other">Send contact cards</item>
+        <item quantity="one">Send<xliff:g id="secure_text">%1$s</xliff:g>contact card</item>
+        <item quantity="other">Send<xliff:g id="secure_text">%1$s</xliff:g>contact cards</item>
     </plurals>
     <!-- The hint text shown in the message compose input box when a single unknown attachment, or multiple different attachments are attached -->
     <plurals name="compose_message_view_hint_text_attachments">
-        <item quantity="one">Send attachment</item>
-        <item quantity="other">Send attachments</item>
+        <item quantity="one">Send<xliff:g id="secure_text">%1$s</xliff:g>attachment</item>
+        <item quantity="other">Send<xliff:g id="secure_text">%1$s</xliff:g>attachments</item>
     </plurals>
     <!-- Announcement after the user adds or removes an attachment -->
     <plurals name="attachment_changed_accessibility_announcement">
@@ -605,6 +608,15 @@
     <string name="add_contact_confirmation_dialog_title">Add to Contacts?</string>
     <!-- Alert dialog accept adding the given phone number to your contacts button. -->
     <string name="add_contact_confirmation">Add Contact</string>
+    <!-- Alert dialog warning title regarding mixed security state of conversation participants -->
+    <string name="mixed_participants_warning_dialog_title">Not all contacts are secure</string>
+    <!-- Alert dialog warning content regarding mixed security state of conversation participants -->
+    <string name="mixed_participants_warning_text">To create secure group messages, all contacts must have secure phone numbers.</string>
+    <string name="mixed_participants_warning_checkbox_text">Don\'t show me this again</string>
+    <!-- Alert dialog warning actions regarding mixed security state of conversation participants -->
+    <string name="mixed_participants_send_as_sms_action">SEND AS SMS</string>
+    <string name="mixed_participants_cancel_action">CANCEL</string>
+
     <!-- The text shown as a label before the message subject input box -->
     <string name="compose_message_view_subject_hint_text">Subject</string>
     <!-- The text shown as a label before the message subject input box -->

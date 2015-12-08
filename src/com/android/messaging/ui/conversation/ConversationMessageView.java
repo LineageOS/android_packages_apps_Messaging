@@ -100,6 +100,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     private TextView mTitleTextView;
     private TextView mMmsInfoTextView;
     private LinearLayout mMessageTitleLayout;
+    private TextView mMessageSecuredTextView;
     private TextView mSenderNameTextView;
     private ContactIconView mContactIconView;
     private ConversationMessageBubbleView mMessageBubble;
@@ -147,6 +148,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mTitleTextView = (TextView) findViewById(R.id.message_title);
         mMmsInfoTextView = (TextView) findViewById(R.id.mms_info);
         mMessageTitleLayout = (LinearLayout) findViewById(R.id.message_title_layout);
+        mMessageSecuredTextView = (TextView) findViewById(R.id.message_secured);
         mSenderNameTextView = (TextView) findViewById(R.id.message_sender_name);
         mMessageBubble = (ConversationMessageBubbleView) findViewById(R.id.message_content);
         mSubjectView = findViewById(R.id.subject_container);
@@ -311,6 +313,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         int titleResId = -1;
         int statusResId = -1;
         String statusText = null;
+        boolean isStatusSendComplete = false;
         switch(mData.getStatus()) {
             case MessageData.BUGLE_STATUS_INCOMING_AUTO_DOWNLOADING:
             case MessageData.BUGLE_STATUS_INCOMING_MANUAL_DOWNLOADING:
@@ -381,6 +384,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             default:
                 if (!mData.getCanClusterWithNextMessage()) {
                     statusText = mData.getFormattedReceivedTimeStamp();
+                    isStatusSendComplete = true;
                 }
                 break;
         }
@@ -409,6 +413,15 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         final String subjectText = MmsUtils.cleanseMmsSubject(getResources(),
                 mData.getMmsSubject());
         final boolean subjectVisible = !TextUtils.isEmpty(subjectText);
+
+        final boolean messageSecuredVisible = mData.getIsSecured()  && isStatusSendComplete;
+        if (messageSecuredVisible) {
+            mMessageSecuredTextView.setText(getResources().getString(R.string.message_securely_sent));
+            mMessageSecuredTextView.setVisibility(View.VISIBLE);
+        } else {
+            mMessageSecuredTextView.setVisibility(View.GONE);
+
+        }
 
         final boolean senderNameVisible = !mOneOnOne && !mData.getCanClusterWithNextMessage()
                 && mData.getIsIncoming();
@@ -665,6 +678,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         final ConversationDrawables drawableProvider = ConversationDrawables.get();
         final boolean incoming = mData.getIsIncoming();
         final boolean outgoing = !incoming;
+        final boolean secured = mData.getIsSecured();
         final boolean showArrow =  shouldShowMessageBubbleArrow();
 
         final int messageTopPaddingClustered =
@@ -699,6 +713,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 textBackground = drawableProvider.getBubbleDrawable(
                         isSelected(),
                         incoming,
+                        secured,
                         false /* needArrow */,
                         mData.hasIncomingErrorStatus());
                 textMinHeight = messageTextMinHeightDefault;
@@ -726,6 +741,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             textBackground = drawableProvider.getBubbleDrawable(
                     isSelected(),
                     incoming,
+                    secured,
                     shouldShowMessageBubbleArrow(),
                     mData.hasIncomingErrorStatus());
             textMinHeight = messageTextMinHeightDefault;
@@ -982,6 +998,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         mSubjectLabel.setTextColor(getResources().getColor(subjectLabelColorResId));
         mSenderNameTextView.setTextColor(getResources().getColor(timestampColorResId));
+        mMessageSecuredTextView.setTextColor(getResources().getColor(timestampColorResId));
     }
 
     /**
@@ -1112,8 +1129,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             final AudioAttachmentView audioView = (AudioAttachmentView) view;
             audioView.bindMessagePartData(attachment, mData.getIsIncoming(), isSelected());
             audioView.setBackground(ConversationDrawables.get().getBubbleDrawable(
-                    isSelected(), mData.getIsIncoming(), false /* needArrow */,
-                    mData.hasIncomingErrorStatus()));
+                    isSelected(), mData.getIsIncoming(), mData.getIsSecured(),
+                    false /* needArrow */, mData.hasIncomingErrorStatus()));
         }
 
         @Override
@@ -1129,8 +1146,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             personView.bind(DataModel.get().createVCardContactItemData(getContext(),
                     attachment));
             personView.setBackground(ConversationDrawables.get().getBubbleDrawable(
-                    isSelected(), mData.getIsIncoming(), false /* needArrow */,
-                    mData.hasIncomingErrorStatus()));
+                    isSelected(), mData.getIsIncoming(), mData.getIsSecured(),
+                    false /* needArrow */, mData.hasIncomingErrorStatus()));
             final int nameTextColorRes;
             final int detailsTextColorRes;
             if (isSelected()) {

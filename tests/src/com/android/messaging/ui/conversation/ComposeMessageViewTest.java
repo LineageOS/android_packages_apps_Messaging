@@ -38,6 +38,7 @@ import com.android.messaging.ui.conversation.ComposeMessageView.IComposeMessageV
 import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.FakeMediaUtil;
 import com.android.messaging.util.ImeUtil;
+import com.android.messaging.util.SecureMessagingHelper;
 
 import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
@@ -117,6 +118,7 @@ public class ComposeMessageViewTest extends ViewTest<ComposeMessageView> {
                 return null;
             }
         }).when(mockDraftMessageData).checkDraftForAction(Mockito.anyBoolean(), Mockito.anyInt(),
+                Mockito.<SecureMessagingHelper>any(),
                 Mockito.<CheckDraftTaskCallback>any(),
                 Mockito.<Binding<DraftMessageData>>any());
 
