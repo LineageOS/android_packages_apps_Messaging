@@ -61,7 +61,7 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
         return mConversationParticipantsMap.get(participantId);
     }
 
-    ArrayList<ParticipantData> getParticipantListExcludingSelf() {
+    public ArrayList<ParticipantData> getParticipantListExcludingSelf() {
         final ArrayList<ParticipantData> retList =
                 new ArrayList<ParticipantData>(mConversationParticipantsMap.size());
         for (int i = 0; i < mConversationParticipantsMap.size(); i++) {

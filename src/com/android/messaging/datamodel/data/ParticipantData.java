@@ -425,6 +425,10 @@ public class ParticipantData implements Parcelable {
         mContactDestination = destination;
     }
 
+    public void setSubId(int subId) {
+        mSubId = subId;
+    }
+
     public int getSubId() {
         return mSubId;
     }

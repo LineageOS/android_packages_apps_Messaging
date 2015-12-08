@@ -29,6 +29,7 @@ import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
 
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.metrics.MetricsSendService;
 import com.android.messaging.receiver.SmsReceiver;
 import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.BugleApnSettingsLoader;
@@ -45,6 +46,8 @@ import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
 import com.google.common.annotations.VisibleForTesting;
+
+import org.whispersystems.whisperpush.WhisperPush;
 
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -86,6 +89,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         sSystemUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
         Trace.endSection();
+
+        MetricsSendService.schedule(this);
     }
 
     @Override
@@ -121,6 +126,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         if (OsUtil.isAtLeastM()) {
             registerCarrierConfigChangeReceiver(context);
         }
+        WhisperPush.setMessagingBridge(new WhisperPushMessagingBridge(this));
 
         Trace.endSection();
     }

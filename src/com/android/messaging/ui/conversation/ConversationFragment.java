@@ -101,6 +101,7 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.SafeAsyncTask;
+import com.android.messaging.util.SecureMessagingHelper;
 import com.android.messaging.util.TextUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
@@ -163,6 +164,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     private Parcelable mListState;
 
     private ConversationFragmentHost mHost;
+    private SecureMessagingHelper mSecureMessagingHelper;
 
     protected List<Integer> mFilterResults;
 
@@ -430,6 +432,28 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     }
                 }
         );
+        mSecureMessagingHelper = new SecureMessagingHelper(getActivity(),
+                new SecureMessagingHelper.SecurityMessagingCallback() {
+                    @Override
+                    public void onParticipantsSecurityUpdated() {
+                        if (isResumed()) {
+                            setMessageSecurity(mSecureMessagingHelper.isAllParticipantsSecured());
+                        }
+                    }
+
+                    @Override
+                    public ConversationParticipantsData getParticipantsData() {
+                        if (mBinding.isBound()) {
+                            return mBinding.getData().getParticipants();
+                        } else {
+                            return null;
+                        }
+                    }
+                });
+    }
+
+    private void setMessageSecurity(boolean isAllParticipantsSecured) {
+        mComposeMessageView.setMessageSecurity(isAllParticipantsSecured);
     }
 
     /**
@@ -1190,6 +1214,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     public void onConversationParticipantDataLoaded(final ConversationData data) {
         mBinding.ensureBound(data);
         if (mBinding.getData().getParticipantsLoaded()) {
+            mSecureMessagingHelper.checkIfAllParticipantsSecuredAsync();
+
             final boolean oneOnOne = mBinding.getData().getOtherParticipant() != null;
             mAdapter.setOneOnOne(oneOnOne, true /* invalidate */);
 
@@ -1437,6 +1463,10 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         // If the self id or the self participant data hasn't been loaded yet, fallback to
         // the default setting.
         return self == null ? ParticipantData.DEFAULT_SELF_SUB_ID : self.getSubId();
+    }
+
+    public SecureMessagingHelper getSecureMessagingHelper() {
+        return mSecureMessagingHelper;
     }
 
     @Override

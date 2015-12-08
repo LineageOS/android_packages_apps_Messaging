@@ -38,6 +38,7 @@ import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.SafeAsyncTask;
+import com.android.messaging.util.SecureMessagingHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -93,6 +94,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
     private String mSelfId;
     private MessageTextStats mMessageTextStats;
     private boolean mSending;
+    private boolean mSecured;
 
     /** Keeps track of completed attachments in the message draft. This data is persisted to db */
     private final List<MessagePartData> mAttachments;
@@ -190,6 +192,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
             message = MessageData.createDraftSmsMessage(mConversationId, mSelfId,
                     mMessageText);
         }
+        message.setTransportSecured(isSecured());
 
         if (clearLocalCopy) {
             // The message now owns all the attachments and the text...
@@ -606,6 +609,12 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
         return mSending;
     }
 
+    public boolean isSecured() {return mSecured;}
+
+    public void setSecured(boolean secured) {
+        mSecured = secured;
+    }
+
     @Override // ReadDraftMessageActionListener.onReadDraftMessageSucceeded
     public void onReadDraftDataSucceeded(final ReadDraftDataAction action, final Object data,
             final MessageData message, final ConversationListItemData conversation) {
@@ -697,8 +706,9 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
     }
 
     public void checkDraftForAction(final boolean checkMessageSize, final int selfSubId,
-            final CheckDraftTaskCallback callback, final Binding<DraftMessageData> binding) {
-        new CheckDraftForSendTask(checkMessageSize, selfSubId, callback, binding)
+            SecureMessagingHelper helper, final CheckDraftTaskCallback callback,
+            final Binding<DraftMessageData> binding) {
+        new CheckDraftForSendTask(checkMessageSize, selfSubId, helper, callback, binding)
             .executeOnThreadPool((Void) null);
     }
 
@@ -748,17 +758,21 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
         public static final int RESULT_MESSAGE_OVER_LIMIT = 3;
         public static final int RESULT_VIDEO_ATTACHMENT_LIMIT_EXCEEDED = 4;
         public static final int RESULT_SIM_NOT_READY = 5;
+        public static final int RESULT_PARTICIPANTS_MIXED = 6;
         private final boolean mCheckMessageSize;
         private final int mSelfSubId;
         private final CheckDraftTaskCallback mCallback;
+        private SecureMessagingHelper mSecureMessagingHelper;
         private final String mBindingId;
         private final List<MessagePartData> mAttachmentsCopy;
         private int mPreExecuteResult = RESULT_PASSED;
 
         public CheckDraftForSendTask(final boolean checkMessageSize, final int selfSubId,
-                final CheckDraftTaskCallback callback, final Binding<DraftMessageData> binding) {
+                 SecureMessagingHelper secureMessagingHelperelper, final CheckDraftTaskCallback callback,
+                 final Binding<DraftMessageData> binding) {
             mCheckMessageSize = checkMessageSize;
             mSelfSubId = selfSubId;
+            mSecureMessagingHelper = secureMessagingHelperelper;
             mCallback = callback;
             mBindingId = binding.getBindingId();
             // Obtain an immutable copy of the attachment list so we can operate on it in the
@@ -803,6 +817,15 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
             if (mCheckMessageSize && getIsMessageOverLimit()) {
                 return RESULT_MESSAGE_OVER_LIMIT;
             }
+
+            if (mSecureMessagingHelper != null) {
+                mSecureMessagingHelper.checkIfAllParticipantsSecured();
+                setSecured(mSecureMessagingHelper.isAllParticipantsSecured());
+                if (mSecureMessagingHelper.isParticipantsMixed()) {
+                    return RESULT_PARTICIPANTS_MIXED;
+                }
+            }
+
             return RESULT_PASSED;
         }
 

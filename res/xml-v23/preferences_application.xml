@@ -89,4 +89,14 @@
 
     </PreferenceCategory>
 
+    <PreferenceScreen
+        android:key="pref_whisperpush"
+        android:persistent="false"
+        android:title="@string/pref_whisperpush_title"
+        android:summary="@string/pref_whisperpush_summary">
+        <intent
+            android:targetClass="org.whispersystems.whisperpush.ui.PreferenceActivity"
+            android:targetPackage="com.android.messaging" />
+    </PreferenceScreen>
+
 </PreferenceScreen>

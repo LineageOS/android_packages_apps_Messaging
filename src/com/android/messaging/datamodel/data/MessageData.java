@@ -60,6 +60,7 @@ public class MessageData implements Parcelable {
         MessageColumns.MMS_EXPIRY,
         MessageColumns.RAW_TELEPHONY_STATUS,
         MessageColumns.RETRY_START_TIMESTAMP,
+        MessageColumns.PROVIDER_ID,
     };
 
     private static final int INDEX_ID = 0;
@@ -81,13 +82,13 @@ public class MessageData implements Parcelable {
     private static final int INDEX_MMS_EXPIRY = 16;
     private static final int INDEX_RAW_TELEPHONY_STATUS = 17;
     private static final int INDEX_RETRY_START_TIMESTAMP = 18;
+    private static final int INDEX_PROVIDER_ID = 19;
 
     // SQL statement to insert a "complete" message row (columns based on the projection above).
     private static final String INSERT_MESSAGE_SQL =
             "INSERT INTO " + DatabaseHelper.MESSAGES_TABLE + " ( "
-                    + TextUtils.join(", ", Arrays.copyOfRange(sProjection, 1,
-                            INDEX_RETRY_START_TIMESTAMP + 1))
-                    + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    + TextUtils.join(", ", Arrays.copyOfRange(sProjection, 1, sProjection.length))
+                    + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private String mMessageId;
     private String mConversationId;
@@ -109,12 +110,17 @@ public class MessageData implements Parcelable {
     private int mStatus;
     private final ArrayList<MessagePartData> mParts;
     private long mRetryStartTimestamp;
+    private int mProviderId = PROVIDER_DEFAULT;
 
     // PROTOCOL Values
     public static final int PROTOCOL_UNKNOWN = -1;              // Unknown type
     public static final int PROTOCOL_SMS = 0;                   // SMS message
     public static final int PROTOCOL_MMS = 1;                   // MMS message
     public static final int PROTOCOL_MMS_PUSH_NOTIFICATION = 2; // MMS WAP push notification
+
+    // PROVIDER_ID Values
+    public static final int PROVIDER_DEFAULT = 0;
+    public static final int PROVIDER_WHISPER_PUSH = 1;
 
     // Bugle STATUS Values
     public static final int BUGLE_STATUS_UNKNOWN = 0;
@@ -398,6 +404,7 @@ public class MessageData implements Parcelable {
         mMmsTransactionId = cursor.getString(INDEX_MMS_TRANSACTION_ID);
         mMmsContentLocation = cursor.getString(INDEX_MMS_CONTENT_LOCATION);
         mRetryStartTimestamp = cursor.getLong(INDEX_RETRY_START_TIMESTAMP);
+        mProviderId = cursor.getInt(INDEX_PROVIDER_ID);
     }
 
     /**
@@ -433,6 +440,7 @@ public class MessageData implements Parcelable {
         values.put(MessageColumns.MMS_CONTENT_LOCATION, mMmsContentLocation);
         values.put(MessageColumns.RAW_TELEPHONY_STATUS, mRawStatus);
         values.put(MessageColumns.RETRY_START_TIMESTAMP, mRetryStartTimestamp);
+        values.put(MessageColumns.PROVIDER_ID, mProviderId);
     }
 
     /**
@@ -469,6 +477,7 @@ public class MessageData implements Parcelable {
         }
         insert.bindLong(INDEX_RAW_TELEPHONY_STATUS, mRawStatus);
         insert.bindLong(INDEX_RETRY_START_TIMESTAMP, mRetryStartTimestamp);
+        insert.bindLong(INDEX_PROVIDER_ID, mProviderId);
         return insert;
     }
 
@@ -552,6 +561,18 @@ public class MessageData implements Parcelable {
 
     public final void setMessageSeen(final boolean hasSeen) {
         mSeen = hasSeen;
+    }
+
+    public boolean getIsTransportSecured() {
+        return isProviderSecure(mProviderId);
+    }
+
+    public void setTransportSecured(final boolean secured) {
+        if (secured) {
+            mProviderId = PROVIDER_WHISPER_PUSH;
+        } else {
+            mProviderId = PROVIDER_DEFAULT;
+        }
     }
 
     public final boolean getInResendWindow(final long now) {
@@ -680,6 +701,18 @@ public class MessageData implements Parcelable {
             }
         }
         return text.toString();
+    }
+
+    public int getProviderId() {
+        return mProviderId;
+    }
+
+    public void setProviderId(int providerId) {
+        mProviderId = providerId;
+    }
+
+    public static boolean isProviderSecure(int providerId) {
+        return providerId == PROVIDER_WHISPER_PUSH;
     }
 
     /**
@@ -845,6 +878,7 @@ public class MessageData implements Parcelable {
         mMmsContentLocation = in.readString();
         mRawStatus = in.readInt();
         mRetryStartTimestamp = in.readLong();
+        mProviderId = in.readInt();
 
         // Read parts
         mParts = new ArrayList<MessagePartData>();
@@ -881,6 +915,7 @@ public class MessageData implements Parcelable {
         dest.writeString(mMmsContentLocation);
         dest.writeInt(mRawStatus);
         dest.writeLong(mRetryStartTimestamp);
+        dest.writeInt(mProviderId);
 
         // Write parts
         dest.writeInt(mParts.size());

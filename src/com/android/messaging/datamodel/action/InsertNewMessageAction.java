@@ -39,6 +39,8 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 
+import org.whispersystems.whisperpush.WhisperPush;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +97,7 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         actionParameters.putParcelable(KEY_MESSAGE, message);
     }
 
-    private InsertNewMessageAction(final MessageData message, final int subId) {
+    private InsertNewMessageAction(final MessageData message, int subId) {
         super();
         actionParameters.putParcelable(KEY_MESSAGE, message);
         actionParameters.putInt(KEY_SUB_ID, subId);
@@ -135,6 +137,13 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         if (self == null) {
             return null;
         }
+
+        Context context = Factory.get().getApplicationContext();
+        WhisperPush whisperPush = WhisperPush.getInstance(context);
+        if (whisperPush.isSecureMessagingActive() && message.getIsTransportSecured()) {
+            self.setSubId(0);
+        }
+
         message.bindSelfId(self.getId());
         // If the user taps the Send button before the conversation draft is created/loaded by
         // ReadDraftDataAction (maybe the action service thread was busy), the MessageData may not
@@ -390,6 +399,7 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             try {
                 message = MessageData.createDraftSmsMessage(conversationId,
                         content.getSelfId(), messageText);
+                message.setProviderId(content.getProviderId());
                 message.updateSendingMessage(conversationId, messageUri, timestamp);
 
                 BugleDatabaseOperations.insertNewMessageInTransaction(db, message);

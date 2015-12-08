@@ -260,6 +260,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /* The detailed status (RESPONSE_STATUS or RETRIEVE_STATUS) for MMS message */
         public static final String RAW_TELEPHONY_STATUS = "raw_status";
+
+        /* The identity of a message provider. See com.android.messaging.datamodel.data.MessageData.PROVIDER_* */
+        public static final String PROVIDER_ID = "provider_id";
     }
 
     // Messages table SQL
@@ -284,6 +287,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + MessageColumns.RAW_TELEPHONY_STATUS + " INT DEFAULT(0), "
                     + MessageColumns.SELF_PARTICIPANT_ID + " INT, "
                     + MessageColumns.RETRY_START_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.PROVIDER_ID + " INT DEFAULT(" + MessageData.PROVIDER_DEFAULT + "), "
                     + "FOREIGN KEY (" + MessageColumns.CONVERSATION_ID + ") REFERENCES "
                     + CONVERSATIONS_TABLE + "(" + ConversationColumns._ID + ") ON DELETE CASCADE "
                     + "FOREIGN KEY (" + MessageColumns.SENDER_PARTICIPANT_ID + ") REFERENCES "

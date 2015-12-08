@@ -31,6 +31,7 @@ LOCAL_RESOURCE_DIR += frameworks/opt/chips/res
 LOCAL_RESOURCE_DIR += frameworks/opt/colorpicker/res
 LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/res
 LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/activity/res
+LOCAL_RESOURCE_DIR += external/whispersystems/libwhisperpush/res
 
 LOCAL_STATIC_JAVA_LIBRARIES := android-common
 LOCAL_STATIC_JAVA_LIBRARIES += android-common-framesequence
@@ -45,6 +46,7 @@ LOCAL_STATIC_JAVA_LIBRARIES += libchips
 LOCAL_STATIC_JAVA_LIBRARIES += libphotoviewer
 LOCAL_STATIC_JAVA_LIBRARIES += libphonenumber
 LOCAL_STATIC_JAVA_LIBRARIES += colorpicker
+LOCAL_STATIC_JAVA_LIBRARIES += libwhisperpush
 
 include $(LOCAL_PATH)/version.mk
 
@@ -57,6 +59,7 @@ LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.chips
 LOCAL_AAPT_FLAGS += --extra-packages com.android.vcard
 LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.photo
 LOCAL_AAPT_FLAGS += --extra-packages com.android.colorpicker
+LOCAL_AAPT_FLAGS += --extra-packages org.whispersystems.whisperpush
 
 ifdef TARGET_BUILD_APPS
     LOCAL_JNI_SHARED_LIBRARIES := libframesequence libgiftranscode
@@ -74,6 +77,7 @@ ifeq (eng,$(TARGET_BUILD_VARIANT))
 else
     LOCAL_PROGUARD_FLAG_FILES += proguard-release.flags
 endif
+LOCAL_PROGUARD_FLAG_FILES += ../../../external/whispersystems/libwhisperpush/proguard.flags
 
 LOCAL_JACK_ENABLED := disabled
 

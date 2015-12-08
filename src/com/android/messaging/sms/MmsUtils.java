@@ -16,6 +16,8 @@
 
 package com.android.messaging.sms;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -41,6 +43,8 @@ import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.text.util.Rfc822Token;
 import android.text.util.Rfc822Tokenizer;
+import android.util.Log;
+import android.util.Pair;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -66,6 +70,7 @@ import com.android.messaging.mmslib.pdu.PduPersister;
 import com.android.messaging.mmslib.pdu.RetrieveConf;
 import com.android.messaging.mmslib.pdu.SendConf;
 import com.android.messaging.mmslib.pdu.SendReq;
+import com.android.messaging.receiver.SendStatusReceiver;
 import com.android.messaging.sms.SmsSender.SendResult;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.BugleGservices;
@@ -81,6 +86,10 @@ import com.android.messaging.util.MediaMetadataRetrieverWrapper;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.google.common.base.Joiner;
+
+import org.whispersystems.whisperpush.WhisperPush;
+import org.whispersystems.whisperpush.api.OutgoingMessage;
+import org.whispersystems.whisperpush.service.WhisperPushMessageSender;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -2124,6 +2133,63 @@ public class MmsUtils {
         return new StatusPlusUri(status, rawStatus, messageUri);
     }
 
+    public static StatusPlusUri sendSecureMmsMessage(final Context context,
+                                                     final Uri messageUri,
+                                                     final MessageData message,
+                                                     final ArrayList<String> recipients,
+                                                     final Bundle extras) {
+        WhisperPush whisperPush = WhisperPush.getInstance(context);
+        if (!whisperPush.isSecureMessagingNetworkAvailable()) {
+            LogUtil.w(TAG, "MmsUtils: can't send secure MMS without network");
+            return new StatusPlusUri(MMS_REQUEST_AUTO_RETRY,
+                    MessageData.RAW_TELEPHONY_STATUS_UNDEFINED,
+                    messageUri,
+                    SmsManager.MMS_ERROR_NO_DATA_NETWORK);
+        }
+        final Intent sentIntent = new Intent(SendStatusReceiver.MMS_SENT_ACTION,
+                messageUri,
+                context,
+                SendStatusReceiver.class);
+        extras.putInt(SendMessageAction.KEY_SUB_ID, 0);
+        extras.putBoolean(SendMessageAction.EXTRA_IS_SECURE, true);
+        sentIntent.putExtras(extras);
+        WhisperPushMessageSender sender = WhisperPushMessageSender.getInstance(context);
+
+        String text = message.getMessageText();
+        List<Pair<String, Uri>> attachment = new ArrayList<>();
+        for (MessagePartData data : message.getParts()) {
+            if (!data.isText()) {
+                attachment.add(new Pair<>(data.getContentType(), data.getContentUri()));
+            }
+        }
+
+        int result;
+        try {
+            sender.sendMultimediaMessage(recipients, attachment, text, message.getMessageId());
+            result = Activity.RESULT_OK;
+        } catch (IOException e) {
+            Log.e(TAG, "Failed to send secure MMS", e);
+            result = SmsManager.MMS_ERROR_IO_ERROR;
+        } catch (Throwable t) {
+            Log.e(TAG, "Failed to send secure MMS", t);
+            result = SmsManager.MMS_ERROR_UNSPECIFIED;
+        }
+
+        final PendingIntent sentPendingIntent = PendingIntent.getBroadcast(
+                context,
+                0 /*request code*/,
+                sentIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        try {
+            sentPendingIntent.send(context, result, null);
+        } catch (PendingIntent.CanceledException e) {
+            Log.e(TAG, "Sending pending intent canceled", e);
+        }
+
+        return STATUS_PENDING;
+
+    }
+
     public static StatusPlusUri updateSentMmsMessageStatus(final Context context,
             final Uri messageUri, final SendConf sendConf) {
         int status = MMS_REQUEST_MANUAL_RETRY;
@@ -2571,6 +2637,31 @@ public class MmsUtils {
         return status;
     }
 
+    public static int sendSecureSmsMessage(final String recipient, final String messageText, final long timestamp) {
+        final Context context = Factory.get().getApplicationContext();
+        WhisperPush whisperPush = WhisperPush.getInstance(context);
+        if (!whisperPush.isSecureMessagingNetworkAvailable()) {
+            LogUtil.w(TAG, "MmsUtils: can't send secure SMS without network");
+            return MMS_REQUEST_AUTO_RETRY;
+        }
+        try {
+            // Send a single message
+            OutgoingMessage outgoingMessage = new OutgoingMessage.Builder()
+                    .setDestination(recipient)
+                    .setMessage(messageText)
+                    .setTimestamp(timestamp)
+                    .build();
+            boolean success = whisperPush.getMessageSender()
+                    .sendTextMessage(outgoingMessage);
+            if (success) {
+                return MMS_REQUEST_SUCCEEDED;
+            }
+        } catch (final Exception e) {
+            LogUtil.e(TAG, "MmsUtils: failed to send secure SMS" + e, e);
+        }
+        return MMS_REQUEST_MANUAL_RETRY;
+    }
+
     /**
      * Delete SMS and MMS messages in a particular thread
      *
@@ -2744,4 +2835,5 @@ public class MmsUtils {
         }
         return fileId;
     }
+
 }

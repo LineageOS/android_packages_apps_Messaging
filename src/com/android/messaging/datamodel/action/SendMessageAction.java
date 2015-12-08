@@ -16,6 +16,7 @@
 
 package com.android.messaging.datamodel.action;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
@@ -24,6 +25,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.support.v7.mms.MmsManager;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
@@ -34,9 +36,12 @@ import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.SyncManager;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
+import com.android.messaging.metrics.MetricsTracker;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
+
+import org.whispersystems.whisperpush.WhisperPush;
 
 import java.util.ArrayList;
 
@@ -82,6 +87,7 @@ public class SendMessageAction extends Action implements Parcelable {
     public static final String EXTRA_UPDATED_MESSAGE_URI = "updated_message_uri";
     public static final String EXTRA_CONTENT_URI = "content_uri";
     public static final String EXTRA_RESPONSE_IMPORTANT = "response_important";
+    public static final String EXTRA_IS_SECURE = "is_secure";
 
     /**
      * Constructor used for retrying sending in the background (only message id available)
@@ -106,6 +112,7 @@ public class SendMessageAction extends Action implements Parcelable {
 
             final ParticipantData self = BugleDatabaseOperations.getExistingParticipant(
                     db, message.getSelfId());
+
             final Uri messageUri = message.getSmsMessageUri();
             final String conversationId = message.getConversationId();
 
@@ -187,26 +194,51 @@ public class SendMessageAction extends Action implements Parcelable {
         Uri messageUri = actionParameters.getParcelable(KEY_MESSAGE_URI);
         Uri updatedMessageUri = null;
         final boolean isSms = message.getProtocol() == MessageData.PROTOCOL_SMS;
-        final int subId = actionParameters.getInt(KEY_SUB_ID, ParticipantData.DEFAULT_SELF_SUB_ID);
         final String subPhoneNumber = actionParameters.getString(KEY_SUB_PHONE_NUMBER);
 
         LogUtil.i(TAG, "SendMessageAction: Sending " + (isSms ? "SMS" : "MMS") + " message "
                 + messageId + " in conversation " + message.getConversationId());
 
+        final Context context = Factory.get().getApplicationContext();
+        final WhisperPush whisperPush = WhisperPush.getInstance(context);
         int status;
         int rawStatus = MessageData.RAW_TELEPHONY_STATUS_UNDEFINED;
         int resultCode = MessageData.UNKNOWN_RESULT_CODE;
+        int subId;
+        boolean isSecured = message.getIsTransportSecured();
+        if (isSecured && whisperPush.isSecureMessagingActive()) {
+            subId = 0;
+        }
+        else {
+            if (isSecured) {
+                // fallback to traditional SMS/MMS
+                isSecured = false;
+                message.setTransportSecured(false);
+                final DatabaseWrapper db = DataModel.get().getDatabase();
+                ContentValues values = new ContentValues(1);
+                values.put(MessageColumns.PROVIDER_ID, message.getProviderId());
+                BugleDatabaseOperations.updateMessageRowIfExists(db, messageId, values);
+            }
+            subId = actionParameters.getInt(KEY_SUB_ID, ParticipantData.DEFAULT_SELF_SUB_ID);
+            if (subId == 0) {
+                subId = MmsManager.DEFAULT_SUB_ID;
+            }
+        }
         if (isSms) {
-            Assert.notNull(messageUri);
             final String recipient = actionParameters.getString(KEY_RECIPIENT);
             final String messageText = message.getMessageText();
-            final String smsServiceCenter = actionParameters.getString(KEY_SMS_SERVICE_CENTER);
-            final boolean deliveryReportRequired = MmsUtils.isDeliveryReportRequired(subId);
-
-            status = MmsUtils.sendSmsMessage(recipient, messageText, messageUri, subId,
-                    smsServiceCenter, deliveryReportRequired);
+            if (isSecured) {
+                status = MmsUtils.sendSecureSmsMessage(recipient, messageText,
+                        message.getReceivedTimeStamp());
+            }
+            else {
+                Assert.notNull(messageUri);
+                final String smsServiceCenter = actionParameters.getString(KEY_SMS_SERVICE_CENTER);
+                final boolean deliveryReportRequired = MmsUtils.isDeliveryReportRequired(subId);
+                status = MmsUtils.sendSmsMessage(recipient, messageText, messageUri, subId,
+                        smsServiceCenter, deliveryReportRequired);
+            }
         } else {
-            final Context context = Factory.get().getApplicationContext();
             final ArrayList<String> recipients =
                     actionParameters.getStringArrayList(KEY_RECIPIENTS);
             if (messageUri == null) {
@@ -235,8 +267,14 @@ public class SendMessageAction extends Action implements Parcelable {
                 final Bundle extras = new Bundle();
                 extras.putString(EXTRA_MESSAGE_ID, messageId);
                 extras.putParcelable(EXTRA_UPDATED_MESSAGE_URI, updatedMessageUri);
-                final MmsUtils.StatusPlusUri result = MmsUtils.sendMmsMessage(context, subId,
-                        messageUri, extras);
+                MmsUtils.StatusPlusUri result;
+                if (isSecured) {
+                    result = MmsUtils.sendSecureMmsMessage(context,
+                            messageUri, message, recipients, extras);
+                } else {
+                    result= MmsUtils.sendMmsMessage(context, subId,
+                            messageUri, extras);
+                }
                 if (result == MmsUtils.STATUS_PENDING) {
                     // Async send, so no status yet
                     LogUtil.d(TAG, "SendMessageAction: Sending MMS message " + messageId
@@ -300,6 +338,19 @@ public class SendMessageAction extends Action implements Parcelable {
         return null;
     }
 
+    private static void trackMmsSmsSent(Context context, String conversationId, boolean isSms,
+                                        boolean sentSuccess) {
+        MetricsTracker metricsTracker = MetricsTracker.getInstance(context);
+        if (isSms) {
+            metricsTracker.trackSmsSentAsync(sentSuccess);
+        } else {
+            DatabaseWrapper db = DataModel.get().getDatabase();
+            int participantCount = BugleDatabaseOperations.getConversationParticipantCount(db,
+                    conversationId);
+            metricsTracker.trackMmsSentAsync(sentSuccess, participantCount >= 2);
+        }
+    }
+
     /**
      * Update the message status (and message itself if necessary)
      * @param isSms whether this is an SMS or MMS
@@ -329,6 +380,7 @@ public class SendMessageAction extends Action implements Parcelable {
             case MessageData.BUGLE_STATUS_OUTGOING_DELIVERED:
                 type = Sms.MESSAGE_TYPE_SENT;
                 messageBox = Mms.MESSAGE_BOX_SENT;
+                trackMmsSmsSent(context, message.getConversationId(), isSms, true);
                 break;
             case MessageData.BUGLE_STATUS_OUTGOING_YET_TO_SEND:
             case MessageData.BUGLE_STATUS_OUTGOING_AWAITING_RETRY:
@@ -344,6 +396,7 @@ public class SendMessageAction extends Action implements Parcelable {
             case MessageData.BUGLE_STATUS_OUTGOING_FAILED_EMERGENCY_NUMBER:
                 type = Sms.MESSAGE_TYPE_FAILED;
                 messageBox = Mms.MESSAGE_BOX_FAILED;
+                trackMmsSmsSent(context, message.getConversationId(), isSms, false);
                 break;
             default:
                 type = Sms.MESSAGE_TYPE_ALL;

@@ -126,6 +126,8 @@ public class ComposeMessageView extends LinearLayout
     private final Context mOriginalContext;
     private int mSendWidgetMode = SEND_WIDGET_MODE_SELF_AVATAR;
 
+    private String mSecureText = " ";
+
     // Shared data model object binding from the conversation.
     private ImmutableBindingRef<ConversationData> mConversationDataModel;
 
@@ -384,8 +386,9 @@ public class ComposeMessageView extends LinearLayout
             final String subject = mComposeSubjectText.getText().toString();
             mBinding.getData().setMessageSubject(subject);
             // Asynchronously check the draft against various requirements before sending.
-            mBinding.getData().checkDraftForAction(checkMessageSize,
-                    mHost.getConversationSelfSubId(), new CheckDraftTaskCallback() {
+            mBinding.getData().checkDraftForAction(checkMessageSize, mHost.getConversationSelfSubId(),
+                    ((ConversationFragment) mHost).getSecureMessagingHelper(),
+                    new CheckDraftTaskCallback() {
                 @Override
                 public void onDraftChecked(DraftMessageData data, int result) {
                     mBinding.ensureBound(data);
@@ -434,6 +437,11 @@ public class ComposeMessageView extends LinearLayout
                                     R.string.cant_send_message_without_active_subscription);
                             break;
 
+                        case CheckDraftForSendTask.RESULT_PARTICIPANTS_MIXED:
+                            MixedParticipantsSecurityWarning
+                                    .applySavedActionOrShowWarningDialog(getContext(), this, data);
+                            break;
+
                         default:
                             break;
                     }
@@ -446,7 +454,6 @@ public class ComposeMessageView extends LinearLayout
                         public void run() {
                             sendMessageInternal(checkMessageSize);
                         }
-
             });
         }
     }
@@ -705,12 +712,14 @@ public class ComposeMessageView extends LinearLayout
             final SubscriptionListEntry subscriptionListEntry =
                     mConversationDataModel.getData().getSubscriptionEntryForSelfParticipant(
                             mBinding.getData().getSelfId(), false /* excludeDefault */);
+
             if (subscriptionListEntry == null) {
-                mComposeEditText.setHint(R.string.compose_message_view_hint_text);
+                mComposeEditText.setHint(getResources()
+                        .getString(R.string.compose_message_view_hint_text, mSecureText));
             } else {
-                mComposeEditText.setHint(Html.fromHtml(getResources().getString(
-                        R.string.compose_message_view_hint_text_multi_sim,
-                        subscriptionListEntry.displayName)));
+                mComposeEditText.setHint(Html.fromHtml(getResources()
+                        .getString(R.string.compose_message_view_hint_text_multi_sim, mSecureText,
+                                subscriptionListEntry.displayName)));
             }
         } else {
             int type = -1;
@@ -739,33 +748,45 @@ public class ComposeMessageView extends LinearLayout
             switch (type) {
                 case ContentType.TYPE_IMAGE:
                     mComposeEditText.setHint(getResources().getQuantityString(
-                            R.plurals.compose_message_view_hint_text_photo, attachmentCount));
+                            R.plurals.compose_message_view_hint_text_photo, attachmentCount, mSecureText));
                     break;
 
                 case ContentType.TYPE_AUDIO:
                     mComposeEditText.setHint(getResources().getQuantityString(
-                            R.plurals.compose_message_view_hint_text_audio, attachmentCount));
+                            R.plurals.compose_message_view_hint_text_audio, attachmentCount, mSecureText));
                     break;
 
                 case ContentType.TYPE_VIDEO:
                     mComposeEditText.setHint(getResources().getQuantityString(
-                            R.plurals.compose_message_view_hint_text_video, attachmentCount));
+                            R.plurals.compose_message_view_hint_text_video, attachmentCount, mSecureText));
                     break;
 
                 case ContentType.TYPE_VCARD:
                     mComposeEditText.setHint(getResources().getQuantityString(
-                            R.plurals.compose_message_view_hint_text_vcard, attachmentCount));
+                            R.plurals.compose_message_view_hint_text_vcard, attachmentCount, mSecureText));
                     break;
 
                 case ContentType.TYPE_OTHER:
                     mComposeEditText.setHint(getResources().getQuantityString(
-                            R.plurals.compose_message_view_hint_text_attachments, attachmentCount));
+                            R.plurals.compose_message_view_hint_text_attachments, attachmentCount, mSecureText));
                     break;
 
                 default:
                     Assert.fail("Unsupported attachment type!");
                     break;
             }
+        }
+    }
+
+    public void setMessageSecurity(boolean isSecured) {
+        if (isSecured) {
+            mSecureText = getResources().getString(R.string.secure_text);
+        } else {
+            mSecureText = " ";
+        }
+        if (mBinding.isBound()) {
+            mBinding.getData().setSecured(isSecured);
+            updateVisualsOnDraftChanged();
         }
     }
 

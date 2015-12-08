@@ -59,6 +59,7 @@ public class ConversationMessageData {
     private long mReceivedTimestamp;
     private boolean mSeen;
     private boolean mRead;
+    private int mProviderId;
     private int mProtocol;
     private int mStatus;
     private String mSmsMessageUri;
@@ -103,6 +104,7 @@ public class ConversationMessageData {
         mReceivedTimestamp = cursor.getLong(INDEX_RECEIVED_TIMESTAMP);
         mSeen = (cursor.getInt(INDEX_SEEN) != 0);
         mRead = (cursor.getInt(INDEX_READ) != 0);
+        mProviderId = cursor.getInt(INDEX_PROVIDER_ID);
         mProtocol = cursor.getInt(INDEX_PROTOCOL);
         mStatus = cursor.getInt(INDEX_STATUS);
         mSmsMessageUri = cursor.getString(INDEX_SMS_MESSAGE_URI);
@@ -464,6 +466,10 @@ public class ConversationMessageData {
         return mRead;
     }
 
+    public boolean getIsSecured() {
+        return MessageData.isProviderSecure(mProviderId);
+    }
+
     public final boolean getIsMms() {
         return (mProtocol == MessageData.PROTOCOL_MMS ||
                 mProtocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION);
@@ -764,7 +770,9 @@ public class ConversationMessageData {
             + DatabaseHelper.PARTICIPANTS_TABLE + '.' + ParticipantColumns.CONTACT_ID
             + " as " + ConversationMessageViewColumns.SENDER_CONTACT_ID + ", "
             + DatabaseHelper.PARTICIPANTS_TABLE + '.' + ParticipantColumns.LOOKUP_KEY
-            + " as " + ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY + " ";
+            + " as " + ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.PROVIDER_ID
+            + " as " + ConversationMessageViewColumns.PROVIDER_ID + " ";
 
     private static final String CONVERSATION_MESSAGES_QUERY_FROM_WHERE_SQL =
             " FROM " + DatabaseHelper.MESSAGES_TABLE
@@ -837,6 +845,7 @@ public class ConversationMessageData {
         static final String PARTS_WIDTHS = "parts_widths";
         static final String PARTS_HEIGHTS = "parts_heights";
         static final String PARTS_TEXTS = "parts_texts";
+        static final String PROVIDER_ID = MessageColumns.PROVIDER_ID;
     }
 
     private static int sIndexIncrementer = 0;
@@ -874,6 +883,7 @@ public class ConversationMessageData {
     private static final int INDEX_SENDER_PROFILE_PHOTO_URI      = sIndexIncrementer++;
     private static final int INDEX_SENDER_CONTACT_ID             = sIndexIncrementer++;
     private static final int INDEX_SENDER_CONTACT_LOOKUP_KEY     = sIndexIncrementer++;
+    private static final int INDEX_PROVIDER_ID                   = sIndexIncrementer++;
 
 
     private static String[] sProjection = {
@@ -909,6 +919,7 @@ public class ConversationMessageData {
         ConversationMessageViewColumns.SENDER_PROFILE_PHOTO_URI,
         ConversationMessageViewColumns.SENDER_CONTACT_ID,
         ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY,
+        ConversationMessageViewColumns.PROVIDER_ID
     };
 
     public static String[] getProjection() {
