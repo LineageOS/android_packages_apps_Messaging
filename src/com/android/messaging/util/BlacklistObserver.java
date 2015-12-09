@@ -28,6 +28,7 @@ import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
+import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.util.LogUtil;
 
 
@@ -79,7 +80,19 @@ public class BlacklistObserver extends ContentObserver {
                         boolean isBlocked = blocked.compareTo("1") == 0;
 
                         // don't update the framework db - the 'false' argument
-                        BugleDatabaseOperations.updateDestination(db, number, isBlocked, false);
+                        int updateCount = BugleDatabaseOperations.updateDestination(db, number,
+                                isBlocked, false);
+                        if (updateCount == 0) {
+                            // there was no phone number in the local participants database that was
+                            // blacklisted in the framework blacklist database, create a new participant
+                            // and insert him into the local participants database
+                            ParticipantData participant =
+                                    ParticipantData.getFromRawPhoneBySystemLocale(number);
+                            BugleDatabaseOperations.getOrCreateParticipantInTransaction(db,
+                                    participant);
+                            BugleDatabaseOperations.updateDestination(db, number,
+                                    isBlocked, false);
+                        }
                         String conversationId = BugleDatabaseOperations
                                 .getConversationFromOtherParticipantDestination(db, number);
                         if (conversationId != null) {
