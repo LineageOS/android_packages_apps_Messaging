@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f93b717_1db73389",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2015-12-09T08:54:58Z",
+      "side": 1,
+      "message": "actually, do we need to create a participant in the db if none exists here?  otherwise we won\u0027t pickup the blocked contact until the next full sync?\n\nmaybe it makes sense to create a utility function for this?",
+      "revId": "dbcecc682dcde13911e8373056d933762e8aefca",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
