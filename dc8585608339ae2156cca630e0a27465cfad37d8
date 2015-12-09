@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f96bb07_e1b0a08e",
+        "filename": "res/layout/block_confirmation_dialog.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-09T04:07:28Z",
+      "side": 1,
+      "message": "File not used",
+      "revId": "dc8585608339ae2156cca630e0a27465cfad37d8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f96bb07_c18ec4cf",
+        "filename": "res/layout/dialog_confirm_block_contact.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-09T04:07:28Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "dc8585608339ae2156cca630e0a27465cfad37d8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f96bb07_61efb087",
+        "filename": "src/com/android/messaging/ui/conversation/ConversationFragment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-09T04:07:28Z",
+      "side": 1,
+      "message": "Not used",
+      "revId": "dc8585608339ae2156cca630e0a27465cfad37d8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f96bb07_01858cad",
+        "filename": "src/com/android/messaging/util/DialogUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-09T04:07:28Z",
+      "side": 1,
+      "message": "Missing copyright header",
+      "revId": "dc8585608339ae2156cca630e0a27465cfad37d8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
