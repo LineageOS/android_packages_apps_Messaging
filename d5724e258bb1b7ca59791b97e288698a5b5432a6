@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f93b717_57ba74de",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2015-12-11T01:27:39Z",
+      "side": 1,
+      "message": "Not sure how much this is already modified but in terms of rebase maintenance overhead it may be better to put this in a secondary manifest file?",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
