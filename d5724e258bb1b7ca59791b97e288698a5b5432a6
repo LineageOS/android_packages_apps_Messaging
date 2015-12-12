@@ -67,6 +67,23 @@
       "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_5cc61d19",
+        "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2015-12-12T02:06:50Z",
+      "side": 1,
+      "message": "is this necessary?  i think you should be able to pass a e164 number to formatNumberToE164",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
