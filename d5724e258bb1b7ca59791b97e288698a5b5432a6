@@ -16,6 +16,57 @@
       "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f93b717_52d5a2b8",
+        "filename": "res/layout/person_item_view.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2015-12-12T01:54:21Z",
+      "side": 1,
+      "message": "should you take this line out, since you are no longer using it?",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_dcf8ed7d",
+        "filename": "src/com/cyanogenmod/messaging/cache/AsyncImageViewWebImageCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2015-12-12T01:54:21Z",
+      "side": 1,
+      "message": "What is the benefit of the way your hard/soft/disk cache interact? Why not just simply have all 3 operate in a \"write through\" type mode, where writes to hard cache also result in writes to soft and disk. And reads from hard, if missed go to soft and if missed go to disk?",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5f93b717_f275cecd",
+        "filename": "src/com/cyanogenmod/messaging/cache/DiskCacheUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2015-12-12T01:54:21Z",
+      "side": 1,
+      "message": "what is the lookup key? isn\u0027t it possible to have hash collisions in which case you may overwrite an avatar bitmap that is being used?",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
