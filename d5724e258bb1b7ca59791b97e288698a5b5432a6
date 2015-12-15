@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1f9dbf25_445ba42d",
+        "filename": "AndroidManifest.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-15T02:50:16Z",
+      "side": 1,
+      "message": "no longer need to modify the manifest.",
+      "parentUuid": "5f93b717_57ba74de",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f93b717_52d5a2b8",
         "filename": "res/layout/person_item_view.xml",
         "patchSetId": 10
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "3fa0c359_df68dfbb",
+        "filename": "src/com/cyanogenmod/messaging/cache/AsyncImageViewWebImageCache.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-15T02:50:16Z",
+      "side": 1,
+      "message": "There is no need to duplicate the entry for hard and soft cache when we can just place it in the soft cache when it is evicted.",
+      "parentUuid": "3fa0c359_dcf8ed7d",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f93b717_f275cecd",
         "filename": "src/com/cyanogenmod/messaging/cache/DiskCacheUtil.java",
         "patchSetId": 10
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "3fa0c359_ff659be2",
+        "filename": "src/com/cyanogenmod/messaging/cache/DiskCacheUtil.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-15T02:50:16Z",
+      "side": 1,
+      "message": "The lookup key is the URL to the image. (e.g. http://www.myproviderservice.com/image/avatar/123fd3e.png)\n\nIt could have collisions, but probably very edge case unless you are hitting the same url over and over without using the fetchImage interface.",
+      "parentUuid": "5f93b717_f275cecd",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa0c359_5cc61d19",
         "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
         "patchSetId": 10
@@ -81,6 +135,24 @@
       "writtenOn": "2015-12-12T02:06:50Z",
       "side": 1,
       "message": "is this necessary?  i think you should be able to pass a e164 number to formatNumberToE164",
+      "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa0c359_bc2ac18d",
+        "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-15T02:50:16Z",
+      "side": 1,
+      "message": "for some reason 12223334444 was returning null.",
+      "parentUuid": "3fa0c359_5cc61d19",
       "revId": "d5724e258bb1b7ca59791b97e288698a5b5432a6",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
