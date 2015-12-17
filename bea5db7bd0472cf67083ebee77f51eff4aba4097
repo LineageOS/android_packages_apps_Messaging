@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df7087c5_7f1e6771",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2015-12-17T05:00:53Z",
+      "side": 1,
+      "message": "over line length",
+      "revId": "bea5db7bd0472cf67083ebee77f51eff4aba4097",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
