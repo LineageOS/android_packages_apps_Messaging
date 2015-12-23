@@ -22,6 +22,7 @@
     <string name="mms_messaging_category_pref_key" translatable="false">mms_messaging_category</string>
     <string name="advanced_category_pref_key" translatable="false">advanced_category</string>
     <string name="notifications_enabled_pref_key" translatable="false">notifications_enabled</string>
+    <string name="unicode_stripping_pref_key" translatable="false">unicode_stripping_pref_key</string>
     <bool name="notifications_enabled_pref_default" translatable="false">true</bool>
     <string name="notification_sound_pref_key" translatable="false">notification_sound</string>
     <string name="notification_vibration_pref_key" translatable="false">notification_vibration</string>
@@ -31,6 +32,11 @@
     <string name="send_sound_pref_key" translatable="false">send_sound</string>
     <bool name="send_sound_pref_default" translatable="false">true</bool>
     <string name="advanced_pref_key" translatable="false">advanced_prefs</string>
+
+    <!-- Unicode stripping constants -->
+    <string name="unicode_stripping_leave_intact_value" translatable="false">unicode_intact</string>
+    <string name="unicode_stripping_non_encodable_value" translatable="false">unicode_non_encodable</string>
+    <string name="unicode_stripping_all_value" translatable="false">unicode_all</string>
 
     <!-- Subscription-specific settings. The values of these pref keys must be prefixed with
          "buglesub_" to allow for runtime sanity checks -->
