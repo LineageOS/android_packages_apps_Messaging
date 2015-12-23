@@ -39,4 +39,16 @@
         <item>:)</item>
         <item>:(</item>
     </string-array>
+
+    <string-array name="pref_unicode_stripping_entries" translatable="false">
+        <item>@string/pref_unicode_stripping_leave_intact</item>
+        <item>@string/pref_unicode_stripping_non_encodable</item>
+        <item>@string/pref_unicode_stripping_all</item>
+    </string-array>
+
+    <string-array name="pref_unicode_stripping_values" translatable="false">
+        <item>@string/unicode_stripping_leave_intact_value</item>
+        <item>@string/unicode_stripping_non_encodable_value</item>
+        <item>@string/unicode_stripping_all_value</item>
+    </string-array>
 </resources>
