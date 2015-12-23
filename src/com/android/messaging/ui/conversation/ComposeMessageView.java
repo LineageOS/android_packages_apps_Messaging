@@ -17,9 +17,11 @@ package com.android.messaging.ui.conversation;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
@@ -68,6 +70,7 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.UiUtils;
+import com.android.messaging.util.UnicodeFilter;
 
 import java.util.Collection;
 import java.util.List;
@@ -120,6 +123,7 @@ public class ComposeMessageView extends LinearLayout
     private ImageButton mDeleteSubjectButton;
     private AttachmentPreview mAttachmentPreview;
     private ImageButton mAttachMediaButton;
+    private UnicodeFilter mUnicodeFilter;
 
     private final Binding<DraftMessageData> mBinding;
     private IComposeMessageViewHost mHost;
@@ -158,6 +162,18 @@ public class ComposeMessageView extends LinearLayout
         super(new ContextThemeWrapper(context, R.style.ColorAccentBlueOverrideStyle), attrs);
         mOriginalContext = context;
         mBinding = BindingBase.createBinding(this);
+
+        String unicodeIntactValue = context.getString(R.string.unicode_stripping_leave_intact_value);
+        String unicodePrefKey = context.getString(R.string.unicode_stripping_pref_key);
+        SharedPreferences prefs = context.getSharedPreferences(BuglePrefs.SHARED_PREFERENCES_NAME,
+                Context.MODE_PRIVATE);
+        String unicodeStripping = prefs.getString(unicodePrefKey, unicodeIntactValue);
+        if (!unicodeIntactValue.equals(unicodeStripping)) {
+            String unicodeNonEncodableValue = context.getString(
+                    R.string.unicode_stripping_non_encodable_value);
+            boolean stripNonEncodableOnly = unicodeNonEncodableValue.equals(unicodeStripping);
+            mUnicodeFilter = new UnicodeFilter(stripNonEncodableOnly);
+        }
     }
 
     /**
@@ -368,6 +384,13 @@ public class ComposeMessageView extends LinearLayout
         return false;
     }
 
+    private CharSequence stripUnicodeIfRequested(CharSequence text) {
+        if (mUnicodeFilter != null) {
+            text = mUnicodeFilter.filter(text);
+        }
+        return text;
+    }
+
     private void sendMessageInternal(final boolean checkMessageSize) {
         LogUtil.i(LogUtil.BUGLE_TAG, "UI initiated message sending in conversation " +
                 mBinding.getData().getConversationId());
@@ -379,7 +402,7 @@ public class ComposeMessageView extends LinearLayout
         // Check the host for pre-conditions about any action.
         if (mHost.isReadyForAction()) {
             mInputManager.showHideSimSelector(false /* show */, true /* animate */);
-            final String messageToSend = mComposeEditText.getText().toString();
+            String messageToSend = stripUnicodeIfRequested(mComposeEditText.getText()).toString();
             mBinding.getData().setMessageText(messageToSend);
             final String subject = mComposeSubjectText.getText().toString();
             mBinding.getData().setMessageSubject(subject);
@@ -844,8 +867,10 @@ public class ComposeMessageView extends LinearLayout
     }
 
     @Override
-    public void onTextChanged(final CharSequence s, final int start, final int before,
+    public void onTextChanged(CharSequence s, final int start, final int before,
             final int count) {
+        // strip unicode for counting characters
+        s = stripUnicodeIfRequested(s);
         final BugleActionBarActivity activity = (mOriginalContext instanceof BugleActionBarActivity)
                 ? (BugleActionBarActivity) mOriginalContext : null;
         if (activity != null && activity.getIsDestroyed()) {

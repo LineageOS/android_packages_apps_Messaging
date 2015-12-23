@@ -15,11 +15,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="report_as_spam_to">Report as spam to %s</string>
+    <string-array name="pref_unicode_stripping_entries" translatable="false">
+        <item>@string/pref_unicode_stripping_leave_intact</item>
+        <item>@string/pref_unicode_stripping_non_encodable</item>
+        <item>@string/pref_unicode_stripping_all</item>
+    </string-array>
 
-    <!-- Strip unicode -->
-    <string name="unicode_stripping_pref_title">Strip unicode</string>
-    <string name="pref_unicode_stripping_leave_intact">Leave characters intact</string>
-    <string name="pref_unicode_stripping_non_encodable">Strip non-encodable characters</string>
-    <string name="pref_unicode_stripping_all">Strip all unicode characters</string>
+    <string-array name="pref_unicode_stripping_values" translatable="false">
+        <item>@string/unicode_stripping_leave_intact_value</item>
+        <item>@string/unicode_stripping_non_encodable_value</item>
+        <item>@string/unicode_stripping_all_value</item>
+    </string-array>
 </resources>
