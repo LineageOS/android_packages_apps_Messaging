@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_dfc44b95",
+        "filename": "res/values/constants.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-01-12T15:54:08Z",
+      "side": 1,
+      "message": "translatable\u003dfalse",
+      "revId": "7a6aa02ba52e00c5218bb31178ed635f13ee09b7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_ffc10782",
+        "filename": "res/xml-v21/preferences_application.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-01-12T15:54:08Z",
+      "side": 1,
+      "message": "Indent by 4",
+      "revId": "7a6aa02ba52e00c5218bb31178ed635f13ee09b7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_9fbec3fd",
+        "filename": "res/xml-v23/preferences_application.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-01-12T15:54:08Z",
+      "side": 1,
+      "message": "Indent by 4",
+      "revId": "7a6aa02ba52e00c5218bb31178ed635f13ee09b7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_bfbb7f0c",
+        "filename": "res/xml/preferences_application.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-01-12T15:54:08Z",
+      "side": 1,
+      "message": "Indent by 4",
+      "revId": "7a6aa02ba52e00c5218bb31178ed635f13ee09b7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fcbff3d_5f361bb7",
+        "filename": "src/com/android/messaging/ui/conversation/ComposeMessageView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-01-12T15:54:08Z",
+      "side": 1,
+      "message": "Should fetch unicodeNonEncodableValue inside the if block.\n\nAlso 100 chars.",
+      "revId": "7a6aa02ba52e00c5218bb31178ed635f13ee09b7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
