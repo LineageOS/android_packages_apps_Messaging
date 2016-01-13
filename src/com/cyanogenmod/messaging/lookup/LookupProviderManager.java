@@ -24,7 +24,8 @@ import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.cyanogen.lookup.phonenumber.LookupHandlerThread;
+import com.cyanogen.lookup.phonenumber.provider.LookupProviderImpl;
+import com.cyanogen.lookup.phonenumber.util.LookupHandlerThread;
 import com.cyanogen.lookup.phonenumber.request.LookupRequest;
 import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 
@@ -86,7 +87,8 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
     private boolean start() {
         log("start()");
         if (mLookupHandlerThread == null) {
-            mLookupHandlerThread = new LookupHandlerThread(THREAD_NAME, mApplication);
+            mLookupHandlerThread = new LookupHandlerThread(THREAD_NAME, mApplication,
+                    new LookupProviderImpl(mApplication));
             mLookupHandlerThread.initialize();
         }
         return mLookupHandlerThread.isAlive();
@@ -282,7 +284,7 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
     @Override
     public boolean hasSpamReporting() {
         log("hasSpamReporting()");
-        return mIsPhoneNumberLookupInitialized && mLookupHandlerThread.hasSpamReporting();
+        return mIsPhoneNumberLookupInitialized && mLookupHandlerThread.isProviderInterestedInSpam();
     }
 
     @Override
