@@ -114,7 +114,6 @@ public class BugleActionToasts {
     }
 
     public static void onConversationDeleted() {
-        showToast(R.string.conversation_deleted);
     }
 
     private static void showToast(final int messageResId) {
