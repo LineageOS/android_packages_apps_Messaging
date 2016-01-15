@@ -51,7 +51,8 @@
     <string name="contact_list_send_to_text">Send to <xliff:g id="destination">%s</xliff:g></string>
 
     <string name="mediapicker_cameraChooserDescription">Capture pictures or video</string>
-    <string name="mediapicker_galleryChooserDescription">Choose images from this device</string>
+    <string name="mediapicker_galleryChooserDescription">Choose images or videos from this
+        device</string>
     <string name="mediapicker_audioChooserDescription">Record audio</string>
     <string name="mediapicker_gallery_title">Choose photo</string>
     <string name="mediapicker_gallery_item_selected_content_description">The media is selected.</string>
@@ -61,9 +62,7 @@
     <string name="mediapicker_gallery_image_item_description">image <xliff:g id="date">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
     <string name="mediapicker_gallery_image_item_description_no_date">image</string>
     <string name="mediapicker_audio_title">Record audio</string>
-
     <string name="action_share">Share</string>
-
     <string name="posted_just_now">"Just now"</string>
     <string name="posted_now">"Now"</string>
 

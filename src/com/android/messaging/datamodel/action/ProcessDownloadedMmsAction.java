@@ -545,6 +545,7 @@ public class ProcessDownloadedMmsAction extends Action {
         }
         MessagingContentProvider.notifyMessagesChanged(notificationConversationId);
         MessagingContentProvider.notifyPartsChanged();
+        MessageRecyclerAction.deleteMessagesOverLimit(conversationId, MessageData.PROTOCOL_MMS);
 
         return message;
     }

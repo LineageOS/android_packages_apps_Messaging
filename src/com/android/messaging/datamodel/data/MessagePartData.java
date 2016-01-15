@@ -53,8 +53,33 @@ import java.util.concurrent.TimeUnit;
 public class MessagePartData implements Parcelable {
     public static final int UNSPECIFIED_SIZE = MessagingContentProvider.UNSPECIFIED_SIZE;
     public static final String[] ACCEPTABLE_IMAGE_TYPES =
-            new String[] { ContentType.IMAGE_JPEG, ContentType.IMAGE_JPG, ContentType.IMAGE_PNG,
-                ContentType.IMAGE_GIF };
+            new String[] {
+                    // Images
+                    ContentType.IMAGE_JPEG,
+                    ContentType.IMAGE_JPG,
+                    ContentType.IMAGE_PNG,
+                    ContentType.IMAGE_GIF,
+
+                    // Videos
+                    ContentType.VIDEO_MP4,
+                    ContentType.VIDEO_MPEG,
+                    ContentType.VIDEO_MPEG4,
+                    ContentType.VIDEO_3GP,
+                    ContentType.VIDEO_3GPP,
+                    ContentType.VIDEO_WEBM
+            };
+
+    public static final String[] ACCEPTABLE_AUDIO_TYPES =
+            new String[] {
+                    // Audio
+                    ContentType.AUDIO_AMR,
+                    ContentType.AUDIO_3GPP,
+                    ContentType.AUDIO_AAC,
+                    ContentType.AUDIO_MP3,
+                    ContentType.AUDIO_MP4,
+                    ContentType.AUDIO_MPEG,
+                    ContentType.AUDIO_MPEG3
+            };
 
     private static final String[] sProjection = {
         PartColumns._ID,
