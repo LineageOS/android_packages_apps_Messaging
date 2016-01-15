@@ -132,6 +132,16 @@ public class UiUtils {
                                         null /* placement */);
     }
 
+    public static void showSnackBar(final Context context, @NonNull final View parentView,
+            final String message) {
+        Assert.notNull(context);
+        Assert.isTrue(!TextUtils.isEmpty(message));
+        SnackBarManager.get()
+            .newBuilder(parentView)
+            .setText(message)
+            .show();
+    }
+
     public static void showSnackBarWithCustomAction(final Context context,
             @NonNull final View parentView,
             @NonNull final String message,
