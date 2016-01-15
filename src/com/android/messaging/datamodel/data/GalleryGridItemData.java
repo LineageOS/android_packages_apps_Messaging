@@ -19,6 +19,8 @@ package com.android.messaging.datamodel.data;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Images.Media;
 import android.text.TextUtils;
@@ -26,7 +28,9 @@ import android.text.TextUtils;
 import com.android.messaging.datamodel.media.FileImageRequestDescriptor;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
+import com.android.messaging.datamodel.media.VideoThumbnailRequestDescriptor;
 import com.android.messaging.util.Assert;
+import com.android.messaging.util.UriUtil;
 
 /**
  * Provides data for GalleryGridItemView
@@ -59,7 +63,9 @@ public class GalleryGridItemData {
     private UriImageRequestDescriptor mImageData;
     private String mContentType;
     private boolean mIsDocumentPickerItem;
+    private boolean mIsVideoItem;
     private long mDateSeconds;
+    private long mContentSize = 0;
 
     public GalleryGridItemData() {
     }
@@ -67,10 +73,15 @@ public class GalleryGridItemData {
     public void bind(final Cursor cursor, final int desiredWidth, final int desiredHeight) {
         mIsDocumentPickerItem = TextUtils.equals(cursor.getString(INDEX_ID),
                 ID_DOCUMENT_PICKER_ITEM);
+
         if (mIsDocumentPickerItem) {
             mImageData = null;
             mContentType = null;
         } else {
+
+            String mimeType = (cursor.getString(INDEX_MIME_TYPE));
+            mIsVideoItem = (mimeType != null && mimeType.toLowerCase().contains("video/"));
+
             int sourceWidth = cursor.getInt(INDEX_WIDTH);
             int sourceHeight = cursor.getInt(INDEX_HEIGHT);
 
@@ -85,20 +96,58 @@ public class GalleryGridItemData {
             mContentType = cursor.getString(INDEX_MIME_TYPE);
             final String dateModified = cursor.getString(INDEX_DATE_MODIFIED);
             mDateSeconds = !TextUtils.isEmpty(dateModified) ? Long.parseLong(dateModified) : -1;
-            mImageData = new FileImageRequestDescriptor(
-                    cursor.getString(INDEX_DATA_PATH),
-                    desiredWidth,
-                    desiredHeight,
-                    sourceWidth,
-                    sourceHeight,
-                    true /* canUseThumbnail */,
-                    true /* allowCompression */,
-                    true /* isStatic */);
+            if (mIsVideoItem) {
+                mImageData = new VideoThumbnailRequestDescriptor(
+                        cursor.getLong(INDEX_ID),
+                        cursor.getString(INDEX_DATA_PATH),
+                        desiredWidth,
+                        desiredHeight,
+                        sourceWidth,
+                        sourceHeight);
+            } else {
+                mImageData = new FileImageRequestDescriptor(
+                        cursor.getString(INDEX_DATA_PATH),
+                        desiredWidth,
+                        desiredHeight,
+                        sourceWidth,
+                        sourceHeight,
+                        true /* canUseThumbnail */,
+                        true /* allowCompression */,
+                        true /* isStatic */);
+            }
+
+            // the the size of the image in the background, needed for selection size checking
+            // preload here in the background, so that it's ready when the thumb is clicked on
+            // TODO - remove when video compression is added, as no size check will be performed
+            // TODO - at selection time
+            if (mIsVideoItem) {
+                new AsyncTask<Void, Void, Long>() {
+                    @Override
+                    protected Long doInBackground(Void... params) {
+                        Long size = UriUtil.getContentSize(getImageUri());
+                        return size;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Long result) {
+                        mContentSize = result;
+                    }
+                }.execute();
+            }
+
         }
+    }
+
+    public long getContentSize() {
+        return mContentSize;
     }
 
     public boolean isDocumentPickerItem() {
         return mIsDocumentPickerItem;
+    }
+
+    public boolean isVideoItem() {
+        return mIsVideoItem;
     }
 
     public Uri getImageUri() {

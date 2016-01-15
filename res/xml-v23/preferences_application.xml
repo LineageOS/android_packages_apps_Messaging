@@ -67,6 +67,46 @@
         android:persistent="true"
         android:dependency="@string/notifications_enabled_pref_key" />
 
+    <SwitchPreference
+        android:key="pref_show_emoticons"
+        android:title="@string/show_emoticons_pref_title"
+        android:persistent="true"
+        android:defaultValue="@bool/show_emoticons_pref_default"
+        android:summary="@string/show_emoticons_pref_summary" />
+
+    <SwitchPreference
+        android:key="@string/swipe_right_deletes_conversation_key"
+        android:title="@string/swipe_to_delete_conversation_pref_title"
+        android:summary="@string/swipe_to_delete_conversation_pref_summary"
+        android:defaultValue="false"
+        android:persistent="true" />
+
+    <!--Storage Preferences-->
+    <PreferenceCategory
+        android:title="@string/sms_storage_pref_title"
+        android:key="storage_settings_pref_key">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="auto_delete_pref_key"
+            android:summary="@string/pref_summary_auto_delete"
+            android:title="@string/auto_delete_pref_title" />
+
+        <Preference
+            android:key="sms_delete_limit_pref_key"
+            android:dependency="auto_delete_pref_key"
+            android:persistent="false"
+            android:summary="@string/pref_summary_delete_limit"
+            android:title="@string/sms_delete_pref_title" />
+
+        <Preference
+            android:key="mms_delete_limit_pref_key"
+            android:dependency="auto_delete_pref_key"
+            android:persistent="false"
+            android:summary="@string/pref_summary_delete_limit"
+            android:title="@string/mms_delete_pref_title" />
+    </PreferenceCategory>
+
     <PreferenceScreen
             android:key="@string/advanced_pref_key"
             android:title="@string/advanced_settings" />
