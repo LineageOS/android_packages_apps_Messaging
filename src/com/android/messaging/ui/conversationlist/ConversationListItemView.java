@@ -58,6 +58,7 @@ import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Typefaces;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
+import com.cyanogenmod.messaging.util.PrefsUtils;
 
 import java.util.List;
 
@@ -495,6 +496,18 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
 
         final int notificationBellVisiblity = mData.getNotificationEnabled() ? GONE : VISIBLE;
         mNotificationBellView.setVisibility(notificationBellVisiblity);
+
+        if (PrefsUtils.isSwipeToDeleteEnabled()) {
+            mCrossSwipeArchiveLeftImageView.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.ic_delete_small_dark));
+            mCrossSwipeArchiveRightImageView.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.ic_delete_small_dark));
+        } else {
+            mCrossSwipeArchiveLeftImageView.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.ic_archive_small_dark));
+            mCrossSwipeArchiveRightImageView.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.ic_archive_small_dark));
+        }
     }
 
     public boolean isSwipeAnimatable() {
@@ -530,8 +543,12 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
 
     public void onSwipeComplete() {
         final String conversationId = mData.getConversationId();
+        if (PrefsUtils.isSwipeToDeleteEnabled()) {
+            mData.deleteConversation();
+            UiUtils.showToastAtBottom(R.string.conversation_deleted);
+            return;
+        }
         UpdateConversationArchiveStatusAction.archiveConversation(conversationId);
-
         final Runnable undoRunnable = new Runnable() {
             @Override
             public void run() {

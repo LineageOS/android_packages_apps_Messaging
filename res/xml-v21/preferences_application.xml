@@ -75,6 +75,12 @@
         android:entries="@array/pref_unicode_stripping_entries"
         android:entryValues="@array/pref_unicode_stripping_values" />
 
+    <SwitchPreference
+        android:key="@string/swipe_deletes_conversation_key"
+        android:title="@string/swipe_deletes_conversation_text"
+        android:defaultValue="false"
+        android:persistent="true" />
+
     <PreferenceScreen
         android:key="@string/advanced_pref_key"
         android:title="@string/advanced_settings" />
