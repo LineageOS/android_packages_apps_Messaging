@@ -66,6 +66,13 @@
         android:persistent="true"
         android:dependency="@string/notifications_enabled_pref_key" />
 
+    <SwitchPreference
+        android:key="@string/swipe_right_deletes_conversation_key"
+        android:title="@string/swipe_to_delete_conversation_pref_title"
+        android:summary="@string/swipe_to_delete_conversation_pref_summary"
+        android:defaultValue="false"
+        android:persistent="true" />
+
     <PreferenceScreen
             android:key="@string/advanced_pref_key"
             android:title="@string/advanced_settings" />
