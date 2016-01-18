@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_320fb42f",
+        "filename": "src/com/android/messaging/util/UnicodeFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 14769
+      },
+      "writtenOn": "2016-01-18T23:57:51Z",
+      "side": 1,
+      "message": "This will not work for multi-character replacements like OE. The \"i\" variable is index to \"source\", but this line operates with \"output\" - the index should be shifted once the multi-character replacement is made.",
+      "revId": "2e34d8650ba42dd59f2beb7fc7f7b80c5127f790",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
