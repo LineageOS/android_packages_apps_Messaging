@@ -72,12 +72,18 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
                     // there was no phone number in the local participants database that was
                     // blacklisted in the framework blacklist database, create a new participant
                     // and insert him into the local participants database
-                    ParticipantData participant = ParticipantData
-                            .getFromRawPhoneBySystemLocale(number);
-                    BugleDatabaseOperations.getOrCreateParticipantInTransaction(db,
-                            participant);
-                    BugleDatabaseOperations.updateDestination(db, number,
-                            isBlocked, false);
+                    db.beginTransaction();
+                    try {
+                        ParticipantData participant = ParticipantData
+                                .getFromRawPhoneBySystemLocale(number);
+                        BugleDatabaseOperations.getOrCreateParticipantInTransaction(db,
+                                participant);
+                        BugleDatabaseOperations.updateDestination(db, number,
+                                isBlocked, false);
+                        db.setTransactionSuccessful();
+                    } finally {
+                        db.endTransaction();
+                    }
                 }
             }
         }
