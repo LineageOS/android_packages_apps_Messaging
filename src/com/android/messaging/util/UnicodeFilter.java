@@ -44,10 +44,9 @@ public class UnicodeFilter {
 
     public CharSequence filter(CharSequence source) {
         StringBuilder output = new StringBuilder(source);
-        final int sourceLength = source.length();
 
-        for (int i = 0; i < sourceLength; i++) {
-            char c = source.charAt(i);
+        for (int i = 0; i < output.length(); i++) {
+            char c = output.charAt(i);
             boolean canEncodeInGsm;
 
             try {
@@ -115,6 +114,7 @@ public class UnicodeFilter {
                 s = s.replace("ς", "Σ");
 
                 output.replace(i, i + 1, s);
+                i += s.length() - 1; // For multi-character replacement
             }
         }
 
@@ -122,7 +122,7 @@ public class UnicodeFilter {
         if (source instanceof Spanned) {
             SpannableString spannedoutput = new SpannableString(output);
             TextUtils.copySpansFrom(
-                    (Spanned) source, 0, sourceLength, null, spannedoutput, 0);
+                    (Spanned) source, 0, source.length(), null, spannedoutput, 0);
 
             return spannedoutput;
         }
