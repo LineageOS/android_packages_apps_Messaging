@@ -72,7 +72,7 @@ public class UnicodeFilter {
                 s = s.replace("œ", "oe");
                 s = s.replace("Ł", "L");
                 s = s.replace("ł", "l");
-                s = s.replace("Đ", "DJ");
+                s = s.replace("Đ", "Dj");
                 s = s.replace("đ", "dj");
                 s = s.replace("Α", "A");
                 s = s.replace("Β", "B");
