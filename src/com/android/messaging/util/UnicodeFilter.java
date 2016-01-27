@@ -43,7 +43,7 @@ public class UnicodeFilter {
     }
 
     public CharSequence filter(CharSequence source) {
-        StringBuilder output = new StringBuilder(source);
+        StringBuilder output = new StringBuilder();
         final int sourceLength = source.length();
 
         for (int i = 0; i < sourceLength; i++) {
@@ -72,7 +72,7 @@ public class UnicodeFilter {
                 s = s.replace("œ", "oe");
                 s = s.replace("Ł", "L");
                 s = s.replace("ł", "l");
-                s = s.replace("Đ", "DJ");
+                s = s.replace("Đ", "Dj");
                 s = s.replace("đ", "dj");
                 s = s.replace("Α", "A");
                 s = s.replace("Β", "B");
@@ -113,8 +113,9 @@ public class UnicodeFilter {
                 s = s.replace("ψ", "Ψ");
                 s = s.replace("ω", "Ω");
                 s = s.replace("ς", "Σ");
-
-                output.replace(i, i + 1, s);
+                output.append(s);
+            } else {
+                output.append(c);
             }
         }
 
