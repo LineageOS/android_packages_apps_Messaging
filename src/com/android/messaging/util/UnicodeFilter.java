@@ -43,11 +43,12 @@ public class UnicodeFilter {
     }
 
     public CharSequence filter(CharSequence source) {
-        StringBuilder output = new StringBuilder(source);
+        StringBuilder output = new StringBuilder();
         final int sourceLength = source.length();
 
         for (int i = 0; i < sourceLength; i++) {
             char c = source.charAt(i);
+            String s = String.valueOf(c);
             boolean canEncodeInGsm;
 
             try {
@@ -59,8 +60,6 @@ public class UnicodeFilter {
 
             // Character requires Unicode, try to replace it
             if (!mStripNonDecodableOnly || !canEncodeInGsm) {
-                String s = String.valueOf(c);
-
                 // Try normalizing the character into Unicode NFKD form and
                 // stripping out diacritic mark characters.
                 s = Normalizer.normalize(s, Normalizer.Form.NFKD);
@@ -113,9 +112,9 @@ public class UnicodeFilter {
                 s = s.replace("ψ", "Ψ");
                 s = s.replace("ω", "Ω");
                 s = s.replace("ς", "Σ");
-
-                output.replace(i, i + 1, s);
             }
+
+            output.append(s);
         }
 
         // Source is a spanned string, so copy the spans from it
