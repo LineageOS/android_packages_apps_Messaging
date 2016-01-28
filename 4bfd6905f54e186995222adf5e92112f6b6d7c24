@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fcbff3d_d524fe0f",
+        "filename": "src/com/android/messaging/util/UnicodeFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-01-28T03:45:05Z",
+      "side": 1,
+      "message": "Maybe remove the i++ in the for() statement and do this here:\n\n    i +\u003d s.length();\n} else {\n    i++;\n}\n\n\nOr, maybe even more understandable, keep output initially empty and do this here:\n\n    output.append(s);\n} else {\n    output.append(c);\n}\n\nCould keep the sourceLength variable in the latter case.",
+      "revId": "4bfd6905f54e186995222adf5e92112f6b6d7c24",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
