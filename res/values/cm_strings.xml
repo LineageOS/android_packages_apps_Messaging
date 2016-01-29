@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2015-2016 The CyanogenMod Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -28,10 +28,10 @@
     <!-- Preferences -->
     <string name="pref_quickmessage">QuickMessage and Reply</string>
     <string name="pref_quickmessage_title">Show QuickMessage</string>
-    <string name="pref_quickmessage_summary">Display the QuickMessage pop-up for incoming SMS messages</string>
+    <string name="pref_quickmessage_summary">Automatically open the QuickMessage pop-up for incoming SMS messages</string>
     <string name="pref_close_all_title">Close all</string>
     <string name="pref_close_all_summary">Close button closes all messages</string>
-    <string name="message_counter_separator">of</string>
+    <string name="message_counter">%1$d of %2$d</string>
 
     <!-- QM Dialog box buttons -->
     <string name="button_close">Close</string>
@@ -43,7 +43,7 @@
     <string name="type_to_reply_text_enter_to_send">Type to reply</string>
 
     <!-- QM Toast -->
-    <string name="toast_sending_message">Sending message</string>
+    <string name="toast_sending_message">Sending message\u2026</string>
 
     <!-- QM - Quick reply -->
     <string name="qm_quick_reply">Quick reply</string>
