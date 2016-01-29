@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.messaging.BugleApplication;
+import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.PlainTextEditText;
@@ -134,19 +135,22 @@ public class QuickMessageView extends LinearLayout implements TextWatcher,
     /**
      * Update the page indicator counter to show the currently selected visible page number
      */
-    private void updateMessageCounter(int messageNumber,
-            int messageCount) {
-        String separator = mContext.getString(R.string.message_counter_separator);
+    private void updateMessageCounter(int messageNumber, int messageCount) {
+        int current = messageNumber + 1;
+
         if (messageCount > 1) {
             mMessageCounter.setVisibility(View.VISIBLE);
-            mMessageCounter.setText((messageNumber + 1) + " " + separator + " " + messageCount);
+            mMessageCounter.setText(
+                    Factory.get().getApplicationContext().getString(R.string.message_counter,
+                            current, messageCount));
         } else {
             mMessageCounter.setVisibility(View.INVISIBLE);
         }
-        if (DEBUG)
-            Log.d(LOG_TAG, "updateMessageCounter() called, counter text set to " +
-                    (messageNumber + 1)
-                    + " of " + messageCount);
+
+        if (DEBUG) {
+            Log.d(LOG_TAG, "updateMessageCounter() called, counter text set to "
+                    + current + " of " + messageCount);
+        }
     }
 
     private void updateVisualsOnTextChanged() {
