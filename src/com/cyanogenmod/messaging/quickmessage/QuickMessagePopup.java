@@ -25,6 +25,7 @@ import android.service.notification.StatusBarNotification;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.telephony.TelephonyManager;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -404,6 +405,14 @@ public class QuickMessagePopup extends Activity {
 
                 // Add the layout to the viewpager
                 collection.addView(quickMessageView);
+
+                if (PrefsUtils.isShowEmoticonsEnabled()) {
+                    qmReplyText.setInputType(qmReplyText.getInputType()
+                            | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+                } else {
+                    qmReplyText.setInputType(qmReplyText.getInputType()
+                            & ~InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+                }
             }
             return quickMessageView;
         }

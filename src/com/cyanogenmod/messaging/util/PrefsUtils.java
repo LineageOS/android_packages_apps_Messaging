@@ -29,6 +29,7 @@ public class PrefsUtils {
     // QuickMessage
     public static final String QUICKMESSAGE_ENABLED      = "pref_key_quickmessage";
     public static final String QM_CLOSE_ALL_ENABLED      = "pref_key_close_all";
+    public static final String SHOW_EMOTICONS_ENABLED    = "pref_show_emoticons";
 
     private PrefsUtils() {
         //Don't instantiate
@@ -56,6 +57,14 @@ public class PrefsUtils {
     public static boolean isQuickMessagingCloseAllEnabled() {
         final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
         return prefs.getBoolean(QM_CLOSE_ALL_ENABLED, false);
+    }
+
+    public static boolean isShowEmoticonsEnabled() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        final Context context = Factory.get().getApplicationContext();
+        final boolean defaultValue = context.getResources().getBoolean(
+                R.bool.show_emoticons_pref_default);
+        return prefs.getBoolean(SHOW_EMOTICONS_ENABLED, defaultValue);
     }
 
     public static UnicodeFilter getUnicodeFilterIfEnabled() {
