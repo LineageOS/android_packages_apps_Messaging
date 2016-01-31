@@ -75,6 +75,9 @@ else
 endif
 
 # utilize ContactsCommon's phone-number-based contact-info lookup
+ifeq ($(contacts_common_dir),)
+  contacts_common_dir := ../ContactsCommon
+endif
 CONTACTS_COMMON_LOOKUP_PROVIDER ?= $(LOCAL_PATH)/$(contacts_common_dir)/info_lookup
 include $(CONTACTS_COMMON_LOOKUP_PROVIDER)/phonenumber_lookup_provider.mk
 
