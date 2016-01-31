@@ -51,4 +51,8 @@
     <string name="send">Send</string>
 
     <string name="compose_message_hint_text">Enter message</string>
+
+    <!-- Show emoticons -->
+    <string name="show_emoticons_pref_title">Emoticons access</string>
+    <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
 </resources>

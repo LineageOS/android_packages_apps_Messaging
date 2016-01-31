@@ -27,6 +27,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.InputFilter.LengthFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -71,6 +72,8 @@ import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UnicodeFilter;
+
+import com.cyanogenmod.messaging.util.PrefsUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -228,6 +231,14 @@ public class ComposeMessageView extends LinearLayout
         mComposeEditText.setFilters(new InputFilter[] {
                 new LengthFilter(MmsConfig.get(ParticipantData.DEFAULT_SELF_SUB_ID)
                         .getMaxTextLimit()) });
+
+        if (PrefsUtils.isShowEmoticonsEnabled()) {
+            mComposeEditText.setInputType(mComposeEditText.getInputType()
+                    | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+        } else {
+            mComposeEditText.setInputType(mComposeEditText.getInputType()
+                    & ~InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+        }
 
         mSelfSendIcon = (SimIconView) findViewById(R.id.self_send_icon);
         mSelfSendIcon.setOnClickListener(new OnClickListener() {
