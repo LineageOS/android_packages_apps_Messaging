@@ -76,6 +76,13 @@
         android:entryValues="@array/pref_unicode_stripping_values" />
 
     <CheckBoxPreference
+        android:key="pref_show_emoticons"
+        android:title="@string/show_emoticons_pref_title"
+        android:persistent="true"
+        android:defaultValue="@bool/show_emoticons_pref_default"
+        android:summary="@string/show_emoticons_pref_summary" />
+
+    <CheckBoxPreference
         android:key="@string/swipe_deletes_conversation_key"
         android:title="@string/swipe_deletes_conversation_text"
         android:defaultValue="false"

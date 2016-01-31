@@ -22,4 +22,9 @@
 
     <!-- This should really go into a config xml, but whoever wrote this app is an idiot, so follow their pattern -->
     <bool name="swipe_deletes_conversation_default" translatable="false">false</bool>
+
+    <!-- Preference keys for user-visible settings -->
+    <!-- Application-wide settings -->
+    <bool name="show_emoticons_pref_default" translatable="false">true</bool>
+
 </resources>
