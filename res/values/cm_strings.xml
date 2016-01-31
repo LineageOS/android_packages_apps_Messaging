@@ -18,4 +18,8 @@
     <!-- Swipe to delete conversation -->
     <string name="swipe_to_delete_conversation_pref_title">Swipe to delete</string>
     <string name="swipe_to_delete_conversation_pref_summary">Swipe to the right to delete a conversation</string>
+
+    <!-- Show emoticons -->
+    <string name="show_emoticons_pref_title">Emoticons access</string>
+    <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
 </resources>

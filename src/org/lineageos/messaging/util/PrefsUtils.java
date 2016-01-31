@@ -22,6 +22,8 @@ import com.android.messaging.R;
 import com.android.messaging.util.BuglePrefs;
 
 public class PrefsUtils {
+    public static final String SHOW_EMOTICONS_ENABLED = "pref_show_emoticons";
+
     private PrefsUtils() {
         //Don't instantiate
     }
@@ -38,5 +40,13 @@ public class PrefsUtils {
         final boolean defaultValue = context.getResources().getBoolean(
                 R.bool.swipe_right_deletes_conversation_default);
         return prefs.getBoolean(prefKey, defaultValue);
+    }
+
+    public static boolean isShowEmoticonsEnabled() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        final Context context = Factory.get().getApplicationContext();
+        final boolean defaultValue = context.getResources().getBoolean(
+                R.bool.show_emoticons_pref_default);
+        return prefs.getBoolean(SHOW_EMOTICONS_ENABLED, defaultValue);
     }
 }
