@@ -75,7 +75,7 @@
         android:entries="@array/pref_unicode_stripping_entries"
         android:entryValues="@array/pref_unicode_stripping_values" />
 
-    <SwitchPreference
+    <CheckBoxPreference
         android:key="@string/swipe_deletes_conversation_key"
         android:title="@string/swipe_deletes_conversation_text"
         android:defaultValue="false"
@@ -84,14 +84,14 @@
     <!-- QuickMessage settings -->
     <PreferenceCategory android:title="@string/pref_quickmessage">
 
-        <SwitchPreference
+        <CheckBoxPreference
             android:key="pref_key_quickmessage"
             android:title="@string/pref_quickmessage_title"
             android:dependency="@string/notifications_enabled_pref_key"
             android:summary="@string/pref_quickmessage_summary"
             android:defaultValue="false" />
 
-        <SwitchPreference
+        <CheckBoxPreference
             android:key="pref_key_close_all"
             android:title="@string/pref_close_all_title"
             android:summary="@string/pref_close_all_summary"
