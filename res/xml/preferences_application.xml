@@ -82,7 +82,7 @@
         android:defaultValue="@bool/show_emoticons_pref_default"
         android:summary="@string/show_emoticons_pref_summary" />
 
-    <SwitchPreference
+    <CheckBoxPreference
         android:key="@string/swipe_right_deletes_conversation_key"
         android:title="@string/swipe_to_delete_conversation_pref_title"
         android:summary="@string/swipe_to_delete_conversation_pref_summary"
@@ -92,14 +92,14 @@
     <!-- QuickMessage settings -->
     <PreferenceCategory android:title="@string/pref_quickmessage">
 
-        <SwitchPreference
+        <CheckBoxPreference
             android:key="pref_key_quickmessage"
             android:title="@string/pref_quickmessage_title"
             android:dependency="@string/notifications_enabled_pref_key"
             android:summary="@string/pref_quickmessage_summary"
             android:defaultValue="false" />
 
-        <SwitchPreference
+        <CheckBoxPreference
             android:key="pref_key_close_all"
             android:title="@string/pref_close_all_title"
             android:summary="@string/pref_close_all_summary"
