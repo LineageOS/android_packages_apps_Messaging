@@ -36,13 +36,13 @@
         </intent>
     </PreferenceScreen>
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="@string/send_sound_pref_key"
         android:title="@string/send_sound_pref_title"
         android:defaultValue="@bool/send_sound_pref_default"
         android:persistent="true" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="@string/notifications_enabled_pref_key"
         android:title="@string/notifications_enabled_pref_title"
         android:defaultValue="@bool/notifications_enabled_pref_default"
@@ -59,7 +59,7 @@
         android:defaultValue=""
         android:dependency="@string/notifications_enabled_pref_key" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="@string/notification_vibration_pref_key"
         android:title="@string/notification_vibrate_pref_title"
         android:defaultValue="@bool/notification_vibration_pref_default"
@@ -75,7 +75,7 @@
         android:entries="@array/pref_unicode_stripping_entries"
         android:entryValues="@array/pref_unicode_stripping_values" />
 
-    <CheckBoxPreference
+    <SwitchPreference
         android:key="pref_show_emoticons"
         android:title="@string/show_emoticons_pref_title"
         android:persistent="true"
@@ -115,13 +115,13 @@
         android:key="@string/debug_pref_key"
         android:title="@string/debug_category_pref_title">
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="@string/dump_sms_pref_key"
             android:title="@string/dump_sms_pref_title"
             android:summary="@string/dump_sms_pref_summary"
             android:defaultValue="@bool/dump_sms_pref_default" />
 
-        <CheckBoxPreference
+        <SwitchPreference
             android:key="@string/dump_mms_pref_key"
             android:title="@string/dump_mms_pref_title"
             android:summary="@string/dump_mms_pref_summary"

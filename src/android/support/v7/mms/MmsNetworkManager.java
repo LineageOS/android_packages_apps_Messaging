@@ -348,16 +348,7 @@ class MmsNetworkManager {
      * @return The change's network type
      */
     private static int getConnectivityChangeNetworkType(final Intent intent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, TYPE_NONE);
-        } else {
-            final NetworkInfo info = intent.getParcelableExtra(
-                    ConnectivityManager.EXTRA_NETWORK_INFO);
-            if (info != null) {
-                return info.getType();
-            }
-        }
-        return TYPE_NONE;
+        return intent.getIntExtra(ConnectivityManager.EXTRA_NETWORK_TYPE, TYPE_NONE);
     }
 
     private static String getMmsConnectivityResultString(int result) {
