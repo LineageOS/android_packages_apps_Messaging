@@ -67,6 +67,13 @@
         android:dependency="@string/notifications_enabled_pref_key" />
 
     <SwitchPreference
+        android:key="pref_show_emoticons"
+        android:title="@string/show_emoticons_pref_title"
+        android:persistent="true"
+        android:defaultValue="@bool/show_emoticons_pref_default"
+        android:summary="@string/show_emoticons_pref_summary" />
+
+    <SwitchPreference
         android:key="@string/swipe_right_deletes_conversation_key"
         android:title="@string/swipe_to_delete_conversation_pref_title"
         android:summary="@string/swipe_to_delete_conversation_pref_summary"
