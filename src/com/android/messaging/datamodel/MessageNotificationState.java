@@ -227,6 +227,9 @@ public abstract class MessageNotificationState extends NotificationState {
         // Number of participants
         final int mParticipantCount;
 
+        // Is it a sms message
+        final boolean mIsSms;
+
         // Display number of the sender
         final String mSenderDisplayDestination;
 
@@ -248,6 +251,7 @@ public abstract class MessageNotificationState extends NotificationState {
                 final long senderContactId,
                 final int subId,
                 final int participantCount,
+                final boolean isSms,
                 final String senderDisplayDestination,
                 final String senderNormalizedDestination) {
             mConversationId = conversationId;
@@ -267,6 +271,7 @@ public abstract class MessageNotificationState extends NotificationState {
             mNotificationVibrate = notificationVibrate;
             mSubId = subId;
             mParticipantCount = participantCount;
+            mIsSms = isSms;
             mSenderDisplayDestination = senderDisplayDestination;
             mSenderNormalizedDestination = senderNormalizedDestination;
         }
@@ -629,7 +634,7 @@ public abstract class MessageNotificationState extends NotificationState {
         public NotificationInfo getNotificationInfo() {
             ConversationLineInfo convInfo = mConvList.mConvInfos.get(0);
             NotificationInfo ni = null;
-            if (convInfo != null && !convInfo.mIsGroup) {
+            if (convInfo != null && convInfo.mIsSms) {
                 String name = mTitle;
                 String number = convInfo.mSenderDisplayDestination;
                 ni = new NotificationInfo(name, number, convInfo.mContactUri, convInfo.mAvatarUri,
@@ -936,6 +941,7 @@ public abstract class MessageNotificationState extends NotificationState {
                                 convMessageData.getSenderContactId(),
                                 subId,
                                 convData.getParticipantCount(),
+                                convMessageData.getIsSms(),
                                 senderDestination,
                                 convMessageData.getSenderNormalizedDestination());
                         convLineInfos.put(convId, currConvInfo);
