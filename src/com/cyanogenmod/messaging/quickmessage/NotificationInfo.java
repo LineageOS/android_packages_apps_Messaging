@@ -3,6 +3,7 @@ package com.cyanogenmod.messaging.quickmessage;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class NotificationInfo implements Parcelable {
     public String mSenderName;
@@ -41,7 +42,8 @@ public class NotificationInfo implements Parcelable {
             String conversationId, String selfParticipantId, Uri selfAvatarUri, int subId,
             String senderNormalizedDestination) {
         this(senderName, senderNumber, senderContactUri, senderAvatarUri, senderContactId,
-                message.toString(), timeMillis, conversationId, selfParticipantId, selfAvatarUri,
+                TextUtils.isEmpty(message) ? null : message.toString(), timeMillis,
+                conversationId, selfParticipantId, selfAvatarUri,
                 subId, senderNormalizedDestination);
     }
 
