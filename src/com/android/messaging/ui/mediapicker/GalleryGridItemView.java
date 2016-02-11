@@ -51,6 +51,7 @@ public class GalleryGridItemView extends FrameLayout {
 
     @VisibleForTesting
     GalleryGridItemData mData;
+    private View mVideoButtonOverlayView;
     private AsyncImageView mImageView;
     private CheckBox mCheckBox;
     private HostInterface mHostInterface;
@@ -69,6 +70,7 @@ public class GalleryGridItemView extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        mVideoButtonOverlayView = findViewById(R.id.video_button);
         mImageView = (AsyncImageView) findViewById(R.id.image);
         mCheckBox = (CheckBox) findViewById(R.id.checkbox);
         mCheckBox.setOnClickListener(mOnClickListener);
@@ -136,13 +138,28 @@ public class GalleryGridItemView extends FrameLayout {
 
     private void updateImageView() {
         if (mData.isDocumentPickerItem()) {
+            hideVideoPlayButtonOverlay();
             mImageView.setScaleType(ScaleType.CENTER);
             setBackgroundColor(ConversationDrawables.get().getConversationThemeColor());
             mImageView.setImageResourceId(null);
             mImageView.setImageResource(R.drawable.ic_photo_library_light);
             mImageView.setContentDescription(getResources().getString(
                     R.string.pick_image_from_document_library_content_description));
+        } else if (mData.isVideoItem()) {
+            showVideoPlayButtonOverlay();
+            mImageView.setScaleType(ScaleType.CENTER_CROP);
+            setBackgroundColor(getResources().getColor(R.color.gallery_image_default_background));
+            mImageView.setImageResourceId(mData.getImageRequestDescriptor());
+            final long dateSeconds = mData.getDateSeconds();
+            final boolean isValidDate = (dateSeconds > 0);
+            final int templateId = isValidDate ?
+                    R.string.mediapicker_gallery_image_item_description :
+                    R.string.mediapicker_gallery_image_item_description_no_date;
+            String contentDescription = String.format(getResources().getString(templateId),
+                    dateSeconds * TimeUnit.SECONDS.toMillis(1));
+            mImageView.setContentDescription(contentDescription);
         } else {
+            hideVideoPlayButtonOverlay();
             mImageView.setScaleType(ScaleType.CENTER_CROP);
             setBackgroundColor(getResources().getColor(R.color.gallery_image_default_background));
             mImageView.setImageResourceId(mData.getImageRequestDescriptor());
@@ -156,4 +173,17 @@ public class GalleryGridItemView extends FrameLayout {
             mImageView.setContentDescription(contentDescription);
         }
     }
+
+    private void showVideoPlayButtonOverlay() {
+        if (mVideoButtonOverlayView != null) {
+            mVideoButtonOverlayView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideVideoPlayButtonOverlay() {
+        if (mVideoButtonOverlayView != null) {
+            mVideoButtonOverlayView.setVisibility(View.INVISIBLE);
+        }
+    }
+
 }
