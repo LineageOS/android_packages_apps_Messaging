@@ -35,7 +35,7 @@ public class GalleryBoundCursorLoader extends BoundCursorLoader {
     private static final String SORT_ORDER = Media.DATE_MODIFIED + " DESC";
     private static final String IMAGE_SELECTION = createSelection(
             MessagePartData.ACCEPTABLE_IMAGE_TYPES,
-            new Integer[] { FileColumns.MEDIA_TYPE_IMAGE });
+            new Integer[] { FileColumns.MEDIA_TYPE_IMAGE, FileColumns.MEDIA_TYPE_VIDEO });
 
     public GalleryBoundCursorLoader(final String bindingId, final Context context) {
         super(bindingId, context, STORAGE_URI, GalleryGridItemData.IMAGE_PROJECTION,
