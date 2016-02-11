@@ -69,13 +69,14 @@ public class GalleryGridItemData {
     public void bind(final Cursor cursor, final int desiredWidth, final int desiredHeight) {
         mIsDocumentPickerItem = TextUtils.equals(cursor.getString(INDEX_ID),
                 ID_DOCUMENT_PICKER_ITEM);
+
         if (mIsDocumentPickerItem) {
             mImageData = null;
             mContentType = null;
         } else {
 
-            String mimeType = cursor.getString(INDEX_MIME_TYPE);
-            mIsVideoItem = mimeType != null && mimeType.toLowerCase().contains("video/");
+            String mimeType = (cursor.getString(INDEX_MIME_TYPE));
+            mIsVideoItem = (mimeType != null && mimeType.toLowerCase().contains("video/"));
 
             int sourceWidth = cursor.getInt(INDEX_WIDTH);
             int sourceHeight = cursor.getInt(INDEX_HEIGHT);
