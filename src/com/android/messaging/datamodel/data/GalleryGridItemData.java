@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import com.android.messaging.datamodel.media.FileImageRequestDescriptor;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
+import com.android.messaging.datamodel.media.VideoThumbnailRequestDescriptor;
 import com.android.messaging.util.Assert;
 
 /**
@@ -59,6 +60,7 @@ public class GalleryGridItemData {
     private UriImageRequestDescriptor mImageData;
     private String mContentType;
     private boolean mIsDocumentPickerItem;
+    private boolean mIsVideoItem;
     private long mDateSeconds;
 
     public GalleryGridItemData() {
@@ -67,10 +69,15 @@ public class GalleryGridItemData {
     public void bind(final Cursor cursor, final int desiredWidth, final int desiredHeight) {
         mIsDocumentPickerItem = TextUtils.equals(cursor.getString(INDEX_ID),
                 ID_DOCUMENT_PICKER_ITEM);
+
         if (mIsDocumentPickerItem) {
             mImageData = null;
             mContentType = null;
         } else {
+
+            String mimeType = (cursor.getString(INDEX_MIME_TYPE));
+            mIsVideoItem = (mimeType != null && mimeType.toLowerCase().contains("video/"));
+
             int sourceWidth = cursor.getInt(INDEX_WIDTH);
             int sourceHeight = cursor.getInt(INDEX_HEIGHT);
 
@@ -85,20 +92,34 @@ public class GalleryGridItemData {
             mContentType = cursor.getString(INDEX_MIME_TYPE);
             final String dateModified = cursor.getString(INDEX_DATE_MODIFIED);
             mDateSeconds = !TextUtils.isEmpty(dateModified) ? Long.parseLong(dateModified) : -1;
-            mImageData = new FileImageRequestDescriptor(
-                    cursor.getString(INDEX_DATA_PATH),
-                    desiredWidth,
-                    desiredHeight,
-                    sourceWidth,
-                    sourceHeight,
-                    true /* canUseThumbnail */,
-                    true /* allowCompression */,
-                    true /* isStatic */);
+            if (mIsVideoItem) {
+                mImageData = new VideoThumbnailRequestDescriptor(
+                        cursor.getLong(INDEX_ID),
+                        cursor.getString(INDEX_DATA_PATH),
+                        desiredWidth,
+                        desiredHeight,
+                        sourceWidth,
+                        sourceHeight);
+            } else {
+                mImageData = new FileImageRequestDescriptor(
+                        cursor.getString(INDEX_DATA_PATH),
+                        desiredWidth,
+                        desiredHeight,
+                        sourceWidth,
+                        sourceHeight,
+                        true /* canUseThumbnail */,
+                        true /* allowCompression */,
+                        true /* isStatic */);
+            }
         }
     }
 
     public boolean isDocumentPickerItem() {
         return mIsDocumentPickerItem;
+    }
+
+    public boolean isVideoItem() {
+        return mIsVideoItem;
     }
 
     public Uri getImageUri() {
