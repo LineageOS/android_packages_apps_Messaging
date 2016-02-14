@@ -20,6 +20,7 @@
   <string name="unicode_stripping_pref_title">Opuszczanie Unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Pozostaw znaki bez zmian</string>
   <string name="pref_unicode_stripping_non_encodable">Opuszczaj znaki niekodowane</string>
+  <string name="pref_unicode_stripping_all">Opuszczaj wszystkie znaki</string>
   <string name="swipe_deletes_conversation_text">Przesunięcie usuwa konwersację</string>
   <string name="pref_quickmessage">Szybka wiadomość i Odpowiedź</string>
   <string name="pref_quickmessage_title">Włącz szybkie wiadomości</string>
@@ -30,6 +31,10 @@
   <string name="button_close">Zamknij</string>
   <string name="button_view">Zobacz</string>
   <string name="button_templates">Szablony</string>
+  <string name="qm_button_full_conversation">Pełna konwersacja</string>
   <string name="type_to_reply_text_enter_to_send">Wpisz wiadomość</string>
   <string name="toast_sending_message">Wysyłanie wiadomości\u2026</string>
+  <string name="qm_quick_reply">Szybka odpowiedź</string>
+  <string name="send">Wyślij</string>
+  <string name="compose_message_hint_text">Wpisz wiadomość</string>
 </resources>

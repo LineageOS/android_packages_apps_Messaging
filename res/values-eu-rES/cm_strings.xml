@@ -32,7 +32,7 @@
   <string name="button_view">Ikusi</string>
   <string name="button_templates">Txantiloiak</string>
   <string name="qm_button_full_conversation">Elkarrizketa osoa</string>
-  <string name="type_to_reply_text_enter_to_send">Mezua idatzi</string>
+  <string name="type_to_reply_text_enter_to_send">Idatzi erantzuteko</string>
   <string name="toast_sending_message">Mezua bidaltzen\u2026</string>
   <string name="qm_quick_reply">Erantzun azkarra</string>
   <string name="send">Bidali</string>
