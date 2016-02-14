@@ -16,9 +16,12 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Rapporteer as gemors na %s</string>
+  <string name="unicode_stripping_pref_title">Verwyder \'unicode\'</string>
   <string name="pref_unicode_stripping_leave_intact">Laat karakters ongeskonde</string>
   <string name="pref_unicode_stripping_non_encodable">Verwyder nie-enkodeerbare karakters</string>
   <string name="pref_unicode_stripping_all">Verwyder al \'unicode\' karakters</string>
+  <string name="swipe_deletes_conversation_text">Swiep verwyder gesrpek</string>
   <string name="pref_quickmessage">Vinnige boodskap en antwoord</string>
   <string name="pref_quickmessage_title">Wys vinnige boodskap</string>
   <string name="pref_quickmessage_summary">Outomaties maak oop die vinnige boodskap pop-up vir inkomende SMS-boodskappe</string>
@@ -28,6 +31,10 @@
   <string name="button_close">Maak toe</string>
   <string name="button_view">Maak oop</string>
   <string name="button_templates">Sjablone</string>
+  <string name="qm_button_full_conversation">Vol gesprek</string>
   <string name="type_to_reply_text_enter_to_send">Raak om te antwoord</string>
   <string name="toast_sending_message">Stuur \'n boodskap\u2026</string>
+  <string name="qm_quick_reply">Kitsantwoord</string>
+  <string name="send">Stuur</string>
+  <string name="compose_message_hint_text">Tik boodskap</string>
 </resources>
