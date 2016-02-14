@@ -31,6 +31,10 @@
   <string name="button_close">Fechar</string>
   <string name="button_view">Ver</string>
   <string name="button_templates">Modelos</string>
+  <string name="qm_button_full_conversation">Conversa completa</string>
   <string name="type_to_reply_text_enter_to_send">Digite para responder</string>
   <string name="toast_sending_message">Enviando mensagem\u2026</string>
+  <string name="qm_quick_reply">Resposta rápida</string>
+  <string name="send">Enviar</string>
+  <string name="compose_message_hint_text">Digite a mensagem</string>
 </resources>

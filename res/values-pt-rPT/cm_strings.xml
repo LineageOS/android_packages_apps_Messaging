@@ -21,7 +21,7 @@
   <string name="pref_unicode_stripping_leave_intact">Manter caracteres intactos</string>
   <string name="pref_unicode_stripping_non_encodable">Retirar caracteres não codificáveis</string>
   <string name="pref_unicode_stripping_all">Retirar todos os caracteres unicode</string>
-  <string name="swipe_deletes_conversation_text">Deslizar apaga a conversação</string>
+  <string name="swipe_deletes_conversation_text">Deslizar apaga a conversa</string>
   <string name="pref_quickmessage">Mensagem e resposta rápidas</string>
   <string name="pref_quickmessage_title">Mostrar mensagem rápida</string>
   <string name="pref_quickmessage_summary">Abrir automaticamente o pop-up de mensagem rápida para mensagens SMS recebidas</string>
