@@ -30,6 +30,7 @@ import com.android.messaging.util.ImageUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.SizeReadyCallback;
 
 /**
  * <pre>
@@ -64,13 +65,10 @@ public class WebImageView extends ImageView {
         if (TextUtils.isEmpty(url)) {
             return;
         }
-
         mBitmapImageViewTarget = new Bullseye(this);
-
         Glide.with(getContext())
                 .load(url)
                 .asBitmap()
-                .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.RESULT)
                 .into(mBitmapImageViewTarget);
     }
@@ -82,28 +80,18 @@ public class WebImageView extends ImageView {
         }
 
         @Override
-        protected void setResource(Bitmap src) {
-            final Bitmap tgt = Bitmap.createBitmap(
-                    src.getWidth(), src.getHeight(), Config.ARGB_8888);
-            // Reusing rects or target bitmaps for drawing might be a possibility
-            // but this should only happen once per url as long as it is in the cache
-            int w = src.getWidth();
-            int h = src.getHeight();
-            w = (w > 300) ? w = 300 : w;
-            h = (h > 300) ? h = 300 : h;
-            RectF dest = new RectF(0, 0, w, h);
-            ImageUtils.drawBitmapWithCircleOnCanvas(src, new Canvas(tgt), dest, dest,
-                    null, false, 0, 0);
-            WebImageView.this.getHandler().post(new Runnable() {
+        protected void setResource(final Bitmap src) {
+            getSize(new SizeReadyCallback() {
                 @Override
-                public void run() {
-                    if (Bullseye.this.view != null) {
-                        Bullseye.this.view.setImageBitmap(tgt);
-                    }
+                public void onSizeReady(int width, int height) {
+                    final Bitmap tgt = Bitmap.createBitmap(width, height, Config.ARGB_8888);
+                    final Bitmap scaledBitmap = ImageUtils.scaleCenterCrop(src, width, height);
+                    RectF dest = new RectF(0, 0, width, height);
+                    ImageUtils.drawBitmapWithCircleOnCanvas(scaledBitmap, new Canvas(tgt), dest, dest,
+                            null, false, 0, 0);
+                    Bullseye.this.view.setImageBitmap(tgt);
                 }
             });
         }
-
     }
-
 }
