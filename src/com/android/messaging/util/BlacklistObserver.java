@@ -116,7 +116,7 @@ public class BlacklistObserver extends ContentObserver {
                 }
                 return null;
             }
-        }.execute();
+        }.executeOnThreadPool();
 
     }
 }
