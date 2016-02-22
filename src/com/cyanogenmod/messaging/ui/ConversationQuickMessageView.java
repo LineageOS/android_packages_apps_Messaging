@@ -92,14 +92,11 @@ public class ConversationQuickMessageView extends FrameLayout implements View.On
 
         mContactIconView.measure(iconMeasureSpec, iconMeasureSpec);
 
-        final int arrowWidth =
-                getResources().getDimensionPixelSize(R.dimen.message_bubble_arrow_width);
-
         // We need to subtract contact icon width twice from the horizontal space to get
         // the max leftover space because we want the message bubble to extend no further than the
         // starting position of the message bubble in the opposite direction.
-        final int maxLeftoverSpace = horizontalSpace - mContactIconView.getMeasuredWidth() * 2
-                - arrowWidth - getPaddingLeft() - getPaddingRight();
+        final int maxLeftoverSpace = horizontalSpace - mContactIconView.getMeasuredWidth()
+                - getPaddingLeft() - getPaddingRight();
         final int messageContentWidthMeasureSpec = MeasureSpec.makeMeasureSpec(maxLeftoverSpace,
                 MeasureSpec.AT_MOST);
 

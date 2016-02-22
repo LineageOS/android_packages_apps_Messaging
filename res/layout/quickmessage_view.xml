@@ -82,15 +82,15 @@
                 android:id="@+id/message_text_and_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:snapWidthPixels="@dimen/qm_conversation_bubble_width_snap">
 
                 <TextView
                     android:id="@+id/message_text"
-                    style="@style/ConversationMessage"
+                    style="@style/QMConversationMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxHeight="@dimen/qm_received_msg_max_height"
-                    android:scrollbars="vertical"
                     android:importantForAccessibility="no" />
 
             </com.android.messaging.ui.conversation.MessageBubbleBackground>

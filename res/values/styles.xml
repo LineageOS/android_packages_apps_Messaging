@@ -658,4 +658,12 @@
         <item name="android:textCursorDrawable">@null</item>
         <item name="android:inputType">textShortMessage|textAutoCorrect|textCapSentences|textMultiLine</item>
     </style>
+
+    <style name="QMConversationMessage" parent="ConversationMessage">
+        <item name="android:paddingLeft">@dimen/qm_conversation_bubble_padding</item>
+        <item name="android:paddingRight">@dimen/qm_conversation_bubble_padding</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollHorizontally">false</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+    </style>
 </resources>
