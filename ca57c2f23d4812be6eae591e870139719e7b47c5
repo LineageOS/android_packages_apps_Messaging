@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_bb0dbf91",
+        "filename": "src/com/android/messaging/ui/SmsStorageLowWarningActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-02-22T21:18:53Z",
+      "side": 1,
+      "message": "Whitespace",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 1
+      },
+      "revId": "ca57c2f23d4812be6eae591e870139719e7b47c5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_db12f3b1",
+        "filename": "src/com/android/messaging/ui/SmsStorageLowWarningActivity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-02-22T21:18:53Z",
+      "side": 1,
+      "message": "Please use spaces instead of tabs",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 1
+      },
+      "revId": "ca57c2f23d4812be6eae591e870139719e7b47c5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
