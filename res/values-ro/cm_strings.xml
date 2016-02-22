@@ -16,6 +16,7 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Raportează ca spam la %s</string>
   <string name="unicode_stripping_pref_title">Elimină unicod</string>
   <string name="pref_unicode_stripping_leave_intact">Lasă caracterele intacte</string>
   <string name="pref_unicode_stripping_non_encodable">Elimină caracterele ne-codificabile</string>
