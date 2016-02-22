@@ -17,6 +17,8 @@
 package com.android.messaging.ui.conversation;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
@@ -27,8 +29,13 @@ public class MessageBubbleBackground extends LinearLayout {
 
     public MessageBubbleBackground(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mSnapWidthPixels = context.getResources().getDimensionPixelSize(
-                R.dimen.conversation_bubble_width_snap);
+        final Resources resources = context.getResources();
+        final TypedArray a = context
+                .obtainStyledAttributes(attrs, R.styleable.MessageBubbleBackground);
+        mSnapWidthPixels =
+                a.getDimensionPixelSize(R.styleable.MessageBubbleBackground_snapWidthPixels,
+                resources.getDimensionPixelSize(R.dimen.conversation_bubble_width_snap));
+        a.recycle();
     }
 
     @Override
