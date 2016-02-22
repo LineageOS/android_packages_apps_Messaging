@@ -22,9 +22,9 @@
   <string name="pref_unicode_stripping_non_encodable">Замени не кодираните символи</string>
   <string name="pref_unicode_stripping_all">Замени всички уникод символи</string>
   <string name="swipe_deletes_conversation_text">Плъзгането изтрива разговора</string>
-  <string name="pref_quickmessage">Бързо Съобщение и Отговор</string>
-  <string name="pref_quickmessage_title">Покажи Бързо Съобщение</string>
-  <string name="pref_quickmessage_summary">Автоматично отвори изскачащо Бързо Съобщение за входящи SMS-и</string>
+  <string name="pref_quickmessage">Изскачащи съобщения</string>
+  <string name="pref_quickmessage_title">Изскачащо съобщение</string>
+  <string name="pref_quickmessage_summary">Автоматично отвори на изскачащо съобщение за входящи SMS съобщения</string>
   <string name="pref_close_all_title">Затвори всички</string>
   <string name="pref_close_all_summary">Бутона \"Затвори\" затваря всички съобщения</string>
   <string name="message_counter">%1$d от %2$d</string>
