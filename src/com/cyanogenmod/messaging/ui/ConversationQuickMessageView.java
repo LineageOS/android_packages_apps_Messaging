@@ -337,7 +337,7 @@ public class ConversationQuickMessageView extends FrameLayout implements View.On
                     mContactIconView.setAttributionDrawable(response.mAttributionLogo);
                 }
                 if (!TextUtils.isEmpty(response.mPhotoUrl)) {
-                    mContactIconView.setImageUrl(response.mPhotoUrl);
+                    mContactIconView.setImageResourceUri(Uri.parse(response.mPhotoUrl));
                 }
                 mContactIconView.setLookupResponse(response);
             }
