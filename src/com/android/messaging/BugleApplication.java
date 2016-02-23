@@ -282,9 +282,9 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     }
 
     /**
-     * Get the reference to
+     * Get the reference to the lookup provider manager
      *
-     * @return {@link LookupProviderManager} or null
+     * @return {@link ILookupClient} or null
      */
     public static ILookupClient getLookupProviderClient() {
         return mLookupProviderManager;
