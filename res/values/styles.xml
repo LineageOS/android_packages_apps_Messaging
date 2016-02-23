@@ -34,7 +34,7 @@
          <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
          <item name="colorPrimary">@color/action_bar_background_color</item>
          <item name="colorPrimaryDark">@color/action_bar_background_color_dark</item>
-         <item name="colorAccent">@color/action_bar_background_color</item>
+         <item name="colorAccent">@color/cm_accent</item>
          <item name="android:textColorHighlight">@color/text_highlight_color</item>
          <item name="actionBarStyle">@style/BugleActionBar</item>
          <item name="apnPreferenceStyle">@style/ApnPreference</item>

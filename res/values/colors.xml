@@ -115,7 +115,7 @@
     <color name="notification_secondary_text">#FFFFFF</color>
     <color name="notification_tertiary_text">#FFFFFF</color>
     <color name="wearable_notification_participants_count">#a2a2a2</color>
-    <color name="notification_accent_color">@color/primary_color</color>
+    <color name="notification_accent_color">@color/cm_accent</color>
     <color name="notification_warning_color">#ff0000</color>
     <color name="notification_subject_color">#99aaaaaa</color>
 
@@ -124,9 +124,9 @@
     <color name="people_and_options_header_text">#6d6d6d</color>
     <color name="people_and_options_list_divider">#cccccc</color>
 
-    <color name="fab_color">@color/primary_color</color>
+    <color name="fab_color">@color/cm_accent</color>
     <color name="fab_pressed_color">#3ea4dc</color>
-    <color name="fab_ripple">#40ffffff</color>
+    <color name="fab_ripple">#009cde</color>
 
     <color name="message_text_counter_color">#555555</color>
     <color name="mms_indicator_color">#8BC34A</color>
