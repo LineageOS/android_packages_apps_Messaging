@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -32,6 +33,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.ConversationMessageData;
@@ -47,10 +49,13 @@ import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.AvatarUriUtil;
+import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.Dates;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
+import com.cyanogen.lookup.phonenumber.response.StatusCode;
 
 import java.util.List;
 
@@ -139,6 +144,14 @@ public class WidgetConversationService extends RemoteViewsService {
 
                 final ConversationMessageData message = new ConversationMessageData();
                 message.bind(mCursor);
+
+                LookupResponse lookupResponse = null;
+                if (!ContactUtil.isValidContactId(message.getSenderContactId())) {
+                    // Make blocking call
+                    lookupResponse = BugleApplication.getLookupProviderClient()
+                            .blockingLookupInfoForPhoneNumber(
+                                    message.getSenderNormalizedDestination());
+                }
 
                 // Inflate and fill out the remote view
                 final RemoteViews remoteViews = new RemoteViews(
@@ -235,14 +248,37 @@ public class WidgetConversationService extends RemoteViewsService {
                 remoteViews.setViewVisibility(R.id.avatarShadow, includeAvatar ?
                         View.VISIBLE : View.GONE);
 
-                final Uri avatarUri = AvatarUriUtil.createAvatarUri(
-                        message.getSenderProfilePhotoUri(),
-                        message.getSenderFullName(),
-                        message.getSenderNormalizedDestination(),
-                        message.getSenderContactLookupKey());
+                final Uri avatarUri;
+                 if (lookupResponse != null
+                        && lookupResponse.mStatusCode == StatusCode.SUCCESS
+                        && !TextUtils.isEmpty(lookupResponse.mPhotoUrl)) {
+                     avatarUri = Uri.parse(lookupResponse.mPhotoUrl);
+                 } else {
+                     avatarUri = AvatarUriUtil.createAvatarUri(
+                             message.getSenderProfilePhotoUri(),
+                             message.getSenderFullName(),
+                             message.getSenderNormalizedDestination(),
+                             message.getSenderContactLookupKey());
+                 }
 
                 remoteViews.setImageViewBitmap(R.id.avatarView, includeAvatar ?
                         getAvatarBitmap(avatarUri) : null);
+
+                // Attribution logo
+                if (lookupResponse != null
+                        && lookupResponse.mStatusCode == StatusCode.SUCCESS
+                        && lookupResponse.mAttributionLogo != null) {
+                    Bitmap bitmap = Bitmap.createBitmap(lookupResponse.mAttributionLogo
+                            .getIntrinsicWidth(), lookupResponse.mAttributionLogo
+                            .getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas c = new Canvas(bitmap);
+                    lookupResponse.mAttributionLogo.setBounds(0, 0, c.getWidth(), c.getHeight());
+                    lookupResponse.mAttributionLogo.draw(c);
+                    remoteViews.setImageViewBitmap(R.id.attribution_logo, bitmap);
+                    remoteViews.setViewVisibility(R.id.attribution_logo, View.VISIBLE);
+                } else {
+                    remoteViews.setViewVisibility(R.id.attribution_logo, View.GONE);
+                }
 
                 String text = message.getText();
                 if (attachmentStringId != 0) {

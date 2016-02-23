@@ -13,4 +13,5 @@
     <dimen name="avatar_width_height">36dp</dimen>
     <dimen name="qm_message_padding_default">8dp</dimen>
     <dimen name="qm_message_count_height">18dp</dimen>
+    <dimen name="attribution_logo_size">14dp</dimen>
 </resources>
