@@ -28,6 +28,8 @@ import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.datamodel.media.AvatarGroupRequestDescriptor;
 import com.android.messaging.datamodel.media.AvatarRequestDescriptor;
+import com.android.messaging.datamodel.media.ImageRequestDescriptor;
+import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.ContactUtil;
@@ -115,12 +117,18 @@ public class ContactIconView extends AsyncImageView {
         if (uri == null) {
             setImageResourceId(null);
         } else {
-            final String avatarType = AvatarUriUtil.getAvatarType(uri);
-            if (AvatarUriUtil.TYPE_GROUP_URI.equals(avatarType)) {
-                setImageResourceId(new AvatarGroupRequestDescriptor(uri, mIconSize, mIconSize));
+            ImageRequestDescriptor ird = null;
+            boolean isAvatarUri = AvatarUriUtil.isAvatarUri(uri);
+            boolean isGroupAvatar = AvatarUriUtil.TYPE_GROUP_URI.equals(
+                    AvatarUriUtil.getAvatarType(uri));
+            if (isAvatarUri && isGroupAvatar) {
+                ird = new AvatarGroupRequestDescriptor(uri, mIconSize, mIconSize);
+            } else if (isAvatarUri) {
+                ird = new AvatarRequestDescriptor(uri, mIconSize, mIconSize);
             } else {
-                setImageResourceId(new AvatarRequestDescriptor(uri, mIconSize, mIconSize));
+                ird = new UriImageRequestDescriptor(uri, mIconSize, mIconSize, true, 0, 0);
             }
+            setImageResourceId(ird);
         }
 
         mContactId = contactId;

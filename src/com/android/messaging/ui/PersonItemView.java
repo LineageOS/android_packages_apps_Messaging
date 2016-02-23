@@ -17,6 +17,7 @@ package com.android.messaging.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.text.BidiFormatter;
 import android.support.v4.text.TextDirectionHeuristicsCompat;
 import android.text.TextUtils;
@@ -268,7 +269,7 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
                 // always check for null if in a callback
                 if (mContactIconView != null) {
                     if (!TextUtils.isEmpty(response.mPhotoUrl)) {
-                        mContactIconView.setImageUrl(response.mPhotoUrl);
+                        mContactIconView.setImageResourceUri(Uri.parse(response.mPhotoUrl));
                     }
                     if (response.mAttributionLogo != null) {
                         mContactIconView.setAttributionDrawable(response.mAttributionLogo);

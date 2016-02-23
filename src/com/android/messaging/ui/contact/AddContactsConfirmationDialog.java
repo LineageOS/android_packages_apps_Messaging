@@ -139,7 +139,7 @@ public class AddContactsConfirmationDialog implements DialogInterface.OnClickLis
                     }
                 }
                 if (!TextUtils.isEmpty(response.mPhotoUrl)) {
-                    mContactIconView.setImageUrl(response.mPhotoUrl);
+                    mContactIconView.setImageResourceUri(Uri.parse(response.mPhotoUrl));
                 }
                 mContactIconView.setLookupResponse(response);
             }
