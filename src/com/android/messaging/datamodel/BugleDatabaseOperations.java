@@ -27,6 +27,7 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
+import android.util.Log;
 import com.android.internal.telephony.util.BlacklistUtils;
 
 import com.android.messaging.Factory;
@@ -1794,8 +1795,7 @@ public class BugleDatabaseOperations {
         // update framework database in addition to the local database
         if (frameworkDb) {
             // update the framework database with the blacklisting information
-            String nn = PhoneNumberUtils.normalizeNumber(destination);
-            BlacklistUtils.addOrUpdate(dbWrapper.getContext(), nn,
+            BlacklistUtils.addOrUpdate(dbWrapper.getContext(), destination,
                     blocked ? (BlacklistUtils.BLOCK_MESSAGES | BlacklistUtils.BLOCK_CALLS) : 0,
                     BlacklistUtils.BLOCK_MESSAGES | BlacklistUtils.BLOCK_CALLS);
         }
