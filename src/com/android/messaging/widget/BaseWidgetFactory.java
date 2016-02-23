@@ -37,6 +37,7 @@ import com.android.messaging.datamodel.media.ImageRequestDescriptor;
 import com.android.messaging.datamodel.media.ImageResource;
 import com.android.messaging.datamodel.media.MediaRequest;
 import com.android.messaging.datamodel.media.MediaResourceManager;
+import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
 import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.LogUtil;
 
@@ -166,13 +167,23 @@ abstract class BaseWidgetFactory implements RemoteViewsService.RemoteViewsFactor
     }
 
     protected Bitmap getAvatarBitmap(final Uri avatarUri) {
+        if (avatarUri == null) {
+            return null;
+        }
         final String avatarType = avatarUri == null ?
                 null : AvatarUriUtil.getAvatarType(avatarUri);
+
         ImageRequestDescriptor descriptor;
-        if (AvatarUriUtil.TYPE_GROUP_URI.equals(avatarType)) {
+        boolean isAvatarUri = AvatarUriUtil.isAvatarUri(avatarUri);
+        boolean isGroupAvatar = AvatarUriUtil.TYPE_GROUP_URI.equals(
+                AvatarUriUtil.getAvatarType(avatarUri));
+
+        if (isAvatarUri && isGroupAvatar) {
             descriptor = new AvatarGroupRequestDescriptor(avatarUri, mIconSize, mIconSize);
-        } else {
+        } else if (isAvatarUri) {
             descriptor = new AvatarRequestDescriptor(avatarUri, mIconSize, mIconSize);
+        } else {
+            descriptor = new UriImageRequestDescriptor(avatarUri, mIconSize, mIconSize, true, 0, 0);
         }
 
         final MediaRequest<ImageResource> imageRequest =

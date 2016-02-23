@@ -28,15 +28,30 @@
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <com.cyanogenmod.messaging.ui.AttributionContactIconView
-            android:id="@+id/avatarView"
-            style="@style/WidgetConversationListItemAvatar"
-            android:layout_width="@dimen/contact_icon_view_normal_size"
-            android:layout_height="@dimen/contact_icon_view_normal_size"
-            android:layout_centerVertical="true"
-            android:scaleType="fitXY"
-            android:importantForAccessibility="no"
-            android:contentDescription="@null" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/avatarView"
+                style="@style/WidgetConversationListItemAvatar"
+                android:layout_width="@dimen/contact_icon_view_normal_size"
+                android:layout_height="@dimen/contact_icon_view_normal_size"
+                android:layout_centerVertical="true"
+                android:scaleType="fitXY"
+                android:importantForAccessibility="no"
+                android:contentDescription="@null" />
+            <ImageView
+                android:id="@+id/attribution_logo"
+                android:background="@android:color/transparent"
+                android:layout_width="@dimen/attribution_logo_size"
+                android:layout_height="@dimen/attribution_logo_size"
+                android:layout_alignBottom="@id/avatarView"
+                android:layout_alignRight="@id/avatarView"
+                android:src="@null"
+                android:visibility="gone"
+                android:importantForAccessibility="no"
+                android:contentDescription="@null"/>
+        </RelativeLayout>
         <ImageView
             android:id="@+id/conversation_failed_status_icon"
             android:layout_width="wrap_content"
