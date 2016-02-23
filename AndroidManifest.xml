@@ -541,6 +541,8 @@
 
         <receiver android:name="com.cyanogenmod.messaging.quickmessage.ClearAllReceiver" />
 
+        <receiver android:name="com.cyanogenmod.messaging.lookup.LookupProviderManager" />
+
     </application>
 
 </manifest>
