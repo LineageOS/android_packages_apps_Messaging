@@ -17,6 +17,12 @@ package com.cyanogenmod.messaging.lookup;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,12 +31,14 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.cyanogen.lookup.phonenumber.provider.LookupProviderImpl;
+import com.cyanogen.lookup.phonenumber.response.StatusCode;
 import com.cyanogen.lookup.phonenumber.util.LookupHandlerThread;
 import com.cyanogen.lookup.phonenumber.request.LookupRequest;
 import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,20 +52,29 @@ import java.util.concurrent.ConcurrentHashMap;
  * @see {@link LookupRequest.Callback}
  * @see {@link ILookupClient}
  */
-public class LookupProviderManager implements Application.ActivityLifecycleCallbacks,
-        LookupRequest.Callback, ILookupClient {
+public class LookupProviderManager extends BroadcastReceiver implements Application
+        .ActivityLifecycleCallbacks, LookupRequest.Callback, ILookupClient {
 
     private static final String TAG = "LookupProviderManager";
     private static final String THREAD_NAME = "PhoneLookupProviderThread";
 
     // Members
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
+    private static final LinkedHashMap<String, Bitmap> sAttributionLogoBitmapCache = new
+            LinkedHashMap<>(1);
     private Application mApplication;
     private ConcurrentHashMap<String, LookupResponse> mPhoneNumberLookupCache;
     private ConcurrentHashMap<String, HashSet<LookupProviderListener>> mLookupListeners;
     private LookupHandlerThread mLookupHandlerThread;
     private boolean mIsPhoneNumberLookupInitialized;
     private short mActivityCount = 0;
+    private short mServiceCount = 0;
+
+    public static final String ACTION_CREATED = "service_created";
+    public static final String ACTION_DESTROYED = "service_destroyed";
+
+    public LookupProviderManager() {
+    }
 
     /**
      * Constructor
@@ -72,6 +89,10 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
         mPhoneNumberLookupCache = new ConcurrentHashMap<String, LookupResponse>();
         mLookupListeners = new ConcurrentHashMap<String, HashSet<LookupProviderListener>>();
         application.registerActivityLifecycleCallbacks(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_CREATED);
+        filter.addAction(ACTION_DESTROYED);
+        application.registerReceiver(this, filter);
         mApplication = application;
     }
 
@@ -103,7 +124,12 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
         }
         mPhoneNumberLookupCache.clear();
         mLookupListeners.clear();
-        mIsPhoneNumberLookupInitialized = false;
+        for (Bitmap bitmap : sAttributionLogoBitmapCache.values()) {
+            if (bitmap != null && !bitmap.isRecycled()) {
+                bitmap.recycle();
+            }
+        }
+        sAttributionLogoBitmapCache.clear();
     }
 
     /**
@@ -153,6 +179,17 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
     public void onNewInfo(LookupRequest lookupRequest, final LookupResponse response) {
         log("onNewInfo(" + lookupRequest + ", " + response + ")");
         mPhoneNumberLookupCache.put(lookupRequest.mPhoneNumber, response);
+        // Cache the attribution logo as a bitmap since needed by widget's remoteviews
+        if (!sAttributionLogoBitmapCache.containsKey(response.mProviderName)) {
+            Bitmap bitmap = Bitmap.createBitmap(response.mAttributionLogo
+                    .getIntrinsicWidth(), response.mAttributionLogo
+                    .getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas c = new Canvas(bitmap);
+            response.mAttributionLogo
+                    .setBounds(0, 0, c.getWidth(), c.getHeight());
+            response.mAttributionLogo.draw(c);
+            sAttributionLogoBitmapCache.put(response.mProviderName, bitmap);
+        }
         if (mLookupListeners.containsKey(lookupRequest.mPhoneNumber)) {
             int i = 0;
             List<Integer> removalIndexes = new ArrayList<Integer>();
@@ -177,13 +214,46 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
         }
     }
 
+    /* ---------------------  Private level service count methods -------------------------------*/
+
+    private void onServiceCreated() {
+        ++mServiceCount;
+        if (mServiceCount == 1) {
+            if (!mIsPhoneNumberLookupInitialized) {
+                mIsPhoneNumberLookupInitialized = start();
+            }
+        }
+    }
+
+    private void onServiceDestroyed() {
+        --mServiceCount;
+        if (mServiceCount == 0 && mActivityCount == 0) {
+            if (mIsPhoneNumberLookupInitialized) {
+                stop();
+                mIsPhoneNumberLookupInitialized = false;
+            }
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (ACTION_CREATED.equalsIgnoreCase(action)) {
+            onServiceCreated();
+        } else if (ACTION_DESTROYED.equalsIgnoreCase(action)) {
+            onServiceDestroyed();
+        }
+    }
+
     /* ---------------------  Activity callback interfaces  -------------------------------------*/
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         log("onActivityCreated(" + activity + ", " + savedInstanceState + ")");
         ++mActivityCount;
         if (mActivityCount == 1) {
-            mIsPhoneNumberLookupInitialized = start();
+            if (!mIsPhoneNumberLookupInitialized) {
+                mIsPhoneNumberLookupInitialized = start();
+            }
         }
     }
 
@@ -207,12 +277,46 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
     public void onActivityDestroyed(Activity activity) {
         log("onActivityCreated(" + activity + ")");
         --mActivityCount;
-        if (mActivityCount == 0) {
+        if (mActivityCount == 0 && mServiceCount == 0) {
             if (mIsPhoneNumberLookupInitialized) {
                 stop();
                 mIsPhoneNumberLookupInitialized = false;
             }
         }
+    }
+
+    @Override
+    public LookupResponse blockingLookupInfoForPhoneNumber(String phoneNumber) {
+        LookupResponse response = null;
+        if (mLookupHandlerThread != null) {
+            response = mLookupHandlerThread.blockingFetchInfoForPhoneNumber(new
+                    LookupRequest(phoneNumber, this));
+            if (response != null && response.mStatusCode != StatusCode.SUCCESS) {
+                response = null;
+            }
+        }
+        if (response != null) {
+            // Cache the attribution logos as bitmaps since widget needs it
+            if (!sAttributionLogoBitmapCache.containsKey(response.mProviderName)) {
+                Bitmap bitmap = Bitmap.createBitmap(response.mAttributionLogo
+                        .getIntrinsicWidth(), response.mAttributionLogo
+                        .getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(bitmap);
+                response.mAttributionLogo
+                        .setBounds(0, 0, c.getWidth(), c.getHeight());
+                response.mAttributionLogo.draw(c);
+                sAttributionLogoBitmapCache.put(response.mProviderName, bitmap);
+            }
+        }
+        return response;
+    }
+
+    @Override
+    public Bitmap getCachedAttributionLogoBitmap(String providerName) {
+        if (!TextUtils.isEmpty(providerName)) {
+            return sAttributionLogoBitmapCache.get(providerName);
+        }
+        return null;
     }
 
     @Override
