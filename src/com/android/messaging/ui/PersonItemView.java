@@ -64,6 +64,7 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
     private PersonItemViewListener mListener;
     private boolean mAvatarOnly;
     private String mLastNormalizedNumber;
+    private String mCachedLookupDisplayName;
 
     public PersonItemView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
@@ -91,6 +92,7 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
                     .removeLookupProviderListener(mLastNormalizedNumber, this);
             mLastNormalizedNumber = null;
         }
+        mCachedLookupDisplayName = null;
     }
 
     @Override
@@ -126,13 +128,13 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
             final String vocalizedDisplayName = AccessibilityUtil.getVocalizedPhoneNumber(
                     getResources(), getDisplayName());
             mNameTextView.setContentDescription(vocalizedDisplayName);
-            BugleApplication.getLookupProviderClient()
-                    .addLookupProviderListener(personData.getNormalizedDestination(), this);
-            BugleApplication.getLookupProviderClient()
-                    .lookupInfoForPhoneNumber(personData.getNormalizedDestination());
             mLastNormalizedNumber = personData.getNormalizedDestination();
         }
         updateViewAppearance();
+        BugleApplication.getLookupProviderClient()
+                .addLookupProviderListener(mLastNormalizedNumber, this);
+        BugleApplication.getLookupProviderClient()
+                .lookupInfoForPhoneNumber(mLastNormalizedNumber);
     }
 
     /**
@@ -161,7 +163,13 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
             final int bottom, final int oldLeft, final int oldTop, final int oldRight,
             final int oldBottom) {
         if (mBinding.isBound() && v == mNameTextView) {
-            setNameTextView();
+            // TODO: figure out the reason for having this round about way of setting text
+            // and fix this hack to get
+            if (!TextUtils.isEmpty(mCachedLookupDisplayName)) {
+                mNameTextView.setText(mCachedLookupDisplayName);
+            } else {
+                setNameTextView();
+            }
         }
     }
 
@@ -277,9 +285,8 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
                     mContactIconView.setLookupResponse(response);
                 }
                 if (!TextUtils.isEmpty(response.mName)) {
-                    if (mNameTextView != null) {
-                        mNameTextView.setText(response.mName);
-                    }
+                    mCachedLookupDisplayName = response.mName;
+                    mNameTextView.setText(mCachedLookupDisplayName);
                 }
             }
         }
