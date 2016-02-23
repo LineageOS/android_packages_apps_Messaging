@@ -30,6 +30,7 @@ import com.cyanogen.lookup.phonenumber.request.LookupRequest;
 import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -53,7 +54,7 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
     private static final Handler sHandler = new Handler(Looper.getMainLooper());
     private Application mApplication;
     private ConcurrentHashMap<String, LookupResponse> mPhoneNumberLookupCache;
-    private ConcurrentHashMap<String, ArrayList<LookupProviderListener>> mLookupListeners;
+    private ConcurrentHashMap<String, HashSet<LookupProviderListener>> mLookupListeners;
     private LookupHandlerThread mLookupHandlerThread;
     private boolean mIsPhoneNumberLookupInitialized;
     private short mActivityCount = 0;
@@ -69,7 +70,7 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
             throw new IllegalArgumentException("'application' must not be null!");
         }
         mPhoneNumberLookupCache = new ConcurrentHashMap<String, LookupResponse>();
-        mLookupListeners = new ConcurrentHashMap<String, ArrayList<LookupProviderListener>>();
+        mLookupListeners = new ConcurrentHashMap<String, HashSet<LookupProviderListener>>();
         application.registerActivityLifecycleCallbacks(this);
         mApplication = application;
     }
@@ -119,7 +120,7 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
             return;
         }
         if (!mLookupListeners.contains(number)) {
-            mLookupListeners.put(number, new ArrayList<LookupProviderListener>());
+            mLookupListeners.put(number, new HashSet<LookupProviderListener>());
         }
         if (!mLookupListeners.get(number).contains(listener)) { // prevent adding same listener
             mLookupListeners.get(number).add(listener);
@@ -137,12 +138,8 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
         if (TextUtils.isEmpty(number)) {
             return;
         }
-        ArrayList<LookupProviderListener> tmpListenerList;
         if (mLookupListeners.containsKey(number)) {
-            tmpListenerList = mLookupListeners.get(number);
-            if (tmpListenerList != null) {
-                tmpListenerList.remove(listener);
-            }
+            mLookupListeners.get(number).remove(listener);
         }
     }
 
