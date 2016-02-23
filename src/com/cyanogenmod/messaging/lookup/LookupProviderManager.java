@@ -71,8 +71,9 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
         }
         mPhoneNumberLookupCache = new ConcurrentHashMap<String, LookupResponse>();
         mLookupListeners = new ConcurrentHashMap<String, HashSet<LookupProviderListener>>();
-        application.registerActivityLifecycleCallbacks(this);
+        //application.registerActivityLifecycleCallbacks(this);
         mApplication = application;
+        mIsPhoneNumberLookupInitialized = start();
     }
 
     private boolean isDebug() {
@@ -213,6 +214,15 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
                 mIsPhoneNumberLookupInitialized = false;
             }
         }
+    }
+
+    @Override
+    public LookupResponse blockingLookupInfoForPhoneNumber(String phoneNumber) {
+        if (mLookupHandlerThread != null) {
+            return mLookupHandlerThread.blockingFetchInfoForPhoneNumber(
+                    new LookupRequest(phoneNumber, this));
+        }
+        return null;
     }
 
     @Override

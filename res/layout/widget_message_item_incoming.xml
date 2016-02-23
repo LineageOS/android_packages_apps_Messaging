@@ -39,7 +39,7 @@
             android:layout_marginTop="-4dp"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
-        <com.cyanogenmod.messaging.ui.AttributionContactIconView
+        <ImageView
             android:id="@+id/avatarView"
             style="@style/WidgetConversationItemAvatarIncoming"
             android:layout_width="@dimen/contact_icon_view_normal_size"
@@ -48,6 +48,16 @@
             android:scaleType="fitXY"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
+        <ImageView
+            android:id="@+id/attribution_logo"
+            android:layout_width="@dimen/attribution_logo_size"
+            android:layout_height="@dimen/attribution_logo_size"
+            android:src="@null"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="@dimen/attribution_logo_marginRight"
+            android:visibility="gone"
+            android:importantForAccessibility="no"
+            android:contentDescription="@null"/>
         <ImageView
             android:id="@+id/conversation_failed_status_icon"
             style="@style/WidgetConversationItemFailed"

@@ -20,7 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -29,10 +33,12 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.ConversationListData;
@@ -40,14 +46,21 @@ import com.android.messaging.datamodel.data.ConversationListItemData;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.conversationlist.ConversationListItemView;
+import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.Dates;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
+import com.cyanogen.lookup.phonenumber.response.StatusCode;
+
+import java.util.LinkedHashMap;
 
 public class WidgetConversationListService extends RemoteViewsService {
     private static final String TAG = LogUtil.BUGLE_WIDGET_TAG;
+    private static final LinkedHashMap<String, Bitmap> sAttributionLogoCache = new
+            LinkedHashMap<>(5);
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -100,6 +113,14 @@ public class WidgetConversationListService extends RemoteViewsService {
                 final ConversationListItemData conv = new ConversationListItemData();
                 conv.bind(mCursor);
 
+                LookupResponse lookupResponse = null;
+                if (!ContactUtil.isValidContactId(conv.getParticipantContactId())) {
+                    // Make blocking call
+                    lookupResponse = BugleApplication.getLookupProviderClient()
+                            .blockingLookupInfoForPhoneNumber(conv
+                                    .getOtherParticipantNormalizedDestination());
+                }
+
                 // Inflate and fill out the remote view
                 final RemoteViews remoteViews = new RemoteViews(
                         mContext.getPackageName(), R.layout.widget_conversation_list_item);
@@ -117,8 +138,17 @@ public class WidgetConversationListService extends RemoteViewsService {
                         boldifyIfUnread(timeStamp, hasUnreadMessages));
 
                 // From
-                remoteViews.setTextViewText(R.id.from,
-                        boldifyIfUnread(conv.getName(), hasUnreadMessages));
+                if (lookupResponse != null && lookupResponse.mStatusCode == StatusCode.SUCCESS) {
+                    // Fix default if blank
+                    if (TextUtils.isEmpty(lookupResponse.mName)) {
+                        lookupResponse.mName = conv.getOtherParticipantNormalizedDestination();
+                    }
+                    remoteViews.setTextViewText(R.id.from,
+                            boldifyIfUnread(lookupResponse.mName, hasUnreadMessages));
+                } else {
+                    remoteViews.setTextViewText(R.id.from,
+                            boldifyIfUnread(conv.getName(), hasUnreadMessages));
+                }
 
                 // Notifications turned off mini-bell icon
                 remoteViews.setViewVisibility(R.id.conversation_notification_bell,
@@ -150,11 +180,39 @@ public class WidgetConversationListService extends RemoteViewsService {
                         View.VISIBLE : View.GONE);
 
                 Uri iconUri = null;
-                if (conv.getIcon() != null) {
-                    iconUri = Uri.parse(conv.getIcon());
+                if (lookupResponse != null
+                        && lookupResponse.mStatusCode == StatusCode.SUCCESS
+                        && !TextUtils.isEmpty(lookupResponse.mPhotoUrl)) {
+                    iconUri = Uri.parse(lookupResponse.mPhotoUrl);
+                } else {
+                    if (conv.getIcon() != null) {
+                        iconUri = Uri.parse(conv.getIcon());
+                    }
                 }
                 remoteViews.setImageViewBitmap(R.id.avatarView, includeAvatar ?
                         getAvatarBitmap(iconUri) : null);
+
+                // Attribution logo
+                if (lookupResponse != null
+                        && lookupResponse.mStatusCode == StatusCode.SUCCESS
+                        && lookupResponse.mAttributionLogo != null) {
+                    Bitmap bitmap =  sAttributionLogoCache.get(lookupResponse.mProviderName);
+                    if (bitmap == null) {
+                        bitmap = Bitmap.createBitmap(lookupResponse.mAttributionLogo
+                                        .getIntrinsicWidth(), lookupResponse.mAttributionLogo
+                                        .getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas c = new Canvas(bitmap);
+                        lookupResponse.mAttributionLogo
+                                .setBounds(0, 0, c.getWidth(), c.getHeight());
+                        lookupResponse.mAttributionLogo.draw(c);
+                        sAttributionLogoCache.put(lookupResponse.mProviderName, bitmap);
+                    }
+
+                    remoteViews.setImageViewBitmap(R.id.attribution_logo, bitmap);
+                    remoteViews.setViewVisibility(R.id.attribution_logo, View.VISIBLE);
+                } else {
+                    remoteViews.setViewVisibility(R.id.attribution_logo, View.GONE);
+                }
 
                 // Error
                 // Only show the fail icon if it is not a group conversation.

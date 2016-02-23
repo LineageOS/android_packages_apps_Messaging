@@ -15,6 +15,8 @@
 */
 package com.cyanogenmod.messaging.lookup;
 
+import com.cyanogen.lookup.phonenumber.response.LookupResponse;
+
 /**
  * <pre>
  *      Client interface for talking to lookup provider
@@ -38,6 +40,15 @@ public interface ILookupClient {
      * @param requery {@link Boolean}
      */
     void lookupInfoForPhoneNumber(String phoneNumber, boolean requery);
+
+    /**
+     * Will call for lookup and allow requery of possibly stale data
+     *
+     * @param phoneNumber {@link String} not null or empty
+     *
+     * @return {@link com.cyanogen.lookup.phonenumber.response.LookupResponse}
+     */
+    LookupResponse blockingLookupInfoForPhoneNumber(String phoneNumber);
 
     /**
      * Will mark number as spam
