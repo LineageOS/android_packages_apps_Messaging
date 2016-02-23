@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.android.messaging.util.LogUtil;
+import com.cyanogenmod.messaging.lookup.LookupProviderManager;
 
 public abstract class BaseWidgetProvider extends AppWidgetProvider {
     protected static final String TAG = LogUtil.BUGLE_WIDGET_TAG;
