@@ -28,6 +28,7 @@ import android.support.annotation.Nullable;
 import android.support.rastermill.FrameSequenceDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.binding.Binding;
@@ -44,7 +45,6 @@ import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
-import com.cyanogenmod.messaging.ui.WebImageView;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.HashSet;
@@ -52,8 +52,7 @@ import java.util.HashSet;
 /**
  * An ImageView used to asynchronously request an image from MediaResourceManager and render it.
  */
-public class AsyncImageView extends WebImageView implements
-        MediaResourceLoadListener<ImageResource> {
+public class AsyncImageView extends ImageView implements MediaResourceLoadListener<ImageResource> {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     // 100ms delay before disposing the image in case the AsyncImageView is re-added to the UI
     private static final int DISPOSE_IMAGE_DELAY = 100;
