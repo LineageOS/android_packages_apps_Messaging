@@ -74,10 +74,24 @@ public class BlacklistObserver extends ContentObserver {
 
                     DatabaseWrapper db = DataModel.get().getDatabase();
 
-                    while(cursor.moveToNext()) {
-                        String number = cursor.getString(normalizedNumberIndex);
-                        String blocked = cursor.getString(blockedIndex);
-                        boolean isBlocked = blocked.compareTo("1") == 0;
+                    // if a blocked number was not simply updated in the framework db, but was
+                    // deleted, then we can't extract it from the framework db, but can extract
+                    // it from the uri
+                    boolean blockedNumberDeleted = cursor.getCount() == 0;
+
+                    while(cursor.moveToNext() || blockedNumberDeleted) {
+                        String number;
+                        String blocked;
+                        boolean isBlocked;
+
+                        if (blockedNumberDeleted) {
+                            number = uri.getLastPathSegment();
+                            isBlocked = false;
+                        } else {
+                            number = cursor.getString(normalizedNumberIndex);
+                            blocked = cursor.getString(blockedIndex);
+                            isBlocked = blocked.compareTo("1") == 0;
+                        }
 
                         // don't update the framework db - the 'false' argument
                         int updateCount = BugleDatabaseOperations.updateDestination(db, number,
@@ -105,6 +119,10 @@ public class BlacklistObserver extends ContentObserver {
                                         .unarchiveConversation(conversationId);
                             }
                             MessagingContentProvider.notifyParticipantsChanged(conversationId);
+                        }
+
+                        if (blockedNumberDeleted) {
+                            break;
                         }
                     }
                 } catch (Exception e) {
