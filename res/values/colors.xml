@@ -62,13 +62,13 @@
     <color name="message_text_color_outgoing">#ff323232</color>
     <color name="conversation_background">#eeeeee</color>
     <color name="conversation_edge_effect">#9d9d9d</color>
-    <color name="compose_message_send_color">@color/primary_color</color>
+    <color name="compose_message_send_color">@color/lineage_accent</color>
     <color name="compose_message_send_color_pressed">#999999</color>
     <color name="message_bubble_color_outgoing">#ffffffff</color>
     <color name="message_error_bubble_color_incoming">#e2e2e2</color>
     <color name="message_audio_button_color_incoming">#ffffffff</color>
-    <color name="message_bubble_color_selected">#8BC34A</color>
-    <color name="message_image_selected_tint">#80689F38</color>
+    <color name="message_bubble_color_selected">@color/lineage_accent</color>
+    <color name="message_image_selected_tint">#80FF9800</color>
     <color name="generic_video_icon">#ff808080</color>
 
     <!-- Base color used for color filtering. -->
@@ -87,7 +87,7 @@
     <color name="compose_contact_divider">#44000000</color>
     <color name="contact_picker_tab_pressed">#ddffffff</color>
     <color name="contact_picker_tab_underline">@android:color/white</color>
-    <color name="contact_list_alphabet_header">@color/primary_color</color>
+    <color name="contact_list_alphabet_header">@color/lineage_accent</color>
     <color name="contact_picker_background">#ffffff</color>
     <color name="chips_dropdown_background_activated">#4285f4</color>
     <color name="chips_dropdown_background_pressed">#ededed</color>
@@ -109,7 +109,7 @@
     <color name="audio_picker_hint_text_color">#40000000</color>
     <color name="audio_picker_timer_text_color">#323232</color>
     <color name="audio_attachment_timer_text_color">#323232</color>
-    <color name="audio_progress_bar_color">@color/primary_color</color>
+    <color name="audio_progress_bar_color">@color/lineage_accent</color>
 
     <color name="notification_sender_text">#9A9A9A</color>
     <color name="notification_secondary_text">#FFFFFF</color>
@@ -124,15 +124,15 @@
     <color name="people_and_options_header_text">#6d6d6d</color>
     <color name="people_and_options_list_divider">#cccccc</color>
 
-    <color name="fab_color">@color/primary_color</color>
+    <color name="fab_color">@color/lineage_accent</color>
     <color name="fab_pressed_color">#3ea4dc</color>
     <color name="fab_ripple">#40ffffff</color>
 
     <color name="message_text_counter_color">#555555</color>
-    <color name="mms_indicator_color">#8BC34A</color>
+    <color name="mms_indicator_color">#681faf</color>
     <color name="list_empty_text">#6d6d6d</color>
     <color name="low_storage_action_item_color">#ff000000</color>
-    <color name="unblock_item_text_color">@color/primary_color</color>
+    <color name="unblock_item_text_color">@color/lineage_accent</color>
     <color name="open_conversation_animation_background_shadow">#40000000</color>
     <color name="compose_notification_bar_background">@color/primary_color</color>
 
