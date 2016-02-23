@@ -1238,7 +1238,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                         mContactIconView.setAttributionDrawable(response.mAttributionLogo);
                     }
                     if (!TextUtils.isEmpty(response.mPhotoUrl)) {
-                        mContactIconView.setImageUrl(response.mPhotoUrl);
+                        mContactIconView.setImageResourceUri(Uri.parse(response.mPhotoUrl));
                     }
                     mContactIconView.setLookupResponse(response);
                 }
