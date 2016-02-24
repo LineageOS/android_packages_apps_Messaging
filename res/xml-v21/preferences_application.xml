@@ -76,8 +76,8 @@
         android:entryValues="@array/pref_unicode_stripping_values" />
 
     <SwitchPreference
-        android:key="@string/swipe_deletes_conversation_key"
-        android:title="@string/swipe_deletes_conversation_text"
+        android:key="@string/swipe_right_deletes_conversation_key"
+        android:title="@string/swipe_right_deletes_conversation_text"
         android:defaultValue="false"
         android:persistent="true" />
 

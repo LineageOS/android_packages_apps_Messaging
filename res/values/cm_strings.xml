@@ -22,7 +22,7 @@
     <string name="pref_unicode_stripping_leave_intact">Leave characters intact</string>
     <string name="pref_unicode_stripping_non_encodable">Strip non-encodable characters</string>
     <string name="pref_unicode_stripping_all">Strip all unicode characters</string>
-    <string name="swipe_deletes_conversation_text">Swipe deletes conversation</string>
+    <string name="swipe_right_deletes_conversation_text">Swipe right deletes conversation</string>
 
     <!-- QUICKMESSAGE SUPPORT -->
     <!-- Preferences -->
