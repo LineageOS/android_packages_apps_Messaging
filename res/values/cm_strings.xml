@@ -15,5 +15,5 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_deletes_conversation_text">Swipe deletes conversation</string>
+    <string name="swipe_right_deletes_conversation_text">Swipe right deletes conversation</string>
 </resources>

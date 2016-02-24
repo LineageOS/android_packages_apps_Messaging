@@ -31,12 +31,12 @@ public class PrefsUtils {
      * the conversation rather than archiving it.
      * @return hopefully true
      */
-    public static boolean isSwipeToDeleteEnabled() {
+    public static boolean isSwipeRightToDeleteEnabled() {
         final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
         final Context context = Factory.get().getApplicationContext();
-        final String prefKey = context.getString(R.string.swipe_deletes_conversation_key);
+        final String prefKey = context.getString(R.string.swipe_right_deletes_conversation_key);
         final boolean defaultValue = context.getResources().getBoolean(
-                R.bool.swipe_deletes_conversation_default);
+                R.bool.swipe_right_deletes_conversation_default);
         return prefs.getBoolean(prefKey, defaultValue);
     }
 }
