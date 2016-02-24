@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_c661b33b",
+        "filename": "res/values/colors.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 12453
+      },
+      "writtenOn": "2016-02-24T03:47:39Z",
+      "side": 1,
+      "message": "I think this color change is unnecessary. Additionally, themers will now have to purposely modify this value if they change the cm_accent because it would be mismatched. The original value was agnostic to underlying accent color.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 44
+      },
+      "revId": "7fc1a3ad0071d4dc3885f2d186c37dc20c22a8ff",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
