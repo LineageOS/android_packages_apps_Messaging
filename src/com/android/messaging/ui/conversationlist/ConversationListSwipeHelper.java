@@ -44,9 +44,9 @@ public class ConversationListSwipeHelper implements OnItemTouchListener {
     private static final float PERCENTAGE_OF_WIDTH_TO_DISMISS = 0.4f;
     private static final float FLING_PERCENTAGE_OF_WIDTH_TO_DISMISS = 0.05f;
 
-    private static final int SWIPE_DIRECTION_NONE = 0;
-    private static final int SWIPE_DIRECTION_LEFT = 1;
-    private static final int SWIPE_DIRECTION_RIGHT = 2;
+    public static final int SWIPE_DIRECTION_NONE = 0;
+    public static final int SWIPE_DIRECTION_LEFT = 1;
+    public static final int SWIPE_DIRECTION_RIGHT = 2;
 
     private final RecyclerView mRecyclerView;
     private final long mDefaultRestoreAnimationDuration;
@@ -269,7 +269,7 @@ public class ConversationListSwipeHelper implements OnItemTouchListener {
     private void onSwipeGestureEnd(final ConversationListItemView itemView,
             final int swipeDirection) {
         if (swipeDirection == SWIPE_DIRECTION_RIGHT || swipeDirection == SWIPE_DIRECTION_LEFT) {
-            itemView.onSwipeComplete();
+            itemView.onSwipeComplete(swipeDirection);
         }
 
         // Balances out onSwipeGestureStart.
