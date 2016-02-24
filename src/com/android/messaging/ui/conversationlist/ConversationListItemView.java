@@ -76,6 +76,8 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
     private static String sPlusOneString;
     private static String sPlusNString;
 
+    private static final int SWIPE_DIRECTION_RIGHT = 2;
+
     public interface HostInterface {
         boolean isConversationSelected(final String conversationId);
         void onConversationClicked(final ConversationListItemData conversationListItemData,
@@ -504,11 +506,11 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         final int notificationBellVisiblity = mData.getNotificationEnabled() ? GONE : VISIBLE;
         mNotificationBellView.setVisibility(notificationBellVisiblity);
 
-        if (PrefsUtils.isSwipeToDeleteEnabled()) {
+        if (PrefsUtils.isSwipeRightToDeleteEnabled()) {
             mCrossSwipeArchiveLeftImageView.setImageDrawable(getResources()
                     .getDrawable(R.drawable.ic_delete_small_dark));
             mCrossSwipeArchiveRightImageView.setImageDrawable(getResources()
-                    .getDrawable(R.drawable.ic_delete_small_dark));
+                    .getDrawable(R.drawable.ic_archive_small_dark));
         } else {
             mCrossSwipeArchiveLeftImageView.setImageDrawable(getResources()
                     .getDrawable(R.drawable.ic_archive_small_dark));
@@ -548,9 +550,10 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         }
     }
 
-    public void onSwipeComplete() {
+    public void onSwipeComplete(int swipeDirection) {
         final String conversationId = mData.getConversationId();
-        if (PrefsUtils.isSwipeToDeleteEnabled()) {
+        if (PrefsUtils.isSwipeRightToDeleteEnabled()
+                && swipeDirection == ConversationListSwipeHelper.SWIPE_DIRECTION_RIGHT) {
             mData.deleteConversation();
             UiUtils.showToastAtBottom(R.string.conversation_deleted);
             return;
