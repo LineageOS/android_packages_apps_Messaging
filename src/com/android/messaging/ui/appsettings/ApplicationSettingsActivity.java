@@ -98,8 +98,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         private String mSmsEnabledPrefKey;
         private Preference mSmsEnabledPreference;
         private boolean mIsSmsPreferenceClicked;
-        private String mSwipeToDeleteConversationkey;
-        private SwitchPreference mSwipeToDeleteConversationPreference;
+        private String mSwipeRightToDeleteConversationkey;
+        private SwitchPreference mSwipeRightToDeleteConversationPreference;
 
         public ApplicationSettingsFragment() {
             // Required empty constructor
@@ -124,9 +124,10 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSmsDisabledPreference = findPreference(mSmsDisabledPrefKey);
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
-            mSwipeToDeleteConversationkey = getString(R.string.swipe_deletes_conversation_key);
-            mSwipeToDeleteConversationPreference =
-                    (SwitchPreference) findPreference(mSwipeToDeleteConversationkey);
+            mSwipeRightToDeleteConversationkey = getString(
+                    R.string.swipe_right_deletes_conversation_key);
+            mSwipeRightToDeleteConversationPreference =
+                    (SwitchPreference) findPreference(mSwipeRightToDeleteConversationkey);
             mIsSmsPreferenceClicked = false;
 
             final SharedPreferences prefs = getPreferenceScreen().getSharedPreferences();
