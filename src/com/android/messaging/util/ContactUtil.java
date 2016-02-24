@@ -199,7 +199,7 @@ public class ContactUtil {
             builder.setName(ContactBuilder.Name.createDisplayName(lookupResponse.mName));
             builder.addPhoneNumber(ContactBuilder.PhoneNumber.createMainNumber(lookupResponse
                     .mNumber));
-            builder.setPhotoUri(lookupResponse.mPhotoUrl);
+            builder.setPhotoUrl(lookupResponse.mPhotoUrl);
             builder.setSpamCount(lookupResponse.mSpamCount);
             builder.setInfoProviderName(lookupResponse.mProviderName);
             builder.addAddress(Address.createFormattedHome(lookupResponse.mAddress));
