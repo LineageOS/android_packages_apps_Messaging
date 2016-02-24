@@ -18,8 +18,8 @@
 
     <!-- Preference keys for user-visible settings -->
     <!-- Application-wide settings -->
-    <string name="swipe_deletes_conversation_key" translatable="false">swipe_deletes_conversation</string>
+    <string name="swipe_right_deletes_conversation_key" translatable="false">swipe_right_deletes_conversation</string>
 
     <!-- This should really go into a config xml, but whoever wrote this app is an idiot, so follow their pattern -->
-    <bool name="swipe_deletes_conversation_default" translatable="false">false</bool>
+    <bool name="swipe_right_deletes_conversation_default" translatable="false">false</bool>
 </resources>

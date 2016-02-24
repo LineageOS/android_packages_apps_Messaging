@@ -67,8 +67,8 @@
         android:dependency="@string/notifications_enabled_pref_key" />
 
     <SwitchPreference
-        android:key="@string/swipe_deletes_conversation_key"
-        android:title="@string/swipe_deletes_conversation_text"
+        android:key="@string/swipe_right_deletes_conversation_key"
+        android:title="@string/swipe_right_deletes_conversation_text"
         android:defaultValue="false"
         android:persistent="true" />
 
