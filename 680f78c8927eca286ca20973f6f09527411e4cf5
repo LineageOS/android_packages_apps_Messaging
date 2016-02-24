@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_43737581",
+        "filename": "src/com/cyanogenmod/messaging/ui/QMessageBubbleBackground.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 11035
+      },
+      "writtenOn": "2016-02-24T01:05:35Z",
+      "side": 1,
+      "message": "can\u0027t we just add a custom attribute for snap width rather than copying the class to change this dimen ? Would otherwise have to maintain two classes that are doing the same thing.",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 31,
+        "endChar": 59
+      },
+      "revId": "680f78c8927eca286ca20973f6f09527411e4cf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
