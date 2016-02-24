@@ -46,6 +46,30 @@
       "revId": "680f78c8927eca286ca20973f6f09527411e4cf5",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_c63693b5",
+        "filename": "src/com/cyanogenmod/messaging/ui/QMessageBubbleBackground.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1448
+      },
+      "writtenOn": "2016-02-24T02:04:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffb9cba7_236a0180",
+      "range": {
+        "startLine": 30,
+        "startChar": 27,
+        "endLine": 31,
+        "endChar": 59
+      },
+      "revId": "680f78c8927eca286ca20973f6f09527411e4cf5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
