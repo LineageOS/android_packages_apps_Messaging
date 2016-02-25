@@ -775,6 +775,21 @@ public class ConversationData extends BindableData {
         return null;
     }
 
+    /**
+     *
+     * @return {@link com.android.messaging.datamodel.data.SubscriptionListData
+     * for the specified subId
+     */
+    public SubscriptionListEntry getSubscriptionEntry(int subId) {
+        List<SubscriptionListEntry> entries = mSubscriptionListData
+                .getActiveSubscriptionEntriesExcludingDefault();
+        if (entries.size() > subId) {
+            return entries.get(subId);
+        } else {
+            return entries.get(0);
+        }
+    }
+
     public SubscriptionListData getSubscriptionListData() {
         return mSubscriptionListData;
     }
