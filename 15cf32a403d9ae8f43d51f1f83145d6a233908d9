@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ffb9cba7_57880fc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "Yeah, good idea",
+      "parentUuid": "ffb9cba7_7724330e",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 8,
+        "endChar": 45
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffb9cba7_576c8f35",
         "filename": "res/layout/widget_conversation_list_item.xml",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2016-02-25T07:41:30Z",
       "side": 1,
       "message": "wouldn\u0027t a FrameLayout suffice , also avoids the multi-layout-passes",
+      "range": {
+        "startLine": 31,
+        "startChar": 9,
+        "endLine": 31,
+        "endChar": 23
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_979e8705",
+        "filename": "res/layout/widget_conversation_list_item.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "It was drawing a black square over the top.  It might be fixed I\u0027ll test.",
+      "parentUuid": "ffb9cba7_576c8f35",
       "range": {
         "startLine": 31,
         "startChar": 9,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ffb9cba7_f799031f",
+        "filename": "res/layout/widget_conversation_list_item.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "I was having issues, but I fixed them.  This can be removed.",
+      "parentUuid": "ffb9cba7_978207c8",
+      "range": {
+        "startLine": 45,
+        "startChar": 36,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffb9cba7_77699323",
         "filename": "res/layout/widget_message_item_incoming.xml",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-02-25T07:41:30Z",
       "side": 1,
       "message": "any particular reason we set this to null given that this view isn\u0027t even \"accessible\"",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 50
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_d794ffea",
+        "filename": "res/layout/widget_message_item_incoming.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "It was null before.  I just moved the code.",
+      "parentUuid": "ffb9cba7_77699323",
       "range": {
         "startLine": 53,
         "startChar": 16,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "ffb9cba7_b7a38b4f",
+        "filename": "src/com/android/messaging/widget/WidgetConversationListService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "I could and just return a null lookupResponse, but would that make for a good interface then?  I think it should be up to the caller to decide not the LookupProviderManager in case we need to do logical checks in the future for something else.",
+      "parentUuid": "ffb9cba7_77d753c1",
+      "range": {
+        "startLine": 180,
+        "startChar": 27,
+        "endLine": 180,
+        "endChar": 75
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffb9cba7_17e4d7ab",
         "filename": "src/com/android/messaging/widget/WidgetConversationService.java",
         "patchSetId": 3
@@ -128,6 +248,30 @@
       "writtenOn": "2016-02-25T07:41:30Z",
       "side": 1,
       "message": "why not cache the bitmap rather than creating a new one for every view",
+      "range": {
+        "startLine": 271,
+        "startChar": 18,
+        "endLine": 277,
+        "endChar": 82
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_778513ad",
+        "filename": "src/com/android/messaging/widget/WidgetConversationService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "What is the best way in the Messaging app to cache an arbitrary image?",
+      "parentUuid": "ffb9cba7_17e4d7ab",
       "range": {
         "startLine": 271,
         "startChar": 18,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "ffb9cba7_179297f7",
+        "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "Negative, I need this to be working for Services as well now, not just Activities.  I should probably remove the Activity lifecycle listener code.  Maybe we should have it start on method access and timeout the connection after N (e.g. reset a delayed message on a handler)",
+      "parentUuid": "ffb9cba7_d7ef1f85",
+      "range": {
+        "startLine": 73,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 63
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffb9cba7_97e9a781",
         "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
         "patchSetId": 3
@@ -174,6 +342,30 @@
       "writtenOn": "2016-02-25T07:41:30Z",
       "side": 1,
       "message": "same as above",
+      "range": {
+        "startLine": 75,
+        "startChar": 7,
+        "endLine": 75,
+        "endChar": 50
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_378f9bcd",
+        "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T08:50:45Z",
+      "side": 1,
+      "message": "Same as above",
+      "parentUuid": "ffb9cba7_97e9a781",
       "range": {
         "startLine": 75,
         "startChar": 7,
