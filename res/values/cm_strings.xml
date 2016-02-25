@@ -56,4 +56,6 @@
     <!-- Show emoticons -->
     <string name="show_emoticons_pref_title">Emoticons access</string>
     <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
+
+    <string name="select_phone_account_title">Send with</string>
 </resources>
