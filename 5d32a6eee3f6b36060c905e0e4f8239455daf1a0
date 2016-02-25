@@ -16,6 +16,24 @@
       "revId": "5d32a6eee3f6b36060c905e0e4f8239455daf1a0",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_b7bceb69",
+        "filename": "src/com/android/messaging/ui/conversationlist/ConversationListItemView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 13213
+      },
+      "writtenOn": "2016-02-25T09:05:23Z",
+      "side": 0,
+      "message": "There is already a toast show the conversation delete. If we keep this toast it will be two toast display at the same time.",
+      "parentUuid": "ffb9cba7_bc87f2d7",
+      "revId": "5d32a6eee3f6b36060c905e0e4f8239455daf1a0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
