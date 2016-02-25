@@ -33,4 +33,10 @@ public class SmsStorageLowWarningActivity extends BaseBugleFragmentActivity {
         ft.add(fragment, null/*tag*/);
         ft.commit();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setVisible(true);
+    }
 }
