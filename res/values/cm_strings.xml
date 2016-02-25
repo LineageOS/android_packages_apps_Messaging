@@ -51,4 +51,6 @@
     <string name="send">Send</string>
 
     <string name="compose_message_hint_text">Enter message</string>
+
+    <string name="select_phone_account_title">Send with</string>
 </resources>
