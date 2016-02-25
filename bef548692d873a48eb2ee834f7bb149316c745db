@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_fc7d6ae7",
+        "filename": "src/com/android/messaging/ui/appsettings/ApplicationSettingsActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T01:38:26Z",
+      "side": 1,
+      "message": "Line over length",
+      "revId": "bef548692d873a48eb2ee834f7bb149316c745db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_7c697a23",
+        "filename": "src/com/android/messaging/ui/conversationlist/ConversationListItemView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T01:38:26Z",
+      "side": 1,
+      "message": "It might make more sense to make the constant on ConversationListSwipeHelper to public and reference that.",
+      "revId": "bef548692d873a48eb2ee834f7bb149316c745db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}

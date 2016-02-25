@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_bc87f2d7",
+        "filename": "src/com/android/messaging/ui/conversationlist/ConversationListItemView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-25T01:38:26Z",
+      "side": 0,
+      "message": "Are we sure we don\u0027t want a toast confirming the action?",
+      "revId": "5d32a6eee3f6b36060c905e0e4f8239455daf1a0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
