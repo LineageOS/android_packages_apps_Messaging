@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "ffb9cba7_f2bcb1bc",
+        "filename": "src/com/android/messaging/widget/WidgetConversationListService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 11035
+      },
+      "writtenOn": "2016-02-26T01:51:43Z",
+      "side": 1,
+      "message": "LookupProviderManager is Messaging\u0027s own delegate , and you know that Messaging, your client, isn\u0027t interested in failed or unsuccessful LookupRequests. So it would make sense to curtail failed requests at the LookupProviderManager lvl and only post callbacks to your clients  (components within Messaging) if and only if the request has been successful.\n\nIf and when you do have a client for LPM that is interested in failed lookups, you can amend the impl to propagate failed lookups. Seems a bit premature to do this before anyone needs it. And the code is getting bloated cause you have to add this compound boolean expresssion everywhere.",
+      "parentUuid": "ffb9cba7_b7a38b4f",
+      "range": {
+        "startLine": 180,
+        "startChar": 27,
+        "endLine": 180,
+        "endChar": 75
+      },
+      "revId": "15cf32a403d9ae8f43d51f1f83145d6a233908d9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffb9cba7_17e4d7ab",
         "filename": "src/com/android/messaging/widget/WidgetConversationService.java",
         "patchSetId": 3
