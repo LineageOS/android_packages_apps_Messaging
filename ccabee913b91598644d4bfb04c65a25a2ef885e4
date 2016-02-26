@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_327d69b1",
+        "filename": "src/com/cyanogenmod/messaging/lookup/LookupProviderManager.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-02-26T05:02:40Z",
+      "side": 1,
+      "message": "is this meant to be commented out?",
+      "revId": "ccabee913b91598644d4bfb04c65a25a2ef885e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
