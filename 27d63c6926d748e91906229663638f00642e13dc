@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_944c42c8",
+        "filename": "src/com/android/messaging/datamodel/data/ConversationData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-27T00:12:17Z",
+      "side": 1,
+      "message": "missing close brace",
+      "range": {
+        "startLine": 780,
+        "startChar": 78,
+        "endLine": 780,
+        "endChar": 79
+      },
+      "revId": "27d63c6926d748e91906229663638f00642e13dc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_54cc8a34",
+        "filename": "src/com/android/messaging/datamodel/data/ConversationData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 789,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-02-27T00:12:17Z",
+      "side": 1,
+      "message": "Are we always guaranteed an entry in mEntriesExcludingDefault?",
+      "range": {
+        "startLine": 789,
+        "startChar": 19,
+        "endLine": 789,
+        "endChar": 33
+      },
+      "revId": "27d63c6926d748e91906229663638f00642e13dc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
