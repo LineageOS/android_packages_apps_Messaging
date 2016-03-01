@@ -76,7 +76,8 @@
 
     <SwitchPreference
         android:key="@string/swipe_right_deletes_conversation_key"
-        android:title="@string/swipe_right_deletes_conversation_text"
+        android:title="@string/swipe_to_delete_conversation_pref_title"
+        android:summary="@string/swipe_to_delete_conversation_pref_summary"
         android:defaultValue="false"
         android:persistent="true" />
 
