@@ -15,7 +15,9 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_right_deletes_conversation_text">Swipe right deletes conversation</string>
+    <!-- Swipe to delete conversation -->
+    <string name="swipe_to_delete_conversation_pref_title">Swipe to delete</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Swipe to the right to delete a conversation</string>
 
     <!-- Show emoticons -->
     <string name="show_emoticons_pref_title">Emoticons access</string>
