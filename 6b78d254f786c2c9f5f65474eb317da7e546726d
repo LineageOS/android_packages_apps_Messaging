@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb9cba7_7b741636",
+        "filename": "src/com/android/messaging/ui/conversation/ComposeMessageView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-03-02T01:10:45Z",
+      "side": 1,
+      "message": "This could be a constant, but probably unnecessary to make it so.",
+      "range": {
+        "startLine": 239,
+        "startChar": 59,
+        "endLine": 239,
+        "endChar": 97
+      },
+      "revId": "6b78d254f786c2c9f5f65474eb317da7e546726d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffb9cba7_1b8f1a24",
+        "filename": "src/com/android/messaging/ui/conversation/ComposeMessageView.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-03-02T01:10:45Z",
+      "side": 1,
+      "message": "This could be simplified into a single return line probably",
+      "revId": "6b78d254f786c2c9f5f65474eb317da7e546726d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
