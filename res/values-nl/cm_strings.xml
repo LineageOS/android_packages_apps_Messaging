@@ -17,23 +17,32 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Rapporteren als ongewenst aan %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Unicode-tekens verwijderen</string>
   <string name="pref_unicode_stripping_leave_intact">Tekens intact laten</string>
   <string name="pref_unicode_stripping_non_encodable">Niet-encodeerbare tekens verwijderen</string>
   <string name="pref_unicode_stripping_all">Alle Unicode-tekens verwijderen</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Snelbericht en -beantwoorden</string>
   <string name="pref_quickmessage_title">Snelbericht weergeven</string>
   <string name="pref_quickmessage_summary">Automatisch een Snelbericht-venster weergeven bij inkomende sms-berichten</string>
   <string name="pref_close_all_title">Alles sluiten</string>
   <string name="pref_close_all_summary">Sluiten-knop sluit alle berichten</string>
   <string name="message_counter">%1$d van %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Sluiten</string>
   <string name="button_view">Tonen</string>
   <string name="button_templates">Sjablonen</string>
   <string name="qm_button_full_conversation">Volledig gesprek</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Typ om te beantwoorden</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Bericht verzenden\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Snelbeantwoorden</string>
   <string name="send">Verzenden</string>
   <string name="compose_message_hint_text">Bericht invoeren</string>
+  <!-- Show emoticons -->
 </resources>
