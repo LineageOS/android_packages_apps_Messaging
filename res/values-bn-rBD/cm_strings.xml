@@ -16,7 +16,16 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <!-- Strip unicode -->
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
+  <!-- QM Dialog box buttons -->
   <string name="button_close">বন্ধ করুন</string>
   <string name="button_view">দেখুন</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">উত্তর দিতে লিখুন</string>
+  <!-- QM Toast -->
+  <!-- QM - Quick reply -->
+  <!-- Show emoticons -->
 </resources>

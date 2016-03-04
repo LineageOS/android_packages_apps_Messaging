@@ -17,24 +17,32 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Reportar como spam para %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Retirar unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Manter caracteres intactos</string>
   <string name="pref_unicode_stripping_non_encodable">Retirar caracteres não codificáveis</string>
   <string name="pref_unicode_stripping_all">Retirar todos os caracteres unicode</string>
-  <string name="swipe_deletes_conversation_text">Deslizar apaga a conversa</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Mensagem Rápida e Resposta</string>
   <string name="pref_quickmessage_title">Mostrar Mensagem Rápida</string>
   <string name="pref_quickmessage_summary">Abrir automaticamente o pop-up de Mensagem Rápida para SMS recebidas</string>
   <string name="pref_close_all_title">Fechar tudo</string>
   <string name="pref_close_all_summary">O botão \'fechar\' fecha todas as mensagens</string>
   <string name="message_counter">%1$d de %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Fechar</string>
   <string name="button_view">Ver</string>
   <string name="button_templates">Modelos</string>
   <string name="qm_button_full_conversation">Conversa completa</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Digite para responder</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Enviando mensagem\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Resposta rápida</string>
   <string name="send">Enviar</string>
   <string name="compose_message_hint_text">Digite a mensagem</string>
+  <!-- Show emoticons -->
 </resources>

@@ -17,24 +17,37 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Zgłoś spam do %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Opuszczanie Unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Pozostaw znaki bez zmian</string>
   <string name="pref_unicode_stripping_non_encodable">Opuszczaj znaki niekodowane</string>
   <string name="pref_unicode_stripping_all">Opuszczaj wszystkie znaki</string>
-  <string name="swipe_deletes_conversation_text">Przesunięcie usuwa konwersację</string>
+  <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Przesuń, aby usunąć</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Przesuń w prawo, aby usunąć konwersację</string>
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Szybka wiadomość i Odpowiedź</string>
   <string name="pref_quickmessage_title">Włącz szybkie wiadomości</string>
   <string name="pref_quickmessage_summary">Automatycznie otwórz wyskakujące okno Szybkiej odpowiedzi dla przychodzącej wiadomości SMS</string>
   <string name="pref_close_all_title">Zamknij wszystkie</string>
   <string name="pref_close_all_summary">Przycisk „Zamknij” zamyka wszystkie wiadomości</string>
   <string name="message_counter">%1$d z %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Zamknij</string>
   <string name="button_view">Zobacz</string>
   <string name="button_templates">Szablony</string>
   <string name="qm_button_full_conversation">Pełna konwersacja</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Wpisz wiadomość</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Wysyłanie wiadomości\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Szybka odpowiedź</string>
   <string name="send">Wyślij</string>
   <string name="compose_message_hint_text">Wpisz wiadomość</string>
+  <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Dostęp do emotikon</string>
+  <string name="show_emoticons_pref_summary">Pokaż klawisz emotikon na klawiaturze</string>
+  <string name="select_phone_account_title">Wyślij z</string>
 </resources>

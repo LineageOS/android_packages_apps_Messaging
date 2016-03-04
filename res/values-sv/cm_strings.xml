@@ -17,24 +17,33 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Rapportera som spam till %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Konvertera unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Lämna tecken intakta</string>
   <string name="pref_unicode_stripping_non_encodable">Konvertera ej kodbara tecken</string>
   <string name="pref_unicode_stripping_all">Konvertera alla unicodetecken</string>
-  <string name="swipe_deletes_conversation_text">Svep tar bort konversation</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Snabbmeddelande och svar</string>
   <string name="pref_quickmessage_title">Visa snabbmeddelande</string>
   <string name="pref_quickmessage_summary">Öppna snabbmeddelande i ett pop-up-fönster automatiskt för inkommande SMS-meddelanden</string>
   <string name="pref_close_all_title">Stäng alla</string>
   <string name="pref_close_all_summary">Stängknappen stänger alla meddelanden</string>
   <string name="message_counter">%1$d av %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Stäng</string>
   <string name="button_view">Visa</string>
   <string name="button_templates">Mallar</string>
   <string name="qm_button_full_conversation">Hel konversation</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Skriv för att svara</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Skickar meddelande\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Snabbsvar</string>
   <string name="send">Skicka</string>
   <string name="compose_message_hint_text">Skriv meddelande</string>
+  <!-- Show emoticons -->
+  <string name="select_phone_account_title">Skicka med</string>
 </resources>

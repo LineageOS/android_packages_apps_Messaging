@@ -17,24 +17,37 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Докладвай за спам на %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Замени уникод</string>
   <string name="pref_unicode_stripping_leave_intact">Не заменяй символите</string>
   <string name="pref_unicode_stripping_non_encodable">Замени не кодираните символи</string>
   <string name="pref_unicode_stripping_all">Замени всички уникод символи</string>
-  <string name="swipe_deletes_conversation_text">Плъзгането изтрива разговора</string>
+  <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Плъзнете за изтриване</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Плъзнете надясно за изтриване на разговор</string>
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Изскачащи съобщения</string>
-  <string name="pref_quickmessage_title">Изскачащо съобщение</string>
-  <string name="pref_quickmessage_summary">Автоматично отвори на изскачащо съобщение за входящи SMS съобщения</string>
+  <string name="pref_quickmessage_title">Бързи съобщения</string>
+  <string name="pref_quickmessage_summary">Автоматично отваряне на прозорец за бърз отговор за нови съобщения</string>
   <string name="pref_close_all_title">Затвори всички</string>
   <string name="pref_close_all_summary">Бутона \"Затвори\" затваря всички съобщения</string>
   <string name="message_counter">%1$d от %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Затвори</string>
   <string name="button_view">Преглед</string>
   <string name="button_templates">Шаблони</string>
   <string name="qm_button_full_conversation">Пълен диалог</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Напишете отговор</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Изпращане на съобщението\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Бърз отговор</string>
   <string name="send">Изпрати</string>
   <string name="compose_message_hint_text">Напишете съобщение</string>
+  <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Достъп до емотикони</string>
+  <string name="show_emoticons_pref_summary">Показва клавиш с емотикони на клавиатурата</string>
+  <string name="select_phone_account_title">Изпрати с</string>
 </resources>

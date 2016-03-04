@@ -16,17 +16,26 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <!-- Strip unicode -->
   <string name="pref_unicode_stripping_leave_intact">Konservi ĉenon</string>
   <string name="pref_unicode_stripping_all">Forigi ĉiujn unikodajn signojn</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Rapida respondo</string>
   <string name="pref_quickmessage_title">Montri QuickMessage</string>
   <string name="pref_quickmessage_summary">Aŭtomate malfermi QuickMessage ŝprucfenestron por  envenaj mesaĝoj</string>
   <string name="pref_close_all_title">Fermi ĉion</string>
   <string name="pref_close_all_summary">La butono \"fermi\" fermas ĉiujn mesaĝojn</string>
   <string name="message_counter">%1$d de %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Fermi</string>
   <string name="button_view">Montri</string>
   <string name="button_templates">Ŝablonoj</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Tajpu respondon</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Sendado de la mesaĝo\u2026</string>
+  <!-- QM - Quick reply -->
+  <!-- Show emoticons -->
 </resources>
