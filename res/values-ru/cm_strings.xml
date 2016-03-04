@@ -17,24 +17,34 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Сообщить о спаме в %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Заменять юникод</string>
   <string name="pref_unicode_stripping_leave_intact">Не заменять символы юникода</string>
   <string name="pref_unicode_stripping_non_encodable">Заменять некодируемые символы</string>
   <string name="pref_unicode_stripping_all">Заменять все символы юникода</string>
-  <string name="swipe_deletes_conversation_text">Жест «вычёркивания» удаляет диалог</string>
+  <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_summary">Проведите вправо, чтобы удалить диалог</string>
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Всплывающие уведомления</string>
   <string name="pref_quickmessage_title">Быстрый ответ</string>
   <string name="pref_quickmessage_summary">Автоматически открывать окно быстрого ответа для новых сообщений</string>
   <string name="pref_close_all_title">Закрывать всё</string>
   <string name="pref_close_all_summary">Кнопка «Закрыть» закрывает все сообщения</string>
   <string name="message_counter">%1$d из %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Закрыть</string>
   <string name="button_view">Посмотреть</string>
   <string name="button_templates">Шаблоны</string>
   <string name="qm_button_full_conversation">Перейти к диалогу</string>
-  <string name="type_to_reply_text_enter_to_send">Введите текст для ответа</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">Введите текст ответа</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Отправка сообщения\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Быстрый ответ</string>
   <string name="send">Отправить</string>
   <string name="compose_message_hint_text">Введите сообщение</string>
+  <!-- Show emoticons -->
+  <string name="select_phone_account_title">Отправить через</string>
 </resources>

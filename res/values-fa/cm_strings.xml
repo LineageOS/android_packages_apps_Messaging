@@ -16,18 +16,27 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <!-- Strip unicode -->
   <string name="pref_unicode_stripping_leave_intact">دست نزدن به نویسه‌ها</string>
   <string name="pref_unicode_stripping_non_encodable">برداشتن نویسه‌های غیرقابل‌کدگذاری</string>
   <string name="pref_unicode_stripping_all">برداشتن تمام نویسه‌های یونی‌کد</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">پیام سریع و پاسخ</string>
   <string name="pref_quickmessage_title">نمایش پیام سریع</string>
   <string name="pref_quickmessage_summary">بازکردن خودکار بالاپر پیام سریع برای پیامک‌ها</string>
   <string name="pref_close_all_title">بستن همه</string>
   <string name="pref_close_all_summary">دکمه بستن تمام پیام‌ها را خواهد بست</string>
   <string name="message_counter">%1$d از %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">بستن</string>
   <string name="button_view">مشاهده</string>
   <string name="button_templates">قالب‌ها</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">برای پاسخ تایپ کنید</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">ارسال پیام\u2026</string>
+  <!-- QM - Quick reply -->
+  <!-- Show emoticons -->
 </resources>

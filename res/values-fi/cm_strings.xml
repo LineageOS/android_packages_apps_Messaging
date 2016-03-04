@@ -17,24 +17,37 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Ilmoita spam-viestiksi palveluun %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Poista unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Älä tee mitään</string>
   <string name="pref_unicode_stripping_non_encodable">Poista koodaamattomat merkit</string>
   <string name="pref_unicode_stripping_all">Poista kaikki unicode-merkit</string>
-  <string name="swipe_deletes_conversation_text">Pyyhkäisy poistaa keskustelun</string>
+  <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Poista liu\'uttamalla</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Pyyhkäise oikealle poistaaksesi keskustelun</string>
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">QuickMessage</string>
   <string name="pref_quickmessage_title">Näytä QuickMessage</string>
   <string name="pref_quickmessage_summary">Avaa QuickMessage-ponnahdusikkuna automaattisesti saatuasi tekstiviestin</string>
   <string name="pref_close_all_title">Sulje kaikki</string>
   <string name="pref_close_all_summary">Sulje-painike sulkee kaikki viestit</string>
   <string name="message_counter">%1$d/%2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Sulje</string>
   <string name="button_view">Lue</string>
   <string name="button_templates">Viestipohjat</string>
   <string name="qm_button_full_conversation">Koko keskustelu</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Kirjoita vastataksesi</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Lähetetään viestiä\u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Pikavastaus</string>
   <string name="send">Lähetä</string>
   <string name="compose_message_hint_text">Kirjoita viesti</string>
+  <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Hymiöiden käyttö</string>
+  <string name="show_emoticons_pref_summary">Näytä hymiönäppäin näppäimistöllä</string>
+  <string name="select_phone_account_title">Lähetä käyttäen</string>
 </resources>

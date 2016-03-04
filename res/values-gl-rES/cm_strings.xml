@@ -16,18 +16,27 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <!-- Strip unicode -->
   <string name="pref_unicode_stripping_leave_intact">Manter os caracteres intactos</string>
   <string name="pref_unicode_stripping_non_encodable">Eliminar caracteres non codificábeis</string>
   <string name="pref_unicode_stripping_all">Substituír todos os caracteres unicode</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Mensaxe rápida e contestar</string>
   <string name="pref_quickmessage_title">Amosar mensaxe rápida</string>
   <string name="pref_quickmessage_summary">Abrir a xanela emerxente de Mensaxe rápida cando chegue unha mensaxe SMS</string>
   <string name="pref_close_all_title">Pechar todo</string>
   <string name="pref_close_all_summary">Que o botón de pechar peche todas as mensaxes</string>
   <string name="message_counter">%1$d de %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Pechar</string>
   <string name="button_view">Ver</string>
   <string name="button_templates">Modelos</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Escriba para responder</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Enviando a mensaxe\u2026</string>
+  <!-- QM - Quick reply -->
+  <!-- Show emoticons -->
 </resources>

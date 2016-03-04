@@ -17,24 +17,37 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Prijavi kot neželeno na %s</string>
+  <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Odstrani unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Pusti znake nespremenjene</string>
   <string name="pref_unicode_stripping_non_encodable">Odstrani nekodirne znake</string>
   <string name="pref_unicode_stripping_all">Odstrani vse znake unicode</string>
-  <string name="swipe_deletes_conversation_text">Poteg izbriše pogovor</string>
+  <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Potegnite za brisanje</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Za izbris pogovora potegnite na desno</string>
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Hitro sporočilo in Odgovor</string>
   <string name="pref_quickmessage_title">Prikaži Hitro sporočilo</string>
   <string name="pref_quickmessage_summary">Samodejno odpri pojavno okno Hitrega sporočila za dohodna sporočila SMS</string>
   <string name="pref_close_all_title">Zapri vse</string>
   <string name="pref_close_all_summary">Gumb Zapri zapre vsa sporočila</string>
   <string name="message_counter">%1$d od %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Zapri</string>
   <string name="button_view">Pogled</string>
   <string name="button_templates">Predloge</string>
   <string name="qm_button_full_conversation">Celoten pogovor</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Tipkajte za odgovor</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Pošiljanje sporočila \u2026</string>
+  <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Hitri odgovor</string>
   <string name="send">Pošlji</string>
   <string name="compose_message_hint_text">Vnesite sporočilo</string>
+  <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Dostop do izraznih ikon</string>
+  <string name="show_emoticons_pref_summary">Na tipkovnici prikaži tipko za izrazne ikone</string>
+  <string name="select_phone_account_title">Pošlji s/z</string>
 </resources>

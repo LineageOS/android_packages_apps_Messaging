@@ -16,18 +16,27 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <!-- Strip unicode -->
   <string name="pref_unicode_stripping_leave_intact">Palikti simbolius nepaliestus</string>
   <string name="pref_unicode_stripping_non_encodable">Pašalinti nekoduojamus simbolius</string>
   <string name="pref_unicode_stripping_all">Pašalinti visus unikodo simbolius</string>
+  <!-- Swipe to delete conversation -->
+  <!-- QUICKMESSAGE SUPPORT -->
+  <!-- Preferences -->
   <string name="pref_quickmessage">Greitasis pranešimas ir atsakymas</string>
   <string name="pref_quickmessage_title">Rodyti greitąjį pranešimą</string>
   <string name="pref_quickmessage_summary">Automatiškai atidaryti iššokančiuosius greituosius pranešimus gaunamiems SMS pranešimams</string>
   <string name="pref_close_all_title">Uždaryti viską</string>
   <string name="pref_close_all_summary">Mygtukas „Uždaryti“ uždaro visus pranešimus</string>
   <string name="message_counter">%1$d iš %2$d</string>
+  <!-- QM Dialog box buttons -->
   <string name="button_close">Uždaryti</string>
   <string name="button_view">Žiūrėti</string>
   <string name="button_templates">Šablonai</string>
+  <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Rašykite, kad atsakytumėte</string>
+  <!-- QM Toast -->
   <string name="toast_sending_message">Siunčiamas pranešimas\u2026</string>
+  <!-- QM - Quick reply -->
+  <!-- Show emoticons -->
 </resources>
