@@ -16,13 +16,38 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">%s লৈ স্পাম হিচাপে ৰিপোৰ্ট কৰক</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">ষ্ট্ৰিপ ইউনিকোড</string>
+  <string name="pref_unicode_stripping_leave_intact">বৰ্ণবোৰ অক্ষত ৰাখক</string>
+  <string name="pref_unicode_stripping_non_encodable">এনকোড কৰিব নোৱাৰা বৰ্ণবোৰ ষ্ট্ৰিপ কৰক</string>
+  <string name="pref_unicode_stripping_all">সকলো ইউনিকোড বৰ্ণ ষ্ট্ৰিপ কৰক</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">মচি পেলাবলৈ স্ৱাইপ কৰক</string>
+  <string name="swipe_to_delete_conversation_pref_summary">কথোপকথন মচিবলৈ সোঁ ফাললৈ স্ৱাইপ কৰক</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">কুইকবাৰ্তা আৰু উত্তৰ</string>
+  <string name="pref_quickmessage_title">কুইকবাৰ্তা প্ৰদৰ্শন কৰক</string>
+  <string name="pref_quickmessage_summary">ইনকামিং SMS বাৰ্তাৰ বাবে স্বয়ংক্ৰিয়ভাবে কুইকবাৰ্তা পপ-আপ খোলক</string>
+  <string name="pref_close_all_title">সকলো বন্ধ কৰক</string>
+  <string name="pref_close_all_summary">ক্লোজ বুটামে সকলো বাৰ্তা বন্ধ কৰে</string>
+  <string name="message_counter">%2$d ৰ %1$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">বন্ধ</string>
+  <string name="button_view">চাওক</string>
+  <string name="button_templates">টেমপ্লেটসমূহ</string>
+  <string name="qm_button_full_conversation">পূৰ্ণ কথোপকথন</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">উত্তৰ দিবলৈ টাইপ কৰক</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">মেচেজ প্ৰেৰণ কৰা হৈ আছে \u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">দ্ৰুত উত্তৰ</string>
+  <string name="send">প্ৰেৰণ</string>
+  <string name="compose_message_hint_text">বাৰ্তা প্ৰৱেশ কৰক</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">ইমটিকনৰ অনুমতি</string>
+  <string name="show_emoticons_pref_summary">ইমটিকনৰ কীটো কীবৰ্ডত দেখাওক</string>
+  <string name="select_phone_account_title">ইয়াৰে প্ৰেৰণ কৰক</string>
 </resources>

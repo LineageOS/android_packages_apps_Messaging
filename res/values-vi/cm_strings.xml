@@ -16,8 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Báo cáo là tin rác cho %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Gỡ bỏ unicode</string>
+  <string name="pref_unicode_stripping_leave_intact">Giữ nguyên các ký tự</string>
+  <string name="pref_unicode_stripping_non_encodable">Gỡ bỏ các ký tự không thể mã hóa</string>
+  <string name="pref_unicode_stripping_all">Gỡ bỏ tất cả các ký tự unicode</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Vuốt để xóa</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Vuốt sang phải để xóa một cuộc trò chuyện</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Nhắn tin và trả lời nhanh</string>
@@ -30,10 +37,17 @@
   <string name="button_close">Đóng</string>
   <string name="button_view">Xem</string>
   <string name="button_templates">Mẫu</string>
+  <string name="qm_button_full_conversation">Toàn bộ cuộc trò chuyện</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Nhập để trả lời</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">Đang gửi tin nhắn\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Trả lời nhanh</string>
+  <string name="send">Gửi</string>
+  <string name="compose_message_hint_text">Nhập tin nhắn</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Truy cập vào biểu tượng cảm xúc</string>
+  <string name="show_emoticons_pref_summary">Hiển thị phím biểu tượng cảm xúc trên bàn phím</string>
+  <string name="select_phone_account_title">Gửi bằng</string>
 </resources>

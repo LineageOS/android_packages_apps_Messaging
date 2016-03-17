@@ -23,6 +23,7 @@
   <string name="pref_unicode_stripping_non_encodable">Заменять некодируемые символы</string>
   <string name="pref_unicode_stripping_all">Заменять все символы юникода</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Быстрое удаление</string>
   <string name="swipe_to_delete_conversation_pref_summary">Проведите вправо, чтобы удалить диалог</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
@@ -46,5 +47,7 @@
   <string name="send">Отправить</string>
   <string name="compose_message_hint_text">Введите сообщение</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Доступ к смайлам</string>
+  <string name="show_emoticons_pref_summary">Показать кнопку смайлов на клавиатуре</string>
   <string name="select_phone_account_title">Отправить через</string>
 </resources>

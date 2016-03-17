@@ -16,8 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Signaler comme spam à %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Enlever l\'Unicode</string>
+  <string name="pref_unicode_stripping_leave_intact">Conserver les caractères</string>
+  <string name="pref_unicode_stripping_non_encodable">Enlever les caractères non encodables</string>
+  <string name="pref_unicode_stripping_all">Enlever tous les caractères Unicode</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Balayer pour supprimer</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Balayer vers la droite pour supprimer une conversation</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Message rapide et réponse</string>
@@ -30,10 +37,17 @@
   <string name="button_close">Fermer</string>
   <string name="button_view">Afficher</string>
   <string name="button_templates">Modèles</string>
+  <string name="qm_button_full_conversation">Conversation complète</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Taper une réponse</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">Envoi du message\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Réponse rapide</string>
+  <string name="send">Envoyer</string>
+  <string name="compose_message_hint_text">Entrer un message</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Accès aux émoticônes</string>
+  <string name="show_emoticons_pref_summary">Afficher la touche émoticônes sur le clavier</string>
+  <string name="select_phone_account_title">Envoyer avec</string>
 </resources>
