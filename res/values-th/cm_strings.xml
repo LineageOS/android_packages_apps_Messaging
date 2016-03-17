@@ -16,7 +16,9 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">รายงานว่าเป็นสแปมไป %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">ถอด unicode</string>
   <string name="pref_unicode_stripping_leave_intact">ปล่อยตัวอักษรไว้เหมือนเดิม</string>
   <string name="pref_unicode_stripping_non_encodable">ตัดตัวอักษรที่แปลงเป็นรหัสไม่ได้</string>
   <string name="pref_unicode_stripping_all">ตัดตัวอักษร unicode ทั้งหมด</string>
@@ -33,10 +35,14 @@
   <string name="button_close">ปิด</string>
   <string name="button_view">ดู</string>
   <string name="button_templates">แม่แบบ</string>
+  <string name="qm_button_full_conversation">การสนทนาทั้งหมด</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">พิมพ์ตอบ</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">กำลังส่งข้อความ\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">ตอบด่วน</string>
+  <string name="send">ส่ง</string>
+  <string name="compose_message_hint_text">ป้อนข้อความ</string>
   <!-- Show emoticons -->
 </resources>

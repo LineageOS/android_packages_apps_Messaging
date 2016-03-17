@@ -23,6 +23,7 @@
   <string name="pref_unicode_stripping_non_encodable">除去非可编码字符</string>
   <string name="pref_unicode_stripping_all">除去所有 Unicode 字符</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
   <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

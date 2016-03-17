@@ -23,6 +23,8 @@
   <string name="pref_unicode_stripping_non_encodable">Retirar caracteres não codificáveis</string>
   <string name="pref_unicode_stripping_all">Retirar todos os caracteres unicode</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Deslize para eliminar</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Deslize para a direita para apagar uma conversa</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Mensagem e resposta rápidas</string>
@@ -45,4 +47,7 @@
   <string name="send">Enviar</string>
   <string name="compose_message_hint_text">Escreva a mensagem</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Acesso a emojis</string>
+  <string name="show_emoticons_pref_summary">Mostrar a tecla dos emojis no teclado</string>
+  <string name="select_phone_account_title">Enviar com</string>
 </resources>

@@ -16,13 +16,38 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">%sकडे स्पॅम म्हणून रिपोर्ट करा</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">युनिकोड स्ट्रिप करा</string>
+  <string name="pref_unicode_stripping_leave_intact">वर्ण टिकवून ठेवा</string>
+  <string name="pref_unicode_stripping_non_encodable">एनकोड न करता येणारे वर्ण स्ट्रिप करा</string>
+  <string name="pref_unicode_stripping_all">सर्व युनिकोड वर्ण स्ट्रिप करा</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">हटवण्यासाठी स्वाइप करा</string>
+  <string name="swipe_to_delete_conversation_pref_summary">संभाषण हटवन्यासाठी उजविकडे स्वाइप करा</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">जलद संदेश आणि प्रतिसाद</string>
+  <string name="pref_quickmessage_title">जलद संदेश दर्शवा</string>
+  <string name="pref_quickmessage_summary">इनकमिंग SMS संदेशांसाठी स्वयंचलितपणे जलद संदेश पॉप-अप उघडा</string>
+  <string name="pref_close_all_title">सर्व बंद करा</string>
+  <string name="pref_close_all_summary">बंद बटण सर्व संदेश बंद करते</string>
+  <string name="message_counter">%2$d चे %1$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">बंद करा</string>
+  <string name="button_view">पहा</string>
+  <string name="button_templates">प्रारूप</string>
+  <string name="qm_button_full_conversation">संपूर्ण संभाषण</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">प्रतिसाद देण्यासाठी टाईप करा</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">संदेश पाठवित आहे…</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">जलद प्रतिसाद</string>
+  <string name="send">पाठवा</string>
+  <string name="compose_message_hint_text">संदेश प्रविष्ठ करा</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">इमोटीकन्स अॅक्सेस</string>
+  <string name="show_emoticons_pref_summary">किबोर्ड वरील इमोटीकन्स कि दाखवा</string>
+  <string name="select_phone_account_title">या बरोबर पाठवा</string>
 </resources>

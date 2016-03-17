@@ -23,6 +23,8 @@
   <string name="pref_unicode_stripping_non_encodable">Konvertera ej kodbara tecken</string>
   <string name="pref_unicode_stripping_all">Konvertera alla unicodetecken</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Snabbmeddelande och svar</string>
@@ -45,5 +47,7 @@
   <string name="send">Skicka</string>
   <string name="compose_message_hint_text">Skriv meddelande</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
+  <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
   <string name="select_phone_account_title">Skicka med</string>
 </resources>

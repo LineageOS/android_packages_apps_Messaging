@@ -23,8 +23,8 @@
   <string name="pref_unicode_stripping_non_encodable">Замени не кодираните символи</string>
   <string name="pref_unicode_stripping_all">Замени всички уникод символи</string>
   <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Плъзнете за изтриване</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Плъзнете надясно за изтриване на разговор</string>
+  <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Плъзгане от ляво надясно за да изтриете разговора</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Изскачащи съобщения</string>
