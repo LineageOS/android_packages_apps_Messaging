@@ -16,13 +16,38 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">%s స్పామ్ గా నివేదిక పంపుము</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">యూనికోడ్‌ ను స్ట్రిప్ చేయుము</string>
+  <string name="pref_unicode_stripping_leave_intact">అక్షరాలను అలాగే ఉంచుము</string>
+  <string name="pref_unicode_stripping_non_encodable">సంకేతించదగని అక్షరాలను స్ట్రిప్ చేయుము</string>
+  <string name="pref_unicode_stripping_all">అన్ని యూనికోడ్ అక్షరాలను స్ట్రిప్ చేయుము</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">తొలగించడానికి స్వైప్ చెయ్యండి</string>
+  <string name="swipe_to_delete_conversation_pref_summary">ఒక సంభాషణను తొలగించడానికి కుడి ప్రక్కన స్వైప్ చెయ్యండి</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">త్వరితసందేశం మరియు ప్రత్యుత్తరం</string>
+  <string name="pref_quickmessage_title">త్వరిత సందేశాన్ని చూపుము</string>
+  <string name="pref_quickmessage_summary">ఇన్‌కమింగ్ SMS  సందేశాలకు స్వయంచాలకంగా త్వరిత సందేశ ఉద్వాహాన్ని తెరువుము</string>
+  <string name="pref_close_all_title">అన్నింటినీ మూయుము</string>
+  <string name="pref_close_all_summary">క్లోస్ బటన్ అన్ని సందేశాలను మూసి వేస్తుంది</string>
+  <string name="message_counter">%2$d యొక్క %1$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">మూసివేయి</string>
+  <string name="button_view">వీక్షించండి</string>
+  <string name="button_templates">మూసలు</string>
+  <string name="qm_button_full_conversation">సంపూర్ణ సంభాషణ</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">ప్రత్యుత్తరాన్ని టైప్ చేయుము</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">సందేశాన్ని పంపుతోంది\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">త్వరిత ప్రత్యుత్తరం</string>
+  <string name="send">పంపు</string>
+  <string name="compose_message_hint_text">సందేశం ప్రవేశపెట్టు</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">ఎమోటికన్స్ యాక్సెస్</string>
+  <string name="show_emoticons_pref_summary">కీబోర్డ్ మీద ఎమోటికన్స్ కీ చూపించు</string>
+  <string name="select_phone_account_title">దానితో పంపు</string>
 </resources>

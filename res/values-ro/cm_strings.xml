@@ -46,4 +46,5 @@
   <string name="send">Trimite</string>
   <string name="compose_message_hint_text">Introduceți mesajul</string>
   <!-- Show emoticons -->
+  <string name="select_phone_account_title">Trimiteți cu</string>
 </resources>

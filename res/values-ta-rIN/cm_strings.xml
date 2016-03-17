@@ -16,13 +16,38 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">ஸ்பேமை %sக்கு புகாரளிக்கவும்</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">யூனிகோடை நீக்கு</string>
+  <string name="pref_unicode_stripping_leave_intact">எழுத்துக்களை உள்ளபடியே விட்டுவிடு</string>
+  <string name="pref_unicode_stripping_non_encodable">என்கோட் செய்யமுடியாத எழுத்துக்களை நீக்கு</string>
+  <string name="pref_unicode_stripping_all">அனைத்து யூனிகோட் எழுத்துக்களையும் நீக்கு</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">நீக்குவதற்கு தேய்க்கவும்</string>
+  <string name="swipe_to_delete_conversation_pref_summary">ஒரு உரையாடல் நீக்குவதற்கு வலது பக்கமாக தேய்க்கவும்</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">QuickMessage  மற்றும் பதில்</string>
+  <string name="pref_quickmessage_title">QuickMessage காண்பி</string>
+  <string name="pref_quickmessage_summary">தானியக்கமாக QuickMessage பாப்-அப்பை உள்வரும் SMS செய்திகளுக்கு திற</string>
+  <string name="pref_close_all_title">அனைத்தையும் மூடு</string>
+  <string name="pref_close_all_summary">மூடு பொத்தான் அனைத்து செய்திகளையும் மூடுகிறது</string>
+  <string name="message_counter">%2$d இல் %1$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">மூடு</string>
+  <string name="button_view">காட்டு</string>
+  <string name="button_templates">வார்ப்புருக்கள்</string>
+  <string name="qm_button_full_conversation">முழு உரையாடல்</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">பதிலளிக்க தட்டச்சுசெய்க</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">செய்தியை அனுப்புகிறது\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">விரைவான பதில்</string>
+  <string name="send">அனுப்பு</string>
+  <string name="compose_message_hint_text">செய்தியை உள்ளிடு</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">எமோடிகான்கள் அணுகல்</string>
+  <string name="show_emoticons_pref_summary">விசைப்பலகையில் உள்ள எமோடிகான் விசையை காண்பிக்கவும்</string>
+  <string name="select_phone_account_title">இதோடு அனுப்பவும்</string>
 </resources>

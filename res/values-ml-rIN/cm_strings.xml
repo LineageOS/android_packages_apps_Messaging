@@ -16,13 +16,38 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">%s ലേക്ക് സ്പാം ആയി റിപ്പോർട്ട് ചെയ്യുക</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">യൂണിക്കോഡ് സ്ട്രിപ്</string>
+  <string name="pref_unicode_stripping_leave_intact">അക്ഷരങ്ങള്‍ ശരിയായി വിടുക</string>
+  <string name="pref_unicode_stripping_non_encodable">എന്‍കോഡ് ചെയ്യാനാവാത്ത അക്ഷരങ്ങൾ സ്ട്രിപ് ചെയ്യുക</string>
+  <string name="pref_unicode_stripping_all">എല്ലാ യൂണിക്കോഡ് അക്ഷരങ്ങളും സ്ട്രിപ് ചെയ്യുക</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">ഇല്ലാതാക്കാൻ സ്വൈപ്പുചെയ്യുക</string>
+  <string name="swipe_to_delete_conversation_pref_summary">ഒരു സംഭാഷണം ഇല്ലാതാക്കാന്‍ വലതുവശത്തെക്ക് സ്വൈപ്ചെയ്യുക</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">ക്വിക്ക്മെസേജും മറുപടിയും</string>
+  <string name="pref_quickmessage_title">ക്വിക്ക്മെസേജ് കാണിക്കുക</string>
+  <string name="pref_quickmessage_summary">ഇൻകമിംഗ് SMS സന്ദേശങ്ങൾക്കായി ക്വിക്ക്മെസേജ് പോപ്പ്-അപ്പ് സ്വമേധയാ തുറക്കുക</string>
+  <string name="pref_close_all_title">എല്ലാം അടയ്ക്കുക</string>
+  <string name="pref_close_all_summary">ക്ലോസ് ബട്ടൺ എല്ലാ സന്ദേശങ്ങളും അടയ്ക്കുന്നു</string>
+  <string name="message_counter">%2$d ല്‍ %1$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">അടയ്‌ക്കുക</string>
+  <string name="button_view">കാണുക</string>
+  <string name="button_templates">ടെംപ്ലേറ്റുകൾ</string>
+  <string name="qm_button_full_conversation">പൂർണ്ണ സംഭാഷണം</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">മറുപടിയ്ക്കായി ടൈപ്പുചെയ്യുക</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">സന്ദേശം അയയ്ക്കുന്നു\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">പെട്ടെന്നുള്ള മറുപടി</string>
+  <string name="send">അയയ്‌ക്കുക</string>
+  <string name="compose_message_hint_text">സന്ദേശം നല്‍കുക</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">ഇമോട്ടിക്കോൺ ആക്സസ്</string>
+  <string name="show_emoticons_pref_summary">കീബോർഡിലെ ഇമോഷനുകളുടെ കീ കാണിക്കുക</string>
+  <string name="select_phone_account_title">ഒപ്പം അയയ്ക്കുക</string>
 </resources>

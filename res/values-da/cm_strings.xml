@@ -23,6 +23,8 @@
   <string name="pref_unicode_stripping_non_encodable">Fjern ikke-kodbare tegn</string>
   <string name="pref_unicode_stripping_all">Fjern alle Unicode-tegn</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Stryg for at slette</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Stryg til højre for at slette en samtale</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">HurtigBesked og Svar</string>
@@ -45,4 +47,7 @@
   <string name="send">Send</string>
   <string name="compose_message_hint_text">Indtast besked</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Adgang til humørikoner</string>
+  <string name="show_emoticons_pref_summary">Vis knappen til humørikoner på tastaturet</string>
+  <string name="select_phone_account_title">Send med</string>
 </resources>

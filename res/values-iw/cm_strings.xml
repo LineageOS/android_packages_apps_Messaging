@@ -23,6 +23,8 @@
   <string name="pref_unicode_stripping_non_encodable">הורד תווים שאינם ניתנים לקידוד</string>
   <string name="pref_unicode_stripping_all">הסר את כל תווי ה-Unicode</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">החלק כדי למחוק</string>
+  <string name="swipe_to_delete_conversation_pref_summary">החלק ימינה כדי למחוק שיחה</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">\"הודעה מהירה\" ותגובה</string>
@@ -45,4 +47,7 @@
   <string name="send">שלח</string>
   <string name="compose_message_hint_text">הכנס הודעה</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">גישה לסמלי הבעה</string>
+  <string name="show_emoticons_pref_summary">הצג את סמלי ההבעה על המקלדת</string>
+  <string name="select_phone_account_title">שלח באמצעות</string>
 </resources>
