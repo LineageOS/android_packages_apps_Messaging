@@ -249,7 +249,9 @@ public class LookupProviderManager implements Application.ActivityLifecycleCallb
         }
 
         if (mIsPhoneNumberLookupInitialized) {
-            LookupRequest request = new LookupRequest(phoneNumber, this);
+            // always map request origin to INCOMING_SMS whilst the CallerInfoApi is in flux
+            LookupRequest request = new LookupRequest(phoneNumber, this,
+                    LookupRequest.RequestOrigin.INCOMING_SMS);
             // [TODO][MSB]: Could pass up the return of this
             mLookupHandlerThread.fetchInfoForPhoneNumber(request);
         }
