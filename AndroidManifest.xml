@@ -426,7 +426,7 @@
         </activity>
 
         <activity android:name=".ui.SmsStorageLowWarningActivity"
-                  android:theme="@style/Invisible"
+                  android:theme="@style/InvisibleNoDisplay"
                   android:configChanges="orientation|screenSize|keyboardHidden" />
 
         <activity android:name=".ui.appsettings.ApnSettingsActivity"
