@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_88b765d9",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-03-23T16:46:22Z",
+      "side": 1,
+      "message": "2 days and 1 weeks are not defined in the cm_arrays.xml - entries_sms_validity_period",
+      "revId": "b22f9d4cfbda763b89cee66cc3319feba453cfef",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_48e64deb",
+        "filename": "src/com/android/messaging/sms/SmsSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-03-23T16:46:22Z",
+      "side": 1,
+      "message": "priority of \u0027-1\u0027 doesn\u0027t seem to be defined in SmsManager.java, only 0-3 are valid priorities.",
+      "revId": "b22f9d4cfbda763b89cee66cc3319feba453cfef",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_08a2959b",
+        "filename": "src/com/android/messaging/ui/appsettings/ApplicationSettingsActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-03-23T16:46:22Z",
+      "side": 1,
+      "message": "incorrect indents",
+      "revId": "b22f9d4cfbda763b89cee66cc3319feba453cfef",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
