@@ -76,6 +76,37 @@
         android:entries="@array/pref_unicode_stripping_entries"
         android:entryValues="@array/pref_unicode_stripping_values" />
 
+    <ListPreference
+        android:key="pref_key_sms_validity_period"
+        android:dialogTitle="@string/pref_title_validity_period"
+        android:persistent="true"
+        android:defaultValue="@string/def_sms_validity_period_value"
+        android:summary="%s"
+        android:entries="@array/entries_sms_validity_period"
+        android:entryValues="@array/entries_sms_validity_period_value"
+        android:title="@string/pref_title_validity_period" />
+
+    <ListPreference
+        android:key="pref_key_sms_validity_period_slot1"
+        android:dialogTitle="@string/pref_title_validity_period"
+        android:persistent="true"
+        android:defaultValue="@string/def_sms_validity_period_value"
+        android:summary="%s"
+        android:entries="@array/entries_sms_validity_period"
+        android:entryValues="@array/entries_sms_validity_period_value"
+        android:title="@string/pref_title_validity_period_slot1" />
+
+    <ListPreference
+        android:key="pref_key_sms_validity_period_slot2"
+        android:dialogTitle="@string/pref_title_validity_period"
+        android:persistent="true"
+        android:defaultValue="@string/def_sms_validity_period_value"
+        android:summary="%s"
+        android:entries="@array/entries_sms_validity_period"
+        android:entryValues="@array/entries_sms_validity_period_value"
+        android:title="@string/pref_title_validity_period_slot2" />
+
+
     <SwitchPreference
         android:key="pref_show_emoticons"
         android:title="@string/show_emoticons_pref_title"

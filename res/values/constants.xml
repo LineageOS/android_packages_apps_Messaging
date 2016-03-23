@@ -23,6 +23,9 @@
     <string name="advanced_category_pref_key" translatable="false">advanced_category</string>
     <string name="notifications_enabled_pref_key" translatable="false">notifications_enabled</string>
     <string name="unicode_stripping_pref_key" translatable="false">unicode_stripping_pref_key</string>
+    <string name="pref_key_sms_validity_period" translatable="false">pref_key_sms_validity_period</string>
+    <string name="pref_key_sms_validity_period_slot1" translatable="false">pref_key_sms_validity_period_slot1</string>
+    <string name="pref_key_sms_validity_period_slot2" translatable="false">pref_key_sms_validity_period_slot2</string>
     <bool name="notifications_enabled_pref_default" translatable="false">true</bool>
     <string name="notification_sound_pref_key" translatable="false">notification_sound</string>
     <string name="notification_vibration_pref_key" translatable="false">notification_vibration</string>
@@ -37,6 +40,9 @@
     <string name="unicode_stripping_leave_intact_value" translatable="false">unicode_intact</string>
     <string name="unicode_stripping_non_encodable_value" translatable="false">unicode_non_encodable</string>
     <string name="unicode_stripping_all_value" translatable="false">unicode_all</string>
+
+    <!-- default sms validity period -->
+    <string name="def_sms_validity_period_value" translatable="false">-1</string>
 
     <!-- Subscription-specific settings. The values of these pref keys must be prefixed with
          "buglesub_" to allow for runtime sanity checks -->
