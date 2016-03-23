@@ -23,6 +23,7 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.UnicodeFilter;
+import com.android.messaging.util.PhoneUtils;
 
 public class PrefsUtils {
 
@@ -73,4 +74,21 @@ public class PrefsUtils {
         }
         return null;
     }
+
+    public static int getValidityPeriod(int slot) {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        final Context context = Factory.get().getApplicationContext();
+        String validityPeriod = context.getString(R.string.def_sms_validity_period_value);
+        String prefKey = context.getString(R.string.pref_key_sms_validity_period);
+
+        if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
+            String prefKeySlot1 = context.getString(R.string.pref_key_sms_validity_period_slot1);
+            String prefKeySlot2 = context.getString(R.string.pref_key_sms_validity_period_slot2);
+            validityPeriod = prefs.getString((slot == 0) ? prefKeySlot1 : prefKeySlot2, null);
+        } else {
+            validityPeriod = prefs.getString(prefKey, null);
+        }
+        return (validityPeriod == null) ? -1 : Integer.parseInt(validityPeriod);
+    }
+
 }
