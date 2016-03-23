@@ -30,6 +30,7 @@ import android.preference.PreferenceScreen;
 import android.preference.RingtonePreference;
 import android.preference.SwitchPreference;
 import android.preference.TwoStatePreference;
+import android.preference.ListPreference;
 import android.provider.Settings;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
@@ -100,6 +101,10 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         private boolean mIsSmsPreferenceClicked;
         private String mSwipeRightToDeleteConversationkey;
         private SwitchPreference mSwipeRightToDeleteConversationPreference;
+        private ListPreference mSmsValidityPref;
+        private ListPreference mSmsValidityCard1Pref;
+        private ListPreference mSmsValidityCard2Pref;
+
 
         public ApplicationSettingsFragment() {
             // Required empty constructor
@@ -124,6 +129,22 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSmsDisabledPreference = findPreference(mSmsDisabledPrefKey);
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
+            mSmsValidityPref = (ListPreference) findPreference("pref_key_sms_validity_period");
+            mSmsValidityCard1Pref = (ListPreference) findPreference("pref_key_sms_validity_period_slot1");
+            mSmsValidityCard2Pref = (ListPreference) findPreference("pref_key_sms_validity_period_slot2");
+
+            if (getResources().getBoolean(R.bool.config_sms_validity)) {
+            if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
+                getPreferenceScreen().removePreference(mSmsValidityPref);
+            } else {
+                getPreferenceScreen().removePreference(mSmsValidityCard1Pref);
+                getPreferenceScreen().removePreference(mSmsValidityCard2Pref);
+            }
+            } else {
+            getPreferenceScreen().removePreference(mSmsValidityPref);
+            getPreferenceScreen().removePreference(mSmsValidityCard1Pref);
+            getPreferenceScreen().removePreference(mSmsValidityCard2Pref);
+            }
             mSwipeRightToDeleteConversationkey = getString(
                     R.string.swipe_right_deletes_conversation_key);
             mSwipeRightToDeleteConversationPreference =

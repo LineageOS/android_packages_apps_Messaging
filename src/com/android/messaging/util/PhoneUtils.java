@@ -1008,4 +1008,29 @@ public abstract class PhoneUtils {
         }
         return null;
     }
+
+       /**
+     * Decide whether the current product  is DSDS in MMS
+     */
+    public static boolean isMultiSimEnabledMms() {
+        return TelephonyManager.getDefault().isMultiSimEnabled();
+    }
+
+    private static boolean isCDMAPhone(int subscription) {
+        int activePhone = isMultiSimEnabledMms()
+                ? TelephonyManager.getDefault().getCurrentPhoneType(subscription)
+                : TelephonyManager.getDefault().getPhoneType();
+        return activePhone == TelephonyManager.PHONE_TYPE_CDMA;
+    }
+
+    private static boolean isNetworkRoaming(int subscription) {
+        return isMultiSimEnabledMms()
+                ? TelephonyManager.getDefault().isNetworkRoaming(subscription)
+                : TelephonyManager.getDefault().isNetworkRoaming();
+    }
+
+    public static boolean isCDMAInternationalRoaming(int subscription) {
+        return isCDMAPhone(subscription) && isNetworkRoaming(subscription);
+    }
+
 }
