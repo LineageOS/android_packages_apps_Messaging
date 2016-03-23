@@ -18,4 +18,5 @@
 <resources>
     <!-- The packaged version of APNs and MMS configurations -->
     <integer name="apnsAndMmsConfigsVersion">0</integer>
+    <bool name="config_sms_validity">true</bool>
 </resources>
