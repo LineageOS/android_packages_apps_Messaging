@@ -23,6 +23,17 @@
     <string name="pref_unicode_stripping_non_encodable">Strip non-encodable characters</string>
     <string name="pref_unicode_stripping_all">Strip all unicode characters</string>
 
+    <!-- Settings item description for SMS and MMS Validity period -->
+    <string name="pref_title_validity_period">Validity period</string>
+    <string name="pref_title_validity_period_slot1">Validity period for SIM 1</string>
+    <string name="pref_title_validity_period_slot2">Validity period for SIM 2</string>
+    <string name="sms_validity_period_not_set">Not set</string>
+    <string name="sms_validity_period_one_hour">1 hour</string>
+    <string name="sms_validity_period_six_hours">6 hours</string>
+    <string name="sms_validity_period_twelve_hours">12 hours</string>
+    <string name="sms_validity_period_one_day">1 day</string>
+    <string name="validity_period_maximum">Maximum</string>
+
     <!-- Swipe to delete conversation -->
     <string name="swipe_to_delete_conversation_pref_title">Swipe to delete</string>
     <string name="swipe_to_delete_conversation_pref_summary">Swipe to the right to delete a conversation</string>
