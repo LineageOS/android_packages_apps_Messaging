@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_e9b4db37",
+        "filename": "src/com/android/messaging/sms/SmsSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-03-24T15:33:40Z",
+      "side": 1,
+      "message": "is \u0027-1\u0027 a valid priority?",
+      "revId": "f9c52343356802a1da5d28373f30b6a8eff6a8b6",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
