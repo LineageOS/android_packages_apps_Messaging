@@ -21,6 +21,7 @@
   <string name="pref_unicode_stripping_non_encodable">Fjern ikke-kodbare tegn</string>
   <string name="pref_unicode_stripping_all">Fjern alle unicode-tegn</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Dra for å slette</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Hurtigsvar og svar</string>
@@ -43,4 +44,5 @@
   <string name="send">Send</string>
   <string name="compose_message_hint_text">Skriv inn melding</string>
   <!-- Show emoticons -->
+  <string name="select_phone_account_title">Send med</string>
 </resources>

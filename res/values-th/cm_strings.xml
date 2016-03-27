@@ -23,6 +23,8 @@
   <string name="pref_unicode_stripping_non_encodable">ตัดตัวอักษรที่แปลงเป็นรหัสไม่ได้</string>
   <string name="pref_unicode_stripping_all">ตัดตัวอักษร unicode ทั้งหมด</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">กวาดนิ้วเพื่อลบ</string>
+  <string name="swipe_to_delete_conversation_pref_summary">กวาดนิ้วไปทางขวาเพื่อลบการสนทนา</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">ข้อความแบบรวดเร็วและตอบกลับ</string>
@@ -45,4 +47,7 @@
   <string name="send">ส่ง</string>
   <string name="compose_message_hint_text">ป้อนข้อความ</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">การเข้าถึงอีโมติคอน</string>
+  <string name="show_emoticons_pref_summary">แสดงแป้นอีโมติคอนบนแป้นพิมพ์</string>
+  <string name="select_phone_account_title">ส่งด้วย</string>
 </resources>
