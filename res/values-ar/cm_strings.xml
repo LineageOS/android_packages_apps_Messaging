@@ -16,11 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">الإبلاغ كإزعاج لـ %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">تجريد unicode</string>
   <string name="pref_unicode_stripping_leave_intact">ترك الأحرف سليمة</string>
   <string name="pref_unicode_stripping_non_encodable">تجريد الأحرف غير القابلة للتشفير</string>
   <string name="pref_unicode_stripping_all">تجريد كافة أحرف unicode</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">تمرير لإجراء حذف</string>
+  <string name="swipe_to_delete_conversation_pref_summary">تمرير إلى اليمين لحذف محادثة</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">رسالة سريعة ورد</string>
@@ -33,10 +37,17 @@
   <string name="button_close">إغلاق</string>
   <string name="button_view">عرض</string>
   <string name="button_templates">قوالب</string>
+  <string name="qm_button_full_conversation">محادثة كاملة</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">اكتب للرد</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">جاري إرسال الرسالة…</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">الرد السريع</string>
+  <string name="send">إرسال</string>
+  <string name="compose_message_hint_text">إدخال رسالة</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">الوصول إلى التعبيرات</string>
+  <string name="show_emoticons_pref_summary">إظهار مفتاح التعبيرات على لوحة المفاتيح</string>
+  <string name="select_phone_account_title">إرسال بواسطة</string>
 </resources>

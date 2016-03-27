@@ -16,7 +16,7 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">דווח כספאם אל %s</string>
+  <string name="report_as_spam_to">דווח כזבל אל %s</string>
   <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">הסרת תווי Unicode</string>
   <string name="pref_unicode_stripping_leave_intact">השאר תווים ללא שינוי</string>
@@ -30,8 +30,8 @@
   <string name="pref_quickmessage">\"הודעה מהירה\" ותגובה</string>
   <string name="pref_quickmessage_title">הצג \"הודעה מהירה\"</string>
   <string name="pref_quickmessage_summary">פתח אוטומטית חלון \"הודעה מהירה\" קופץ למענה מהיר עבור הודעות SMS נכנסות</string>
-  <string name="pref_close_all_title">סגור הכל</string>
-  <string name="pref_close_all_summary">כפתור הסגירה סוגר את כל ההודעות הקופצות</string>
+  <string name="pref_close_all_title">סגור הכול</string>
+  <string name="pref_close_all_summary">לחצן הסגירה סוגר את כל ההודעות הקופצות</string>
   <string name="message_counter">%1$d מתוך %2$d</string>
   <!-- QM Dialog box buttons -->
   <string name="button_close">סגור</string>
@@ -47,7 +47,7 @@
   <string name="send">שלח</string>
   <string name="compose_message_hint_text">הכנס הודעה</string>
   <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">גישה לסמלי הבעה</string>
-  <string name="show_emoticons_pref_summary">הצג את סמלי ההבעה על המקלדת</string>
+  <string name="show_emoticons_pref_title">גישה לרגישונים</string>
+  <string name="show_emoticons_pref_summary">הצג את לחצן הרגישונים במקלדת</string>
   <string name="select_phone_account_title">שלח באמצעות</string>
 </resources>
