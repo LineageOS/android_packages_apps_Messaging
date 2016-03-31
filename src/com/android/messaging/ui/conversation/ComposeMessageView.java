@@ -328,21 +328,15 @@ public class ComposeMessageView extends LinearLayout
             @Override
             public void onClick(final View clickView) {
 
+                mConversationDataModel.getData().setOverrideSendingSubId(
+                                         ParticipantData.DEFAULT_SELF_SUB_ID);
                 if (isSMSPromptEnabled()) {
                     showSimSelector((Activity)mOriginalContext, new OnSimSelectedCallback() {
                         @Override
                         public void onSimSelected(int subId) {
-                            // subId is 1 based
-                            SubscriptionListEntry entry = getSubscriptionListEntry(subId-1);
-                            if (entry == null) {
-                                // shouldn't happen, but if it does, just send the message using the
-                                // old sim as opposed to crashing
-                                selectSim(entry);
-                            }
-                            sendMessageInternal(true /* checkMessageSize */);
+                            sendMessageWithSubId(subId);
                         }
                     });
-
                 } else {
                     sendMessageInternal(true /* checkMessageSize */);
                 }
@@ -707,8 +701,9 @@ public class ComposeMessageView extends LinearLayout
                 mBinding.getData().getSelfId(), false /* excludeDefault */);
     }
 
-    private SubscriptionListEntry getSubscriptionListEntry(int subId) {
-        return mConversationDataModel.getData().getSubscriptionEntry(subId);
+    private void sendMessageWithSubId(int subId) {
+         mConversationDataModel.getData().setOverrideSendingSubId(subId);
+         sendMessageInternal(true /* checkMessageSize */);
     }
 
     private boolean isDataLoadedForMessageSend() {
