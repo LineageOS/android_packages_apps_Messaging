@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_449e2664",
+        "filename": "src/com/android/messaging/ui/conversation/ComposeMessageView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-03-31T16:10:38Z",
+      "side": 1,
+      "message": "100 char",
+      "range": {
+        "startLine": 342,
+        "startChar": 49,
+        "endLine": 342,
+        "endChar": 110
+      },
+      "revId": "68d7549503ef9530170c522feca9c791a71da6c4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
