@@ -69,6 +69,8 @@ public class ConversationData extends BindableData {
     private static final long LAST_MESSAGE_TIMESTAMP_NaN = -1;
     private static final int MESSAGE_COUNT_NaN = -1;
 
+    private static int mOverrideSubId = -1;
+
     /**
      * Takes a conversation id and a list of message ids and computes the positions
      * for each message.
@@ -590,6 +592,10 @@ public class ConversationData extends BindableData {
         return mParticipantData.isLoaded();
     }
 
+    public void setOverrideSendingSubId(int subId) {
+        mOverrideSubId = subId;
+    }
+
     public void sendMessage(final BindingBase<ConversationData> binding,
             final MessageData message) {
         Assert.isTrue(TextUtils.equals(mConversationId, message.getConversationId()));
@@ -599,8 +605,10 @@ public class ConversationData extends BindableData {
             InsertNewMessageAction.insertNewMessage(message);
         } else {
             final int systemDefaultSubId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
-            if (systemDefaultSubId != ParticipantData.DEFAULT_SELF_SUB_ID &&
-                    mSelfParticipantsData.isDefaultSelf(message.getSelfId())) {
+            if (mOverrideSubId != ParticipantData.DEFAULT_SELF_SUB_ID) {
+                InsertNewMessageAction.insertNewMessage(message, mOverrideSubId);
+            } else if (systemDefaultSubId != ParticipantData.DEFAULT_SELF_SUB_ID &&
+                mSelfParticipantsData.isDefaultSelf(message.getSelfId())) {
                 // Lock the sub selection to the system default SIM as soon as the user clicks on
                 // the send button to avoid races between this and when InsertNewMessageAction is
                 // actually executed on the data model thread, during which the user can potentially
@@ -773,23 +781,6 @@ public class ConversationData extends BindableData {
                     excludeDefault);
         }
         return null;
-    }
-
-    /**
-     *
-     * @return {@link com.android.messaging.datamodel.data.SubscriptionListData
-     * for the specified subId
-     */
-    public SubscriptionListEntry getSubscriptionEntry(int subId) {
-        List<SubscriptionListEntry> entries = mSubscriptionListData
-                .getActiveSubscriptionEntriesExcludingDefault();
-        if (entries == null || entries.size() == 0) {
-            return null;
-        } else if (entries.size() > subId) {
-            return entries.get(subId);
-        } else {
-            return entries.get(0);
-        }
     }
 
     public SubscriptionListData getSubscriptionListData() {
