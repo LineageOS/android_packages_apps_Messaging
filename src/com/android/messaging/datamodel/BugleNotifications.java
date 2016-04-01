@@ -192,6 +192,15 @@ public class BugleNotifications {
             MessageNotificationState.checkFailedMessages();
         }
     }
+  
+    /**
+     * Play a sound to notify arrival of a class 0 message
+     *
+     */
+    public static void playClassZeroNotification() {
+        final Uri ringtoneUri = RingtoneUtil.getNotificationRingtoneUri(null);
+        playObservableConversationNotificationSound(ringtoneUri);
+    }
 
     /**
      * Cancel all notifications of a certain type.
