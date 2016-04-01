@@ -33,6 +33,7 @@ import android.view.Window;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.action.ReceiveSmsMessageAction;
+import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.util.Assert;
 
 import java.util.ArrayList;
@@ -88,6 +89,8 @@ public class ClassZeroActivity extends Activity {
             return false;
         }
         mMessageQueue.add(messageValues);
+        // Show a notification to let the user know a new message has arrived
+        BugleNotifications.playClassZeroNotification();
         return true;
     }
 
