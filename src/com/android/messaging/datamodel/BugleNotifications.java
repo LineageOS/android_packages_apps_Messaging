@@ -193,6 +193,11 @@ public class BugleNotifications {
         }
     }
 
+    public static void playClassZeroNotification() {
+        final Uri ringtoneUri = RingtoneUtil.getNotificationRingtoneUri(null);
+        playObservableConversationNotificationSound(ringtoneUri);
+    }
+
     /**
      * Cancel all notifications of a certain type.
      *
