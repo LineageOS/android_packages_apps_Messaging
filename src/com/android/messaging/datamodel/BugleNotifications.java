@@ -191,6 +191,15 @@ public class BugleNotifications {
     }
 
     /**
+     * Play a sound to notify arrival of a class 0 message
+     *
+     */
+    public static void playClassZeroNotification() {
+        final Uri ringtoneUri = RingtoneUtil.getNotificationRingtoneUri(null);
+        playObservableConversationNotificationSound(ringtoneUri);
+    }
+
+    /**
      * Cancel all notifications of a certain type.
      *
      * @param type Message or error notifications from Constants.
