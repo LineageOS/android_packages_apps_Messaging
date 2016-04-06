@@ -77,33 +77,33 @@
 
     <ListPreference
         android:key="pref_key_sms_validity_period"
-        android:dialogTitle="@string/pref_title_validity_period"
+        android:dialogTitle="@string/validity_period_pref_title"
         android:persistent="true"
         android:defaultValue="@string/def_sms_validity_period_value"
         android:summary="%s"
         android:entries="@array/entries_sms_validity_period"
         android:entryValues="@array/entries_sms_validity_period_value"
-        android:title="@string/pref_title_validity_period" />
+        android:title="@string/validity_period_pref_title" />
 
     <ListPreference
         android:key="pref_key_sms_validity_period_slot1"
-        android:dialogTitle="@string/pref_title_validity_period"
+        android:dialogTitle="@string/validity_period_pref_title"
         android:persistent="true"
         android:defaultValue="@string/def_sms_validity_period_value"
         android:summary="%s"
         android:entries="@array/entries_sms_validity_period"
         android:entryValues="@array/entries_sms_validity_period_value"
-        android:title="@string/pref_title_validity_period_slot1" />
+        android:title="@string/validity_period_slot1_pref_title" />
 
     <ListPreference
         android:key="pref_key_sms_validity_period_slot2"
-        android:dialogTitle="@string/pref_title_validity_period"
+        android:dialogTitle="@string/validity_period_pref_title"
         android:persistent="true"
         android:defaultValue="@string/def_sms_validity_period_value"
         android:summary="%s"
         android:entries="@array/entries_sms_validity_period"
         android:entryValues="@array/entries_sms_validity_period_value"
-        android:title="@string/pref_title_validity_period_slot2" />
+        android:title="@string/validity_period_slot2_pref_title" />
 
     <SwitchPreference
         android:key="@string/swipe_right_deletes_conversation_key"
