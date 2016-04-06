@@ -32,6 +32,8 @@
     <string name="sms_validity_period_six_hours">6 hours</string>
     <string name="sms_validity_period_twelve_hours">12 hours</string>
     <string name="sms_validity_period_one_day">1 day</string>
+    <string name="mms_validity_period_two_days">2 days</string>
+    <string name="mms_validity_period_one_week">1 week</string>
     <string name="validity_period_maximum">Maximum</string>
 
     <!-- Swipe to delete conversation -->
