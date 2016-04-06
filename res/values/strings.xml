@@ -447,6 +447,14 @@
     <!-- Title for the preference for whether or not to request/show delivery reports for SMS -->
     <string name="delivery_reports_pref_title">SMS delivery reports</string>
     <string name="delivery_reports_pref_summary">Request a delivery report for each SMS you send</string>
+    <!-- Settings item description for boolean MMS delivery report setting -->
+    <string name="pref_summary_mms_delivery_reports">Request a delivery report for each message you send</string>
+    <!-- Settings item description for boolean MMS read report setting -->
+    <string name="pref_summary_mms_read_reports">Request a read report for each message you send</string>
+    <!-- Settings item for boolean option to enable/disable MMS delivery reports -->
+    <string name="pref_title_mms_delivery_reports">Delivery reports</string>
+    <!-- Settings item for boolean option to enable/disable MMS read reports -->
+    <string name="pref_title_mms_read_reports">Read reports</string>
     <string name="auto_retrieve_mms_pref_title">Auto-retrieve</string>
     <string name="auto_retrieve_mms_pref_summary">Automatically retrieve MMS messages</string>
     <!-- Title for the preference for whether or not to auto-retrieve MMS when roaming -->
