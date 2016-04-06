@@ -44,4 +44,29 @@
         <item>1440</item>
         <item>635040</item>
     </string-array>
+
+    <string-array name="save_time" translatable="false">
+        <item>@string/validity_period_maximum</item>
+        <item>@string/mms_validity_period_two_days</item>
+        <item>@string/mms_validity_period_one_week</item>
+    </string-array>
+
+    <string-array name="priority_send" translatable="false">
+        <item>@string/priority_low</item>
+        <item>@string/priority_normal</item>
+        <item>@string/priority_high</item>
+    </string-array>
+
+    <string-array name="save_time_values" translatable="false">
+        <item>-1</item>  <!-- maximum -->
+        <item>172800</item>   <!--2*24*60*60 -->
+        <item>604800</item>
+    </string-array>
+
+    <string-array name="priority_send_values" >
+        <item>128</item>    <!-- PRIORITY_LOW  -->
+        <item>129</item>    <!--PRIORITY_NORMAL -->
+        <item>130</item>    <!-- PRIORITY_HIGH  -->
+    </string-array>
+
 </resources>
