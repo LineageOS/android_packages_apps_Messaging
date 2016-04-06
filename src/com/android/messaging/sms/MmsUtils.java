@@ -38,6 +38,7 @@ import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.text.util.Rfc822Token;
 import android.text.util.Rfc822Tokenizer;
@@ -97,6 +98,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
+
+import android.util.Log;
 
 /**
  * Utils for sending sms/mms messages.
@@ -2367,12 +2370,15 @@ public class MmsUtils {
     public static Uri insertSendingMmsMessage(final Context context, final List<String> recipients,
             final MessageData content, final int subId, final String subPhoneNumber,
             final long timestamp) {
+        final boolean requireDeliveryReport = isMmsDeliveryReportRequired(subId);
+        final boolean requireReadReport = isMmsDeliveryReportRequired(subId);
+        final long expiryTime = getExpiryTime(subId);
         final SendReq sendReq = createMmsSendReq(
                 context, subId, recipients.toArray(new String[recipients.size()]), content,
-                DEFAULT_DELIVERY_REPORT_MODE,
-                DEFAULT_READ_REPORT_MODE,
-                DEFAULT_EXPIRY_TIME_IN_SECONDS,
-                DEFAULT_PRIORITY,
+                requireDeliveryReport,
+                requireReadReport,
+                expiryTime,
+                getSendPriority(subId),
                 timestamp);
         Uri messageUri = null;
         if (sendReq != null) {
@@ -2505,7 +2511,9 @@ public class MmsUtils {
         // Message class
         req.setMessageClass(PduHeaders.MESSAGE_CLASS_PERSONAL_STR.getBytes());
         // Expiry
-        req.setExpiry(expiryTime);
+        if(expiryTime != -1) { // Set only if != -1 (MAX). For -1,  not calling setExpiry leads to use MAX as default.
+            req.setExpiry(expiryTime);
+        }
         // Priority
         req.setPriority(priority);
         // Delivery report
@@ -2519,12 +2527,64 @@ public class MmsUtils {
         if (!MmsConfig.get(subId).getSMSDeliveryReportsEnabled()) {
             return false;
         }
-        final Context context = Factory.get().getApplicationContext();
-        final Resources res = context.getResources();
-        final BuglePrefs prefs = BuglePrefs.getSubscriptionPrefs(subId);
+        final Resources res = Factory.get().getApplicationContext().getResources();
+        final BuglePrefs prefs = getSubscriptionPrefs(subId);
         final String deliveryReportKey = res.getString(R.string.delivery_reports_pref_key);
         final boolean defaultValue = res.getBoolean(R.bool.delivery_reports_pref_default);
         return prefs.getBoolean(deliveryReportKey, defaultValue);
+    }
+
+    private static boolean isMmsDeliveryReportRequired(final int subId) {
+        final Resources res = Factory.get().getApplicationContext().getResources();
+        final BuglePrefs prefs = getSubscriptionPrefs(subId);
+        final String mmsDeliveryReportKey = res.getString(R.string.delivery_reports_mms_pref_key);
+        final boolean defaultValue = res.getBoolean(R.bool.def_mms_delivery_reports);
+        return prefs.getBoolean(mmsDeliveryReportKey, defaultValue);
+    }
+
+    private static boolean isMmsReadReportRequired(final int subId) {
+        final Resources res = Factory.get().getApplicationContext().getResources();
+        final BuglePrefs prefs = getSubscriptionPrefs(subId);
+        final String readReportKey = res.getString(R.string.read_reports_mms_pref_key);
+        final boolean defaultValue = DEFAULT_READ_REPORT_MODE;
+        return prefs.getBoolean(readReportKey, defaultValue);
+    }
+
+    private static long getExpiryTime(final int subId) {
+        final Resources res = Factory.get().getApplicationContext().getResources();
+        final BuglePrefs prefs = getSubscriptionPrefs(subId);
+        final String expiryStr = res.getString(R.string.expiry_mms_pref_key);
+        final String expiryStr1 = res.getString(R.string.expiry_slot1_mms_pref_key);
+        final String expiryStr2 = res.getString(R.string.expiry_slot2_mms_pref_key);
+        final int mPhoneId = SubscriptionManager.getPhoneId(subId);
+
+        // Expiry.
+        long expiryTime = 0;
+
+        if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
+            expiryTime = Long.parseLong(
+                    prefs.getString((mPhoneId == 0) ?
+                            expiryStr1:
+                            expiryStr2, "0"));
+        } else {
+            expiryTime = Long.parseLong(
+                    prefs.getString(expiryStr, "0"));
+        }
+
+        return expiryTime != 0 ? expiryTime : DEFAULT_EXPIRY_TIME_IN_SECONDS;
+    }
+
+    private static int getSendPriority(final int subId){
+        final Resources res = Factory.get().getApplicationContext().getResources();
+        final BuglePrefs prefs = getSubscriptionPrefs(subId);
+        final String sendPriorityMmsKey = res.getString(R.string.priority_mms_pref_key);
+        String priority = prefs.getString(sendPriorityMmsKey,Integer.toString(DEFAULT_PRIORITY));
+        return Integer.parseInt(priority);
+    }
+
+    private static BuglePrefs getSubscriptionPrefs(final int subId){
+        final BuglePrefs prefs=BuglePrefs.getSubscriptionPrefs(subId);
+        return  prefs;
     }
 
     public static int sendSmsMessage(final String recipient, final String messageText,
