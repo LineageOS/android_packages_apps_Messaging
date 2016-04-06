@@ -26,6 +26,13 @@
     <string name="pref_key_sms_validity_period" translatable="false">pref_key_sms_validity_period</string>
     <string name="pref_key_sms_validity_period_slot1" translatable="false">pref_key_sms_validity_period_slot1</string>
     <string name="pref_key_sms_validity_period_slot2" translatable="false">pref_key_sms_validity_period_slot2</string>
+    <string name="pref_key_sms_validity_period_slot2" translatable="false">pref_key_sms_validity_period_slot2</string>
+    <string name="expiry_mms_pref_key" translatable="false">expiry_mms_pref_key</string>
+    <string name="expiry_slot1_mms_pref_key" translatable="false">expiry_slot1_mms_pref_key</string>
+    <string name="expiry_slot2_mms_pref_key" translatable="false">expiry_slot2_mms_pref_key</string>
+    <string name="delivery_reports_mms_pref_key" translatable="false">delivery_reports_mms_pref_key</string>
+    <string name="read_reports_mms_pref_key" translatable="false">read_reports_mms_pref_key</string>
+    <string name="priority_mms_pref_key" translatable="false">priority_mms_pref_key</string>
     <bool name="notifications_enabled_pref_default" translatable="false">true</bool>
     <string name="notification_sound_pref_key" translatable="false">notification_sound</string>
     <string name="notification_vibration_pref_key" translatable="false">notification_vibration</string>
@@ -43,6 +50,9 @@
 
     <!-- default sms validity period -->
     <string name="def_sms_validity_period_value" translatable="false">-1</string>
+
+    <!-- mms delivery reports enabled.default is true to on,false to off -->
+    <bool name="def_mms_delivery_reports">false</bool>
 
     <!-- Subscription-specific settings. The values of these pref keys must be prefixed with
          "buglesub_" to allow for runtime sanity checks -->
