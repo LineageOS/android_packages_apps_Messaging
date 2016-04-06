@@ -38,6 +38,7 @@ import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
+import android.telephony.SubscriptionManager;
 import android.text.TextUtils;
 import android.text.util.Rfc822Token;
 import android.text.util.Rfc822Tokenizer;
@@ -2367,11 +2368,14 @@ public class MmsUtils {
     public static Uri insertSendingMmsMessage(final Context context, final List<String> recipients,
             final MessageData content, final int subId, final String subPhoneNumber,
             final long timestamp) {
+        final boolean requireDeliveryReport = isMmsDeliveryReportRequired(subId);
+        final boolean requireReadReport = isMmsDeliveryReportRequired(subId);
+        final long expiryTime = getExpiryTime(subId);
         final SendReq sendReq = createMmsSendReq(
                 context, subId, recipients.toArray(new String[recipients.size()]), content,
-                DEFAULT_DELIVERY_REPORT_MODE,
-                DEFAULT_READ_REPORT_MODE,
-                DEFAULT_EXPIRY_TIME_IN_SECONDS,
+                requireDeliveryReport,
+                requireReadReport,
+                expiryTime,
                 DEFAULT_PRIORITY,
                 timestamp);
         Uri messageUri = null;
@@ -2525,6 +2529,49 @@ public class MmsUtils {
         final String deliveryReportKey = res.getString(R.string.delivery_reports_pref_key);
         final boolean defaultValue = res.getBoolean(R.bool.delivery_reports_pref_default);
         return prefs.getBoolean(deliveryReportKey, defaultValue);
+    }
+
+    public static boolean isMmsDeliveryReportRequired(final int subId) {
+        final Context context = Factory.get().getApplicationContext();
+        final Resources res = context.getResources();
+        final BuglePrefs prefs = BuglePrefs.getSubscriptionPrefs(subId);
+        final String mmsDeliveryReportKey = res.getString(R.string.pref_key_mms_delivery_reports);
+        final boolean defaultValue = res.getBoolean(R.bool.def_mms_delivery_reports);
+        return prefs.getBoolean(mmsDeliveryReportKey, defaultValue);
+    }
+
+    public static boolean isMmsReadReportRequired(final int subId) {
+        final Context context = Factory.get().getApplicationContext();
+        final Resources res = context.getResources();
+        final BuglePrefs prefs = BuglePrefs.getSubscriptionPrefs(subId);
+        final String readReportKey = res.getString(R.string.pref_key_mms_read_reports);
+        final boolean defaultValue = DEFAULT_READ_REPORT_MODE;
+        return prefs.getBoolean(readReportKey, defaultValue);
+    }
+
+    public static long getExpiryTime(final int subId) {
+        final Context context = Factory.get().getApplicationContext();
+        final Resources res = context.getResources();
+        final BuglePrefs prefs = BuglePrefs.getSubscriptionPrefs(subId);
+        final String expiryStr = res.getString(R.string.pref_key_mms_expiry);
+        final String expiryStr1 = res.getString(R.string.pref_key_mms_expiry_slot1);
+        final String expiryStr2 = res.getString(R.string.pref_key_mms_expiry_slot2);
+        final int mPhoneId = SubscriptionManager.getPhoneId(subId);
+
+        // Expiry.
+        long expiryTime = DEFAULT_EXPIRY_TIME_IN_SECONDS;
+
+        if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
+            expiryTime = Long.parseLong(
+                    prefs.getString((mPhoneId == 0) ?
+                            expiryStr1:
+                            expiryStr2, "0"));
+        } else {
+            expiryTime = Long.parseLong(
+                    prefs.getString(expiryStr, "0"));
+        }
+
+        return expiryTime;
     }
 
     public static int sendSmsMessage(final String recipient, final String messageText,
