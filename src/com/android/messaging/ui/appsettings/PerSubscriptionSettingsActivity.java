@@ -24,6 +24,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.ListPreference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
@@ -80,6 +81,10 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
             implements OnSharedPreferenceChangeListener {
         private PhoneNumberPreference mPhoneNumberPreference;
         private Preference mGroupMmsPreference;
+        private ListPreference mMmsExpiryPref;
+        private ListPreference mMmsExpiryCard1Pref;
+        private ListPreference mMmsExpiryCard2Pref;
+
         private String mGroupMmsPrefKey;
         private String mPhoneNumberKey;
         private int mSubId;
@@ -184,6 +189,17 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
                 final Preference deliveryReportsPreference =
                         findPreference(getString(R.string.delivery_reports_pref_key));
                 deliveryReportsPreference.setEnabled(false);
+            }
+
+            mMmsExpiryPref = (ListPreference) findPreference(getString(R.string.pref_key_mms_expiry));
+            mMmsExpiryCard1Pref = (ListPreference) findPreference(getString(R.string.pref_key_mms_expiry_slot1));
+            mMmsExpiryCard2Pref = (ListPreference) findPreference(getString(R.string.pref_key_mms_expiry_slot2));
+
+            if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
+                mmsCategory.removePreference(mMmsExpiryPref);
+            } else {
+                mmsCategory.removePreference(mMmsExpiryCard1Pref);
+                mmsCategory.removePreference(mMmsExpiryCard2Pref);
             }
         }
 
