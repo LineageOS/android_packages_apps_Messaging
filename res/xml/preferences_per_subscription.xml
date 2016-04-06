@@ -30,6 +30,18 @@
             android:title="@string/mms_phone_number_pref_title" />
 
         <CheckBoxPreference
+            android:key="pref_key_mms_delivery_reports"
+            android:title="@string/pref_title_mms_delivery_reports"
+            android:summary="@string/pref_summary_mms_delivery_reports"
+            android:defaultValue="@bool/def_mms_delivery_reports" />
+
+        <CheckBoxPreference
+            android:key="pref_key_mms_read_reports"
+            android:title="@string/pref_title_mms_read_reports"
+            android:summary="@string/pref_summary_mms_read_reports"
+            android:defaultValue="false" />
+
+        <CheckBoxPreference
             android:key="@string/auto_retrieve_mms_pref_key"
             android:title="@string/auto_retrieve_mms_pref_title"
             android:summary="@string/auto_retrieve_mms_pref_summary"
@@ -41,6 +53,30 @@
             android:title="@string/auto_retrieve_mms_when_roaming_pref_title"
             android:summary="@string/auto_retrieve_mms_when_roaming_pref_summary"
             android:defaultValue="@bool/auto_retrieve_mms_when_roaming_pref_default" />
+
+        <ListPreference android:key="pref_key_mms_expiry"
+            android:title="@string/pref_title_validity_period"
+            android:dialogTitle="@string/pref_title_validity_period"
+            android:summary="%s"
+            android:entries="@array/save_time"
+            android:entryValues="@array/save_time_values"
+            android:defaultValue="0" />
+
+        <ListPreference android:key="pref_key_mms_expiry_slot1"
+            android:title="@string/pref_title_validity_period_slot1"
+            android:dialogTitle="@string/pref_title_validity_period"
+            android:summary="%s"
+            android:entries="@array/save_time"
+            android:entryValues="@array/save_time_values"
+            android:defaultValue="0" />
+
+        <ListPreference android:key="pref_key_mms_expiry_slot2"
+            android:title="@string/pref_title_validity_period_slot2"
+            android:dialogTitle="@string/pref_title_validity_period"
+            android:summary="%s"
+            android:entries="@array/save_time"
+            android:entryValues="@array/save_time_values"
+            android:defaultValue="0" />
 
     </PreferenceCategory>
 
