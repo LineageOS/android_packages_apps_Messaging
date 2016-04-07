@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_1884005e",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-04-07T15:49:44Z",
+      "side": 1,
+      "message": "any reason to put these in strings.xml instead of cm_strings.xml?",
+      "revId": "1ac2456e941151f5b1d85400f6901282fd82add0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_3889bc74",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-04-07T15:49:44Z",
+      "side": 1,
+      "message": "in the options we show the user we allow them to have a \"maximum\" validity period set, but then if they choose that option we set it to one week based on this.\n\nShould this be -1 based on how expiry is read in PduPersister?",
+      "revId": "1ac2456e941151f5b1d85400f6901282fd82add0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
