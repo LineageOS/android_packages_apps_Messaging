@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_d8b188e3",
+        "filename": "res/xml-v21/preferences_per_subscription.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "please follow the naming convention of this xml\n\neach key is \u003cfeature\u003e_pref_key\neach title is \u003cfeature\u003e_pref_title\netc",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 43
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_98cb1052",
+        "filename": "res/xml/preferences_per_subscription.xml",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "see other comment",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 67
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_b8c84c55",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "please use braces when wrapping",
+      "range": {
+        "startLine": 2512,
+        "startChar": 8,
+        "endLine": 2513,
+        "endChar": 38
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_18dde013",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2529,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "update this as well",
+      "range": {
+        "startLine": 2527,
+        "startChar": 0,
+        "endLine": 2529,
+        "endChar": 72
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_58c5983b",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2538,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "This can be consolidated into a method that returns BuglePrefs",
+      "range": {
+        "startLine": 2536,
+        "startChar": 0,
+        "endLine": 2538,
+        "endChar": 72
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_78c2d435",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2547,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 2545,
+        "startChar": 0,
+        "endLine": 2547,
+        "endChar": 72
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_38e21cd7",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2556,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "same",
+      "range": {
+        "startLine": 2554,
+        "startChar": 0,
+        "endLine": 2556,
+        "endChar": 72
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_d8e668e9",
+        "filename": "src/com/android/messaging/ui/appsettings/PerSubscriptionSettingsActivity.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:55:21Z",
+      "side": 1,
+      "message": "line wrap at 100 char",
+      "range": {
+        "startLine": 194,
+        "startChar": 0,
+        "endLine": 196,
+        "endChar": 113
+      },
+      "revId": "2259e194facef5b041c60ebaff8775e5a7ae0427",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
