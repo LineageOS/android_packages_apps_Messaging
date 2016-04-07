@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_d5aab183",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2535,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-07T06:53:08Z",
+      "side": 1,
+      "message": "replace all public static with private",
+      "revId": "6b6a8029b9f6f56b2b4eb01148252f04e031588f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_f5afad91",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2574,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-07T06:53:08Z",
+      "side": 1,
+      "message": "Looking at 12.1 messaging,we need the logic to not send 0.\nWe need to do something like this here: \n\nreturn expiryTime !\u003d 0 ? expiryTime : DEFAULT_EXPIRY_TIME_IN_SECONDS;",
+      "revId": "6b6a8029b9f6f56b2b4eb01148252f04e031588f",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
