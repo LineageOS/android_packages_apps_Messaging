@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_15d3693a",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2548,
+      "author": {
+        "id": 14621
+      },
+      "writtenOn": "2016-04-07T03:50:40Z",
+      "side": 1,
+      "message": "We should define this constant also in constants.xml like def_mms_delivery_reports",
+      "range": {
+        "startLine": 2548,
+        "startChar": 37,
+        "endLine": 2548,
+        "endChar": 61
+      },
+      "revId": "ff666a9a7b22a8dcbc5f4c240e05f83c0999452e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7faddb67_35d8e551",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2574,
+      "author": {
+        "id": 14621
+      },
+      "writtenOn": "2016-04-07T03:50:40Z",
+      "side": 1,
+      "message": "Logic seems wrong. DEFAULT_EXPIRY_TIME_IN_SECONDS is never returned. It should be used as default value when fetching the pref.",
+      "range": {
+        "startLine": 2574,
+        "startChar": 15,
+        "endLine": 2574,
+        "endChar": 25
+      },
+      "revId": "ff666a9a7b22a8dcbc5f4c240e05f83c0999452e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
