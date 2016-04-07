@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_f5132d0c",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2574,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-07T02:49:24Z",
+      "side": 1,
+      "message": "No need to add if check here. Anyway, the value is returned on next line.",
+      "range": {
+        "startLine": 2574,
+        "startChar": 17,
+        "endLine": 2574,
+        "endChar": 27
+      },
+      "revId": "f12cabe7d113a9e4445041e268eb7398d641abc3",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
