@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7faddb67_d8aae883",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 457,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-07T16:38:15Z",
+      "side": 1,
+      "message": "these need to be in cm_strings otherwise crowdin won\u0027t pick them up iirc",
+      "parentUuid": "7faddb67_1884005e",
+      "revId": "1ac2456e941151f5b1d85400f6901282fd82add0",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7faddb67_3889bc74",
         "filename": "src/com/android/messaging/sms/MmsUtils.java",
         "patchSetId": 5
