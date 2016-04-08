@@ -36,7 +36,8 @@ LOCAL_RESOURCE_DIR += frameworks/opt/photoviewer/activity/res
 LOCAL_RESOURCE_DIR += packages/apps/ContactsCommon/res
 LOCAL_RESOURCE_DIR += packages/apps/PhoneCommon/res
 
-LOCAL_JAVA_LIBRARIES += telephony-common
+LOCAL_JAVA_LIBRARIES += telephony-common \
+    ims-common
 
 LOCAL_STATIC_JAVA_LIBRARIES := android-common
 LOCAL_STATIC_JAVA_LIBRARIES += android-common-framesequence
