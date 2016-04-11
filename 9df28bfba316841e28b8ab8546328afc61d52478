@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_ae8d5f32",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2586,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-11T12:43:59Z",
+      "side": 1,
+      "message": "No need to make this as separate function.Just call BuglePrefs.getSub...",
+      "revId": "9df28bfba316841e28b8ab8546328afc61d52478",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
