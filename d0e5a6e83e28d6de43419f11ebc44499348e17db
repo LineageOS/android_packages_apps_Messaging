@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7faddb67_2e3acf33",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 2539,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-11T13:25:33Z",
+      "side": 1,
+      "message": "Agree that this can not be split further into separate function as res is used separately in the functions below...",
+      "range": {
+        "startLine": 2539,
+        "startChar": 70,
+        "endLine": 2539,
+        "endChar": 72
+      },
+      "revId": "d0e5a6e83e28d6de43419f11ebc44499348e17db",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
