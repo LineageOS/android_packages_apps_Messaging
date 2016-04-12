@@ -53,9 +53,6 @@
          to indicate default value -->
     <int name="maxMessageTextSize">-1</int>
 
-    <!-- enable for Notify Wap MMSC flag -->
-    <bool name="enabledNotifyWapMMSC">false</bool>
-
     <!-- UAProf parameter tag name -->
     <!-- this is default to "x-wap-profile". Override if necessary. Optional -->
     <!--
