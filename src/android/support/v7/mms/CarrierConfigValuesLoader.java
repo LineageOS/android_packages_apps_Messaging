@@ -195,4 +195,24 @@ public interface CarrierConfigValuesLoader {
      */
     public static final String CONFIG_NAI_SUFFIX = "naiSuffix";
     public static final String CONFIG_NAI_SUFFIX_DEFAULT = null;
+    /**
+     * Integer value: default limit for number of SMS per conversation
+     */
+    public static final String CONFIG_SMS_MESSAGES_PER_THREAD = "defaultSMSMessagesPerThread";
+    public static final int CONFIG_SMS_MESSAGES_PER_THREAD_DEFAULT = 10000;
+    /**
+     * Integer value: default limit for number of MMS per conversation
+     */
+    public static final String CONFIG_MMS_MESSAGES_PER_THREAD = "defaultMMSMessagesPerThread";
+    public static final int CONFIG_MMS_MESSAGES_PER_THREAD_DEFAULT = 1000;
+    /**
+     * Integer value: minimum limit for number of messages per conversation
+     */
+    public static final String CONFIG_MIN_MESSAGE_COUNT_PER_THREAD = "minMessageCountPerThread";
+    public static final int CONFIG_MIN_MESSAGE_COUNT_PER_THREAD_DEFAULT = 10;
+    /**
+     * Integer value: maximum limit for number of messages per conversation
+     */
+    public static final String CONFIG_MAX_MESSAGE_COUNT_PER_THREAD = "maxMessageCountPerThread";
+    public static final int CONFIG_MAX_MESSAGE_COUNT_PER_THREAD_DEFAULT = 10000;
 }

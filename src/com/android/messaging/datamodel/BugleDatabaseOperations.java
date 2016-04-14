@@ -1939,4 +1939,67 @@ public class BugleDatabaseOperations {
         Assert.inRange(count, 0, 1);
         return (count >= 0);
     }
+
+    @DoesNotRunOnMainThread
+    public static boolean deleteConversationByProtocol(final DatabaseWrapper dbWrapper,
+            final String conversationId, final long cutoffTimestamp, final int protocol) {
+        if (protocol != MessageData.PROTOCOL_SMS && protocol != MessageData.PROTOCOL_MMS) {
+            return false;
+        }
+
+        Assert.isNotMainThread();
+        dbWrapper.beginTransaction();
+        boolean conversationDeleted = false;
+        boolean conversationMessagesDeleted;
+        try {
+            // Delete all messages prior to the cutoff
+            dbWrapper.delete(DatabaseHelper.MESSAGES_TABLE,
+                    MessageColumns.CONVERSATION_ID + "=? AND "
+                            + MessageColumns.RECEIVED_TIMESTAMP + "<=? AND "
+                            + MessageColumns.PROTOCOL + "=?",
+                    new String[] { conversationId, Long.toString(cutoffTimestamp),
+                            Integer.toString(protocol) });
+            // Check to see if there are any messages left in the conversation
+            final long count = dbWrapper.queryNumEntries(DatabaseHelper.MESSAGES_TABLE,
+                    MessageColumns.CONVERSATION_ID + "=?", new String[] { conversationId });
+            conversationMessagesDeleted = (count <= 0);
+
+            if (conversationMessagesDeleted) {
+                // Delete conversation row
+                final int conversationCount = dbWrapper.delete(DatabaseHelper.CONVERSATIONS_TABLE,
+                        ConversationColumns._ID + "=?", new String[] { conversationId });
+                conversationDeleted = (conversationCount > 0);
+            }
+            dbWrapper.setTransactionSuccessful();
+        } finally {
+            dbWrapper.endTransaction();
+        }
+        return conversationDeleted;
+    }
+
+    public static long getCutOffTimeStampFromLimit(final String conversationId,
+            final int maxLimit, final int protocol) {
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        db.beginTransaction();
+        Cursor cursor = null;
+        Long cutoffTimeStamp = Long.MIN_VALUE;
+        try {
+            cursor = db.query(DatabaseHelper.MESSAGES_TABLE,
+                    new String[]{ MessageColumns.RECEIVED_TIMESTAMP },
+                    MessageColumns.CONVERSATION_ID + "=? AND " + MessageColumns.PROTOCOL + "=?",
+                    new String[]{ conversationId, Integer.toString(protocol) }, null, null,
+                    MessageColumns.RECEIVED_TIMESTAMP + " DESC", null);
+            if (cursor != null && cursor.getCount() > maxLimit) {
+                cursor.moveToPosition(maxLimit);
+                cutoffTimeStamp = cursor.getLong(0);
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return cutoffTimeStamp;
+    }
 }
