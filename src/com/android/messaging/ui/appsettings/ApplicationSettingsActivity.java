@@ -38,13 +38,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.messaging.R;
+import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.LicenseActivity;
+import com.android.messaging.ui.NumberPickerDialog;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
+import com.cyanogenmod.messaging.util.PrefsUtils;
 
 public class ApplicationSettingsActivity extends BugleActionBarActivity {
     @Override
@@ -104,6 +107,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         private ListPreference mSmsValidityPref;
         private ListPreference mSmsValidityCard1Pref;
         private ListPreference mSmsValidityCard2Pref;
+        private Preference mSmsLimitPref;
+        private Preference mMmsLimitPref;
 
 
         public ApplicationSettingsFragment() {
@@ -132,6 +137,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSmsValidityPref = (ListPreference) findPreference("pref_key_sms_validity_period");
             mSmsValidityCard1Pref = (ListPreference) findPreference("pref_key_sms_validity_period_slot1");
             mSmsValidityCard2Pref = (ListPreference) findPreference("pref_key_sms_validity_period_slot2");
+            mSmsLimitPref = findPreference("sms_delete_limit_pref_key");
+            mMmsLimitPref = findPreference("mms_delete_limit_pref_key");
 
             if (getResources().getBoolean(R.bool.config_sms_validity)) {
                 if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
@@ -172,6 +179,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
                 // the parent SettingsActivity.
                 getPreferenceScreen().removePreference(advancedScreen);
             }
+            setSmsDisplayLimit();
+            setMmsDisplayLimit();
         }
 
         @Override
@@ -180,6 +189,28 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             if (preference.getKey() ==  mSmsDisabledPrefKey ||
                     preference.getKey() == mSmsEnabledPrefKey) {
                 mIsSmsPreferenceClicked = true;
+            } else if (getActivity() != null &&
+                    preference.getKey().equals(mSmsLimitPref.getKey())) {
+
+                    new NumberPickerDialog(getActivity(),
+                        mSmsLimitListener,
+                        PrefsUtils.getSMSMessagesPerThreadLimit(),
+                        MmsConfig.getMinMessageCountPerThread(),
+                        MmsConfig.getMaxMessageCountPerThread(),
+                        R.string.pref_title_sms_delete,
+                        R.string.pref_messages_to_save).show();
+
+            } else if(getActivity() != null &&
+                    preference.getKey().equals(mMmsLimitPref.getKey())) {
+
+                    new NumberPickerDialog(getActivity(),
+                        mMmsLimitListener,
+                        PrefsUtils.getMMSMessagesPerThreadLimit(),
+                        MmsConfig.getMinMessageCountPerThread(),
+                        MmsConfig.getMaxMessageCountPerThread(),
+                        R.string.pref_title_mms_delete,
+                        R.string.pref_messages_to_save).show();
+
             }
             return super.onPreferenceTreeClick(preferenceScreen, preference);
         }
@@ -286,5 +317,33 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             getPreferenceScreen().getSharedPreferences()
                     .unregisterOnSharedPreferenceChangeListener(this);
         }
+
+        private void setSmsDisplayLimit() {
+            mSmsLimitPref.setSummary(
+                    getString(R.string.pref_summary_delete_limit,
+                            PrefsUtils.getSMSMessagesPerThreadLimit()));
+        }
+
+        private void setMmsDisplayLimit() {
+            mMmsLimitPref.setSummary(
+                    getString(R.string.pref_summary_delete_limit,
+                            PrefsUtils.getMMSMessagesPerThreadLimit()));
+        }
+
+        NumberPickerDialog.OnNumberSetListener mSmsLimitListener =
+                new NumberPickerDialog.OnNumberSetListener() {
+                    public void onNumberSet(int limit) {
+                        PrefsUtils.setSMSMessagesPerThreadLimit(limit);
+                        setSmsDisplayLimit();
+                    }
+                };
+
+        NumberPickerDialog.OnNumberSetListener mMmsLimitListener =
+                new NumberPickerDialog.OnNumberSetListener() {
+                    public void onNumberSet(int limit) {
+                        PrefsUtils.setMMSMessagesPerThreadLimit(limit);
+                        setMmsDisplayLimit();
+                    }
+                };
     }
 }

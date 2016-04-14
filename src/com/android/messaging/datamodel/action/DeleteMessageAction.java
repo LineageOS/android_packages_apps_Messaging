@@ -22,6 +22,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import android.util.Log;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
@@ -29,12 +30,36 @@ import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.LogUtil;
+import com.cyanogenmod.messaging.util.PrefsUtils;
+
+import java.util.ArrayList;
 
 /**
  * Action used to delete a single message.
  */
 public class DeleteMessageAction extends Action implements Parcelable {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
+
+    public static void deleteMessagesOverLimit(final String conversationId) {
+
+        if(!PrefsUtils.isAutoDeleteEnabled()) {
+            return;
+        }
+
+        int smsCutOffLimit = PrefsUtils.getSMSMessagesPerThreadLimit();
+        ArrayList<String> markedMessageIds = BugleDatabaseOperations.
+                getMessageIdsOverLimit(conversationId, smsCutOffLimit, MessageData.PROTOCOL_SMS);
+
+        int mmsCutOffLimit = PrefsUtils.getMMSMessagesPerThreadLimit();
+        ArrayList<String> mmsMarkedMessageIds = BugleDatabaseOperations.
+                getMessageIdsOverLimit(conversationId, mmsCutOffLimit, MessageData.PROTOCOL_MMS);
+
+        markedMessageIds.addAll(mmsMarkedMessageIds);
+
+        for(String messageId : markedMessageIds) {
+            deleteMessage(messageId);
+        }
+    }
 
     public static void deleteMessage(final String messageId) {
         final DeleteMessageAction action = new DeleteMessageAction(messageId);
