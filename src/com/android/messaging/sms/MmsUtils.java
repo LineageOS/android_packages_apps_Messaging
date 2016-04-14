@@ -1386,6 +1386,37 @@ public class MmsUtils {
         return deleted;
     }
 
+    public static int deleteMessagesOlderThanByProtocol(final long cutOffTimestampInMillis, final int protocol) {
+
+        Uri uri = null;
+        String selectionSql = null;
+        String dateField = null;
+
+        if(protocol == MessageData.PROTOCOL_SMS) {
+            uri = Sms.CONTENT_URI;
+            selectionSql = getSmsTypeSelectionSql();
+            dateField = Sms.DATE;
+        } else if(protocol == MessageData.PROTOCOL_MMS) {
+            uri = Mms.CONTENT_URI;
+            selectionSql = getMmsTypeSelectionSql();
+            dateField = Mms.DATE;
+        }
+        if(uri == null || selectionSql == null  || dateField == null) {
+            return 0;
+        }
+
+        final ContentResolver resolver = Factory.get().getApplicationContext().getContentResolver();
+        final String selection = String.format(
+                Locale.US,
+                "%s AND (%s<=%d)",
+                selectionSql,
+                dateField,
+                cutOffTimestampInMillis);
+        int deleted = resolver.delete(uri, selection, null);
+
+        return deleted;
+    }
+
     /**
      * Update the read status of SMS/MMS messages by thread and timestamp
      *
