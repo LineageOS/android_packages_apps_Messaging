@@ -41,7 +41,7 @@
     <string name="read_reports_mms_pref_title">Read reports</string>
 
     <!-- Item Descriptions for MMS sending Priority -->
-    <string name="priority_pref_title">Send Priority</string>
+    <string name="priority_pref_title">Sending priority</string>
     <string name="priority_low">Low</string>
     <string name="priority_normal">Normal</string>
     <string name="priority_high">High</string>
