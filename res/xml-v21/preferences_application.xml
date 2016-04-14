@@ -112,6 +112,32 @@
         android:defaultValue="false"
         android:persistent="true" />
 
+    <!--Storage Preferences-->
+    <PreferenceCategory
+        android:title="@string/sms_storage_pref_title"
+        android:key="storage_settings_pref_key">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="auto_delete_pref_key"
+            android:summary="@string/pref_summary_auto_delete"
+            android:title="@string/auto_delete_pref_title" />
+
+        <Preference
+            android:key="sms_delete_limit_pref_key"
+            android:dependency="auto_delete_pref_key"
+            android:persistent="false"
+            android:summary="@string/pref_summary_delete_limit"
+            android:title="@string/sms_delete_pref_title" />
+
+        <Preference
+            android:key="mms_delete_limit_pref_key"
+            android:dependency="auto_delete_pref_key"
+            android:persistent="false"
+            android:summary="@string/pref_summary_delete_limit"
+            android:title="@string/mms_delete_pref_title" />
+    </PreferenceCategory>
+
     <!-- QuickMessage settings -->
     <PreferenceCategory android:title="@string/pref_quickmessage">
 

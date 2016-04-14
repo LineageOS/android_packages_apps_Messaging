@@ -17,19 +17,27 @@
 package com.cyanogenmod.messaging.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.android.messaging.Factory;
 import com.android.messaging.R;
+import com.android.messaging.datamodel.data.MessageData;
+import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.UnicodeFilter;
 import com.android.messaging.util.PhoneUtils;
+import java.lang.IllegalArgumentException;
 
 public class PrefsUtils {
 
     // QuickMessage
     public static final String QUICKMESSAGE_ENABLED      = "pref_key_quickmessage";
     public static final String QM_CLOSE_ALL_ENABLED      = "pref_key_close_all";
+
+    //Storage Limits
+    public static final String PREF_STORAGE_AUTO_DELETE = "auto_delete_pref_key";
+    public static final String PREF_SMS_MESSAGES_PER_THREAD = "sms_delete_limit_pref_key";
+    public static final String PREF_MMS_MESSAGES_PER_THREAD = "mms_delete_limit_pref_key";
+
+    public static final boolean PREF_STORAGE_AUTO_DELETE_DEFAULT = false;
 
     private PrefsUtils() {
         //Don't instantiate
@@ -89,6 +97,42 @@ public class PrefsUtils {
             validityPeriod = prefs.getString(prefKey, null);
         }
         return (validityPeriod == null) ? -1 : Integer.parseInt(validityPeriod);
+    }
+
+    public static boolean isAutoDeleteEnabled() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        return prefs.getBoolean(PREF_STORAGE_AUTO_DELETE, PREF_STORAGE_AUTO_DELETE_DEFAULT);
+    }
+
+    public static void setSMSMessagesPerThreadLimit(int limit) {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        prefs.putInt(PREF_SMS_MESSAGES_PER_THREAD, limit);
+    }
+
+    public static void setMMSMessagesPerThreadLimit(int limit) {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        prefs.putInt(PREF_MMS_MESSAGES_PER_THREAD, limit);
+    }
+
+    public static int getSMSMessagesPerThreadLimit() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        return prefs.getInt(PREF_SMS_MESSAGES_PER_THREAD, MmsConfig.getSMSMessagesPerThread());
+    }
+
+    public static int getMMSMessagesPerThreadLimit() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        return prefs.getInt(PREF_MMS_MESSAGES_PER_THREAD, MmsConfig.getMMSMessagesPerThread());
+    }
+
+    public static int getMessagesPerThreadLimitByProtocol(int protocol) {
+        if(protocol == MessageData.PROTOCOL_SMS) {
+            return getSMSMessagesPerThreadLimit();
+        } else if(protocol == MessageData.PROTOCOL_MMS) {
+            return getMMSMessagesPerThreadLimit();
+        }
+
+        throw new IllegalArgumentException("Invalid Protocol protocol ="
+                + Integer.toString(protocol));
     }
 
 }
