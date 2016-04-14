@@ -170,7 +170,7 @@ public class ReceiveSmsMessageAction extends Action implements Parcelable {
 
         MessagingContentProvider.notifyMessagesChanged(conversationId);
         MessagingContentProvider.notifyPartsChanged();
-
+        DeleteMessageAction.deleteMessagesOverLimit(conversationId);
         return message;
     }
 

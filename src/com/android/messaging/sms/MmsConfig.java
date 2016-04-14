@@ -90,6 +90,10 @@ public class MmsConfig {
         sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_HTTP_PARAMS, KEY_TYPE_STRING);
         sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_EMAIL_GATEWAY_NUMBER, KEY_TYPE_STRING);
         sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_NAI_SUFFIX, KEY_TYPE_STRING);
+        sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_MIN_MESSAGE_COUNT_PER_THREAD, KEY_TYPE_INT);
+        sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_SMS_MESSAGES_PER_THREAD, KEY_TYPE_INT);
+        sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_MMS_MESSAGES_PER_THREAD, KEY_TYPE_INT);
+        sKeyTypeMap.put(CarrierConfigValuesLoader.CONFIG_MAX_MESSAGE_COUNT_PER_THREAD, KEY_TYPE_INT);
     }
 
     // A map that stores all MmsConfigs, one per active subscription. For pre-LMSim, this will
@@ -185,6 +189,42 @@ public class MmsConfig {
     public int getMaxMessageSize() {
         return mValues.getInt(CarrierConfigValuesLoader.CONFIG_MAX_MESSAGE_SIZE,
                 CarrierConfigValuesLoader.CONFIG_MAX_MESSAGE_SIZE_DEFAULT);
+    }
+
+    public static int getMinOfTheConfigValues(String configName, int defaultValue) {
+        int min = defaultValue;
+        for (MmsConfig config : sSubIdToMmsConfigMap.values()) {
+            min = Math.min(min, config.mValues.getInt(configName, defaultValue));
+        }
+        return min;
+    }
+
+    public static int getMaxOfTheConfigValues(String configName, int defaultValue) {
+        int max = defaultValue;
+        for (MmsConfig config : sSubIdToMmsConfigMap.values()) {
+            max = Math.max(max, config.mValues.getInt(configName, defaultValue));
+        }
+        return max;
+    }
+
+    public static int getMinMessageCountPerThread() {
+        return getMaxOfTheConfigValues(CarrierConfigValuesLoader.CONFIG_MIN_MESSAGE_COUNT_PER_THREAD,
+                CarrierConfigValuesLoader.CONFIG_MIN_MESSAGE_COUNT_PER_THREAD_DEFAULT);
+    }
+
+    public static int getMaxMessageCountPerThread() {
+        return getMinOfTheConfigValues(CarrierConfigValuesLoader.CONFIG_MAX_MESSAGE_COUNT_PER_THREAD,
+                CarrierConfigValuesLoader.CONFIG_MAX_MESSAGE_COUNT_PER_THREAD_DEFAULT);
+    }
+
+    public static int getSMSMessagesPerThread() {
+        return getMaxOfTheConfigValues(CarrierConfigValuesLoader.CONFIG_SMS_MESSAGES_PER_THREAD,
+                CarrierConfigValuesLoader.CONFIG_SMS_MESSAGES_PER_THREAD_DEFAULT);
+    }
+
+    public static int getMMSMessagesPerThread() {
+        return getMaxOfTheConfigValues(CarrierConfigValuesLoader.CONFIG_MMS_MESSAGES_PER_THREAD,
+                CarrierConfigValuesLoader.CONFIG_MMS_MESSAGES_PER_THREAD_DEFAULT);
     }
 
     /**

@@ -1939,4 +1939,34 @@ public class BugleDatabaseOperations {
         Assert.inRange(count, 0, 1);
         return (count >= 0);
     }
+
+    public static ArrayList<String> getMessageIdsOverLimit(final String conversationId,
+                                                   final int maxLimit, final int protocol) {
+
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        db.beginTransaction();
+        Cursor cursor = null;
+        ArrayList<String> messageIdsOverLimit = new ArrayList<String>();
+        try {
+            cursor = db.query(DatabaseHelper.MESSAGES_TABLE,
+                    new String[]{ MessageColumns._ID },
+                    MessageColumns.CONVERSATION_ID + "=? AND " + MessageColumns.PROTOCOL + "=?",
+                    new String[]{ conversationId, Integer.toString(protocol) }, null, null,
+                    MessageColumns.RECEIVED_TIMESTAMP + " DESC", null);
+            if(cursor != null && cursor.getCount() > maxLimit) {
+                cursor.moveToPosition(maxLimit);
+                do {
+                    messageIdsOverLimit.add(cursor.getString(0));
+                    cursor.moveToNext();
+                } while(!cursor.isAfterLast());
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            if(cursor != null) {
+                cursor.close();
+            }
+        }
+        return messageIdsOverLimit;
+    }
 }
