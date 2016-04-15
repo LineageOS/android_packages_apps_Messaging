@@ -26,4 +26,14 @@
     <!-- Preference keys for user-visible settings -->
     <!-- Application-wide settings -->
     <bool name="show_emoticons_pref_default" translatable="false">true</bool>
+
+    <!-- Subscription-specific settings. The values of these pref keys must be prefixed with
+     "buglesub_" to allow for runtime sanity checks -->
+    <string name="expiry_mms_pref_key" translatable="false">buglesub_expiry_mms_pref_key</string>
+    <string name="expiry_slot1_mms_pref_key" translatable="false">buglesub_expiry_slot1_mms_pref_key</string>
+    <string name="expiry_slot2_mms_pref_key" translatable="false">buglesub_expiry_slot2_mms_pref_key</string>
+    <string name="delivery_reports_mms_pref_key" translatable="false">buglesub_delivery_reports_mms_pref_key</string>
+    <bool name="def_mms_delivery_reports">false</bool>
+    <string name="read_reports_mms_pref_key" translatable="false">buglesub_read_reports_mms_pref_key</string>
+    <string name="priority_mms_pref_key" translatable="false">buglesub_priority_mms_pref_key</string>
 </resources>
