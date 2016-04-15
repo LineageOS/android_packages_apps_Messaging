@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_254a2e80",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1949,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-15T09:40:27Z",
+      "side": 1,
+      "message": "This should not delete all SMS/MMS by timestamp. Rather this should not delete any messages.",
+      "revId": "6c286c2ed64faac8726469a677a563c82d652944",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
