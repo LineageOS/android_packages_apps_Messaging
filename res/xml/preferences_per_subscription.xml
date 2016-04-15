@@ -42,6 +42,12 @@
             android:defaultValue="false" />
 
         <CheckBoxPreference
+            android:key="@string/mms_auto_enable_data_pref_key"
+            android:title="@string/mms_auto_enable_data_pref_title"
+            android:summary="@string/mms_auto_enable_data_pref_summary"
+            android:defaultValue="@bool/enable_data_for_mms" />
+
+        <CheckBoxPreference
             android:key="@string/auto_retrieve_mms_pref_key"
             android:title="@string/auto_retrieve_mms_pref_title"
             android:summary="@string/auto_retrieve_mms_pref_summary"

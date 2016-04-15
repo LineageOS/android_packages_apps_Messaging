@@ -32,6 +32,7 @@
     <string name="delivery_reports_mms_pref_key" translatable="false">delivery_reports_mms_pref_key</string>
     <string name="read_reports_mms_pref_key" translatable="false">read_reports_mms_pref_key</string>
     <string name="priority_mms_pref_key" translatable="false">priority_mms_pref_key</string>
+    <string name="mms_auto_enable_data_pref_key" translatable="false">mms_auto_enable_data</string>
     <bool name="notifications_enabled_pref_default" translatable="false">true</bool>
     <string name="notification_sound_pref_key" translatable="false">notification_sound</string>
     <string name="notification_vibration_pref_key" translatable="false">notification_vibration</string>

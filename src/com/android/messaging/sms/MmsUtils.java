@@ -36,6 +36,7 @@ import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
+import android.telephony.TelephonyManager;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.telephony.SubscriptionManager;
@@ -99,8 +100,6 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
-import android.util.Log;
-
 /**
  * Utils for sending sms/mms messages.
  */
@@ -113,6 +112,10 @@ public class MmsUtils {
     public static final int DEFAULT_PRIORITY = PduHeaders.PRIORITY_NORMAL;
 
     public static final int MAX_SMS_RETRY = 3;
+
+    // Indicates mobile data was enabled automatically by MMS
+    private static boolean mDataEnabledByAuto = false;
+    private static TelephonyManager mTelMgr;
 
     /**
      * MMS request succeeded
@@ -1846,6 +1849,10 @@ public class MmsUtils {
             final int subId, final String subPhoneNumber, final String transactionId,
             final String contentLocation, final boolean autoDownload,
             final long receivedTimestampInSeconds, Bundle extras) {
+        boolean autoEnableData = isAutoEnableData(subId);
+        if (mTelMgr == null) {
+            mTelMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        }
         if (TextUtils.isEmpty(contentLocation)) {
             LogUtil.e(TAG, "MmsUtils: Download from empty content location URL");
             return new StatusPlusUri(
@@ -1858,6 +1865,10 @@ public class MmsUtils {
                     MessageData.RAW_TELEPHONY_STATUS_UNDEFINED,
                     null,
                     SmsManager.MMS_ERROR_NO_DATA_NETWORK);
+        }
+        if (!mTelMgr.getDataEnabled() && autoEnableData) {
+            mDataEnabledByAuto = true;
+            mTelMgr.setDataEnabled(subId, true);
         }
         int status = MMS_REQUEST_MANUAL_RETRY;
         try {
@@ -1926,6 +1937,12 @@ public class MmsUtils {
         retrieveStatus = retrieveConf.getRetrieveStatus();
         if (retrieveStatus == PduHeaders.RETRIEVE_STATUS_OK) {
             status = MMS_REQUEST_SUCCEEDED;
+            if (mDataEnabledByAuto) {
+                mDataEnabledByAuto = false;
+                if(mTelMgr != null && mTelMgr.getDataEnabled()) {
+                    mTelMgr.setDataEnabled(subId, false);
+                }
+            }
         } else if (retrieveStatus >= PduHeaders.RETRIEVE_STATUS_ERROR_TRANSIENT_FAILURE &&
                 retrieveStatus < PduHeaders.RETRIEVE_STATUS_ERROR_PERMANENT_FAILURE) {
             status = MMS_REQUEST_AUTO_RETRY;
@@ -2059,6 +2076,14 @@ public class MmsUtils {
         return (RetrieveConf) pdu;
     }
 
+    private static boolean isAutoEnableData(final int subId) {
+        final Resources res = Factory.get().getApplicationContext().getResources();
+        final BuglePrefs prefs = BuglePrefs.getSubscriptionPrefs(subId);
+        String prefKey = res.getString(R.string.mms_auto_enable_data_pref_key);
+        final boolean defaultValue = res.getBoolean(R.bool.enable_data_for_mms);
+        return prefs.getBoolean(prefKey, defaultValue);
+    }
+
     private static boolean isMmsDataAvailable(final int subId) {
         if (OsUtil.isAtLeastL_MR1()) {
             // L_MR1 above may support sending mms via wifi
@@ -2089,6 +2114,10 @@ public class MmsUtils {
 
     public static StatusPlusUri sendMmsMessage(final Context context, final int subId,
             final Uri messageUri, final Bundle extras) {
+        boolean autoEnableData = isAutoEnableData(subId);
+        if (mTelMgr == null) {
+            mTelMgr = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        }
         int status = MMS_REQUEST_MANUAL_RETRY;
         int rawStatus = MessageData.RAW_TELEPHONY_STATUS_UNDEFINED;
         if (!isMmsDataAvailable(subId)) {
@@ -2097,6 +2126,10 @@ public class MmsUtils {
                     MessageData.RAW_TELEPHONY_STATUS_UNDEFINED,
                     messageUri,
                     SmsManager.MMS_ERROR_NO_DATA_NETWORK);
+        }
+        if (!mTelMgr.getDataEnabled() && autoEnableData) {
+            mDataEnabledByAuto = true;
+            mTelMgr.setDataEnabled(subId, true);
         }
         final PduPersister persister = PduPersister.getPduPersister(context);
         try {
@@ -2128,7 +2161,7 @@ public class MmsUtils {
     }
 
     public static StatusPlusUri updateSentMmsMessageStatus(final Context context,
-            final Uri messageUri, final SendConf sendConf) {
+            final Uri messageUri, final SendConf sendConf, final int subId) {
         int status = MMS_REQUEST_MANUAL_RETRY;
         final int respStatus = sendConf.getResponseStatus();
 
@@ -2142,6 +2175,12 @@ public class MmsUtils {
                 messageUri, values, null, null);
         if (respStatus == PduHeaders.RESPONSE_STATUS_OK) {
             status = MMS_REQUEST_SUCCEEDED;
+            if (mDataEnabledByAuto) {
+                mDataEnabledByAuto = false;
+                if(mTelMgr != null && mTelMgr.getDataEnabled()) {
+                    mTelMgr.setDataEnabled(subId, false);
+                }
+            }
         } else if (respStatus == PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_FAILURE ||
                 respStatus == PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_NETWORK_PROBLEM ||
                 respStatus == PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_PARTIAL_SUCCESS) {
