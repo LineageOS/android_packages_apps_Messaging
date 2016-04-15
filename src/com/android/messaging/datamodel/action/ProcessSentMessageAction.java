@@ -159,7 +159,7 @@ public class ProcessSentMessageAction extends Action {
                     final SendConf sendConf = MmsSender.parseSendConf(response, subId);
                     if (sendConf != null) {
                         final MmsUtils.StatusPlusUri result =
-                                MmsUtils.updateSentMmsMessageStatus(context, messageUri, sendConf);
+                                MmsUtils.updateSentMmsMessageStatus(context, messageUri, sendConf, subId);
                         status = result.status;
                         rawStatus = result.rawStatus;
                     }
