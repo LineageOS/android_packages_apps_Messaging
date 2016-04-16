@@ -25,6 +25,7 @@ import android.os.Parcelable;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 
+import android.telephony.TelephonyManager;
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.BugleNotifications;
@@ -73,6 +74,9 @@ public class ProcessSentMessageAction extends Action {
     private static final String KEY_STATUS = "status";
     private static final String KEY_RAW_STATUS = "raw_status";
 
+    // This is a redundant key that state that data was enabled for the sent mms or not
+    private static final String KEY_DATA_WAS_ENABLED = "data_was_enabled";
+
     // This is called when MMS lib API returns via PendingIntent
     public static void processMmsSent(final int resultCode, final Uri messageUri,
             final Bundle extras) {
@@ -93,6 +97,8 @@ public class ProcessSentMessageAction extends Action {
         params.putByteArray(KEY_RESPONSE, extras.getByteArray(SmsManager.EXTRA_MMS_DATA));
         params.putBoolean(KEY_RESPONSE_IMPORTANT,
                 extras.getBoolean(SendMessageAction.EXTRA_RESPONSE_IMPORTANT));
+        params.putBoolean(KEY_DATA_WAS_ENABLED,
+                extras.getBoolean(SendMessageAction.EXTRA_DATA_WAS_ENABLED));
         action.start();
     }
 
@@ -129,6 +135,7 @@ public class ProcessSentMessageAction extends Action {
         final Uri updatedMessageUri = actionParameters.getParcelable(KEY_UPDATED_MESSAGE_URI);
         final boolean isSms = actionParameters.getBoolean(KEY_SMS);
         final boolean sentByPlatform = actionParameters.getBoolean(KEY_SENT_BY_PLATFORM);
+        final boolean wasDataEnabledForMms = actionParameters.getBoolean(KEY_DATA_WAS_ENABLED);
 
         int status = actionParameters.getInt(KEY_STATUS, MmsUtils.MMS_REQUEST_MANUAL_RETRY);
         int rawStatus = actionParameters.getInt(KEY_RAW_STATUS,
@@ -194,6 +201,10 @@ public class ProcessSentMessageAction extends Action {
                 LogUtil.v(TAG, "ProcessSentMessageAction: No sent message to process (it was "
                         + "probably a notify response for an MMS download)");
             }
+        }
+
+        if (wasDataEnabledForMms) {
+            TelephonyManager.from(context).setDataEnabled(subId, false);
         }
         return null;
     }

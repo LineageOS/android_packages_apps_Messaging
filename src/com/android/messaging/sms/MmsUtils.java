@@ -81,6 +81,7 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaMetadataRetrieverWrapper;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
+import com.cyanogenmod.messaging.util.PrefsUtils;
 import com.google.common.base.Joiner;
 
 import java.io.BufferedOutputStream;
@@ -2065,7 +2066,10 @@ public class MmsUtils {
             return true;
         }
         final PhoneUtils phoneUtils = PhoneUtils.get(subId);
-        return !phoneUtils.isAirplaneModeOn() && phoneUtils.isMobileDataEnabled();
+        boolean feasiblyPossible = phoneUtils.isMobileDataEnabled() &&
+                PrefsUtils.isEnableDataForMmsEnabled();
+        // airplane mode trumps all
+        return !phoneUtils.isAirplaneModeOn() && feasiblyPossible ;
     }
 
     private static boolean isSmsDataAvailable(final int subId) {

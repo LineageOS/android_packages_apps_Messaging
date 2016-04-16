@@ -83,6 +83,9 @@ public class SendMessageAction extends Action implements Parcelable {
     public static final String EXTRA_CONTENT_URI = "content_uri";
     public static final String EXTRA_RESPONSE_IMPORTANT = "response_important";
 
+    // Value for data was enabled for mms send
+    public static final String EXTRA_DATA_WAS_ENABLED = "data_was_enabled_for_mms";
+
     /**
      * Constructor used for retrying sending in the background (only message id available)
      */

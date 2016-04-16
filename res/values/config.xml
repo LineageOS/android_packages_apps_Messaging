@@ -19,4 +19,7 @@
     <!-- The packaged version of APNs and MMS configurations -->
     <integer name="apnsAndMmsConfigsVersion">0</integer>
     <bool name="config_sms_validity">true</bool>
+
+    <!-- Whether or not data can be enabled to receive or send an MMS message -->
+    <bool name="enable_data_for_mms">false</bool>
 </resources>

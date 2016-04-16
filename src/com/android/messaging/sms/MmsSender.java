@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v7.mms.MmsManager;
 import android.telephony.SmsManager;
 
+import android.telephony.TelephonyManager;
 import com.android.messaging.datamodel.MmsFileProvider;
 import com.android.messaging.datamodel.action.SendMessageAction;
 import com.android.messaging.datamodel.data.MessageData;
@@ -43,6 +44,7 @@ import com.android.messaging.receiver.SendStatusReceiver;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
+import com.cyanogenmod.messaging.util.PrefsUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -156,6 +158,14 @@ public class MmsSender {
                 SendStatusReceiver.class);
         sentIntent.putExtra(SendMessageAction.EXTRA_CONTENT_URI, contentUri);
         sentIntent.putExtra(SendMessageAction.EXTRA_RESPONSE_IMPORTANT, responseImportant);
+
+        if (PrefsUtils.isEnableDataForMmsEnabled()) {
+            TelephonyManager.from(context).setDataEnabled(subId, true);
+            sentIntent.putExtra(SendMessageAction.EXTRA_DATA_WAS_ENABLED, true);
+        } else {
+            sentIntent.putExtra(SendMessageAction.EXTRA_DATA_WAS_ENABLED, false);
+        }
+
         if (sentIntentExtras != null) {
             sentIntent.putExtras(sentIntentExtras);
         }

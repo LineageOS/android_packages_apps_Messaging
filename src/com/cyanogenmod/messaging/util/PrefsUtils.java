@@ -32,6 +32,9 @@ public class PrefsUtils {
     public static final String QM_CLOSE_ALL_ENABLED      = "pref_key_close_all";
     public static final String SHOW_EMOTICONS_ENABLED    = "pref_show_emoticons";
 
+    // Forceable data enable for mms
+    public static final String DATA_ENABLED_ON_MMS_ENABLED = "pref_key_mms_enabled";
+
     private PrefsUtils() {
         //Don't instantiate
     }
@@ -48,6 +51,18 @@ public class PrefsUtils {
         final boolean defaultValue = context.getResources().getBoolean(
                 R.bool.swipe_right_deletes_conversation_default);
         return prefs.getBoolean(prefKey, defaultValue);
+    }
+
+    /**
+     * Returns whether or not data should be enabled prior to attempting a an http request to a
+     * valid mms apn if data is already disabled
+     * @return
+     */
+    public static boolean isEnableDataForMmsEnabled() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        final Context context = Factory.get().getApplicationContext();
+        final boolean defaultValue = context.getResources().getBoolean(R.bool.enable_data_for_mms);
+        return prefs.getBoolean(DATA_ENABLED_ON_MMS_ENABLED, defaultValue);
     }
 
     public static boolean isQuickMessagingEnabled() {
