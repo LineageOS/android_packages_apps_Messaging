@@ -22,6 +22,8 @@
   <string name="pref_unicode_stripping_leave_intact">वर्ण टिकवून ठेवा</string>
   <string name="pref_unicode_stripping_non_encodable">एनकोड न करता येणारे वर्ण स्ट्रिप करा</string>
   <string name="pref_unicode_stripping_all">सर्व युनिकोड वर्ण स्ट्रिप करा</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">हटवण्यासाठी स्वाइप करा</string>
   <string name="swipe_to_delete_conversation_pref_summary">संभाषण हटवन्यासाठी उजविकडे स्वाइप करा</string>

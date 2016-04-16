@@ -22,6 +22,8 @@
   <string name="pref_unicode_stripping_leave_intact">বৰ্ণবোৰ অক্ষত ৰাখক</string>
   <string name="pref_unicode_stripping_non_encodable">এনকোড কৰিব নোৱাৰা বৰ্ণবোৰ ষ্ট্ৰিপ কৰক</string>
   <string name="pref_unicode_stripping_all">সকলো ইউনিকোড বৰ্ণ ষ্ট্ৰিপ কৰক</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">মচি পেলাবলৈ স্ৱাইপ কৰক</string>
   <string name="swipe_to_delete_conversation_pref_summary">কথোপকথন মচিবলৈ সোঁ ফাললৈ স্ৱাইপ কৰক</string>

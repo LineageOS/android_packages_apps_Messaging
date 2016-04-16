@@ -22,6 +22,8 @@
   <string name="pref_unicode_stripping_leave_intact">文字をそのままにしておく</string>
   <string name="pref_unicode_stripping_non_encodable">エンコードできない文字を削除</string>
   <string name="pref_unicode_stripping_all">すべてのUnicode文字を削除</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">スワイプして削除</string>
   <string name="swipe_to_delete_conversation_pref_summary">右にスワイプして会話を削除する</string>

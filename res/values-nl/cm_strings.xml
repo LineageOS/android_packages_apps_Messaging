@@ -22,6 +22,19 @@
   <string name="pref_unicode_stripping_leave_intact">Tekens intact laten</string>
   <string name="pref_unicode_stripping_non_encodable">Niet-encodeerbare tekens verwijderen</string>
   <string name="pref_unicode_stripping_all">Alle Unicode-tekens verwijderen</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Geldigheidsduur</string>
+  <string name="validity_period_slot1_pref_title">Geldigheidsduur voor SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Geldigheidsduur voor SIM 2</string>
+  <string name="sms_validity_period_not_set">Niet ingesteld</string>
+  <string name="sms_validity_period_one_hour">1 uur</string>
+  <string name="sms_validity_period_six_hours">6 uur</string>
+  <string name="sms_validity_period_twelve_hours">12 uur</string>
+  <string name="sms_validity_period_one_day">1 dag</string>
+  <string name="mms_validity_period_two_days">2 dagen</string>
+  <string name="mms_validity_period_one_week">1 week</string>
+  <string name="validity_period_maximum">Maximaal</string>
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Vegen om te verwijderen</string>
   <string name="swipe_to_delete_conversation_pref_summary">Naar rechts vegen om een gesprek te verwijderen</string>

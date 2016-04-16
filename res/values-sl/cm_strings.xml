@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Pusti znake nespremenjene</string>
   <string name="pref_unicode_stripping_non_encodable">Odstrani nekodirne znake</string>
   <string name="pref_unicode_stripping_all">Odstrani vse znake unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Obdobje veljavnosti</string>
+  <string name="validity_period_slot1_pref_title">Obdobje veljavnosti za SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Obdobje veljavnosti za SIM 2</string>
+  <string name="sms_validity_period_not_set">Ni nastavljeno</string>
+  <string name="sms_validity_period_one_hour">1 ura</string>
+  <string name="sms_validity_period_six_hours">6 ur</string>
+  <string name="sms_validity_period_twelve_hours">12 ur</string>
+  <string name="sms_validity_period_one_day">1 dan</string>
+  <string name="mms_validity_period_two_days">2 dni</string>
+  <string name="mms_validity_period_one_week">1 teden</string>
+  <string name="validity_period_maximum">Najdaljše</string>
+  <string name="pref_summary_mms_delivery_reports">Zahtevaj potrdilo o dostavi za vsako poslano sporočilo</string>
+  <string name="pref_summary_mms_read_reports">Zahtevaj potrdilo o branju za vsako poslano sporočilo</string>
+  <string name="delivery_reports_mms_pref_title">Potrdila o dostavi</string>
+  <string name="read_reports_mms_pref_title">Potrdila o branju</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prednost pošiljanja</string>
+  <string name="priority_low">Nizka</string>
+  <string name="priority_normal">Običajna</string>
+  <string name="priority_high">Visoka</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Potegnite za brisanje</string>
   <string name="swipe_to_delete_conversation_pref_summary">Za izbris pogovora potegnite na desno</string>

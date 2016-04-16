@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Laga karaktereak ukitu gabe</string>
   <string name="pref_unicode_stripping_non_encodable">Ezabatu kodetu ezin diren karaktereak</string>
   <string name="pref_unicode_stripping_all">Garbitu unicode karaktere guztiak</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Baliozkotasun epea</string>
+  <string name="validity_period_slot1_pref_title">1. SIMaren baliozkotasun epea</string>
+  <string name="validity_period_slot2_pref_title">2. SIMaren baliozkotasun epea</string>
+  <string name="sms_validity_period_not_set">Ezarri gabea</string>
+  <string name="sms_validity_period_one_hour">Ordu 1</string>
+  <string name="sms_validity_period_six_hours">6 ordu</string>
+  <string name="sms_validity_period_twelve_hours">12 ordu</string>
+  <string name="sms_validity_period_one_day">Egun 1</string>
+  <string name="mms_validity_period_two_days">2 egun</string>
+  <string name="mms_validity_period_one_week">Aste 1</string>
+  <string name="validity_period_maximum">Gehienez</string>
+  <string name="pref_summary_mms_delivery_reports">Eskatu entrega txostena mezu bat bidaltzen duzun bakoitzean</string>
+  <string name="pref_summary_mms_read_reports">Eskatu mezua-irakurtze txostena mezu bat bidaltzen duzun bakoitzean</string>
+  <string name="delivery_reports_mms_pref_title">Entrega txostenak</string>
+  <string name="read_reports_mms_pref_title">Irakurtze txostenak</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Bidaltze lehentasuna</string>
+  <string name="priority_low">Baxua</string>
+  <string name="priority_normal">Arrunta</string>
+  <string name="priority_high">Altua</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Pasatu hatza ezabatzeko</string>
   <string name="swipe_to_delete_conversation_pref_summary">Pasatu hatza eskumara elkarrizketa bat ezabatzeko</string>

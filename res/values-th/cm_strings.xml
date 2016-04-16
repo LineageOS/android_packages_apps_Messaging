@@ -22,6 +22,14 @@
   <string name="pref_unicode_stripping_leave_intact">ปล่อยตัวอักษรไว้เหมือนเดิม</string>
   <string name="pref_unicode_stripping_non_encodable">ตัดตัวอักษรที่แปลงเป็นรหัสไม่ได้</string>
   <string name="pref_unicode_stripping_all">ตัดตัวอักษร unicode ทั้งหมด</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="sms_validity_period_not_set">ไม่ได้กำหนด</string>
+  <string name="sms_validity_period_one_hour">1 ชั่วโมง</string>
+  <string name="sms_validity_period_six_hours">6 ชั่วโมง</string>
+  <string name="sms_validity_period_twelve_hours">12 ชั่วโมง</string>
+  <string name="sms_validity_period_one_day">1 วัน</string>
+  <string name="validity_period_maximum">สูงสุด</string>
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">กวาดนิ้วเพื่อลบ</string>
   <string name="swipe_to_delete_conversation_pref_summary">กวาดนิ้วไปทางขวาเพื่อลบการสนทนา</string>

@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Καμία αλλαγή στους χαρακτήρες</string>
   <string name="pref_unicode_stripping_non_encodable">Αφαίρεση χαρακτήρων που δεν μπορούν να κωδικοποιηθούν</string>
   <string name="pref_unicode_stripping_all">Αφαίρεση όλων των χαρακτήρων unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Περίοδος ισχύος</string>
+  <string name="validity_period_slot1_pref_title">Περίοδος ισχύος για SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Περίοδος ισχύος για SIM 2</string>
+  <string name="sms_validity_period_not_set">Δεν ορίστηκε</string>
+  <string name="sms_validity_period_one_hour">1 ώρα</string>
+  <string name="sms_validity_period_six_hours">6 ώρες</string>
+  <string name="sms_validity_period_twelve_hours">12 ώρες</string>
+  <string name="sms_validity_period_one_day">1 ημέρα</string>
+  <string name="mms_validity_period_two_days">2 ημέρες</string>
+  <string name="mms_validity_period_one_week">1 εβδομάδα</string>
+  <string name="validity_period_maximum">Μέγιστη</string>
+  <string name="pref_summary_mms_delivery_reports">Αίτημα αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε</string>
+  <string name="pref_summary_mms_read_reports">Αίτημα αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε</string>
+  <string name="delivery_reports_mms_pref_title">Αναφορές παράδοσης</string>
+  <string name="read_reports_mms_pref_title">Αναφορές ανάγνωσης</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Προτεραιότητα αποστολής</string>
+  <string name="priority_low">Χαμηλή</string>
+  <string name="priority_normal">Κανονική</string>
+  <string name="priority_high">Υψηλή</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Ολίσθηση για διαγραφή</string>
   <string name="swipe_to_delete_conversation_pref_summary">Σύρετε προς τα δεξιά για να διαγράψετε μια συζήτηση</string>

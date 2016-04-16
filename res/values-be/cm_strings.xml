@@ -22,6 +22,8 @@
   <string name="pref_unicode_stripping_leave_intact">Пакінуць сімвалы без зменаў</string>
   <string name="pref_unicode_stripping_non_encodable">Замяняць некадаваныя знакі</string>
   <string name="pref_unicode_stripping_all">Замяняць усе знакі юнікода</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
