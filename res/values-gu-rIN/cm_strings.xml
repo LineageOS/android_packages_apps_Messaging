@@ -22,6 +22,8 @@
   <string name="pref_unicode_stripping_leave_intact">વર્ણો અખંડ રાખો</string>
   <string name="pref_unicode_stripping_non_encodable">એનકોડ ન થઈ શકે તેવા વર્ણો સ્ટ્રિપ કરો</string>
   <string name="pref_unicode_stripping_all">તમામ યુનિકોડ વર્ણો સ્ટ્રિપ કરો</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">હટાવા માટે સ્વાઇપ કરો</string>
   <string name="swipe_to_delete_conversation_pref_summary">વાતચીત કાઢી નાખવા જમણી બાજુ સ્વાઇપ કરો</string>

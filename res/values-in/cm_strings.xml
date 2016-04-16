@@ -16,13 +16,40 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Laporkan spam ke %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Mengupas unicode</string>
+  <string name="pref_unicode_stripping_leave_intact">Abaikan karakter utuh</string>
+  <string name="pref_unicode_stripping_non_encodable">Lucuti karakter yang tidak dapat disandikan</string>
+  <string name="pref_unicode_stripping_all">Bilah semua karakter unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Usap untuk menghapus</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Usap ke kanan untuk menghapus percakapan</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">QuickMessage dan Balas</string>
+  <string name="pref_quickmessage_title">Tampilkan QuickMessage</string>
+  <string name="pref_quickmessage_summary">Buka munculan QuickMessage secara otomatis untuk pesan SMS yang masuk</string>
+  <string name="pref_close_all_title">Tutup semua</string>
+  <string name="pref_close_all_summary">Menutup tombol menutup semua pesan</string>
+  <string name="message_counter">%1$d dari %2$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">Tutup</string>
+  <string name="button_view">Lihat</string>
+  <string name="button_templates">Templat</string>
+  <string name="qm_button_full_conversation">Percakapan penuh</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">Ketik untuk membalas</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">Mengirim pesan\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Balas cepat</string>
+  <string name="send">Kirim</string>
+  <string name="compose_message_hint_text">Masukkan pesan</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Akses emosikon</string>
+  <string name="show_emoticons_pref_summary">Tampilkan tombol emosikon di papan ketik</string>
+  <string name="select_phone_account_title">Kirim dengan</string>
 </resources>

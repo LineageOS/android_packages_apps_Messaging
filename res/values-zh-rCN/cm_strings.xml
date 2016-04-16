@@ -22,6 +22,20 @@
   <string name="pref_unicode_stripping_leave_intact">保留所有字符</string>
   <string name="pref_unicode_stripping_non_encodable">除去非可编码字符</string>
   <string name="pref_unicode_stripping_all">除去所有 Unicode 字符</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">有效期</string>
+  <string name="validity_period_slot1_pref_title">SIM 卡 1 的有效期</string>
+  <string name="validity_period_slot2_pref_title">SIM 卡 2 的有效期</string>
+  <string name="sms_validity_period_not_set">未设置</string>
+  <string name="sms_validity_period_one_hour">1 小时</string>
+  <string name="sms_validity_period_six_hours">6 小时</string>
+  <string name="sms_validity_period_twelve_hours">12 小时</string>
+  <string name="sms_validity_period_one_day">1 天</string>
+  <string name="mms_validity_period_two_days">2 天</string>
+  <string name="mms_validity_period_one_week">1 周</string>
+  <string name="validity_period_maximum">最大值</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">低</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
   <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>

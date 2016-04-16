@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Älä tee mitään</string>
   <string name="pref_unicode_stripping_non_encodable">Poista koodaamattomat merkit</string>
   <string name="pref_unicode_stripping_all">Poista kaikki unicode-merkit</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Voimassaoloaika</string>
+  <string name="validity_period_slot1_pref_title">SIM1:n voimassaoloaika</string>
+  <string name="validity_period_slot2_pref_title">SIM2:n voimassaoloaika</string>
+  <string name="sms_validity_period_not_set">Ei asetettu</string>
+  <string name="sms_validity_period_one_hour">1 tunti</string>
+  <string name="sms_validity_period_six_hours">6 tuntia</string>
+  <string name="sms_validity_period_twelve_hours">12 tuntia</string>
+  <string name="sms_validity_period_one_day">1 päivä</string>
+  <string name="mms_validity_period_two_days">2 päivää</string>
+  <string name="mms_validity_period_one_week">1 viikko</string>
+  <string name="validity_period_maximum">Enimmäismäärä</string>
+  <string name="pref_summary_mms_delivery_reports">Pyydä lähetysraportti jokaisesta lähettämästäsi viestistä</string>
+  <string name="pref_summary_mms_read_reports">Pyydä lukuraportti jokaisesta lähettämästäsi viestistä</string>
+  <string name="delivery_reports_mms_pref_title">Lähetysraportit</string>
+  <string name="read_reports_mms_pref_title">Lukuraportit</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Lähetyksen tärkeys</string>
+  <string name="priority_low">Matala</string>
+  <string name="priority_normal">Normaali</string>
+  <string name="priority_high">Korkea</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Poista liu\'uttamalla</string>
   <string name="swipe_to_delete_conversation_pref_summary">Pyyhkäise oikealle poistaaksesi keskustelun</string>

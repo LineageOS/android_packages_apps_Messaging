@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Deixa els caràcters intactes</string>
   <string name="pref_unicode_stripping_non_encodable">Esquinça els caràcters no codificables</string>
   <string name="pref_unicode_stripping_all">Esquinça tots el caràcters unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Període de validesa</string>
+  <string name="validity_period_slot1_pref_title">Període de validesa de la SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Període de validesa de la SIM 2</string>
+  <string name="sms_validity_period_not_set">No establert</string>
+  <string name="sms_validity_period_one_hour">1 hora</string>
+  <string name="sms_validity_period_six_hours">6 hores</string>
+  <string name="sms_validity_period_twelve_hours">12 hores</string>
+  <string name="sms_validity_period_one_day">1 dia</string>
+  <string name="mms_validity_period_two_days">2 dies</string>
+  <string name="mms_validity_period_one_week">1 setmana</string>
+  <string name="validity_period_maximum">Màxim</string>
+  <string name="pref_summary_mms_delivery_reports">Demana un informe de lliurament en cada missatge que enviïs</string>
+  <string name="pref_summary_mms_read_reports">Demana un informe de lectura en cada missatge que enviïs</string>
+  <string name="delivery_reports_mms_pref_title">Informes de lliurament</string>
+  <string name="read_reports_mms_pref_title">Informes de lectura</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioritat d\'enviament</string>
+  <string name="priority_low">Baixa</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Alta</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Llisca per esborrar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Llisca cap a la dreta per esborrar una conversa</string>

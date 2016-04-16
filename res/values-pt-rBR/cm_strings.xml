@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Manter caracteres intactos</string>
   <string name="pref_unicode_stripping_non_encodable">Retirar caracteres não codificáveis</string>
   <string name="pref_unicode_stripping_all">Retirar todos os caracteres unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Período de validade</string>
+  <string name="validity_period_slot1_pref_title">Período de validade para o SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Período de validade para o SIM 2</string>
+  <string name="sms_validity_period_not_set">Não definido</string>
+  <string name="sms_validity_period_one_hour">1 hora</string>
+  <string name="sms_validity_period_six_hours">6 horas</string>
+  <string name="sms_validity_period_twelve_hours">12 horas</string>
+  <string name="sms_validity_period_one_day">1 dia</string>
+  <string name="mms_validity_period_two_days">2 dias</string>
+  <string name="mms_validity_period_one_week">1 semana</string>
+  <string name="validity_period_maximum">Máximo</string>
+  <string name="pref_summary_mms_delivery_reports">Pedir um aviso de entrega para cada mensagem enviada</string>
+  <string name="pref_summary_mms_read_reports">Pedir um aviso de leitura para cada mensagem enviada</string>
+  <string name="delivery_reports_mms_pref_title">Relatórios de entrega</string>
+  <string name="read_reports_mms_pref_title">Relatórios de leitura</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioridade de envio</string>
+  <string name="priority_low">Baixa</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Alta</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Deslize para excluir</string>
   <string name="swipe_to_delete_conversation_pref_summary">Deslize para a direita para excluir uma mensagem</string>
