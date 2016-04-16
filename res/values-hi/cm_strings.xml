@@ -20,6 +20,8 @@
   <string name="pref_unicode_stripping_leave_intact">वर्णों को साबुत छोड़ें</string>
   <string name="pref_unicode_stripping_non_encodable">ग़ैर-यूनीकोड वर्णों को स्ट्रिप करें</string>
   <string name="pref_unicode_stripping_all">सभी यूनीकोड वर्णों को स्ट्रिप करें</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

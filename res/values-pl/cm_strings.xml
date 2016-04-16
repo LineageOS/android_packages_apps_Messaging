@@ -22,6 +22,20 @@
   <string name="pref_unicode_stripping_leave_intact">Pozostaw znaki bez zmian</string>
   <string name="pref_unicode_stripping_non_encodable">Opuszczaj znaki niekodowane</string>
   <string name="pref_unicode_stripping_all">Opuszczaj wszystkie znaki</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="sms_validity_period_not_set">Nie ustawiono</string>
+  <string name="sms_validity_period_one_hour">1 godzina</string>
+  <string name="sms_validity_period_six_hours">6 godzin</string>
+  <string name="sms_validity_period_twelve_hours">12 godzin</string>
+  <string name="sms_validity_period_one_day">1 dzień</string>
+  <string name="mms_validity_period_two_days">2 dni</string>
+  <string name="mms_validity_period_one_week">1 tydzień</string>
+  <string name="validity_period_maximum">Maksimum</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Priorytet wysyłania</string>
+  <string name="priority_low">Niski</string>
+  <string name="priority_normal">Normalny</string>
+  <string name="priority_high">Wysoki</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Przesuń, aby usunąć</string>
   <string name="swipe_to_delete_conversation_pref_summary">Przesuń w prawo, aby usunąć konwersację</string>

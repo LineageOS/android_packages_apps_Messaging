@@ -20,6 +20,8 @@
   <string name="pref_unicode_stripping_leave_intact">Palikti simbolius nepaliestus</string>
   <string name="pref_unicode_stripping_non_encodable">Pašalinti nekoduojamus simbolius</string>
   <string name="pref_unicode_stripping_all">Pašalinti visus unikodo simbolius</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

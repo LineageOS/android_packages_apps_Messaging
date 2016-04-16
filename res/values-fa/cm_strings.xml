@@ -20,6 +20,8 @@
   <string name="pref_unicode_stripping_leave_intact">دست نزدن به نویسه‌ها</string>
   <string name="pref_unicode_stripping_non_encodable">برداشتن نویسه‌های غیرقابل‌کدگذاری</string>
   <string name="pref_unicode_stripping_all">برداشتن تمام نویسه‌های یونی‌کد</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

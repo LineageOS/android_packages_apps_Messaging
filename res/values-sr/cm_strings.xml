@@ -22,6 +22,13 @@
   <string name="pref_unicode_stripping_leave_intact">Остави знакове нетакнуте</string>
   <string name="pref_unicode_stripping_non_encodable">Монтирај не-кодиране знакове</string>
   <string name="pref_unicode_stripping_all">Монтирај све уникод знакове</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="sms_validity_period_not_set">Није подешено</string>
+  <string name="sms_validity_period_one_hour">1 сат</string>
+  <string name="sms_validity_period_six_hours">6 сати</string>
+  <string name="sms_validity_period_twelve_hours">12 сати</string>
+  <string name="sms_validity_period_one_day">1 дан</string>
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Брисање листањем</string>
   <string name="swipe_to_delete_conversation_pref_summary">Листај на десно да избришеш конврзацију</string>

@@ -20,6 +20,8 @@
   <string name="pref_unicode_stripping_leave_intact">Leave characters intact</string>
   <string name="pref_unicode_stripping_non_encodable">Strip non-encodable characters</string>
   <string name="pref_unicode_stripping_all">Strip all unicode characters</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

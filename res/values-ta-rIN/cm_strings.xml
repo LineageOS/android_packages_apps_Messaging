@@ -22,6 +22,8 @@
   <string name="pref_unicode_stripping_leave_intact">எழுத்துக்களை உள்ளபடியே விட்டுவிடு</string>
   <string name="pref_unicode_stripping_non_encodable">என்கோட் செய்யமுடியாத எழுத்துக்களை நீக்கு</string>
   <string name="pref_unicode_stripping_all">அனைத்து யூனிகோட் எழுத்துக்களையும் நீக்கு</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">நீக்குவதற்கு தேய்க்கவும்</string>
   <string name="swipe_to_delete_conversation_pref_summary">ஒரு உரையாடல் நீக்குவதற்கு வலது பக்கமாக தேய்க்கவும்</string>
