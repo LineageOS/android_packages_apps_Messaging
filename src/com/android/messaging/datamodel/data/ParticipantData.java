@@ -227,13 +227,34 @@ public class ParticipantData implements Parcelable {
      * @return instance
      */
     public static ParticipantData getFromRawPhoneBySystemLocale(final String phoneNumber) {
+        return getFromRawPhoneBySystemLocale(phoneNumber, null);
+    }
+
+    /**
+     * Get an instance from a raw phone number and using system locale to normalize it.
+     *
+     * Use this when creating a participant that is for displaying UI and not associated
+     * with a specific SIM. For example, when creating a conversation using user entered
+     * phone number.
+     *
+     * @param phoneNumber The raw phone number
+     * @param formattedNumber If null-non, use that number as displayed destination
+     *                        instead of using a formatted version of phoneNumber.
+     * @return instance
+     */
+    public static ParticipantData getFromRawPhoneBySystemLocale(final String phoneNumber,
+            final String formattedNumber) {
         final ParticipantData pd = getFromRawPhone(phoneNumber);
         pd.mNormalizedDestination = pd.mIsEmailAddress ?
                 pd.mSendDestination :
                 PhoneUtils.getDefault().getCanonicalBySystemLocale(pd.mSendDestination);
-        pd.mDisplayDestination = pd.mIsEmailAddress ?
-                pd.mNormalizedDestination :
-                PhoneUtils.getDefault().formatForDisplay(pd.mNormalizedDestination);
+        if (formattedNumber != null) {
+            pd.mDisplayDestination = formattedNumber;
+        } else {
+            pd.mDisplayDestination = pd.mIsEmailAddress ?
+                    pd.mNormalizedDestination :
+                    PhoneUtils.getDefault().formatForDisplay(pd.mNormalizedDestination);
+        }
         pd.maybeSetupUnknownSender();
         return pd;
     }

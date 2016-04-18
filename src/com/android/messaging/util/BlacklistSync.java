@@ -29,7 +29,6 @@ import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.LogUtil;
 
 public class BlacklistSync extends AsyncTask<Void, Void, Void> {
     private Context mContext;
@@ -54,6 +53,8 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
         if (cursor != null && cursor.getCount() > 0) {
             int normalizedNumberIndex = cursor.getColumnIndex("normalized_number");
             int blockedIndex = cursor.getColumnIndex("message");
+            int nonNormalizedNumberIndex = cursor.getColumnIndex("number");
+            int regexIndex = cursor.getColumnIndex("is_regex");
             int updateCount;
             if (normalizedNumberIndex < 0 || blockedIndex < 0) {
                 cursor.close();
@@ -62,10 +63,12 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
 
             DatabaseWrapper db = DataModel.get().getDatabase();
 
-            while(cursor.moveToNext()) {
+            while (cursor.moveToNext()) {
                 String number = cursor.getString(normalizedNumberIndex);
                 String blocked = cursor.getString(blockedIndex);
                 boolean isBlocked = blocked.compareTo("1") == 0;
+                String formattedNumber = cursor.getInt(regexIndex) != 0
+                        ? cursor.getString(nonNormalizedNumberIndex) : null;
                 updateCount = BugleDatabaseOperations.updateDestination(db, number, isBlocked,
                         false);
                 if (updateCount == 0) {
@@ -75,7 +78,7 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
                     db.beginTransaction();
                     try {
                         ParticipantData participant = ParticipantData
-                                .getFromRawPhoneBySystemLocale(number);
+                                .getFromRawPhoneBySystemLocale(number, formattedNumber);
                         BugleDatabaseOperations.getOrCreateParticipantInTransaction(db,
                                 participant);
                         BugleDatabaseOperations.updateDestination(db, number,
