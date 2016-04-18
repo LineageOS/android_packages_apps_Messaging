@@ -105,7 +105,6 @@
         android:entryValues="@array/entries_sms_validity_period_value"
         android:title="@string/validity_period_slot2_pref_title" />
 
-
     <SwitchPreference
         android:key="@string/swipe_right_deletes_conversation_key"
         android:title="@string/swipe_to_delete_conversation_pref_title"
