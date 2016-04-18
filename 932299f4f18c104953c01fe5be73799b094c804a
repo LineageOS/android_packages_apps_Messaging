@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_fa3cadc0",
+        "filename": "src/com/android/messaging/util/BlackListUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-18T09:36:43Z",
+      "side": 1,
+      "message": "can call this BlockListHashMap instead of utils as there are no other functions here.",
+      "revId": "932299f4f18c104953c01fe5be73799b094c804a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_da3f71b3",
+        "filename": "src/com/android/messaging/util/BlackListUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-18T09:36:43Z",
+      "side": 1,
+      "message": "will need to add synchronized around these two functions.",
+      "revId": "932299f4f18c104953c01fe5be73799b094c804a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_9a49f961",
+        "filename": "src/com/android/messaging/util/BlackListUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-18T09:36:43Z",
+      "side": 1,
+      "message": "blockedMapValues could be null here. Need to add null check.",
+      "revId": "932299f4f18c104953c01fe5be73799b094c804a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
