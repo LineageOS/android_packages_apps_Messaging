@@ -44,7 +44,7 @@ public class ParticipantListItemData extends PersonItemData {
         mLookupKey = participant.getLookupKey();
         mNormalizedDestination = participant.getNormalizedDestination();
         if (TextUtils.isEmpty(participant.getFullName())) {
-            mDisplayName = participant.getSendDestination();
+            mDisplayName = participant.getDisplayDestination();
             mDetails = null;
         } else {
             mDisplayName = participant.getFullName();
