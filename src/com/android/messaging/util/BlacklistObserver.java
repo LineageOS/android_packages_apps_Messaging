@@ -22,14 +22,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
-import com.android.messaging.BugleApplication;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.LogUtil;
 
 
 // ContentObserver class to monitor changes to the Framework Blacklist DB
@@ -63,7 +61,8 @@ public class BlacklistObserver extends ContentObserver {
                     cursor = mResolver.query(uri, null, null, null, null);
                     int normalizedNumberIndex = cursor.getColumnIndex("normalized_number");
                     int blockedIndex = cursor.getColumnIndex("message");
-
+                    int nonNormalizedNumberIndex = cursor.getColumnIndex("number");
+                    int regexIndex = cursor.getColumnIndex("is_regex");
                     // if the column indices are not valid, don't perform the queries
                     if (normalizedNumberIndex < 0 || blockedIndex < 0) {
                         if (cursor != null) {
@@ -74,11 +73,12 @@ public class BlacklistObserver extends ContentObserver {
 
                     DatabaseWrapper db = DataModel.get().getDatabase();
 
-                    while(cursor.moveToNext()) {
+                    while (cursor.moveToNext()) {
                         String number = cursor.getString(normalizedNumberIndex);
                         String blocked = cursor.getString(blockedIndex);
                         boolean isBlocked = blocked.compareTo("1") == 0;
-
+                        String formattedNumber = cursor.getInt(regexIndex) != 0
+                                ? cursor.getString(nonNormalizedNumberIndex) : null;
                         // don't update the framework db - the 'false' argument
                         int updateCount = BugleDatabaseOperations.updateDestination(db, number,
                                 isBlocked, false);
@@ -88,7 +88,7 @@ public class BlacklistObserver extends ContentObserver {
                             // create a new participant
                             // and insert him into the local participants database
                             ParticipantData participant =
-                                    ParticipantData.getFromRawPhoneBySystemLocale(number);
+                                    ParticipantData.getFromRawPhoneBySystemLocale(number, formattedNumber);
                             BugleDatabaseOperations.getOrCreateParticipantInTransaction(db,
                                     participant);
                             BugleDatabaseOperations.updateDestination(db, number,
