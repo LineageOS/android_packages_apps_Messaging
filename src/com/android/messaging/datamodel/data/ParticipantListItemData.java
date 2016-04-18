@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import com.android.messaging.datamodel.action.BugleActionToasts;
 import com.android.messaging.datamodel.action.UpdateDestinationBlockedAction;
 import com.android.messaging.util.AvatarUriUtil;
+import com.android.messaging.util.BlackListHashMap;
 
 /**
  * Helps visualize a ParticipantData in a PersonItemView
@@ -44,7 +45,7 @@ public class ParticipantListItemData extends PersonItemData {
         mLookupKey = participant.getLookupKey();
         mNormalizedDestination = participant.getNormalizedDestination();
         if (TextUtils.isEmpty(participant.getFullName())) {
-            mDisplayName = participant.getSendDestination();
+            mDisplayName= BlackListHashMap.getDeNormalizedNumber(mNormalizedDestination);
             mDetails = null;
         } else {
             mDisplayName = participant.getFullName();

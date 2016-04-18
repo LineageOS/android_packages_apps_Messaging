@@ -22,14 +22,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
-import com.android.messaging.BugleApplication;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.LogUtil;
 
 
 // ContentObserver class to monitor changes to the Framework Blacklist DB
@@ -82,6 +80,8 @@ public class BlacklistObserver extends ContentObserver {
                         // don't update the framework db - the 'false' argument
                         int updateCount = BugleDatabaseOperations.updateDestination(db, number,
                                 isBlocked, false);
+                        String orgNumber=cursor.getString(cursor.getColumnIndex("number"));
+                        BlackListHashMap.putDeNormalizedNumber(number, orgNumber);
                         if (updateCount == 0) {
                             // there was no phone number in the local participants database that was
                             // blacklisted in the framework blacklist database,
