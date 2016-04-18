@@ -2371,7 +2371,7 @@ public class MmsUtils {
             final MessageData content, final int subId, final String subPhoneNumber,
             final long timestamp) {
         final boolean requireDeliveryReport = isMmsDeliveryReportRequired(subId);
-        final boolean requireReadReport = isMmsDeliveryReportRequired(subId);
+        final boolean requireReadReport = isMmsReadReportRequired(subId);
         final long expiryTime = getExpiryTime(subId);
         final SendReq sendReq = createMmsSendReq(
                 context, subId, recipients.toArray(new String[recipients.size()]), content,
