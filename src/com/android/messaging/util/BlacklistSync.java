@@ -68,6 +68,8 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
                 boolean isBlocked = blocked.compareTo("1") == 0;
                 updateCount = BugleDatabaseOperations.updateDestination(db, number, isBlocked,
                         false);
+                String orgNumber=cursor.getString(cursor.getColumnIndex("number"));
+                BlackListUtils.putDeNormalizedNumber(number, orgNumber);
                 if (updateCount == 0) {
                     // there was no phone number in the local participants database that was
                     // blacklisted in the framework blacklist database, create a new participant
