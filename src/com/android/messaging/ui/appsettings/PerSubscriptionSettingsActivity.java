@@ -81,9 +81,6 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
             implements OnSharedPreferenceChangeListener {
         private PhoneNumberPreference mPhoneNumberPreference;
         private Preference mGroupMmsPreference;
-        private ListPreference mMmsExpiryPref;
-        private ListPreference mMmsExpiryCard1Pref;
-        private ListPreference mMmsExpiryCard2Pref;
 
         private String mGroupMmsPrefKey;
         private String mPhoneNumberKey;
@@ -189,20 +186,6 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
                 final Preference deliveryReportsPreference =
                         findPreference(getString(R.string.delivery_reports_pref_key));
                 deliveryReportsPreference.setEnabled(false);
-            }
-
-            mMmsExpiryPref = (ListPreference)
-                    findPreference(getString(R.string.expiry_mms_pref_key));
-            mMmsExpiryCard1Pref = (ListPreference)
-                    findPreference(getString(R.string.expiry_slot1_mms_pref_key));
-            mMmsExpiryCard2Pref = (ListPreference)
-                    findPreference(getString(R.string.expiry_slot2_mms_pref_key));
-
-            if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
-                mmsCategory.removePreference(mMmsExpiryPref);
-            } else {
-                mmsCategory.removePreference(mMmsExpiryCard1Pref);
-                mmsCategory.removePreference(mMmsExpiryCard2Pref);
             }
         }
 

@@ -2554,23 +2554,7 @@ public class MmsUtils {
         final Resources res = Factory.get().getApplicationContext().getResources();
         final BuglePrefs prefs = BuglePrefs.getSubscriptionPrefs(subId);
         final String expiryStr = res.getString(R.string.expiry_mms_pref_key);
-        final String expiryStr1 = res.getString(R.string.expiry_slot1_mms_pref_key);
-        final String expiryStr2 = res.getString(R.string.expiry_slot2_mms_pref_key);
-        final int mPhoneId = SubscriptionManager.getPhoneId(subId);
-
-        // Expiry.
-        long expiryTime = 0;
-
-        if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
-            expiryTime = Long.parseLong(
-                    prefs.getString((mPhoneId == 0) ?
-                            expiryStr1:
-                            expiryStr2, "0"));
-        } else {
-            expiryTime = Long.parseLong(
-                    prefs.getString(expiryStr, "0"));
-        }
-
+        final long expiryTime = Long.parseLong(prefs.getString(expiryStr, "0"));
         return expiryTime != 0 ? expiryTime : DEFAULT_EXPIRY_TIME_IN_SECONDS;
     }
 
@@ -2581,8 +2565,6 @@ public class MmsUtils {
         String priority = prefs.getString(sendPriorityMmsKey, Integer.toString(DEFAULT_PRIORITY));
         return Integer.parseInt(priority);
     }
-
-
 
     public static int sendSmsMessage(final String recipient, final String messageText,
             final Uri requestUri, final int subId,
