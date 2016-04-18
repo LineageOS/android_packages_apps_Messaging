@@ -29,7 +29,6 @@ import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.LogUtil;
 
 public class BlacklistSync extends AsyncTask<Void, Void, Void> {
     private Context mContext;
@@ -68,6 +67,11 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
                 boolean isBlocked = blocked.compareTo("1") == 0;
                 updateCount = BugleDatabaseOperations.updateDestination(db, number, isBlocked,
                         false);
+                String orgNumber=cursor.getString(cursor.getColumnIndex("number"));
+
+                String regex = cursor.getString(cursor.getColumnIndex("is_regex"));
+                boolean isRegex = regex.compareTo("1") == 0;
+
                 if (updateCount == 0) {
                     // there was no phone number in the local participants database that was
                     // blacklisted in the framework blacklist database, create a new participant
@@ -75,11 +79,12 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
                     db.beginTransaction();
                     try {
                         ParticipantData participant = ParticipantData
-                                .getFromRawPhoneBySystemLocale(number);
+                                .getFromRawPhoneBySystemLocale(number,orgNumber,isRegex);
                         BugleDatabaseOperations.getOrCreateParticipantInTransaction(db,
                                 participant);
                         BugleDatabaseOperations.updateDestination(db, number,
                                 isBlocked, false);
+
                         db.setTransactionSuccessful();
                     } finally {
                         db.endTransaction();
