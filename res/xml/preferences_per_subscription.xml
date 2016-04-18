@@ -30,13 +30,13 @@
             android:title="@string/mms_phone_number_pref_title" />
 
         <CheckBoxPreference
-            android:key="delivery_reports_mms_pref_key"
+            android:key="@string/delivery_reports_mms_pref_key"
             android:title="@string/delivery_reports_mms_pref_title"
             android:summary="@string/pref_summary_mms_delivery_reports"
             android:defaultValue="@bool/def_mms_delivery_reports" />
 
         <CheckBoxPreference
-            android:key="read_reports_mms_pref_key"
+            android:key="@string/read_reports_mms_pref_key"
             android:title="@string/read_reports_mms_pref_title"
             android:summary="@string/pref_summary_mms_read_reports"
             android:defaultValue="false" />
@@ -54,8 +54,7 @@
             android:summary="@string/auto_retrieve_mms_when_roaming_pref_summary"
             android:defaultValue="@bool/auto_retrieve_mms_when_roaming_pref_default" />
 
-
-        <ListPreference android:key="expiry_mms_pref_key"
+        <ListPreference android:key="@string/expiry_mms_pref_key"
             android:title="@string/validity_period_pref_title"
             android:dialogTitle="@string/validity_period_pref_title"
             android:summary="%s"
@@ -63,7 +62,7 @@
             android:entryValues="@array/save_time_values"
             android:defaultValue="0" />
 
-        <ListPreference android:key="expiry_slot1_mms_pref_key"
+        <ListPreference android:key="@string/expiry_slot1_mms_pref_key"
             android:title="@string/validity_period_slot1_pref_title"
             android:dialogTitle="@string/validity_period_pref_title"
             android:summary="%s"
@@ -71,7 +70,7 @@
             android:entryValues="@array/save_time_values"
             android:defaultValue="0" />
 
-        <ListPreference android:key="expiry_slot2_mms_pref_key"
+        <ListPreference android:key="@string/expiry_slot2_mms_pref_key"
             android:title="@string/validity_period_slot2_pref_title"
             android:dialogTitle="@string/validity_period_pref_title"
             android:summary="%s"
@@ -79,7 +78,7 @@
             android:entryValues="@array/save_time_values"
             android:defaultValue="0" />
 
-        <ListPreference android:key="priority_mms_pref_key"
+        <ListPreference android:key="@string/priority_mms_pref_key"
             android:title="@string/priority_pref_title"
             android:dialogTitle="@string/priority_pref_title"
             android:summary="%s"
