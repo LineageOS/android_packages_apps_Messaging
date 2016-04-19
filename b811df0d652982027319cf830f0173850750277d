@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_11d72fc2",
+        "filename": "src/com/android/messaging/util/BlackListHashMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-19T07:00:37Z",
+      "side": 1,
+      "message": "No need to construct here- its already constructed on line 27",
+      "range": {
+        "startLine": 31,
+        "startChar": 65,
+        "endLine": 31,
+        "endChar": 69
+      },
+      "revId": "b811df0d652982027319cf830f0173850750277d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_b1e3bba4",
+        "filename": "src/com/android/messaging/util/BlackListHashMap.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-19T07:00:37Z",
+      "side": 1,
+      "message": "this function itself can return original string if there\u0027s no key present. Caller doesn\u0027t need to know if the return value is null or not.",
+      "revId": "b811df0d652982027319cf830f0173850750277d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
