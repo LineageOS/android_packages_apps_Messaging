@@ -1,0 +1,446 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_84999b20",
+        "filename": "res/xml-v21/preferences_application.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "any reason these are persistent false?",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 134,
+        "endChar": 46
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_249ea707",
+        "filename": "res/xml-v21/preferences_application.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "likewise",
+      "range": {
+        "startLine": 140,
+        "startChar": 20,
+        "endLine": 140,
+        "endChar": 46
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_64949fe9",
+        "filename": "res/xml-v21/preferences_application.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "please fix the formatting to fit the rest of the file.",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 25
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_44a3a350",
+        "filename": "res/xml-v23/preferences_application.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "see previous notes",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 25
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_e4872fb6",
+        "filename": "res/xml/preferences_application.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "see previous notes",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 25
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_0485abad",
+        "filename": "src/android/support/v7/mms/CarrierConfigValuesLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "please provide javadoc for each of these constants and their defaults, we\u0027re an OSS project that\u0027s shared with numerous contributors, please document code.",
+      "range": {
+        "startLine": 199,
+        "startChar": 0,
+        "endLine": 209,
+        "endChar": 80
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_a49137f4",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1946,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "codestyle per aosp guidlines is that the indentation on wrapper params should be 8 spaces.",
+      "range": {
+        "startLine": 1945,
+        "startChar": 0,
+        "endLine": 1946,
+        "endChar": 104
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_04ae0b2e",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1947,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "unnecessary space before start of method?",
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_64bd7f67",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1948,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "please mind the spacing \n\nif (protocol...",
+      "range": {
+        "startLine": 1948,
+        "startChar": 8,
+        "endLine": 1948,
+        "endChar": 19
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c48eb3cf",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1950,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "again, this can be made into a switch statement that has a default case that drops out to false. This\u0027ll make it easier to expand capabilities if needed in the future.",
+      "range": {
+        "startLine": 1948,
+        "startChar": 0,
+        "endLine": 1950,
+        "endChar": 9
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_44bc0369",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1963,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "linewrap at 100 chars",
+      "range": {
+        "startLine": 1963,
+        "startChar": 0,
+        "endLine": 1963,
+        "endChar": 113
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_24b78789",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1964,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "the deleteConversations method within the BugleDatabaseOperations also handles deleting drafts, should we be handling that here as well?",
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_e4b08f8e",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1983,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "linewrap at 100 chars",
+      "range": {
+        "startLine": 1983,
+        "startChar": 0,
+        "endLine": 1983,
+        "endChar": 121
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_a4aa9716",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1984,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "unnecessary space before start of method.",
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_64625f19",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1995,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "mind the spacing.",
+      "range": {
+        "startLine": 1995,
+        "startChar": 12,
+        "endLine": 1995,
+        "endChar": 64
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c4a7934f",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2002,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "mind the spacing",
+      "range": {
+        "startLine": 2002,
+        "startChar": 12,
+        "endLine": 2002,
+        "endChar": 32
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_44ee4389",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "please line wrap at 100char",
+      "range": {
+        "startLine": 1389,
+        "startChar": 0,
+        "endLine": 1389,
+        "endChar": 113
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_24e9c77f",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "if (protocol)\n\nelse if (protocol)\n\nplease mind the spacing.",
+      "range": {
+        "startLine": 1395,
+        "startChar": 0,
+        "endLine": 1403,
+        "endChar": 9
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_e402cf3e",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "likewise, please mind the spacing \n\nif (uri...",
+      "range": {
+        "startLine": 1404,
+        "startChar": 8,
+        "endLine": 1404,
+        "endChar": 71
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_04004b34",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1406,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-04-19T19:09:28Z",
+      "side": 1,
+      "message": "this statement can actually just be a switch statement with a default case that returns 0;",
+      "range": {
+        "startLine": 1395,
+        "startChar": 0,
+        "endLine": 1406,
+        "endChar": 9
+      },
+      "revId": "e29f3e1078f3fe1fdf8420dbbb10b9e15ad55b4e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
