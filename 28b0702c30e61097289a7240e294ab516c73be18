@@ -1,0 +1,191 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_6226cfba",
+        "filename": "src/com/android/messaging/datamodel/data/ParticipantData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Instead of the method below, I suggest adding a parameter \u0027formattedNumber\u0027 to this method. With that...",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_023b5bd1",
+        "filename": "src/com/android/messaging/datamodel/data/ParticipantData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "... you can change this line to\n\nif (formattedNumber !\u003d null) {\n    pd.mDisplayDestination \u003d formattedNumber;\nelse {\n    pd.mDisplayDestination \u003d pd.mIsEmailAddress ?\n    ...\n}\n\nIn order to avoid changing existing code, have this:\n\npublic static ParticipantData getFromRawPhoneBySystemLocale(final String phoneNumber) {\n    return getFromRawPhoneBySystemLocale(phoneNumber, null);\n}",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_4221539f",
+        "filename": "src/com/android/messaging/datamodel/data/ParticipantData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Unnecessary change, please remove",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c23463e1",
+        "filename": "src/com/android/messaging/datamodel/data/ParticipantData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "With the above, this method can be removed. Besides that, the formatting is off.",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_e2315fee",
+        "filename": "src/com/android/messaging/datamodel/data/ParticipantListItemData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Please remove.",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_824c2b77",
+        "filename": "src/com/android/messaging/datamodel/data/ParticipantListItemData.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Please restore the space after mDisplayName",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_a2512711",
+        "filename": "src/com/android/messaging/util/BlackListHashMap.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Please remove this file.",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_625b2f2e",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Please move the getColumnIndex calls outside of the loop, like it\u0027s done for the other columns. Please also add spaces around \u0027\u003d\u0027.",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_02403b35",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "boolean isRegex \u003d cursor.getInt(regexColumnIndex) !\u003d 0;\n\nOr, following the earlier suggestions, rewrite to be more efficient:\n\nString formattedNumber \u003d cursor.getInt(regexColumnIndex) !\u003d 0\n        ? cursor.getString(numberIndex) : null;",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_42563309",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "Please remove the unneeded newlines.",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_223d37bb",
+        "filename": "src/com/android/messaging/util/BlacklistSync.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-04-20T11:02:44Z",
+      "side": 1,
+      "message": "See comments in BlacklistObserver.java.",
+      "revId": "28b0702c30e61097289a7240e294ab516c73be18",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
