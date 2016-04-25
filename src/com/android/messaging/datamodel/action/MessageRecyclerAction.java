@@ -41,13 +41,13 @@ public class MessageRecyclerAction extends Action implements Parcelable {
     public static void deleteMessagesOverLimit(final String conversationId, int protocol) {
 
         if (!PrefsUtils.isAutoDeleteEnabled() || (protocol != MessageData.PROTOCOL_SMS
-                && protocol != MessageData.PROTOCOL_MMS)) {
+                && protocol != MessageData.PROTOCOL_MMS) || conversationId == null) {
             return;
         }
 
         int cutOffLimit = PrefsUtils.getMessagesPerThreadLimitByProtocol(protocol);
         long cutOffTimeStampFromLimit = BugleDatabaseOperations.
-                getCutOffTimeStampFromLimit(conversationId, cutOffLimit, MessageData.PROTOCOL_SMS);
+                getCutOffTimeStampFromLimit(conversationId, cutOffLimit, protocol);
 
         if (cutOffTimeStampFromLimit > Long.MIN_VALUE) {
             deleteMessages(conversationId, protocol, cutOffTimeStampFromLimit);
