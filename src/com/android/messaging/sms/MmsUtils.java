@@ -1391,29 +1391,32 @@ public class MmsUtils {
         Uri uri;
         String selectionSql;
         String dateField;
+        long cutOffTimeStamp = Long.MIN_VALUE;
 
         switch (protocol) {
             case MessageData.PROTOCOL_SMS:
                 uri = Sms.CONTENT_URI;
                 selectionSql = getSmsTypeSelectionSql();
+                cutOffTimeStamp = cutOffTimestampInMillis;
                 dateField = Sms.DATE;
                 break;
             case MessageData.PROTOCOL_MMS:
                 uri = Mms.CONTENT_URI;
                 selectionSql = getMmsTypeSelectionSql();
+                cutOffTimeStamp = cutOffTimestampInMillis / 1000L;
                 dateField = Mms.DATE;
                 break;
             default:
                 return 0;
         }
         final ContentResolver resolver =
-            Factory.get().getApplicationContext().getContentResolver();
+                Factory.get().getApplicationContext().getContentResolver();
         final String selection = String.format(
-            Locale.US,
-            "%s AND (%s<=%d)",
-            selectionSql,
-            dateField,
-            cutOffTimestampInMillis);
+                Locale.US,
+                "%s AND (%s<=%d)",
+                selectionSql,
+                dateField,
+                cutOffTimeStamp);
         int deleted = resolver.delete(uri, selection, null);
 
         return deleted;
