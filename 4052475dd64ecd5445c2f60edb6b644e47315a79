@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_fc47babb",
+        "filename": "src/com/android/messaging/widget/WidgetConversationListService.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 848
+      },
+      "writtenOn": "2016-04-25T19:00:13Z",
+      "side": 1,
+      "message": "misaligned new line?",
+      "revId": "4052475dd64ecd5445c2f60edb6b644e47315a79",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_1c45f6b3",
+        "filename": "src/com/android/messaging/widget/WidgetConversationService.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 848
+      },
+      "writtenOn": "2016-04-25T19:00:13Z",
+      "side": 1,
+      "message": "misaligned newline?",
+      "revId": "4052475dd64ecd5445c2f60edb6b644e47315a79",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
