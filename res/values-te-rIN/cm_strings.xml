@@ -24,6 +24,7 @@
   <string name="pref_unicode_stripping_all">అన్ని యూనికోడ్ అక్షరాలను స్ట్రిప్ చేయుము</string>
   <!-- Settings item description for SMS and MMS Validity period -->
   <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">తొలగించడానికి స్వైప్ చెయ్యండి</string>
   <string name="swipe_to_delete_conversation_pref_summary">ఒక సంభాషణను తొలగించడానికి కుడి ప్రక్కన స్వైప్ చెయ్యండి</string>

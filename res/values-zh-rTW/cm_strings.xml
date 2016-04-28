@@ -21,6 +21,7 @@
   <string name="pref_unicode_stripping_all">去除所有 Unicode 字元</string>
   <!-- Settings item description for SMS and MMS Validity period -->
   <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

@@ -23,13 +23,27 @@
   <string name="pref_unicode_stripping_non_encodable">Fjern ikke-kodbare tegn</string>
   <string name="pref_unicode_stripping_all">Fjern alle Unicode-tegn</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Gyldighedsperiode</string>
+  <string name="validity_period_slot1_pref_title">Gyldighedsperiode for SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Gyldighedsperiode for SIM 2</string>
   <string name="sms_validity_period_not_set">Ikke angivet</string>
   <string name="sms_validity_period_one_hour">1 time</string>
   <string name="sms_validity_period_six_hours">6 timer</string>
   <string name="sms_validity_period_twelve_hours">12 timer</string>
   <string name="sms_validity_period_one_day">1 dag</string>
+  <string name="mms_validity_period_two_days">2 dage</string>
+  <string name="mms_validity_period_one_week">1 uge</string>
   <string name="validity_period_maximum">Maksimum</string>
+  <string name="pref_summary_mms_delivery_reports">Anmod om en leveringsrapport for hver besked du sender</string>
+  <string name="pref_summary_mms_read_reports">Anmod om en læst rapport for hver besked du har sendt</string>
+  <string name="delivery_reports_mms_pref_title">Leveringsrapporter</string>
+  <string name="read_reports_mms_pref_title">Læs rapporter</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Afsendelsesprioritet</string>
+  <string name="priority_low">Lav</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Høj</string>
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Stryg for at slette</string>
   <string name="swipe_to_delete_conversation_pref_summary">Stryg til højre for at slette en samtale</string>

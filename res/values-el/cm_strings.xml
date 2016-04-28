@@ -43,6 +43,16 @@
   <string name="priority_low">Χαμηλή</string>
   <string name="priority_normal">Κανονική</string>
   <string name="priority_high">Υψηλή</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Αποθηκευτικός χώρος</string>
+  <string name="pref_summary_auto_delete">Διαγραφή παλιών μηνυμάτων όταν εξαντλούνται τα όρια</string>
+  <string name="auto_delete_pref_title">Διαγραφή παλιών μηνυμάτων</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> μηνύματα ανά συνομιλία</string>
+  <string name="sms_delete_pref_title">Όριο μηνυμάτων κειμένου</string>
+  <string name="mms_delete_pref_title">Όριο μηνυμάτων πολυμέσων</string>
+  <string name="set">Ορισμός</string>
+  <string name="no">Ακύρωση</string>
+  <string name="pref_messages_to_save">Ορίστε τον αριθμό μηνυμάτων που θα αποθηκεύονται</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Ολίσθηση για διαγραφή</string>
   <string name="swipe_to_delete_conversation_pref_summary">Σύρετε προς τα δεξιά για να διαγράψετε μια συζήτηση</string>

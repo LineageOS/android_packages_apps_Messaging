@@ -43,6 +43,7 @@
   <string name="priority_low">Nizka</string>
   <string name="priority_normal">Običajna</string>
   <string name="priority_high">Visoka</string>
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Potegnite za brisanje</string>
   <string name="swipe_to_delete_conversation_pref_summary">Za izbris pogovora potegnite na desno</string>

@@ -24,6 +24,7 @@
   <string name="pref_unicode_stripping_all">എല്ലാ യൂണിക്കോഡ് അക്ഷരങ്ങളും സ്ട്രിപ് ചെയ്യുക</string>
   <!-- Settings item description for SMS and MMS Validity period -->
   <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">ഇല്ലാതാക്കാൻ സ്വൈപ്പുചെയ്യുക</string>
   <string name="swipe_to_delete_conversation_pref_summary">ഒരു സംഭാഷണം ഇല്ലാതാക്കാന്‍ വലതുവശത്തെക്ക് സ്വൈപ്ചെയ്യുക</string>

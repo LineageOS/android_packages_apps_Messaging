@@ -34,8 +34,16 @@
   <string name="mms_validity_period_two_days">2 天</string>
   <string name="mms_validity_period_one_week">1 周</string>
   <string name="validity_period_maximum">最大值</string>
+  <string name="pref_summary_mms_delivery_reports">为每条发送的消息请求送达报告</string>
+  <string name="pref_summary_mms_read_reports">为每条发送的消息请求已读报告</string>
+  <string name="delivery_reports_mms_pref_title">送达报告</string>
+  <string name="read_reports_mms_pref_title">已读报告</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">发送优先级</string>
   <string name="priority_low">低</string>
+  <string name="priority_normal">一般</string>
+  <string name="priority_high">高</string>
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
   <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
