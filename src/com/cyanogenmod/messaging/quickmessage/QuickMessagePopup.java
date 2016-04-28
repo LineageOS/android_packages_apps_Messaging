@@ -115,6 +115,10 @@ public class QuickMessagePopup extends Activity {
         mCloseButton = (Button) findViewById(R.id.button_close);
         mViewButton = (Button) findViewById(R.id.button_view);
 
+        //Visibility of Close button as per user preference selected
+        mCloseButton.setVisibility(mCloseClosesAll
+                ? View.VISIBLE : View.GONE);
+
         // ViewPager Support
         mPagerAdapter = new MessagePagerAdapter();
         mMessagePager = (ViewPager) findViewById(R.id.message_pager);
