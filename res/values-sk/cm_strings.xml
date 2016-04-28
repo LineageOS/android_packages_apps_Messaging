@@ -20,6 +20,7 @@
   <string name="pref_unicode_stripping_non_encodable">Odstrániť nekódovateľné znaky</string>
   <!-- Settings item description for SMS and MMS Validity period -->
   <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->

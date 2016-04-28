@@ -37,12 +37,22 @@
   <string name="pref_summary_mms_delivery_reports">Richiedi un rapporto di consegna per ogni messaggio inviato</string>
   <string name="pref_summary_mms_read_reports">Richiedi un rapporto di lettura per ogni messaggio inviato</string>
   <string name="delivery_reports_mms_pref_title">Rapporti di consegna</string>
-  <string name="read_reports_mms_pref_title">Leggi rapporti</string>
+  <string name="read_reports_mms_pref_title">Rapporti lettura</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Priorità invio</string>
   <string name="priority_low">Bassa</string>
   <string name="priority_normal">Normale</string>
   <string name="priority_high">Alta</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Archivio</string>
+  <string name="pref_summary_auto_delete">Elimina messaggi vecchi quando raggiungi i limiti</string>
+  <string name="auto_delete_pref_title">Elimina messaggi vecchi</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> messaggi per conversazione</string>
+  <string name="sms_delete_pref_title">Limite messaggi di testo</string>
+  <string name="mms_delete_pref_title">Limite messaggi multimediali</string>
+  <string name="set">Imposta</string>
+  <string name="no">Annulla</string>
+  <string name="pref_messages_to_save">Imposta il numero di messaggi da tenere</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Scorri per eliminare</string>
   <string name="swipe_to_delete_conversation_pref_summary">Scorri verso destra per cancellare una conversazione</string>

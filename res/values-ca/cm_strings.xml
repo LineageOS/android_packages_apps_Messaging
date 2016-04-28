@@ -43,6 +43,16 @@
   <string name="priority_low">Baixa</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Alta</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Emmagatzematge</string>
+  <string name="pref_summary_auto_delete">Esborra els missatges antics quan s\'assoleixin els límits</string>
+  <string name="auto_delete_pref_title">Esborra els missatges antics</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> missatges per conversa</string>
+  <string name="sms_delete_pref_title">Límit de missatges de text</string>
+  <string name="mms_delete_pref_title">Límit de missatges multimèdia</string>
+  <string name="set">Estableix</string>
+  <string name="no">Cancel·la</string>
+  <string name="pref_messages_to_save">Estableix el nombre de missatges a desar</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Llisca per esborrar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Llisca cap a la dreta per esborrar una conversa</string>

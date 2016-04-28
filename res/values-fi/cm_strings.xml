@@ -43,6 +43,16 @@
   <string name="priority_low">Matala</string>
   <string name="priority_normal">Normaali</string>
   <string name="priority_high">Korkea</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Tallennustila</string>
+  <string name="pref_summary_auto_delete">Poista vanhat viestit kun raja ylittyy</string>
+  <string name="auto_delete_pref_title">Poista vanhat viestit</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> viestiä per keskustelu</string>
+  <string name="sms_delete_pref_title">Tekstiviestiraja</string>
+  <string name="mms_delete_pref_title">Multimediaviestien raja</string>
+  <string name="set">Aseta</string>
+  <string name="no">Peruuta</string>
+  <string name="pref_messages_to_save">Aseta tallennettavien viestien määrä</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Poista liu\'uttamalla</string>
   <string name="swipe_to_delete_conversation_pref_summary">Pyyhkäise oikealle poistaaksesi keskustelun</string>

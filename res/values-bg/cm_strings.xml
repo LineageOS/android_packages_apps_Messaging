@@ -33,7 +33,7 @@
   <string name="sms_validity_period_one_day">1 ден</string>
   <string name="mms_validity_period_two_days">2 дни</string>
   <string name="mms_validity_period_one_week">1 седмица</string>
-  <string name="validity_period_maximum">Максимум</string>
+  <string name="validity_period_maximum">Максимален</string>
   <string name="pref_summary_mms_delivery_reports">Искане на отчет за всяко изпратено от вас съобщение</string>
   <string name="pref_summary_mms_read_reports">Искане за четене на отчет за всяко изпратено от вас съобщение</string>
   <string name="delivery_reports_mms_pref_title">Отчети за доставка</string>
@@ -43,6 +43,7 @@
   <string name="priority_low">Нисък</string>
   <string name="priority_normal">Нормален</string>
   <string name="priority_high">Висок</string>
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
   <string name="swipe_to_delete_conversation_pref_summary">Плъзгане от ляво надясно за да изтриете разговора</string>
