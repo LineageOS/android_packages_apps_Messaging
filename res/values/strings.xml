@@ -748,6 +748,8 @@
     <string name="send_message_failure_airplane_mode">Can\'t send messages in Airplane mode</string>
     <!-- Error toast shown when a message could not be sent because of unspecified error. -->
     <string name="send_message_failure">Message could not be sent</string>
+    <!-- This is the text of a toast message briefly displayed when a problem occurs while sending. -->
+    <string name="message_queued">Currently can\'t send your message. It will be sent when the service becomes available.</string>
 
     <!-- Accessibility toast shown when an MMS is downloaded. -->
     <string name="download_message_success">Message downloaded</string>
