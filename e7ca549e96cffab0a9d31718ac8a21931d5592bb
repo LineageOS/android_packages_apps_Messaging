@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_4f18851c",
+        "filename": "src/com/cyanogenmod/messaging/quickmessage/QuickMessagePopup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-04-28T10:05:30Z",
+      "side": 1,
+      "message": "Could replace with:\nmCloseButton.setVisibility(mCloseCloseAll? x: y)",
+      "revId": "e7ca549e96cffab0a9d31718ac8a21931d5592bb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
