@@ -24,6 +24,7 @@
   <string name="pref_unicode_stripping_all">Verwyder al \'unicode\' karakters</string>
   <!-- Settings item description for SMS and MMS Validity period -->
   <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Sleep om uit te vee</string>
   <string name="swipe_to_delete_conversation_pref_summary">Vee na regs om gesprek uit te vee</string>

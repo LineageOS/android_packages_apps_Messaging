@@ -23,12 +23,36 @@
   <string name="pref_unicode_stripping_non_encodable">Монтирај не-кодиране знакове</string>
   <string name="pref_unicode_stripping_all">Монтирај све уникод знакове</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Рок важења</string>
+  <string name="validity_period_slot1_pref_title">Рок важења за SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Рок важења за SIM 2</string>
   <string name="sms_validity_period_not_set">Није подешено</string>
   <string name="sms_validity_period_one_hour">1 сат</string>
   <string name="sms_validity_period_six_hours">6 сати</string>
   <string name="sms_validity_period_twelve_hours">12 сати</string>
   <string name="sms_validity_period_one_day">1 дан</string>
+  <string name="mms_validity_period_two_days">2 дана</string>
+  <string name="mms_validity_period_one_week">1 недеља</string>
+  <string name="validity_period_maximum">Максимум</string>
+  <string name="pref_summary_mms_delivery_reports">Захтевај извештај о слању за сваку поруку коју пошаљеш</string>
+  <string name="pref_summary_mms_read_reports">Захтевај извештај о читању за сваку поруку коју пошаљеш</string>
+  <string name="delivery_reports_mms_pref_title">Извештај доставе</string>
+  <string name="read_reports_mms_pref_title">Читај извештаје</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Приоритет слања</string>
+  <string name="priority_low">Низак</string>
+  <string name="priority_normal">Нормално</string>
+  <string name="priority_high">Висок</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Складиште</string>
+  <string name="pref_summary_auto_delete">Обриши старе поруке када је достигнут лимит</string>
+  <string name="auto_delete_pref_title">Обриши старе поруке</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> порука по преписци</string>
+  <string name="sms_delete_pref_title">Ограничење текста поруке</string>
+  <string name="mms_delete_pref_title">Ограничење за мултимедијалне поруке</string>
+  <string name="set">Постави</string>
+  <string name="no">Откажи</string>
+  <string name="pref_messages_to_save">Постави број порука за чување</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Брисање листањем</string>
   <string name="swipe_to_delete_conversation_pref_summary">Листај на десно да избришеш конврзацију</string>

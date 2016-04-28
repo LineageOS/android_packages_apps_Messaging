@@ -30,6 +30,7 @@
   <string name="sms_validity_period_one_day">1 كۈن</string>
   <string name="validity_period_maximum">ئەڭ چوڭ قىممەت</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">سۈرۈلسە ئۆچۈرىدۇ</string>
   <string name="swipe_to_delete_conversation_pref_summary">دىئالوگنى ئۆچۈرۈش ئۈچۈن ئوڭغا سىيرىڭ</string>
