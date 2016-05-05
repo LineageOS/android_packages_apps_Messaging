@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_1695b3e4",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2374,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-05T18:22:02Z",
+      "side": 1,
+      "message": "do you want to check for localId !\u003d -1, as you do for threadId?",
+      "range": {
+        "startLine": 2374,
+        "startChar": 88,
+        "endLine": 2374,
+        "endChar": 95
+      },
+      "revId": "ff368648b6d1d80095d2d3adca80fc2df56e48a5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_76fae742",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2380,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-05T18:22:02Z",
+      "side": 1,
+      "message": "Do you want this log as an error? Do you want it at all?",
+      "range": {
+        "startLine": 2379,
+        "startChar": 28,
+        "endLine": 2380,
+        "endChar": 69
+      },
+      "revId": "ff368648b6d1d80095d2d3adca80fc2df56e48a5",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
