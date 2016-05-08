@@ -95,9 +95,13 @@ public class ConversationMessageBubbleView extends LinearLayout {
         }
     }
 
-    public void bind(QuickMessage quickMessage) {
+    public void bind() {
         mShouldAnimateWidthChange = false;
         mMorphedWidth = 0;
+    }
+
+    public void bind(QuickMessage quickMessage) {
+        bind();
     }
 
     public void kickOffMorphAnimation(final int oldWidth, final int newWidth) {
