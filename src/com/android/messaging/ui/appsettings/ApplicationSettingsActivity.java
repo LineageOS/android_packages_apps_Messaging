@@ -37,12 +37,11 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.internal.telephony.PhoneConstants;
 import com.android.messaging.R;
 import com.android.messaging.sms.MmsConfig;
-import com.android.messaging.ui.BugleActionBarActivity;
-import com.android.messaging.ui.LicenseActivity;
-import com.android.messaging.ui.NumberPickerDialog;
-import com.android.messaging.ui.UIIntents;
+import com.android.messaging.sms.SimMessagesUtils;
+import com.android.messaging.ui.*;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.OsUtil;
@@ -109,6 +108,9 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         private ListPreference mSmsValidityCard2Pref;
         private Preference mSmsLimitPref;
         private Preference mMmsLimitPref;
+        private Preference mManageSimPref;
+        private Preference mManageSim1Pref;
+        private Preference mManageSim2Pref;
 
 
         public ApplicationSettingsFragment() {
@@ -139,6 +141,9 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSmsValidityCard2Pref = (ListPreference) findPreference("pref_key_sms_validity_period_slot2");
             mSmsLimitPref = findPreference("sms_delete_limit_pref_key");
             mMmsLimitPref = findPreference("mms_delete_limit_pref_key");
+            mManageSimPref = findPreference("pref_key_manage_sim_messages");
+            mManageSim1Pref = findPreference("pref_key_manage_sim_messages_slot1");
+            mManageSim2Pref = findPreference("pref_key_manage_sim_messages_slot2");
 
             if (getResources().getBoolean(R.bool.config_sms_validity)) {
                 if (PhoneUtils.getDefault().isMultiSimEnabledMms()) {
@@ -181,6 +186,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             }
             setSmsDisplayLimit();
             setMmsDisplayLimit();
+            updateSIMSMSPref();
         }
 
         @Override
@@ -192,7 +198,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             } else if (getActivity() != null &&
                     preference.getKey().equals(mSmsLimitPref.getKey())) {
 
-                    new NumberPickerDialog(getActivity(),
+                new NumberPickerDialog(getActivity(),
                         mSmsLimitListener,
                         PrefsUtils.getSMSMessagesPerThreadLimit(),
                         MmsConfig.getMinMessageCountPerThread(),
@@ -200,10 +206,10 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
                         R.string.sms_delete_pref_title,
                         R.string.pref_messages_to_save).show();
 
-            } else if(getActivity() != null &&
+            } else if (getActivity() != null &&
                     preference.getKey().equals(mMmsLimitPref.getKey())) {
 
-                    new NumberPickerDialog(getActivity(),
+                new NumberPickerDialog(getActivity(),
                         mMmsLimitListener,
                         PrefsUtils.getMMSMessagesPerThreadLimit(),
                         MmsConfig.getMinMessageCountPerThread(),
@@ -211,6 +217,19 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
                         R.string.mms_delete_pref_title,
                         R.string.pref_messages_to_save).show();
 
+            } else if (getActivity() != null && preference.getKey()
+                    .equals(mManageSimPref.getKey())) {
+                startActivity(new Intent(getActivity(), ManageSimMessages.class));
+            } else if (getActivity() != null && preference.getKey()
+                    .equals(mManageSim1Pref.getKey())) {
+                Intent intent = new Intent(getActivity(), ManageSimMessages.class);
+                intent.putExtra(PhoneConstants.PHONE_KEY, SimMessagesUtils.SUB1);
+                startActivity(intent);
+            } else if (getActivity() != null && preference.getKey()
+                    .equals(mManageSim2Pref.getKey())) {
+                Intent intent = new Intent(getActivity(), ManageSimMessages.class);
+                intent.putExtra(PhoneConstants.PHONE_KEY, SimMessagesUtils.SUB2);
+                startActivity(intent);
             }
             return super.onPreferenceTreeClick(preferenceScreen, preference);
         }
@@ -328,6 +347,24 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mMmsLimitPref.setSummary(
                     getString(R.string.pref_summary_delete_limit,
                             PrefsUtils.getMMSMessagesPerThreadLimit()));
+        }
+
+        private void updateSIMSMSPref() {
+            if (SimMessagesUtils.isMultiSimEnabledMms()) {
+                if (!SimMessagesUtils.isIccCardActivated(SimMessagesUtils.SUB1)) {
+                    mManageSim1Pref.setEnabled(false);
+                }
+                if (!SimMessagesUtils.isIccCardActivated(SimMessagesUtils.SUB2)) {
+                    mManageSim2Pref.setEnabled(false);
+                }
+                getPreferenceScreen().removePreference(mManageSimPref);
+            } else {
+                if (!SimMessagesUtils.hasIccCard()) {
+                    mManageSimPref.setEnabled(false);
+                }
+                getPreferenceScreen().removePreference(mManageSim1Pref);
+                getPreferenceScreen().removePreference(mManageSim2Pref);
+            }
         }
 
         NumberPickerDialog.OnNumberSetListener mSmsLimitListener =

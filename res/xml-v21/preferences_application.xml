@@ -145,6 +145,16 @@
             android:title="@string/mms_delete_pref_title" />
     </PreferenceCategory>
 
+    <Preference
+            android:key="pref_key_manage_sim_messages"
+            android:title="@string/pref_title_manage_sim_messages" />
+    <Preference
+            android:key="pref_key_manage_sim_messages_slot1"
+            android:title="@string/pref_title_manage_sim_messages_slot1" />
+    <Preference
+            android:key="pref_key_manage_sim_messages_slot2"
+            android:title="@string/pref_title_manage_sim_messages_slot2" />
+
     <!-- QuickMessage settings -->
     <PreferenceCategory android:title="@string/pref_quickmessage">
 
