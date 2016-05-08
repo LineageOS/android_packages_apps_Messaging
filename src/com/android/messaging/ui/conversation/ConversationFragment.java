@@ -43,6 +43,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.provider.Telephony;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.text.BidiFormatter;
 import android.support.v4.text.TextDirectionHeuristicsCompat;
@@ -51,7 +52,12 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -63,6 +69,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -81,6 +88,7 @@ import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionListEntry;
+import com.android.messaging.sms.SimMessagesUtils;
 import com.android.messaging.ui.AttachmentPreview;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.ConversationDrawables;
@@ -371,6 +379,16 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     // use message-based cursor in conversation.
                     final MessageData message = mBinding.getData().createForwardedMessage(data);
                     UIIntents.get().launchForwardMessageActivity(getActivity(), message);
+                    mHost.dismissActionMode();
+                    return true;
+                case R.id.copy_to_sim:
+                    if (data != null && mBinding.getData().getParticipants() != null ) {
+                        if(SimMessagesUtils.getActivatedIccCardCount() > 1) {
+                            showSimSelectDialog(data);
+                        } else {
+                            copyToSim(data, SubscriptionManager.getDefaultSmsSubId());
+                        }
+                    }
                     mHost.dismissActionMode();
                     return true;
             }
@@ -1432,6 +1450,51 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             return;
         }
         ((BugleActionBarActivity) activity).supportInvalidateOptionsMenu();
+    }
+
+    private void copyToSim(ConversationMessageData data, int subId) {
+        boolean success = SimMessagesUtils
+                .copyToSim(data, mBinding.getData().getParticipants(), subId);
+        CharSequence copyToSimStatus = success ?
+                getResources().getText(R.string.copy_to_phone_success) :
+                getResources().getText(R.string.copy_to_sim_fail);
+        Toast.makeText(getActivity(), copyToSimStatus.toString(),
+                Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSimSelectDialog(ConversationMessageData data) {
+        String[] items = new String[TelephonyManager.getDefault()
+                .getPhoneCount()];
+        for (int i = 0; i < items.length; i++) {
+            items[i] = SimMessagesUtils.getMultiSimName(
+                    getActivity(), i);
+        }
+        CopyToSimSelectListener listener = new CopyToSimSelectListener(
+                data);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.copy_to_sim)
+                .setPositiveButton(android.R.string.ok, listener)
+                .setSingleChoiceItems(items, 0, listener)
+                .setCancelable(true).show();
+    }
+
+    private class CopyToSimSelectListener implements DialogInterface.OnClickListener {
+        private ConversationMessageData messageData;
+        private int slot;
+
+        public CopyToSimSelectListener(ConversationMessageData messageData) {
+            super();
+            this.messageData = messageData;
+        }
+
+        public void onClick(DialogInterface dialog, int which) {
+            if (which >= 0) {
+                slot = which;
+            } else if (which == DialogInterface.BUTTON_POSITIVE) {
+                int[] subId = SubscriptionManager.getSubId(slot);
+                copyToSim(messageData, subId[0]);
+            }
+        }
     }
 
     @Override
