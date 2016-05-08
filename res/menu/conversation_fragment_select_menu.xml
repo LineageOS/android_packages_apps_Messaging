@@ -60,4 +60,14 @@
         android:icon="@drawable/ic_delete_small_dark"
         android:title="@string/action_delete_message"
         appcompat:showAsAction="collapseActionView|always"/>
+    <item
+        android:icon="@drawable/ic_overflow_dark"
+        appcompat:showAsAction="collapseActionView|always">
+        <menu>
+            <item
+                android:id="@+id/copy_to_sim"
+                appcompat:showAsAction="never"
+                android:title="@string/operation_to_card_memory"/>
+        </menu>
+    </item>
 </menu>

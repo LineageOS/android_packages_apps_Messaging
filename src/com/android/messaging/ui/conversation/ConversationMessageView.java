@@ -232,6 +232,21 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 contentTop + contentHeight);
     }
 
+    public void bindToSimMessages(final Cursor cursor) {
+        mData.bindToSimMessages(cursor);
+
+        // Update text and image content for the view.
+        updateViewContent();
+
+        // Update colors and layout parameters for the view.
+        updateViewAppearance();
+
+        updateContentDescription();
+
+        //Necessary to remove bubble width animation
+        mMessageBubble.bind();
+    }
+
     /**
      * Fills in the data associated with this view.
      *

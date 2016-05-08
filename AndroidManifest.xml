@@ -543,6 +543,16 @@
 
         <receiver android:name="com.cyanogenmod.messaging.lookup.LookupProviderManager" />
 
+        <activity android:name=".ui.ManageSimMessages"
+                  android:theme="@style/BugleTheme"
+                  android:launchMode="singleTop"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:label="@string/sim_manage_messages_title">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>
