@@ -19,6 +19,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
+import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -132,6 +133,25 @@ public class ConversationMessageData {
         } else {
             mCanClusterWithNextMessage = false;
         }
+    }
+
+    public void bindToSimMessages(Cursor cursor) {
+        mMessageId = String.valueOf(cursor.getInt(SimMessageData.INDEX_INDEX_ON_ICC));
+        int IccStatus = cursor.getInt(SimMessageData.INDEX_STATUS);
+        if (IccStatus == SmsManager.STATUS_ON_ICC_SENT) {
+            mStatus = MessageData.BUGLE_STATUS_OUTGOING_COMPLETE;
+            mSentTimestamp = cursor.getLong(SimMessageData.INDEX_DATE);
+        } else {
+            mStatus = MessageData.BUGLE_STATUS_INCOMING_COMPLETE;
+            mReceivedTimestamp = cursor.getLong(SimMessageData.INDEX_DATE);
+        }
+        mSenderDisplayDestination = cursor.getString(SimMessageData.INDEX_ADDRESS);
+        mPartsCount = 1;
+        mParts = new ArrayList<MessagePartData>();
+        mParts.add(new MessagePartData(cursor.getString(SimMessageData.INDEX_BODY)));
+        mSeen = true;
+        mRead = true;
+        mProtocol = MessageData.PROTOCOL_SMS;
     }
 
     private boolean canClusterWithMessage(final Cursor cursor) {

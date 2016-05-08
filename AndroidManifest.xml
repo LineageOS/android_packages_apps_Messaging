@@ -541,6 +541,11 @@
 
         <receiver android:name="com.cyanogenmod.messaging.quickmessage.ClearAllReceiver" />
 
+        <activity android:name=".ui.ManageSimMessages"
+                  android:theme="@style/BugleTheme"
+                  android:launchMode="singleTop"
+                  android:configChanges="orientation|screenSize|keyboardHidden"
+                  android:label="@string/sim_manage_messages_title" />
     </application>
 
 </manifest>
