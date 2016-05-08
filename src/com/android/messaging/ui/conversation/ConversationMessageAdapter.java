@@ -45,6 +45,7 @@ public class ConversationMessageAdapter extends
     private final View.OnLongClickListener mViewLongClickListener;
     private boolean mOneOnOne;
     private String mSelectedMessageId;
+    private boolean isSmsMessage;
 
     public ConversationMessageAdapter(final Context context, final Cursor cursor,
         final ConversationMessageViewHost host,
@@ -59,13 +60,28 @@ public class ConversationMessageAdapter extends
         setHasStableIds(true);
     }
 
+    public ConversationMessageAdapter(final Context context, final Cursor cursor,
+            final ConversationMessageViewHost host,
+            final AsyncImageViewDelayLoader imageViewDelayLoader,
+            final View.OnClickListener viewClickListener,
+            final View.OnLongClickListener longClickListener, boolean isSmsMessage) {
+        this(context, cursor, host, imageViewDelayLoader, viewClickListener, longClickListener);
+        this.isSmsMessage = isSmsMessage;
+    }
+
+
+
     @Override
     public void bindViewHolder(final ConversationMessageViewHolder holder,
             final Context context, final Cursor cursor) {
         Assert.isTrue(holder.mView instanceof ConversationMessageView);
         final ConversationMessageView conversationMessageView =
                 (ConversationMessageView) holder.mView;
-        conversationMessageView.bind(cursor, mOneOnOne, mSelectedMessageId);
+        if(isSmsMessage) {
+            conversationMessageView.bindToSimMessages(cursor, mSelectedMessageId);
+        } else {
+            conversationMessageView.bind(cursor, mOneOnOne, mSelectedMessageId);
+        }
     }
 
     @Override
