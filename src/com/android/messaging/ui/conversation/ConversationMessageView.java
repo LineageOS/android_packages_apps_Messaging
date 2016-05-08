@@ -232,6 +232,25 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 contentTop + contentHeight);
     }
 
+    public void bindToSimMessages(final Cursor cursor, final String selectedMessageId) {
+        mData.bindToSimMessages(cursor);
+        setSelected(TextUtils.equals(mData.getMessageId(), selectedMessageId));
+        // Update text and image content for the view.
+        updateViewContent();
+
+        // Update colors and layout parameters for the view.
+        updateViewAppearance();
+
+        updateContentDescription();
+
+        //Necessary to remove bubble width animation
+        mMessageBubble.bind();
+        //SIM Messages don't save timestamp for outgoing messages
+        if(!mData.getIsIncoming()) {
+            mStatusTextView.setVisibility(View.GONE);
+        }
+    }
+
     /**
      * Fills in the data associated with this view.
      *
