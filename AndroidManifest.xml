@@ -51,6 +51,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_BLACKLIST" />
     <uses-permission android:name="android.permission.CHANGE_PHONE_BLACKLIST" />
 
+    <uses-permission android:name="com.cyanogen.ambient.permission.BIND_CALLER_INFO" />
+
     <!--  Optional features -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
