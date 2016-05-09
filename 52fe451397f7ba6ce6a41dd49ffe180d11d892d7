@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_dc4f31bb",
+        "filename": "src/com/android/messaging/ui/appsettings/ApplicationSettingsActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1448
+      },
+      "writtenOn": "2016-05-09T14:39:15Z",
+      "side": 1,
+      "message": "Don\u0027t import the whole package.",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "52fe451397f7ba6ce6a41dd49ffe180d11d892d7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
