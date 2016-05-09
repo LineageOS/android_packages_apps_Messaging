@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5faad753_273c2ec7",
+        "filename": "res/menu/conversation_fragment_select_menu.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-09T15:52:05Z",
+      "side": 1,
+      "message": "with just one menu item, why is this declared as part of a sub-menu?",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 11
+      },
+      "revId": "52fe451397f7ba6ce6a41dd49ffe180d11d892d7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_fc7b0dbb",
+        "filename": "src/com/android/messaging/sms/SimMessagesUtils.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-09T15:52:05Z",
+      "side": 1,
+      "message": "is it guaranteed to be non-null? or should you check for it?",
+      "range": {
+        "startLine": 74,
+        "startChar": 48,
+        "endLine": 74,
+        "endChar": 63
+      },
+      "revId": "52fe451397f7ba6ce6a41dd49ffe180d11d892d7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_dc4f31bb",
         "filename": "src/com/android/messaging/ui/appsettings/ApplicationSettingsActivity.java",
         "patchSetId": 2
@@ -18,6 +64,29 @@
         "startChar": 31,
         "endLine": 44,
         "endChar": 34
+      },
+      "revId": "52fe451397f7ba6ce6a41dd49ffe180d11d892d7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_a7281e86",
+        "filename": "src/com/android/messaging/ui/appsettings/ApplicationSettingsActivity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-09T15:52:05Z",
+      "side": 1,
+      "message": "seems cleaner to check for getActivity() !\u003d null once do your if..else if else...",
+      "range": {
+        "startLine": 220,
+        "startChar": 12,
+        "endLine": 232,
+        "endChar": 38
       },
       "revId": "52fe451397f7ba6ce6a41dd49ffe180d11d892d7",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
