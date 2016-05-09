@@ -40,6 +40,7 @@ import java.util.ArrayList;
 
 public class ShareIntentActivity extends BaseBugleActivity implements
         ShareIntentFragment.HostInterface {
+    private static final String EXTRA_SMS_BODY = "sms_body";
 
     private MessageData mDraftMessage;
 
@@ -81,7 +82,12 @@ public class ShareIntentActivity extends BaseBugleActivity implements
                         contentUri, intent.getType(), contentType));
             }
             if (ContentType.TEXT_PLAIN.equals(contentType)) {
-                final String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                // Text could be stored in either key. Try both.
+                String sharedText = intent.getStringExtra(EXTRA_SMS_BODY);
+                if (TextUtils.isEmpty(sharedText)) {
+                    sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                }
+
                 if (sharedText != null) {
                     mDraftMessage = MessageData.createSharedMessage(sharedText);
                 } else {
