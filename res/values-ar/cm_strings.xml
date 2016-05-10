@@ -23,8 +23,36 @@
   <string name="pref_unicode_stripping_non_encodable">تجريد الأحرف غير القابلة للتشفير</string>
   <string name="pref_unicode_stripping_all">تجريد كافة أحرف unicode</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">فترة الصلاحية</string>
+  <string name="validity_period_slot1_pref_title">فترة الصلاحية للشريحة SIM 1</string>
+  <string name="validity_period_slot2_pref_title">فترة الصلاحية للشريحة SIM 2</string>
+  <string name="sms_validity_period_not_set">لم يتم التعيين</string>
+  <string name="sms_validity_period_one_hour">1 ساعة</string>
+  <string name="sms_validity_period_six_hours">6 ساعات</string>
+  <string name="sms_validity_period_twelve_hours">12 ساعة</string>
+  <string name="sms_validity_period_one_day">١ يوم</string>
+  <string name="mms_validity_period_two_days">2 يوم</string>
+  <string name="mms_validity_period_one_week">١ أسبوع</string>
+  <string name="validity_period_maximum">الحد الأقصى</string>
+  <string name="pref_summary_mms_delivery_reports">اطلب تقرير توصيل لكل رسالة ترسلها</string>
+  <string name="pref_summary_mms_read_reports">اطلب تقرير قراءة لكل رسالة ترسلها</string>
+  <string name="delivery_reports_mms_pref_title">تقارير التوصيل</string>
+  <string name="read_reports_mms_pref_title">تقارير القراءة</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">أولوية الإرسال</string>
+  <string name="priority_low">منخفض</string>
+  <string name="priority_normal">عادي</string>
+  <string name="priority_high">مرتفع</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">المخزن</string>
+  <string name="pref_summary_auto_delete">حذف الرسائل القديمة عند الوصول إلى الحدود</string>
+  <string name="auto_delete_pref_title">حذف الرسائل القديمة</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> رسائل لكل محادثة</string>
+  <string name="sms_delete_pref_title">حد الرسالة النصية</string>
+  <string name="mms_delete_pref_title">حد رسالة الوسائط المتعددة</string>
+  <string name="set">تعيين</string>
+  <string name="no">إلغاء</string>
+  <string name="pref_messages_to_save">تعيين عدد من الرسائل لحفظها</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">تمرير لإجراء حذف</string>
   <string name="swipe_to_delete_conversation_pref_summary">تمرير إلى اليمين لحذف محادثة</string>

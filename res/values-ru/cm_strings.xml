@@ -23,14 +23,36 @@
   <string name="pref_unicode_stripping_non_encodable">Заменять некодируемые символы</string>
   <string name="pref_unicode_stripping_all">Заменять все символы юникода</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Срок действия</string>
+  <string name="validity_period_slot1_pref_title">Срок действия для SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Срок действия для SIM 2</string>
   <string name="sms_validity_period_not_set">Не установлен</string>
   <string name="sms_validity_period_one_hour">1 час</string>
   <string name="sms_validity_period_six_hours">6 часов</string>
   <string name="sms_validity_period_twelve_hours">12 часов</string>
   <string name="sms_validity_period_one_day">1 день</string>
+  <string name="mms_validity_period_two_days">2 дня</string>
+  <string name="mms_validity_period_one_week">1 неделя</string>
   <string name="validity_period_maximum">Предельно возможный</string>
+  <string name="pref_summary_mms_delivery_reports">Запрашивать отчёт о доставке каждого отправленного вами сообщения</string>
+  <string name="pref_summary_mms_read_reports">Запрашивать отчёт о прочтении каждого отправленного вами сообщения</string>
+  <string name="delivery_reports_mms_pref_title">Отчёты о доставке</string>
+  <string name="read_reports_mms_pref_title">Отчёты о прочтении</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Приоритет отправки</string>
+  <string name="priority_low">Низкий</string>
+  <string name="priority_normal">Обычный</string>
+  <string name="priority_high">Высокий</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Хранилище</string>
+  <string name="pref_summary_auto_delete">Удалять старые сообщения при достижении предела</string>
+  <string name="auto_delete_pref_title">Удалить старые сообщения</string>
+  <string name="pref_summary_delete_limit">Сообщений в беседе: <xliff:g id="count">%1$s</xliff:g></string>
+  <string name="sms_delete_pref_title">Ограничение SMS-сообщений</string>
+  <string name="mms_delete_pref_title">Ограничение MMS-сообщений</string>
+  <string name="set">Установить</string>
+  <string name="no">Отмена</string>
+  <string name="pref_messages_to_save">Количество сообщений для сохранения</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Быстрое удаление</string>
   <string name="swipe_to_delete_conversation_pref_summary">Проведите вправо, чтобы удалить диалог</string>

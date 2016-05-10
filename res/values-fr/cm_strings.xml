@@ -23,8 +23,36 @@
   <string name="pref_unicode_stripping_non_encodable">Enlever les caractères non encodables</string>
   <string name="pref_unicode_stripping_all">Enlever tous les caractères Unicode</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Durée de validité</string>
+  <string name="validity_period_slot1_pref_title">Durée de validité pour la SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Durée de validité pour la SIM 2</string>
+  <string name="sms_validity_period_not_set">Non définie</string>
+  <string name="sms_validity_period_one_hour">1 heure</string>
+  <string name="sms_validity_period_six_hours">6 heures</string>
+  <string name="sms_validity_period_twelve_hours">12 heures</string>
+  <string name="sms_validity_period_one_day">1 jour</string>
+  <string name="mms_validity_period_two_days">2 jours</string>
+  <string name="mms_validity_period_one_week">1 semaine</string>
+  <string name="validity_period_maximum">Maximale</string>
+  <string name="pref_summary_mms_delivery_reports">Demander un accusé de réception pour chaque message envoyé</string>
+  <string name="pref_summary_mms_read_reports">Demander un accusé de lecture pour chaque message envoyé</string>
+  <string name="delivery_reports_mms_pref_title">Accusés de réception</string>
+  <string name="read_reports_mms_pref_title">Accusés de lecture</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Priorité de l\'envoi</string>
+  <string name="priority_low">Faible</string>
+  <string name="priority_normal">Normale</string>
+  <string name="priority_high">Élevée</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Stockage</string>
+  <string name="pref_summary_auto_delete">Supprimer les anciens messages lorsque les limites sont atteintes</string>
+  <string name="auto_delete_pref_title">Supprimer les anciens messages</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> messages par conversation</string>
+  <string name="sms_delete_pref_title">Limiter l\'émission de SMS</string>
+  <string name="mms_delete_pref_title">Limiter l\'émission de MMS</string>
+  <string name="set">Définir</string>
+  <string name="no">Annuler</string>
+  <string name="pref_messages_to_save">Définir le nombre de messages à sauvegarder</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Balayer pour supprimer</string>
   <string name="swipe_to_delete_conversation_pref_summary">Balayer vers la droite pour supprimer une conversation</string>

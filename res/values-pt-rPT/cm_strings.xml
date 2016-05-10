@@ -44,6 +44,15 @@
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Elevada</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Armazenamento</string>
+  <string name="pref_summary_auto_delete">Apagar mensagens antigas quando os limites forem atingidos</string>
+  <string name="auto_delete_pref_title">Apagar mensagens antigas</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensagens por conversa</string>
+  <string name="sms_delete_pref_title">Limite de mensagens SMS</string>
+  <string name="mms_delete_pref_title">Limite de mensagens MMS</string>
+  <string name="set">Definir</string>
+  <string name="no">Cancelar</string>
+  <string name="pref_messages_to_save">Definir o número de mensagens a guardar</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Deslize para eliminar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Deslize para a direita para apagar uma conversa</string>

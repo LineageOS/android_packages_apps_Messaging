@@ -23,8 +23,36 @@
   <string name="pref_unicode_stripping_non_encodable">Lucuti karakter yang tidak dapat disandikan</string>
   <string name="pref_unicode_stripping_all">Bilah semua karakter unicode</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Masa berlaku</string>
+  <string name="validity_period_slot1_pref_title">Masa berlaku untuk SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Masa berlaku untuk SIM 2</string>
+  <string name="sms_validity_period_not_set">Tidak diatur</string>
+  <string name="sms_validity_period_one_hour">1 jam</string>
+  <string name="sms_validity_period_six_hours">6 jam</string>
+  <string name="sms_validity_period_twelve_hours">12 jam</string>
+  <string name="sms_validity_period_one_day">1 hari</string>
+  <string name="mms_validity_period_two_days">2 hari</string>
+  <string name="mms_validity_period_one_week">1 minggu</string>
+  <string name="validity_period_maximum">Maksimum</string>
+  <string name="pref_summary_mms_delivery_reports">Minta laporan penerimaan untuk setiap pesan yang dikirim</string>
+  <string name="pref_summary_mms_read_reports">Minta laporan sudah dibaca untuk setiap pesan yang dikirim</string>
+  <string name="delivery_reports_mms_pref_title">Laporan penerimaan</string>
+  <string name="read_reports_mms_pref_title">Laporan sudah dibaca</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioritas pengiriman</string>
+  <string name="priority_low">Rendah</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Tinggi</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Penyimpanan</string>
+  <string name="pref_summary_auto_delete">Hapus pesan lama sewaktu batas-batas tercapai</string>
+  <string name="auto_delete_pref_title">Hapus pesan lama</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> pesan per percakapan</string>
+  <string name="sms_delete_pref_title">Batas pesan SMS</string>
+  <string name="mms_delete_pref_title">Batas pesan multimedia</string>
+  <string name="set">Atur</string>
+  <string name="no">Batalkan</string>
+  <string name="pref_messages_to_save">Atur jumlah pesan untuk disimpan</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Usap untuk menghapus</string>
   <string name="swipe_to_delete_conversation_pref_summary">Usap ke kanan untuk menghapus percakapan</string>
