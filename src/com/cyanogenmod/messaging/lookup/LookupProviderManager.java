@@ -30,6 +30,7 @@ import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.cyanogen.lookup.phonenumber.contract.LookupProvider;
 import com.cyanogen.lookup.phonenumber.provider.LookupProviderImpl;
 import com.cyanogen.lookup.phonenumber.response.StatusCode;
 import com.cyanogen.lookup.phonenumber.util.LookupHandlerThread;
@@ -109,11 +110,15 @@ public class LookupProviderManager extends BroadcastReceiver implements Applicat
     private boolean start() {
         log("start()");
         if (mLookupHandlerThread == null) {
-            mLookupHandlerThread = new LookupHandlerThread(THREAD_NAME, mApplication,
-                    new LookupProviderImpl(mApplication));
-            mLookupHandlerThread.initialize();
+            LookupProvider lookupProvider = LookupProviderImpl.INSTANCE.get(mApplication);
+            if (lookupProvider.isEnabled()) {
+                mLookupHandlerThread = new LookupHandlerThread(THREAD_NAME, mApplication,
+                        lookupProvider);
+                mLookupHandlerThread.initialize();
+
+            }
         }
-        return mLookupHandlerThread.isAlive();
+        return mLookupHandlerThread != null;
     }
 
     private void stop() {
