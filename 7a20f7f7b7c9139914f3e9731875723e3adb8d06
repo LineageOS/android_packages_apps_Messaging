@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_0c55921d",
+        "filename": "src/com/android/messaging/sms/SimMessagesUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1448
+      },
+      "writtenOn": "2016-05-10T14:31:14Z",
+      "side": 1,
+      "message": "Fix this import as well.",
+      "revId": "7a20f7f7b7c9139914f3e9731875723e3adb8d06",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
