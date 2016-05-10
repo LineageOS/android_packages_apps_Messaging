@@ -44,6 +44,15 @@
   <string name="priority_normal">ปกติ</string>
   <string name="priority_high">สูง</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">พื้นที่จัดเก็บ</string>
+  <string name="pref_summary_auto_delete">ลบข้อความเก่าเนื่องจากถึงขีดจำกัด</string>
+  <string name="auto_delete_pref_title">ลบข้อความเก่า</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> ข้อความต่อการสนทนา</string>
+  <string name="sms_delete_pref_title">ขีดจำกัดข้อความสูงสุด</string>
+  <string name="mms_delete_pref_title">ขีดจำกัดข้อความมัลติมีเดีย</string>
+  <string name="set">ตั้งค่า</string>
+  <string name="no">ยกเลิก</string>
+  <string name="pref_messages_to_save">ตั้งค่าจำนวนข้อความเพื่อบันทึก</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">กวาดนิ้วเพื่อลบ</string>
   <string name="swipe_to_delete_conversation_pref_summary">กวาดนิ้วไปทางขวาเพื่อลบการสนทนา</string>

@@ -44,6 +44,15 @@
   <string name="priority_normal">Arrunta</string>
   <string name="priority_high">Altua</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Biltegiratzea</string>
+  <string name="pref_summary_auto_delete">Ezabatu mezu zaharrak mugak gainditu ahala</string>
+  <string name="auto_delete_pref_title">Ezabatu mezu zaharrak</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mezu elkarrizketako</string>
+  <string name="sms_delete_pref_title">Testu mezuen muga</string>
+  <string name="mms_delete_pref_title">Multimedia mezuen muga</string>
+  <string name="set">Ezarri</string>
+  <string name="no">Utzi</string>
+  <string name="pref_messages_to_save">Ezarri gorde beharreko mezu kopurua</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Pasatu hatza ezabatzeko</string>
   <string name="swipe_to_delete_conversation_pref_summary">Pasatu hatza eskumara elkarrizketa bat ezabatzeko</string>

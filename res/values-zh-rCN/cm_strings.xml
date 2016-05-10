@@ -44,6 +44,15 @@
   <string name="priority_normal">一般</string>
   <string name="priority_high">高</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">存储</string>
+  <string name="pref_summary_auto_delete">当达到限制时删除旧信息</string>
+  <string name="auto_delete_pref_title">删除旧信息</string>
+  <string name="pref_summary_delete_limit">每个会话 <xliff:g id="count">%1$s</xliff:g> 条信息</string>
+  <string name="sms_delete_pref_title">文本信息限制</string>
+  <string name="mms_delete_pref_title">多媒体信息限制</string>
+  <string name="set">设置</string>
+  <string name="no">取消</string>
+  <string name="pref_messages_to_save">设置要保存的邮件数</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
   <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>

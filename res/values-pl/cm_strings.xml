@@ -23,6 +23,9 @@
   <string name="pref_unicode_stripping_non_encodable">Opuszczaj znaki niekodowane</string>
   <string name="pref_unicode_stripping_all">Opuszczaj wszystkie znaki</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Termin ważności</string>
+  <string name="validity_period_slot1_pref_title">Termin ważności SIM1</string>
+  <string name="validity_period_slot2_pref_title">Termin ważności SIM2</string>
   <string name="sms_validity_period_not_set">Nie ustawiono</string>
   <string name="sms_validity_period_one_hour">1 godzina</string>
   <string name="sms_validity_period_six_hours">6 godzin</string>
@@ -31,12 +34,23 @@
   <string name="mms_validity_period_two_days">2 dni</string>
   <string name="mms_validity_period_one_week">1 tydzień</string>
   <string name="validity_period_maximum">Maksimum</string>
+  <string name="pref_summary_mms_delivery_reports">Żądaj raportu dostarczenia każdej wysłanej wiadomości</string>
+  <string name="pref_summary_mms_read_reports">Żądaj raportu odczytania każdej wysłanej wiadomości</string>
+  <string name="delivery_reports_mms_pref_title">Raporty dostarczenia</string>
+  <string name="read_reports_mms_pref_title">Raporty odczytania</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Priorytet wysyłania</string>
   <string name="priority_low">Niski</string>
   <string name="priority_normal">Normalny</string>
   <string name="priority_high">Wysoki</string>
   <!-- Storage specific Settings -->
+  <string name="pref_summary_auto_delete">Jeśli limit zostanie osiągnięty, usuń stare wiadomości</string>
+  <string name="auto_delete_pref_title">Usuń stare wiadomości</string>
+  <string name="sms_delete_pref_title">Limit wiadomości tekstowych</string>
+  <string name="mms_delete_pref_title">Limit wiadomości multimedialnych</string>
+  <string name="set">Ustaw</string>
+  <string name="no">Anuluj</string>
+  <string name="pref_messages_to_save">Wybierz liczbę wiadomości do zapisania</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Przesuń, aby usunąć</string>
   <string name="swipe_to_delete_conversation_pref_summary">Przesuń w prawo, aby usunąć konwersację</string>

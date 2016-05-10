@@ -23,8 +23,36 @@
   <string name="pref_unicode_stripping_non_encodable">Gỡ bỏ các ký tự không thể mã hóa</string>
   <string name="pref_unicode_stripping_all">Gỡ bỏ tất cả các ký tự unicode</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Thời hạn hiệu lực</string>
+  <string name="validity_period_slot1_pref_title">Thời hạn hiệu lực cho SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Thời hạn hiệu lực cho SIM 2</string>
+  <string name="sms_validity_period_not_set">Không đặt</string>
+  <string name="sms_validity_period_one_hour">1 giờ</string>
+  <string name="sms_validity_period_six_hours">6 giờ</string>
+  <string name="sms_validity_period_twelve_hours">12 giờ</string>
+  <string name="sms_validity_period_one_day">1 ngày</string>
+  <string name="mms_validity_period_two_days">2 ngày</string>
+  <string name="mms_validity_period_one_week">1 tuần</string>
+  <string name="validity_period_maximum">Tối đa</string>
+  <string name="pref_summary_mms_delivery_reports">Yêu cầu báo cáo gửi cho mỗi tin nhắn bạn gửi</string>
+  <string name="pref_summary_mms_read_reports">Yêu cầu báo cáo đọc cho mỗi tin nhắn bạn gửi</string>
+  <string name="delivery_reports_mms_pref_title">Thông báo gửi</string>
+  <string name="read_reports_mms_pref_title">Báo cáo đọc</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Ưu tiên gửi</string>
+  <string name="priority_low">Thấp</string>
+  <string name="priority_normal">Bình thường</string>
+  <string name="priority_high">Cao</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Bộ lưu trữ</string>
+  <string name="pref_summary_auto_delete">Xóa tin nhắn cũ khi đã đạt đến giới hạn</string>
+  <string name="auto_delete_pref_title">Xóa tin nhắn cũ</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s </xliff:g> tin nhắn mỗi cuộc trò chuyện</string>
+  <string name="sms_delete_pref_title">Giới hạn tin nhắn văn bản</string>
+  <string name="mms_delete_pref_title">Giới hạn tin nhắn đa phương tiện</string>
+  <string name="set">Đặt</string>
+  <string name="no">Hủy bỏ</string>
+  <string name="pref_messages_to_save">Thiết lập số lượng tin nhắn được lưu</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Vuốt để xóa</string>
   <string name="swipe_to_delete_conversation_pref_summary">Vuốt sang phải để xóa một cuộc trò chuyện</string>

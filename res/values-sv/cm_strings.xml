@@ -36,6 +36,8 @@
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Hög</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Lagring</string>
+  <string name="no">Avbryt</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
   <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
