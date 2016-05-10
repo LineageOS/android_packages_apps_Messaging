@@ -44,6 +44,15 @@
   <string name="priority_normal">Standard</string>
   <string name="priority_high">Hoch</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Speicher</string>
+  <string name="pref_summary_auto_delete">Alte Nachrichten löschen, wenn Limit erreicht wird</string>
+  <string name="auto_delete_pref_title">Alte Nachrichten löschen</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> Nachrichten pro Konversation</string>
+  <string name="sms_delete_pref_title">SMS Limit</string>
+  <string name="mms_delete_pref_title">MMS-Limit</string>
+  <string name="set">Festlegen</string>
+  <string name="no">Abbrechen</string>
+  <string name="pref_messages_to_save">Anzahl der zu speichernden Nachrichten festlegen</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Zum Löschen wischen</string>
   <string name="swipe_to_delete_conversation_pref_summary">Nach rechts wischen, um eine Konversation zu löschen</string>

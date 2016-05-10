@@ -44,6 +44,15 @@
   <string name="priority_normal">Нормален</string>
   <string name="priority_high">Висок</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Съхранение</string>
+  <string name="pref_summary_auto_delete">Автоматично изтриване на стари съобщения, когато лимита е достигнат</string>
+  <string name="auto_delete_pref_title">Изтриване на стари съобщения</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s </xliff:g> съобщения в разговор</string>
+  <string name="sms_delete_pref_title">Лимит на SMS-съобщения</string>
+  <string name="mms_delete_pref_title">Лимит на MMS-съобщения</string>
+  <string name="set">Приложи</string>
+  <string name="no">Отмени</string>
+  <string name="pref_messages_to_save">Зазай брой съобщения за запис</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
   <string name="swipe_to_delete_conversation_pref_summary">Плъзгане от ляво надясно за да изтриете разговора</string>

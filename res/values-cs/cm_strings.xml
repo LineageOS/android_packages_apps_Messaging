@@ -44,6 +44,15 @@
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Vysoká</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Úložiště</string>
+  <string name="pref_summary_auto_delete">Odstranit staré zprávy při dosažení limitů</string>
+  <string name="auto_delete_pref_title">Odstranit staré zprávy</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> zpráv v konverzaci</string>
+  <string name="sms_delete_pref_title">Limit textových zpráv</string>
+  <string name="mms_delete_pref_title">Limit multimediálních zpráv</string>
+  <string name="set">Nastavit</string>
+  <string name="no">Zrušit</string>
+  <string name="pref_messages_to_save">Nastavit počet uložených zpráv</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Odsunutím smazat</string>
   <string name="swipe_to_delete_conversation_pref_summary">Odsunutím vpravo smazat konverzaci</string>
