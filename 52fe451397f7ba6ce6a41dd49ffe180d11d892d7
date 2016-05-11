@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5faad753_fb80ea8d",
+        "filename": "res/menu/conversation_fragment_select_menu.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 14621
+      },
+      "writtenOn": "2016-05-11T13:42:13Z",
+      "side": 1,
+      "message": "There is no icon available to show copy to SIM action so I am trying to show it as an overflow menu. Ideally, showAsAction\u003dnever should have done it for me, but it is not working so had to use this workaround.",
+      "parentUuid": "5faad753_273c2ec7",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 11
+      },
+      "revId": "52fe451397f7ba6ce6a41dd49ffe180d11d892d7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_fc7b0dbb",
         "filename": "src/com/android/messaging/sms/SimMessagesUtils.java",
         "patchSetId": 2
