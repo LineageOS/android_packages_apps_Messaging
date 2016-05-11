@@ -28,6 +28,7 @@ import com.android.messaging.ui.CursorRecyclerAdapter;
 import com.android.messaging.ui.AsyncImageView.AsyncImageViewDelayLoader;
 import com.android.messaging.ui.conversation.ConversationMessageView.ConversationMessageViewHost;
 import com.android.messaging.util.Assert;
+import com.cyanogenmod.messaging.util.RidesharingUtil;
 
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +41,7 @@ public class ConversationMessageAdapter extends
     CursorRecyclerAdapter<ConversationMessageAdapter.ConversationMessageViewHolder> {
 
     private final ConversationMessageViewHost mHost;
+    private final RidesharingUtil mRidesharingUtil;
     private final AsyncImageViewDelayLoader mImageViewDelayLoader;
     private final View.OnClickListener mViewClickListener;
     private final View.OnLongClickListener mViewLongClickListener;
@@ -54,6 +56,7 @@ public class ConversationMessageAdapter extends
         final View.OnLongClickListener longClickListener) {
         super(context, cursor, 0);
         mHost = host;
+        mRidesharingUtil = new RidesharingUtil(context);
         mViewClickListener = viewClickListener;
         mViewLongClickListener = longClickListener;
         mImageViewDelayLoader = imageViewDelayLoader;
@@ -91,6 +94,7 @@ public class ConversationMessageAdapter extends
         final ConversationMessageView conversationMessageView = (ConversationMessageView)
                 layoutInflater.inflate(R.layout.conversation_message_view, null);
         conversationMessageView.setHost(mHost);
+        conversationMessageView.setRidesharingUtil(mRidesharingUtil);
         conversationMessageView.setImageViewDelayLoader(mImageViewDelayLoader);
         return new ConversationMessageViewHolder(conversationMessageView,
                             mViewClickListener, mViewLongClickListener);
