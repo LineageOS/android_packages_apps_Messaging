@@ -38,4 +38,9 @@
 
     <color name="outgoing_message_bg">#e4e7e8</color>
     <color name="qm_reply">#4d4d4d</color>
+
+    <!-- Ridesharing -->
+    <color name="transparent_gray">#1F000000</color>
+    <color name="white_54">#8BFFFFFF</color>
+    <color name="black_54">#8B000000</color>
 </resources>
