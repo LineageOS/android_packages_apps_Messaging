@@ -17,6 +17,7 @@
 package com.android.messaging.ui.conversation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Rect;
@@ -31,15 +32,19 @@ import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.messaging.BugleApplication;
@@ -73,11 +78,19 @@ import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.YouTubeUtil;
+import com.cyanogen.ambient.ridesharing.core.RidesharingContract;
 import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 import com.cyanogenmod.messaging.lookup.LookupProviderManager.LookupProviderListener;
 import com.cyanogenmod.messaging.ui.AttributionContactIconView;
+import com.cyanogenmod.messaging.util.GoogleStaticMapsUtil;
+import com.cyanogenmod.messaging.util.RidesharingUtil;
+import com.cyanogenmod.messaging.util.RoundedCornerTransformation;
 import com.google.common.base.Predicate;
 
+import com.squareup.picasso.*;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -95,13 +108,22 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 boolean excludeDefault);
     }
 
+    private static final String TAG = ConversationMessageView.class.getSimpleName();
+
     private final ConversationMessageData mData;
 
     private LinearLayout mMessageAttachmentsView;
     private MultiAttachmentLayout mMultiAttachmentView;
     private AsyncImageView mMessageImageView;
+    private RelativeLayout mMessageMapsView;
+    private ImageView mMessageMapsImageView;
+    private Button mRequestRideButton;
+    private ImageView mBrandImageView;
+    private ImageView mDirectionsButton;
+    private View mButtonDivider;
     private TextView mMessageTextView;
     private boolean mMessageTextHasLinks;
+    private boolean mMessageHasMapsLink;
     private boolean mMessageHasYouTubeLink;
     private TextView mStatusTextView;
     private TextView mTitleTextView;
@@ -120,11 +142,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     private boolean mOneOnOne;
     private ConversationMessageViewHost mHost;
+    private RidesharingUtil mRidesharingUtil;
 
     public ConversationMessageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         // TODO: we should switch to using Binding and DataModel factory methods.
         mData = new ConversationMessageData();
+        mRidesharingUtil = new RidesharingUtil(context);
     }
 
     @Override
@@ -145,6 +169,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mMessageImageView = (AsyncImageView) findViewById(R.id.message_image);
         mMessageImageView.setOnClickListener(this);
         mMessageImageView.setOnLongClickListener(this);
+
+        mMessageMapsView = (RelativeLayout) findViewById(R.id.message_maps);
+        mMessageMapsImageView = (ImageView) findViewById(R.id.maps_image);
+        mRequestRideButton = (Button) findViewById(R.id.request_ride_button);
+        mBrandImageView = (ImageView) findViewById(R.id.brand_image);
+        mDirectionsButton= (ImageView) findViewById(R.id.directions_button);
+        mButtonDivider = findViewById(R.id.button_divider);
 
         mMessageTextView = (TextView) findViewById(R.id.message_text);
         mMessageTextView.setOnClickListener(this);
@@ -288,6 +319,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     }
 
     /**
+     * Sets a ridesharing util to get data from ridesharing services
+     */
+    public void setRidesharingUtil(final RidesharingUtil ridesharingUtil) {
+        mRidesharingUtil = ridesharingUtil;
+    }
+
+    /**
      * Sets a delay loader instance to manage loading / resuming of image attachments.
      */
     public void setImageViewDelayLoader(final AsyncImageViewDelayLoader delayLoader) {
@@ -314,7 +352,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      */
     private boolean shouldShowMessageBubbleArrow() {
         return !shouldShowSimplifiedVisualStyle()
-                && !(mData.hasAttachments() || mMessageHasYouTubeLink);
+                && !(mData.hasAttachments() || mMessageHasMapsLink || mMessageHasYouTubeLink);
     }
 
     /**
@@ -543,6 +581,11 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             mMultiAttachmentView.setVisibility(View.GONE);
         }
 
+        // In the case that we have no image attachments and a maps url then we will show a map
+        // preview
+        String mapsUrlString = null;
+        final String mapsUrlPrefix = "geo:0,0?q=";
+
         // In the case that we have no image attachments and exactly one youtube link in a message
         // then we will show a preview.
         String youtubeThumbnailUrl = null;
@@ -553,28 +596,35 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                     messageTextWithSpans.length(), URLSpan.class);
             for (URLSpan span : spans) {
                 String url = span.getURL();
-                String youtubeLinkForUrl = YouTubeUtil.getYoutubePreviewImageLink(url);
-                if (!TextUtils.isEmpty(youtubeLinkForUrl)) {
-                    if (TextUtils.isEmpty(youtubeThumbnailUrl)) {
-                        // Save the youtube link if we don't already have one
-                        youtubeThumbnailUrl = youtubeLinkForUrl;
-                        originalYoutubeLink = url;
-                    } else {
-                        // We already have a youtube link. This means we have two youtube links so
-                        // we shall show none.
-                        youtubeThumbnailUrl = null;
-                        originalYoutubeLink = null;
-                        break;
+                if (url.startsWith(mapsUrlPrefix)) {
+                    mapsUrlString = url;
+                    break;
+                } else {
+                    String youtubeLinkForUrl = YouTubeUtil.getYoutubePreviewImageLink(url);
+                    if (!TextUtils.isEmpty(youtubeLinkForUrl)) {
+                        if (TextUtils.isEmpty(youtubeThumbnailUrl)) {
+                            // Save the youtube link if we don't already have one
+                            youtubeThumbnailUrl = youtubeLinkForUrl;
+                            originalYoutubeLink = url;
+                        } else {
+                            // We already have a youtube link. This means we have two youtube links so
+                            // we shall show none.
+                            youtubeThumbnailUrl = null;
+                            originalYoutubeLink = null;
+                            break;
+                        }
                     }
                 }
             }
         }
         // We need to keep track if we have a youtube link in the message so that we will not show
         // the arrow
+        mMessageHasMapsLink = !TextUtils.isEmpty(mapsUrlString);
         mMessageHasYouTubeLink = !TextUtils.isEmpty(youtubeThumbnailUrl);
 
-        // We will show the message image view if there is one attachment or one youtube link
-        if (imageParts.size() == 1 || mMessageHasYouTubeLink) {
+        // We will show the message image view if there is one attachment or one maps link or
+        // one youtube link
+        if (imageParts.size() == 1 || mMessageHasMapsLink || mMessageHasYouTubeLink) {
             // Get the display metrics for a hint for how large to pull the image data into
             final WindowManager windowManager = (WindowManager) getContext().
                     getSystemService(Context.WINDOW_SERVICE);
@@ -597,6 +647,10 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 adjustImageViewBounds(imagePart);
                 mMessageImageView.setImageResourceId(imageRequest);
                 mMessageImageView.setTag(imagePart);
+                mMessageImageView.setVisibility(View.VISIBLE);
+            } else if (mMessageHasMapsLink) {
+                // Maps image and buttons
+                showMapsPreview(mapsUrlString, mapsUrlPrefix, desiredWidth);
             } else {
                 // Youtube Thumbnail image
                 final ImageRequestDescriptor imageRequest =
@@ -607,9 +661,11 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                             ImageUtils.DEFAULT_CIRCLE_STROKE_COLOR /* circleStrokeColor */);
                 mMessageImageView.setImageResourceId(imageRequest);
                 mMessageImageView.setTag(originalYoutubeLink);
+                mMessageImageView.setVisibility(View.VISIBLE);
             }
-            mMessageImageView.setVisibility(View.VISIBLE);
         } else {
+            mMessageMapsView.setVisibility(View.GONE);
+
             mMessageImageView.setImageResourceId(null);
             mMessageImageView.setVisibility(View.GONE);
         }
@@ -624,6 +680,103 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             }
         }
         mMessageAttachmentsView.setVisibility(attachmentsVisible ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * Shows a maps preview and provides buttons for requesting a ride to the location and
+     * directions to the location
+     * @param mapsUrlString Encoded map url string
+     * @param mapsUrlPrefix Prefix for the map url string (such as geo:0,0?q=)
+     * @param desiredWidth Desired width of the maps preview
+     */
+    private void showMapsPreview(String mapsUrlString, String mapsUrlPrefix, int desiredWidth) {
+        final int unspecifiedMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+        final int mapsMeasureSpec = MeasureSpec.makeMeasureSpec(desiredWidth,
+                MeasureSpec.EXACTLY);
+        mMessageMapsView.measure(mapsMeasureSpec, unspecifiedMeasureSpec);
+
+        // Reset view visibility to gone
+        mRequestRideButton.setVisibility(View.GONE);
+        mBrandImageView.setVisibility(View.GONE);
+        mDirectionsButton.setVisibility(View.GONE);
+        mButtonDivider.setVisibility(View.GONE);
+
+        final String encodedAddress = mapsUrlString.substring(mapsUrlPrefix.length());
+        final int height = getResources()
+                .getDimensionPixelSize(R.dimen.conversation_maps_height);
+        String staticMapsUrl = GoogleStaticMapsUtil.getStaticMapsUrl(mContext, desiredWidth,
+                height, encodedAddress);
+        RoundedCornerTransformation transformation =
+                new RoundedCornerTransformation(mContext.getApplicationContext(), staticMapsUrl);
+        Picasso.with(mContext.getApplicationContext())
+                .load(staticMapsUrl)
+                .placeholder(R.drawable.ic_map_placeholder)
+                .transform(transformation)
+                .into(mMessageMapsImageView, new ImageLoadedCallback());
+        final Uri mapsUri = Uri.parse(mapsUrlString);
+        mMessageMapsImageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, mapsUri);
+                mContext.startActivity(intent);
+            }
+        });
+
+        final String directionsPrefix = "google.navigation:q=";
+        final Uri directionsUri = Uri.parse(directionsPrefix + encodedAddress);
+        mDirectionsButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, directionsUri);
+                mContext.startActivity(intent);
+            }
+        });
+
+        final String encodingFormat = "UTF-8";
+        mRequestRideButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String decodedAddress = null;
+                try {
+                    decodedAddress = URLDecoder.decode(encodedAddress, encodingFormat);
+                } catch (UnsupportedEncodingException e) {
+                    Log.e(TAG, "Unable to decode address: " + encodedAddress, e);
+                }
+
+                if (!TextUtils.isEmpty(decodedAddress)) {
+                    RidesharingContract.RideRequest.Builder builder =
+                            new RidesharingContract.RideRequest.Builder();
+                    builder.addDropoffLocation(decodedAddress);
+                    Intent intent = builder.build();
+                    mContext.startActivity(intent);
+                }
+            }
+        });
+
+        mRidesharingUtil.setBrandBitmap(mBrandImageView);
+
+        final int dividerWidth = getResources()
+                .getDimensionPixelSize(R.dimen.maps_button_divider_width);
+        final int dividerWidthMeasureSpec = MeasureSpec.makeMeasureSpec(dividerWidth,
+                MeasureSpec.EXACTLY);
+        mButtonDivider.measure(dividerWidthMeasureSpec, unspecifiedMeasureSpec);
+
+        mMessageMapsView.setVisibility(View.VISIBLE);
+    }
+
+    private class ImageLoadedCallback implements com.squareup.picasso.Callback {
+        @Override
+        public void onSuccess() {
+            mRequestRideButton.setVisibility(View.VISIBLE);
+            mBrandImageView.setVisibility(View.VISIBLE);
+            mDirectionsButton.setVisibility(View.VISIBLE);
+            mButtonDivider.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onError() {
+            Log.e(TAG, "Unable to load static map");
+        }
     }
 
     private void bindAttachmentsOfSameType(final Predicate<MessagePartData> attachmentTypeFilter,
@@ -885,6 +1038,16 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         // Tint image/video attachments when selected
         final int selectedImageTint = getResources().getColor(R.color.message_image_selected_tint);
+        if (mMessageMapsImageView.getVisibility() == View.VISIBLE &&
+                mDirectionsButton.getVisibility() == View.VISIBLE) {
+            if (isSelected()) {
+                mMessageMapsImageView.setColorFilter(selectedImageTint);
+                mDirectionsButton.setColorFilter(selectedImageTint);
+            } else {
+                mMessageMapsImageView.clearColorFilter();
+                mDirectionsButton.clearColorFilter();
+            }
+        }
         if (mMessageImageView.getVisibility() == View.VISIBLE) {
             if (isSelected()) {
                 mMessageImageView.setColorFilter(selectedImageTint);
@@ -1264,5 +1427,4 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             }
         }
     }
-
 }
