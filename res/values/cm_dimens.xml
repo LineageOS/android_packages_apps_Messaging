@@ -19,4 +19,23 @@
     <dimen name="convolist_attribution_logo_marginRight">13dp</dimen>
     <dimen name="convo_attribution_logo_marginRight">5dp</dimen>
     <dimen name="convo_attribution_logo_marginBottom">5dp</dimen>
+
+    <!-- Ride sharing -->
+    <dimen name="conversation_maps_width">221dp</dimen>
+    <dimen name="conversation_maps_height">144dp</dimen>
+    <dimen name="conversation_maps_margin">8dp</dimen>
+    <dimen name="maps_button_elevation">2dp</dimen>
+    <dimen name="maps_button_width">205dp</dimen>
+    <dimen name="maps_button_height">32dp</dimen>
+    <dimen name="request_ride_button_width">172dp</dimen>
+    <dimen name="request_ride_text_size">12sp</dimen>
+    <dimen name="brand_image_width">18dp</dimen>
+    <dimen name="brand_image_height">18dp</dimen>
+    <dimen name="brand_image_margin">7dp</dimen>
+    <dimen name="directions_button_width">32dp</dimen>
+    <dimen name="directions_button_padding">4dp</dimen>
+    <dimen name="maps_button_divider_width">1dp</dimen>
+    <dimen name="maps_error_icon_width">1dp</dimen>
+    <dimen name="maps_error_icon_height">1dp</dimen>
+    <dimen name="maps_corner_radius">3dp</dimen>
 </resources>

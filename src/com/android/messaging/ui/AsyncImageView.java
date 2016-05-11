@@ -113,8 +113,6 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
         attr.recycle();
     }
 
-
-
     /**
      * The main entrypoint for AsyncImageView to load image resource given an ImageRequestDescriptor
      * @param descriptor the request descriptor, or null if no image should be displayed
