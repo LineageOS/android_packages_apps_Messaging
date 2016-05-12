@@ -101,6 +101,9 @@ public class ReceiveMmsMessageAction extends Action implements Parcelable {
             // TODO: Also write these values to the telephony provider
             mms.mRead = messageInFocusedConversation;
             mms.mSeen = messageInObservableConversation || blocked;
+            if (messageInFocusedConversation) {
+                MmsUtils.sendMmsReadReport(mms.mThreadId, PduHeaders.READ_STATUS_READ);
+            }
 
             // Write received placeholder message to our DB
             db.beginTransaction();
