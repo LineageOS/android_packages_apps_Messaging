@@ -460,7 +460,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         final boolean deliveredBadgeVisible =
                 mData.getStatus() == MessageData.BUGLE_STATUS_OUTGOING_DELIVERED;
-        mDeliveredBadge.setVisibility(deliveredBadgeVisible ? View.VISIBLE : View.GONE);
+        mDeliveredBadge.setVisibility( (deliveredBadgeVisible) ? View.VISIBLE : View.GONE);
 
         // Update the sim indicator.
         final boolean showSimIconAsIncoming = mData.getIsIncoming() &&
