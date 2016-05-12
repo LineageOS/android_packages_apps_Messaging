@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -460,7 +461,17 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         final boolean deliveredBadgeVisible =
                 mData.getStatus() == MessageData.BUGLE_STATUS_OUTGOING_DELIVERED;
-        mDeliveredBadge.setVisibility(deliveredBadgeVisible ? View.VISIBLE : View.GONE);
+        if (deliveredBadgeVisible) {
+             mDeliveredBadge.setVisibility(View.VISIBLE);
+            ((ImageView)mDeliveredBadge).setImageResource(R.drawable.ic_sms_delivery_ok);
+        }
+
+        final boolean readBadgeVisible =
+                mData.getStatus() == MessageData.BUGLE_STATUS_OUTGOING_COMPLETE_AND_READ;
+        if (readBadgeVisible) {
+            mDeliveredBadge.setVisibility(View.VISIBLE);
+            ((ImageView)mDeliveredBadge).setImageResource(R.drawable.ic_checkmark_small_blue);
+        }
 
         // Update the sim indicator.
         final boolean showSimIconAsIncoming = mData.getIsIncoming() &&
@@ -485,7 +496,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         }
 
         final boolean metadataVisible = senderNameVisible || statusVisible
-                || deliveredBadgeVisible || simNameVisible;
+                || deliveredBadgeVisible || simNameVisible || readBadgeVisible;
         mMessageMetadataView.setVisibility(metadataVisible ? View.VISIBLE : View.GONE);
 
         final boolean messageTextAndOrInfoVisible = titleVisible || subjectVisible

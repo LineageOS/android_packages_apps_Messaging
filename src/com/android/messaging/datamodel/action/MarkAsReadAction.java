@@ -17,8 +17,13 @@
 package com.android.messaging.datamodel.action;
 
 import android.content.ContentValues;
+import android.content.ContentUris;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.AsyncTask;
+import android.net.Uri;
+import android.database.Cursor;
+import android.provider.Telephony.Threads;
 
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.BugleNotifications;
@@ -28,6 +33,7 @@ import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.sms.MmsUtils;
+import com.android.messaging.mmslib.pdu.PduHeaders;
 import com.android.messaging.util.LogUtil;
 
 /**
@@ -59,34 +65,52 @@ public class MarkAsReadAction extends Action implements Parcelable {
 
         // Mark all messages in thread as read in telephony
         final long threadId = BugleDatabaseOperations.getThreadId(db, conversationId);
-        if (threadId != -1) {
-            MmsUtils.updateSmsReadStatus(threadId, Long.MAX_VALUE);
-        }
-
-        // Update local db
-        db.beginTransaction();
-        try {
-            final ContentValues values = new ContentValues();
-            values.put(MessageColumns.CONVERSATION_ID, conversationId);
-            values.put(MessageColumns.READ, 1);
-            values.put(MessageColumns.SEEN, 1);     // if they read it, they saw it
-
-            final int count = db.update(DatabaseHelper.MESSAGES_TABLE, values,
-                    "(" + MessageColumns.READ + " !=1 OR " +
-                            MessageColumns.SEEN + " !=1 ) AND " +
-                            MessageColumns.CONVERSATION_ID + "=?",
-                    new String[] { conversationId });
-            if (count > 0) {
-                MessagingContentProvider.notifyMessagesChanged(conversationId);
+        final Uri threadUri = ContentUris.withAppendedId(Threads.CONTENT_URI, threadId);
+        new AsyncTask<Void, Void, Void>() {
+        protected Void doInBackground(Void... none) {
+            if (threadUri != null) {
+                boolean needUpdate = true;
+                Cursor c = MmsUtils.getUnReadMmsMessages(threadUri);
+                LogUtil.d("Haribabu", " MarkAsReadAction execute Cursor != null " + c.getCount());
+                if (c != null) {
+                    try {
+                        needUpdate = c.getCount() > 0;
+                    } finally {
+                        c.close();
+                    }
+                }
+                if (needUpdate) {
+                    MmsUtils.sendReadReport(threadId, PduHeaders.READ_STATUS_READ);
+                    MmsUtils.updateSmsReadStatus(threadId, Long.MAX_VALUE);
+                }
             }
-            db.setTransactionSuccessful();
-        } finally {
-            db.endTransaction();
+            // Update local db
+            db.beginTransaction();
+            try {
+                final ContentValues values = new ContentValues();
+                values.put(MessageColumns.CONVERSATION_ID, conversationId);
+                values.put(MessageColumns.READ, 1);
+                values.put(MessageColumns.SEEN, 1);     // if they read it, they saw it
+
+                final int count = db.update(DatabaseHelper.MESSAGES_TABLE, values,
+                        "(" + MessageColumns.READ + " !=1 OR " +
+                                MessageColumns.SEEN + " !=1 ) AND " +
+                                MessageColumns.CONVERSATION_ID + "=?",
+                        new String[] { conversationId });
+                if (count > 0) {
+                    MessagingContentProvider.notifyMessagesChanged(conversationId);
+                }
+                db.setTransactionSuccessful();
+            } finally {
+                db.endTransaction();
+            }
+            // After marking messages as read, update the notifications. This will
+            // clear the now stale notifications.
+            BugleNotifications.update(false/*silent*/, BugleNotifications.UPDATE_ALL);
+            return null;
         }
-        // After marking messages as read, update the notifications. This will
-        // clear the now stale notifications.
-        BugleNotifications.update(false/*silent*/, BugleNotifications.UPDATE_ALL);
-        return null;
+        }.execute();
+            return null;
     }
 
     private MarkAsReadAction(final Parcel in) {
