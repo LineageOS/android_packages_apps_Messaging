@@ -1431,6 +1431,42 @@ public class MmsUtils {
         return deleted;
     }
 
+    public static void sendMmsReadReport(final long threadId, final int status) {
+        final Context context = Factory.get().getApplicationContext();
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        List<String> recipients = null;
+        String selection = Mms.MESSAGE_TYPE + " = " + PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF
+            + " AND " + Mms.READ + " = 0"
+            + " AND " + Mms.READ_REPORT + " = " + PduHeaders.VALUE_YES
+            + " AND " + Mms.THREAD_ID + " =? ";
+
+        if (threadId != -1) {
+            recipients = MmsUtils.getRecipientsByThread(threadId);
+        }
+
+        final String[] projection = new String[] { Mms._ID, Mms.MESSAGE_ID, Mms.SUBSCRIPTION_ID  };
+        final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+                Mms.Inbox.CONTENT_URI, projection, selection,
+                new String[]{String.valueOf(threadId)}, null);
+        try {
+            if (c == null || c.getCount() == 0) {
+                return;
+            }
+            while (c.moveToNext()) {
+                Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
+                String from = MmsUtils.getMmsSender(recipients, uri.toString());
+                final ParticipantData self = BugleDatabaseOperations.getOrCreateSelf(db, c.getInt(2));
+                MmsSender.sendReadReceipt(context, from, c.getInt(2),
+                        self.getNormalizedDestination(), c.getString(1), status);
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+
+    }
+
     /**
      * Update the read status of SMS/MMS messages by thread and timestamp
      *
@@ -2329,11 +2365,11 @@ public class MmsUtils {
         Uri messageUri = null;
         long threadId = -1;
         switch (type) {
-            case PduHeaders.MESSAGE_TYPE_DELIVERY_IND: {
+            case PduHeaders.MESSAGE_TYPE_DELIVERY_IND:
+            case PduHeaders.MESSAGE_TYPE_READ_ORIG_IND: {
                 long localId = -1;
-                String messageId = new String(((DeliveryInd) pdu).getMessageId());
                 //Update Telephony DB
-                Cursor cursor = getCursorFromMessageId(context, messageId);
+                Cursor cursor = getCursorFromMessageId(context, pdu, type);
                 if (cursor != null) {
                     try {
                         if ((cursor.getCount() == 1) && cursor.moveToFirst()) {
@@ -2353,7 +2389,7 @@ public class MmsUtils {
                 try {
                     inboxUri = p.persist(pdu, Mms.Inbox.CONTENT_URI, subId, subPhoneNumber,
                             null);
-                    // Update thread ID for ReadOrigInd & DeliveryInd.
+                    // Update thread ID for DeliveryInd.
                     ContentValues values = new ContentValues(1);
                     values.put(Mms.THREAD_ID, threadId);
                     SqliteWrapper.update(context, context.getContentResolver(), inboxUri, values,
@@ -2365,46 +2401,41 @@ public class MmsUtils {
                 final DatabaseWrapper db = DataModel.get().getDatabase();
                 db.beginTransaction();
                 try {
-                    int status = ((DeliveryInd) pdu).getStatus();
-                    if (status == PduHeaders.STATUS_RETRIEVED ||
-                            status == PduHeaders.STATUS_FORWARDED) {
+                    int status = 0;
+                    if (type == PduHeaders.MESSAGE_TYPE_DELIVERY_IND) {
+                        status = ((DeliveryInd) pdu).getStatus();
+                        if (status == PduHeaders.STATUS_RETRIEVED ||
+                                status == PduHeaders.STATUS_FORWARDED) {
+                            status = MessageData.BUGLE_STATUS_OUTGOING_DELIVERED;
+                        }
+                    } else {
+                        status = ((ReadOrigInd) pdu).getReadStatus();
+                        if (status == PduHeaders.READ_STATUS_READ) {
+                            status = MessageData.BUGLE_STATUS_OUTGOING_COMPLETE_AND_READ;
+                        }
+                    }
+                    if (status == MessageData.BUGLE_STATUS_OUTGOING_DELIVERED ||
+                            status == MessageData.BUGLE_STATUS_OUTGOING_COMPLETE_AND_READ) {
                         final ContentValues values = new ContentValues();
-                        status = MessageData.BUGLE_STATUS_OUTGOING_DELIVERED;
                         values.put(DatabaseHelper.MessageColumns.STATUS, status);
                         Uri mUri = Uri.withAppendedPath(Mms.CONTENT_URI, String.valueOf(localId));
                         final MessageData messageData =
                                 BugleDatabaseOperations.readMessageData(db, mUri);
                         // Check the message was not removed before the delivery report comes in
                         if (messageData != null) {
+                            LogUtil.e(TAG, "Check for URI path : " + mUri.equals(
+                                    messageData.getSmsMessageUri()));
                             // Row must exist as was just loaded above (on ActionService thread)
                             BugleDatabaseOperations.updateMessageRow(db, messageData.getMessageId(),
                                     values);
                             MessagingContentProvider.notifyMessagesChanged(
                                     messageData.getConversationId());
                         }
-                        db.setTransactionSuccessful();
                     }
+                    db.setTransactionSuccessful();
                 } finally {
                     db.endTransaction();
                 }
-                break;
-            }
-            case PduHeaders.MESSAGE_TYPE_READ_ORIG_IND: {
-                // TODO: Should this be commented out?
-//                threadId = findThreadId(context, pdu, type);
-//                if (threadId == -1) {
-//                    // The associated SendReq isn't found, therefore skip
-//                    // processing this PDU.
-//                    break;
-//                }
-
-//                Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
-//                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
-//                // Update thread ID for ReadOrigInd & DeliveryInd.
-//                ContentValues values = new ContentValues(1);
-//                values.put(Mms.THREAD_ID, threadId);
-//                SqliteWrapper.update(mContext, cr, uri, values, null, null);
-                LogUtil.w(TAG, "Received unsupported WAP Push, type=" + type);
                 break;
             }
             case PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND: {
@@ -2472,7 +2503,13 @@ public class MmsUtils {
         return mms;
     }
 
-    private static Cursor getCursorFromMessageId(Context context, String messageId) {
+    private static Cursor getCursorFromMessageId(Context context, GenericPdu pdu, int type) {
+        String messageId;
+        if (type == PduHeaders.MESSAGE_TYPE_DELIVERY_IND) {
+            messageId = new String(((DeliveryInd) pdu).getMessageId());
+        } else {
+            messageId = new String(((ReadOrigInd) pdu).getMessageId());
+        }
         StringBuilder sb = new StringBuilder('(');
         sb.append(Mms.MESSAGE_ID);
         sb.append('=');

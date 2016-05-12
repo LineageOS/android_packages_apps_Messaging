@@ -39,6 +39,8 @@
     <string name="pref_summary_mms_read_reports">Request a read report for each message you send</string>
     <string name="delivery_reports_mms_pref_title">Delivery reports</string>
     <string name="read_reports_mms_pref_title">Read reports</string>
+    <string name="status_label">Status:\u0020</string>
+    <string name="status_read">Read</string>
 
     <!-- Item Descriptions for MMS sending Priority -->
     <string name="priority_pref_title">Sending priority</string>
