@@ -1467,6 +1467,42 @@ public class MmsUtils {
 
     }
 
+    public static void sendMmsReadReport(final long threadId, final int status) {
+        final Context context = Factory.get().getApplicationContext();
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        List<String> recipients = null;
+        String selection = Mms.MESSAGE_TYPE + " = " + PduHeaders.MESSAGE_TYPE_RETRIEVE_CONF
+            + " AND " + Mms.READ + " = 0"
+            + " AND " + Mms.READ_REPORT + " = " + PduHeaders.VALUE_YES
+            + " AND " + Mms.THREAD_ID + " = ?";
+
+        if (threadId != -1) {
+            recipients = MmsUtils.getRecipientsByThread(threadId);
+        }
+
+        final String[] projection = new String[] { Mms._ID, Mms.MESSAGE_ID, Mms.SUBSCRIPTION_ID  };
+        final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
+                Mms.Inbox.CONTENT_URI, projection, selection,
+                new String[]{String.valueOf(threadId)}, null);
+        try {
+            if (c == null || c.getCount() == 0) {
+                return;
+            }
+            while (c.moveToNext()) {
+                Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
+                String from = MmsUtils.getMmsSender(recipients, uri.toString());
+                final ParticipantData self = BugleDatabaseOperations.getOrCreateSelf(db, c.getInt(2));
+                MmsSender.sendReadReceipt(context, from, c.getInt(2),
+                        self.getNormalizedDestination(), c.getString(1), status);
+            }
+        } finally {
+            if (c != null) {
+                c.close();
+            }
+        }
+
+    }
+
     /**
      * Update the read status of SMS/MMS messages by thread and timestamp
      *
