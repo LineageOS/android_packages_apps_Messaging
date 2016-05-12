@@ -24,18 +24,22 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.mms.MmsManager;
 import android.telephony.SmsManager;
+import android.provider.Telephony;
 
 import com.android.messaging.datamodel.MmsFileProvider;
 import com.android.messaging.datamodel.action.SendMessageAction;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.mmslib.InvalidHeaderValueException;
+import com.android.messaging.mmslib.MmsException;
 import com.android.messaging.mmslib.pdu.AcknowledgeInd;
 import com.android.messaging.mmslib.pdu.EncodedStringValue;
 import com.android.messaging.mmslib.pdu.GenericPdu;
 import com.android.messaging.mmslib.pdu.NotifyRespInd;
+import com.android.messaging.mmslib.pdu.ReadRecInd;
 import com.android.messaging.mmslib.pdu.PduComposer;
 import com.android.messaging.mmslib.pdu.PduHeaders;
 import com.android.messaging.mmslib.pdu.PduParser;
+import com.android.messaging.mmslib.pdu.PduPersister;
 import com.android.messaging.mmslib.pdu.RetrieveConf;
 import com.android.messaging.mmslib.pdu.SendConf;
 import com.android.messaging.mmslib.pdu.SendReq;
@@ -307,6 +311,34 @@ public class MmsSender {
                 }
             default:
                 return MmsUtils.MMS_REQUEST_MANUAL_RETRY;
+        }
+    }
+
+    public static void sendReadReceipt(final Context context, final String to, final int subId,
+                              final String subPhoneNumber, final String messageId, final int status) {
+        String selfNumber = PhoneUtils.get(subId).getCanonicalForSelf(true/*allowOverride*/);
+        EncodedStringValue[] sender = new EncodedStringValue[1];
+        sender[0] = new EncodedStringValue(to);
+        try {
+            final ReadRecInd readRec = new ReadRecInd(
+                    new EncodedStringValue(PduHeaders.FROM_INSERT_ADDRESS_TOKEN_STR.getBytes()),
+                    messageId.getBytes(),
+                    PduHeaders.CURRENT_MMS_VERSION,
+                    status,
+                    sender);
+
+            readRec.setDate(System.currentTimeMillis() / 1000);
+            readRec.setFrom(new EncodedStringValue(selfNumber));
+            PduPersister persister = PduPersister.getPduPersister(context);
+            Uri messageUri = persister.persist(readRec, Telephony.Mms.Sent.CONTENT_URI, subId, subPhoneNumber,
+                    null);
+            MmsSender.sendMms(context, subId, messageUri, null, readRec, false, null);
+        } catch (InvalidHeaderValueException e) {
+            LogUtil.e(TAG, "Invalide header value", e);
+        } catch (MmsException e) {
+            LogUtil.e(TAG, "Persist message failed", e);
+        } catch (MmsFailureException e) {
+            LogUtil.e(TAG, "Persist message failed", e);
         }
     }
 }
