@@ -464,6 +464,9 @@ public class ProcessDownloadedMmsAction extends Action {
                 // TODO: Also write these values to the telephony provider
                 mms.mRead = messageInFocusedConversation;
                 mms.mSeen = messageInObservableConversation;
+                if (messageInFocusedConversation) {
+                    MmsUtils.sendMmsReadReport(mms.mThreadId, PduHeaders.READ_STATUS_READ);
+                }
 
                 // Translate to our format
                 message = MmsUtils.createMmsMessage(mms, conversationId, senderParticipantId,
@@ -534,6 +537,9 @@ public class ProcessDownloadedMmsAction extends Action {
             values.put(Mms.READ, messageInFocusedConversation);
             SqliteWrapper.update(context, context.getContentResolver(), mmsUri, values,
                     null, null);
+            if (messageInFocusedConversation) {
+                MmsUtils.sendMmsReadReport(mms.mThreadId, PduHeaders.READ_STATUS_READ);
+            }
         }
 
         // Show a notification to let the user know a new message has arrived

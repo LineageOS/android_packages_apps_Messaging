@@ -130,6 +130,7 @@ public class MessageData implements Parcelable {
     public static final int BUGLE_STATUS_OUTGOING_AWAITING_RETRY          = 7;
     public static final int BUGLE_STATUS_OUTGOING_FAILED                  = 8;
     public static final int BUGLE_STATUS_OUTGOING_FAILED_EMERGENCY_NUMBER = 9;
+    public static final int BUGLE_STATUS_OUTGOING_COMPLETE_AND_READ       = 10;
 
     // Incoming
     public static final int BUGLE_STATUS_INCOMING_COMPLETE                   = 100;
@@ -179,6 +180,8 @@ public class MessageData implements Parcelable {
                 return "INCOMING_DOWNLOAD_FAILED";
             case BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE:
                 return "INCOMING_EXPIRED_OR_NOT_AVAILABLE";
+            case BUGLE_STATUS_OUTGOING_COMPLETE_AND_READ:
+                return "OUTGOING_COMPLETE_AND_READ";
             default:
                 return String.valueOf(status) + " (check MessageData)";
         }
