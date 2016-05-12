@@ -28,6 +28,7 @@ import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.sms.MmsUtils;
+import com.android.messaging.mmslib.pdu.PduHeaders;
 import com.android.messaging.util.LogUtil;
 
 /**
@@ -60,9 +61,9 @@ public class MarkAsReadAction extends Action implements Parcelable {
         // Mark all messages in thread as read in telephony
         final long threadId = BugleDatabaseOperations.getThreadId(db, conversationId);
         if (threadId != -1) {
+            MmsUtils.sendMmsReadReport(threadId, PduHeaders.READ_STATUS_READ);
             MmsUtils.updateSmsReadStatus(threadId, Long.MAX_VALUE);
         }
-
         // Update local db
         db.beginTransaction();
         try {
