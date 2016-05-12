@@ -27,6 +27,7 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ConversationMessageData;
 import com.android.messaging.datamodel.data.ConversationParticipantsData;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -205,6 +206,12 @@ public class MessageDetailsDialog {
         }
 
         appendSimInfo(res, self, details);
+
+        if (data.getStatus() == MessageData.BUGLE_STATUS_OUTGOING_COMPLETE_AND_READ) {
+            details.append('\n');
+            details.append(res.getString(R.string.status_label));
+            details.append(res.getString(R.string.status_read));
+        }
 
         if (DebugUtils.isDebugEnabled()) {
             appendDebugInfo(details, data);
