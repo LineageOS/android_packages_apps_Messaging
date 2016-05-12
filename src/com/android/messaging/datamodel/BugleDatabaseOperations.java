@@ -27,6 +27,8 @@ import android.support.v4.util.ArrayMap;
 import android.support.v4.util.SimpleArrayMap;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
+import android.content.Context;
+import android.database.DatabaseUtils;
 import com.android.internal.telephony.util.BlacklistUtils;
 
 import com.android.messaging.Factory;
@@ -52,6 +54,7 @@ import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UriUtil;
 import com.android.messaging.util.BlacklistSync;
 import com.android.messaging.widget.WidgetConversationProvider;
+import android.provider.ContactsContract;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.io.IOException;
@@ -59,6 +62,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import javax.annotation.Nullable;
+import android.util.Log;
 
 
 /**
@@ -67,6 +71,7 @@ import javax.annotation.Nullable;
 public class BugleDatabaseOperations {
 
     private static final String TAG = LogUtil.BUGLE_DATABASE_TAG;
+    public static final String lookUpUri = "content://com.android.contacts/contacts/lookup/";
 
     // Global cache of phone numbers -> participant id mapping since this call is expensive.
     private static final ArrayMap<String, String> sNormalizedPhoneNumberToParticipantIdCache =
@@ -463,6 +468,40 @@ public class BugleDatabaseOperations {
             values.put(ConversationColumns.PARTICIPANT_LOOKUP_KEY, lookupKey);
             values.put(ConversationColumns.OTHER_PARTICIPANT_NORMALIZED_DESTINATION, destination);
         }
+    }
+
+    public static String getLookUpFromOtherParticipantDestination(
+            final DatabaseWrapper db, final String otherDestination) {
+        Assert.isNotMainThread();
+        Cursor cursor = null;
+        try {
+            cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
+                    new String[] { ParticipantColumns.LOOKUP_KEY },
+                    ParticipantColumns.NORMALIZED_DESTINATION + "=?",
+                    new String[] { otherDestination }, null, null, null);
+            Assert.inRange(cursor.getCount(), 0, 1);
+            if (cursor.moveToFirst()) {
+                return cursor.getString(0);
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return null;
+    }
+
+    public static void setUnStarred(Uri contactUri, boolean value) {
+        ContentResolver resolver = Factory.get().
+                getApplicationContext().getContentResolver();
+        if (contactUri == null) {
+            Log.e(TAG, "Invalid arguments for setStarred request");
+            return;
+        }
+
+        final ContentValues values = new ContentValues(1);
+        values.put(ContactsContract.Contacts.STARRED, value);
+        resolver.update(contactUri, values, null, null);
     }
 
     /**
