@@ -75,6 +75,16 @@ public abstract class PhoneUtils {
     private static final ArrayMap<String, ArrayMap<String, String>> sCanonicalPhoneNumberCache =
             new ArrayMap<>();
 
+    public static int sOverrideSendingSubId = -1;
+
+    public static int getOverrideSendingSubId() {
+        return sOverrideSendingSubId;
+    }
+
+    public static void setOverrideSendingSubId(int subId) {
+        sOverrideSendingSubId = subId;
+    }
+
     protected final Context mContext;
     protected final TelephonyManager mTelephonyManager;
     protected final int mSubId;
@@ -561,7 +571,9 @@ public abstract class PhoneUtils {
 
         @Override
         public boolean getHasPreferredSmsSim() {
-            return getDefaultSmsSubscriptionId() != ParticipantData.DEFAULT_SELF_SUB_ID;
+            return getDefaultSmsSubscriptionId() != ParticipantData.DEFAULT_SELF_SUB_ID
+                    || (sOverrideSendingSubId != ParticipantData.DEFAULT_SELF_SUB_ID
+                        && SmsManager.getDefault().isSMSPromptEnabled());
         }
 
         @Override
