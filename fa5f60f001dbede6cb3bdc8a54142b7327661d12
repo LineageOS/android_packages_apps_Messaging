@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_c46d0599",
+        "filename": "src/com/android/messaging/util/ChangeDefaultSmsAppHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 2936
+      },
+      "writtenOn": "2016-05-13T21:26:56Z",
+      "side": 1,
+      "message": "Probably unneeded?",
+      "revId": "fa5f60f001dbede6cb3bdc8a54142b7327661d12",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
