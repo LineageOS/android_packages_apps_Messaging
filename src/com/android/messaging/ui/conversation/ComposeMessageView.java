@@ -78,6 +78,7 @@ import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.OsUtil;
+import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UnicodeFilter;
 
@@ -339,8 +340,7 @@ public class ComposeMessageView extends LinearLayout
             @Override
             public void onClick(final View clickView) {
 
-                mConversationDataModel.getData().setOverrideSendingSubId(
-                                         ParticipantData.DEFAULT_SELF_SUB_ID);
+                PhoneUtils.setOverrideSendingSubId(ParticipantData.DEFAULT_SELF_SUB_ID);
                 if (isSMSPromptEnabled()) {
                     showSimSelector((Activity)mOriginalContext, new OnSimSelectedCallback() {
                         @Override
@@ -713,7 +713,7 @@ public class ComposeMessageView extends LinearLayout
     }
 
     private void sendMessageWithSubId(int subId) {
-         mConversationDataModel.getData().setOverrideSendingSubId(subId);
+         PhoneUtils.setOverrideSendingSubId(subId);
          sendMessageInternal(true /* checkMessageSize */);
     }
 

@@ -69,8 +69,6 @@ public class ConversationData extends BindableData {
     private static final long LAST_MESSAGE_TIMESTAMP_NaN = -1;
     private static final int MESSAGE_COUNT_NaN = -1;
 
-    private static int mOverrideSubId = -1;
-
     /**
      * Takes a conversation id and a list of message ids and computes the positions
      * for each message.
@@ -592,10 +590,6 @@ public class ConversationData extends BindableData {
         return mParticipantData.isLoaded();
     }
 
-    public void setOverrideSendingSubId(int subId) {
-        mOverrideSubId = subId;
-    }
-
     public void sendMessage(final BindingBase<ConversationData> binding,
             final MessageData message) {
         Assert.isTrue(TextUtils.equals(mConversationId, message.getConversationId()));
@@ -605,8 +599,8 @@ public class ConversationData extends BindableData {
             InsertNewMessageAction.insertNewMessage(message);
         } else {
             final int systemDefaultSubId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
-            if (mOverrideSubId != ParticipantData.DEFAULT_SELF_SUB_ID) {
-                InsertNewMessageAction.insertNewMessage(message, mOverrideSubId);
+            if (PhoneUtils.getOverrideSendingSubId() != ParticipantData.DEFAULT_SELF_SUB_ID) {
+                InsertNewMessageAction.insertNewMessage(message, PhoneUtils.getOverrideSendingSubId());
             } else if (systemDefaultSubId != ParticipantData.DEFAULT_SELF_SUB_ID &&
                 mSelfParticipantsData.isDefaultSelf(message.getSelfId())) {
                 // Lock the sub selection to the system default SIM as soon as the user clicks on
