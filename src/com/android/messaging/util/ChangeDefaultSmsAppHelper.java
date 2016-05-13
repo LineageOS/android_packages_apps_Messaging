@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.android.messaging.R;
+import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.SnackBar;
 import com.android.messaging.ui.UIIntents;
 
