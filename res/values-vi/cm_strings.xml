@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Thông báo gửi</string>
   <string name="read_reports_mms_pref_title">Báo cáo đọc</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Ưu tiên gửi</string>
   <string name="priority_low">Thấp</string>
   <string name="priority_normal">Bình thường</string>
   <string name="priority_high">Cao</string>

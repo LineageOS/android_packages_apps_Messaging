@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Leveranse rapporter</string>
   <string name="read_reports_mms_pref_title">Les rapporter</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Sende prioritet</string>
   <string name="priority_low">Lav</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Høy</string>

@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">تقارير التوصيل</string>
   <string name="read_reports_mms_pref_title">تقارير القراءة</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">أولوية الإرسال</string>
   <string name="priority_low">منخفض</string>
   <string name="priority_normal">عادي</string>
   <string name="priority_high">مرتفع</string>

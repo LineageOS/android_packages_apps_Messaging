@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Zustellbestätigungen</string>
   <string name="read_reports_mms_pref_title">Bestätigungen lesen</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Sendepriorität</string>
   <string name="priority_low">Niedrig</string>
   <string name="priority_normal">Standard</string>
   <string name="priority_high">Hoch</string>
@@ -97,5 +98,8 @@
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>

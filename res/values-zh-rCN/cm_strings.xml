@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">送达报告</string>
   <string name="read_reports_mms_pref_title">已读报告</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">发送优先级</string>
   <string name="priority_low">低</string>
   <string name="priority_normal">一般</string>
   <string name="priority_high">高</string>

@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Izvješća o isporuci</string>
   <string name="read_reports_mms_pref_title">Čitaj izvještaje</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioritet slanja</string>
   <string name="priority_low">Nizak</string>
   <string name="priority_normal">Normalan</string>
   <string name="priority_high">Visok</string>

@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Lähetysraportit</string>
   <string name="read_reports_mms_pref_title">Lukuraportit</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Lähetyksen tärkeys</string>
   <string name="priority_low">Matala</string>
   <string name="priority_normal">Normaali</string>
   <string name="priority_high">Korkea</string>

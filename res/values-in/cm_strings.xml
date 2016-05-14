@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Laporan penerimaan</string>
   <string name="read_reports_mms_pref_title">Laporan sudah dibaca</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioritas pengiriman</string>
   <string name="priority_low">Rendah</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Tinggi</string>
