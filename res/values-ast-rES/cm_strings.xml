@@ -16,14 +16,37 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Informar como spam a %s</string>
   <!-- Strip unicode -->
   <string name="pref_unicode_stripping_leave_intact">Nun modificar el mensaxe</string>
   <string name="pref_unicode_stripping_non_encodable">Sustituyir los caráuteres non sofitaos</string>
   <string name="pref_unicode_stripping_all">Sustituyir tolos caráuteres</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Periodu de validez</string>
+  <string name="validity_period_slot1_pref_title">Periodu de validez pa SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Periodu de validez pa SIM 2</string>
+  <string name="sms_validity_period_one_hour">1 hora</string>
+  <string name="sms_validity_period_six_hours">6 hores</string>
+  <string name="sms_validity_period_twelve_hours">12 hores</string>
+  <string name="sms_validity_period_one_day">1 día</string>
+  <string name="mms_validity_period_two_days">2 díes</string>
+  <string name="mms_validity_period_one_week">1 selmana</string>
+  <string name="validity_period_maximum">Máximu</string>
+  <string name="delivery_reports_mms_pref_title">Informes d\'entrega</string>
+  <string name="read_reports_mms_pref_title">Informes de llectura</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Baxa</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Alta</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Almacenamientu</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensaxes per conversación</string>
+  <string name="sms_delete_pref_title">Llende de mensaxes de testu</string>
+  <string name="mms_delete_pref_title">Llende de mensaxes multimedia</string>
+  <string name="set">Afitar</string>
+  <string name="no">Encaboxar</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Eslizar pa desaniciar</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Mensaxe rápidu</string>
@@ -36,10 +59,34 @@
   <string name="button_close">Zarrar</string>
   <string name="button_view">Ver</string>
   <string name="button_templates">Plantíes</string>
+  <string name="qm_button_full_conversation">Conversación completa</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Escribir mensaxe</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">Unviando mensaxe\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Rempuesta rápida</string>
+  <string name="send">Unviar</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Accesu a fustaxes</string>
+  <string name="show_emoticons_pref_summary">Amuesa la tecla de fustaxes nel tecláu</string>
+  <string name="select_phone_account_title">Unviar con</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>
