@@ -22,6 +22,22 @@
   <string name="pref_unicode_stripping_leave_intact">Lämna tecken intakta</string>
   <string name="pref_unicode_stripping_non_encodable">Konvertera ej kodbara tecken</string>
   <string name="pref_unicode_stripping_all">Konvertera alla unicodetecken</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_slot1_pref_title">Giltighetsperiod för SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Giltighetsperiod för SIM 2</string>
+  <string name="sms_validity_period_six_hours">6 timmar</string>
+  <string name="sms_validity_period_twelve_hours">12 timmar</string>
+  <string name="sms_validity_period_one_day">1 dag</string>
+  <string name="mms_validity_period_two_days">2 dagar</string>
+  <string name="mms_validity_period_one_week">1 vecka</string>
+  <string name="validity_period_maximum">Maximalt</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Låg</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Hög</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Lagring</string>
+  <string name="no">Avbryt</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
   <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
@@ -50,4 +66,22 @@
   <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
   <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
   <string name="select_phone_account_title">Skicka med</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

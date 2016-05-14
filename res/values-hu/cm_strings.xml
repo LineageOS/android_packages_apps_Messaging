@@ -22,6 +22,27 @@
   <string name="pref_unicode_stripping_leave_intact">Ne módosítsa a karaktereket</string>
   <string name="pref_unicode_stripping_non_encodable">Helyettesítse a nem kódolható karaktereket</string>
   <string name="pref_unicode_stripping_all">Helyettesítse az összes unicode karaktert</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Érvényességi idő</string>
+  <string name="validity_period_slot1_pref_title">SIM 1 érvényességi idő</string>
+  <string name="validity_period_slot2_pref_title">SIM 2 érvényességi idő</string>
+  <string name="sms_validity_period_not_set">Nincs beállítva</string>
+  <string name="sms_validity_period_one_hour">1 óra</string>
+  <string name="sms_validity_period_six_hours">6 óra</string>
+  <string name="sms_validity_period_twelve_hours">12 óra</string>
+  <string name="sms_validity_period_one_day">1 nap</string>
+  <string name="mms_validity_period_two_days">2 nap</string>
+  <string name="mms_validity_period_one_week">1 hét</string>
+  <string name="validity_period_maximum">Maximum</string>
+  <string name="pref_summary_mms_delivery_reports">Kézbesítési jelentés kérése minden elküldött üzenet után</string>
+  <string name="pref_summary_mms_read_reports">Olvasási jelentés kérése minden elküldött üzenet után</string>
+  <string name="delivery_reports_mms_pref_title">Kézbesítési jelentések</string>
+  <string name="read_reports_mms_pref_title">Olvasási jelentések</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Alacsony</string>
+  <string name="priority_normal">Normál</string>
+  <string name="priority_high">Magas</string>
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Törléshez csúsztassa az ujját</string>
   <string name="swipe_to_delete_conversation_pref_summary">Húzza jobbra a beszélgetés törléséhez</string>
@@ -50,4 +71,22 @@
   <string name="show_emoticons_pref_title">Hangulatjel hozzáférés</string>
   <string name="show_emoticons_pref_summary">Hangulatjel gomb megjelenítése a billentyűzeten</string>
   <string name="select_phone_account_title">Küldés a következővel</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

@@ -22,6 +22,36 @@
   <string name="pref_unicode_stripping_leave_intact">Manter caracteres intactos</string>
   <string name="pref_unicode_stripping_non_encodable">Retirar caracteres não codificáveis</string>
   <string name="pref_unicode_stripping_all">Retirar todos os caracteres unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Período de validade</string>
+  <string name="validity_period_slot1_pref_title">Período de validade para o cartão SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Período de validade para o cartão SIM 2</string>
+  <string name="sms_validity_period_not_set">Não definido</string>
+  <string name="sms_validity_period_one_hour">1 hora</string>
+  <string name="sms_validity_period_six_hours">6 horas</string>
+  <string name="sms_validity_period_twelve_hours">12 horas</string>
+  <string name="sms_validity_period_one_day">1 dia</string>
+  <string name="mms_validity_period_two_days">2 dias</string>
+  <string name="mms_validity_period_one_week">1 semana</string>
+  <string name="validity_period_maximum">Máximo</string>
+  <string name="pref_summary_mms_delivery_reports">Pedir um aviso de entrega para cada MMS enviado</string>
+  <string name="pref_summary_mms_read_reports">Pedir um aviso de entrega para cada MMS enviado</string>
+  <string name="delivery_reports_mms_pref_title">Avisos de entrega de MMS</string>
+  <string name="read_reports_mms_pref_title">Relatórios de leitura MMS</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Baixa</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Elevada</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Armazenamento</string>
+  <string name="pref_summary_auto_delete">Apagar mensagens antigas quando os limites forem atingidos</string>
+  <string name="auto_delete_pref_title">Apagar mensagens antigas</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensagens por conversa</string>
+  <string name="sms_delete_pref_title">Limite de mensagens SMS</string>
+  <string name="mms_delete_pref_title">Limite de mensagens MMS</string>
+  <string name="set">Definir</string>
+  <string name="no">Cancelar</string>
+  <string name="pref_messages_to_save">Definir o número de mensagens a guardar</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Deslize para eliminar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Deslize para a direita para apagar uma conversa</string>
@@ -50,4 +80,22 @@
   <string name="show_emoticons_pref_title">Acesso a emojis</string>
   <string name="show_emoticons_pref_summary">Mostrar a tecla dos emojis no teclado</string>
   <string name="select_phone_account_title">Enviar com</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>
