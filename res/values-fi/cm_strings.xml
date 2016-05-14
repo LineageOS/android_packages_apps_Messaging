@@ -22,6 +22,36 @@
   <string name="pref_unicode_stripping_leave_intact">Älä tee mitään</string>
   <string name="pref_unicode_stripping_non_encodable">Poista koodaamattomat merkit</string>
   <string name="pref_unicode_stripping_all">Poista kaikki unicode-merkit</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Voimassaoloaika</string>
+  <string name="validity_period_slot1_pref_title">SIM1:n voimassaoloaika</string>
+  <string name="validity_period_slot2_pref_title">SIM2:n voimassaoloaika</string>
+  <string name="sms_validity_period_not_set">Ei asetettu</string>
+  <string name="sms_validity_period_one_hour">1 tunti</string>
+  <string name="sms_validity_period_six_hours">6 tuntia</string>
+  <string name="sms_validity_period_twelve_hours">12 tuntia</string>
+  <string name="sms_validity_period_one_day">1 päivä</string>
+  <string name="mms_validity_period_two_days">2 päivää</string>
+  <string name="mms_validity_period_one_week">1 viikko</string>
+  <string name="validity_period_maximum">Enimmäismäärä</string>
+  <string name="pref_summary_mms_delivery_reports">Pyydä lähetysraportti jokaisesta lähettämästäsi viestistä</string>
+  <string name="pref_summary_mms_read_reports">Pyydä lukuraportti jokaisesta lähettämästäsi viestistä</string>
+  <string name="delivery_reports_mms_pref_title">Lähetysraportit</string>
+  <string name="read_reports_mms_pref_title">Lukuraportit</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Matala</string>
+  <string name="priority_normal">Normaali</string>
+  <string name="priority_high">Korkea</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Tallennustila</string>
+  <string name="pref_summary_auto_delete">Poista vanhat viestit kun raja ylittyy</string>
+  <string name="auto_delete_pref_title">Poista vanhat viestit</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> viestiä per keskustelu</string>
+  <string name="sms_delete_pref_title">Tekstiviestiraja</string>
+  <string name="mms_delete_pref_title">Multimediaviestien raja</string>
+  <string name="set">Aseta</string>
+  <string name="no">Peruuta</string>
+  <string name="pref_messages_to_save">Aseta tallennettavien viestien määrä</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Poista liu\'uttamalla</string>
   <string name="swipe_to_delete_conversation_pref_summary">Pyyhkäise oikealle poistaaksesi keskustelun</string>
@@ -50,4 +80,22 @@
   <string name="show_emoticons_pref_title">Hymiöiden käyttö</string>
   <string name="show_emoticons_pref_summary">Näytä hymiönäppäin näppäimistöllä</string>
   <string name="select_phone_account_title">Lähetä käyttäen</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

@@ -22,6 +22,34 @@
   <string name="pref_unicode_stripping_leave_intact">Pozostaw znaki bez zmian</string>
   <string name="pref_unicode_stripping_non_encodable">Opuszczaj znaki niekodowane</string>
   <string name="pref_unicode_stripping_all">Opuszczaj wszystkie znaki</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Termin ważności</string>
+  <string name="validity_period_slot1_pref_title">Termin ważności SIM1</string>
+  <string name="validity_period_slot2_pref_title">Termin ważności SIM2</string>
+  <string name="sms_validity_period_not_set">Nie ustawiono</string>
+  <string name="sms_validity_period_one_hour">1 godzina</string>
+  <string name="sms_validity_period_six_hours">6 godzin</string>
+  <string name="sms_validity_period_twelve_hours">12 godzin</string>
+  <string name="sms_validity_period_one_day">1 dzień</string>
+  <string name="mms_validity_period_two_days">2 dni</string>
+  <string name="mms_validity_period_one_week">1 tydzień</string>
+  <string name="validity_period_maximum">Maksimum</string>
+  <string name="pref_summary_mms_delivery_reports">Żądaj raportu dostarczenia każdej wysłanej wiadomości</string>
+  <string name="pref_summary_mms_read_reports">Żądaj raportu odczytania każdej wysłanej wiadomości</string>
+  <string name="delivery_reports_mms_pref_title">Raporty dostarczenia</string>
+  <string name="read_reports_mms_pref_title">Raporty odczytania</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Niski</string>
+  <string name="priority_normal">Normalny</string>
+  <string name="priority_high">Wysoki</string>
+  <!-- Storage specific Settings -->
+  <string name="pref_summary_auto_delete">Jeśli limit zostanie osiągnięty, usuń stare wiadomości</string>
+  <string name="auto_delete_pref_title">Usuń stare wiadomości</string>
+  <string name="sms_delete_pref_title">Limit wiadomości tekstowych</string>
+  <string name="mms_delete_pref_title">Limit wiadomości multimedialnych</string>
+  <string name="set">Ustaw</string>
+  <string name="no">Anuluj</string>
+  <string name="pref_messages_to_save">Wybierz liczbę wiadomości do zapisania</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Przesuń, aby usunąć</string>
   <string name="swipe_to_delete_conversation_pref_summary">Przesuń w prawo, aby usunąć konwersację</string>
@@ -50,4 +78,22 @@
   <string name="show_emoticons_pref_title">Dostęp do emotikon</string>
   <string name="show_emoticons_pref_summary">Pokaż klawisz emotikon na klawiaturze</string>
   <string name="select_phone_account_title">Wyślij z</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

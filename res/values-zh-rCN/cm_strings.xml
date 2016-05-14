@@ -22,6 +22,36 @@
   <string name="pref_unicode_stripping_leave_intact">保留所有字符</string>
   <string name="pref_unicode_stripping_non_encodable">除去非可编码字符</string>
   <string name="pref_unicode_stripping_all">除去所有 Unicode 字符</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">有效期</string>
+  <string name="validity_period_slot1_pref_title">SIM 卡 1 的有效期</string>
+  <string name="validity_period_slot2_pref_title">SIM 卡 2 的有效期</string>
+  <string name="sms_validity_period_not_set">未设置</string>
+  <string name="sms_validity_period_one_hour">1 小时</string>
+  <string name="sms_validity_period_six_hours">6 小时</string>
+  <string name="sms_validity_period_twelve_hours">12 小时</string>
+  <string name="sms_validity_period_one_day">1 天</string>
+  <string name="mms_validity_period_two_days">2 天</string>
+  <string name="mms_validity_period_one_week">1 周</string>
+  <string name="validity_period_maximum">最大值</string>
+  <string name="pref_summary_mms_delivery_reports">为每条发送的消息请求送达报告</string>
+  <string name="pref_summary_mms_read_reports">为每条发送的消息请求已读报告</string>
+  <string name="delivery_reports_mms_pref_title">送达报告</string>
+  <string name="read_reports_mms_pref_title">已读报告</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">低</string>
+  <string name="priority_normal">一般</string>
+  <string name="priority_high">高</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">存储</string>
+  <string name="pref_summary_auto_delete">当达到限制时删除旧信息</string>
+  <string name="auto_delete_pref_title">删除旧信息</string>
+  <string name="pref_summary_delete_limit">每个会话 <xliff:g id="count">%1$s</xliff:g> 条信息</string>
+  <string name="sms_delete_pref_title">文本信息限制</string>
+  <string name="mms_delete_pref_title">多媒体信息限制</string>
+  <string name="set">设置</string>
+  <string name="no">取消</string>
+  <string name="pref_messages_to_save">设置要保存的邮件数</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
   <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
@@ -50,4 +80,22 @@
   <string name="show_emoticons_pref_title">访问表情符号</string>
   <string name="show_emoticons_pref_summary">在键盘上显示表情符号键</string>
   <string name="select_phone_account_title">发送方式</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

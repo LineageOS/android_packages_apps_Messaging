@@ -22,6 +22,36 @@
   <string name="pref_unicode_stripping_leave_intact">Laga karaktereak ukitu gabe</string>
   <string name="pref_unicode_stripping_non_encodable">Ezabatu kodetu ezin diren karaktereak</string>
   <string name="pref_unicode_stripping_all">Garbitu unicode karaktere guztiak</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Baliozkotasun epea</string>
+  <string name="validity_period_slot1_pref_title">1. SIMaren baliozkotasun epea</string>
+  <string name="validity_period_slot2_pref_title">2. SIMaren baliozkotasun epea</string>
+  <string name="sms_validity_period_not_set">Ezarri gabea</string>
+  <string name="sms_validity_period_one_hour">Ordu 1</string>
+  <string name="sms_validity_period_six_hours">6 ordu</string>
+  <string name="sms_validity_period_twelve_hours">12 ordu</string>
+  <string name="sms_validity_period_one_day">Egun 1</string>
+  <string name="mms_validity_period_two_days">2 egun</string>
+  <string name="mms_validity_period_one_week">Aste 1</string>
+  <string name="validity_period_maximum">Gehienez</string>
+  <string name="pref_summary_mms_delivery_reports">Eskatu entrega txostena mezu bat bidaltzen duzun bakoitzean</string>
+  <string name="pref_summary_mms_read_reports">Eskatu mezua-irakurtze txostena mezu bat bidaltzen duzun bakoitzean</string>
+  <string name="delivery_reports_mms_pref_title">Entrega txostenak</string>
+  <string name="read_reports_mms_pref_title">Irakurtze txostenak</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Baxua</string>
+  <string name="priority_normal">Arrunta</string>
+  <string name="priority_high">Altua</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Biltegiratzea</string>
+  <string name="pref_summary_auto_delete">Ezabatu mezu zaharrak mugak gainditu ahala</string>
+  <string name="auto_delete_pref_title">Ezabatu mezu zaharrak</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mezu elkarrizketako</string>
+  <string name="sms_delete_pref_title">Testu mezuen muga</string>
+  <string name="mms_delete_pref_title">Multimedia mezuen muga</string>
+  <string name="set">Ezarri</string>
+  <string name="no">Utzi</string>
+  <string name="pref_messages_to_save">Ezarri gorde beharreko mezu kopurua</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Pasatu hatza ezabatzeko</string>
   <string name="swipe_to_delete_conversation_pref_summary">Pasatu hatza eskumara elkarrizketa bat ezabatzeko</string>
@@ -50,4 +80,22 @@
   <string name="show_emoticons_pref_title">Emotikonoen tekla</string>
   <string name="show_emoticons_pref_summary">Erakutsi emotikonoen tekla teklatuan</string>
   <string name="select_phone_account_title">Bidali honekin</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>
