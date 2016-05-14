@@ -22,6 +22,9 @@
   <string name="pref_unicode_stripping_leave_intact">எழுத்துக்களை உள்ளபடியே விட்டுவிடு</string>
   <string name="pref_unicode_stripping_non_encodable">என்கோட் செய்யமுடியாத எழுத்துக்களை நீக்கு</string>
   <string name="pref_unicode_stripping_all">அனைத்து யூனிகோட் எழுத்துக்களையும் நீக்கு</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">நீக்குவதற்கு தேய்க்கவும்</string>
   <string name="swipe_to_delete_conversation_pref_summary">ஒரு உரையாடல் நீக்குவதற்கு வலது பக்கமாக தேய்க்கவும்</string>
@@ -50,4 +53,22 @@
   <string name="show_emoticons_pref_title">எமோடிகான்கள் அணுகல்</string>
   <string name="show_emoticons_pref_summary">விசைப்பலகையில் உள்ள எமோடிகான் விசையை காண்பிக்கவும்</string>
   <string name="select_phone_account_title">இதோடு அனுப்பவும்</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

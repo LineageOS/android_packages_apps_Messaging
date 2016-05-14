@@ -22,6 +22,36 @@
   <string name="pref_unicode_stripping_leave_intact">Ponechat původní znaky</string>
   <string name="pref_unicode_stripping_non_encodable">Oříznout nekódovatelné znaky</string>
   <string name="pref_unicode_stripping_all">Oříznout všechny znaky unicode</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Doba platnosti</string>
+  <string name="validity_period_slot1_pref_title">Doba platnosti pro SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Doba platnosti pro SIM 2</string>
+  <string name="sms_validity_period_not_set">Nenastaveno</string>
+  <string name="sms_validity_period_one_hour">1 hodina</string>
+  <string name="sms_validity_period_six_hours">6 hodin</string>
+  <string name="sms_validity_period_twelve_hours">12 hodin</string>
+  <string name="sms_validity_period_one_day">1 den</string>
+  <string name="mms_validity_period_two_days">2 dny</string>
+  <string name="mms_validity_period_one_week">1 týden</string>
+  <string name="validity_period_maximum">Maximální</string>
+  <string name="pref_summary_mms_delivery_reports">Pro každou zprávu vyžádat doručenku</string>
+  <string name="pref_summary_mms_read_reports">Pro každou zprávu vyžádat potvrzení o přečtení</string>
+  <string name="delivery_reports_mms_pref_title">Doručenky</string>
+  <string name="read_reports_mms_pref_title">Potvrzení o přečtení</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Nízká</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">Vysoká</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Úložiště</string>
+  <string name="pref_summary_auto_delete">Odstranit staré zprávy při dosažení limitů</string>
+  <string name="auto_delete_pref_title">Odstranit staré zprávy</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> zpráv v konverzaci</string>
+  <string name="sms_delete_pref_title">Limit textových zpráv</string>
+  <string name="mms_delete_pref_title">Limit multimediálních zpráv</string>
+  <string name="set">Nastavit</string>
+  <string name="no">Zrušit</string>
+  <string name="pref_messages_to_save">Nastavit počet uložených zpráv</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Odsunutím smazat</string>
   <string name="swipe_to_delete_conversation_pref_summary">Odsunutím vpravo smazat konverzaci</string>
@@ -50,4 +80,22 @@
   <string name="show_emoticons_pref_title">Zobrazení smajlíků</string>
   <string name="show_emoticons_pref_summary">Zobrazit na klávesnici klávesu pro zobrazení smajlíků</string>
   <string name="select_phone_account_title">Odeslat pomocí</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

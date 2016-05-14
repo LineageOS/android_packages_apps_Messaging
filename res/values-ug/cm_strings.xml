@@ -22,6 +22,15 @@
   <string name="pref_unicode_stripping_leave_intact">بارلىق ھەرپ-بەلگىنى ساقلاش</string>
   <string name="pref_unicode_stripping_non_encodable">كودلاشتۇرغىلى بولمايدىغان بارلىق ھەرپ-بەلگىنى چىقىرۋېتىش</string>
   <string name="pref_unicode_stripping_all">بارلىق unicode ھەرپ-بەلگىنى چىقىرۋېتىش</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="sms_validity_period_not_set">بېكىتىلمىگەن</string>
+  <string name="sms_validity_period_one_hour">1 سائەت</string>
+  <string name="sms_validity_period_six_hours">6 سائەت</string>
+  <string name="sms_validity_period_twelve_hours">12 سائەت</string>
+  <string name="sms_validity_period_one_day">1 كۈن</string>
+  <string name="validity_period_maximum">ئەڭ چوڭ قىممەت</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">سۈرۈلسە ئۆچۈرىدۇ</string>
   <string name="swipe_to_delete_conversation_pref_summary">دىئالوگنى ئۆچۈرۈش ئۈچۈن ئوڭغا سىيرىڭ</string>
@@ -50,4 +59,22 @@
   <string name="show_emoticons_pref_title">ئىپادە بەلگىسىنى كۆرسىتىش</string>
   <string name="show_emoticons_pref_summary">كونۇپكا تاختىسىدا ئىپادە بەلگىسىنى كۆرسىتىش</string>
   <string name="select_phone_account_title">ئىلە ئەۋەتىش</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>

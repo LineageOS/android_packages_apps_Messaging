@@ -22,6 +22,36 @@
   <string name="pref_unicode_stripping_leave_intact">Laat karakters ongeskonde</string>
   <string name="pref_unicode_stripping_non_encodable">Verwyder nie-enkodeerbare karakters</string>
   <string name="pref_unicode_stripping_all">Verwyder al \'unicode\' karakters</string>
+  <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Geldigheid tydperk</string>
+  <string name="validity_period_slot1_pref_title">Geldigheid tydperk vir SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Geldigheid tydperk vir SIM 2</string>
+  <string name="sms_validity_period_not_set">Nie gestel nie</string>
+  <string name="sms_validity_period_one_hour">1 uur</string>
+  <string name="sms_validity_period_six_hours">6 ure</string>
+  <string name="sms_validity_period_twelve_hours">12 ure</string>
+  <string name="sms_validity_period_one_day">1 dag</string>
+  <string name="mms_validity_period_two_days">2 dae</string>
+  <string name="mms_validity_period_one_week">1 week</string>
+  <string name="validity_period_maximum">Maksimum</string>
+  <string name="pref_summary_mms_delivery_reports">Versoek \'n aflewering verslag vir elke boodskap wat jy stuur</string>
+  <string name="pref_summary_mms_read_reports">Versoek \'n lees verslag vir elke boodskap wat jy stuur</string>
+  <string name="delivery_reports_mms_pref_title">Aflewering verslae</string>
+  <string name="read_reports_mms_pref_title">Lees verslae</string>
+  <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Laag</string>
+  <string name="priority_normal">Normaal</string>
+  <string name="priority_high">Hoog</string>
+  <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Stoor spasie</string>
+  <string name="pref_summary_auto_delete">Verwyder ou boodskappe, want jou limiet is bereik</string>
+  <string name="auto_delete_pref_title">Verwyder ou boodskappe</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> boodskappe per gesprek</string>
+  <string name="sms_delete_pref_title">SMS-boodskap limiet</string>
+  <string name="mms_delete_pref_title">Multimedia boodskap limiet</string>
+  <string name="set">Stel</string>
+  <string name="no">Kanselleer</string>
+  <string name="pref_messages_to_save">Stel aantal boodskappe om te stoor</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Sleep om uit te vee</string>
   <string name="swipe_to_delete_conversation_pref_summary">Vee na regs om gesprek uit te vee</string>
@@ -50,4 +80,22 @@
   <string name="show_emoticons_pref_title">Emosieikone toegang</string>
   <string name="show_emoticons_pref_summary">Wys emosieikone sleutel op die sleutelbord</string>
   <string name="select_phone_account_title">Stuur met</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <!-- Title of screen displaying messages on SIM card -->
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <!-- Delete button title -->
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <!-- Copy message to sim -->
 </resources>
