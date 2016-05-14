@@ -81,4 +81,52 @@
   <string name="show_emoticons_pref_title">Acesso a emoticons</string>
   <string name="show_emoticons_pref_summary">Mostrar o botão de emoticons no teclado</string>
   <string name="select_phone_account_title">Enviar com</string>
+  <!-- Copy message to sim -->
+  <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Gerenciar mensagens do cartão SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Gerenciar mensagens do SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Gerenciar mensagens do SIM 2</string>
+  <string name="copy_to_sim">Copiar mensagem para o cartão SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d </xliff:g> de <xliff:g id="total">%2$d </xliff:g> mensagens salvas no cartão SIM.</string>
+  <string name="copy_to_sim_fail">Não é possível salvar a mensagem</string>
+  <string name="copy_to_phone_success">Mensagem salva</string>
+  <string name="copy_to_phone_fail">Não é possível salvar a mensagem</string>
+  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Não há mensagens no cartão SIM.</string>
+  <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Enviar e-mail para <xliff:g id="name">%s </xliff:g></string>
+  <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Chamar <xliff:g id="name">%s </xliff:g></string>
+  <!-- Menu shown in the context menu when long pressing on a message when the message contains
+         one or more phone numbers and/or email addresses and the number or email is new to
+         contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Adicionar <xliff:g id="contactEmailOrNumber">%s </xliff:g> para as pessoas</string>
+  <string name="sim_capacity_title">Capacidade do SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d </xliff:g> de <xliff:g id="total">%2$d </xliff:g> entradas de cartão SIM são utilizadas</string>
+  <!-- Confirm Delete -->
+  <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Apagar?</string>
+  <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Mensagens de texto no cartão SIM</string>
+  <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Atualizando</string>
+  <string name="confirm_delete_selected_messages">A mensagem selecionada será excluída.</string>
+  <!-- Delete button title -->
+  <string name="delete">Apagar</string>
+  <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Avançar</string>
+  <string name="menu_reply">Responder</string>
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Copiar para a memória do tablet</string>
+  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Copiar para a memória do telefone</string>
+  <string name="selected_all">Selecionar tudo</string>
+  <string name="deselected_all">Desmarcar tudo</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> selecionados</string>
+  <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
+  <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Copiar mensagem para o cartão SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
