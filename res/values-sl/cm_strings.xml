@@ -83,20 +83,50 @@
   <string name="select_phone_account_title">Pošlji s/z</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Upravljaj sporočila kartice SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Upravljaj sporočila kartice SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Upravljaj sporočila kartice SIM 2</string>
+  <string name="copy_to_sim">Kopiraj sporočilo na kartico SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g> sporočil shranjenih na kartico SIM.</string>
+  <string name="copy_to_sim_fail">Sporočila ni mogoče shraniti</string>
+  <string name="copy_to_phone_success">Sporočilo shranjeno</string>
+  <string name="copy_to_phone_fail">Sporočila ni mogoče shraniti</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Na kartici SIM ni sporočil.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Pošlji e-pošto na <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Pokliči <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Dodaj <xliff:g id="contactEmailOrNumber">%s</xliff:g> k Ljudem</string>
+  <string name="sim_capacity_title">Zmogljivost kartice SIM</string>
+  <string name="sim_capacity">Uporabljenih <xliff:g id="used">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g> vnosov kartice SIM</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Izbriši?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Sporočila na kartici SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Osveževanje \u2026</string>
+  <string name="confirm_delete_selected_messages">Izbrano sporočilo bo izbrisano.</string>
   <!-- Delete button title -->
+  <string name="delete">Izbriši</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Posreduj</string>
+  <string name="menu_reply">Odgovori</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Kopiraj v pomnilnik tabličnega računalnika</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Kopiraj v pomnilnik telefona</string>
+  <string name="selected_all">Izberi vse</string>
+  <string name="deselected_all">Odstrani vse izbire</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> izbranih</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">V REDU</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Kopiraj sporočilo na kartico SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
