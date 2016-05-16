@@ -16,6 +16,24 @@
       "revId": "fa5f60f001dbede6cb3bdc8a54142b7327661d12",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_9398b11b",
+        "filename": "src/com/android/messaging/util/ChangeDefaultSmsAppHelper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-05-16T13:32:39Z",
+      "side": 1,
+      "message": "definitely unused",
+      "parentUuid": "5faad753_c46d0599",
+      "revId": "fa5f60f001dbede6cb3bdc8a54142b7327661d12",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
