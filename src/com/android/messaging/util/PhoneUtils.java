@@ -27,6 +27,8 @@ import android.net.ConnectivityManager;
 import android.provider.Settings;
 import android.provider.Telephony;
 import android.support.v4.util.ArrayMap;
+import android.support.v4.text.BidiFormatter;
+import android.support.v4.text.TextDirectionHeuristicsCompat;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SubscriptionInfo;
@@ -876,7 +878,9 @@ public abstract class PhoneUtils {
             final PhoneNumberFormat phoneNumberFormat =
                     (systemCountryCode > 0 && parsedNumber.getCountryCode() == systemCountryCode) ?
                             PhoneNumberFormat.NATIONAL : PhoneNumberFormat.INTERNATIONAL;
-            return phoneNumberUtil.format(parsedNumber, phoneNumberFormat);
+            return BidiFormatter.getInstance().unicodeWrap(
+                    phoneNumberUtil.format(parsedNumber, phoneNumberFormat),
+                    TextDirectionHeuristicsCompat.LTR);
         } catch (NumberParseException e) {
             LogUtil.e(TAG, "PhoneUtils.formatForDisplay: invalid phone number "
                     + LogUtil.sanitizePII(phoneText) + " with country " + systemCountry);
