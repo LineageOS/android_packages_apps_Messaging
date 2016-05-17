@@ -34,8 +34,11 @@
   <string name="mms_validity_period_two_days">2 dagen</string>
   <string name="mms_validity_period_one_week">1 week</string>
   <string name="validity_period_maximum">Maximaal</string>
+  <string name="delivery_reports_mms_pref_title">Ontvangstbevestigingen</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <!-- Storage specific Settings -->
+  <string name="auto_delete_pref_title">Oude berichten verwijderen</string>
+  <string name="set">Instellen</string>
   <string name="no">Annuleren</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Vegen om te verwijderen</string>
@@ -67,20 +70,39 @@
   <string name="select_phone_account_title">Verzenden met</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages_slot1">Berichten op SIM 1 beheren</string>
+  <string name="pref_title_manage_sim_messages_slot2">Berichten op SIM 2 beheren</string>
+  <string name="copy_to_sim">Bericht kopiëren naar simkaart</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> berichten opgeslagen op simkaart.</string>
+  <string name="copy_to_sim_fail">Kan bericht niet opslaan</string>
+  <string name="copy_to_phone_success">Bericht opgeslagen</string>
+  <string name="copy_to_phone_fail">Kan bericht niet opslaan</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
   <!-- Context menu item on an individual message for emailing the sender -->
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="sim_capacity_title">SIM-capaciteit</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Verwijderen?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <!-- Delete button title -->
+  <string name="delete">Verwijderen</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Doorsturen</string>
+  <string name="menu_reply">Beantwoorden</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="selected_all">Alles selecteren</string>
+  <string name="deselected_all">Alles deselecteren</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> geselecteerd</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Bericht kopiëren naar simkaart</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
