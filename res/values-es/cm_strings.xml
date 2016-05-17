@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Informes de entrega</string>
   <string name="read_reports_mms_pref_title">Leer informes</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioridad de envío</string>
   <string name="priority_low">Baja</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Alta</string>

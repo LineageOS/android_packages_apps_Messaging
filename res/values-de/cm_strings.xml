@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Zustellbestätigungen</string>
   <string name="read_reports_mms_pref_title">Bestätigungen lesen</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Sendepriorität</string>
   <string name="priority_low">Niedrig</string>
   <string name="priority_normal">Standard</string>
   <string name="priority_high">Hoch</string>
@@ -82,7 +83,13 @@
   <string name="select_phone_account_title">Senden mit</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="copy_to_sim">Nachricht auf SIM-Karte kopieren</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> von <xliff:g id="total">%2$d</xliff:g> Nachrichten auf SIM-Karte gespeichert.</string>
+  <string name="copy_to_sim_fail">Nachricht konnte nicht gespeichert werden</string>
+  <string name="copy_to_phone_success">Nachricht gespeichert</string>
+  <string name="copy_to_phone_fail">Nachricht konnte nicht gespeichert werden</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Keine Nachrichten auf der SIM-Karte.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
@@ -90,12 +97,20 @@
          contacts. [CHAR LIMIT=50] -->
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Löschen?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Wird aktualisiert\u2026</string>
+  <string name="confirm_delete_selected_messages">Ausgewählte Nachricht wird gelöscht.</string>
   <!-- Delete button title -->
+  <string name="delete">Löschen</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Weiterleiten</string>
+  <string name="menu_reply">Antworten</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="selected_all">Alle auswählen</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> ausgewählt</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
   <string name="yes">OK</string>
   <!-- Copy message to sim -->

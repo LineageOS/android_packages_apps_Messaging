@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Αναφορές παράδοσης</string>
   <string name="read_reports_mms_pref_title">Αναφορές ανάγνωσης</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Προτεραιότητα αποστολής</string>
   <string name="priority_low">Χαμηλή</string>
   <string name="priority_normal">Κανονική</string>
   <string name="priority_high">Υψηλή</string>

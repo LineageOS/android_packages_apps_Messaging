@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">ผลการส่ง</string>
   <string name="read_reports_mms_pref_title">ผลการอ่าน</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">ความสำคัญในการส่ง</string>
   <string name="priority_low">ต่ำ</string>
   <string name="priority_normal">ปกติ</string>
   <string name="priority_high">สูง</string>

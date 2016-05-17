@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Avisos de entrega de MMS</string>
   <string name="read_reports_mms_pref_title">Relatórios de leitura MMS</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioridade de envio</string>
   <string name="priority_low">Baixa</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Elevada</string>
@@ -82,20 +83,50 @@
   <string name="select_phone_account_title">Enviar com</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Gerir as mensagens do cartão SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Gerir as mensagens do cartão SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Gerir as mensagens do cartão SIM 2</string>
+  <string name="copy_to_sim">Copiar a mensagem para o cartão SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> mensagens guardadas no cartão SIM.</string>
+  <string name="copy_to_sim_fail">Não foi possível guardar a mensagem</string>
+  <string name="copy_to_phone_success">Mensagem guardada</string>
+  <string name="copy_to_phone_fail">Não foi possível guardar a mensagem</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Sem mensagens no cartão SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Enviar e-mail para <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Ligar para <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Adicionar <xliff:g id="contactEmailOrNumber">%s</xliff:g> aos Contactos</string>
+  <string name="sim_capacity_title">Capacidade do cartão SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> registos do cartão SIM a serem utilizados</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Eliminar?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Mensagens SMS no cartão SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">A atualizar\u2026</string>
+  <string name="confirm_delete_selected_messages">As mensagens selecionadas serão eliminadas.</string>
   <!-- Delete button title -->
+  <string name="delete">Eliminar</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Avançar</string>
+  <string name="menu_reply">Responder</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Copiar para a memória do tablet</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Copiar para a memória do telefone</string>
+  <string name="selected_all">Selecionar todas</string>
+  <string name="deselected_all">Desmarcar todas</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> selecionada(s)</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Copiar a mensagem para o cartão SIM</string>
+  <string name="slot1">Cartão SIM 1</string>
+  <string name="slot2">Cartão SIM 2</string>
 </resources>

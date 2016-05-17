@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Kézbesítési jelentések</string>
   <string name="read_reports_mms_pref_title">Olvasási jelentések</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Küldési prioritás</string>
   <string name="priority_low">Alacsony</string>
   <string name="priority_normal">Normál</string>
   <string name="priority_high">Magas</string>

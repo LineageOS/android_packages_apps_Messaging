@@ -92,24 +92,32 @@
   <string name="copy_to_phone_success">Missatge desat</string>
   <string name="copy_to_phone_fail">No s\'ha pogut desar el missatge</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">No hi ha missatges SMS a la targeta.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Envia un correu electrònic a <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Truca a <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Afegeix <xliff:g id="contactEmailOrNumber">%s</xliff:g> a la Gent</string>
   <string name="sim_capacity_title">Capacitat de la SIM</string>
   <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g> entrades de la targeta SIM utilitzades</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Esborrar?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Missatges de text a la targeta SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">S\'està refrescant\u2026</string>
+  <string name="confirm_delete_selected_messages">El missatge seleccionat serà esborrat.</string>
   <!-- Delete button title -->
   <string name="delete">Esborra</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
   <string name="menu_forward">Reenvia</string>
   <string name="menu_reply">Respon</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Copia a la memòria de la tauleta</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <string name="sim_copy_to_phone_memory" product="default">Copia a la memòria del telèfon</string>
   <string name="selected_all">Selecciona-ho tot</string>

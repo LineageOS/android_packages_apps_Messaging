@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">送达报告</string>
   <string name="read_reports_mms_pref_title">已读报告</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">发送优先级</string>
   <string name="priority_low">低</string>
   <string name="priority_normal">一般</string>
   <string name="priority_high">高</string>
@@ -82,20 +83,50 @@
   <string name="select_phone_account_title">发送方式</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">管理 SIM 卡的信息</string>
+  <string name="pref_title_manage_sim_messages_slot1">管理 SIM 卡 1 的信息</string>
+  <string name="pref_title_manage_sim_messages_slot2">管理 SIM 卡 2 的信息</string>
+  <string name="copy_to_sim">将信息复制到 SIM 卡</string>
+  <string name="copy_to_sim_success"><xliff:g id="total">%2$d </xliff:g> 条中的 <xliff:g id="count">%1$d </xliff:g> 条信息已保存到 SIM 卡。</string>
+  <string name="copy_to_sim_fail">无法保存信息</string>
+  <string name="copy_to_phone_success">信息已保存</string>
+  <string name="copy_to_phone_fail">无法保存信息</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">SIM 卡中无信息。</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">发送电子邮件到 <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">呼叫 <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">将 <xliff:g id="contactEmailOrNumber">%s </xliff:g> 添加到联系人</string>
+  <string name="sim_capacity_title">SIM 卡容量</string>
+  <string name="sim_capacity">已使用 SIM 卡容量 <xliff:g id="total">%2$d</xliff:g> 条中的 <xliff:g id="used">%1$d</xliff:g> 条</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">确定删除?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">SIM 卡中的信息</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">正在刷新\u2026</string>
+  <string name="confirm_delete_selected_messages">选中的信息将被删除。</string>
   <!-- Delete button title -->
+  <string name="delete">删除</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">前进</string>
+  <string name="menu_reply">回复</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">复制到平板电脑存储</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">复制到手机存储</string>
+  <string name="selected_all">选择所有</string>
+  <string name="deselected_all">取消全选</string>
+  <string name="selected_count">已选择 <xliff:g id="COUNT">%d</xliff:g> 项</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">确定</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">将信息复制到 SIM 卡</string>
+  <string name="slot1">SIM 卡 1</string>
+  <string name="slot2">SIM 卡 2</string>
 </resources>
