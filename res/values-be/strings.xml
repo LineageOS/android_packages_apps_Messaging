@@ -17,8 +17,18 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
+  <string name="app_name">Паведамленьні</string>
   <!-- The name of the application as it appears in external share intent dialogs -->
+  <string name="share_intent_label">Паведамленьні</string>
   <!-- The title when selecting a conversation to share to -->
+  <string name="action_settings">Налады</string>
+  <string name="sendButtonContentDescription">Даслаць паведамленьне</string>
+  <string name="help_and_feedback_activity_label">Дапамога</string>
+  <string name="welcome">Вітайма</string>
+  <string name="next_with_arrow">Далей &gt;</string>
+  <string name="next">Наступны</string>
+  <string name="exit">Выйсьце</string>
+  <string name="settings">Налады</string>
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->
@@ -138,10 +148,12 @@
   <!-- Accessibility : text read on the small X icon on the subject editor -->
   <!-- Description shown in the download manager for an attachment that the user manually saved -->
   <!-- Title for the preferences/settings activity -->
+  <string name="settings_activity_title">Налады</string>
   <!-- Title for the archived conversations activity -->
   <!-- Action title: Close -->
   <!-- Preference category: MMS messaging -->
   <!-- Preference category: Advanced -->
+  <string name="advanced_category_pref_title">Падрабязьней</string>
   <!-- Preference category: Debug -->
   <!-- Title for the preference for whether or to notify the user of new messages -->
   <!-- Title for the notification sound preference -->
@@ -279,7 +291,9 @@
   <!-- Screen title after user selects APNs setting option -->
   <!-- Edit access point label summary text when no value has been set -->
   <!-- Edit access point labels: A label the user can give to the APN to allow him to differentiate it from the others -->
+  <string name="apn_name">Назва</string>
   <!-- Edit access point labels: The actual access point name-->
+  <string name="apn_apn">APN</string>
   <!-- Edit access point labels: -->
   <!-- Edit access point labels: The proxy to use for MMS (multimedia messages)-->
   <!-- Edit access point labels: The port on the proxy used for MMS-->
@@ -290,6 +304,7 @@
   <!-- APNs screen menu option to create a brand spanking new APN -->
   <!-- Edit access point screen menu option to save the user's changes for this APN to the persistent storage -->
   <!-- Edit access point screen menu option to discard the user's changes for this APN -->
+  <string name="menu_discard_apn_change">Адхіліць</string>
   <!-- APN error dialog messages: -->
   <!-- APN error dialog messages: -->
   <!-- APN error dialog messages: -->
@@ -299,14 +314,18 @@
   <!-- APNs screen toast message to inform reset default APN settings is completed -->
   <!-- Name to assign to a Network Access Point that was saved without a name -->
   <!-- Title for Access Point Names settings -->
+  <string name="sms_apns_title">Кропка доступу сотавай сувязі</string>
   <!-- Title for Access Point Names settings activity -->
+  <string name="apn_settings">APN</string>
   <!-- APNs screen menu option to create a brand spanking new APN -->
+  <string name="menu_new">Стварыць APN</string>
   <!-- Error message for users that aren't allowed to modify Access Point Names settings [CHAR LIMIT=none] -->
   <!-- Alert dialog title to copy information displayed in dialog to system clipboard. -->
   <!-- Alert dialog accept to copy information displayed in dialog to system clipboard. -->
   <!-- SIM name incoming message bubbles indicating which SIM the message was delivered to -->
   <!-- The title for general settings section in the settings activity  -->
   <!-- The title for advanced settings section in the settings activity  -->
+  <string name="advanced_settings">Падрабязьней</string>
   <!-- The title for general settings activity  -->
   <!-- The title for advanced settings activity  -->
   <!-- The title for sim_specific settings  -->
