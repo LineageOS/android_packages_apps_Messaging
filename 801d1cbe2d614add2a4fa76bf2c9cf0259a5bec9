@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_9146684f",
+        "filename": "src/com/android/messaging/ui/conversation/MessageDetailsDialog.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-17T07:51:40Z",
+      "side": 1,
+      "message": "Replace this with strings in the resource file.",
+      "revId": "801d1cbe2d614add2a4fa76bf2c9cf0259a5bec9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
