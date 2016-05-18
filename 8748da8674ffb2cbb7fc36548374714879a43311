@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_00ebfc78",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-18T16:11:12Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you pin/undemote based on the value passed to this function?",
+      "range": {
+        "startLine": 512,
+        "startChar": 8,
+        "endLine": 523,
+        "endChar": 9
+      },
+      "revId": "8748da8674ffb2cbb7fc36548374714879a43311",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
