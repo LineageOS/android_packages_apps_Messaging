@@ -244,8 +244,8 @@ public class ComposeMessageView extends LinearLayout
     }
 
     private boolean isSMSPromptEnabled() {
-        return (TelephonyManager.getDefault().getPhoneCount() > 1)  &&
-                SmsManager.getDefault().isSMSPromptEnabled();
+        return PhoneUtils.getDefault().getActiveSubscriptionCount() > 1 &&
+                !PhoneUtils.getDefault().getHasPreferredSmsSim();
     }
 
     @Override
