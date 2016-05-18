@@ -46,6 +46,7 @@ import android.widget.Toast;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
+import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.SnackBar;
 import com.android.messaging.ui.SnackBar.Placement;
 import com.android.messaging.ui.conversationlist.ConversationListActivity;
@@ -334,9 +335,9 @@ public class UiUtils {
         // Supports SMS?
         // Has a preferred sim?
         // Is the default sms app?
-        return phoneUtils.isSmsCapable() &&
-                phoneUtils.getHasPreferredSmsSim() &&
-                phoneUtils.isDefaultSmsApp();
+        return phoneUtils.isSmsCapable() && phoneUtils.isDefaultSmsApp() &&
+                (phoneUtils.getHasPreferredSmsSim() || PhoneUtils.getOverrideSendingSubId()
+                        != ParticipantData.DEFAULT_SELF_SUB_ID);
     }
 
     /*
