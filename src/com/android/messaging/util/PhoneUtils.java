@@ -571,9 +571,7 @@ public abstract class PhoneUtils {
 
         @Override
         public boolean getHasPreferredSmsSim() {
-            return getDefaultSmsSubscriptionId() != ParticipantData.DEFAULT_SELF_SUB_ID
-                    || (sOverrideSendingSubId != ParticipantData.DEFAULT_SELF_SUB_ID
-                        && SmsManager.getDefault().isSMSPromptEnabled());
+            return getDefaultSmsSubscriptionId() != ParticipantData.DEFAULT_SELF_SUB_ID;
         }
 
         @Override
