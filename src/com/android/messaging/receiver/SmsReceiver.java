@@ -199,6 +199,14 @@ public final class SmsReceiver extends BroadcastReceiver {
 
     public static void deliverSmsMessages(final Context context, final int subId,
             final int errorCode, final android.telephony.SmsMessage[] messages) {
+        final android.telephony.SmsMessage sms = messages[0];
+        boolean isReplaceable = false;
+        LogUtil.d("MessageReplaceFeature", "Is SMS Message Replaceable : " + sms.isReplace());
+        if(sms.isReplace()) {
+            isReplaceable = true;
+        } else {
+            isReplaceable = false;
+        }
         final ContentValues messageValues =
                 MmsUtils.parseReceivedSmsMessage(context, messages, errorCode);
 
@@ -220,7 +228,7 @@ public final class SmsReceiver extends BroadcastReceiver {
                 DebugUtils.debugClassZeroSmsEnabled()) {
             Factory.get().getUIIntents().launchClassZeroActivity(context, messageValues);
         } else {
-            final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(messageValues);
+            final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(messageValues, isReplaceable);
             action.start();
         }
     }
