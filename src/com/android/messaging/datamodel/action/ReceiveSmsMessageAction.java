@@ -17,7 +17,9 @@
 package com.android.messaging.datamodel.action;
 
 import android.content.ContentValues;
+import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -44,18 +46,21 @@ public class ReceiveSmsMessageAction extends Action implements Parcelable {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
 
     private static final String KEY_MESSAGE_VALUES = "message_values";
+    private static final String KEY_MESSAGE_REPLACEABLE = "message_replaceable";
 
     /**
      * Create a message received from a particular number in a particular conversation
      */
-    public ReceiveSmsMessageAction(final ContentValues messageValues) {
+    public ReceiveSmsMessageAction(final ContentValues messageValues, final boolean isReplaceable) {
         actionParameters.putParcelable(KEY_MESSAGE_VALUES, messageValues);
+        actionParameters.putBoolean(KEY_MESSAGE_REPLACEABLE, isReplaceable);
     }
 
     @Override
     protected Object executeAction() {
         final Context context = Factory.get().getApplicationContext();
         final ContentValues messageValues = actionParameters.getParcelable(KEY_MESSAGE_VALUES);
+        final boolean mReplaceable = actionParameters.getBoolean(KEY_MESSAGE_REPLACEABLE);
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
         // Get the SIM subscription ID
@@ -109,9 +114,47 @@ public class ReceiveSmsMessageAction extends Action implements Parcelable {
             messageValues.put(Sms.Inbox.SEEN, 1);
 
             // Insert into telephony
-            final Uri messageUri = context.getContentResolver().insert(Sms.Inbox.CONTENT_URI,
-                    messageValues);
-
+            Uri messageUri = null;
+            LogUtil.d("MessageReplaceFeature", "SMS Message Replaceable : " + mReplaceable);
+            if (mReplaceable) {
+                // This must match the column IDs below.
+                String[] REPLACE_PROJECTION = new String[]{
+                        Sms._ID,
+                        Sms.ADDRESS,
+                        Sms.PROTOCOL
+                };
+                int REPLACE_COLUMN_ID = 0;
+                String selection;
+                String[] selectionArgs;
+                selection = Sms.ADDRESS + " = ? AND " +
+                        Sms.PROTOCOL + " = ? AND " +
+                        Sms.SUBSCRIPTION_ID + " = ? ";
+                selectionArgs = new String[]{
+                        messageValues.getAsString(Sms.ADDRESS),
+                        messageValues.getAsString(Sms.PROTOCOL),
+                        messageValues.getAsString(Sms.SUBSCRIPTION_ID)
+                };
+                Cursor cursor = context.getContentResolver().query(Sms.Inbox.CONTENT_URI,
+                        REPLACE_PROJECTION, selection, selectionArgs, null);
+                LogUtil.d("MessageReplaceFeature", "cursor != null " + cursor.getCount());
+                if (cursor != null) {
+                    try {
+                        if (cursor.moveToFirst()) {
+                            long messageId = cursor.getLong(REPLACE_COLUMN_ID);
+                            messageUri = ContentUris.withAppendedId(
+                                    Sms.CONTENT_URI, messageId);
+                            LogUtil.d("MessageReplaceFeature", "sms messageUri : " + messageUri.toString());
+                            context.getContentResolver().update(messageUri,
+                                    messageValues, null, null);
+                        }
+                    } finally {
+                        cursor.close();
+                    }
+                }
+            } else {
+                messageUri = context.getContentResolver().insert(Sms.Inbox.CONTENT_URI,
+                        messageValues);
+            }
             if (messageUri != null) {
                 if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
                     LogUtil.d(TAG, "ReceiveSmsMessageAction: Inserted SMS message into telephony, "
