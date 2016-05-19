@@ -57,6 +57,9 @@ public abstract class UIIntents {
     // Sending class zero message to its activity
     public static final String UI_INTENT_EXTRA_MESSAGE_VALUES = "message_values";
 
+    // Sending class zero message to its activity and notifying if it should be replaced
+    public static final String UI_INTENT_EXTRA_MESSAGE_REPLACEABLE = "message_replaceable";
+
     // For the widget to go to the ConversationList from the Conversation.
     public static final String UI_INTENT_EXTRA_GOTO_CONVERSATION_LIST = "goto_conv_list";
 
@@ -198,7 +201,8 @@ public abstract class UIIntents {
     /**
      * Launch an activity to show a class zero message
      */
-    public abstract void launchClassZeroActivity(Context context, ContentValues messageValues);
+    public abstract void launchClassZeroActivity(Context context, ContentValues messageValues,
+       boolean isReplaceable);
 
     /**
      * Launch an activity to let the user forward a message

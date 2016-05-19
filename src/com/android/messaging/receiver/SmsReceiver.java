@@ -199,10 +199,12 @@ public final class SmsReceiver extends BroadcastReceiver {
 
     public static void deliverSmsMessages(final Context context, final int subId,
             final int errorCode, final android.telephony.SmsMessage[] messages) {
+        final android.telephony.SmsMessage sms = messages[0];
+        boolean isReplaceable = sms.isReplace();
+        LogUtil.d("SmsReceiver.deliverSmsMessages", "Is SMS Message Replaceable : " +
+            isReplaceable);
         final ContentValues messageValues =
                 MmsUtils.parseReceivedSmsMessage(context, messages, errorCode);
-
-        LogUtil.v(TAG, "SmsReceiver.deliverSmsMessages");
 
         final long nowInMillis =  System.currentTimeMillis();
         final long receivedTimestampMs = MmsUtils.getMessageDate(messages[0], nowInMillis);
@@ -218,9 +220,11 @@ public final class SmsReceiver extends BroadcastReceiver {
 
         if (messages[0].getMessageClass() == android.telephony.SmsMessage.MessageClass.CLASS_0 ||
                 DebugUtils.debugClassZeroSmsEnabled()) {
-            Factory.get().getUIIntents().launchClassZeroActivity(context, messageValues);
+            Factory.get().getUIIntents().launchClassZeroActivity(context, messageValues,
+                isReplaceable);
         } else {
-            final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(messageValues);
+            final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(messageValues,
+                isReplaceable);
             action.start();
         }
     }
