@@ -80,6 +80,12 @@ public class ClassZeroActivity extends Activity {
     private boolean queueMsgFromIntent(final Intent msgIntent) {
         final ContentValues messageValues =
                 msgIntent.getParcelableExtra(UIIntents.UI_INTENT_EXTRA_MESSAGE_VALUES);
+        final boolean isReplaceable =
+                msgIntent.getBooleanExtra(UIIntents.UI_INTENT_EXTRA_MESSAGE_REPLACEABLE, false);
+        messageValues.put(UIIntents.UI_INTENT_EXTRA_MESSAGE_REPLACEABLE, isReplaceable);
+        if (VERBOSE) {
+            Log.d(TAG, "queueMsgFromIntent isReplaceable = " + isReplaceable);
+        }
         // that takes the format argument is a hidden API right now.
         final String message = messageValues.getAsString(Sms.BODY);
         if (TextUtils.isEmpty(message)) {
@@ -107,7 +113,10 @@ public class ClassZeroActivity extends Activity {
 
     private void saveMessage() {
         mMessageValues.put(Sms.Inbox.READ, mRead ? Integer.valueOf(1) : Integer.valueOf(0));
-        final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(mMessageValues);
+        final boolean isReplaceable =
+            mMessageValues.getAsBoolean(UIIntents.UI_INTENT_EXTRA_MESSAGE_REPLACEABLE);
+        mMessageValues.remove(UIIntents.UI_INTENT_EXTRA_MESSAGE_REPLACEABLE);
+        final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(mMessageValues, isReplaceable);
         action.start();
     }
 
