@@ -22,6 +22,30 @@
       "revId": "8748da8674ffb2cbb7fc36548374714879a43311",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c6a3bc9d",
+        "filename": "src/com/android/messaging/datamodel/BugleDatabaseOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 15112
+      },
+      "writtenOn": "2016-05-19T04:18:36Z",
+      "side": 1,
+      "message": "undemote/pin should not use as i am unstaring here. So i will remove the portion. Thanks for your suggestion",
+      "parentUuid": "5faad753_00ebfc78",
+      "range": {
+        "startLine": 512,
+        "startChar": 8,
+        "endLine": 523,
+        "endChar": 9
+      },
+      "revId": "8748da8674ffb2cbb7fc36548374714879a43311",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
