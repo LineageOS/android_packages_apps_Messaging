@@ -358,9 +358,8 @@ public class LookupProviderManager extends BroadcastReceiver implements Applicat
         }
 
         if (mIsPhoneNumberLookupInitialized) {
-            // always map request origin to INCOMING_SMS whilst the CallerInfoApi is in flux
             LookupRequest request = new LookupRequest(phoneNumber, this,
-                    LookupRequest.RequestOrigin.INCOMING_SMS);
+                    LookupRequest.RequestOrigin.SMS);
             // [TODO][MSB]: Could pass up the return of this
             mLookupHandlerThread.fetchInfoForPhoneNumber(request);
         }
