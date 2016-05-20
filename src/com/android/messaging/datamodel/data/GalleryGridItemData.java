@@ -23,6 +23,7 @@ import android.provider.BaseColumns;
 import android.provider.MediaStore.Images.Media;
 import android.text.TextUtils;
 
+import android.util.Log;
 import com.android.messaging.datamodel.media.FileImageRequestDescriptor;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
@@ -33,6 +34,7 @@ import com.android.messaging.util.Assert;
  * Provides data for GalleryGridItemView
  */
 public class GalleryGridItemData {
+    private static final String TAG = GalleryGridItemData.class.getSimpleName();
     public static final String[] IMAGE_PROJECTION = new String[] {
         Media._ID,
         Media.DATA,

@@ -26,15 +26,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.android.messaging.R;
 import com.android.messaging.datamodel.binding.BindingBase;
 import com.android.messaging.datamodel.binding.ImmutableBindingRef;
+import com.android.messaging.datamodel.data.AudioListItemData;
 import com.android.messaging.datamodel.data.DraftMessageData;
+import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageDataListener;
 import com.android.messaging.datamodel.data.GalleryGridItemData;
 import com.android.messaging.datamodel.data.MessagePartData;
-import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageDataListener;
-import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.PersistentInstanceState;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
@@ -44,47 +43,37 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Shows a list of galley images from external storage in a GridView with multi-select
- * capabilities, and with the option to intent out to a standalone image picker.
+ * Shows a list of audio filenames from external storage in a ListView with multi-select
+ * capabilities
  */
-public class GalleryGridView extends MediaPickerGridView implements
-        GalleryGridItemView.HostInterface,
+public class AudioListView extends MediaPickerListView implements
+        AudioListItemView.HostInterface,
         PersistentInstanceState,
         DraftMessageDataListener {
     /**
      * Implemented by the owner of this GalleryGridView instance to communicate on image
      * picking and multi-image selection events.
      */
-    public interface GalleryGridViewListener {
-        void onDocumentPickerItemClicked();
+    public interface AudioListViewListener {
         void onItemSelected(MessagePartData item);
         void onItemUnselected(MessagePartData item);
         void onConfirmSelection();
         void onUpdate();
     }
 
-    private GalleryGridViewListener mListener;
+    private AudioListViewListener mListener;
 
     // TODO: Consider putting this into the data model object if we add more states.
-    private final ArrayMap<Uri, MessagePartData> mSelectedImages;
+    private final ArrayMap<Uri, MessagePartData> mSelectedAudios;
     private boolean mIsMultiSelectMode = false;
     private ImmutableBindingRef<DraftMessageData> mDraftMessageDataModel;
 
-    /** Provides subscription-related data to access per-subscription configurations. */
-    private DraftMessageData.DraftMessageSubscriptionDataProvider mSubscriptionDataProvider;
-
-
-    public GalleryGridView(final Context context, final AttributeSet attrs) {
+    public AudioListView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        mSelectedImages = new ArrayMap<Uri, MessagePartData>();
+        mSelectedAudios = new ArrayMap<Uri, MessagePartData>();
     }
 
-    public void setSubscriptionProvider(DraftMessageData.DraftMessageSubscriptionDataProvider
-                                                provider) {
-        mSubscriptionDataProvider = provider;
-    }
-
-    public void setHostInterface(final GalleryGridViewListener hostInterface) {
+    public void setHostInterface(final AudioListViewListener hostInterface) {
         mListener = hostInterface;
     }
 
@@ -94,11 +83,9 @@ public class GalleryGridView extends MediaPickerGridView implements
     }
 
     @Override
-    public void onItemClicked(final View view, final GalleryGridItemData data,
+    public void onItemClicked(final View view, final AudioListItemData data,
             final boolean longClick) {
-        if (data.isDocumentPickerItem()) {
-            mListener.onDocumentPickerItemClicked();
-        } else if (ContentType.isMediaType(data.getContentType())) {
+        if (ContentType.isMediaType(data.getContentType())) {
             if (longClick) {
                 // Turn on multi-select mode when an item is long-pressed.
                 setMultiSelectEnabled(true);
@@ -118,12 +105,12 @@ public class GalleryGridView extends MediaPickerGridView implements
     }
 
     @Override
-    public boolean isItemSelected(final GalleryGridItemData data) {
-        return mSelectedImages.containsKey(data.getImageUri());
+    public boolean isItemSelected(final AudioListItemData data) {
+        return mSelectedAudios.containsKey(data.getAudioUri());
     }
 
     int getSelectionCount() {
-        return mSelectedImages.size();
+        return mSelectedAudios.size();
     }
 
     @Override
@@ -131,28 +118,18 @@ public class GalleryGridView extends MediaPickerGridView implements
         return mIsMultiSelectMode;
     }
 
-    @Override
-    public int getSubscriptionProviderSubId() {
-        if (mSubscriptionDataProvider != null) {
-            return mSubscriptionDataProvider.getConversationSelfSubId();
-        } else {
-            return ParticipantData.DEFAULT_SELF_SUB_ID;
-        }
-    }
-
-
-    private void toggleItemSelection(final Rect startRect, final GalleryGridItemData data) {
+    private void toggleItemSelection(final Rect startRect, final AudioListItemData data) {
         Assert.isTrue(isMultiSelectEnabled());
         if (isItemSelected(data)) {
-            final MessagePartData item = mSelectedImages.remove(data.getImageUri());
+            final MessagePartData item = mSelectedAudios.remove(data.getAudioUri());
             mListener.onItemUnselected(item);
-            if (mSelectedImages.size() == 0) {
+            if (mSelectedAudios.size() == 0) {
                 // No image is selected any more, turn off multi-select mode.
                 setMultiSelectEnabled(false);
             }
         } else {
             final MessagePartData item = data.constructMessagePartData(startRect);
-            mSelectedImages.put(data.getImageUri(), item);
+            mSelectedAudios.put(data.getAudioUri(), item);
             mListener.onItemSelected(item);
         }
         invalidateViews();
@@ -172,7 +149,7 @@ public class GalleryGridView extends MediaPickerGridView implements
     private boolean canToggleMultiSelect() {
         // We allow the user to toggle multi-select mode only when nothing has selected. If
         // something has been selected, we show a confirm button instead.
-        return mSelectedImages.size() == 0;
+        return mSelectedAudios.size() == 0;
     }
 
     public void onCreateOptionsMenu(final MenuInflater inflater, final Menu menu) {
@@ -227,7 +204,7 @@ public class GalleryGridView extends MediaPickerGridView implements
     private void refreshImageSelectionStateOnAttachmentChange() {
         boolean changed = false;
         final Iterator<Map.Entry<Uri, MessagePartData>> iterator =
-                mSelectedImages.entrySet().iterator();
+                mSelectedAudios.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<Uri, MessagePartData> entry = iterator.next();
             if (!mDraftMessageDataModel.getData().containsAttachment(entry.getKey())) {
@@ -258,8 +235,8 @@ public class GalleryGridView extends MediaPickerGridView implements
         final Parcelable superState = super.onSaveInstanceState();
         final SavedState savedState = new SavedState(superState);
         savedState.isMultiSelectMode = mIsMultiSelectMode;
-        savedState.selectedImages = mSelectedImages.values()
-                .toArray(new MessagePartData[mSelectedImages.size()]);
+        savedState.selectedAudios = mSelectedAudios.values()
+                .toArray(new MessagePartData[mSelectedAudios.size()]);
         return savedState;
     }
 
@@ -273,23 +250,23 @@ public class GalleryGridView extends MediaPickerGridView implements
         final SavedState savedState = (SavedState) state;
         super.onRestoreInstanceState(savedState.getSuperState());
         mIsMultiSelectMode = savedState.isMultiSelectMode;
-        mSelectedImages.clear();
-        for (int i = 0; i < savedState.selectedImages.length; i++) {
-            final MessagePartData selectedImage = savedState.selectedImages[i];
-            mSelectedImages.put(selectedImage.getContentUri(), selectedImage);
+        mSelectedAudios.clear();
+        for (int i = 0; i < savedState.selectedAudios.length; i++) {
+            final MessagePartData selectedAudio = savedState.selectedAudios[i];
+            mSelectedAudios.put(selectedAudio.getContentUri(), selectedAudio);
         }
     }
 
     @Override   // PersistentInstanceState
     public void resetState() {
-        mSelectedImages.clear();
+        mSelectedAudios.clear();
         mIsMultiSelectMode = false;
         invalidateViews();
     }
 
     public static class SavedState extends BaseSavedState {
         boolean isMultiSelectMode;
-        MessagePartData[] selectedImages;
+        MessagePartData[] selectedAudios;
 
         SavedState(final Parcelable superState) {
             super(superState);
@@ -301,9 +278,9 @@ public class GalleryGridView extends MediaPickerGridView implements
 
             // Read parts
             final int partCount = in.readInt();
-            selectedImages = new MessagePartData[partCount];
+            selectedAudios = new MessagePartData[partCount];
             for (int i = 0; i < partCount; i++) {
-                selectedImages[i] = ((MessagePartData) in.readParcelable(
+                selectedAudios[i] = ((MessagePartData) in.readParcelable(
                         MessagePartData.class.getClassLoader()));
             }
         }
@@ -314,14 +291,14 @@ public class GalleryGridView extends MediaPickerGridView implements
             out.writeInt(isMultiSelectMode ? 1 : 0);
 
             // Write parts
-            out.writeInt(selectedImages.length);
-            for (final MessagePartData image : selectedImages) {
+            out.writeInt(selectedAudios.length);
+            for (final MessagePartData image : selectedAudios) {
                 out.writeParcelable(image, flags);
             }
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR =
-                new Parcelable.Creator<SavedState>() {
+        public static final Creator<SavedState> CREATOR =
+                new Creator<SavedState>() {
             @Override
             public SavedState createFromParcel(final Parcel in) {
                 return new SavedState(in);
