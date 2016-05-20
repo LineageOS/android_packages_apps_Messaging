@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_d014d150",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Why is 0020 needed here?",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_101b4981",
+        "filename": "src/com/android/messaging/datamodel/action/MarkAsReadAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Fix the ordering of imports",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_301e8570",
+        "filename": "src/com/android/messaging/datamodel/action/MarkAsReadAction.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Make the logic here similar to what is done for sms.. i.e. just check threadId here.",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_502f81a0",
+        "filename": "src/com/android/messaging/sms/MmsSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Fix the ordering of these imports.",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_702abd90",
+        "filename": "src/com/android/messaging/sms/MmsSender.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Rename this to sendReadReceipt?",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_b02035b2",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1434,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Remove this function. Instead use same logic as SMS (i.e. the below function takes care of finding unread messages).",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_9025f9c4",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1442,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Rename this function to sendMMSReadReport",
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_f03eadd8",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 2491,
+      "author": {
+        "id": 14515
+      },
+      "writtenOn": "2016-05-20T10:09:11Z",
+      "side": 1,
+      "message": "Combine this block with above switch case.",
+      "range": {
+        "startLine": 2434,
+        "startChar": 8,
+        "endLine": 2491,
+        "endChar": 17
+      },
+      "revId": "217b32940e55acf7eda3cccda10233965b396c83",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
