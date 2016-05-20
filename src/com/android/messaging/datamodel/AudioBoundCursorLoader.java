@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,26 +21,25 @@ import android.net.Uri;
 import android.provider.MediaStore.Files;
 import android.provider.MediaStore.Files.FileColumns;
 import android.provider.MediaStore.Images.Media;
-
-import com.android.messaging.datamodel.data.GalleryGridItemData;
+import com.android.messaging.datamodel.data.AudioListItemData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.google.common.base.Joiner;
 
 /**
  * A BoundCursorLoader that reads local media on the device.
  */
-public class GalleryBoundCursorLoader extends BoundCursorLoader {
+public class AudioBoundCursorLoader extends BoundCursorLoader {
     public static final String MEDIA_SCANNER_VOLUME_EXTERNAL = "external";
     private static final Uri STORAGE_URI = Files.getContentUri(MEDIA_SCANNER_VOLUME_EXTERNAL);
     private static final String SORT_ORDER = Media.DATE_MODIFIED + " DESC";
-    private static final String TAG = GalleryBoundCursorLoader.class.getSimpleName();
-    private static final String IMAGE_SELECTION = createSelection(
-            MessagePartData.ACCEPTABLE_IMAGE_TYPES,
-            new Integer[] { FileColumns.MEDIA_TYPE_IMAGE, FileColumns.MEDIA_TYPE_VIDEO});
+    private static final String TAG = AudioBoundCursorLoader.class.getSimpleName();
+    private static final String AUDIO_SELECTION = createSelection(
+            MessagePartData.ACCEPTABLE_AUDIO_TYPES,
+            new Integer[] {FileColumns.MEDIA_TYPE_AUDIO});
 
-    public GalleryBoundCursorLoader(final String bindingId, final Context context) {
-        super(bindingId, context, STORAGE_URI, GalleryGridItemData.IMAGE_PROJECTION,
-                IMAGE_SELECTION, null, SORT_ORDER);
+    public AudioBoundCursorLoader(final String bindingId, final Context context) {
+        super(bindingId, context, STORAGE_URI, AudioListItemData.AUDIO_PROJECTION,
+                AUDIO_SELECTION, null, SORT_ORDER);
     }
 
     private static String createSelection(final String[] mimeTypes, Integer[] mediaTypes) {
