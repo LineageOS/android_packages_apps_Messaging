@@ -165,6 +165,11 @@ public class FakeDataModel extends DataModel {
     }
 
     @Override
+    public AudioListItemData createAudioListItemData() {
+        return new AudioListItemData();
+    }
+
+    @Override
     public LaunchConversationData createLaunchConversationData(
             final LaunchConversationDataListener listener) {
        return new LaunchConversationData(listener);
