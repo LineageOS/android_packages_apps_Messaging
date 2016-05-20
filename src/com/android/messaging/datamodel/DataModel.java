@@ -25,6 +25,7 @@ import com.android.messaging.Factory;
 import com.android.messaging.datamodel.action.Action;
 import com.android.messaging.datamodel.action.ActionService;
 import com.android.messaging.datamodel.action.BackgroundWorker;
+import com.android.messaging.datamodel.data.AudioListItemData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData.BlockedParticipantsDataListener;
 import com.android.messaging.datamodel.data.ContactListItemData;
@@ -83,6 +84,8 @@ public abstract class DataModel {
     public abstract MediaPickerData createMediaPickerData(final Context context);
 
     public abstract GalleryGridItemData createGalleryGridItemData();
+
+    public abstract AudioListItemData createAudioListItemData();
 
     public abstract LaunchConversationData createLaunchConversationData(
             LaunchConversationDataListener listener);
