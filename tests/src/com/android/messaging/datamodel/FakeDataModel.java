@@ -23,6 +23,7 @@ import android.test.RenamingDelegatingContext;
 
 import com.android.messaging.datamodel.action.ActionService;
 import com.android.messaging.datamodel.action.BackgroundWorker;
+import com.android.messaging.datamodel.data.AudioListItemData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData.BlockedParticipantsDataListener;
 import com.android.messaging.datamodel.data.ContactListItemData;
@@ -162,6 +163,11 @@ public class FakeDataModel extends DataModel {
         // This is a lightweight data holder object for each individual grid item for which
         // we don't perform any data request, so we can directly return a new instance.
         return new GalleryGridItemData();
+    }
+
+    @Override
+    public AudioListItemData createAudioListItemData() {
+        return new AudioListItemData();
     }
 
     @Override
