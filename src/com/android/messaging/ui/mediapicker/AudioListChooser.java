@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2016 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,79 +19,70 @@ package com.android.messaging.ui.mediapicker;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.MergeCursor;
-import android.provider.Telephony;
 import android.support.v7.app.ActionBar;
-import android.support.v7.mms.CarrierConfigValuesLoader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.Toast;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
-import com.android.messaging.datamodel.data.GalleryGridItemData;
 import com.android.messaging.datamodel.data.MediaPickerData;
-import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.MediaPickerData.MediaPickerDataListener;
+import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.OsUtil;
-import com.android.messaging.util.UriUtil;
 
 /**
- * Chooser which allows the user to select one or more existing images or videos
+ * Chooser which allows the user to select one or more existing audios
  */
-class GalleryMediaChooser extends MediaChooser implements
-        GalleryGridView.GalleryGridViewListener, MediaPickerDataListener {
-    private final GalleryGridAdapter mAdapter;
-    private GalleryGridView mGalleryGridView;
+class AudioListChooser extends MediaChooser implements
+        AudioListView.AudioListViewListener, MediaPickerDataListener {
+    private final AudioListAdapter mAdapter;
+    private AudioListView mAudioListView;
     private View mMissingPermissionView;
-    private static final String TAG = GalleryMediaChooser.class.getSimpleName();
+    private static final String TAG = AudioListChooser.class.getSimpleName();
 
-    GalleryMediaChooser(final MediaPicker mediaPicker) {
+    AudioListChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);
-        mAdapter = new GalleryGridAdapter(Factory.get().getApplicationContext(), null);
+        mAdapter = new AudioListAdapter(Factory.get().getApplicationContext(), null);
     }
 
     @Override
     public int getSupportedMediaTypes() {
-        return MediaPicker.MEDIA_TYPE_IMAGE | MediaPicker.MEDIA_TYPE_VIDEO;
+        return MediaPicker.MEDIA_TYPE_AUDIO;
     }
 
     @Override
     public View destroyView() {
-        mGalleryGridView.setAdapter(null);
+        mAudioListView.setAdapter(null);
         mAdapter.setHostInterface(null);
         // The loader is started only if startMediaPickerDataLoader() is called
         if (OsUtil.hasStoragePermission()) {
-            mBindingRef.getData().destroyLoader(MediaPickerData.GALLERY_IMAGE_LOADER);
+            mBindingRef.getData().destroyLoader(MediaPickerData.GALLERY_AUDIO_LOADER);
         }
         return super.destroyView();
     }
 
     @Override
     public int getIconResource() {
-        return R.drawable.ic_image_light;
+        return R.drawable.ic_library_music_white_24px;
     }
 
     @Override
     public int getIconDescriptionResource() {
-        return R.string.mediapicker_galleryChooserDescription_cm;
+        return R.string.mediapicker_audioChooserDescription;
     }
 
     @Override
     public boolean canSwipeDown() {
-        return mGalleryGridView.canSwipeDown();
+        return mAudioListView.canSwipeDown();
     }
 
     @Override
     public void onItemSelected(final MessagePartData item) {
-        mMediaPicker.dispatchItemsSelected(item, !mGalleryGridView.isMultiSelectEnabled());
+        mMediaPicker.dispatchItemsSelected(item, !mAudioListView.isMultiSelectEnabled());
     }
 
     @Override
@@ -102,7 +93,7 @@ class GalleryMediaChooser extends MediaChooser implements
     @Override
     public void onConfirmSelection() {
         // The user may only confirm if multiselect is enabled.
-        Assert.isTrue(mGalleryGridView.isMultiSelectEnabled());
+        Assert.isTrue(mAudioListView.isMultiSelectEnabled());
         mMediaPicker.dispatchConfirmItemSelection();
     }
 
@@ -114,29 +105,28 @@ class GalleryMediaChooser extends MediaChooser implements
     @Override
     public void onCreateOptionsMenu(final MenuInflater inflater, final Menu menu) {
         if (mView != null) {
-            mGalleryGridView.onCreateOptionsMenu(inflater, menu);
+            mAudioListView.onCreateOptionsMenu(inflater, menu);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        return (mView != null) ? mGalleryGridView.onOptionsItemSelected(item) : false;
+        return (mView != null) ? mAudioListView.onOptionsItemSelected(item) : false;
     }
 
     @Override
     protected View createView(final ViewGroup container) {
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(
-                R.layout.mediapicker_image_chooser,
+                R.layout.mediapicker_audio_list_chooser,
                 container /* root */,
                 false /* attachToRoot */);
 
-        mGalleryGridView = (GalleryGridView) view.findViewById(R.id.gallery_grid_view);
-        mAdapter.setHostInterface(mGalleryGridView);
-        mGalleryGridView.setSubscriptionProvider(this);
-        mGalleryGridView.setAdapter(mAdapter);
-        mGalleryGridView.setHostInterface(this);
-        mGalleryGridView.setDraftMessageDataModel(mMediaPicker.getDraftMessageDataModel());
+        mAudioListView = (AudioListView) view.findViewById(R.id.audio_list_view);
+        mAdapter.setHostInterface(mAudioListView);
+        mAudioListView.setAdapter(mAdapter);
+        mAudioListView.setHostInterface(this);
+        mAudioListView.setDraftMessageDataModel(mMediaPicker.getDraftMessageDataModel());
         if (OsUtil.hasStoragePermission()) {
             startMediaPickerDataLoader();
         }
@@ -148,24 +138,19 @@ class GalleryMediaChooser extends MediaChooser implements
 
     @Override
     int getActionBarTitleResId() {
-        return R.string.mediapicker_gallery_title;
-    }
-
-    @Override
-    public void onDocumentPickerItemClicked() {
-        mMediaPicker.launchDocumentPicker();
+        return R.string.mediapicker_audio_list_title;
     }
 
     @Override
     void updateActionBar(final ActionBar actionBar) {
         super.updateActionBar(actionBar);
-        if (mGalleryGridView == null) {
+        if (mAudioListView == null) {
             return;
         }
-        final int selectionCount = mGalleryGridView.getSelectionCount();
-        if (selectionCount > 0 && mGalleryGridView.isMultiSelectEnabled()) {
+        final int selectionCount = mAudioListView.getSelectionCount();
+        if (selectionCount > 0 && mAudioListView.isMultiSelectEnabled()) {
             actionBar.setTitle(getContext().getResources().getString(
-                    R.string.mediapicker_gallery_title_selection,
+                    R.string.mediapicker_audio_list_title_selection,
                     selectionCount));
         }
     }
@@ -174,20 +159,13 @@ class GalleryMediaChooser extends MediaChooser implements
     public void onMediaPickerDataUpdated(final MediaPickerData mediaPickerData, final Object data,
             final int loaderId) {
         mBindingRef.ensureBound(mediaPickerData);
-        Assert.equals(MediaPickerData.GALLERY_IMAGE_LOADER, loaderId);
+        Assert.equals(MediaPickerData.GALLERY_AUDIO_LOADER, loaderId);
         Cursor rawCursor = null;
         if (data instanceof Cursor) {
             rawCursor = (Cursor) data;
         }
 
-        // Before delivering the cursor, wrap around the local gallery cursor
-        // with an extra item for document picker integration in the front.
-        final MatrixCursor specialItemsCursor =
-                new MatrixCursor(GalleryGridItemData.SPECIAL_ITEM_COLUMNS);
-        specialItemsCursor.addRow(new Object[] { GalleryGridItemData.ID_DOCUMENT_PICKER_ITEM });
-        final MergeCursor cursor =
-                new MergeCursor(new Cursor[] { specialItemsCursor, rawCursor });
-        mAdapter.swapCursor(cursor);
+        mAdapter.swapCursor(rawCursor);
     }
 
     @Override
@@ -210,7 +188,7 @@ class GalleryMediaChooser extends MediaChooser implements
     }
 
     private void startMediaPickerDataLoader() {
-        mBindingRef.getData().startLoader(MediaPickerData.GALLERY_IMAGE_LOADER, mBindingRef, null,
+        mBindingRef.getData().startLoader(MediaPickerData.GALLERY_AUDIO_LOADER, mBindingRef, null,
                 this);
     }
 
@@ -228,11 +206,11 @@ class GalleryMediaChooser extends MediaChooser implements
 
     private void updateForPermissionState(final boolean granted) {
         // onRequestPermissionsResult can sometimes get called before createView().
-        if (mGalleryGridView == null) {
+        if (mAudioListView == null) {
             return;
         }
 
-        mGalleryGridView.setVisibility(granted ? View.VISIBLE : View.GONE);
+        mAudioListView.setVisibility(granted ? View.VISIBLE : View.GONE);
         mMissingPermissionView.setVisibility(granted ? View.GONE : View.VISIBLE);
     }
 }
