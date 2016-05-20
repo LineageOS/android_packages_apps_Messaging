@@ -66,7 +66,19 @@ public class MessagePartData implements Parcelable {
                     ContentType.VIDEO_MPEG4,
                     ContentType.VIDEO_3GP,
                     ContentType.VIDEO_3GPP,
-                    ContentType.VIDEO_WEBM,
+                    ContentType.VIDEO_WEBM
+            };
+
+    public static final String[] ACCEPTABLE_AUDIO_TYPES =
+            new String[] {
+                    // Audio
+                    ContentType.AUDIO_AMR,
+                    ContentType.AUDIO_3GPP,
+                    ContentType.AUDIO_AAC,
+                    ContentType.AUDIO_MP3,
+                    ContentType.AUDIO_MP4,
+                    ContentType.AUDIO_MPEG,
+                    ContentType.AUDIO_MPEG3
             };
 
     private static final String[] sProjection = {
