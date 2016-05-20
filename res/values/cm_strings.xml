@@ -22,4 +22,13 @@
     <!-- Show emoticons -->
     <string name="show_emoticons_pref_title">Emoticons access</string>
     <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
+
+    <!-- Audio Library Tab for MMS attachments -->
+    <string name="mediapicker_galleryChooserDescription_cm">Choose images or videos from this device</string>
+    <string name="mediapicker_audioListChooserDescription">Choose audio files from this device</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Can\'t attach video. Max message size exceeded.</string>
+    <string name="mediapicker_audio_list_title">Choose audio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Selected audio</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Tap to select</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selected</string>
 </resources>
