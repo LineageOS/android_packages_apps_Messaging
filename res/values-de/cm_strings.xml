@@ -83,6 +83,9 @@
   <string name="select_phone_account_title">Senden mit</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Nachrichten auf der SIM-Karte verwalten</string>
+  <string name="pref_title_manage_sim_messages_slot1">Nachrichten auf SIM 1 verwalten</string>
+  <string name="pref_title_manage_sim_messages_slot2">Nachrichten auf SIM 2 verwalten</string>
   <string name="copy_to_sim">Nachricht auf SIM-Karte kopieren</string>
   <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> von <xliff:g id="total">%2$d</xliff:g> Nachrichten auf SIM-Karte gespeichert.</string>
   <string name="copy_to_sim_fail">Nachricht konnte nicht gespeichert werden</string>
@@ -91,10 +94,15 @@
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
   <string name="sim_empty">Keine Nachrichten auf der SIM-Karte.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">E-Mail an <xliff:g id="name">%s</xliff:g> senden</string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g> anrufen</string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g> zu Personen hinzufügen</string>
+  <string name="sim_capacity_title">SIM-Speicherkapazität</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> von <xliff:g id="total">%2$d</xliff:g> möglichen Einträgen auf der SIM-Karte werden verwendet</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Löschen?</string>
@@ -108,8 +116,11 @@
   <string name="menu_forward">Weiterleiten</string>
   <string name="menu_reply">Antworten</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Nachricht in Tabletspeicher kopieren</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Nachricht in Telefonspeicher kopieren</string>
   <string name="selected_all">Alle auswählen</string>
+  <string name="deselected_all">Auswahl aufheben</string>
   <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> ausgewählt</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
   <string name="yes">OK</string>
