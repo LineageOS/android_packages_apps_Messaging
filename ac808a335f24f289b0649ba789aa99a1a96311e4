@@ -1,0 +1,380 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_ce518e64",
+        "filename": "res/layout/audio_list_item_view.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016 :)",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ae56925b",
+        "filename": "res/layout/audio_list_item_view.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "It would be better practice to put all dimensions into dimens.xml",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_6e509a5e",
+        "filename": "res/layout/mediapicker_audio_list_chooser.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_8e4b96ae",
+        "filename": "src/com/android/messaging/datamodel/AudioBoundCursorLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_4ecb5e1d",
+        "filename": "src/com/android/messaging/datamodel/AudioBoundCursorLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Are these necessary?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 28
+      },
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_0ed566b9",
+        "filename": "src/com/android/messaging/datamodel/GalleryBoundCursorLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Necessary?",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 35
+      },
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_eed1eace",
+        "filename": "src/com/android/messaging/datamodel/GalleryBoundCursorLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Necessary?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_aedbf2ea",
+        "filename": "src/com/android/messaging/datamodel/data/AudioListItemData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ced66ec4",
+        "filename": "src/com/android/messaging/datamodel/data/AudioListItemData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Necessary?",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_6ee5faa7",
+        "filename": "src/com/android/messaging/datamodel/data/AudioListItemData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "mAudioUri can be null if getAudioFilename is called on the object before bind() is called.",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_8ee07698",
+        "filename": "src/com/android/messaging/datamodel/data/GalleryGridItemData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Not necessary",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_2ef1426c",
+        "filename": "src/com/android/messaging/datamodel/data/GalleryGridItemData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Not necessary",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_4ef4be5b",
+        "filename": "src/com/android/messaging/datamodel/data/MediaPickerData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "Necessary?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_0eeec687",
+        "filename": "src/com/android/messaging/datamodel/data/MediaPickerData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "We should use LogUtil here and make sure this isn\u0027t spamming the logs.",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_eeea4a73",
+        "filename": "src/com/android/messaging/datamodel/data/MediaPickerData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "We should use LogUtil here and make sure this isn\u0027t spamming the logs.",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ae04524b",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioListAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ceff4e32",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioListChooser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_6efe5a38",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioListChooser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "necessary?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_8ef9564e",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioListItemView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "2016",
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_2e9622f2",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioListItemView.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 10631
+      },
+      "writtenOn": "2016-05-21T11:45:16Z",
+      "side": 1,
+      "message": "necessary?",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 23
+      },
+      "revId": "ac808a335f24f289b0649ba789aa99a1a96311e4",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
