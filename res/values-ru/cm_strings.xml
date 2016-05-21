@@ -83,20 +83,50 @@
   <string name="select_phone_account_title">Отправить через</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Управление сообщениями SIM-карты</string>
+  <string name="pref_title_manage_sim_messages_slot1">Управление сообщениями SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Управление сообщениями SIM 2</string>
+  <string name="copy_to_sim">Копировать сообщение на SIM-карту</string>
+  <string name="copy_to_sim_success">Сообщения (<xliff:g id="count">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g>) сохранены на SIM-карте.</string>
+  <string name="copy_to_sim_fail">Не удалось сохранить сообщение</string>
+  <string name="copy_to_phone_success">Сообщение сохранено</string>
+  <string name="copy_to_phone_fail">Не удалось сохранить сообщение</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Нет сообщений на SIM-карте.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Отправить эл. сообщение <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Позвонить <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Добавить <xliff:g id="contactEmailOrNumber">%s</xliff:g> в контакты</string>
+  <string name="sim_capacity_title">Ёмкость SIM-карты</string>
+  <string name="sim_capacity">Используется <xliff:g id="used">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g> возможных записей на SIM-карте</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Удалить?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Текстовые сообщения на SIM-карте</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Обновление\u2026</string>
+  <string name="confirm_delete_selected_messages">Выбранное сообщение будет удалено.</string>
   <!-- Delete button title -->
+  <string name="delete">Удалить</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Вперед</string>
+  <string name="menu_reply">Ответить</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Копировать в память планшета</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Копировать в память телефона</string>
+  <string name="selected_all">Выбрать все</string>
+  <string name="deselected_all">Отменить выбор</string>
+  <string name="selected_count">Выбрано: <xliff:g id="COUNT">%d</xliff:g></string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Копировать сообщение на SIM-карту</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
