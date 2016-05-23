@@ -507,9 +507,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                     mData.getSenderContactLookupKey(), mData.getSenderNormalizedDestination());
             if (mData.getIsIncoming()
                     && !ContactUtil.isValidContactId(mData.getSenderContactId())) {
-                BugleApplication.getLookupProviderClient().addLookupProviderListener(
+                BugleApplication.getLookupProvider().addLookupProviderListener(
                         mData.getSenderNormalizedDestination(), this);
-                BugleApplication.getLookupProviderClient().lookupInfoForPhoneNumber(
+                BugleApplication.getLookupProvider().lookupInfoForPhoneNumber(
                         mData.getSenderNormalizedDestination());
             }
         }
@@ -1242,7 +1242,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         super.onDetachedFromWindow();
         if (mData.getIsIncoming()
                 && !ContactUtil.isValidContactId(mData.getSenderContactId())) {
-            BugleApplication.getLookupProviderClient().removeLookupProviderListener(
+            BugleApplication.getLookupProvider().removeLookupProviderListener(
                     mData.getSenderNormalizedDestination(), this);
         }
     }

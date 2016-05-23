@@ -25,7 +25,10 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -43,6 +46,8 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 
+import android.util.Log;
+import android.widget.RemoteViews;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.MessageNotificationState.BundledMessageNotificationState;
@@ -120,6 +125,9 @@ public class BugleNotifications {
     private static final String SMS_ERROR_NOTIFICATION_TAG = ":error:";
 
     private static final String WEARABLE_COMPANION_APP_PACKAGE = "com.google.android.wearable.app";
+
+    private static final String ANDROID_PACKAGE_NAME = "android";
+    private static final String RESOURCE_ID = "id";
 
     private static final Set<NotificationState> sPendingNotifications =
             new HashSet<NotificationState>();
@@ -491,8 +499,15 @@ public class BugleNotifications {
 
         if (state.mParticipantAvatarsUris != null) {
             final Uri avatarUri = state.mParticipantAvatarsUris.get(0);
-            final AvatarRequestDescriptor descriptor = new AvatarRequestDescriptor(avatarUri,
-                    sIconWidth, sIconHeight, OsUtil.isAtLeastL());
+            UriImageRequestDescriptor descriptor;
+            // Use generic Uri descriptor if not an Avatar.
+            if (AvatarUriUtil.isAvatarUri(avatarUri)) {
+                descriptor = new AvatarRequestDescriptor(avatarUri,
+                        sIconWidth, sIconHeight, OsUtil.isAtLeastL());
+            } else {
+                descriptor = new UriImageRequestDescriptor(avatarUri, sIconWidth, sIconHeight,
+                        true, 0, 0);
+            }
             final MediaRequest<ImageResource> imageRequest = descriptor.buildSyncMediaRequest(
                     context);
 
@@ -855,7 +870,17 @@ public class BugleNotifications {
 
         // Apply the wearable options and build & post the notification
         notifBuilder.extend(wearableExtender);
-        doNotify(notifBuilder.build(), notificationState);
+
+        // Apply custom icon.
+        Notification notification = notifBuilder.build();
+        if (notificationState instanceof MessageNotificationState) {
+            Drawable icon = ((MessageNotificationState) notificationState).getCustomIcon();
+            if (icon != null) {
+                applyCustomNotificationIcon(context, notification, icon);
+            }
+        }
+
+        doNotify(notification, notificationState);
     }
 
     private static void setWearableGroupOptions(final NotificationCompat.Builder notifBuilder,
@@ -1233,5 +1258,37 @@ public class BugleNotifications {
                 tag,
                 PendingIntentConstants.MSG_SEND_ERROR,
                 builder.build());
+    }
+
+    private static void applyCustomNotificationIcon(Context context, Notification notification,
+            Drawable logo) {
+        RemoteViews[] viewsToUpdate = new RemoteViews[] {
+                notification.contentView,
+                notification.bigContentView,
+                notification.headsUpContentView};
+        // add LookupProvider badge to Notification
+        Bitmap bitmap;
+        if (logo instanceof BitmapDrawable) {
+            bitmap = ((BitmapDrawable) logo).getBitmap();
+        } else {
+            bitmap = Bitmap.createBitmap(logo.getIntrinsicWidth(), logo.getIntrinsicHeight(),
+                    Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            logo.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            logo.draw(canvas);
+        }
+        for (RemoteViews view : viewsToUpdate) {
+            if (view == null) continue;
+            int rightIconId = getNotificationRightIconId(context);
+            view.setImageViewBitmap(rightIconId, bitmap);
+            view.setViewPadding(rightIconId, 0, 0, 0, 0);
+        }
+    }
+
+    private static int getNotificationRightIconId(Context context) {
+        // check if resource ID exists, should cause build error if this resource does not exist
+        int checkResourceExists = com.android.internal.R.id.right_icon;
+        return context.getResources().getIdentifier("right_icon", RESOURCE_ID,
+                ANDROID_PACKAGE_NAME);
     }
 }

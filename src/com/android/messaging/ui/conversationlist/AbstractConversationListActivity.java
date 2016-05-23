@@ -244,8 +244,8 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
                                 conversation.conversationId,
                                 undoListener);
 
-                        if (BugleApplication.getLookupProviderClient().hasSpamReporting()) {
-                            BugleApplication.getLookupProviderClient().markAsSpam(conversation
+                        if (BugleApplication.getLookupProvider().hasSpamReporting()) {
+                            BugleApplication.getLookupProvider().markAsSpam(conversation
                                     .otherParticipantNormalizedDestination);
                         }
                     }
