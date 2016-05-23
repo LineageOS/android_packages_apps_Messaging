@@ -107,7 +107,7 @@ public class WidgetConversationListService extends RemoteViewsService {
                 LookupResponse lookupResponse = null;
                 if (!ContactUtil.isValidContactId(conv.getParticipantContactId())) {
                     // Make blocking call
-                    lookupResponse = BugleApplication.getLookupProviderClient()
+                    lookupResponse = BugleApplication.getLookupProvider()
                             .blockingLookupInfoForPhoneNumber(conv
                                     .getOtherParticipantNormalizedDestination());
                 }
@@ -184,7 +184,7 @@ public class WidgetConversationListService extends RemoteViewsService {
 
                 // Attribution logo
                 if (lookupResponse != null) {
-                    Bitmap bitmap = BugleApplication.getLookupProviderClient()
+                    Bitmap bitmap = BugleApplication.getLookupProvider()
                             .getCachedAttributionLogoBitmap(lookupResponse.mProviderName);
                     if (bitmap != null) {
                         remoteViews.setImageViewBitmap(R.id.attribution_logo, bitmap);

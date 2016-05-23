@@ -64,7 +64,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     private static boolean sRunningTests = false;
 
     // Lookup provider members
-    private static LookupProviderManager mLookupProviderManager;
+    private static LookupProviderManager sLookupProviderManager;
 
     @VisibleForTesting
     protected static void setTestsRunning() {
@@ -105,7 +105,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
 
 
         Trace.endSection();
-        mLookupProviderManager = new LookupProviderManager(this);
+        sLookupProviderManager = new LookupProviderManager(this);
     }
 
     @Override
@@ -198,7 +198,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             LogUtil.d(TAG, "BugleApplication.onLowMemory");
         }
         Factory.get().reclaimMemory();
-        mLookupProviderManager.onLowMemory();
+        sLookupProviderManager.onLowMemory();
     }
 
     @Override
@@ -286,8 +286,22 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
      *
      * @return {@link ILookupClient} or null
      */
-    public static ILookupClient getLookupProviderClient() {
-        return mLookupProviderManager;
+    public static ILookupClient getLookupProvider() {
+        return sLookupProviderManager;
     }
 
+    /**
+     * Notify the provider that you would like to use it. Must be followed by
+     * {@link #releaseLookupProvider()} when you are finished, so client can clean up.
+     */
+    public static void acquireLookupProvider() {
+        sLookupProviderManager.onConsumerActivated();
+    }
+
+    /**
+     * Notify the provider that you are finished using it.
+     */
+    public static void releaseLookupProvider() {
+        sLookupProviderManager.onConsumerDeactivated();
+    }
 }

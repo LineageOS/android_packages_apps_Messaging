@@ -77,11 +77,11 @@ public class DialogUtil {
                 .setPositiveButton(android.R.string.ok, positiveClickListener)
                 .setOnCancelListener(onCancelListener);
 
-        if (view != null && BugleApplication.getLookupProviderClient().hasSpamReporting()) {
+        if (view != null && BugleApplication.getLookupProvider().hasSpamReporting()) {
             builder.setView(view);
             CheckBox checkBox = (CheckBox) view.findViewById(R.id.chkReportSpam);
             String reportSpamBlurb = context.getString(R.string.report_as_spam_to, BugleApplication
-                    .getLookupProviderClient().getProviderName());
+                    .getLookupProvider().getProviderName());
             checkBox.setText(reportSpamBlurb);
         }
 

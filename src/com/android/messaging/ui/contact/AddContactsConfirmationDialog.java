@@ -48,7 +48,7 @@ public class AddContactsConfirmationDialog implements DialogInterface.OnClickLis
         mContext = context;
         mAvatarUri = avatarUri;
         mNormalizedDestination = normalizedDestination;
-        BugleApplication.getLookupProviderClient().addLookupProviderListener
+        BugleApplication.getLookupProvider().addLookupProviderListener
                 (mNormalizedDestination, this);
     }
 
@@ -63,7 +63,7 @@ public class AddContactsConfirmationDialog implements DialogInterface.OnClickLis
          .setOnCancelListener(new OnCancelListener() {
              @Override
              public void onCancel(DialogInterface dialog) {
-                 BugleApplication.getLookupProviderClient().removeLookupProviderListener
+                 BugleApplication.getLookupProvider().removeLookupProviderListener
                          (mNormalizedDestination, AddContactsConfirmationDialog.this);
              }
          })
@@ -90,7 +90,7 @@ public class AddContactsConfirmationDialog implements DialogInterface.OnClickLis
             default:
                 break;
         }
-        BugleApplication.getLookupProviderClient().removeLookupProviderListener
+        BugleApplication.getLookupProvider().removeLookupProviderListener
                 (mNormalizedDestination, this);
     }
 
@@ -113,7 +113,7 @@ public class AddContactsConfirmationDialog implements DialogInterface.OnClickLis
             mTextView.setContentDescription(vocalizedDisplayName);
         }
 
-        BugleApplication.getLookupProviderClient()
+        BugleApplication.getLookupProvider()
                 .lookupInfoForPhoneNumber(mNormalizedDestination);
 
         return view;

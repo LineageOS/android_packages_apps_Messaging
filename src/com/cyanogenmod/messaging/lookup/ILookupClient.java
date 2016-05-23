@@ -52,6 +52,13 @@ public interface ILookupClient {
     LookupResponse blockingLookupInfoForPhoneNumber(String phoneNumber);
 
     /**
+     * Will check the local cache to see if data exists, but will not lookup new data.
+     * @param phoneNumber {@link String} not null or empty
+     * @return {@link LookupResponse}
+     */
+    LookupResponse lookupCachedInfoForPhoneNumber(String phoneNumber);
+
+    /**
      * Fetches the possibly cached bitmap for a lookup provider of the given name
      *
      * @param providerName {@link String }
