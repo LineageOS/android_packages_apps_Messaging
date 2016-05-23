@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_683169ec",
+        "filename": "src/com/android/messaging/ui/mediapicker/GalleryGridItemView.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-05-23T21:51:16Z",
+      "side": 1,
+      "message": "this will fail in debug builds due to being on the main thread.",
+      "revId": "d75509467fbdb9da6406739fc76b1220f4d7e3cc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_084eb56e",
+        "filename": "tests/src/com/android/messaging/datamodel/FakeDataModel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-05-23T21:51:16Z",
+      "side": 1,
+      "message": "need to import AudioListItemData",
+      "revId": "d75509467fbdb9da6406739fc76b1220f4d7e3cc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
