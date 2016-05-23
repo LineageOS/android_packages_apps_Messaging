@@ -88,7 +88,7 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
             mBinding.detach();
         }
         if (!TextUtils.isEmpty(mLastNormalizedNumber)) {
-            BugleApplication.getLookupProviderClient()
+            BugleApplication.getLookupProvider()
                     .removeLookupProviderListener(mLastNormalizedNumber, this);
             mLastNormalizedNumber = null;
         }
@@ -114,7 +114,7 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
             mBinding.unbind();
         }
         if (!TextUtils.isEmpty(mLastNormalizedNumber)) {
-            BugleApplication.getLookupProviderClient()
+            BugleApplication.getLookupProvider()
                     .removeLookupProviderListener(mLastNormalizedNumber, this);
             mLastNormalizedNumber = null;
         }
@@ -131,9 +131,9 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
             mLastNormalizedNumber = personData.getNormalizedDestination();
         }
         updateViewAppearance();
-        BugleApplication.getLookupProviderClient()
+        BugleApplication.getLookupProvider()
                 .addLookupProviderListener(mLastNormalizedNumber, this);
-        BugleApplication.getLookupProviderClient()
+        BugleApplication.getLookupProvider()
                 .lookupInfoForPhoneNumber(mLastNormalizedNumber);
     }
 

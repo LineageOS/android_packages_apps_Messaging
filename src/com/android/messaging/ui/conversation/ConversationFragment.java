@@ -43,7 +43,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
-import android.provider.Telephony;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.text.BidiFormatter;
 import android.support.v4.text.TextDirectionHeuristicsCompat;
@@ -52,12 +51,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.telephony.SmsManager;
-import android.telephony.SmsMessage;
 import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -1013,7 +1009,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
         LocalBroadcastManager.getInstance(getActivity())
                 .unregisterReceiver(mConversationSelfIdChangeReceiver);
-        BugleApplication.getLookupProviderClient().removeLookupProviderListener(mBinding.getData
+        BugleApplication.getLookupProvider().removeLookupProviderListener(mBinding.getData
                 ().getParticipantPhoneNumber(), this);
     }
 
@@ -1667,9 +1663,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 if (otherParticipant != null && ContactUtil.isValidContactId(
                         otherParticipant.getContactId())) {
                     if (!TextUtils.isEmpty(mBinding.getData().getParticipantPhoneNumber())) {
-                        BugleApplication.getLookupProviderClient().addLookupProviderListener(
+                        BugleApplication.getLookupProvider().addLookupProviderListener(
                                 mBinding.getData().getParticipantPhoneNumber(), this);
-                        BugleApplication.getLookupProviderClient().lookupInfoForPhoneNumber(
+                        BugleApplication.getLookupProvider().lookupInfoForPhoneNumber(
                                 mBinding.getData().getParticipantPhoneNumber());
                     }
                 }

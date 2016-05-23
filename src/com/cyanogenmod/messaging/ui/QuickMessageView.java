@@ -2,11 +2,7 @@ package com.cyanogenmod.messaging.ui;
 
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.net.Uri;
 import android.telephony.SmsMessage;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -17,17 +13,14 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.messaging.BugleApplication;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
-import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.PlainTextEditText;
 import com.android.messaging.ui.conversation.SimIconView;
-import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.UiUtils;
 import com.cyanogen.lookup.phonenumber.response.LookupResponse;
@@ -99,9 +92,9 @@ public class QuickMessageView extends LinearLayout implements TextWatcher,
         }
         updateMessageCounter(messageNumber, messageCount);
         if (!ContactUtil.isValidContactId(mQuickMessage.getFromContactId())) {
-            BugleApplication.getLookupProviderClient().addLookupProviderListener(
+            BugleApplication.getLookupProvider().addLookupProviderListener(
                     mQuickMessage.getSenderNormalizedDestination(), this);
-            BugleApplication.getLookupProviderClient().lookupInfoForPhoneNumber(
+            BugleApplication.getLookupProvider().lookupInfoForPhoneNumber(
                     mQuickMessage.getSenderNormalizedDestination());
         }
     }
@@ -127,7 +120,7 @@ public class QuickMessageView extends LinearLayout implements TextWatcher,
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (!ContactUtil.isValidContactId(mQuickMessage.getFromContactId())) {
-            BugleApplication.getLookupProviderClient().removeLookupProviderListener(
+            BugleApplication.getLookupProvider().removeLookupProviderListener(
                     mQuickMessage.getSenderNormalizedDestination(), this);
         }
     }
