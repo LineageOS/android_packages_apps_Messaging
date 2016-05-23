@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_ff60b5a7",
+        "filename": "src/com/android/messaging/sms/MmsSender.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 14621
+      },
+      "writtenOn": "2016-05-23T07:59:48Z",
+      "side": 1,
+      "message": "Still needs reordering",
+      "range": {
+        "startLine": 27,
+        "startChar": 23,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "dbd81b4856422217e34f848e638e428816125ca9",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
