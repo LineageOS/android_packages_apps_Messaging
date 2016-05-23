@@ -36,6 +36,7 @@ import java.net.URL;
  */
 public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
         ImageRequest<D> {
+    private static final String HEADER_FIELD_LOCATION = "Location";
 
     public NetworkUriImageRequest(Context context, D descriptor) {
         super(context, descriptor);
@@ -82,17 +83,28 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
     @Override
     public Bitmap loadBitmapInternal() throws IOException {
         Assert.isNotMainThread();
+        return retrieveHttpBitmap(mDescriptor.uri.toString());
+    }
 
-        InputStream inputStream = null;
+    private Bitmap retrieveHttpBitmap(String path) {
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
         try {
-            final URL url = new URL(mDescriptor.uri.toString());
+            final URL url = new URL(path);
             connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+            switch (connection.getResponseCode()) {
+                case HttpURLConnection.HTTP_OK:
+                    bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+                    break;
+                case HttpURLConnection.HTTP_MOVED_PERM:
+                case HttpURLConnection.HTTP_MOVED_TEMP:
+                    // Follow redirects.
+                    bitmap = retrieveHttpBitmap(connection.getHeaderField(HEADER_FIELD_LOCATION));
+                    break;
+                default:
+                    // Return null Bitmap.
             }
         } catch (MalformedURLException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
@@ -108,9 +120,6 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
                     "IOException trying to get inputStream for image with url: "
                             + mDescriptor.uri.toString(), e);
         } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
             if (connection != null) {
                 connection.disconnect();
             }

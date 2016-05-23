@@ -30,6 +30,7 @@ import android.text.style.StyleSpan;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.media.AvatarGroupRequestDescriptor;
 import com.android.messaging.datamodel.media.AvatarRequestDescriptor;
@@ -40,7 +41,6 @@ import com.android.messaging.datamodel.media.MediaResourceManager;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
 import com.android.messaging.util.AvatarUriUtil;
 import com.android.messaging.util.LogUtil;
-import com.cyanogenmod.messaging.lookup.LookupProviderManager;
 
 /**
  * Remote Views Factory for Bugle Widget.
@@ -81,7 +81,7 @@ abstract class BaseWidgetFactory implements RemoteViewsService.RemoteViewsFactor
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "onCreate");
         }
-        mContext.sendBroadcast(new Intent(LookupProviderManager.ACTION_CREATED));
+        BugleApplication.useLookupProviderClient();
     }
 
     @Override
@@ -94,7 +94,7 @@ abstract class BaseWidgetFactory implements RemoteViewsService.RemoteViewsFactor
                 mCursor.close();
                 mCursor = null;
             }
-            mContext.sendBroadcast(new Intent(LookupProviderManager.ACTION_DESTROYED));
+            BugleApplication.releaseLookupProviderClient();
         }
     }
 
