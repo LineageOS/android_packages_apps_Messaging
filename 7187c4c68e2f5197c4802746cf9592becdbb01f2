@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_d349328b",
+        "filename": "src/com/android/messaging/datamodel/data/GalleryGridItemData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-05-24T16:28:32Z",
+      "side": 1,
+      "message": "should we avoid doing this if mContentSize was already updated once?  Also don\u0027t we want to udpate mContentSize on the UI thread (in onPostExecute)",
+      "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
