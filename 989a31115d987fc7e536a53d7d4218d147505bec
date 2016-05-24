@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5faad753_532a2290",
+        "filename": "src/com/android/messaging/BugleApplication.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 11035
+      },
+      "writtenOn": "2016-05-24T20:12:30Z",
+      "side": 1,
+      "message": "shouldn\u0027t it be useLookupProvider or acquireLookupProvider .. w/o the \"client\" monicker, cause the caller is the client ? The way it reads , its calling the callee a client.",
+      "range": {
+        "startLine": 297,
+        "startChar": 23,
+        "endLine": 297,
+        "endChar": 46
+      },
+      "revId": "989a31115d987fc7e536a53d7d4218d147505bec",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_4ea7d550",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1264,
+      "author": {
+        "id": 11035
+      },
+      "writtenOn": "2016-05-24T20:12:30Z",
+      "side": 1,
+      "message": "the aosp convention is 8sp over argument alignemt",
+      "range": {
+        "startLine": 1264,
+        "startChar": 6,
+        "endLine": 1264,
+        "endChar": 51
+      },
+      "revId": "989a31115d987fc7e536a53d7d4218d147505bec",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_334be659",
         "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
         "patchSetId": 1
@@ -31,6 +77,29 @@
       "side": 1,
       "message": "There might be a propensity for the ids to mismatch , b/w the System that was used to build the apk and the Phone thats running it.  Because we do updater releases, for critical fixes etc, there is a high likelihood of that happening.",
       "parentUuid": "5faad753_334be659",
+      "revId": "989a31115d987fc7e536a53d7d4218d147505bec",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ee632119",
+        "filename": "src/com/android/messaging/datamodel/MessageNotificationState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 11035
+      },
+      "writtenOn": "2016-05-24T20:12:30Z",
+      "side": 1,
+      "message": "move the static var towards the top of the class definition",
+      "range": {
+        "startLine": 1457,
+        "startChar": 3,
+        "endLine": 1479,
+        "endChar": 6
+      },
       "revId": "989a31115d987fc7e536a53d7d4218d147505bec",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
