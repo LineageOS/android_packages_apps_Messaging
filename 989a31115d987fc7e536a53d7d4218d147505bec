@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_334be659",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2016-05-24T06:45:25Z",
+      "side": 1,
+      "message": "Why don\u0027t you just use that value and look it up instead?",
+      "revId": "989a31115d987fc7e536a53d7d4218d147505bec",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
