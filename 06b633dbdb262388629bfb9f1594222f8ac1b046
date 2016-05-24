@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_1366ea52",
+        "filename": "src/com/android/messaging/sms/MmsUtils.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1443,
+      "author": {
+        "id": 1448
+      },
+      "writtenOn": "2016-05-24T14:54:20Z",
+      "side": 1,
+      "message": "ThreadId should be parameterized.",
+      "revId": "06b633dbdb262388629bfb9f1594222f8ac1b046",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
