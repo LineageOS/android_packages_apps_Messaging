@@ -16,6 +16,24 @@
       "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ce81854c",
+        "filename": "src/com/android/messaging/datamodel/data/GalleryGridItemData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-24T17:00:17Z",
+      "side": 1,
+      "message": "The mContentSize is initialized once when GalleryGridItemData object is created and is then maintained by the adapter. It\u0027s the view to which it is bound is recycled, so I think it\u0027s fine. \n\nI will move the mContentSize to onPostExecute() to be \"proper\", but in this case, I don\u0027t think it really matters, since the UI thread is simply reading mContentSize and will either get a pre or post write value.",
+      "parentUuid": "5faad753_d349328b",
+      "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
