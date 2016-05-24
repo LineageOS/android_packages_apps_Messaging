@@ -34,6 +34,24 @@
       "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_6eddf16e",
+        "filename": "src/com/android/messaging/datamodel/data/GalleryGridItemData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-05-24T17:10:52Z",
+      "side": 1,
+      "message": "Can\u0027t bind be called multiple times on the same data item if you are scrolling?  For example if the adapter holds on to 100 data items but the grid view recycles between 10 views, then you will be reloading this value when you already have it.\n\nI don\u0027t think long assignment is atomic in java, hence the need for some kind of synchronization",
+      "parentUuid": "5faad753_ce81854c",
+      "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
