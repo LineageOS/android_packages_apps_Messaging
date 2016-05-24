@@ -52,6 +52,24 @@
       "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_6ec6519d",
+        "filename": "src/com/android/messaging/datamodel/data/GalleryGridItemData.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-05-24T17:20:19Z",
+      "side": 1,
+      "message": "Agree on both counts :)\n\nBut the original design regenerates the data in the on bind() call to begin with, so if the Uri of the generated data changes, I\u0027d have to get the content size anyways.",
+      "parentUuid": "5faad753_6eddf16e",
+      "revId": "7187c4c68e2f5197c4802746cf9592becdbb01f2",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
