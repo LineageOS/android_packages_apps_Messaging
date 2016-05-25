@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_54fe88ae",
+        "filename": "src/com/android/messaging/sms/MmsSender.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 15380
+      },
+      "writtenOn": "2016-05-25T08:55:23Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 337,
+        "startChar": 35,
+        "endLine": 337,
+        "endChar": 36
+      },
+      "revId": "110cdf82bf8165451bc803983964be96a373bf4b",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
