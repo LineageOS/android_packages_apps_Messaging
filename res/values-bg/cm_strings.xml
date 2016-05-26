@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Искане за четене на отчет за всяко изпратено от вас съобщение</string>
   <string name="delivery_reports_mms_pref_title">Отчети за доставка</string>
   <string name="read_reports_mms_pref_title">Прочитане на отчетите</string>
+  <string name="status_label">Статус: \u0020</string>
+  <string name="status_read">Прочети</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Приоритет при изпращане</string>
   <string name="priority_low">Нисък</string>
