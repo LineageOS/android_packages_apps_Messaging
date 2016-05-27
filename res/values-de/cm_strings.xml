@@ -107,6 +107,7 @@
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Löschen?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">SMS-Nachrichten auf der SIM-Karte</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <string name="refreshing">Wird aktualisiert\u2026</string>
   <string name="confirm_delete_selected_messages">Ausgewählte Nachricht wird gelöscht.</string>
@@ -125,6 +126,7 @@
   <!-- Text to be used for affirmative response button in dialog boxes -->
   <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Nachricht auf SIM-Karte kopieren</string>
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
 </resources>

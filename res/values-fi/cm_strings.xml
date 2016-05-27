@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Pyydä lukuraportti jokaisesta lähettämästäsi viestistä</string>
   <string name="delivery_reports_mms_pref_title">Lähetysraportit</string>
   <string name="read_reports_mms_pref_title">Lukuraportit</string>
+  <string name="status_label">Tila:\u0020</string>
+  <string name="status_read">Lue</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Lähetyksen tärkeys</string>
   <string name="priority_low">Matala</string>
