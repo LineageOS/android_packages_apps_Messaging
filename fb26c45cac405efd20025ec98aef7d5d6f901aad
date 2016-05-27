@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_01f44b5a",
+        "filename": "src/com/android/messaging/receiver/SmsReceiver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 14222
+      },
+      "writtenOn": "2016-05-27T01:39:35Z",
+      "side": 1,
+      "message": "char limit",
+      "revId": "fb26c45cac405efd20025ec98aef7d5d6f901aad",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_a1ea1772",
+        "filename": "src/com/android/messaging/receiver/SmsReceiver.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 14222
+      },
+      "writtenOn": "2016-05-27T01:39:35Z",
+      "side": 1,
+      "message": "char limit",
+      "revId": "fb26c45cac405efd20025ec98aef7d5d6f901aad",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c1edd38b",
+        "filename": "src/com/android/messaging/ui/ClassZeroActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 14222
+      },
+      "writtenOn": "2016-05-27T01:39:35Z",
+      "side": 1,
+      "message": "char limit",
+      "revId": "fb26c45cac405efd20025ec98aef7d5d6f901aad",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_61041f4b",
+        "filename": "src/com/android/messaging/ui/UIIntents.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 14222
+      },
+      "writtenOn": "2016-05-27T01:39:35Z",
+      "side": 1,
+      "message": "char limit",
+      "revId": "fb26c45cac405efd20025ec98aef7d5d6f901aad",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_81ffdb32",
+        "filename": "src/com/android/messaging/ui/UIIntentsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 14222
+      },
+      "writtenOn": "2016-05-27T01:39:35Z",
+      "side": 1,
+      "message": "char limit",
+      "revId": "fb26c45cac405efd20025ec98aef7d5d6f901aad",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
