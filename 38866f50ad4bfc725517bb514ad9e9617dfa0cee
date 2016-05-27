@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_9c7e6269",
+        "filename": "src/com/android/messaging/datamodel/action/ReceiveSmsMessageAction.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-05-27T13:42:51Z",
+      "side": 1,
+      "message": "probably want to move this getCount() call inside the null check",
+      "revId": "38866f50ad4bfc725517bb514ad9e9617dfa0cee",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_fc875660",
+        "filename": "src/com/android/messaging/receiver/SmsReceiver.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 10293
+      },
+      "writtenOn": "2016-05-27T13:42:51Z",
+      "side": 1,
+      "message": "could just get rid of this variable?",
+      "revId": "38866f50ad4bfc725517bb514ad9e9617dfa0cee",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
