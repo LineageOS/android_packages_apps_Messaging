@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Αίτημα αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε</string>
   <string name="delivery_reports_mms_pref_title">Αναφορές παράδοσης</string>
   <string name="read_reports_mms_pref_title">Αναφορές ανάγνωσης</string>
+  <string name="status_label">Κατάσταση:\u0020</string>
+  <string name="status_read">Διαβάστηκε</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Προτεραιότητα αποστολής</string>
   <string name="priority_low">Χαμηλή</string>

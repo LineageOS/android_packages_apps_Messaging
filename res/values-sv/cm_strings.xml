@@ -25,12 +25,15 @@
   <!-- Settings item description for SMS and MMS Validity period -->
   <string name="validity_period_slot1_pref_title">Giltighetsperiod för SIM 1</string>
   <string name="validity_period_slot2_pref_title">Giltighetsperiod för SIM 2</string>
+  <string name="sms_validity_period_not_set">Inte inställt</string>
+  <string name="sms_validity_period_one_hour">1 timme</string>
   <string name="sms_validity_period_six_hours">6 timmar</string>
   <string name="sms_validity_period_twelve_hours">12 timmar</string>
   <string name="sms_validity_period_one_day">1 dag</string>
   <string name="mms_validity_period_two_days">2 dagar</string>
   <string name="mms_validity_period_one_week">1 vecka</string>
   <string name="validity_period_maximum">Maximalt</string>
+  <string name="delivery_reports_mms_pref_title">Leveransrapporter</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_low">Låg</string>
   <string name="priority_normal">Normal</string>
@@ -71,17 +74,25 @@
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
   <!-- Context menu item on an individual message for emailing the sender -->
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Ring <xliff:g id="name">%s </xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Ta bort?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <!-- Delete button title -->
+  <string name="delete">Ta bort</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Framåt</string>
+  <string name="menu_reply">Svara</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
