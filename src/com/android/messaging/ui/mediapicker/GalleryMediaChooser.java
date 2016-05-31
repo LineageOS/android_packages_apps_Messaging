@@ -81,7 +81,7 @@ class GalleryMediaChooser extends MediaChooser implements
 
     @Override
     public int getIconDescriptionResource() {
-        return R.string.mediapicker_galleryChooserDescription;
+        return R.string.mediapicker_galleryChooserDescription_cm;
     }
 
     @Override
