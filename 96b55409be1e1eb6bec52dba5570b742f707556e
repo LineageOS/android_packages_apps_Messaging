@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_290045ab",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-06-01T18:36:20Z",
+      "side": 1,
+      "message": "Maybe better: Choose audio file",
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_e92f8d3c",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-06-01T18:36:20Z",
+      "side": 1,
+      "message": "Doesn\u0027t sound very nice",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 111
+      },
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_a925155e",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-06-01T18:36:20Z",
+      "side": 1,
+      "message": "This needs to be a plural so it\u0027s translated properly in some languages",
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
