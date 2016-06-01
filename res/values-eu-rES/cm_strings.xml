@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Eskatu mezua-irakurtze txostena mezu bat bidaltzen duzun bakoitzean</string>
   <string name="delivery_reports_mms_pref_title">Entrega txostenak</string>
   <string name="read_reports_mms_pref_title">Irakurtze txostenak</string>
+  <string name="status_label">Egoera:\u0020</string>
+  <string name="status_read">Irakurrita</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Bidaltze lehentasuna</string>
   <string name="priority_low">Baxua</string>
