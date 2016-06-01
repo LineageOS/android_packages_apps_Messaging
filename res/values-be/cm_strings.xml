@@ -23,9 +23,18 @@
   <string name="pref_unicode_stripping_non_encodable">Замяняць некадаваныя знакі</string>
   <string name="pref_unicode_stripping_all">Замяняць усе знакі юнікода</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Тэрмін дзеяння</string>
+  <string name="sms_validity_period_not_set">Не зададзена</string>
+  <string name="sms_validity_period_one_hour">1 гадзіна</string>
+  <string name="sms_validity_period_six_hours">6 гадзін</string>
+  <string name="sms_validity_period_twelve_hours">12 гадзін</string>
+  <string name="sms_validity_period_one_day">1 дзень</string>
+  <string name="validity_period_maximum">Колькі можна</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Прагарнi, каб выдалiць</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Прагарнi направа, каб выдалiць размову</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Усплывальныя паведамленні</string>
@@ -48,6 +57,9 @@
   <string name="send">Даслаць</string>
   <string name="compose_message_hint_text">Тэкст паведамлення</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Доступ да смайлаў</string>
+  <string name="show_emoticons_pref_summary">Паказаць смайлы на клавіятуры</string>
+  <string name="select_phone_account_title">Даслаць з дапамогай</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
