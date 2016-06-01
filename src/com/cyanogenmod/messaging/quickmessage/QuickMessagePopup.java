@@ -17,6 +17,7 @@
 package com.cyanogenmod.messaging.quickmessage;
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,8 @@ import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.telecom.PhoneAccountHandle;
+import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
 import android.util.Log;
@@ -43,15 +46,20 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.android.contacts.common.widget.SelectPhoneAccountDialogFragment;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.NoConfirmationSmsSendService;
 import com.android.messaging.datamodel.action.MarkAsReadAction;
+import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.PlainTextEditText;
+import com.android.messaging.ui.conversation.ComposeMessageView;
+import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UnicodeFilter;
 import com.cyanogenmod.messaging.ui.QuickMessageView;
 import com.cyanogenmod.messaging.util.PrefsUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class QuickMessagePopup extends Activity {
     private static final String LOG_TAG = "QuickMessagePopup";
@@ -315,11 +323,13 @@ public class QuickMessagePopup extends Activity {
      *
      * @param message - message to send
      * @param qm - qm to reply to (for sender details)
+     * @param subId - the subscription to use
      */
-    private void sendQuickMessage(String message, QuickMessage qm) {
+    private void sendQuickMessage(String message, QuickMessage qm, int subId) {
         if (message != null && qm != null) {
             Intent sendIntent = new Intent(this, NoConfirmationSmsSendService.class);
             sendIntent.setAction(TelephonyManager.ACTION_RESPOND_VIA_MESSAGE);
+            sendIntent.putExtra(NoConfirmationSmsSendService.EXTRA_SUBSCRIPTION, subId);
             sendIntent.putExtra(Intent.EXTRA_TEXT, stripUnicodeIfRequested(message));
             sendIntent.setData(qm.getRecipientsUri());
             startService(sendIntent);
@@ -359,6 +369,39 @@ public class QuickMessagePopup extends Activity {
 
         if (DEBUG)
             Log.d(LOG_TAG, "clearNotification(): Message list cleared. Size = " + mMessageList.size());
+    }
+
+    /**
+     * display the sim select dialog for multi sim phones
+     */
+    private void showSimSelector(Activity activity,
+            final ComposeMessageView.OnSimSelectedCallback cb) {
+        final TelecomManager telecomMgr =
+                (TelecomManager) activity.getSystemService(Context.TELECOM_SERVICE);
+        final List<PhoneAccountHandle> handles = telecomMgr.getCallCapablePhoneAccounts();
+
+        final SelectPhoneAccountDialogFragment.SelectPhoneAccountListener listener =
+                new SelectPhoneAccountDialogFragment.SelectPhoneAccountListener() {
+                    @Override
+                    public void onPhoneAccountSelected(PhoneAccountHandle selectedAccountHandle,
+                            boolean setDefault) {
+                        cb.onSimSelected(Integer.valueOf(selectedAccountHandle.getId()));
+                    }
+                    @Override
+                    public void onDialogDismissed() {
+                    }
+                };
+
+        DialogFragment dialogFragment = SelectPhoneAccountDialogFragment.newInstance(
+                R.string.select_phone_account_title,
+                false /* canSetDefault */,
+                handles, listener);
+        dialogFragment.show(activity.getFragmentManager(), "SELECT_PHONE_ACCOUNT_DIALOG_FRAGMENT");
+    }
+
+    private boolean isSMSPromptEnabled() {
+        return PhoneUtils.getDefault().getActiveSubscriptionCount() > 1 &&
+                !PhoneUtils.getDefault().getHasPreferredSmsSim();
     }
 
     /**
@@ -419,17 +462,28 @@ public class QuickMessagePopup extends Activity {
 
         @Override
         public void onClick(View v) {
-            QuickMessage qm = mMessageList.get(mCurrentPage);
+            final QuickMessage qm = mMessageList.get(mCurrentPage);
             if (qm != null) {
-                EditText editView = qm.getEditText();
+                final EditText editView = qm.getEditText();
                 if (editView != null) {
-                    sendMessageAndMoveOn(editView.getText().toString(), qm);
+                    if (isSMSPromptEnabled()) {
+                        showSimSelector(QuickMessagePopup.this,
+                                new ComposeMessageView.OnSimSelectedCallback() {
+                            @Override
+                            public void onSimSelected(int subId) {
+                                sendMessageAndMoveOn(editView.getText().toString(), qm, subId);
+                            }
+                        });
+                    } else {
+                        sendMessageAndMoveOn(editView.getText().toString(), qm,
+                                ParticipantData.DEFAULT_SELF_SUB_ID);
+                    }
                 }
             }
         }
 
         @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        public boolean onEditorAction(final TextView v, int actionId, KeyEvent event) {
             if (event != null) {
                 // event != null means enter key pressed
                 if (!event.isShiftPressed()) {
@@ -446,9 +500,20 @@ public class QuickMessagePopup extends Activity {
             }
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 if (v != null) {
-                    QuickMessage qm = mMessageList.get(mCurrentPage);
+                    final QuickMessage qm = mMessageList.get(mCurrentPage);
                     if (qm != null) {
-                        sendMessageAndMoveOn(v.getText().toString(), qm);
+                        if (isSMSPromptEnabled()) {
+                            showSimSelector(QuickMessagePopup.this,
+                                    new ComposeMessageView.OnSimSelectedCallback() {
+                                        @Override
+                                        public void onSimSelected(int subId) {
+                                            sendMessageAndMoveOn(v.getText().toString(), qm, subId);
+                                        }
+                                    });
+                        } else {
+                            sendMessageAndMoveOn(v.getText().toString(), qm,
+                                    ParticipantData.DEFAULT_SELF_SUB_ID);
+                        }
                     }
                 }
                 return true;
@@ -463,9 +528,10 @@ public class QuickMessagePopup extends Activity {
          *
          * @param message - message to send
          * @param qm - qm we are replying to (for sender details)
+         * @param subId - the subscription to use
          */
-        private void sendMessageAndMoveOn(String message, QuickMessage qm) {
-            sendQuickMessage(message, qm);
+        private void sendMessageAndMoveOn(String message, QuickMessage qm, int subId) {
+            sendQuickMessage(message, qm, subId);
             // Close the current QM and move on
             int numMessages = mMessageList.size();
             if (numMessages == 1) {
