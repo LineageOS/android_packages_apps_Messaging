@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.RemoteInput;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
@@ -32,6 +33,7 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.conversationlist.ConversationListActivity;
 import com.android.messaging.util.LogUtil;
+import com.android.messaging.util.PhoneUtils;
 
 /**
  * Respond to a special intent and send an SMS message without the user's intervention, unless
@@ -93,6 +95,11 @@ public class NoConfirmationSmsSendService extends IntentService {
             return;
         }
 
+        if (PhoneUtils.getDefault().getDefaultSmsSubscriptionId()
+                == SubscriptionManager.INVALID_SUBSCRIPTION_ID) {
+            // always ask is set, quick message doesn't know how to handle this
+            extras.putBoolean("showUI", true);
+        }
         if (extras.getBoolean("showUI", false)) {
             startActivity(new Intent(this, ConversationListActivity.class));
         } else {
