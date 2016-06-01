@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5faad753_c95e5175",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-06-01T19:04:22Z",
+      "side": 1,
+      "message": "should a \"_cm\" suffix be attached to the audioListChooserDescription as well? And a corresponding change in the AudioListChooser.java?",
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_290045ab",
         "filename": "res/values/cm_strings.xml",
         "patchSetId": 4
