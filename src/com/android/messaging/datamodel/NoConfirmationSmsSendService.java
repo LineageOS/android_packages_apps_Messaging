@@ -40,7 +40,7 @@ import com.android.messaging.util.LogUtil;
 public class NoConfirmationSmsSendService extends IntentService {
     private static final String TAG = LogUtil.BUGLE_TAG;
 
-    private static final String EXTRA_SUBSCRIPTION = "subscription";
+    public static final String EXTRA_SUBSCRIPTION = "subscription";
     public static final String EXTRA_SELF_ID = "self_id";
 
     public NoConfirmationSmsSendService() {
