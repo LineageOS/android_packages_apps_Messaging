@@ -56,6 +56,24 @@
       "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_8920594a",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2016-06-01T18:38:16Z",
+      "side": 1,
+      "message": "Same issue in selected_count above, maybe this change should be done in a separate commit?",
+      "parentUuid": "5faad753_a925155e",
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
