@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Zahtevaj potrdilo o branju za vsako poslano sporočilo</string>
   <string name="delivery_reports_mms_pref_title">Potrdila o dostavi</string>
   <string name="read_reports_mms_pref_title">Potrdila o branju</string>
+  <string name="status_label">Stanje:\u0020</string>
+  <string name="status_read">Prebrano</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Prednost pošiljanja</string>
   <string name="priority_low">Nizka</string>

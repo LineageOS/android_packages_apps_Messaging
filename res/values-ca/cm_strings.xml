@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Demana un informe de lectura en cada missatge que enviïs</string>
   <string name="delivery_reports_mms_pref_title">Informes de lliurament</string>
   <string name="read_reports_mms_pref_title">Informes de lectura</string>
+  <string name="status_label">Estat:\u0020</string>
+  <string name="status_read">Llegit</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Prioritat d\'enviament</string>
   <string name="priority_low">Baixa</string>

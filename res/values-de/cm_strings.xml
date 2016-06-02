@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Eine Lesebestätigung für jede von Ihnen gesendete Nachricht anfordern</string>
   <string name="delivery_reports_mms_pref_title">Zustellbestätigungen</string>
   <string name="read_reports_mms_pref_title">Bestätigungen lesen</string>
+  <string name="status_label">Status:\u0020</string>
+  <string name="status_read">Gelesen</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Sendepriorität</string>
   <string name="priority_low">Niedrig</string>

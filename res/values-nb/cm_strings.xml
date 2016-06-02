@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Spør om en lesingsrapport for hver melding du sender</string>
   <string name="delivery_reports_mms_pref_title">Leveranse rapporter</string>
   <string name="read_reports_mms_pref_title">Les rapporter</string>
+  <string name="status_label">Status:\u0020</string>
+  <string name="status_read">Lese</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Sende prioritet</string>
   <string name="priority_low">Lav</string>

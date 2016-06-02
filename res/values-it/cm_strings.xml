@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Richiedi un rapporto di lettura per ogni messaggio inviato</string>
   <string name="delivery_reports_mms_pref_title">Rapporti di consegna</string>
   <string name="read_reports_mms_pref_title">Rapporti lettura</string>
+  <string name="status_label">Stato:\u0020</string>
+  <string name="status_read">Letto</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Priorità invio</string>
   <string name="priority_low">Bassa</string>
