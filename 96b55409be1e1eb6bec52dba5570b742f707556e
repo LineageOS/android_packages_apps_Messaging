@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5faad753_4f4a61ac",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2016-06-02T10:14:15Z",
+      "side": 1,
+      "message": "not necessary, it\u0027s already in cm_strings and without any duplicate in strings.xml",
+      "parentUuid": "5faad753_c95e5175",
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_290045ab",
         "filename": "res/values/cm_strings.xml",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "5faad753_efc8ed22",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2016-06-02T10:14:15Z",
+      "side": 1,
+      "message": "It follows the same pattern as in strings.xml, I would just leave it like this",
+      "parentUuid": "5faad753_290045ab",
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_e92f8d3c",
         "filename": "res/values/cm_strings.xml",
         "patchSetId": 4
@@ -47,6 +83,30 @@
       "writtenOn": "2016-06-01T18:36:20Z",
       "side": 1,
       "message": "Doesn\u0027t sound very nice",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 154,
+        "endChar": 111
+      },
+      "revId": "96b55409be1e1eb6bec52dba5570b742f707556e",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_2f4da5c3",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2016-06-02T10:14:15Z",
+      "side": 1,
+      "message": "It follows the same pattern as in strings.xml",
+      "parentUuid": "5faad753_e92f8d3c",
       "range": {
         "startLine": 153,
         "startChar": 0,
