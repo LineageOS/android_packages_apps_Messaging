@@ -1780,6 +1780,16 @@ public class BugleDatabaseOperations {
     }
 
     @DoesNotRunOnMainThread
+    public static void resetBlockedParticpants(DatabaseWrapper dbWrapper) {
+        Assert.isNotMainThread();
+        final ContentValues values = new ContentValues();
+        values.put(ParticipantColumns.BLOCKED, false);
+        dbWrapper.update(DatabaseHelper.PARTICIPANTS_TABLE, values,
+                ParticipantColumns.BLOCKED + "=?",
+                new String[] {"1"});
+    }
+
+    @DoesNotRunOnMainThread
     public static int updateDestination(final DatabaseWrapper dbWrapper,
             final String destination, final boolean blocked, final boolean frameworkDb) {
         Assert.isNotMainThread();
