@@ -79,7 +79,7 @@ public class MessagingContentProvider extends ContentProvider {
         static final String CONVERSATION_ID = ConversationParticipantsColumns.CONVERSATION_ID;
     }
 
-    static final Uri CONVERSATION_PARTICIPANTS_URI = Uri.parse(CONTENT_AUTHORITY +
+    public static final Uri CONVERSATION_PARTICIPANTS_URI = Uri.parse(CONTENT_AUTHORITY +
             PARTICIPANTS_QUERY + "/conversation");
 
     public static final Uri PARTICIPANTS_URI = Uri.parse(CONTENT_AUTHORITY + PARTICIPANTS_QUERY);

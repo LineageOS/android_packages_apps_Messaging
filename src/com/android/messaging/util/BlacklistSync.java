@@ -28,6 +28,7 @@ import android.util.Log;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
+import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.util.LogUtil;
 
@@ -47,6 +48,9 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
         Uri CONTENT_URI = Uri.parse("content://blacklist");
         Cursor cursor;
 
+        DatabaseWrapper db = DataModel.get().getDatabase();
+        BugleDatabaseOperations.resetBlockedParticpants(db);
+
         // need to update local blacklist database - we are simply overwriting the
         // local database with the framework database - the local database is used
         // as a WriteThrough Cache of the Framework Database
@@ -61,8 +65,6 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
                 cursor.close();
                 return null;
             }
-
-            DatabaseWrapper db = DataModel.get().getDatabase();
 
             while(cursor.moveToNext()) {
                 String number = cursor.getString(normalizedNumberIndex);
@@ -95,6 +97,7 @@ public class BlacklistSync extends AsyncTask<Void, Void, Void> {
             cursor.close();
         }
 
+        MessagingContentProvider.notifyAllParticipantsChanged();
         return null;
     }
 }
