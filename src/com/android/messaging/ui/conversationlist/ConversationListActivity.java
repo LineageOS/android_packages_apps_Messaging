@@ -16,18 +16,30 @@
 
 package com.android.messaging.ui.conversationlist;
 
+import android.database.ContentObserver;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.messaging.R;
+import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.Trace;
 
 public class ConversationListActivity extends AbstractConversationListActivity {
+
+    private ContentObserver mBlacklistObserver = new ContentObserver(null) {
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            invalidateOptionsMenu();
+        }
+    };
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Trace.beginSection("ConversationListActivity.onCreate");
@@ -35,6 +47,10 @@ public class ConversationListActivity extends AbstractConversationListActivity {
         setContentView(R.layout.conversation_list_activity);
         Trace.endSection();
         invalidateActionBar();
+
+        getContentResolver().registerContentObserver(
+                MessagingContentProvider.CONVERSATION_PARTICIPANTS_URI,
+                true, mBlacklistObserver);
     }
 
     @Override
