@@ -18,28 +18,29 @@ package com.android.messaging.util;
 
 import android.content.ContentResolver;
 import android.database.ContentObserver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
-import com.android.messaging.BugleApplication;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.LogUtil;
 
 // ContentObserver class to monitor changes to the Framework Blacklist DB
 public class BlacklistObserver extends ContentObserver {
 
     private static final String TAG = BlacklistObserver.class.getSimpleName();
+    private final Context mContext;
     private ContentResolver mResolver;
 
-    public BlacklistObserver(Handler handler, ContentResolver resolver) {
+    public BlacklistObserver(Handler handler, Context context) {
         super(handler);
-        mResolver = resolver;
+        mResolver = context.getContentResolver();
+        mContext = context;
     }
 
     @Override
@@ -47,32 +48,52 @@ public class BlacklistObserver extends ContentObserver {
         // depending on the Thread in which the handler was created, this function
         // may or may not run on the UI thread, to be sure that it doesn't, launch
         // it via AsyncTask
-        new SafeAsyncTask<Void, Void, Void>() {
-
+        SafeAsyncTask.executeOnThreadPool(new Runnable() {
             @Override
-            protected Void doInBackgroundTimed(Void... params) {
+            public void run() {
                 if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
                     Log.i(TAG, "BlacklistObserver: onChange: Uri:" + uri.toString());
                 }
+
+                boolean requiresNotifyAllParticipants = false;
 
                 // we need to find the phone number being blacklisted and add/update it
                 // in the bugle database
                 Cursor cursor = null;
                 try {
                     cursor = mResolver.query(uri, null, null, null, null);
+
+                    DatabaseWrapper db = DataModel.get().getDatabase();
+
+                    // Row was deleted
+                    if (cursor.getCount() == 0) {
+                        if (!uri.getPath().contains("bynumber")) {
+                            // We don't have enough information, lets run a full sync
+                            BlacklistSync blacklistSync = new BlacklistSync(mContext);
+                            blacklistSync.execute();
+                        } else {
+                            // We have the number that was deleted, lets update it locally
+                            String number = uri.getLastPathSegment();
+                            BugleDatabaseOperations.updateDestination(db, number,
+                                    false, false);
+                            String conversationId = updateArchiveStatusForConversation(false, number, db);
+                            if (conversationId == null) {
+                                requiresNotifyAllParticipants = true;
+                            } else {
+                                MessagingContentProvider.notifyParticipantsChanged(conversationId);
+                            }
+                        }
+                        return;
+                    }
+
                     int normalizedNumberIndex = cursor.getColumnIndex("normalized_number");
                     int blockedIndex = cursor.getColumnIndex("message");
                     int nonNormalizedNumberIndex = cursor.getColumnIndex("number");
                     int regexIndex = cursor.getColumnIndex("is_regex");
                     // if the column indices are not valid, don't perform the queries
                     if (normalizedNumberIndex < 0 || blockedIndex < 0) {
-                        if (cursor != null) {
-                            cursor.close();
-                        }
-                        return null;
+                        return;
                     }
-
-                    DatabaseWrapper db = DataModel.get().getDatabase();
 
                     while(cursor.moveToNext()) {
                         String number = cursor.getString(normalizedNumberIndex);
@@ -95,17 +116,11 @@ public class BlacklistObserver extends ContentObserver {
                             BugleDatabaseOperations.updateDestination(db, number,
                                     isBlocked, false);
                         }
-                        String conversationId = BugleDatabaseOperations
-                                .getConversationFromOtherParticipantDestination(db, number);
-                        if (conversationId != null) {
-                            if (isBlocked) {
-                                UpdateConversationArchiveStatusAction
-                                        .archiveConversation(conversationId);
-                            } else {
-                                UpdateConversationArchiveStatusAction
-                                        .unarchiveConversation(conversationId);
-                            }
+                        String conversationId = updateArchiveStatusForConversation(isBlocked, number, db);
+                        if (!requiresNotifyAllParticipants && conversationId != null) {
                             MessagingContentProvider.notifyParticipantsChanged(conversationId);
+                        } else {
+                            requiresNotifyAllParticipants = true;
                         }
                     }
                 } catch (Exception e) {
@@ -114,10 +129,27 @@ public class BlacklistObserver extends ContentObserver {
                     if (cursor != null) {
                         cursor.close();
                     }
+                    if (requiresNotifyAllParticipants) {
+                        MessagingContentProvider.notifyAllParticipantsChanged();
+                    }
                 }
-                return null;
             }
-        }.executeOnThreadPool();
+        });
 
+    }
+
+    private String updateArchiveStatusForConversation(boolean isBlocked, String number, DatabaseWrapper db) {
+        String conversationId = BugleDatabaseOperations
+                .getConversationFromOtherParticipantDestination(db, number);
+        if (conversationId != null) {
+            if (isBlocked) {
+                UpdateConversationArchiveStatusAction
+                        .archiveConversation(conversationId);
+            } else {
+                UpdateConversationArchiveStatusAction
+                        .unarchiveConversation(conversationId);
+            }
+        }
+        return conversationId;
     }
 }
