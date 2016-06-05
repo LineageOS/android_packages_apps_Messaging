@@ -91,7 +91,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             LogUtil.e(TAG, "BugleApplication.onCreate: FactoryImpl.register skipped for test run");
         }
 
-        BlacklistObserver observer = new BlacklistObserver(new Handler(), getContentResolver());
+        BlacklistObserver observer = new BlacklistObserver(new Handler(), this);
         // TODO - need to extract URI from TelephonyProvider
         Uri CONTENT_URI = Uri.parse("content://blacklist");
         getContentResolver().registerContentObserver(CONTENT_URI, true, observer);
