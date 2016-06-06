@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_438f9574",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 14113
+      },
+      "writtenOn": "2016-06-06T15:55:06Z",
+      "side": 1,
+      "message": "the rest of the code needs to be skipped if this condition occurs and the cursor is closed, since you  are accessing the cursor without any further cursor validity checks",
+      "revId": "d899283b4334c7b8bfc224ad8d5381529c69af12",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
