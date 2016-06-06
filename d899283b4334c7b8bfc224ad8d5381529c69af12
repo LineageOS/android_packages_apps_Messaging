@@ -16,6 +16,24 @@
       "revId": "d899283b4334c7b8bfc224ad8d5381529c69af12",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c33e258a",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 940
+      },
+      "writtenOn": "2016-06-06T16:23:32Z",
+      "side": 1,
+      "message": "Since the finally block already closes it, i\u0027ll just remove this.\n\nEven if the indexes return zero, i still need to bottom logic to occur.\nI\u0027ll upload a patchset.",
+      "parentUuid": "5faad753_438f9574",
+      "revId": "d899283b4334c7b8bfc224ad8d5381529c69af12",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
