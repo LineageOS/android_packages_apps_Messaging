@@ -75,7 +75,7 @@ public abstract class PhoneUtils {
     private static final ArrayMap<String, ArrayMap<String, String>> sCanonicalPhoneNumberCache =
             new ArrayMap<>();
 
-    public static int sOverrideSendingSubId = -1;
+    public static int sOverrideSendingSubId = ParticipantData.DEFAULT_SELF_SUB_ID;
 
     public static int getOverrideSendingSubId() {
         return sOverrideSendingSubId;
