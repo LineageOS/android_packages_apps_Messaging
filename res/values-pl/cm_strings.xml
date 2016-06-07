@@ -46,6 +46,7 @@
   <!-- Storage specific Settings -->
   <string name="pref_summary_auto_delete">Jeśli limit zostanie osiągnięty, usuń stare wiadomości</string>
   <string name="auto_delete_pref_title">Usuń stare wiadomości</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> wiadomości na konwersację</string>
   <string name="sms_delete_pref_title">Limit wiadomości tekstowych</string>
   <string name="mms_delete_pref_title">Limit wiadomości multimedialnych</string>
   <string name="set">Ustaw</string>
