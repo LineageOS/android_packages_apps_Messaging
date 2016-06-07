@@ -95,4 +95,16 @@
     <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
 
     <string name="select_phone_account_title">Send with</string>
+
+    <!-- Audio Library Tab for MMS attachments -->
+    <string name="mediapicker_audioListChooserDescription">Choose audios from this device</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Can\'t attach video.
+        Max message size exceeded.</string>
+    <string name="mediapicker_audio_list_title">Choose audio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">The audio is selected
+        .</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">The audio is
+        unselected.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selected
+    </string>
 </resources>
