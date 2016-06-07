@@ -32,6 +32,7 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.conversationlist.ConversationListActivity;
 import com.android.messaging.util.LogUtil;
+import com.android.messaging.util.PhoneUtils;
 
 /**
  * Respond to a special intent and send an SMS message without the user's intervention, unless
@@ -82,6 +83,7 @@ public class NoConfirmationSmsSendService extends IntentService {
         final String message = getText(intent, Intent.EXTRA_TEXT);
         final String subject = getText(intent, Intent.EXTRA_SUBJECT);
         final int subId = extras.getInt(EXTRA_SUBSCRIPTION, ParticipantData.DEFAULT_SELF_SUB_ID);
+        PhoneUtils.setOverrideSendingSubId(subId);
 
         final Uri intentUri = intent.getData();
         final String recipients = intentUri != null ? MmsUtils.getSmsRecipients(intentUri) : null;
