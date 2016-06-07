@@ -174,6 +174,9 @@ class AudioListChooser extends MediaChooser implements
             // Work around a bug in MediaStore where cursors querying the Files provider don't get
             // updated for changes to Images.Media or Video.Media.
             startMediaPickerDataLoader();
+            updateForPermissionState(true);
+        } else {
+            updateForPermissionState(false);
         }
     }
 
@@ -183,7 +186,7 @@ class AudioListChooser extends MediaChooser implements
         if (selected && !OsUtil.hasStoragePermission()) {
             mMediaPicker.requestPermissions(
                     new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
-                    MediaPicker.GALLERY_PERMISSION_REQUEST_CODE);
+                    MediaPicker.AUDIO_LIBRARY_PERMISSION_REQUEST_CODE);
         }
     }
 
@@ -195,7 +198,7 @@ class AudioListChooser extends MediaChooser implements
     @Override
     protected void onRequestPermissionsResult(
             final int requestCode, final String permissions[], final int[] grantResults) {
-        if (requestCode == MediaPicker.GALLERY_PERMISSION_REQUEST_CODE) {
+        if (requestCode == MediaPicker.AUDIO_LIBRARY_PERMISSION_REQUEST_CODE) {
             final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             if (permissionGranted) {
                 startMediaPickerDataLoader();
