@@ -726,6 +726,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     protected static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
     protected static final int RECORD_AUDIO_PERMISSION_REQUEST_CODE = 3;
     protected static final int GALLERY_PERMISSION_REQUEST_CODE = 4;
+    protected static final int AUDIO_LIBRARY_PERMISSION_REQUEST_CODE = 5;
 
     @Override
     public void onRequestPermissionsResult(
