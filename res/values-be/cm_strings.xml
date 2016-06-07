@@ -29,9 +29,17 @@
   <string name="sms_validity_period_six_hours">6 гадзін</string>
   <string name="sms_validity_period_twelve_hours">12 гадзін</string>
   <string name="sms_validity_period_one_day">1 дзень</string>
+  <string name="mms_validity_period_two_days">2 дні</string>
+  <string name="mms_validity_period_one_week">1 тыдзень</string>
   <string name="validity_period_maximum">Колькі можна</string>
+  <string name="status_label">Статус:\u0020</string>
+  <string name="status_read">Прачытана</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_low">Нізкі</string>
+  <string name="priority_normal">Звычайны</string>
+  <string name="priority_high">Высокі</string>
   <!-- Storage specific Settings -->
+  <string name="no">Скасаваць</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Прагарнi, каб выдалiць</string>
   <string name="swipe_to_delete_conversation_pref_summary">Прагарнi направа, каб выдалiць размову</string>
@@ -62,7 +70,13 @@
   <string name="select_phone_account_title">Даслаць з дапамогай</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Кіраванне паведамленнямі SIM-карткі</string>
+  <string name="pref_title_manage_sim_messages_slot1">Кіраванне паведамленнямі SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Кіраванне паведамленнямі SIM 2</string>
+  <string name="copy_to_sim">Капіяваць паведамленне на SIM карту</string>
+  <string name="copy_to_phone_success">Паведамленне захавана</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Адсутнічаюць паведамленні на SIM-картцы.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
@@ -70,12 +84,20 @@
          contacts. [CHAR LIMIT=50] -->
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Выдаліць?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <!-- Delete button title -->
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Капіяваць ў памяць планшэту</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Капіяваць ў памяць тэлефону</string>
+  <string name="selected_all">Вылучыць усё</string>
+  <string name="deselected_all">Скасаваць усё</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">Добра</string>
   <!-- Copy message to sim -->
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
