@@ -32,6 +32,7 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.conversationlist.ConversationListActivity;
 import com.android.messaging.util.LogUtil;
+import com.android.messaging.util.PhoneUtils;
 
 /**
  * Respond to a special intent and send an SMS message without the user's intervention, unless
