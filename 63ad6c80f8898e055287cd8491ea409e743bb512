@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_4cc581f0",
+        "filename": "src/com/android/messaging/datamodel/NoConfirmationSmsSendService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-06-07T19:45:40Z",
+      "side": 1,
+      "message": "unused import",
+      "revId": "63ad6c80f8898e055287cd8491ea409e743bb512",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_0cbb0972",
+        "filename": "src/com/android/messaging/ui/conversation/ComposeMessageView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-06-07T19:45:40Z",
+      "side": 1,
+      "message": "add /* checkMessageSize */ for consistency with your other calls",
+      "range": {
+        "startLine": 342,
+        "startChar": 38,
+        "endLine": 342,
+        "endChar": 42
+      },
+      "revId": "63ad6c80f8898e055287cd8491ea409e743bb512",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_ecb54d7f",
+        "filename": "src/com/android/messaging/ui/conversation/ComposeMessageView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 715,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-06-07T19:45:40Z",
+      "side": 1,
+      "message": "variable being passed in is self explanatory so no need for the comment ;)",
+      "range": {
+        "startLine": 715,
+        "startChar": 49,
+        "endLine": 715,
+        "endChar": 71
+      },
+      "revId": "63ad6c80f8898e055287cd8491ea409e743bb512",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
