@@ -1504,6 +1504,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     @Override
     public int getConversationSelfSubId() {
+        if (PhoneUtils.getOverrideSendingSubId() != ParticipantData.DEFAULT_SELF_SUB_ID) {
+            return PhoneUtils.getOverrideSendingSubId();
+        }
         final String selfParticipantId = mComposeMessageView.getConversationSelfId();
         final ParticipantData self = mBinding.getData().getSelfParticipantById(selfParticipantId);
         // If the self id or the self participant data hasn't been loaded yet, fallback to
