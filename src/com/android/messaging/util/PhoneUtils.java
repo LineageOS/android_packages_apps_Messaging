@@ -565,6 +565,9 @@ public abstract class PhoneUtils {
             if (systemDefaultSubId < 0) {
                 // Always use -1 for any negative subId from system
                 return ParticipantData.DEFAULT_SELF_SUB_ID;
+            } else if (mSubscriptionManager.getSlotId(systemDefaultSubId) < 0) {
+                // Our default isn't inserted. Use the "select one" internal default.
+                return ParticipantData.DEFAULT_SELF_SUB_ID;
             }
             return systemDefaultSubId;
         }
