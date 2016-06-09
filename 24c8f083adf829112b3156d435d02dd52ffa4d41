@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_e268f1b9",
+        "filename": "res/values/cm_strings.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2016-06-09T18:40:50Z",
+      "side": 1,
+      "message": "audios -\u003e \u0027audio files\u0027 or just \u0027audio\u0027",
+      "range": {
+        "startLine": 151,
+        "startChar": 66,
+        "endLine": 151,
+        "endChar": 72
+      },
+      "revId": "24c8f083adf829112b3156d435d02dd52ffa4d41",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5faad753_c26b75b4",
+        "filename": "res/values/strings.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2881
+      },
+      "writtenOn": "2016-06-09T18:40:50Z",
+      "side": 1,
+      "message": "This string needs to be reverted to AOSP too and then make a _cm version for it in cm_strings.\n\nSame as in this patch http://review.cyanogenmod.org/#/c/147290/4/res/values/strings.xml",
+      "range": {
+        "startLine": 54,
+        "startChar": 71,
+        "endLine": 54,
+        "endChar": 73
+      },
+      "revId": "24c8f083adf829112b3156d435d02dd52ffa4d41",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
