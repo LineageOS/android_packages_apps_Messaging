@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5faad753_ad53c116",
+        "filename": "src/com/cyanogenmod/messaging/quickmessage/QuickMessagePopup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-06-13T22:47:42Z",
+      "side": 1,
+      "message": "easier to do than create an internal api that gets all SMS capable phone accounts in telecom manager (which would be the clean way)\n\n\nbut less hidden api\u0027s this way, less maintenance",
+      "range": {
+        "startLine": 385,
+        "startChar": 0,
+        "endLine": 394,
+        "endChar": 9
+      },
+      "revId": "358c6adb6d6314d45aa8b7a955cd4246a6db8d21",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
