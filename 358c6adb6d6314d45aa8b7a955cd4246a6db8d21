@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5faad753_08e8c3df",
+        "filename": "src/com/android/messaging/util/PhoneUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1058,
+      "author": {
+        "id": 9813
+      },
+      "writtenOn": "2016-06-14T15:36:30Z",
+      "side": 1,
+      "message": "its copied from https://github.com/CyanogenMod/android_packages_apps_Dialer/blob/cm-13.0/src/com/android/dialer/calllog/PhoneAccountUtils.java#L105",
+      "parentUuid": "5faad753_88d4b321",
+      "range": {
+        "startLine": 1058,
+        "startChar": 45,
+        "endLine": 1058,
+        "endChar": 46
+      },
+      "revId": "358c6adb6d6314d45aa8b7a955cd4246a6db8d21",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5faad753_ad53c116",
         "filename": "src/com/cyanogenmod/messaging/quickmessage/QuickMessagePopup.java",
         "patchSetId": 1
