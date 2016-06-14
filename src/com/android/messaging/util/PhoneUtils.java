@@ -29,6 +29,9 @@ import android.provider.Telephony;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.text.BidiFormatter;
 import android.support.v4.text.TextDirectionHeuristicsCompat;
+import android.telecom.TelecomManager;
+import android.telecom.PhoneAccount;
+import android.telecom.PhoneAccountHandle;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.telephony.SubscriptionInfo;
@@ -1050,4 +1053,18 @@ public abstract class PhoneUtils {
         return isCDMAPhone(subscription) && isNetworkRoaming(subscription);
     }
 
+    /**
+     * Retrieve the account metadata, but if the account does not exist or the device has only a
+     * single registered and enabled account, return null.
+     */
+    public static PhoneAccount getAccountOrNull(Context context,
+            PhoneAccountHandle accountHandle) {
+        TelecomManager telecomManager =
+                (TelecomManager) context.getSystemService(Context.TELECOM_SERVICE);
+        final PhoneAccount account = telecomManager.getPhoneAccount(accountHandle);
+        if (telecomManager.getCallCapablePhoneAccounts().size() <= 1) {
+            return null;
+        }
+        return account;
+    }
 }

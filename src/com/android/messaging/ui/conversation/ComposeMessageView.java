@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.telecom.TelecomManager;
+import android.telecom.PhoneAccount;
 import android.telecom.PhoneAccountHandle;
 import android.telephony.TelephonyManager;
 import android.telephony.SmsManager;
@@ -223,6 +224,17 @@ public class ComposeMessageView extends LinearLayout
         final TelecomManager telecomMgr =
                 (TelecomManager) activity.getSystemService(Context.TELECOM_SERVICE);
         final List<PhoneAccountHandle> handles = telecomMgr.getCallCapablePhoneAccounts();
+
+        //trim out SIP accounts
+        for (PhoneAccountHandle handle : handles) {
+            PhoneAccount phoneAccount = PhoneUtils.getAccountOrNull(activity, handle);
+            if (phoneAccount != null) {
+                Uri address = phoneAccount.getAddress();
+                if (address != null && address.getScheme() == PhoneAccount.SCHEME_SIP) {
+                    handles.remove(handle);
+                }
+            }
+        }
 
         final SelectPhoneAccountDialogFragment.SelectPhoneAccountListener listener =
                 new SelectPhoneAccountDialogFragment.SelectPhoneAccountListener() {
