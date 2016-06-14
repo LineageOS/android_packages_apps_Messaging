@@ -21,10 +21,12 @@ import android.app.DialogFragment;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.telecom.PhoneAccount;
 import android.telecom.PhoneAccountHandle;
 import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
@@ -379,6 +381,17 @@ public class QuickMessagePopup extends Activity {
         final TelecomManager telecomMgr =
                 (TelecomManager) activity.getSystemService(Context.TELECOM_SERVICE);
         final List<PhoneAccountHandle> handles = telecomMgr.getCallCapablePhoneAccounts();
+
+        //trim out SIP accounts
+        for (PhoneAccountHandle handle : handles) {
+            PhoneAccount phoneAccount = PhoneUtils.getAccountOrNull(activity, handle);
+            if (phoneAccount != null) {
+                Uri address = phoneAccount.getAddress();
+                if (address != null && address.getScheme() == PhoneAccount.SCHEME_SIP) {
+                    handles.remove(handle);
+                }
+            }
+        }
 
         final SelectPhoneAccountDialogFragment.SelectPhoneAccountListener listener =
                 new SelectPhoneAccountDialogFragment.SelectPhoneAccountListener() {
