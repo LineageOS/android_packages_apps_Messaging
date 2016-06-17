@@ -106,4 +106,5 @@
   <!-- Copy message to sim -->
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
+  <!-- Audio Library Tab for MMS attachments -->
 </resources>

@@ -131,4 +131,5 @@
   <string name="operation_to_card_memory">Copiar a mensagem para o cartão SIM</string>
   <string name="slot1">Cartão SIM 1</string>
   <string name="slot2">Cartão SIM 2</string>
+  <!-- Audio Library Tab for MMS attachments -->
 </resources>
