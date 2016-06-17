@@ -51,8 +51,8 @@ public class RidesharingUtil {
                         pendingInfoResult.setResultCallback(new ResultCallback<ProviderInfoResult>() {
                             @Override
                             public void onResult(ProviderInfoResult infoResult) {
-                                if (infoResult != null && infoResult.providerInfo != null) {
-                                    mBrandBitmap = infoResult.providerInfo.getBrandIcon();
+                                if (infoResult != null && infoResult.getProviderInfo() != null) {
+                                    mBrandBitmap = infoResult.getProviderInfo().getBrandIcon();
                                     imageView.setImageBitmap(mBrandBitmap);
                                 } else {
                                     Log.e(TAG, "Unable to get provider info for active plugin: "
