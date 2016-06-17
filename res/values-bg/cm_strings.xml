@@ -131,4 +131,5 @@
   <string name="operation_to_card_memory">Копирай съобщението в SIM картата</string>
   <string name="slot1">СИМ карта 1</string>
   <string name="slot2">СИМ карта 2</string>
+  <!-- Audio Library Tab for MMS attachments -->
 </resources>
