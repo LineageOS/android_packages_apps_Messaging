@@ -131,4 +131,5 @@
   <string name="operation_to_card_memory">Kopiatu mezua SIM txartelera</string>
   <string name="slot1">1. SIMa</string>
   <string name="slot2">2. SIMa</string>
+  <!-- Audio Library Tab for MMS attachments -->
 </resources>

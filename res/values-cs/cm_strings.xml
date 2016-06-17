@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Pro každou zprávu vyžádat potvrzení o přečtení</string>
   <string name="delivery_reports_mms_pref_title">Doručenky</string>
   <string name="read_reports_mms_pref_title">Potvrzení o přečtení</string>
+  <string name="status_label">Stav:\u0020</string>
+  <string name="status_read">Přečteno</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Priorita odeslání</string>
   <string name="priority_low">Nízká</string>
@@ -129,4 +131,5 @@
   <string name="operation_to_card_memory">Kopírovat zprávu na SIM kartu</string>
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
+  <!-- Audio Library Tab for MMS attachments -->
 </resources>
