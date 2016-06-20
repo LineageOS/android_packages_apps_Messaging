@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Захтевај извештај о читању за сваку поруку коју пошаљеш</string>
   <string name="delivery_reports_mms_pref_title">Извештај доставе</string>
   <string name="read_reports_mms_pref_title">Читај извештаје</string>
+  <string name="status_label">Стање:\u0020</string>
+  <string name="status_read">Прочитано</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Приоритет слања</string>
   <string name="priority_low">Низак</string>
@@ -83,20 +85,50 @@
   <string name="select_phone_account_title">Пошаљи са</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Управљај порукама са SIM картице</string>
+  <string name="pref_title_manage_sim_messages_slot1">Управљај SIM 1 порукама</string>
+  <string name="pref_title_manage_sim_messages_slot2">Управљај SIM 2 порукама</string>
+  <string name="copy_to_sim">Копирај поруку на SIM картицу</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> од <xliff:g id="total">%2$d</xliff:g> порука сачувано на SIM картицу.</string>
+  <string name="copy_to_sim_fail">Не могу да сачувам поруку</string>
+  <string name="copy_to_phone_success">Порука сачувана</string>
+  <string name="copy_to_phone_fail">Не могу да сачувам поруку</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Нема порука на SIM картици.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Пошаљи е-пошту за <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Позови <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Додај <xliff:g id="contactEmailOrNumber">%s</xliff:g> у Контакте</string>
+  <string name="sim_capacity_title">Капацитет SIM картице</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> од <xliff:g id="total">%2$d</xliff:g> уноса на SIM картици је искоришћено</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Обрисати?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Текстуалне поруке на SIM картици</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Освежавам\u2026</string>
+  <string name="confirm_delete_selected_messages">Изабрана порука ће бити обрисана.</string>
   <!-- Delete button title -->
+  <string name="delete">Обриши</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Проследи</string>
+  <string name="menu_reply">Одговори</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Копирај у меморију таблета</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Копирај у меморију телефона</string>
+  <string name="selected_all">Изабери све</string>
+  <string name="deselected_all">Поништи избор</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> изабрано</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">У реду</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Копирај поруку на SIM картицу</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>

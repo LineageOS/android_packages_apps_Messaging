@@ -18,6 +18,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <string name="report_as_spam_to">Informar como spam a %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Llimpiar unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Nun modificar el mensaxe</string>
   <string name="pref_unicode_stripping_non_encodable">Sustituyir los caráuteres non sofitaos</string>
   <string name="pref_unicode_stripping_all">Sustituyir tolos caráuteres</string>
@@ -25,6 +26,7 @@
   <string name="validity_period_pref_title">Periodu de validez</string>
   <string name="validity_period_slot1_pref_title">Periodu de validez pa SIM 1</string>
   <string name="validity_period_slot2_pref_title">Periodu de validez pa SIM 2</string>
+  <string name="sms_validity_period_not_set">Nun s\'afitó</string>
   <string name="sms_validity_period_one_hour">1 hora</string>
   <string name="sms_validity_period_six_hours">6 hores</string>
   <string name="sms_validity_period_twelve_hours">12 hores</string>
@@ -32,21 +34,30 @@
   <string name="mms_validity_period_two_days">2 díes</string>
   <string name="mms_validity_period_one_week">1 selmana</string>
   <string name="validity_period_maximum">Máximu</string>
+  <string name="pref_summary_mms_delivery_reports">Solicita un informe d\'entrega pa cada mensaxe qu\'unvies</string>
+  <string name="pref_summary_mms_read_reports">Solicita un informe de llectura pa cada mensaxe qu\'unvies</string>
   <string name="delivery_reports_mms_pref_title">Informes d\'entrega</string>
   <string name="read_reports_mms_pref_title">Informes de llectura</string>
+  <string name="status_label">Estáu:\u0020</string>
+  <string name="status_read">Lleíu</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioridá d\'unviu</string>
   <string name="priority_low">Baxa</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Alta</string>
   <!-- Storage specific Settings -->
   <string name="sms_storage_pref_title">Almacenamientu</string>
+  <string name="pref_summary_auto_delete">Desanicie mensaxes vieyos namái s\'algame la llende</string>
+  <string name="auto_delete_pref_title">Desaniciar mensaxes vieyos</string>
   <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensaxes per conversación</string>
   <string name="sms_delete_pref_title">Llende de mensaxes de testu</string>
   <string name="mms_delete_pref_title">Llende de mensaxes multimedia</string>
   <string name="set">Afitar</string>
   <string name="no">Encaboxar</string>
+  <string name="pref_messages_to_save">Afitar númberu de mensaxes pa guardar</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Eslizar pa desaniciar</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Esliza a la drecha pa desaniciar una conversación</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Mensaxe rápidu</string>
@@ -67,26 +78,57 @@
   <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Rempuesta rápida</string>
   <string name="send">Unviar</string>
+  <string name="compose_message_hint_text">Introducir mensaxe</string>
   <!-- Show emoticons -->
   <string name="show_emoticons_pref_title">Accesu a fustaxes</string>
   <string name="show_emoticons_pref_summary">Amuesa la tecla de fustaxes nel tecláu</string>
   <string name="select_phone_account_title">Unviar con</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Xestionar mensaxes de tarxeta SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Xestionar mensaxes de SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Xestionar mensaxes de SIM 2</string>
+  <string name="copy_to_sim">Copiar mensaxes a tarxeta SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g> mensaxe guardaos na tarxeta SIM.</string>
+  <string name="copy_to_sim_fail">Nun pue guardase\'l mensaxe</string>
+  <string name="copy_to_phone_success">Guardóse\'l mensaxe</string>
+  <string name="copy_to_phone_fail">Nun pue guardase\'l mensaxe</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Nun hai mensaxes na tarxeta SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Unviar corréu a <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Llamar a <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Amestar <xliff:g id="CONTACTEMAILORNUMBER">%s</xliff:g> a Xente</string>
+  <string name="sim_capacity_title">Capacidá SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> entraes de la tarxeta SIM n\'usu</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">¿Desaniciar?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Mensaxes de testu na tarxeta SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Refrescando\u2026</string>
+  <string name="confirm_delete_selected_messages">Van desaniciase los mensaxes esbillaos.</string>
   <!-- Delete button title -->
+  <string name="delete">Desaniciar</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Reunviar</string>
+  <string name="menu_reply">Responder</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Copiar a la memoria de la tableta</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Copiar a la memoria\'l teléfonu</string>
+  <string name="selected_all">Esbillar too</string>
+  <string name="deselected_all">Nun esbillar nada</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> esbillaos</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">ACEUTAR</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Copiar mensaxe a tarxeta SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
 </resources>
