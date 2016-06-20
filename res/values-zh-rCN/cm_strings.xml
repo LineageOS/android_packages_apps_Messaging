@@ -132,4 +132,5 @@
   <string name="slot1">SIM 卡 1</string>
   <string name="slot2">SIM 卡 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_audio_list_title">选择音频</string>
 </resources>

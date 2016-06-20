@@ -82,6 +82,9 @@
   <string name="select_phone_account_title">Wyślij z</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="copy_to_sim">Kopiuj wiadomość na kartę SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> z <xliff:g id="total">%2$d</xliff:g> wiadomości zapisano na karcie SIM.</string>
+  <string name="copy_to_sim_fail">Nie można zapisać wiadomości</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
   <!-- Context menu item on an individual message for emailing the sender -->
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
