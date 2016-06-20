@@ -39,6 +39,7 @@
   <string name="delivery_reports_mms_pref_title">Извештај доставе</string>
   <string name="read_reports_mms_pref_title">Читај извештаје</string>
   <string name="status_label">Стање:\u0020</string>
+  <string name="status_read">Прочитано</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Приоритет слања</string>
   <string name="priority_low">Низак</string>
@@ -84,12 +85,16 @@
   <string name="select_phone_account_title">Пошаљи са</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Управљај порукама са SIM картице</string>
+  <string name="pref_title_manage_sim_messages_slot1">Управљај SIM 1 порукама</string>
+  <string name="pref_title_manage_sim_messages_slot2">Управљај SIM 2 порукама</string>
   <string name="copy_to_sim">Копирај поруку на SIM картицу</string>
   <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> од <xliff:g id="total">%2$d</xliff:g> порука сачувано на SIM картицу.</string>
   <string name="copy_to_sim_fail">Не могу да сачувам поруку</string>
   <string name="copy_to_phone_success">Порука сачувана</string>
   <string name="copy_to_phone_fail">Не могу да сачувам поруку</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Нема порука на SIM картици.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
   <string name="menu_send_email">Пошаљи е-пошту за <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
@@ -127,4 +132,5 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_audio_list_title">Изабери звук</string>
 </resources>
