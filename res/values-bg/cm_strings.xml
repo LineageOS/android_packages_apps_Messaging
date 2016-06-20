@@ -132,4 +132,5 @@
   <string name="slot1">СИМ карта 1</string>
   <string name="slot2">СИМ карта 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_audio_list_title">Изберете звук</string>
 </resources>
