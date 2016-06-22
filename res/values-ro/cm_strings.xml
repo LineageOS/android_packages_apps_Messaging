@@ -23,6 +23,12 @@
   <string name="pref_unicode_stripping_non_encodable">Elimină caracterele ne-codificabile</string>
   <string name="pref_unicode_stripping_all">Elimină toate caracterele unicod</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="sms_validity_period_one_hour">1 oră</string>
+  <string name="sms_validity_period_six_hours">6 ore</string>
+  <string name="sms_validity_period_twelve_hours">12 ore</string>
+  <string name="sms_validity_period_one_day">1 zi</string>
+  <string name="mms_validity_period_two_days">2 zile</string>
+  <string name="mms_validity_period_one_week">1 săptămână</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <!-- Storage specific Settings -->
   <!-- Swipe to delete conversation -->
