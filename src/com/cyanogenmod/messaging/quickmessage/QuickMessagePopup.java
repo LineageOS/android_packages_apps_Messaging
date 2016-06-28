@@ -31,6 +31,7 @@ import android.telecom.PhoneAccountHandle;
 import android.telecom.TelecomManager;
 import android.telephony.TelephonyManager;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -381,14 +382,16 @@ public class QuickMessagePopup extends Activity {
         final TelecomManager telecomMgr =
                 (TelecomManager) activity.getSystemService(Context.TELECOM_SERVICE);
         final List<PhoneAccountHandle> handles = telecomMgr.getCallCapablePhoneAccounts();
+        final List<PhoneAccountHandle> filteredHandles = new ArrayList<>();
 
         //trim out SIP accounts
         for (PhoneAccountHandle handle : handles) {
             PhoneAccount phoneAccount = PhoneUtils.getAccountOrNull(activity, handle);
             if (phoneAccount != null) {
                 Uri address = phoneAccount.getAddress();
-                if (address != null && address.getScheme() == PhoneAccount.SCHEME_SIP) {
-                    handles.remove(handle);
+                if (address != null &&
+                        !TextUtils.equals(address.getScheme(), PhoneAccount.SCHEME_SIP)) {
+                    filteredHandles.add(handle);
                 }
             }
         }
@@ -408,7 +411,7 @@ public class QuickMessagePopup extends Activity {
         DialogFragment dialogFragment = SelectPhoneAccountDialogFragment.newInstance(
                 R.string.select_phone_account_title,
                 false /* canSetDefault */,
-                handles, listener);
+                filteredHandles, listener);
         dialogFragment.show(activity.getFragmentManager(), "SELECT_PHONE_ACCOUNT_DIALOG_FRAGMENT");
     }
 
