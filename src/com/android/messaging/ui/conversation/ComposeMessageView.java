@@ -85,6 +85,7 @@ import com.android.messaging.util.UnicodeFilter;
 
 import com.cyanogenmod.messaging.util.PrefsUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -224,14 +225,16 @@ public class ComposeMessageView extends LinearLayout
         final TelecomManager telecomMgr =
                 (TelecomManager) activity.getSystemService(Context.TELECOM_SERVICE);
         final List<PhoneAccountHandle> handles = telecomMgr.getCallCapablePhoneAccounts();
+        final List<PhoneAccountHandle> filteredHandles = new ArrayList<>();
 
         //trim out SIP accounts
         for (PhoneAccountHandle handle : handles) {
             PhoneAccount phoneAccount = PhoneUtils.getAccountOrNull(activity, handle);
             if (phoneAccount != null) {
                 Uri address = phoneAccount.getAddress();
-                if (address != null && address.getScheme() == PhoneAccount.SCHEME_SIP) {
-                    handles.remove(handle);
+                if (address != null &&
+                        !TextUtils.equals(address.getScheme(), PhoneAccount.SCHEME_SIP)) {
+                    filteredHandles.add(handle);
                 }
             }
         }
@@ -251,7 +254,7 @@ public class ComposeMessageView extends LinearLayout
         DialogFragment dialogFragment = SelectPhoneAccountDialogFragment.newInstance(
                 R.string.select_phone_account_title,
                 false /* canSetDefault */,
-                handles, listener);
+                filteredHandles, listener);
         dialogFragment.show(activity.getFragmentManager(), "SELECT_PHONE_ACCOUNT_DIALOG_FRAGMENT");
     }
 
