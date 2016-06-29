@@ -132,5 +132,11 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Odaberite slike ili videozapise s ovog uređaja</string>
+  <string name="mediapicker_audioListChooserDescription">Odaberite audio datoteke s ovog uređaja</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Ne mogu priložiti videozapis. Premašena maks. veličina poruke.</string>
   <string name="mediapicker_audio_list_title">Odaberite audio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audio je odabran.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Audio nije odabran.</string>
+  <string name="mediapicker_audio_list_title_selection">Odabrano <xliff:g id="count">%d</xliff:g></string>
 </resources>

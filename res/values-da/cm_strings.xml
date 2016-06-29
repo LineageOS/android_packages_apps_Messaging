@@ -132,5 +132,11 @@
   <string name="slot1">SIM-kort 1</string>
   <string name="slot2">SIM-kort 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Vælg billeder eller videoer fra denne enhed</string>
+  <string name="mediapicker_audioListChooserDescription">Vælg lydfiler fra denne enhed</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan ikke vedhæfte videoen. Beskedstørrelsen er overskredet.</string>
   <string name="mediapicker_audio_list_title">Vælg lyd</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Lyden er valgt.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Lyden er valgt fra.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt</string>
 </resources>
