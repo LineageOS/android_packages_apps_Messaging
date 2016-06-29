@@ -134,5 +134,9 @@
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_galleryChooserDescription_cm">Wählen Sie Bilder oder Videos von diesem Gerät aus</string>
   <string name="mediapicker_audioListChooserDescription">Wählen Sie Audiodateien von diesem Gerät aus</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Videodatei kann nicht nicht angehängt werden. Die maximale Nachrichtengröße ist überschritten.</string>
+  <string name="mediapicker_audio_list_title">Audiodateien auswählen</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audiodatei ausgewählt.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Keine Audiodatei ausgewählt.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> ausgewählt</string>
 </resources>

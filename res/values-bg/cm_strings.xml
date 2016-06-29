@@ -132,5 +132,11 @@
   <string name="slot1">СИМ карта 1</string>
   <string name="slot2">СИМ карта 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Изберете снимки или видео от това устройство</string>
+  <string name="mediapicker_audioListChooserDescription">Изберете аудио файлове от това устройство</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Това видео не може да бъде прикачено. Максималният размер на на съобщението е превишен.</string>
   <string name="mediapicker_audio_list_title">Изберете звук</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Звукът е избран.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Звукът е отменен.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> избрано</string>
 </resources>

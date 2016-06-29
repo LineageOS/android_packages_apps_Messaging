@@ -34,12 +34,27 @@
   <string name="mms_validity_period_two_days">2 dagen</string>
   <string name="mms_validity_period_one_week">1 week</string>
   <string name="validity_period_maximum">Maximaal</string>
+  <string name="pref_summary_mms_delivery_reports">Ontvangstbevestiging vragen voor elk verzonden bericht</string>
+  <string name="pref_summary_mms_read_reports">Leesbevestiging vragen voor elk verzonden bericht</string>
   <string name="delivery_reports_mms_pref_title">Ontvangstbevestigingen</string>
+  <string name="read_reports_mms_pref_title">Leesbevestigingen</string>
+  <string name="status_label">Status:\u0020</string>
+  <string name="status_read">Gelezen</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioriteit</string>
+  <string name="priority_low">Laag</string>
+  <string name="priority_normal">Normaal</string>
+  <string name="priority_high">Hoog</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Opslag</string>
+  <string name="pref_summary_auto_delete">Oude berichten verwijderen wanneer limiet bereikt is</string>
   <string name="auto_delete_pref_title">Oude berichten verwijderen</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> berichten per gesprek</string>
+  <string name="sms_delete_pref_title">Limiet sms-berichten</string>
+  <string name="mms_delete_pref_title">Limiet multimediaberichten</string>
   <string name="set">Instellen</string>
   <string name="no">Annuleren</string>
+  <string name="pref_messages_to_save">Aantal berichten om te bewaren</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Vegen om te verwijderen</string>
   <string name="swipe_to_delete_conversation_pref_summary">Naar rechts vegen om een gesprek te verwijderen</string>
@@ -70,6 +85,7 @@
   <string name="select_phone_account_title">Verzenden met</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Berichten op simkaart beheren</string>
   <string name="pref_title_manage_sim_messages_slot1">Berichten op SIM 1 beheren</string>
   <string name="pref_title_manage_sim_messages_slot2">Berichten op SIM 2 beheren</string>
   <string name="copy_to_sim">Bericht kopiëren naar simkaart</string>
@@ -78,8 +94,11 @@
   <string name="copy_to_phone_success">Bericht opgeslagen</string>
   <string name="copy_to_phone_fail">Kan bericht niet opslaan</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Geen berichten op simkaart.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">E-mail verzenden naar <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g> bellen</string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
@@ -89,6 +108,8 @@
   <string name="confirm_dialog_title">Verwijderen?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Vernieuwen\u2026</string>
+  <string name="confirm_delete_selected_messages">Geselecteerd bericht wordt verwijderd.</string>
   <!-- Delete button title -->
   <string name="delete">Verwijderen</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->

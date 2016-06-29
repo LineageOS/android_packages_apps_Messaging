@@ -23,6 +23,7 @@
   <string name="pref_unicode_stripping_non_encodable">Konvertera ej kodbara tecken</string>
   <string name="pref_unicode_stripping_all">Konvertera alla unicodetecken</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Giltighetsperiod</string>
   <string name="validity_period_slot1_pref_title">Giltighetsperiod för SIM 1</string>
   <string name="validity_period_slot2_pref_title">Giltighetsperiod för SIM 2</string>
   <string name="sms_validity_period_not_set">Inte inställt</string>
