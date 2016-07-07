@@ -19,6 +19,7 @@ package com.android.messaging.datamodel;
 import android.telephony.SmsMessage;
 
 import com.android.messaging.sms.MmsConfig;
+import com.android.messaging.util.PhoneUtils;
 
 public class MessageTextStats {
     private boolean mMessageLengthRequiresMms;
@@ -42,7 +43,8 @@ public class MessageTextStats {
     }
 
     public void updateMessageTextStats(final int selfSubId, final String messageText) {
-        final int[] params = SmsMessage.calculateLength(messageText, false);
+        final int[] params = SmsMessage.calculateLength(messageText, false,
+                PhoneUtils.getDefault().getEffectiveSubId(selfSubId));
         /* SmsMessage.calculateLength returns an int[4] with:
          *   int[0] being the number of SMS's required,
          *   int[1] the number of code points used,

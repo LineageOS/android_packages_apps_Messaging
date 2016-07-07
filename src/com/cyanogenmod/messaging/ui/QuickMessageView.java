@@ -22,6 +22,7 @@ import com.android.messaging.R;
 import com.android.messaging.ui.PlainTextEditText;
 import com.android.messaging.ui.conversation.SimIconView;
 import com.android.messaging.util.ContactUtil;
+import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
 import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 import com.cyanogenmod.messaging.lookup.LookupProviderManager;
@@ -164,7 +165,8 @@ public class QuickMessageView extends LinearLayout implements TextWatcher,
                  * remaining until the next message. int[3] is the encoding type that should be used for the
                  * message.
                  */
-                int[] params = SmsMessage.calculateLength(messageText, false);
+                int[] params = SmsMessage.calculateLength(messageText, false,
+                        PhoneUtils.getDefault().getEffectiveSubId(-1));
                 int msgCount = params[0];
                 int remainingInCurrentMessage = params[2];
 
