@@ -16,6 +16,8 @@
 
 package com.android.messaging.datamodel;
 
+import android.support.v7.mms.MmsManager;
+import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 
 import com.android.messaging.sms.MmsConfig;
@@ -41,8 +43,26 @@ public class MessageTextStats {
         return mMessageLengthRequiresMms;
     }
 
+    /**
+     * Get the real subscription ID if the input is -1
+     *
+     * @param subId input subscription ID
+     * @return the default SMS subscription ID if the input is -1, otherwise the original
+     */
+    private static int getEffectiveSubscriptionId(int subId) {
+            if (subId == MmsManager.DEFAULT_SUB_ID) {
+                subId = SmsManager.getDefaultSmsSubscriptionId();
+            }
+
+        if (subId < 0) {
+            subId = MmsManager.DEFAULT_SUB_ID;
+        }
+        return subId;
+    }
+
     public void updateMessageTextStats(final int selfSubId, final String messageText) {
-        final int[] params = SmsMessage.calculateLength(messageText, false);
+        System.out.println("updateMessageTextStats " + messageText + " || " + getEffectiveSubscriptionId(selfSubId));
+        final int[] params = SmsMessage.calculateLength(messageText, false, getEffectiveSubscriptionId(selfSubId));
         /* SmsMessage.calculateLength returns an int[4] with:
          *   int[0] being the number of SMS's required,
          *   int[1] the number of code points used,

@@ -124,6 +124,7 @@ public class ParticipantData implements Parcelable {
         final ParticipantData pd = new ParticipantData();
         pd.mParticipantId = cursor.getString(ParticipantsQuery.INDEX_ID);
         pd.mSubId = cursor.getInt(ParticipantsQuery.INDEX_SUB_ID);
+        System.out.println("getFromCursor " + pd.mSubId);
         pd.mSlotId = cursor.getInt(ParticipantsQuery.INDEX_SIM_SLOT_ID);
         pd.mNormalizedDestination = cursor.getString(
                 ParticipantsQuery.INDEX_NORMALIZED_DESTINATION);

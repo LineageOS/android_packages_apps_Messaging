@@ -130,6 +130,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
     }
 
     public void setSubscriptionDataProvider(final DraftMessageSubscriptionDataProvider provider) {
+        System.out.println("setSubDataProvider " + provider);
         mSubscriptionDataProvider = provider;
     }
 
