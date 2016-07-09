@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa7e38b_b604fbc7",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-07-09T16:09:16Z",
+      "side": 1,
+      "message": "line needs to be wrapped as it exceeds 100 chars",
+      "range": {
+        "startLine": 231,
+        "startChar": 95,
+        "endLine": 231,
+        "endChar": 123
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_166aaf7f",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-07-09T16:09:16Z",
+      "side": 1,
+      "message": "I\u0027d recommend finding a better name as this color is being used for both a foreground and a background color.",
+      "range": {
+        "startLine": 231,
+        "startChar": 64,
+        "endLine": 231,
+        "endChar": 94
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_f66cb39d",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-07-09T16:09:16Z",
+      "side": 1,
+      "message": "extra open parenthesis",
+      "range": {
+        "startLine": 231,
+        "startChar": 46,
+        "endLine": 231,
+        "endChar": 47
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_56702773",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-07-09T16:09:16Z",
+      "side": 1,
+      "message": "changing this from mThemeColor could have adverse affects so it would be best to keep it.",
+      "range": {
+        "startLine": 232,
+        "startChar": 40,
+        "endLine": 232,
+        "endChar": 73
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_d60977dd",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-07-09T16:09:16Z",
+      "side": 1,
+      "message": "mThemeColor",
+      "range": {
+        "startLine": 234,
+        "startChar": 46,
+        "endLine": 234,
+        "endChar": 79
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_760e83e6",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 9199
+      },
+      "writtenOn": "2016-07-09T16:09:16Z",
+      "side": 1,
+      "message": "extra open parenthesis",
+      "range": {
+        "startLine": 235,
+        "startChar": 40,
+        "endLine": 235,
+        "endChar": 41
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
