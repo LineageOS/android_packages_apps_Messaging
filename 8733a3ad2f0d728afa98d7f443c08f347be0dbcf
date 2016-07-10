@@ -71,6 +71,78 @@
     },
     {
       "key": {
+        "uuid": "3fa7e38b_111e39ba",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5959
+      },
+      "writtenOn": "2016-07-10T17:24:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa7e38b_b604fbc7",
+      "range": {
+        "startLine": 231,
+        "startChar": 95,
+        "endLine": 231,
+        "endChar": 123
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_f1203dfa",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5959
+      },
+      "writtenOn": "2016-07-10T17:24:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa7e38b_166aaf7f",
+      "range": {
+        "startLine": 231,
+        "startChar": 64,
+        "endLine": 231,
+        "endChar": 94
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_b17885f8",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 5959
+      },
+      "writtenOn": "2016-07-10T17:24:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa7e38b_f66cb39d",
+      "range": {
+        "startLine": 231,
+        "startChar": 46,
+        "endLine": 231,
+        "endChar": 47
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa7e38b_56702773",
         "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
         "patchSetId": 3
@@ -82,6 +154,30 @@
       "writtenOn": "2016-07-09T16:09:16Z",
       "side": 1,
       "message": "changing this from mThemeColor could have adverse affects so it would be best to keep it.",
+      "range": {
+        "startLine": 232,
+        "startChar": 40,
+        "endLine": 232,
+        "endChar": 73
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_71820dcb",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 5959
+      },
+      "writtenOn": "2016-07-10T17:24:20Z",
+      "side": 1,
+      "message": "We really need this untied due to if we change the primary_theme color to black and the background to black you cannot see the mic. This is the only area with this issue so I don\u0027t see it having adverse affects.",
+      "parentUuid": "3fa7e38b_56702773",
       "range": {
         "startLine": 232,
         "startChar": 40,
@@ -128,6 +224,30 @@
       "writtenOn": "2016-07-09T16:09:16Z",
       "side": 1,
       "message": "extra open parenthesis",
+      "range": {
+        "startLine": 235,
+        "startChar": 40,
+        "endLine": 235,
+        "endChar": 41
+      },
+      "revId": "8733a3ad2f0d728afa98d7f443c08f347be0dbcf",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_d17d01e8",
+        "filename": "src/com/android/messaging/ui/mediapicker/AudioRecordView.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 5959
+      },
+      "writtenOn": "2016-07-10T17:24:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa7e38b_760e83e6",
       "range": {
         "startLine": 235,
         "startChar": 40,
