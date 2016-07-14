@@ -686,7 +686,7 @@ public abstract class MessageNotificationState extends NotificationState {
             NotificationInfo ni = null;
             if (convInfo != null && convInfo.mIsSms) {
                 String name = mTitle;
-                String number = convInfo.mSenderDisplayDestination;
+                String number = convInfo.mSenderNormalizedDestination;
                 ni = new NotificationInfo(name, number, convInfo.mContactUri, convInfo.mAvatarUri,
                         convInfo.mSenderContactId,
                         convInfo.getLatestMessageLineInfo().mText, convInfo.mReceivedTimestamp,
