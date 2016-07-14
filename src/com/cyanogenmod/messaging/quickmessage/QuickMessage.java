@@ -133,17 +133,10 @@ public class QuickMessage {
     }
 
     public Uri getRecipientsUri() {
-        if (mFromNumber == null || mFromNumber.length == 0) {
+        if (mSenderNormalizedDestination == null || mSenderNormalizedDestination.length() == 0) {
             return null;
         }
-        StringBuffer buf = new StringBuffer();
-        for(String number : mFromNumber) {
-            if (buf.length() > 0) {
-                buf.append(";");
-            }
-            buf.append(number);
-        }
-        return Uri.parse("smsto:" + buf.toString());
+        return Uri.parse("smsto:" + mSenderNormalizedDestination);
     }
 
     public String getSenderNormalizedDestination() {
