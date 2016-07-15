@@ -1448,10 +1448,10 @@ public class MmsUtils {
         final Cursor c = SqliteWrapper.query(context, context.getContentResolver(),
                 Mms.Inbox.CONTENT_URI, projection, selection,
                 new String[]{String.valueOf(threadId)}, null);
+        if (c == null) {
+            return;
+        }
         try {
-            if (c == null || c.getCount() == 0) {
-                return;
-            }
             while (c.moveToNext()) {
                 Uri uri = ContentUris.withAppendedId(Mms.CONTENT_URI, c.getLong(0));
                 String from = MmsUtils.getMmsSender(recipients, uri.toString());
@@ -1460,9 +1460,7 @@ public class MmsUtils {
                         self.getNormalizedDestination(), c.getString(1), status);
             }
         } finally {
-            if (c != null) {
-                c.close();
-            }
+            c.close();
         }
 
     }
