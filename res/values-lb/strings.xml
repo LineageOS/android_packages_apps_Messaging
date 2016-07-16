@@ -24,6 +24,7 @@
   <!-- The tab header for all contacts list -->
   <!-- The text on the list item in the contact picker that allows a user to send an SMS directly
          to a number that he/she typed. eg. "Send to 650-555-1234" -->
+  <string name="mediapicker_galleryChooserDescription">Wiel Biller vun dësem Apparat aus</string>
   <!-- example: "image January 17 2015 1 59 pm" -->
   <!-- Abbreviated message to express that something occurred some number of minutes in the past (e.g., 5 minutes ago). -->
   <!-- Abbreviated message to express that something occurred some number of hours in the past (e.g., 5 hours ago). -->
