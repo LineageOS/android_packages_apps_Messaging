@@ -24,7 +24,7 @@ import android.net.Uri;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationListItemData.ConversationListViewColumns;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.RingtoneUtil;
+import com.android.messaging.util.NotificationUtil;
 
 public class PeopleOptionsItemData {
     public static final String[] PROJECTION = {
@@ -78,7 +78,10 @@ public class PeopleOptionsItemData {
         mItemId = settingType;
         mOtherParticipant = otherParticipant;
 
-        final boolean notificationEnabled = cursor.getInt(INDEX_NOTIFICATION_ENABLED) == 1;
+
+
+        final boolean notificationEnabled =
+                NotificationUtil.getConversationNotificationEnabled(cursor.getInt(INDEX_NOTIFICATION_ENABLED));
         switch (settingType) {
             case SETTING_NOTIFICATION_ENABLED:
                 mTitle = mContext.getString(R.string.notifications_enabled_conversation_pref_title);
@@ -88,7 +91,7 @@ public class PeopleOptionsItemData {
             case SETTING_NOTIFICATION_SOUND_URI:
                 mTitle = mContext.getString(R.string.notification_sound_pref_title);
                 final String ringtoneString = cursor.getString(INDEX_NOTIFICATION_SOUND_URI);
-                Uri ringtoneUri = RingtoneUtil.getNotificationRingtoneUri(ringtoneString);
+                Uri ringtoneUri = NotificationUtil.getNotificationRingtoneUri(ringtoneString);
 
                 mSubtitle = mContext.getString(R.string.silent_ringtone);
                 if (ringtoneUri != null) {
@@ -104,7 +107,8 @@ public class PeopleOptionsItemData {
 
             case SETTING_NOTIFICATION_VIBRATION:
                 mTitle = mContext.getString(R.string.notification_vibrate_pref_title);
-                mChecked = cursor.getInt(INDEX_NOTIFICATION_VIBRATION) == 1;
+                mChecked = NotificationUtil.getConversationNotificationVibrateEnabled(
+                        cursor.getInt(INDEX_NOTIFICATION_VIBRATION));
                 mEnabled = notificationEnabled;
                 break;
 

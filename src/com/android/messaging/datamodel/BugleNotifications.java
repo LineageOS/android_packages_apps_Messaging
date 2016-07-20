@@ -46,7 +46,6 @@ import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 
-import android.util.Log;
 import android.widget.RemoteViews;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -82,7 +81,7 @@ import com.android.messaging.util.NotificationPlayer;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PendingIntentConstants;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.RingtoneUtil;
+import com.android.messaging.util.NotificationUtil;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UriUtil;
 
@@ -206,7 +205,7 @@ public class BugleNotifications {
      *
      */
     public static void playClassZeroNotification() {
-        final Uri ringtoneUri = RingtoneUtil.getNotificationRingtoneUri(null);
+        final Uri ringtoneUri = NotificationUtil.getNotificationRingtoneUri(null);
         playObservableConversationNotificationSound(ringtoneUri);
     }
 
@@ -354,7 +353,7 @@ public class BugleNotifications {
         final DatabaseWrapper db = DataModel.get().getDatabase();
         final ConversationListItemData convData =
                 ConversationListItemData.getExistingConversation(db, conversationId);
-        return RingtoneUtil.getNotificationRingtoneUri(
+        return NotificationUtil.getNotificationRingtoneUri(
                 convData != null ? convData.getNotificationSoundUri() : null);
     }
 
@@ -437,7 +436,7 @@ public class BugleNotifications {
         final String conversationId = state.mConversationIds.first();
 
 
-        final Uri ringtoneUri = RingtoneUtil.getNotificationRingtoneUri(state.getRingtoneUri());
+        final Uri ringtoneUri = NotificationUtil.getNotificationRingtoneUri(state.getRingtoneUri());
         // If the notification's conversation is currently observable (focused or in the
         // conversation list),  then play a notification beep at a low volume and don't display an
         // actual notification.

@@ -16,6 +16,7 @@
 package com.android.messaging.util;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Settings;
 import android.text.TextUtils;
@@ -23,7 +24,7 @@ import android.text.TextUtils;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 
-public class RingtoneUtil {
+public class NotificationUtil {
     /**
      * Return a ringtone Uri for the string representation passed in. Use the app
      * and system defaults as fallbacks
@@ -48,6 +49,40 @@ public class RingtoneUtil {
         } else {
             // An empty string (== "") here is the result of selecting "None" as the ringtone
             return null;
+        }
+    }
+
+    /**
+     * Get the final enabled status for notifications in this conversation, based on the given
+     * value, and the default (application-wide) value.
+     *
+     * @param conversationVal the custom value for this conversation, or -1 if it does not exist.
+     * @return whether notifications should be enabled for this conversation.
+     */
+    public static boolean getConversationNotificationEnabled(int conversationVal) {
+        return getEnabledCustomOrDefault(conversationVal, R.string.notifications_enabled_pref_key);
+    }
+
+    /**
+     * Get the final enabled status for notification vibration in this conversation, based on the
+     * given value and the default (application-wide) value.
+     *
+     * @param conversationVal the custom value for this conversation, or -1 if it does not exist.
+     * @return whether notification vibration should be enabled for this conversation.
+     */
+    public static boolean getConversationNotificationVibrateEnabled(int conversationVal) {
+        return getEnabledCustomOrDefault(conversationVal, R.string.notification_vibration_pref_key);
+    }
+
+    private static boolean getEnabledCustomOrDefault(int customVal, int keyRes) {
+        // Load default if we do not have a custom value set.
+        if (customVal == -1) {
+            final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+            final Context context = Factory.get().getApplicationContext();
+            final String prefKey = context.getString(keyRes);
+            return prefs.getBoolean(prefKey, true);
+        } else {
+            return customVal == 1;
         }
     }
 }
