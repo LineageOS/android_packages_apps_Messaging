@@ -22,6 +22,30 @@
       "revId": "1d29ac51defea5c7a3e9c402c5ec03ea37efd0ba",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_9432fef0",
+        "filename": "src/com/android/messaging/util/BlacklistObserver.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 940
+      },
+      "writtenOn": "2016-07-20T15:32:44Z",
+      "side": 1,
+      "message": "Will do",
+      "parentUuid": "3fa7e38b_e8bdaf68",
+      "range": {
+        "startLine": 40,
+        "startChar": 46,
+        "endLine": 40,
+        "endChar": 57
+      },
+      "revId": "1d29ac51defea5c7a3e9c402c5ec03ea37efd0ba",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
