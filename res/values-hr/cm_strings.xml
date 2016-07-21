@@ -50,7 +50,7 @@
   <string name="pref_summary_auto_delete">Izbrišite stare poruke kada se dosegne ograničenje</string>
   <string name="auto_delete_pref_title">Izbriši stare poruke</string>
   <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> poruka po razgovoru</string>
-  <string name="sms_delete_pref_title">Ograničenje SMS poruke</string>
+  <string name="sms_delete_pref_title">Ograničenje SMS poruka</string>
   <string name="mms_delete_pref_title">Ograničenje za multimedijske poruke</string>
   <string name="set">Postavi</string>
   <string name="no">Poništi</string>
