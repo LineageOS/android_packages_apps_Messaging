@@ -30,6 +30,7 @@ import com.android.messaging.datamodel.action.DeleteConversationAction;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.Dates;
+import com.android.messaging.util.NotificationUtil;
 import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
@@ -92,9 +93,11 @@ public class ConversationListItemData {
                 INDEX_OTHER_PARTICIPANT_NORMALIZED_DESTINATION);
         mSelfId = cursor.getString(INDEX_SELF_ID);
         mParticipantCount = cursor.getInt(INDEX_PARTICIPANT_COUNT);
-        mNotificationEnabled = cursor.getInt(INDEX_NOTIFICATION_ENABLED) == 1;
+        mNotificationEnabled = NotificationUtil.getConversationNotificationEnabled
+                (cursor.getInt(INDEX_NOTIFICATION_ENABLED));
         mNotificationSoundUri = cursor.getString(INDEX_NOTIFICATION_SOUND_URI);
-        mNotificationVibrate = cursor.getInt(INDEX_NOTIFICATION_VIBRATION) == 1;
+        mNotificationVibrate = NotificationUtil.getConversationNotificationVibrateEnabled(
+                cursor.getInt(INDEX_NOTIFICATION_VIBRATION));
         mIncludeEmailAddress = cursor.getInt(INDEX_INCLUDE_EMAIL_ADDRESS) == 1;
         mMessageStatus = cursor.getInt(INDEX_MESSAGE_STATUS);
         mMessageRawTelephonyStatus = cursor.getInt(INDEX_MESSAGE_RAW_TELEPHONY_STATUS);
