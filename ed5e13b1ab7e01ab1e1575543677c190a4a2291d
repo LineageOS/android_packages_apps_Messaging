@@ -16,6 +16,24 @@
       "revId": "ed5e13b1ab7e01ab1e1575543677c190a4a2291d",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3fa7e38b_929524e7",
+        "filename": "src/com/android/messaging/util/RingtoneUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 14474
+      },
+      "writtenOn": "2016-07-25T19:47:59Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "3fa7e38b_e46f01c3",
+      "revId": "ed5e13b1ab7e01ab1e1575543677c190a4a2291d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
