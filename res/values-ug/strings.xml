@@ -17,8 +17,15 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
+  <string name="app_name">ئۇچۇر</string>
   <!-- The name of the application as it appears in external share intent dialogs -->
+  <string name="share_intent_label">ئۇچۇر</string>
   <!-- The title when selecting a conversation to share to -->
+  <string name="share_intent_activity_label">دىئالوگ تاللاش</string>
+  <string name="action_settings">تەڭشەكلەر</string>
+  <string name="sendButtonContentDescription">ئۇچۇر يوللاڭ</string>
+  <string name="attachMediaButtonContentDescription">قىستۇرما قوشۇش</string>
+  <string name="help_and_feedback_activity_label">ياردەم</string>
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->

@@ -86,8 +86,8 @@
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
   <string name="pref_title_manage_sim_messages">Управляване на съобщения от СИМ карта</string>
-  <string name="pref_title_manage_sim_messages_slot1">Управляване на съобщения от СИМ карта 1</string>
-  <string name="pref_title_manage_sim_messages_slot2">Управляване на съобщения от СИМ карта 2</string>
+  <string name="pref_title_manage_sim_messages_slot1">Управление на съобщенията СИМ карта 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Управление на съобщенията СИМ карта 2</string>
   <string name="copy_to_sim">Копирай съобщението в SIM картата</string>
   <string name="copy_to_sim_success"><xliff:g id="count">%1$d </xliff:g> от <xliff:g id="total">%2$d </xliff:g> съобщения записани в СИМ картата.</string>
   <string name="copy_to_sim_fail">Не може да запише това съобщение</string>
