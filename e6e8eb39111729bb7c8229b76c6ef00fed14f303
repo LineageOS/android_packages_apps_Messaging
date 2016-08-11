@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa7e38b_e56590e2",
+        "filename": "src/com/android/messaging/util/BlacklistSync.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 9045
+      },
+      "writtenOn": "2016-08-11T21:22:41Z",
+      "side": 1,
+      "message": "We should use a try (Cursor cursor ......) { .. } with resources format here I think",
+      "range": {
+        "startLine": 132,
+        "startChar": 21,
+        "endLine": 132,
+        "endChar": 27
+      },
+      "revId": "e6e8eb39111729bb7c8229b76c6ef00fed14f303",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
