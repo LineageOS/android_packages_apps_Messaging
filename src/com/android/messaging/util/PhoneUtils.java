@@ -886,22 +886,11 @@ public abstract class PhoneUtils {
                 phoneText.replaceAll("\\D", "").length() < MINIMUM_PHONE_NUMBER_LENGTH_TO_FORMAT) {
             return phoneText;
         }
-        final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
         final String systemCountry = getLocaleCountry();
-        final int systemCountryCode = phoneNumberUtil.getCountryCodeForRegion(systemCountry);
-        try {
-            final PhoneNumber parsedNumber = phoneNumberUtil.parse(phoneText, systemCountry);
-            final PhoneNumberFormat phoneNumberFormat =
-                    (systemCountryCode > 0 && parsedNumber.getCountryCode() == systemCountryCode) ?
-                            PhoneNumberFormat.NATIONAL : PhoneNumberFormat.INTERNATIONAL;
-            return BidiFormatter.getInstance().unicodeWrap(
-                    phoneNumberUtil.format(parsedNumber, phoneNumberFormat),
-                    TextDirectionHeuristicsCompat.LTR);
-        } catch (NumberParseException e) {
-            LogUtil.e(TAG, "PhoneUtils.formatForDisplay: invalid phone number "
-                    + LogUtil.sanitizePII(phoneText) + " with country " + systemCountry);
-            return phoneText;
-        }
+        String formatted = PhoneNumberUtils.formatNumber(phoneText,
+                PhoneNumberUtils.formatNumberToE164(phoneText, systemCountry), systemCountry);
+        return BidiFormatter.getInstance()
+                .unicodeWrap(formatted, TextDirectionHeuristicsCompat.LTR);
     }
 
     /**
