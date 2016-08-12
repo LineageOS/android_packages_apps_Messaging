@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fa7e38b_b7d82b7f",
+        "filename": "res/values/google_maps_api.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 14267
+      },
+      "writtenOn": "2016-08-12T15:54:10Z",
+      "side": 1,
+      "message": "Is there any issue with having the maps key in open source?",
+      "range": {
+        "startLine": 3,
+        "startChar": 8,
+        "endLine": 3,
+        "endChar": 47
+      },
+      "revId": "a78b7f35db8bbd2da83835eadee4fba09e30ceea",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
