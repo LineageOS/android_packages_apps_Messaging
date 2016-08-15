@@ -691,9 +691,12 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      */
     private void showMapsPreview(String mapsUrlString, String mapsUrlPrefix, int desiredWidth) {
         final int unspecifiedMeasureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-        final int mapsMeasureSpec = MeasureSpec.makeMeasureSpec(desiredWidth,
+        final int mapsWidthMeasureSpec = MeasureSpec.makeMeasureSpec(desiredWidth,
                 MeasureSpec.EXACTLY);
-        mMessageMapsView.measure(mapsMeasureSpec, unspecifiedMeasureSpec);
+        final int mapsHeightMeasureSpec = MeasureSpec.makeMeasureSpec(getResources()
+                .getDimensionPixelSize(R.dimen.conversation_maps_height), MeasureSpec.EXACTLY);
+
+        mMessageMapsView.measure(mapsWidthMeasureSpec, mapsHeightMeasureSpec);
 
         // Reset view visibility to gone
         mRequestRideButton.setVisibility(View.GONE);
@@ -702,10 +705,10 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mButtonDivider.setVisibility(View.GONE);
 
         final String encodedAddress = mapsUrlString.substring(mapsUrlPrefix.length());
-        final int height = getResources()
-                .getDimensionPixelSize(R.dimen.conversation_maps_height);
-        String staticMapsUrl = GoogleStaticMapsUtil.getStaticMapsUrl(mContext, desiredWidth,
-                height, encodedAddress);
+
+        String staticMapsUrl = GoogleStaticMapsUtil.getStaticMapsUrl(mContext,
+                getResources().getDimensionPixelSize(R.dimen.map_request_width),
+                getResources().getDimensionPixelSize(R.dimen.map_request_height), encodedAddress);
         RoundedCornerTransformation transformation =
                 new RoundedCornerTransformation(mContext.getApplicationContext(), staticMapsUrl);
         Picasso.with(mContext.getApplicationContext())

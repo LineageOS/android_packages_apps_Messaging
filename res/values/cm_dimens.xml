@@ -38,4 +38,6 @@
     <dimen name="maps_error_icon_width">1dp</dimen>
     <dimen name="maps_error_icon_height">1dp</dimen>
     <dimen name="maps_corner_radius">3dp</dimen>
+    <dimen name="map_request_width">221px</dimen>
+    <dimen name="map_request_height">144px</dimen>
 </resources>
