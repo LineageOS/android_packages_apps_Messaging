@@ -27,7 +27,7 @@ public class GoogleStaticMapsUtil {
     private static final String X = "x";
 
     private static final String SIZE = "size=";
-    private static final String ZOOM = "zoom=18";
+    private static final String ZOOM = "zoom=17";
     private static final String SCALE = "scale=4";
     private static final String API_KEY = "key=";
 
