@@ -38,12 +38,23 @@
   <string name="pref_summary_mms_read_reports">Olvasási jelentés kérése minden elküldött üzenet után</string>
   <string name="delivery_reports_mms_pref_title">Kézbesítési jelentések</string>
   <string name="read_reports_mms_pref_title">Olvasási jelentések</string>
+  <string name="status_label">Állapot:\u0020</string>
+  <string name="status_read">Elolvasva</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Küldési prioritás</string>
   <string name="priority_low">Alacsony</string>
   <string name="priority_normal">Normál</string>
   <string name="priority_high">Magas</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Tároló</string>
+  <string name="pref_summary_auto_delete">Régi üzenetek törlése a korlát elérésekor</string>
+  <string name="auto_delete_pref_title">Régi üzenetek törlése</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> üzenet beszélgetésenként</string>
+  <string name="sms_delete_pref_title">Szöveges üzenet korlátja</string>
+  <string name="mms_delete_pref_title">Multimédia üzenet korlátja</string>
+  <string name="set">Beállítás</string>
+  <string name="no">Elvet</string>
+  <string name="pref_messages_to_save">Menteni kívánt üzenetek számának beállítása</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Törléshez csúsztassa az ujját</string>
   <string name="swipe_to_delete_conversation_pref_summary">Húzza jobbra a beszélgetés törléséhez</string>
@@ -74,21 +85,58 @@
   <string name="select_phone_account_title">Küldés a következővel</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">SIM-kártya üzenetek kezelése</string>
+  <string name="pref_title_manage_sim_messages_slot1">SIM 1 üzenetek kezelése</string>
+  <string name="pref_title_manage_sim_messages_slot2">SIM 2 üzenetek kezelése</string>
+  <string name="copy_to_sim">Üzenet másolása SIM-kártyára</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> üzenet SIM-kártyára másolva.</string>
+  <string name="copy_to_sim_fail">Nem lehet menteni az üzenetet</string>
+  <string name="copy_to_phone_success">Üzenet mentve</string>
+  <string name="copy_to_phone_fail">Nem lehet menteni az üzenetet</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Nincsenek üzenetek a SIM-kártyán.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">E-mail küldése: <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g> hívása</string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g> hozzáadása a Személyekhez</string>
+  <string name="sim_capacity_title">SIM-kapacitás</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> SIM-kártya bejegyzés használva</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Biztosan törli?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Szöveges üzenetek a SIM-kártyán</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Frissítés\u2026</string>
+  <string name="confirm_delete_selected_messages">Kijelölt üzenet törlésre kerül.</string>
   <!-- Delete button title -->
+  <string name="delete">Törlés</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Továbbítás</string>
+  <string name="menu_reply">Válasz</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Másolás a táblagép memóriájába</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Másolás a telefon memóriájába</string>
+  <string name="selected_all">Összes kijelölése</string>
+  <string name="deselected_all">Kijelölés elvetése</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> kiválasztva</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Üzenet másolása SIM-kártyára</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Képek vagy videók kiválasztása az eszközről</string>
+  <string name="mediapicker_audioListChooserDescription">Hangfájlok kiválasztása az eszközről</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Nem sikerült csatolni a videót. Maximális méret túllépve.</string>
+  <string name="mediapicker_audio_list_title">Válasszon hangot</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Hang kiválasztva.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Nincs hang kiválasztva.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="COUNT">%d</xliff:g> kiválasztva</string>
 </resources>
