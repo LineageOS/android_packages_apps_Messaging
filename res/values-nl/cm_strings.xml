@@ -128,4 +128,7 @@
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_gallery_image_item_attachment_too_large">Kan video niet toevoegen. Maximale berichtgrootte overschreden.</string>
+  <string name="mediapicker_audio_list_title">Audio selecteren</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audio is geselecteerd.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Audio is niet geselecteerd.</string>
 </resources>
