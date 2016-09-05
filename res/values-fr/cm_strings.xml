@@ -38,6 +38,7 @@
   <string name="pref_summary_mms_read_reports">Demander un accusé de lecture pour chaque message envoyé</string>
   <string name="delivery_reports_mms_pref_title">Accusés de réception</string>
   <string name="read_reports_mms_pref_title">Accusés de lecture</string>
+  <string name="status_read">Lu</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Priorité de l\'envoi</string>
   <string name="priority_low">Faible</string>
