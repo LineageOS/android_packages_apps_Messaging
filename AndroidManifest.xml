@@ -52,6 +52,8 @@
     <uses-permission android:name="android.permission.CHANGE_PHONE_BLACKLIST" />
 
     <uses-permission android:name="com.cyanogen.ambient.permission.BIND_CALLER_INFO" />
+    <uses-permission android:name="com.cyanogen.ambient.permission.BIND_RIDEINPROGRESS_SERVICE" />
+    <uses-permission android:name="com.cyanogen.ambient.permission.BIND_RIDESHARING_SERVICE" />
 
     <!--  Optional features -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
