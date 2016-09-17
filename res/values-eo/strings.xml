@@ -19,6 +19,10 @@
   <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
   <!-- The name of the application as it appears in external share intent dialogs -->
   <!-- The title when selecting a conversation to share to -->
+  <string name="action_settings">Agordoj</string>
+  <string name="sendButtonContentDescription">Sendi mesaĝon</string>
+  <string name="settings_with_arrow">Agordoj &gt;</string>
+  <string name="settings">Agordoj</string>
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->
@@ -80,6 +84,10 @@
   <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
   <!-- Notification content when emergency SMS fails to send -->
   <!-- notification line 1 for new message notification on the lock screen -->
+  <plurals name="notification_new_messages">
+    <item quantity="one">Nova mesaĝo</item>
+    <item quantity="other"><xliff:g id="messages">%d</xliff:g> novaj mesaĝoj</item>
+  </plurals>
   <!-- Text for starting a new conversation button in the compose UI -->
   <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
   <!-- Content description text for Back button on the action bar -->
@@ -96,6 +104,7 @@
   <!-- Alert dialog title to accept or decline deleting conversation(s). -->
   <!-- Alert dialog accept deleting this conversation button. -->
   <!-- Alert dialog decline deleting this conversation button. -->
+  <string name="delete_conversation_decline_button">Nuligi</string>
   <!-- Hint text for the recipient chips text box when it's empty -->
   <!-- Action menu title for multiple selection in gallery image picker -->
   <!-- Action menu title for confirming multiple selection in gallery image picker -->
@@ -138,6 +147,7 @@
   <!-- Accessibility : text read on the small X icon on the subject editor -->
   <!-- Description shown in the download manager for an attachment that the user manually saved -->
   <!-- Title for the preferences/settings activity -->
+  <string name="settings_activity_title">Agordoj</string>
   <!-- Title for the archived conversations activity -->
   <!-- Action title: Close -->
   <!-- Preference category: MMS messaging -->
@@ -160,6 +170,7 @@
   <!-- Menu item to copy message text -->
   <!-- Title of long press menu for details about an individual message. -->
   <!-- Title of long press menu for deleting an individual message. -->
+  <string name="message_context_menu_delete_message">Forigi</string>
   <!-- Title of long press menu for forwarding an individual message. -->
   <!-- Title of "Message details" dialog -->
   <!-- Label in "Message details" dialog -->
@@ -237,6 +248,7 @@
   <!-- A message prefix to indicate the message was sent by the user. -->
   <!-- A message prefix to indicate the message was sent by another user in a group conversation. -->
   <!-- A message in conversation list view to indicate that the snipit text and preview is from an unsent draft. -->
+  <string name="conversation_list_item_view_draft_message">Malneto</string>
   <!-- String to show in the conversation list view when there are no messages. -->
   <!-- String to show in the archived conversation list view when there are no messages. -->
   <!-- String to show in the conversation list view when we haven't synchronized the SMS database yet -->
