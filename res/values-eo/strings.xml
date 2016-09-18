@@ -19,6 +19,10 @@
   <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
   <!-- The name of the application as it appears in external share intent dialogs -->
   <!-- The title when selecting a conversation to share to -->
+  <string name="action_settings">Agordoj</string>
+  <string name="sendButtonContentDescription">Sendi mesaĝon</string>
+  <string name="settings_with_arrow">Agordoj &gt;</string>
+  <string name="settings">Agordoj</string>
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->
@@ -27,11 +31,37 @@
   <!-- example: "image January 17 2015 1 59 pm" -->
   <!-- Abbreviated message to express that something occurred some number of minutes in the past (e.g., 5 minutes ago). -->
   <!-- Abbreviated message to express that something occurred some number of hours in the past (e.g., 5 hours ago). -->
+  <plurals name="num_hours_ago">
+    <item quantity="one"><xliff:g id="count">%d</xliff:g> horo</item>
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> horoj</item>
+  </plurals>
   <!-- Abbreviated message to express that something occurred some number of days in the past (e.g., 5 days ago). -->
+  <plurals name="num_days_ago">
+    <item quantity="one"><xliff:g id="count">%d</xliff:g> tago</item>
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> tagoj</item>
+  </plurals>
   <!--
         Plurals used for the duration in free sms storage action and confirm strings above
         Example: "Delete messages older than a week"
     -->
+  <plurals name="week_count">
+    <!-- Singular case -->
+    <item quantity="one">semajno</item>
+    <!-- Plural case -->
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> semajnoj</item>
+  </plurals>
+  <plurals name="month_count">
+    <!-- Singular case -->
+    <item quantity="one">monato</item>
+    <!-- Plural case -->
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> monatoj</item>
+  </plurals>
+  <plurals name="year_count">
+    <!-- Singular case -->
+    <item quantity="one">jari</item>
+    <!-- Plural case -->
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> jaroj</item>
+  </plurals>
   <!-- Title of the class-0 message activity. -->
   <!-- Text for SMS storage low text, when auto delete is enabled -->
   <!-- Title for SMS storage low notification and dialog. Must match the framework's notification title, i.e. //frameworks/base/core/res/res/values/strings.xml#low_internal_storage_view_title -->
@@ -80,11 +110,16 @@
   <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
   <!-- Notification content when emergency SMS fails to send -->
   <!-- notification line 1 for new message notification on the lock screen -->
+  <plurals name="notification_new_messages">
+    <item quantity="one">Nova mesaĝo</item>
+    <item quantity="other"><xliff:g id="messages">%d</xliff:g> novaj mesaĝoj</item>
+  </plurals>
   <!-- Text for starting a new conversation button in the compose UI -->
   <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
   <!-- Content description text for Back button on the action bar -->
   <!-- Action menu title for showing archived conversations -->
   <!-- Action menu title for deleting selected conversations in conversation list -->
+  <string name="action_delete">Forigi</string>
   <!-- Action menu title for archiving selected conversations in conversation list -->
   <!-- Action menu title for unarchiving selected conversations in conversation list -->
   <!-- Action menu title for turning off notification for the selected conversations in conversation list -->
@@ -93,9 +128,13 @@
   <!-- Action menu title for downloading failed message selected in conversation -->
   <!-- Action menu title for sending failed message selected in conversation -->
   <!-- Action menu title for deleting failed message selected in conversation -->
+  <string name="action_delete_message">Forigi</string>
+  <string name="delete_message_confirmation_button">Forigi</string>
   <!-- Alert dialog title to accept or decline deleting conversation(s). -->
   <!-- Alert dialog accept deleting this conversation button. -->
+  <string name="delete_conversation_confirmation_button">Forigi</string>
   <!-- Alert dialog decline deleting this conversation button. -->
+  <string name="delete_conversation_decline_button">Nuligi</string>
   <!-- Hint text for the recipient chips text box when it's empty -->
   <!-- Action menu title for multiple selection in gallery image picker -->
   <!-- Action menu title for confirming multiple selection in gallery image picker -->
@@ -138,6 +177,7 @@
   <!-- Accessibility : text read on the small X icon on the subject editor -->
   <!-- Description shown in the download manager for an attachment that the user manually saved -->
   <!-- Title for the preferences/settings activity -->
+  <string name="settings_activity_title">Agordoj</string>
   <!-- Title for the archived conversations activity -->
   <!-- Action title: Close -->
   <!-- Preference category: MMS messaging -->
@@ -160,6 +200,7 @@
   <!-- Menu item to copy message text -->
   <!-- Title of long press menu for details about an individual message. -->
   <!-- Title of long press menu for deleting an individual message. -->
+  <string name="message_context_menu_delete_message">Forigi</string>
   <!-- Title of long press menu for forwarding an individual message. -->
   <!-- Title of "Message details" dialog -->
   <!-- Label in "Message details" dialog -->
@@ -181,6 +222,7 @@
   <!-- Shows when the user attempts to send message while some attachment(s) haven't finished loading -->
   <!-- Notifies the user when an attachment fails to load -->
   <!-- Shows when the user attempts to send message when there is no active subscription -->
+  <string name="chips_text_delete_button_content_description">Forigi tekston</string>
   <!-- Content description for the checkbox when selecting an item in the gallery -->
   <!-- Option menu item in the conversation view that lets user view list of conversation participants and change options -->
   <!-- Option menu item in the conversation list view and conversation view that shows debug menu -->
@@ -237,6 +279,7 @@
   <!-- A message prefix to indicate the message was sent by the user. -->
   <!-- A message prefix to indicate the message was sent by another user in a group conversation. -->
   <!-- A message in conversation list view to indicate that the snipit text and preview is from an unsent draft. -->
+  <string name="conversation_list_item_view_draft_message">Malneto</string>
   <!-- String to show in the conversation list view when there are no messages. -->
   <!-- String to show in the archived conversation list view when there are no messages. -->
   <!-- String to show in the conversation list view when we haven't synchronized the SMS database yet -->
@@ -313,7 +356,9 @@
   <!-- The group MMS choices in settings -->
   <!-- SIM number shown in the settings when the number is not known -->
   <!-- Notification title for incoming sms/mms message for secondary user -->
+  <string name="secondary_user_new_message_title">Nova mesaĝo</string>
   <!-- Ticker for notification  for incoming sms/mms message for secondary user -->
+  <string name="secondary_user_new_message_ticker">Nova mesaĝo.</string>
   <!-- Content description for the SIM selector button in the conversation -->
   <!-- Content description for the SIM selector button with selected sim name -->
   <!-- Custom TalkBack description for send button long click event when there's no SIM selector, i.e. edit subject -->
