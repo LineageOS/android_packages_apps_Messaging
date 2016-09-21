@@ -87,6 +87,7 @@ import com.cyanogenmod.messaging.util.PrefsUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -244,7 +245,18 @@ public class ComposeMessageView extends LinearLayout
                     @Override
                     public void onPhoneAccountSelected(PhoneAccountHandle selectedAccountHandle,
                                                        boolean setDefault) {
-                        cb.onSimSelected(Integer.valueOf(selectedAccountHandle.getId()));
+                        // we need the subId and we only have a PhoneAccountHandle
+                        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                        Iterator<PhoneAccountHandle> phoneAccounts = telecomMgr.getCallCapablePhoneAccounts().listIterator();
+                        int subId = 0; // I'm not sure it's best to default to 0, but... *shrug*
+                        while (phoneAccounts.hasNext()) {
+                            PhoneAccountHandle p = phoneAccounts.next();
+                            if (p.getId() == selectedAccountHandle.getId()) {
+                                PhoneAccount phoneAccount = telecomMgr.getPhoneAccount(p);
+                                subId = telephonyManager.getSubIdForPhoneAccount(phoneAccount);
+                            }
+                        }
+                        cb.onSimSelected(subId);
                     }
                     @Override
                     public void onDialogDismissed() {
