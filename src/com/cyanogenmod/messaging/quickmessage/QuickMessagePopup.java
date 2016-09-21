@@ -401,7 +401,19 @@ public class QuickMessagePopup extends Activity {
                     @Override
                     public void onPhoneAccountSelected(PhoneAccountHandle selectedAccountHandle,
                             boolean setDefault) {
-                        cb.onSimSelected(Integer.valueOf(selectedAccountHandle.getId()));
+                        // well, crap, we need the subId and we only have a PhoneAccountHandle
+                        TelecomManager telecomManager = TelecomManager.from(this);
+                        TelephonyManager telephonyManager = TelephonyManager.from(this);
+                        Iterator<PhoneAccountHandle> phoneAccounts = telecomManager.getCallCapablePhoneAccounts().listIterator();
+                        int subId = 0; // I'm not sure it's best to default to 0, but... *shrug*
+                        while (phoneAccounts.hasNext()) {
+                            PhoneAccountHandle p = phoneAccounts.next();
+                            if (p.getId() == selectedAccountHandle.getId()) {
+                                PhoneAccount phoneAccount = telecomManager.getPhoneAccount(phoneAccountHandle);
+                                subId = telephonyManager.getSubIdForPhoneAccount(phoneAccount);
+                            }
+                        }
+                        cb.onSimSelected(subId);
                     }
                     @Override
                     public void onDialogDismissed() {
