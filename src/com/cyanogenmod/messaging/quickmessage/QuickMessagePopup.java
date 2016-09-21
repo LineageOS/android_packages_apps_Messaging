@@ -62,6 +62,7 @@ import com.cyanogenmod.messaging.ui.QuickMessageView;
 import com.cyanogenmod.messaging.util.PrefsUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class QuickMessagePopup extends Activity {
@@ -401,7 +402,20 @@ public class QuickMessagePopup extends Activity {
                     @Override
                     public void onPhoneAccountSelected(PhoneAccountHandle selectedAccountHandle,
                             boolean setDefault) {
-                        cb.onSimSelected(Integer.valueOf(selectedAccountHandle.getId()));
+                        // we need the subId and we only have a PhoneAccountHandle
+                        TelephonyManager telephonyManager =
+                            (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                        Iterator<PhoneAccountHandle> phoneAccounts =
+                            telecomMgr.getCallCapablePhoneAccounts().listIterator();
+                        int subId = 0; // defaulting to 0, just in case
+                        while (phoneAccounts.hasNext()) {
+                            PhoneAccountHandle p = phoneAccounts.next();
+                            if (p.getId() == selectedAccountHandle.getId()) {
+                                PhoneAccount phoneAccount = telecomMgr.getPhoneAccount(p);
+                                subId = telephonyManager.getSubIdForPhoneAccount(phoneAccount);
+                            }
+                        }
+                        cb.onSimSelected(subId);
                     }
                     @Override
                     public void onDialogDismissed() {
