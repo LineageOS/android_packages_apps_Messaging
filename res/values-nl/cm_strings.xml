@@ -102,11 +102,14 @@
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g> aan contacten toevoegen</string>
   <string name="sim_capacity_title">SIM-capaciteit</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> plekken op simkaart in gebruik</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Verwijderen?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Berichten op simkaart</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <string name="refreshing">Vernieuwen\u2026</string>
   <string name="confirm_delete_selected_messages">Geselecteerd bericht wordt verwijderd.</string>
@@ -116,7 +119,9 @@
   <string name="menu_forward">Doorsturen</string>
   <string name="menu_reply">Beantwoorden</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Bericht kopiëren naar tabletgeheugen</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Bericht kopiëren naar telefoongeheugen</string>
   <string name="selected_all">Alles selecteren</string>
   <string name="deselected_all">Alles deselecteren</string>
   <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> geselecteerd</string>
@@ -127,8 +132,12 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Afbeeldingen of video\'s op dit apparaat selecteren</string>
+  <string name="mediapicker_audioListChooserDescription">Audiobestanden op dit apparaat selecteren</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">Kan video niet toevoegen. Maximale berichtgrootte overschreden.</string>
   <string name="mediapicker_audio_list_title">Audio selecteren</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Audio is geselecteerd.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Audio is niet geselecteerd.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> geselecteerd</string>
+  <!-- Ride sharing -->
 </resources>

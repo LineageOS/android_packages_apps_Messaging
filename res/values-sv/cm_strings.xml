@@ -36,12 +36,15 @@
   <string name="validity_period_maximum">Maximalt</string>
   <string name="delivery_reports_mms_pref_title">Leveransrapporter</string>
   <string name="status_label">Status:\u0020</string>
+  <string name="status_read">Läst</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_low">Låg</string>
   <string name="priority_normal">Normal</string>
   <string name="priority_high">Hög</string>
   <!-- Storage specific Settings -->
   <string name="sms_storage_pref_title">Lagring</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> meddelanden per konversation</string>
+  <string name="mms_delete_pref_title">Gräns för multimediameddelande</string>
   <string name="set">Ställ in</string>
   <string name="no">Avbryt</string>
   <!-- Swipe to delete conversation -->
@@ -77,8 +80,12 @@
   <string name="pref_title_manage_sim_messages_slot1">Hantera SIM 1-meddelanden</string>
   <string name="pref_title_manage_sim_messages_slot2">Hantera SIM 2-meddelanden</string>
   <string name="copy_to_sim">Kopiera meddelande till SIM-kort</string>
+  <string name="copy_to_phone_success">Meddelandet sparades</string>
+  <string name="copy_to_phone_fail">Det gick inte att spara meddelandet</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Inga meddelanden på SIM-kortet.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Skicka mail till <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
   <string name="menu_call_back">Ring <xliff:g id="name">%s </xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
@@ -108,4 +115,8 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_audio_list_title">Välj ljud</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Ljudet är inte valt.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
+  <!-- Ride sharing -->
 </resources>
