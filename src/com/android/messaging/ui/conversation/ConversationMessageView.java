@@ -17,6 +17,7 @@
 package com.android.messaging.ui.conversation;
 
 import android.content.Context;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -83,6 +84,7 @@ import com.cyanogen.lookup.phonenumber.response.LookupResponse;
 import com.cyanogenmod.messaging.lookup.LookupProviderManager.LookupProviderListener;
 import com.cyanogenmod.messaging.ui.AttributionContactIconView;
 import com.cyanogenmod.messaging.util.GoogleStaticMapsUtil;
+import com.cyanogenmod.messaging.util.MetricsHelper;
 import com.cyanogenmod.messaging.util.RidesharingUtil;
 import com.cyanogenmod.messaging.util.RoundedCornerTransformation;
 import com.google.common.base.Predicate;
@@ -752,6 +754,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                     builder.addDropoffLocation(decodedAddress);
                     Intent intent = builder.build();
                     mContext.startActivity(intent);
+
+                    MetricsHelper.increaseCountOfEventMetricAfterValidate(mContext.getApplicationContext(), new ComponentName(mContext.getApplicationContext(), ConversationActivity.class),
+                                                                           MetricsHelper.MetricEvent.UBER_RIDE_REQUESTED);
                 }
             }
         });
@@ -765,6 +770,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mButtonDivider.measure(dividerWidthMeasureSpec, unspecifiedMeasureSpec);
 
         mMessageMapsView.setVisibility(View.VISIBLE);
+
+        MetricsHelper.increaseCountOfEventMetricAfterValidate(mContext.getApplicationContext(), new ComponentName(mContext.getApplicationContext(), ConversationActivity.class),
+                                                                           MetricsHelper.MetricEvent.RIDESHARING_MAP_SHOWN);
     }
 
     private class ImageLoadedCallback implements com.squareup.picasso.Callback {
