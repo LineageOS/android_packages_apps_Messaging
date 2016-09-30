@@ -55,6 +55,8 @@
     <uses-permission android:name="com.cyanogen.ambient.permission.BIND_RIDEINPROGRESS_SERVICE" />
     <uses-permission android:name="com.cyanogen.ambient.permission.BIND_RIDESHARING_SERVICE" />
 
+    <uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
+
     <!--  Optional features -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.front" android:required="false" />
@@ -552,6 +554,13 @@
                   android:launchMode="singleTop"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:label="@string/sim_manage_messages_title" />
+
+        <meta-data android:name="com.cyanogen.ambient.analytics.key"
+                   android:value="6l2dXt9DFioFa1Mfb4eZsM9l87Rl9hp1UL75tO9w"/>
+
+        <service android:name="com.cyanogenmod.messaging.util.MetricsJob"
+                 android:permission="android.permission.BIND_JOB_SERVICE" />
+
     </application>
 
 </manifest>
