@@ -17,29 +17,24 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Strip unicode -->
-  <string name="pref_unicode_stripping_leave_intact">Konservi ĉenon</string>
-  <string name="pref_unicode_stripping_all">Forigi ĉiujn unikodajn signojn</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="sms_validity_period_one_hour">1 horo</string>
+  <string name="sms_validity_period_six_hours">6 horoj</string>
+  <string name="sms_validity_period_twelve_hours">12 horoj</string>
+  <string name="sms_validity_period_one_day">1 tago</string>
+  <string name="mms_validity_period_two_days">2 tagoj</string>
+  <string name="mms_validity_period_one_week">1 semajno</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <!-- Storage specific Settings -->
+  <string name="no">Nuligi</string>
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
-  <string name="pref_quickmessage">Rapida respondo</string>
-  <string name="pref_quickmessage_title">Montri QuickMessage</string>
-  <string name="pref_quickmessage_summary">Aŭtomate malfermi QuickMessage ŝprucfenestron por  envenaj mesaĝoj</string>
-  <string name="pref_close_all_title">Fermi ĉion</string>
-  <string name="pref_close_all_summary">La butono \"fermi\" fermas ĉiujn mesaĝojn</string>
-  <string name="message_counter">%1$d de %2$d</string>
   <!-- QM Dialog box buttons -->
-  <string name="button_close">Fermi</string>
-  <string name="button_view">Montri</string>
-  <string name="button_templates">Ŝablonoj</string>
   <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Tajpu respondon</string>
   <!-- QM Toast -->
-  <string name="toast_sending_message">Sendado de la mesaĝo\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="send">Sendi</string>
   <!-- Show emoticons -->
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
@@ -54,6 +49,7 @@
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <!-- Delete button title -->
+  <string name="delete">Forigi</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
