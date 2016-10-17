@@ -87,7 +87,7 @@
     <color name="compose_contact_divider">#44000000</color>
     <color name="contact_picker_tab_pressed">#ddffffff</color>
     <color name="contact_picker_tab_underline">@android:color/white</color>
-    <color name="contact_list_alphabet_header">@color/primary_color</color>
+    <color name="contact_list_alphabet_header">@color/cm_accent</color>
     <color name="contact_picker_background">#ffffff</color>
     <color name="chips_dropdown_background_activated">#4285f4</color>
     <color name="chips_dropdown_background_pressed">#ededed</color>
@@ -109,7 +109,7 @@
     <color name="audio_picker_hint_text_color">#40000000</color>
     <color name="audio_picker_timer_text_color">#323232</color>
     <color name="audio_attachment_timer_text_color">#323232</color>
-    <color name="audio_progress_bar_color">@color/primary_color</color>
+    <color name="audio_progress_bar_color">@color/cm_accent</color>
 
     <color name="notification_sender_text">#9A9A9A</color>
     <color name="notification_secondary_text">#FFFFFF</color>
@@ -132,7 +132,7 @@
     <color name="mms_indicator_color">#681faf</color>
     <color name="list_empty_text">#6d6d6d</color>
     <color name="low_storage_action_item_color">#ff000000</color>
-    <color name="unblock_item_text_color">@color/primary_color</color>
+    <color name="unblock_item_text_color">@color/cm_accent</color>
     <color name="open_conversation_animation_background_shadow">#40000000</color>
     <color name="compose_notification_bar_background">@color/primary_color</color>
 
