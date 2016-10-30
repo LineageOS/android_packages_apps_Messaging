@@ -43,6 +43,7 @@
   <string name="priority_high">Hög</string>
   <!-- Storage specific Settings -->
   <string name="sms_storage_pref_title">Lagring</string>
+  <string name="auto_delete_pref_title">Ta bort gamla meddelanden</string>
   <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> meddelanden per konversation</string>
   <string name="mms_delete_pref_title">Gräns för multimediameddelande</string>
   <string name="set">Ställ in</string>
