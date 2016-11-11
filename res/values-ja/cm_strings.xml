@@ -49,7 +49,7 @@
   <string name="sms_storage_pref_title">ストレージ</string>
   <string name="pref_summary_auto_delete">上限に達したときに古いメッセージを消去する</string>
   <string name="auto_delete_pref_title">古いメッセージを削除</string>
-  <string name="pref_summary_delete_limit">会話ごとに<xliff:g id="count">%1$s</xliff:g>通のメッセージ</string>
+  <string name="pref_summary_delete_limit">スレッドごとに<xliff:g id="count">%1$s</xliff:g>通のメッセージ</string>
   <string name="sms_delete_pref_title">テキストメッセージの上限</string>
   <string name="mms_delete_pref_title">マルチメディアメッセージの上限</string>
   <string name="set">設定</string>
@@ -57,7 +57,7 @@
   <string name="pref_messages_to_save">保存するメッセージの数を設定してください</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">スワイプして削除</string>
-  <string name="swipe_to_delete_conversation_pref_summary">右にスワイプして会話を削除する</string>
+  <string name="swipe_to_delete_conversation_pref_summary">右にスワイプしてスレッドを削除する</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">クイックメッセージと返信</string>
@@ -70,7 +70,7 @@
   <string name="button_close">閉じる</string>
   <string name="button_view">表示</string>
   <string name="button_templates">テンプレート</string>
-  <string name="qm_button_full_conversation">すべての会話</string>
+  <string name="qm_button_full_conversation">すべてのスレッド</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">返信の種類</string>
   <!-- QM Toast -->
