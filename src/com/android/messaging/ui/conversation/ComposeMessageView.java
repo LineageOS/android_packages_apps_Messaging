@@ -253,7 +253,7 @@ public class ComposeMessageView extends LinearLayout
                         int subId = 0; // defaulting to 0, just in case
                         while (phoneAccounts.hasNext()) {
                             PhoneAccountHandle p = phoneAccounts.next();
-                            if (p.getId() == selectedAccountHandle.getId()) {
+                            if (p.getId().equals(selectedAccountHandle.getId())) {
                                 PhoneAccount phoneAccount = telecomMgr.getPhoneAccount(p);
                                 subId = telephonyManager.getSubIdForPhoneAccount(phoneAccount);
                             }
