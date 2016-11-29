@@ -23,11 +23,41 @@
   <string name="pref_unicode_stripping_non_encodable">エンコードできない文字を削除</string>
   <string name="pref_unicode_stripping_all">すべてのUnicode文字を削除</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">有効期限</string>
+  <string name="validity_period_slot1_pref_title">SIM 1の有効期限</string>
+  <string name="validity_period_slot2_pref_title">SIM 2の有効期限</string>
+  <string name="sms_validity_period_not_set">未設定</string>
+  <string name="sms_validity_period_one_hour">1時間</string>
+  <string name="sms_validity_period_six_hours">6時間</string>
+  <string name="sms_validity_period_twelve_hours">12時間</string>
+  <string name="sms_validity_period_one_day">1日</string>
+  <string name="mms_validity_period_two_days">2日</string>
+  <string name="mms_validity_period_one_week">1週間</string>
+  <string name="validity_period_maximum">最大</string>
+  <string name="pref_summary_mms_delivery_reports">送信するすべてのメッセージに配信レポートをリクエストする</string>
+  <string name="pref_summary_mms_read_reports">送信するすべてのメッセージに既読レポートをリクエストする</string>
+  <string name="delivery_reports_mms_pref_title">配信レポート</string>
+  <string name="read_reports_mms_pref_title">既読レポート</string>
+  <string name="status_label">状態:\u0020</string>
+  <string name="status_read">既読</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">送信の優先順位</string>
+  <string name="priority_low">低</string>
+  <string name="priority_normal">標準</string>
+  <string name="priority_high">高</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">ストレージ</string>
+  <string name="pref_summary_auto_delete">上限に達したときに古いメッセージを消去する</string>
+  <string name="auto_delete_pref_title">古いメッセージを削除</string>
+  <string name="pref_summary_delete_limit">スレッドごとに<xliff:g id="count">%1$s</xliff:g>通のメッセージ</string>
+  <string name="sms_delete_pref_title">テキストメッセージの上限</string>
+  <string name="mms_delete_pref_title">マルチメディアメッセージの上限</string>
+  <string name="set">設定</string>
+  <string name="no">キャンセル</string>
+  <string name="pref_messages_to_save">保存するメッセージの数を設定してください</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">スワイプして削除</string>
-  <string name="swipe_to_delete_conversation_pref_summary">右にスワイプして会話を削除する</string>
+  <string name="swipe_to_delete_conversation_pref_summary">右にスワイプしてスレッドを削除する</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">クイックメッセージと返信</string>
@@ -40,7 +70,7 @@
   <string name="button_close">閉じる</string>
   <string name="button_view">表示</string>
   <string name="button_templates">テンプレート</string>
-  <string name="qm_button_full_conversation">すべての会話</string>
+  <string name="qm_button_full_conversation">すべてのスレッド</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">返信の種類</string>
   <!-- QM Toast -->
@@ -55,22 +85,60 @@
   <string name="select_phone_account_title">送信方法</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">SIMカードのメッセージを管理</string>
+  <string name="pref_title_manage_sim_messages_slot1">SIM 1のメッセージを管理</string>
+  <string name="pref_title_manage_sim_messages_slot2">SIM 2のメッセージを管理</string>
+  <string name="copy_to_sim">メッセージをSIMカードにコピー</string>
+  <string name="copy_to_sim_success"><xliff:g id="total">%2$d</xliff:g>通中<xliff:g id="count">%1$d</xliff:g>通のメッセージがSIMカードに保存されました。</string>
+  <string name="copy_to_sim_fail">メッセージを保存できません</string>
+  <string name="copy_to_phone_success">メッセージを保存しました</string>
+  <string name="copy_to_phone_fail">メッセージを保存できません</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">SIMカードにメッセージがありません。</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email"><xliff:g id="name">%s</xliff:g>にメールを送信</string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g>に発信</string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g>を人物に追加</string>
+  <string name="sim_capacity_title">SIMの容量</string>
+  <string name="sim_capacity"><xliff:g id="total">%2$d</xliff:g>中<xliff:g id="used">%1$d</xliff:g>のSIMカードのエントリが使用されています</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">削除しますか？</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">SIMカードのテキストメッセージ</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">更新中\u2026</string>
+  <string name="confirm_delete_selected_messages">選択したメッセージは削除されます。</string>
   <!-- Delete button title -->
+  <string name="delete">削除</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">転送</string>
+  <string name="menu_reply">返信</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">タブレットのメモリにコピー</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">携帯電話のメモリにコピー</string>
+  <string name="selected_all">すべて選択</string>
+  <string name="deselected_all">すべて選択解除</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g>通を選択しています</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">メッセージをSIMカードにコピー</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">この端末から画像または動画を選択</string>
+  <string name="mediapicker_audioListChooserDescription">この端末から音声ファイルを選択</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">動画を添付できません。メッセージの最大サイズを超えています。</string>
+  <string name="mediapicker_audio_list_title">音声を選択</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">音声が選択されました。</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">音声が選択解除されました。</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g>件を選択しています</string>
   <!-- Ride sharing -->
+  <string name="request_ride">相乗りをリクエスト</string>
 </resources>

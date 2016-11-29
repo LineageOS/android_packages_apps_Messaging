@@ -134,7 +134,7 @@
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_galleryChooserDescription_cm">Hautatu gailu honetako irudi edo bideoak</string>
   <string name="mediapicker_audioListChooserDescription">Hautoatu gailu honetako audio fitxategiak</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Ezin izan da bideoa erantsi. Gehieneko mezu tamaina gainditu da.</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Ezin izan da bideoa erantsi. Mezuaren gehieneko tamaina gainditu da.</string>
   <string name="mediapicker_audio_list_title">Aukeratu audioa</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Audioa aukeratuta dago.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Audioa ez dago aukeratuta.</string>

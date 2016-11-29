@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Versoek \'n lees verslag vir elke boodskap wat jy stuur</string>
   <string name="delivery_reports_mms_pref_title">Aflewering verslae</string>
   <string name="read_reports_mms_pref_title">Lees verslae</string>
+  <string name="status_label">Status:\u0020</string>
+  <string name="status_read">Lees</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Stuur prioriteit</string>
   <string name="priority_low">Laag</string>
@@ -83,22 +85,60 @@
   <string name="select_phone_account_title">Stuur met</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Bestuur SIM-kaart boodskappe</string>
+  <string name="pref_title_manage_sim_messages_slot1">Bestuur SIM 1 se boodskappe</string>
+  <string name="pref_title_manage_sim_messages_slot2">Bestuur SIM 2 se boodskappe</string>
+  <string name="copy_to_sim">Kopieer boodskap na SIM-kaart</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> boodskappe gestoor na SIM-kaart.</string>
+  <string name="copy_to_sim_fail">Kon nie boodskap stoor nie</string>
+  <string name="copy_to_phone_success">Boodskap gestoor</string>
+  <string name="copy_to_phone_fail">Kon nie boodskap stoor nie</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Geen boodskappe op die SIM-kaart.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Stuur e-pos na <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Bel <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Voeg <xliff:g id="contactEmailOrNumber">%s</xliff:g> by mense</string>
+  <string name="sim_capacity_title">SIM kapasiteit</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g> SIM-kaart inskrywings word gebruik</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Verwyder?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">SMS-boodskappe op die SIM-kaart</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Herlaai tans\u2026</string>
+  <string name="confirm_delete_selected_messages">Die geselekteerde boodskap sal verwyder word.</string>
   <!-- Delete button title -->
+  <string name="delete">Verwyder</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Vorentoe</string>
+  <string name="menu_reply">Antwoord</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Kopieer na tablet geheue</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Kopieer na foon geheue</string>
+  <string name="selected_all">Kies alles</string>
+  <string name="deselected_all">Ontkies alles</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> gekies</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Kopieer boodskap na SIM-kaart</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Kies prente of video\'s van hierdie toestel</string>
+  <string name="mediapicker_audioListChooserDescription">Kies oudio-lêers van hierdie toestel</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan nie video aanheg nie. Maks boodskap grootte oorskry.</string>
+  <string name="mediapicker_audio_list_title">Kies oudio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Oudio is gekies.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Die oudio is nie gekies nie.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> gekies</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Versoek rit</string>
 </resources>

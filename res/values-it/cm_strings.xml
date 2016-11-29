@@ -140,4 +140,5 @@
   <string name="mediapicker_audio_list_item_unselected_content_description">L\'audio non è selezionato.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selezionati</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Richiedi corsa</string>
 </resources>
