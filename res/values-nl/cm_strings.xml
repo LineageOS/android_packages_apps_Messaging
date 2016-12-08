@@ -23,5 +23,10 @@
   <string name="show_emoticons_pref_title">Toegang tot emoticons</string>
   <string name="show_emoticons_pref_summary">Emoticons-toets op het toetsenbord weergeven</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Afbeeldingen of video\'s op dit apparaat selecteren</string>
+  <string name="mediapicker_audioListChooserDescription">Audiobestanden op dit apparaat selecteren</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan video niet toevoegen. Maximale berichtgrootte overschreden.</string>
   <string name="mediapicker_audio_list_title">Audio selecteren</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Tik om te selecteren</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> geselecteerd</string>
 </resources>
