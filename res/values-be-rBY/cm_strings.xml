@@ -23,4 +23,14 @@
   <string name="show_emoticons_pref_title">Доступ да смайлаў</string>
   <string name="show_emoticons_pref_summary">Паказаць смайлы на клавіятуры</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Абяры выяву, альбо відэа на гэтае
+        прыладзе</string>
+  <string name="mediapicker_audioListChooserDescription">Абяры аўдыё на гэтае
+        прыладзе</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Немагчыма прышпіліць відэа.
+        Найвялікі памер паведамленьня.</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Абранае аўдыё</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Краніся, каб абраць</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> абрана
+    </string>
 </resources>
