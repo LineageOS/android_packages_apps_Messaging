@@ -120,6 +120,7 @@
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <string name="sim_copy_to_phone_memory" product="default">Kopiuj do pamięci telefonu</string>
   <string name="selected_all">Wybierz wszystkie</string>
+  <string name="deselected_all">Odznacz wszystko</string>
   <string name="selected_count"><xliff:g id="COUNT">%d </xliff:g> wybrano</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
   <string name="yes">OK</string>
