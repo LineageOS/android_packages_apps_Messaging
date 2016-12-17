@@ -16,12 +16,48 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Nahlásiť ako spam do %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Odstrániť znaky Unicode</string>
+  <string name="pref_unicode_stripping_leave_intact">Ponechať znaky bezo zmeny</string>
   <string name="pref_unicode_stripping_non_encodable">Odstrániť nekódovateľné znaky</string>
+  <string name="pref_unicode_stripping_all">Odstrániť všetky znaky Unicode</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Doba platnosti</string>
+  <string name="validity_period_slot1_pref_title">Doba platnosti pre SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Doba platnosti pre SIM 2</string>
+  <string name="sms_validity_period_not_set">Nenastavené</string>
+  <string name="sms_validity_period_one_hour">1 hodina</string>
+  <string name="sms_validity_period_six_hours">6 hodín</string>
+  <string name="sms_validity_period_twelve_hours">12 hodín</string>
+  <string name="sms_validity_period_one_day">1 deň</string>
+  <string name="mms_validity_period_two_days">2 dni</string>
+  <string name="mms_validity_period_one_week">1 týždeň</string>
+  <string name="validity_period_maximum">Maximálna</string>
+  <string name="pref_summary_mms_delivery_reports">Pre každú odoslanú právu vyžiadaj správu o doručení</string>
+  <string name="pref_summary_mms_read_reports">Pre každú odoslanú právu vyžiadaj správu o prečítaní</string>
+  <string name="delivery_reports_mms_pref_title">Správy o doručení</string>
+  <string name="read_reports_mms_pref_title">Správy o prečítaní</string>
+  <string name="status_label">Stav:\u0020</string>
+  <string name="status_read">Prečítané</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Priorita posielania</string>
+  <string name="priority_low">Nízka</string>
+  <string name="priority_normal">Normálna</string>
+  <string name="priority_high">Vysoká</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Úložisko</string>
+  <string name="pref_summary_auto_delete">Vymazať staré správy pri dosiahnutí limitu</string>
+  <string name="auto_delete_pref_title">Vymazať staré správy</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> správ v konverzácii</string>
+  <string name="sms_delete_pref_title">Limit pre textové správy</string>
+  <string name="mms_delete_pref_title">Limit pre multimediálne správy</string>
+  <string name="set">Nastaviť</string>
+  <string name="no">Zrušiť</string>
+  <string name="pref_messages_to_save">Nastavte počet správ na uloženie</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Potiahnutím zmazať</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Potiahnutím vpravo zmazať konverzáciu</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Rýchla správa a odpoveď</string>
@@ -34,30 +70,75 @@
   <string name="button_close">Zavrieť</string>
   <string name="button_view">Zobraziť</string>
   <string name="button_templates">Šablóny</string>
+  <string name="qm_button_full_conversation">Celá konverzácia</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Zadajte odpoveď</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">Odosielanie správy</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Rýchla odpoveď</string>
+  <string name="send">Odoslať</string>
+  <string name="compose_message_hint_text">Zadajte správu</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Zobrazenie smajlíkov</string>
+  <string name="show_emoticons_pref_summary">Klávesu pre zobrazenie smajlíkov zobrazovať na klávesnici</string>
+  <string name="select_phone_account_title">Poslať cez</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Spravovať správy na karte SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Spravovať správy na karte SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Spravovať správy na karte SIM 2</string>
+  <string name="copy_to_sim">Kopírovať správu na kartu SIM</string>
+  <string name="copy_to_sim_success">Počet uložených správ na SIM karte: <xliff:g id="count">%1$d</xliff:g> z <xliff:g id="total">%2$d</xliff:g>.</string>
+  <string name="copy_to_sim_fail">Nepodarilo sa uložiť správu</string>
+  <string name="copy_to_phone_success">Správa bola uložená</string>
+  <string name="copy_to_phone_fail">Nepodarilo sa uložiť správu</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Žiadne správy na SIM karte.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Poslať e-mail na <xliff:g id="name">%s </xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Zavolať <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Pridať <xliff:g id="contactEmailOrNumber">%s</xliff:g> do kontaktov</string>
+  <string name="sim_capacity_title">Kapacita SIM karty</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> z<xliff:g id="total">%2$d</xliff:g> položiek karty SIM je využitých</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Vymazať?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Textové správy na SIM karte</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Obnovenie\u2026</string>
+  <string name="confirm_delete_selected_messages">Vybrané správy budú odstránené.</string>
   <!-- Delete button title -->
+  <string name="delete">Vymazať</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Preposlať</string>
+  <string name="menu_reply">Odpovedať</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Kopírovať do pamäte tabletu</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Kopírovať do pamäte telefónu</string>
+  <string name="selected_all">Vybrať všetko</string>
+  <string name="deselected_all">Zrušiť výber všetkých</string>
+  <string name="selected_count">Počet vybraných: <xliff:g id="COUNT">%d</xliff:g></string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Kopírovať správu na kartu SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Vyberte obrázky alebo videá z tohto zariadenia</string>
+  <string name="mediapicker_audioListChooserDescription">Vyberte audio súbory z tohto zariadenia</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Video sa nedá pripojiť. Prekročená maximálna veľkosť správy.</string>
+  <string name="mediapicker_audio_list_title">Vybrať zvuk</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Je vybraný zvuk.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Zvuk nie je vybraný.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vybraný</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Požiadať o jazdu</string>
 </resources>
