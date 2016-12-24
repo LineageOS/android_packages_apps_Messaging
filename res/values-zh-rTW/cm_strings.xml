@@ -107,11 +107,11 @@
   <string name="sim_capacity">已使用 SIM 卡總容量 <xliff:g id="total">%2$d</xliff:g> 中的 <xliff:g id="used">%1$d</xliff:g></string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">要刪除嗎？</string>
+  <string name="confirm_dialog_title">是否刪除？</string>
   <!-- Title of screen displaying messages on SIM card -->
   <string name="sim_manage_messages_title">SIM 卡上的簡訊</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">重新整理中\u2026</string>
+  <string name="refreshing">正在重新整理\u2026</string>
   <string name="confirm_delete_selected_messages">選取的訊息將被刪除。</string>
   <!-- Delete button title -->
   <string name="delete">刪除</string>
