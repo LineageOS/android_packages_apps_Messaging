@@ -29,5 +29,5 @@
   <string name="mediapicker_audio_list_title">Vælg lyd</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Valgt lydfil</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Tryk for at vælge en</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt    </string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt</string>
 </resources>

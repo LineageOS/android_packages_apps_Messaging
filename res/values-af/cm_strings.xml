@@ -23,5 +23,9 @@
   <string name="show_emoticons_pref_title">Emosieikone toegang</string>
   <string name="show_emoticons_pref_summary">Wys emosieikone sleutel op die sleutelbord</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Kies prente of video\'s van hierdie toestel</string>
+  <string name="mediapicker_audioListChooserDescription">Kies oudio-lêers van hierdie toestel</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan nie video aanheg nie. Maks boodskap grootte oorskry.</string>
   <string name="mediapicker_audio_list_title">Kies oudio</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> gekies</string>
 </resources>
