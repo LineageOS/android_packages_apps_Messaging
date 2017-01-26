@@ -23,16 +23,41 @@
   <string name="pref_unicode_stripping_non_encodable">Elimină caracterele ne-codificabile</string>
   <string name="pref_unicode_stripping_all">Elimină toate caracterele unicod</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Perioada de valabilitate</string>
+  <string name="validity_period_slot1_pref_title">Perioada de valabilitate pentru SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Perioada de valabilitate pentru SIM 2</string>
+  <string name="sms_validity_period_not_set">Nesetată</string>
   <string name="sms_validity_period_one_hour">1 oră</string>
   <string name="sms_validity_period_six_hours">6 ore</string>
   <string name="sms_validity_period_twelve_hours">12 ore</string>
   <string name="sms_validity_period_one_day">1 zi</string>
   <string name="mms_validity_period_two_days">2 zile</string>
   <string name="mms_validity_period_one_week">1 săptămână</string>
+  <string name="validity_period_maximum">Maximum</string>
+  <string name="pref_summary_mms_delivery_reports">Cereți o confirmare de livrare pentru fiecare mesaj trimis</string>
+  <string name="pref_summary_mms_read_reports">Cereți o confirmare de citire pentru fiecare mesaj trimis</string>
+  <string name="delivery_reports_mms_pref_title">Rapoarte de livrare</string>
+  <string name="read_reports_mms_pref_title">Citiți rapoartele</string>
+  <string name="status_label">Status:\u0020</string>
+  <string name="status_read">Citit</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioritate trimitere</string>
+  <string name="priority_low">Redusă</string>
+  <string name="priority_normal">Normală</string>
+  <string name="priority_high">Ridicată</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Stocare</string>
+  <string name="pref_summary_auto_delete">Ştergeți mesajele vechi când sunt atinse limitele</string>
+  <string name="auto_delete_pref_title">Ștergeți mesajele vechi</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mesaje per conversație</string>
+  <string name="sms_delete_pref_title">Limită mesaj text</string>
+  <string name="mms_delete_pref_title">Limită mesaj multimedia</string>
+  <string name="set">Setați</string>
+  <string name="no">Revocați</string>
+  <string name="pref_messages_to_save">Setaţi numărul de mesaje pentru a fi salvate</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Glisare pentru a șterge</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Glisați spre dreapta pentru a şterge o conversație</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Mesaj Rapid și Răspuns</string>
@@ -55,25 +80,65 @@
   <string name="send">Trimite</string>
   <string name="compose_message_hint_text">Introduceți mesajul</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Acces emoticoane</string>
+  <string name="show_emoticons_pref_summary">Arată emoticoane pe tastatură</string>
   <string name="select_phone_account_title">Trimiteți cu</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Gestionați mesajele de pe cartela SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Gestionați mesajele de pe SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Gestionați mesajele de pe SIM 2</string>
+  <string name="copy_to_sim">Copiați mesajul pe cartela SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> din <xliff:g id="total">%2$d</xliff:g> (de) mesaje salvate pe cartela SIM.</string>
+  <string name="copy_to_sim_fail">Imposibil de salvat mesajul</string>
+  <string name="copy_to_phone_success">Mesaj salvat</string>
+  <string name="copy_to_phone_fail">Imposibil de salvat mesajul</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Nu există mesaje pe cartela SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Trimiteți e-mail către <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Apelați <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Adăugați <xliff:g id="contactEmailOrNumber">%s</xliff:g> la Persoane</string>
+  <string name="sim_capacity_title">Capacitate SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> din <xliff:g id="total">%2$d</xliff:g> intrări de pe cartela SIM sunt utilizate</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Ștergeți?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Mesaje text pe cartela SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Actualizare\u2026</string>
+  <string name="confirm_delete_selected_messages">Mesajul selectat va fi şters.</string>
   <!-- Delete button title -->
+  <string name="delete">Ștergeți</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Redirecţionaţi</string>
+  <string name="menu_reply">Răspundeți</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Copiați în memoria tabletei</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Copiați în memoria telefonului</string>
+  <string name="selected_all">Selectați tot</string>
+  <string name="deselected_all">Deselectați tot</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> selectate</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Copiați mesajul pe cartela SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Alegeți imagini sau videoclipuri de pe acest dispozitiv</string>
+  <string name="mediapicker_audioListChooserDescription">Alegeți fişiere audio de pe acest dispozitiv</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Nu se poate atașa videoclipul. Dimensiunea maximă a mesajului a fost depășită.</string>
+  <string name="mediapicker_audio_list_title">Alegeți fișierul audio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Fișierul audio este selectat.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Fișierul audio nu este selectat.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selectate</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Solicitați Cursă</string>
 </resources>

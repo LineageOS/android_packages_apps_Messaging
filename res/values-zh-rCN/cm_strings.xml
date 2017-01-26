@@ -89,7 +89,7 @@
   <string name="pref_title_manage_sim_messages_slot1">管理 SIM 卡 1 的信息</string>
   <string name="pref_title_manage_sim_messages_slot2">管理 SIM 卡 2 的信息</string>
   <string name="copy_to_sim">将信息复制到 SIM 卡</string>
-  <string name="copy_to_sim_success"><xliff:g id="total">%2$d </xliff:g> 条中的 <xliff:g id="count">%1$d </xliff:g> 条信息已保存到 SIM 卡。</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> 条信息已保存到 SIM 卡。</string>
   <string name="copy_to_sim_fail">无法保存信息</string>
   <string name="copy_to_phone_success">信息已保存</string>
   <string name="copy_to_phone_fail">无法保存信息</string>
@@ -102,12 +102,12 @@
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">将 <xliff:g id="contactEmailOrNumber">%s </xliff:g> 添加到联系人</string>
+  <string name="menu_add_address_to_contacts">将 <xliff:g id="contactEmailOrNumber">%s</xliff:g> 添加到联系人</string>
   <string name="sim_capacity_title">SIM 卡容量</string>
-  <string name="sim_capacity">已使用 SIM 卡容量 <xliff:g id="total">%2$d</xliff:g> 条中的 <xliff:g id="used">%1$d</xliff:g> 条</string>
+  <string name="sim_capacity">SIM 卡容量已使用 <xliff:g id="used">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> 项</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">确定删除?</string>
+  <string name="confirm_dialog_title">确定删除？</string>
   <!-- Title of screen displaying messages on SIM card -->
   <string name="sim_manage_messages_title">SIM 卡中的信息</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
