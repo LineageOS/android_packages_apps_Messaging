@@ -23,4 +23,11 @@
   <string name="show_emoticons_pref_title">Acceso a emoticonos</string>
   <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Seleccione imágenes o videos en el dispositivo</string>
+  <string name="mediapicker_audioListChooserDescription">Seleccione archivos de audio en el dispositivo</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
+  <string name="mediapicker_audio_list_title">Elegir audio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audio seleccionado</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Pulsar para seleccionar</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seleccionados</string>
 </resources>
