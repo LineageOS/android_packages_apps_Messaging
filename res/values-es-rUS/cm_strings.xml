@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Pedir confirmación de lectura por cada mensaje enviado</string>
   <string name="delivery_reports_mms_pref_title">Informes de entrega</string>
   <string name="read_reports_mms_pref_title">Leer informes</string>
+  <string name="status_label">Estado:\u0020</string>
+  <string name="status_read">Leído</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Prioridad de envío</string>
   <string name="priority_low">Baja</string>
@@ -130,5 +132,13 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Seleccione imágenes o videos en el dispositivo</string>
+  <string name="mediapicker_audioListChooserDescription">Seleccione archivos de audio en el dispositivo</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
+  <string name="mediapicker_audio_list_title">Elegir audio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">El audio está seleccionado.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">El audio no está seleccionado.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seleccionados</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Solicitar transporte</string>
 </resources>

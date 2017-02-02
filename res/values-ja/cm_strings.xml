@@ -74,7 +74,7 @@
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">返信の種類</string>
   <!-- QM Toast -->
-  <string name="toast_sending_message">メッセージを送信中\u2026</string>
+  <string name="toast_sending_message">メッセージを送信中...</string>
   <!-- QM - Quick reply -->
   <string name="qm_quick_reply">クイック返信</string>
   <string name="send">送信</string>
@@ -111,7 +111,7 @@
   <!-- Title of screen displaying messages on SIM card -->
   <string name="sim_manage_messages_title">SIMカードのテキストメッセージ</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">更新中\u2026</string>
+  <string name="refreshing">更新中...</string>
   <string name="confirm_delete_selected_messages">選択したメッセージは削除されます。</string>
   <!-- Delete button title -->
   <string name="delete">削除</string>

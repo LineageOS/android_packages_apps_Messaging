@@ -132,5 +132,13 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Selecciona imágenes o videos de este dispositivo</string>
+  <string name="mediapicker_audioListChooserDescription">Selecciona archivos de audio de este dispositivo</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
+  <string name="mediapicker_audio_list_title">Selecciona un audio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">El audio está seleccionado.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">El audio no está seleccionado.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> seleccionados</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Solicitar Transporte</string>
 </resources>
