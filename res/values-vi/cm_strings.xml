@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">Yêu cầu báo cáo đọc cho mỗi tin nhắn bạn gửi</string>
   <string name="delivery_reports_mms_pref_title">Thông báo gửi</string>
   <string name="read_reports_mms_pref_title">Báo cáo đọc</string>
+  <string name="status_label">Trạng thái:\u0020</string>
+  <string name="status_read">Đọc</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Ưu tiên gửi</string>
   <string name="priority_low">Thấp</string>
@@ -83,22 +85,60 @@
   <string name="select_phone_account_title">Gửi bằng</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Quản lý tin nhắn thẻ SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Quản lý tin nhắn SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Quản lý tin nhắn SIM 2</string>
+  <string name="copy_to_sim">Sao chép tin nhắn vào thẻ SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> trong số <xliff:g id="total">%2$d</xliff:g> tin nhắn đã lưu vào thẻ SIM.</string>
+  <string name="copy_to_sim_fail">Không thể lưu tin nhắn</string>
+  <string name="copy_to_phone_success">Tin nhắn đã lưu</string>
+  <string name="copy_to_phone_fail">Không thể lưu tin nhắn</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Không có tin nhắn trên thẻ SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Gửi email đến <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Gọi <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Thêm <xliff:g id="contactEmailOrNumber">%s</xliff:g> vào Liên hệ</string>
+  <string name="sim_capacity_title">Bộ nhớ SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> trong số <xliff:g id="total">%2$d</xliff:g> mục trên thẻ SIM hiện được sử dụng</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Xóa?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Tin nhắn văn bản trên thẻ SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Đang làm mới\u2026</string>
+  <string name="confirm_delete_selected_messages">Tin nhắn đã chọn sẽ bị xóa.</string>
   <!-- Delete button title -->
+  <string name="delete">Xóa</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Chuyển tiếp</string>
+  <string name="menu_reply">Trả lời</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Sao chép vào bộ nhớ máy tính bảng</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Sao chép vào bộ nhớ điện thoại</string>
+  <string name="selected_all">Chọn tất cả</string>
+  <string name="deselected_all">Bỏ chọn tất cả</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> đã chọn</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Sao chép tin nhắn vào thẻ SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Chọn hình ảnh hoặc video từ thiết bị này</string>
+  <string name="mediapicker_audioListChooserDescription">Chọn tập tin âm thanh từ thiết bị này</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Không thể đính kèm video. Đã vượt quá kích thước thư tối đa.</string>
+  <string name="mediapicker_audio_list_title">Chọn âm thanh</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Âm thanh được chọn.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Âm thanh không được chọn.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> đã chọn</string>
   <!-- Ride sharing -->
+  <string name="request_ride">Yêu cầu đi xe</string>
 </resources>
