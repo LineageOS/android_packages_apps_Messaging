@@ -25,7 +25,7 @@
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_galleryChooserDescription_cm">Valitse kuvat ja videot tästä laitteesta</string>
   <string name="mediapicker_audioListChooserDescription">Valitse äänitiedostot tästä laitteesta</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Ei voida liittää videota. Viestin enimmäiskoko ylittynyt.</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Ei voida liittää videota. Enimmäiskoko ylittynyt.</string>
   <string name="mediapicker_audio_list_title">Valitse audio</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Valittu äänitiedosto</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Paina valitaksesi</string>

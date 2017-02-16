@@ -23,5 +23,9 @@
   <string name="show_emoticons_pref_title">Zougrëff op Smileyen</string>
   <string name="show_emoticons_pref_summary">Smiley-Tast op der Tastatur uweisen</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Wiel Biller oder Videoe vun dësem Apparat</string>
+  <string name="mediapicker_audioListChooserDescription">Wiel Toun-Fichiere vun dësem Apparat</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Video konnt net ugehaange ginn. Maximal Gréisst iwwerschratt.</string>
   <string name="mediapicker_audio_list_title">Toun auswielen</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> ausgewielt</string>
 </resources>
