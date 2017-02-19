@@ -66,10 +66,6 @@
                 app:cornerRadius="@dimen/attachment_rounded_corner_radius"
                 android:contentDescription="@string/message_image_content_description" />
 
-            <include
-                android:id="@+id/message_maps"
-                layout="@layout/attachment_maps" />
-
         </LinearLayout>
 
         <com.android.messaging.ui.conversation.MessageBubbleBackground

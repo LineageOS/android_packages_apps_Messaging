@@ -56,9 +56,4 @@
     <color name="snack_bar_action_text_color">#EEFF41</color>
     <color name="mic_recording_color">#ffffff</color>
     <color name="mic_background_color">#ffffff</color>
-
-    <!-- Ridesharing -->
-    <color name="transparent_gray">#1F000000</color>
-    <color name="white_54">#8BFFFFFF</color>
-    <color name="black_54">#8B000000</color>
 </resources>

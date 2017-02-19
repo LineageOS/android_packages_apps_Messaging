@@ -155,7 +155,4 @@
     <string name="mediapicker_audio_list_item_selected_content_description">The audio is selected.</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">The audio is unselected.</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selected</string>
-
-    <!-- Ride sharing -->
-    <string name="request_ride">Request Ride</string>
 </resources>

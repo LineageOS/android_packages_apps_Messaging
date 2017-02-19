@@ -51,7 +51,6 @@ LOCAL_STATIC_JAVA_LIBRARIES += guava
 LOCAL_STATIC_JAVA_LIBRARIES += libchips
 LOCAL_STATIC_JAVA_LIBRARIES += libphotoviewer
 LOCAL_STATIC_JAVA_LIBRARIES += libphonenumber
-LOCAL_STATIC_JAVA_LIBRARIES += play
 LOCAL_STATIC_JAVA_LIBRARIES += colorpicker
 LOCAL_STATIC_JAVA_LIBRARIES += contacts-picaso
 
@@ -68,7 +67,6 @@ LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.photo
 LOCAL_AAPT_FLAGS += --extra-packages com.android.colorpicker
 LOCAL_AAPT_FLAGS += --extra-packages com.android.contacts.common
 LOCAL_AAPT_FLAGS += --extra-packages com.android.phone.common
-LOCAT_AAPT_FLAGS += --extra-packages com.google.android.gms
 
 ifdef TARGET_BUILD_APPS
     LOCAL_JNI_SHARED_LIBRARIES := libframesequence libgiftranscode
@@ -77,7 +75,11 @@ else
 endif
 
 # utilize ContactsCommon's phone-number-based contact-info lookup
-include $(LOCAL_PATH)/../ContactsCommon/info_lookup/phonenumber_lookup_provider.mk
+ifeq ($(contacts_common_dir),)
+  contacts_common_dir := ../ContactsCommon
+endif
+CONTACTS_COMMON_LOOKUP_PROVIDER ?= $(LOCAL_PATH)/$(contacts_common_dir)/info_lookup
+include $(CONTACTS_COMMON_LOOKUP_PROVIDER)/phonenumber_lookup_provider.mk
 
 LOCAL_PROGUARD_FLAGS := -ignorewarnings -include build/core/proguard_basic_keeps.flags
 
