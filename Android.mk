@@ -51,7 +51,6 @@ LOCAL_STATIC_JAVA_LIBRARIES += guava
 LOCAL_STATIC_JAVA_LIBRARIES += libchips
 LOCAL_STATIC_JAVA_LIBRARIES += libphotoviewer
 LOCAL_STATIC_JAVA_LIBRARIES += libphonenumber
-LOCAL_STATIC_JAVA_LIBRARIES += play
 LOCAL_STATIC_JAVA_LIBRARIES += colorpicker
 LOCAL_STATIC_JAVA_LIBRARIES += contacts-picaso
 
@@ -68,7 +67,6 @@ LOCAL_AAPT_FLAGS += --extra-packages com.android.ex.photo
 LOCAL_AAPT_FLAGS += --extra-packages com.android.colorpicker
 LOCAL_AAPT_FLAGS += --extra-packages com.android.contacts.common
 LOCAL_AAPT_FLAGS += --extra-packages com.android.phone.common
-LOCAT_AAPT_FLAGS += --extra-packages com.google.android.gms
 
 ifdef TARGET_BUILD_APPS
     LOCAL_JNI_SHARED_LIBRARIES := libframesequence libgiftranscode
