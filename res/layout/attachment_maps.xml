@@ -21,46 +21,28 @@
     android:layout_height="@dimen/conversation_maps_height">
     <ImageView
         android:id="@+id/maps_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/conversation_maps_width"
+        android:layout_height="@dimen/conversation_maps_height"
         android:minWidth="@dimen/conversation_maps_width"
         android:minHeight="@dimen/conversation_maps_height"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
         android:layout_gravity="center_vertical"/>
     <RelativeLayout
         android:background="@drawable/maps_button_container_background"
         android:elevation="@dimen/maps_button_elevation"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/maps_button_width"
         android:layout_height="@dimen/maps_button_height"
         android:layout_alignParentBottom="true"
         android:layout_marginLeft="@dimen/conversation_maps_margin"
         android:layout_marginBottom="@dimen/conversation_maps_margin"
-        android:layout_marginRight="@dimen/conversation_maps_margin"
-        android:minWidth="@dimen/maps_button_width">
-
-        <ImageView
-            android:id="@+id/directions_button"
-            android:layout_width="@dimen/directions_button_width"
-            android:layout_height="match_parent"
-            android:background="@drawable/directions_button_background"
-            android:layout_alignParentRight="true"
-            android:padding="@dimen/directions_button_padding"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_get_directions"/>
-        <View
-            android:id="@+id/button_divider"
-            android:layout_toLeftOf="@id/directions_button"
-            android:layout_width="@dimen/maps_button_divider_width"
-            android:layout_height="match_parent"
-            android:background="@color/transparent_gray" />
+        android:layout_marginRight="@dimen/conversation_maps_margin">
         <Button
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/request_ride_button"
             android:background="@drawable/request_ride_button_background"
             android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/button_divider"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/request_ride_button_width"
             android:layout_height="match_parent"
             android:paddingLeft="28dp"
             android:paddingRight="50dp"
@@ -68,7 +50,6 @@
             android:textSize="@dimen/request_ride_text_size"
             android:fontFamily="sans-serif-medium"
             android:text="@string/request_ride"/>
-
         <ImageView
             android:id="@+id/brand_image"
             android:layout_width="@dimen/brand_image_width"
@@ -80,5 +61,21 @@
             android:focusable="false"
             android:clickable="false"
             android:src="@drawable/ic_generic_transport_icon"/>
+        <ImageView
+            android:id="@+id/directions_button"
+            android:layout_width="@dimen/directions_button_width"
+            android:layout_height="match_parent"
+            android:background="@drawable/directions_button_background"
+            android:layout_alignParentRight="true"
+            android:padding="@dimen/directions_button_padding"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_get_directions"/>
+        <View
+            android:id="@+id/button_divider"
+            android:layout_toRightOf="@id/request_ride_button"
+            android:layout_toLeftOf="@id/directions_button"
+            android:layout_width="@dimen/maps_button_divider_width"
+            android:layout_height="match_parent"
+            android:background="@color/transparent_gray" />
     </RelativeLayout>
 </RelativeLayout>
