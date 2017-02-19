@@ -16,20 +16,14 @@
 
 package com.android.messaging.ui.conversation;
 
-import android.app.AlarmManager;
-import android.app.job.JobInfo;
-import android.app.job.JobScheduler;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.android.messaging.R;
@@ -48,13 +42,9 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.UiUtils;
 
-import com.cyanogenmod.messaging.util.MetricsJob;
-
 public class ConversationActivity extends BugleActionBarActivity
         implements ContactPickerFragmentHost, ConversationFragmentHost,
         ConversationActivityUiStateHost {
-    public static final String TAG = "ConversationActivity";
-
     public static final int FINISH_RESULT_CODE = 1;
     private static final String SAVED_INSTANCE_STATE_UI_STATE_KEY = "uistate";
 
@@ -126,39 +116,6 @@ public class ConversationActivity extends BugleActionBarActivity
             } else if (ContentType.isVideoType(contentType)) {
                 UIIntents.get().launchFullScreenVideoViewer(this, Uri.parse(extraToDisplay));
             }
-        }
-
-        // Schedule a Job for Metrics Service
-        JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
-
-        if (jobScheduler != null) {
-            boolean jobExists = false;
-            for (JobInfo ji : jobScheduler.getAllPendingJobs()) {
-                if (ji.getId() != MetricsJob.METRICS_JOB_ID) {
-                    // Job exists
-                    jobExists = true;
-                    break;
-                }
-            }
-            if (!jobExists) {
-                // We need a job to send our aggregated events to our metrics service every 24 hours.
-                // As long as this service has been used, we know we'll need this data.
-                ComponentName jobComponent = new ComponentName(this, MetricsJob.class);
-
-                JobInfo job = new JobInfo.Builder(MetricsJob.METRICS_JOB_ID, jobComponent)
-                        .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                        .setPersisted(true)
-                        .setPeriodic(AlarmManager.INTERVAL_DAY)
-                        .setBackoffCriteria(AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-                                JobInfo.BACKOFF_POLICY_EXPONENTIAL)
-                        .build();
-                jobScheduler.schedule(job);
-            } else {
-                Log.v(TAG, "Messaging Metrics job " + MetricsJob.METRICS_JOB_ID + " already exists");
-            }
-        } else {
-            Log.e(TAG, "Running on a device without JobScheduler." +
-                    " Messaging Metrics will fail to collect.");
         }
     }
 
