@@ -59,5 +59,3 @@
 
 
 -dontwarn com.squareup.picasso.**
-
--dontoptimize
