@@ -16,11 +16,48 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Відмітити як спам %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Замінювати юнікод</string>
+  <string name="pref_unicode_stripping_leave_intact">Залишити без змін</string>
+  <string name="pref_unicode_stripping_non_encodable">Замінювати символи, які не кодуються</string>
+  <string name="pref_unicode_stripping_all">Замінювати всі символи юнікоду</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Термін дії</string>
+  <string name="validity_period_slot1_pref_title">Термін дії для SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Термін дії для SIM 2</string>
+  <string name="sms_validity_period_not_set">Не встановлено</string>
+  <string name="sms_validity_period_one_hour">1 година</string>
+  <string name="sms_validity_period_six_hours">6 годин</string>
+  <string name="sms_validity_period_twelve_hours">12 годин</string>
+  <string name="sms_validity_period_one_day">1 день</string>
+  <string name="mms_validity_period_two_days">2 дні</string>
+  <string name="mms_validity_period_one_week">1 тиждень</string>
+  <string name="validity_period_maximum">Максимально</string>
+  <string name="pref_summary_mms_delivery_reports">Запитувати звіт про доставку для кожного надісланого повідомлення</string>
+  <string name="pref_summary_mms_read_reports">Запитувати звіт про прочитання для кожного надісланого повідомлення</string>
+  <string name="delivery_reports_mms_pref_title">Звіти про доставку</string>
+  <string name="read_reports_mms_pref_title">Звіт про прочитання</string>
+  <string name="status_label">Статус:\u0020</string>
+  <string name="status_read">Прочитано</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Пріоритет надсилання</string>
+  <string name="priority_low">Низький</string>
+  <string name="priority_normal">Звичайний</string>
+  <string name="priority_high">Високий</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Пам\'ять</string>
+  <string name="pref_summary_auto_delete">Видалити старі повідомлення при досягненні ліміту</string>
+  <string name="auto_delete_pref_title">Видалити старі повідомлення</string>
+  <string name="pref_summary_delete_limit">Повідомлень в бесіді: <xliff:g id="count">%1$s</xliff:g></string>
+  <string name="sms_delete_pref_title">Обмеження SMS-повідомлень</string>
+  <string name="mms_delete_pref_title">Обмеження MMS-повідомлень</string>
+  <string name="set">Встановити</string>
+  <string name="no">Скаcувати</string>
+  <string name="pref_messages_to_save">Встановити кількість повідомлень для збереження</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Проведіть для видалення</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Проведіть вправо для видалення бесіди</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Швидке повідомлення та відповідь</string>
@@ -33,30 +70,75 @@
   <string name="button_close">Закрити</string>
   <string name="button_view">Вигляд</string>
   <string name="button_templates">Шаблони</string>
+  <string name="qm_button_full_conversation">Повна бесіда</string>
   <!-- Hint text in message body field when keyboard is exposed -->
   <string name="type_to_reply_text_enter_to_send">Введіть текст для відповіді</string>
   <!-- QM Toast -->
   <string name="toast_sending_message">Відправка повідомлення\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Швидка відповідь</string>
+  <string name="send">Надіслати</string>
+  <string name="compose_message_hint_text">Введіть повідомлення</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Доступ до емограм</string>
+  <string name="show_emoticons_pref_summary">Показувати кнопку емограм на клавіатурі</string>
+  <string name="select_phone_account_title">Надіслати через</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Керувати повідомленнями SIM-картки</string>
+  <string name="pref_title_manage_sim_messages_slot1">Керувати повідомленнями SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Керувати повідомленнями SIM 2</string>
+  <string name="copy_to_sim">Копіювати повідомлення на SIM-карту</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> з <xliff:g id="total">%2$d</xliff:g> повідомлень збережено на SIM-карту.</string>
+  <string name="copy_to_sim_fail">Не вдалося зберегти повідомлення</string>
+  <string name="copy_to_phone_success">Повідомлення збережено</string>
+  <string name="copy_to_phone_fail">Не вдалося зберегти повідомлення</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">На SIM-карті відсутні повідомлення.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Надіслати листа <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Подзвонити <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Додати <xliff:g id="contactEmailOrNumber">%s</xliff:g> до контактів</string>
+  <string name="sim_capacity_title">Ємність SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> із <xliff:g id="total">%2$d</xliff:g> записів на SIM-карті використано</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Видалити?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Текстові повідомлення на SIM-карті</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Оновлення\u2026</string>
+  <string name="confirm_delete_selected_messages">Вибрані повідомлення видалені.</string>
   <!-- Delete button title -->
+  <string name="delete">Видалити</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Переслати</string>
+  <string name="menu_reply">Відповісти</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Копіювати до пам\'яті планшету</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Копіювати до пам\'яті телефону</string>
+  <string name="selected_all">Вибрати всі</string>
+  <string name="deselected_all">Зняти вибір</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> вибрано</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">ОК</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Копіювати повідомлення на SIM-карту</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Вибрати зображення чи відео на цьому пристрої</string>
+  <string name="mediapicker_audioListChooserDescription">Вибрати аудіо з цього пристрою</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Не вдалося прикріпити відео. Досягнуто максимального розміру повідомлення.</string>
+  <string name="mediapicker_audio_list_title">Вибрати аудіо</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Аудіофайл вибрано.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Аудіофайл не вибрано.</string>
+  <string name="mediapicker_audio_list_title_selection">Вибрано <xliff:g id="count">%d</xliff:g></string>
   <!-- Ride sharing -->
+  <string name="request_ride">Запитати поїздку</string>
 </resources>
