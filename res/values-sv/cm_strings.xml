@@ -24,5 +24,6 @@
   <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_audio_list_title">Välj ljud</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Tryck för att välja</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
 </resources>

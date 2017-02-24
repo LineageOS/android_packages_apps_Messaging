@@ -18,7 +18,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Плъзгане от ляво надясно за да изтриете разговора</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Плъзнете от ляво надясно за да изтриете кореспонденцията</string>
   <!-- Show emoticons -->
   <string name="show_emoticons_pref_title">Достъп до емотикони</string>
   <string name="show_emoticons_pref_summary">Показва клавиш с емотикони на клавиатурата</string>
