@@ -23,4 +23,5 @@
   <string name="show_emoticons_pref_title">Accesu a fustaxes</string>
   <string name="show_emoticons_pref_summary">Amuesa la tecla de fustaxes nel tecláu</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Escueyi imáxenes o vídeos d\'esti preséu</string>
 </resources>
