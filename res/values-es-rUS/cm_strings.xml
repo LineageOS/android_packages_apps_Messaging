@@ -17,7 +17,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
+  <string name="swipe_to_delete_conversation_pref_title">Deslizar para borrar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Deslice a la derecha para borrar una conversación</string>
   <!-- Show emoticons -->
   <string name="show_emoticons_pref_title">Acceso a emoticonos</string>
