@@ -28,6 +28,6 @@
   <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
   <string name="mediapicker_audio_list_title">Elegir audio</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Audio seleccionado</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Pulsar para seleccionar</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Pulsa para seleccionar</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seleccionados</string>
 </resources>

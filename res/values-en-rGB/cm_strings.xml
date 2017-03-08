@@ -19,4 +19,6 @@
   <!-- Swipe to delete conversation -->
   <!-- Show emoticons -->
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_audio_list_item_selected_content_description">Selected audio</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Tap to select</string>
 </resources>
