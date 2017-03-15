@@ -27,6 +27,7 @@
   <string name="mediapicker_audioListChooserDescription">Hangfájlok kiválasztása az eszközről</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">Nem sikerült csatolni a videót. Maximális méret túllépve.</string>
   <string name="mediapicker_audio_list_title">Válasszon hangot</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Kiválasztott hang</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Érintse meg a kiválasztáshoz</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="COUNT">%d</xliff:g> kiválasztva</string>
 </resources>

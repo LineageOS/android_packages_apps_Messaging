@@ -96,6 +96,7 @@
   <!-- Alert dialog title to accept or decline deleting conversation(s). -->
   <!-- Alert dialog accept deleting this conversation button. -->
   <!-- Alert dialog decline deleting this conversation button. -->
+  <string name="delete_conversation_decline_button">Encaboxar</string>
   <!-- Hint text for the recipient chips text box when it's empty -->
   <!-- Action menu title for multiple selection in gallery image picker -->
   <!-- Action menu title for confirming multiple selection in gallery image picker -->
@@ -144,6 +145,7 @@
   <!-- Preference category: Advanced -->
   <!-- Preference category: Debug -->
   <!-- Title for the preference for whether or to notify the user of new messages -->
+  <string name="notifications_enabled_pref_title">Avisos</string>
   <!-- Title for the notification sound preference -->
   <!-- What to display in the settings screen for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
   <!-- Title for the preference for whether or not to vibrate with notifications -->
@@ -175,6 +177,7 @@
   <!-- Label in "Message details" dialog -->
   <!-- "Priority" value in "Message details" dialog -->
   <!-- "Priority" value in "Message details" dialog -->
+  <string name="priority_normal">Normal</string>
   <!-- "Priority" value in "Message details" dialog -->
   <!-- SIM identified using the slot number. e.g. SIM 1 -->
   <!-- Sender to be used if the sender address has been hidden -->
@@ -202,6 +205,7 @@
   <!-- The format of the subtitle of the help activity. -->
   <!--  Action menu title to let users view open source license -->
   <!-- Title for the per-conversation preference for whether or to notify the user of new messages -->
+  <string name="notifications_enabled_conversation_pref_title">Avisos</string>
   <!-- Reached MMS message attachment limit -->
   <!-- Message attachment load failed -->
   <!-- Alert dialog title to accept or decline adding the given phone number to your contacts. -->
@@ -231,6 +235,7 @@
   <!-- Dialog message that indicates user must be granted permissions from the phone owner to
          send SMS messages. -->
   <!-- Dialog button text that closes the application. -->
+  <string name="requires_sms_permissions_close_button">ACEUTAR</string>
   <!-- Toast text when creating a conversation with more participants than MMS/SMS config permits -->
   <!-- Toast text when creating a conversation with an invalid participant -->
   <!-- Error toast message shown when a camera image failed to attach to the message -->
@@ -276,6 +281,7 @@
   <!-- Accessibility : Content description for deleting a recipient chip. -->
   <!-- Label for new message button in share intent dialog -->
   <!-- Label for new message button in share intent dialog -->
+  <string name="share_cancel">Encaboxar</string>
   <!-- Screen title after user selects APNs setting option -->
   <!-- Edit access point label summary text when no value has been set -->
   <!-- Edit access point labels: A label the user can give to the APN to allow him to differentiate it from the others -->
