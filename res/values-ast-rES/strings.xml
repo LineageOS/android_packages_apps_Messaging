@@ -19,6 +19,9 @@
   <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
   <!-- The name of the application as it appears in external share intent dialogs -->
   <!-- The title when selecting a conversation to share to -->
+  <string name="action_settings">Axustes</string>
+  <string name="settings_with_arrow">Axustes &gt;</string>
+  <string name="settings">Axustes</string>
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->
@@ -55,7 +58,9 @@
   <!-- Title line for an MMS auto-downloading. -->
   <!-- Title line for MMS which failed to download. -->
   <!-- Timestamp line for MMS which failed to download. -->
+  <string name="message_status_download_failed">Calca pa tentalo de nueves</string>
   <!-- Timestamp line for MMS which failed to download. -->
+  <string name="message_status_download">Calca pa baxar</string>
   <!-- Timestamp line for MMS which is selected. -->
   <!-- Timestamp line to display while downloading a message. -->
   <!-- Timestamp line for MMS for expired or invalid message. -->
@@ -135,10 +140,12 @@
   <!-- Accessibility description for conversation list for 1:1 conversations -->
   <!-- Accessibility description for conversation list for group conversations -->
   <!-- Accessibility description for conversation list for failed messages -->
+  <string name="failed_message_content_description">Fallu al unviar el mensaxe. Calca pa retentar.</string>
   <!-- Accessibility name for a group conversation -->
   <!-- Accessibility : text read on the small X icon on the subject editor -->
   <!-- Description shown in the download manager for an attachment that the user manually saved -->
   <!-- Title for the preferences/settings activity -->
+  <string name="settings_activity_title">Axustes</string>
   <!-- Title for the archived conversations activity -->
   <!-- Action title: Close -->
   <!-- Preference category: MMS messaging -->
@@ -158,6 +165,7 @@
   <!-- Display text for phone number preference when the number is unknown -->
   <!-- Title for the preference for playing a message send sound -->
   <!-- Strings for dump sms/mms dialog -->
+  <string name="wireless_alerts_title">Alertes inalámbriques</string>
   <!-- Title of long press menu on an individual message. -->
   <!-- Menu item to copy message text -->
   <!-- Title of long press menu for details about an individual message. -->
@@ -314,7 +322,9 @@
   <!-- The title for general settings section in the settings activity  -->
   <!-- The title for advanced settings section in the settings activity  -->
   <!-- The title for general settings activity  -->
+  <string name="general_settings_activity_title">Axustes xenerales</string>
   <!-- The title for advanced settings activity  -->
+  <string name="advanced_settings_activity_title">Axustes avanzaos</string>
   <!-- The title for sim_specific settings  -->
   <!-- The group MMS choices in settings -->
   <!-- SIM number shown in the settings when the number is not known -->
@@ -338,6 +348,7 @@
   <!-- Toast message telling the user a conversation has been deleted -->
   <!-- Displayed when user adds a new conversation widget. Tapping on the widget in this
           mode will bring user to the conversation selection screen -->
+  <string name="tap_to_configure">Desanicióse la conversación. Calca p\'amosar una conversación diferente de Mensaxes</string>
   <!-- Toast message telling the user that someone was blocked -->
   <!-- Toast message telling the user that someone was unblocked -->
   <!-- Title for attachment chooser activity -->

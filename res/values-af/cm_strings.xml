@@ -27,5 +27,7 @@
   <string name="mediapicker_audioListChooserDescription">Kies oudio-lêers van hierdie toestel</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">Kan nie video aanheg nie. Maks boodskap grootte oorskry.</string>
   <string name="mediapicker_audio_list_title">Kies oudio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Geselekteerde oudio</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Tik om te kies</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> gekies</string>
 </resources>
