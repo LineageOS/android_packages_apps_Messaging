@@ -611,9 +611,9 @@
       <apn mcc="278" mnc="01" carrier="Vodafone MT-MMS" apn="mms.vodafone.com.mt" mmsc="http://mms.vodafone.com.mt/servlets/mms" mmsproxy="10.12.0.3" mmsport="8080" type="mms"></apn>
       <apn mcc="278" mnc="1" carrier="Vodafone MMS (MT)" apn="mms.vodafone.com.mt" mmsc="http://mms.vodafone.com.mt/servlets/mms" mmsproxy="10.12.0.3" mmsport="8080" type="mms" user="mms" password="mms" authtype="0"></apn>
       <apn mcc="278" mnc="1" carrier="Vodafone MT-MMS" apn="mms.vodafone.com.mt" mmsc="http://mms.vodafone.com.mt/servlets/mms" mmsproxy="10.12.0.3" mmsport="8080" type="mms" authtype="0"></apn>
-      <apn mcc="280" mnc="01" carrier="CYTA" apn="cytamobile" mmsc="http://mmsc.cyta.com.cy" mmsproxy="212.31.96.161" mmsport="8080" type="default,supl,mms" user="user" password="pass"></apn>
-      <apn mcc="280" mnc="1" carrier="CYTA" apn="cytamobile" mmsc="http://mmsc.cyta.com.cy" mmsproxy="212.31.96.161" mmsport="8080" type="default,supl,mms" user="user" password="pass"></apn>
+      <apn mcc="280" mnc="01" carrier="CYTA" apn="cytamobile" mmsc="http://mmsc.cyta.com.cy" mmsproxy="212.31.96.161" mmsport="8080" type="default,supl,mms"></apn>
       <apn mcc="280" mnc="10" carrier="MTN MMS" apn="mms" mmsc="http://mms.mtn.com.cy/mmsc" mmsproxy="172.24.97.1" mmsport="3130" type="mms" user="mms" password="mms"></apn>
+      <apn mcc="280" mnc="20" carrier="PrimeTel" apn="ip.primetel" mmsc="http://mms.primetel" type="default,supl,mms"></apn>
       <apn mcc="283" mnc="10" carrier="Orange Armenia MMS" apn="mms" mmsc="http://mms/" mmsproxy="192.168.220.251" mmsport="3128" type="mms" authtype="1"></apn>
       <apn mcc="284" mnc="01" carrier="MTel MMS" apn="mms-gprs.mtel.bg" mmsc="http://mmsc/" mmsproxy="10.150.0.33" mmsport="8080" type="mms" user="mtel" password="mtel" authtype="1"></apn>
       <apn mcc="284" mnc="1" carrier="M-Tel BG MMS" apn="mms-gprs.mtel.bg" mmsc="http://mmsc/" mmsproxy="10.150.0.33" mmsport="8080" type="mms" user="mtel" password="mtel" authtype="0"></apn>
