@@ -20,5 +20,6 @@
   <!-- Show emoticons -->
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_galleryChooserDescription_cm">Escueyi imáxenes o vídeos d\'esti preséu</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audiu esbilláu</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Calca pa esbillar</string>
 </resources>

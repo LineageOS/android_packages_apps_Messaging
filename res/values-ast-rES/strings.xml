@@ -36,6 +36,7 @@
         Example: "Delete messages older than a week"
     -->
   <!-- Title of the class-0 message activity. -->
+  <string name="save">Guardar</string>
   <!-- Text for SMS storage low text, when auto delete is enabled -->
   <!-- Title for SMS storage low notification and dialog. Must match the framework's notification title, i.e. //frameworks/base/core/res/res/values/strings.xml#low_internal_storage_view_title -->
   <!-- Text for SMS storage low notification and dialog -->

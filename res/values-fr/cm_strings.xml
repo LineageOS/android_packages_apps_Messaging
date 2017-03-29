@@ -23,6 +23,8 @@
   <string name="show_emoticons_pref_title">Accès aux émoticônes</string>
   <string name="show_emoticons_pref_summary">Afficher la touche émoticônes sur le clavier</string>
   <!-- Audio Library Tab for MMS attachments -->
+  <string name="mediapicker_galleryChooserDescription_cm">Choisir des images ou des vidéos depuis cet appareil</string>
+  <string name="mediapicker_audioListChooserDescription">Choisir des fichiers audio depuis cet appareil</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">Impossible de joindre ce fichier vidéo. Taille maximale de message dépassée.</string>
   <string name="mediapicker_audio_list_title">Sélectionner un fichier audio</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Audio sélectionné</string>
