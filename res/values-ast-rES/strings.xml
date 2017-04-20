@@ -87,6 +87,8 @@
   <!-- Notification content when emergency SMS fails to send -->
   <!-- notification line 1 for new message notification on the lock screen -->
   <!-- Text for starting a new conversation button in the compose UI -->
+  <string name="camera_error_opening">Cámara non disponible</string>
+  <string name="camera_error_unknown">Cámara non disponible</string>
   <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
   <!-- Content description text for Back button on the action bar -->
   <!-- Action menu title for showing archived conversations -->
@@ -121,7 +123,9 @@
   <!-- Shown in notifications when there's a vcard. [CHAR LIMIT=25] -->
   <!-- Notification action label for download MMS when set to manual downloads. [CHAR LIMIT=15] -->
   <!-- Notification action label for SMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
+  <string name="notification_reply_via_sms">Responder per SMS</string>
   <!-- Notification action label for MMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
+  <string name="notification_reply_via_mms">Responder per MMS</string>
   <!-- Notification voice reply prompt (visible on wearable device only). [CHAR LIMIT=15] -->
   <!-- The bottom line on a wearable notification that shows how many participants in the conversation -->
   <!-- Shown in the Android Wear conversation log as the sender for outgoing messages,
@@ -151,10 +155,12 @@
   <!-- Action title: Close -->
   <!-- Preference category: MMS messaging -->
   <!-- Preference category: Advanced -->
+  <string name="advanced_category_pref_title">Avanzao</string>
   <!-- Preference category: Debug -->
   <!-- Title for the preference for whether or to notify the user of new messages -->
   <string name="notifications_enabled_pref_title">Avisos</string>
   <!-- Title for the notification sound preference -->
+  <string name="notification_sound_pref_title">Soníu</string>
   <!-- What to display in the settings screen for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
   <!-- Title for the preference for whether or not to vibrate with notifications -->
   <!-- Title for the preference for whether or not to request/show delivery reports for SMS -->
@@ -195,9 +201,12 @@
   <!-- Shows when the user attempts to send message when there is no active subscription -->
   <!-- Content description for the checkbox when selecting an item in the gallery -->
   <!-- Option menu item in the conversation view that lets user view list of conversation participants and change options -->
+  <string name="action_people_and_options">Xente y opciones</string>
   <!-- Option menu item in the conversation list view and conversation view that shows debug menu -->
   <!-- Title for the "People and Options" activity -->
+  <string name="people_and_options_activity_title">Xente y opciones</string>
   <!-- Title for the general settings section in the "People and options" activity -->
+  <string name="general_settings_title">Xeneral</string>
   <!-- Title for the list of participants in the "People and options" activity -->
   <!-- Title for the phone call button in the action bar that lets the user call a participant in an SMS conversation -->
   <!-- The hint text shown in the message compose input box prompting the user to send a message -->
@@ -222,6 +231,7 @@
   <!-- The text shown as a label before the message subject input box -->
   <!-- The text shown as a label before the message subject input box -->
   <!-- When there's a subject in an mms, the subject + message are shown in a notification -->
+  <string name="notification_subject"><xliff:g id="subject_label">%s</xliff:g><xliff:g id="messageText">%s</xliff:g></string>
   <!-- Text shown on contact VCard when it's being loaded -->
   <!-- Text shown on contact VCard when it failed to load -->
   <!-- Text shown on contact VCard promping the user to tap to view the contact -->
@@ -250,6 +260,7 @@
   <!-- Error toast message shown when a camera image failed to attach to the message -->
   <!-- A message prefix to indicate the message was sent by the user. -->
   <!-- A message prefix to indicate the message was sent by another user in a group conversation. -->
+  <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
   <!-- A message in conversation list view to indicate that the snipit text and preview is from an unsent draft. -->
   <!-- String to show in the conversation list view when there are no messages. -->
   <!-- String to show in the archived conversation list view when there are no messages. -->
@@ -287,6 +298,7 @@
          is in that conversation, but the message list is not scrolled to the bottom -->
   <!-- Content description for the message images in a conversation or for the image preview in the conversation list if the lastest message in that conversation contains an image-->
   <!-- Text for a toast message notifying the user that we can't find an appropriate application to handle their request -->
+  <string name="activity_not_found_message">Nun pudo alcontrase una aplicación afayadiza</string>
   <!-- Accessibility : Content description for deleting a recipient chip. -->
   <!-- Label for new message button in share intent dialog -->
   <!-- Label for new message button in share intent dialog -->
@@ -305,8 +317,10 @@
   <!-- APNs screen menu option to create a brand spanking new APN -->
   <!-- Edit access point screen menu option to save the user's changes for this APN to the persistent storage -->
   <!-- Edit access point screen menu option to discard the user's changes for this APN -->
+  <string name="menu_discard_apn_change">Escartar</string>
   <!-- APN error dialog messages: -->
   <!-- APN error dialog messages: -->
+  <string name="error_apn_empty">L\'APN nun pue tar balera.</string>
   <!-- APN error dialog messages: -->
   <!-- APN error dialog messages: -->
   <!-- The message of dialog indicated restoring default APN settings in progress -->
@@ -322,6 +336,7 @@
   <!-- SIM name incoming message bubbles indicating which SIM the message was delivered to -->
   <!-- The title for general settings section in the settings activity  -->
   <!-- The title for advanced settings section in the settings activity  -->
+  <string name="advanced_settings">Avanzao</string>
   <!-- The title for general settings activity  -->
   <string name="general_settings_activity_title">Axustes xenerales</string>
   <!-- The title for advanced settings activity  -->
