@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Zvuk je vybrán.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Nevybrán žádný zvuk.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vybrán</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Požadavek jízdy</string>
 </resources>

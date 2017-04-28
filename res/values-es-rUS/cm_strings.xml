@@ -47,8 +47,8 @@
   <string name="priority_high">Alta</string>
   <!-- Storage specific Settings -->
   <string name="sms_storage_pref_title">Almacenamiento</string>
-  <string name="pref_summary_auto_delete">Eliminar mensajes antiguos cuando se llegue al límite</string>
-  <string name="auto_delete_pref_title">Eliminar mensajes antiguos</string>
+  <string name="pref_summary_auto_delete">Borrar mensajes antiguos al llegar al límite</string>
+  <string name="auto_delete_pref_title">Borrar mensajes antiguos</string>
   <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s </xliff:g> mensajes por conversación</string>
   <string name="sms_delete_pref_title">Límite de mensaje de texto</string>
   <string name="mms_delete_pref_title">Límite de mensajes multimedia</string>
@@ -56,7 +56,7 @@
   <string name="no">Cancelar</string>
   <string name="pref_messages_to_save">Establece el número de mensajes a guardar</string>
   <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
+  <string name="swipe_to_delete_conversation_pref_title">Deslizar para borrar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Deslice a la derecha para borrar una conversación</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
@@ -85,9 +85,9 @@
   <string name="select_phone_account_title">Enviar con</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Administrar mensajes de la SIM</string>
-  <string name="pref_title_manage_sim_messages_slot1">Administrar mensajes de SIM 1</string>
-  <string name="pref_title_manage_sim_messages_slot2">Administrar mensajes de SIM 2</string>
+  <string name="pref_title_manage_sim_messages">Gestionar mensajes de la SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Gestionar mensajes de SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Gestionar mensajes de SIM 2</string>
   <string name="copy_to_sim">Copiar el mensaje a la tarjeta SIM</string>
   <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> mensajes guardados en la tarjeta SIM.</string>
   <string name="copy_to_sim_fail">No se puede guardar el mensaje</string>
@@ -107,14 +107,14 @@
   <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> entradas de la tarjeta SIM en uso</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">¿Eliminar?</string>
+  <string name="confirm_dialog_title">¿Borrar?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <string name="sim_manage_messages_title">Mensajes de texto en la tarjeta SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <string name="refreshing">Refrescando\u2026</string>
   <string name="confirm_delete_selected_messages">Se eliminarán los mensajes seleccionados.</string>
   <!-- Delete button title -->
-  <string name="delete">Eliminar</string>
+  <string name="delete">Borrar</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
   <string name="menu_forward">Siguiente</string>
   <string name="menu_reply">Responder</string>
@@ -136,9 +136,7 @@
   <string name="mediapicker_audioListChooserDescription">Seleccione archivos de audio en el dispositivo</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
   <string name="mediapicker_audio_list_title">Elegir audio</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">El audio está seleccionado.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">El audio no está seleccionado.</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audio seleccionado.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Audio no seleccionado.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seleccionados</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Solicitar transporte</string>
 </resources>

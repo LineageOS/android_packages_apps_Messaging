@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">已選取音訊。</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">未選取音訊。</string>
   <string name="mediapicker_audio_list_title_selection">已選取 <xliff:g id="count">%d</xliff:g> 個</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">請求乘車</string>
 </resources>

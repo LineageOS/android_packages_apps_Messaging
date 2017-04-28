@@ -96,7 +96,7 @@
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
   <string name="sim_empty">Ingen meldinger på SIM-kortet.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Send epost til <xliff:g id="name">%s</xliff:g></string>
+  <string name="menu_send_email">Send e-post til <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
   <string name="menu_call_back">Ring <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Lyden er valgt.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Lyden er ikke valgt.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Spør etter en Biltur</string>
 </resources>

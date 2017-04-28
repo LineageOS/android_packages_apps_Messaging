@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Oudio is gekies.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Die oudio is nie gekies nie.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> gekies</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Versoek rit</string>
 </resources>

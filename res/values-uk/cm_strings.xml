@@ -85,7 +85,7 @@
   <string name="select_phone_account_title">Надіслати через</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Керувати повідомленнями SIM-картки</string>
+  <string name="pref_title_manage_sim_messages">Керувати повідомленнями SIM-карти</string>
   <string name="pref_title_manage_sim_messages_slot1">Керувати повідомленнями SIM 1</string>
   <string name="pref_title_manage_sim_messages_slot2">Керувати повідомленнями SIM 2</string>
   <string name="copy_to_sim">Копіювати повідомлення на SIM-карту</string>
@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Аудіофайл вибрано.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Аудіофайл не вибрано.</string>
   <string name="mediapicker_audio_list_title_selection">Вибрано <xliff:g id="count">%d</xliff:g></string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Запитати поїздку</string>
 </resources>

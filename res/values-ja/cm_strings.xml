@@ -119,9 +119,9 @@
   <string name="menu_forward">転送</string>
   <string name="menu_reply">返信</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">タブレットのメモリにコピー</string>
+  <string name="sim_copy_to_phone_memory" product="tablet">端末のメモリにコピー</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">携帯電話のメモリにコピー</string>
+  <string name="sim_copy_to_phone_memory" product="default">端末のメモリにコピー</string>
   <string name="selected_all">すべて選択</string>
   <string name="deselected_all">すべて選択解除</string>
   <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g>通を選択しています</string>
@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">音声が選択されました。</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">音声が選択解除されました。</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g>件を選択しています</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">相乗りをリクエスト</string>
 </resources>

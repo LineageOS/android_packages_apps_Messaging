@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Hang kiválasztva.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Nincs hang kiválasztva.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="COUNT">%d</xliff:g> kiválasztva</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Fuvar kérése</string>
 </resources>

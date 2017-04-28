@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">音频已选择。</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">音频未选择。</string>
   <string name="mediapicker_audio_list_title_selection">已选择 <xliff:g id="count">%d</xliff:g> 项。</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">请求出行</string>
 </resources>

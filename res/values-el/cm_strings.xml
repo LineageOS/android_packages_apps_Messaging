@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Ο ήχος είναι επιλεγμένος.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Ο ήχος δεν είναι επιλεγμένος.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> επιλεγμένα</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Αίτηση βόλτας</string>
 </resources>

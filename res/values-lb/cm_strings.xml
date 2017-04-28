@@ -139,5 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Toun ausgewielt.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Toun net méi ausgewielt.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> ausgewielt</string>
-  <!-- Ride sharing -->
 </resources>

@@ -16,36 +16,126 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="report_as_spam_to">Raporto si spam te %s</string>
   <!-- Strip unicode -->
+  <string name="unicode_stripping_pref_title">Hiq unicode</string>
+  <string name="pref_unicode_stripping_leave_intact">Lëri karakteret të paprekura</string>
+  <string name="pref_unicode_stripping_non_encodable">Hiq karakteret e pakodueshëm</string>
+  <string name="pref_unicode_stripping_all">Hiq të gjitha karakteret unicode</string>
   <!-- Settings item description for SMS and MMS Validity period -->
+  <string name="validity_period_pref_title">Periudha e vlefshmërisë</string>
+  <string name="validity_period_slot1_pref_title">Periudha e vlefshmërisë për kartën SIM 1</string>
+  <string name="validity_period_slot2_pref_title">Periudha e vlefshmërisë për kartën SIM 2</string>
+  <string name="sms_validity_period_not_set">E pacaktuar</string>
+  <string name="sms_validity_period_one_hour">1 orë</string>
+  <string name="sms_validity_period_six_hours">6 orë</string>
+  <string name="sms_validity_period_twelve_hours">12 orë</string>
+  <string name="sms_validity_period_one_day">1 ditë</string>
+  <string name="mms_validity_period_two_days">2 ditë</string>
+  <string name="mms_validity_period_one_week">1 javë</string>
+  <string name="validity_period_maximum">Maksimumi</string>
+  <string name="pref_summary_mms_delivery_reports">Kërko një raport që tregon se mesazhi u dërgua për çdo mesazh që dërgon</string>
+  <string name="pref_summary_mms_read_reports">Kërko një raport që tregon se mesazhi u lexua për çdo mesazh që dërgon</string>
+  <string name="delivery_reports_mms_pref_title">Raportet e dërgimit</string>
+  <string name="read_reports_mms_pref_title">Raportet e leximit</string>
+  <string name="status_label">Statusi:\u0020</string>
+  <string name="status_read">I lexuar</string>
   <!-- Item Descriptions for MMS sending Priority -->
+  <string name="priority_pref_title">Prioriteti i dërgimit</string>
+  <string name="priority_low">I ulët</string>
+  <string name="priority_normal">Normal</string>
+  <string name="priority_high">I lartë</string>
   <!-- Storage specific Settings -->
+  <string name="sms_storage_pref_title">Memoria</string>
+  <string name="pref_summary_auto_delete">Fshi mesazhet e vjetra kur arrihet numri maksimal i mesazheve</string>
+  <string name="auto_delete_pref_title">Fshi mesazhet e vjetra</string>
+  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mesazhe për bisedë</string>
+  <string name="sms_delete_pref_title">Kufiri i mesazheve SMS</string>
+  <string name="mms_delete_pref_title">Kufiri i mesazheve MMS</string>
+  <string name="set">Cakto</string>
+  <string name="no">Anullo</string>
+  <string name="pref_messages_to_save">Cakto numrin e mesazheve që do të ruash</string>
   <!-- Swipe to delete conversation -->
+  <string name="swipe_to_delete_conversation_pref_title">Rrëshqit gishtin për të fshirë</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Rrëshqit gishtin djathtas për të fshirë një bisedë</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_quickmessage">Mesazhet e Shpejta dhe Përgjigjet</string>
+  <string name="pref_quickmessage_title">Shfaq Mesazhet e Shpejta</string>
+  <string name="pref_quickmessage_summary">Hap automatikisht dritaren e Mesazheve të Shpejta kur vjen një SMS</string>
+  <string name="pref_close_all_title">Mbylli të gjitha</string>
+  <string name="pref_close_all_summary">Butoni \'Mbyll\' mbyll të gjitha mesazhet</string>
+  <string name="message_counter">%1$d nga %2$d</string>
   <!-- QM Dialog box buttons -->
+  <string name="button_close">Mbyll</string>
+  <string name="button_view">Shiko</string>
+  <string name="button_templates">Shabllonet</string>
+  <string name="qm_button_full_conversation">Biseda e plotë</string>
   <!-- Hint text in message body field when keyboard is exposed -->
+  <string name="type_to_reply_text_enter_to_send">Shkruaj për t\'u përgjigjur</string>
   <!-- QM Toast -->
+  <string name="toast_sending_message">Duke dërguar mesazhin\u2026</string>
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Përgjigje e shpejtë</string>
+  <string name="send">Dërgo</string>
+  <string name="compose_message_hint_text">Shkruaj mesazhin</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_title">Aksesi i emotikonave</string>
+  <string name="show_emoticons_pref_summary">Trego tastin e emotikonave në tastjerë</string>
+  <string name="select_phone_account_title">Dërgo me</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Menaxho mesazhet e kartës SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Menaxho mesazhet e kartës SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Menaxho mesazhet e kartës SIM 2</string>
+  <string name="copy_to_sim">Kopjo mesazhin në kartën SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> nga <xliff:g id="total">%2$d</xliff:g> mesazhe u ruajtën në kartën SIM.</string>
+  <string name="copy_to_sim_fail">Mesazhi nuk u ruajt dot</string>
+  <string name="copy_to_phone_success">Mesazhi u ruajt</string>
+  <string name="copy_to_phone_fail">Mesazhi nuk u ruajt dot</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Asnjë mesazh në kartën SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Dërgo një email te <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Telefono <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Shto <xliff:g id="contactEmailOrNumber">%s</xliff:g> te Personat</string>
+  <string name="sim_capacity_title">Kapaciteti i kartës SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> nga <xliff:g id="total">%2$d</xliff:g> vende të kartës SIM janë të përdorura</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Dëshiron ta fshish?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">Mesazhet SMS në kartën SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Duke përditësuar\u2026</string>
+  <string name="confirm_delete_selected_messages">Mesazhi i zgjedhur do të fshihet.</string>
   <!-- Delete button title -->
+  <string name="delete">Fshi</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_reply">Përgjigju</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Kopjo te memoria e tabletës</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Kopjo te memoria e telefonit</string>
+  <string name="selected_all">Zgjidhi të gjitha</string>
+  <string name="deselected_all">Deselektoji të gjitha</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> të zgjedhura</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Kopjo mesazhin në kartën SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
-  <!-- Ride sharing -->
+  <string name="mediapicker_galleryChooserDescription_cm">Zgjidh imazhet ose videot nga kjo pajisje</string>
+  <string name="mediapicker_audioListChooserDescription">Zgjidh audiot nga kjo pajisje</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Videoja nuk mund të bashkangjitet. Madhësia maksimale e mesazhit është tejkaluar.</string>
+  <string name="mediapicker_audio_list_title">Zgjidh audion</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Audioja është e zgjedhur.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Audioja nuk është e zgjedhur.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> të zgjedhura</string>
 </resources>

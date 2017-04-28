@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Audio je odabran.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Audio nije odabran.</string>
   <string name="mediapicker_audio_list_title_selection">Odabrano <xliff:g id="count">%d</xliff:g></string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Zahtjev za prijevoz</string>
 </resources>

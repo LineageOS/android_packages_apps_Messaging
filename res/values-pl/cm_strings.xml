@@ -133,5 +133,4 @@
   <string name="mediapicker_audioListChooserDescription">Wybierz pliki dźwiękowe z tego urządzenia</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">Nie można dołączyć wideo. Maksymalny rozmiar wiadomości został przekroczony.</string>
   <string name="mediapicker_audio_list_title">Wybierz muzykę</string>
-  <!-- Ride sharing -->
 </resources>

@@ -34,7 +34,9 @@
   <string name="mms_validity_period_two_days">2 dagar</string>
   <string name="mms_validity_period_one_week">1 vecka</string>
   <string name="validity_period_maximum">Maximalt</string>
+  <string name="pref_summary_mms_read_reports">Begär en läsrapport för varje meddelande du skickar</string>
   <string name="delivery_reports_mms_pref_title">Leveransrapporter</string>
+  <string name="read_reports_mms_pref_title">Läsa rapporter</string>
   <string name="status_label">Status:\u0020</string>
   <string name="status_read">Läst</string>
   <!-- Item Descriptions for MMS sending Priority -->
@@ -92,6 +94,7 @@
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Lägg till <xliff:g id="contactEmailOrNumber">%s</xliff:g> till kontakter</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Ta bort?</string>
@@ -119,5 +122,4 @@
   <string name="mediapicker_audio_list_title">Välj ljud</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Ljudet är inte valt.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
-  <!-- Ride sharing -->
 </resources>

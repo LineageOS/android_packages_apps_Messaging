@@ -38,6 +38,8 @@
   <string name="pref_summary_mms_read_reports">보내는 메시지마다 읽음 확인을 요청하기</string>
   <string name="delivery_reports_mms_pref_title">전송 보고서</string>
   <string name="read_reports_mms_pref_title">읽음 보고서</string>
+  <string name="status_label">상태:\u0020</string>
+  <string name="status_read">읽기</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">전송 우선 순위</string>
   <string name="priority_low">낮음</string>
@@ -83,22 +85,58 @@
   <string name="select_phone_account_title">다른 앱으로 보내기</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">SIM 카드 메시지 관리</string>
+  <string name="pref_title_manage_sim_messages_slot1">SIM 1 메시지 관리</string>
+  <string name="pref_title_manage_sim_messages_slot2">SIM 2 메시지 관리</string>
+  <string name="copy_to_sim">메시지를 SIM 카드에 복사</string>
+  <string name="copy_to_sim_success"><xliff:g id="total">%2$d</xliff:g>건 중 <xliff:g id="count">%1$d</xliff:g>건의 메시지가 SIM 카드에 저장되었습니다.</string>
+  <string name="copy_to_sim_fail">메시지를 저장할 수 없음</string>
+  <string name="copy_to_phone_success">메시지가 저장됨</string>
+  <string name="copy_to_phone_fail">메시지를 저장할 수 없음</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">SIM 카드에 메시지가 없습니다.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email"><xliff:g id="name">%s</xliff:g>에게 이메일 보내기</string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g>에게 전화 걸기</string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">연락처에 <xliff:g id="contactEmailOrNumber">%s</xliff:g> 추가</string>
+  <string name="sim_capacity_title">SIM 용량</string>
+  <string name="sim_capacity"><xliff:g id="total">%2$d</xliff:g> 중 <xliff:g id="used">%1$d</xliff:g>의 SIM카드 저장소가 사용됨</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">삭제할까요?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">SIM 카드에 있는 문자 메시지</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">새로 고치는 중\u2026</string>
+  <string name="confirm_delete_selected_messages">선택된 메시지가 삭제됩니다.</string>
   <!-- Delete button title -->
+  <string name="delete">삭제</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">전달</string>
+  <string name="menu_reply">답장</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">태블릿 메모리에 복사</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">휴대 전화 메모리에 복사</string>
+  <string name="selected_all">모두 선택</string>
+  <string name="deselected_all">모두 선택 해제</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> 선택됨</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">확인</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">메시지를 SIM 카드에 복사</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
-  <!-- Ride sharing -->
+  <string name="mediapicker_galleryChooserDescription_cm">이 기기에서 이미지 또는 영상 선택</string>
+  <string name="mediapicker_audioListChooserDescription">이 기기에서 오디오 선택</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">영상을 첨부할 수 없습니다. 최대 메시지 크기를 초과했습니다.</string>
+  <string name="mediapicker_audio_list_title">오디오 선택</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">오디오가 선택되었습니다.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">오디오 선택이 취소되었습니다.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g>개 선택됨</string>
 </resources>

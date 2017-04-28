@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Lyden er valgt.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Lyden er valgt fra.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Anmod om en køretur</string>
 </resources>

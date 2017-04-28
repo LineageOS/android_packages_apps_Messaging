@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Fișierul audio este selectat.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Fișierul audio nu este selectat.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selectate</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Solicitați Cursă</string>
 </resources>

@@ -57,7 +57,7 @@
   <string name="pref_messages_to_save">Брой съобщения за запис</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Плъзгане от ляво надясно за да изтриете разговора</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Плъзнете от ляво надясно за да изтриете кореспонденцията</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Изскачащи съобщения</string>
@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Звукът е избран.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Звукът е отменен.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> избрано</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Попитайте за път</string>
 </resources>

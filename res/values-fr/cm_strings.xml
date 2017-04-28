@@ -38,6 +38,7 @@
   <string name="pref_summary_mms_read_reports">Demander un accusé de lecture pour chaque message envoyé</string>
   <string name="delivery_reports_mms_pref_title">Accusés de réception</string>
   <string name="read_reports_mms_pref_title">Accusés de lecture</string>
+  <string name="status_label">Statut :\u0020</string>
   <string name="status_read">Lu</string>
   <!-- Item Descriptions for MMS sending Priority -->
   <string name="priority_pref_title">Priorité de l\'envoi</string>
@@ -84,22 +85,58 @@
   <string name="select_phone_account_title">Envoyer avec</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="pref_title_manage_sim_messages">Gérer les messages de la carte SIM</string>
+  <string name="pref_title_manage_sim_messages_slot1">Gérer les messages de la SIM 1</string>
+  <string name="pref_title_manage_sim_messages_slot2">Gérer les messages de la SIM 2</string>
+  <string name="copy_to_sim">Copier le message vers la carte SIM</string>
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> messages sur <xliff:g id="total">%2$d</xliff:g> enregistrés sur la carte SIM.</string>
+  <string name="copy_to_sim_fail">Impossible d\'enregistrer le message</string>
+  <string name="copy_to_phone_success">Message enregistré</string>
+  <string name="copy_to_phone_fail">Impossible d\'enregistrer le message</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Aucun message sur la carte SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
+  <string name="menu_send_email">Envoyer un courriel à <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
+  <string name="menu_call_back">Appeler <xliff:g id="name">%s</xliff:g></string>
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Ajouter <xliff:g id="contactEmailOrNumber">%s</xliff:g> aux Contacts</string>
+  <string name="sim_capacity_title">Capacité de la SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> entrées sur <xliff:g id="total">%2$d</xliff:g> de la carte SIM sont utilisées</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">Supprimer ?</string>
   <!-- Title of screen displaying messages on SIM card -->
+  <string name="sim_manage_messages_title">SMS sur la carte SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Actualisation\u2026</string>
+  <string name="confirm_delete_selected_messages">Les messages sélectionnés seront supprimés.</string>
   <!-- Delete button title -->
+  <string name="delete">Supprimer</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Transférer</string>
+  <string name="menu_reply">Répondre</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="tablet">Copier vers la mémoire de la tablette</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="sim_copy_to_phone_memory" product="default">Copier vers la mémoire du téléphone</string>
+  <string name="selected_all">Tout sélectionner</string>
+  <string name="deselected_all">Tout désélectionner</string>
+  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> sélectionné(s)</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">OK</string>
   <!-- Copy message to sim -->
+  <string name="operation_to_card_memory">Copier le message vers la carte SIM</string>
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
-  <!-- Ride sharing -->
+  <string name="mediapicker_galleryChooserDescription_cm">Choisir des images ou des vidéos depuis cet appareil</string>
+  <string name="mediapicker_audioListChooserDescription">Choisir des fichiers audio depuis cet appareil</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Impossible de joindre ce fichier vidéo. Taille maximale de message dépassée.</string>
+  <string name="mediapicker_audio_list_title">Sélectionner un fichier audio</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Fichier audio sélectionné.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Fichier audio non sélectionné.</string>
+  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> sélectionné(s)</string>
 </resources>

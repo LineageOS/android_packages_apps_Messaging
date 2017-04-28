@@ -139,6 +139,4 @@
   <string name="mediapicker_audio_list_item_selected_content_description">Ses seçildi.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Ses seçilmedi.</string>
   <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seçildi</string>
-  <!-- Ride sharing -->
-  <string name="request_ride">Araç isteği</string>
 </resources>
