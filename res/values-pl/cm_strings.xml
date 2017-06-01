@@ -29,4 +29,5 @@
   <string name="mediapicker_audio_list_title">Wybierz muzykę</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Wybrany dźwięk</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Dotknij, aby wybrać</string>
+  <string name="mediapicker_audio_list_title_selection">Wybrano: <xliff:g id="count">%d</xliff:g></string>
 </resources>

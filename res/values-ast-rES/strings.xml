@@ -285,10 +285,12 @@
   <!-- Accessibility toast shown when a message is sent. -->
   <!-- Error toast shown when an MMS could not be sent because mobile data was disabled. -->
   <!-- Error toast shown when a message could not be sent because of airplane mode. -->
+  <string name="send_message_failure_airplane_mode">Nun puen unviase mensaxes nel mou avión</string>
   <!-- Error toast shown when a message could not be sent because of unspecified error. -->
   <!-- Accessibility toast shown when an MMS is downloaded. -->
   <!-- Error toast shown when an MMS could not be downloaded because mobile data was disabled. -->
   <!-- Error toast shown when a message could not be downloaded because of airplane mode. -->
+  <string name="download_message_failure_airplane_mode">Nun puen baxase mensaxes nel mou avión</string>
   <!-- Error toast shown when a message could not be downloaded because of unspecified error. -->
   <!-- Accessibility : content description for numbers -->
   <!-- Error message which shows the user a carrier specific error code such as "Unable to send message: xxxxx error 97" -->
