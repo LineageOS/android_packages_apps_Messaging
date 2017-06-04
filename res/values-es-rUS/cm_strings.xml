@@ -94,7 +94,7 @@
   <string name="copy_to_phone_success">Mensaje guardado</string>
   <string name="copy_to_phone_fail">No se puede guardar el mensaje</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">No hay mensajes en tarjeta SIM.</string>
+  <string name="sim_empty">Sin mensajes en la tarjeta SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
   <string name="menu_send_email">Enviar email a <xliff:g id="name">%s</xliff:g></string>
   <!-- Context menu item on an individual message for dialing the sender's phone number -->

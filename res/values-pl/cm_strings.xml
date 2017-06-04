@@ -102,7 +102,9 @@
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="menu_add_address_to_contacts">Dodaj <xliff:g id="contactEmailOrNumber">%s</xliff:g> do Osób</string>
   <string name="sim_capacity_title">Pojemność SIM</string>
+  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> z <xliff:g id="total">%2$d</xliff:g> miejsc na karcie SIM jest używane</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Usunąć?</string>
@@ -114,6 +116,7 @@
   <!-- Delete button title -->
   <string name="delete">Usuń</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
+  <string name="menu_forward">Dalej</string>
   <string name="menu_reply">Odpowiedz</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <string name="sim_copy_to_phone_memory" product="tablet">Kopiuj do pamięci tableta</string>
@@ -133,4 +136,7 @@
   <string name="mediapicker_audioListChooserDescription">Wybierz pliki dźwiękowe z tego urządzenia</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">Nie można dołączyć wideo. Maksymalny rozmiar wiadomości został przekroczony.</string>
   <string name="mediapicker_audio_list_title">Wybierz muzykę</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">Plik audio został wybrany.</string>
+  <string name="mediapicker_audio_list_item_unselected_content_description">Plik audio nie został wybrany.</string>
+  <string name="mediapicker_audio_list_title_selection">Wybrano: <xliff:g id="count">%d</xliff:g></string>
 </resources>

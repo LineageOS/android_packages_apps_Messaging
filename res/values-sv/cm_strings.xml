@@ -95,6 +95,7 @@
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
   <string name="menu_add_address_to_contacts">Lägg till <xliff:g id="contactEmailOrNumber">%s</xliff:g> till kontakter</string>
+  <string name="sim_capacity_title">SIM-kapacitet</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
   <string name="confirm_dialog_title">Ta bort?</string>

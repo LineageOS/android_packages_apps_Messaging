@@ -16,7 +16,7 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Rapporter som spam til %s</string>
+  <string name="report_as_spam_to">Rapporter som søppelpost til %s</string>
   <!-- Strip unicode -->
   <string name="unicode_stripping_pref_title">Fjern unicode</string>
   <string name="pref_unicode_stripping_leave_intact">Forlat tegn intakt</string>
