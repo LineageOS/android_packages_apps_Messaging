@@ -56,8 +56,8 @@
   <string name="no">Откажи</string>
   <string name="pref_messages_to_save">Постави број порука за чување</string>
   <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Брисање листањем</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Листај на десно да избришеш конврзацију</string>
+  <string name="swipe_to_delete_conversation_pref_title">Брисање превлачењем</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Превуците у десно да бисте избрисали конверзацију</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Брза порука и одговор</string>
@@ -81,7 +81,7 @@
   <string name="compose_message_hint_text">Унеси поруку</string>
   <!-- Show emoticons -->
   <string name="show_emoticons_pref_title">Приступ емотиконима</string>
-  <string name="show_emoticons_pref_summary">Прикажи емотиконе на тастатури</string>
+  <string name="show_emoticons_pref_summary">Прикажите дугме са емотиконима на тастатури</string>
   <string name="select_phone_account_title">Пошаљи са</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
@@ -132,11 +132,11 @@
   <string name="slot1">SIM 1</string>
   <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Изабери слике или видео са овог уређаја</string>
-  <string name="mediapicker_audioListChooserDescription">Изабери звучне фајлове са овог уређаја</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Не могу приложити видео. Прекорачена максимална величина.</string>
-  <string name="mediapicker_audio_list_title">Изабери звук</string>
+  <string name="mediapicker_galleryChooserDescription_cm">Изаберите слике или видео снимке са уређаја</string>
+  <string name="mediapicker_audioListChooserDescription">Изаберите аудио снимке са уређаја</string>
+  <string name="mediapicker_gallery_image_item_attachment_too_large">Не могу да приложим видео снимак. Премашена је максимална величина поруке.</string>
+  <string name="mediapicker_audio_list_title">Избор аудио снимка</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Звук није изабран.</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">Звук није изабран.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> изабрано</string>
+  <string name="mediapicker_audio_list_title_selection">Изабрано: <xliff:g id="count">%d</xliff:g></string>
 </resources>

@@ -78,7 +78,7 @@
   <!-- QM - Quick reply -->
   <string name="qm_quick_reply">Respuesta rápida</string>
   <string name="send">Enviar</string>
-  <string name="compose_message_hint_text">Introducir mensaje</string>
+  <string name="compose_message_hint_text">Ingresar mensaje</string>
   <!-- Show emoticons -->
   <string name="show_emoticons_pref_title">Acceso a emoticonos</string>
   <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
