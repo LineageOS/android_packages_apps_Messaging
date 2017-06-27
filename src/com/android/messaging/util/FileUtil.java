@@ -120,7 +120,7 @@ public class FileUtil {
         }
     }
 
-    private static boolean isFileUri(final Uri uri) {
+    public static boolean isFileUri(final Uri uri) {
         return TextUtils.equals(uri.getScheme(), ContentResolver.SCHEME_FILE);
     }
 
