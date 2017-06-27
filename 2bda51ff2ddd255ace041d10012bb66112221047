@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_c81d4811",
+        "filename": "src/com/android/messaging/ui/conversationlist/ShareIntentActivity.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 3671
+      },
+      "writtenOn": "2017-06-27T13:51:57Z",
+      "side": 1,
+      "message": "could put both these checks in the else below and not duplicate mDraftMessage.addPart",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 168,
+        "endChar": 49
+      },
+      "revId": "2bda51ff2ddd255ace041d10012bb66112221047",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
