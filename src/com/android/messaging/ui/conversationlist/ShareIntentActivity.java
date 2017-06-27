@@ -16,6 +16,7 @@
 
 package com.android.messaging.ui.conversationlist;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -35,6 +36,8 @@ import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaMetadataRetrieverWrapper;
 import com.android.messaging.util.FileUtil;
+import com.android.messaging.util.OsUtil;
+import com.android.messaging.util.UriUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -161,6 +164,13 @@ public class ShareIntentActivity extends BaseBugleActivity implements
     private void addSharedImagePartToDraft(final String contentType, final Uri imageUri) {
         if (FileUtil.isInPrivateDir(imageUri)) {
             Assert.fail("Cannot send private file " + imageUri.toString());
+        } else if (UriUtil.isFileUri(imageUri)) {
+            if (!OsUtil.hasStoragePermission()) {
+                requestPermissions(
+                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            }
+            mDraftMessage.addPart(PendingAttachmentData.createPendingAttachmentData(contentType,
+                    imageUri));
         } else {
             mDraftMessage.addPart(PendingAttachmentData.createPendingAttachmentData(contentType,
                     imageUri));
