@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_483298a8",
+        "filename": "src/com/android/messaging/util/FileUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 3671
+      },
+      "writtenOn": "2017-06-27T13:44:52Z",
+      "side": 1,
+      "message": "don\u0027t do this, use UriUtil\u0027s which is already public",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 52
+      },
+      "revId": "14d9727c0066708c8b2d71a2cd76bc037bd09b54",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
