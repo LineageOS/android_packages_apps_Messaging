@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da87b5cf_031233b1",
+        "filename": "src/com/android/messaging/ui/conversationlist/ShareIntentActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 10258
+      },
+      "writtenOn": "2017-06-28T01:19:48Z",
+      "side": 1,
+      "message": "The content type check failed here, so contentType is assigned to intent.getType().",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 88
+      },
+      "revId": "616332e64ab501524393ca0d0ee682083c8ba239",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_a326e714",
+        "filename": "src/com/android/messaging/ui/conversationlist/ShareIntentActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 10258
+      },
+      "writtenOn": "2017-06-28T01:19:48Z",
+      "side": 1,
+      "message": "These if cases are based on contentType assigned before, a.k.a intent.getType()",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 59
+      },
+      "revId": "616332e64ab501524393ca0d0ee682083c8ba239",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da87b5cf_c323eb03",
+        "filename": "src/com/android/messaging/ui/conversationlist/ShareIntentActivity.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 10258
+      },
+      "writtenOn": "2017-06-28T01:19:48Z",
+      "side": 1,
+      "message": "If app developer sent wrong content type in the share intent, the code won\u0027t be executed, and you fail the sharing.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 71
+      },
+      "revId": "616332e64ab501524393ca0d0ee682083c8ba239",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
+    }
+  ]
+}
