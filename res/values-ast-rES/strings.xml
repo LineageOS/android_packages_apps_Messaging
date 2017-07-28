@@ -29,6 +29,10 @@
          to a number that he/she typed. eg. "Send to 650-555-1234" -->
   <!-- example: "image January 17 2015 1 59 pm" -->
   <!-- Abbreviated message to express that something occurred some number of minutes in the past (e.g., 5 minutes ago). -->
+  <plurals name="num_minutes_ago">
+    <item quantity="one"><xliff:g id="count">%d</xliff:g> min</item>
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> mins</item>
+  </plurals>
   <!-- Abbreviated message to express that something occurred some number of hours in the past (e.g., 5 hours ago). -->
   <!-- Abbreviated message to express that something occurred some number of days in the past (e.g., 5 days ago). -->
   <!--
@@ -217,6 +221,7 @@
   <!-- Action menu title in the HelpAndFeedbackFragment to let users send feedback -->
   <!-- Action menu title in the HelpAndFeedbackFragment to let users view the app in the Google Play Store -->
   <!-- Action menu title in the HelpAndFeedbackFragment to let users view the version of Bugle -->
+  <string name="menu_version_info">Información de versión</string>
   <!-- The format of the subtitle of the help activity. -->
   <!--  Action menu title to let users view open source license -->
   <!-- Title for the per-conversation preference for whether or to notify the user of new messages -->
@@ -230,6 +235,7 @@
   <!-- When there's a subject in an mms, the subject + message are shown in a notification -->
   <string name="notification_subject"><xliff:g id="subject_label">%s</xliff:g><xliff:g id="messageText">%s</xliff:g></string>
   <!-- Text shown on contact VCard when it's being loaded -->
+  <string name="loading_vcard">Cargando tarxeta de contautu</string>
   <!-- Text shown on contact VCard when it failed to load -->
   <!-- Text shown on contact VCard promping the user to tap to view the contact -->
   <!-- VCard display name for when there's more than one contact, e.g. "2 contact cards" -->
@@ -304,6 +310,7 @@
   <string name="share_cancel">Encaboxar</string>
   <!-- Screen title after user selects APNs setting option -->
   <!-- Edit access point label summary text when no value has been set -->
+  <string name="apn_not_set">Nun s\'afitó</string>
   <!-- Edit access point labels: A label the user can give to the APN to allow him to differentiate it from the others -->
   <!-- Edit access point labels: The actual access point name-->
   <!-- Edit access point labels: -->
