@@ -18,6 +18,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
   <!-- Swipe to delete conversation -->
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_summary">Amuesa la tecla de fustaxes nel tecláu</string>
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_galleryChooserDescription_cm">Escueyi imáxenes o vídeos d\'esti preséu</string>
   <string name="mediapicker_audio_list_item_selected_content_description">Audiu esbilláu</string>
