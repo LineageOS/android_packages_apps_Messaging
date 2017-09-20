@@ -19,9 +19,7 @@
   <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
   <!-- The name of the application as it appears in external share intent dialogs -->
   <!-- The title when selecting a conversation to share to -->
-  <string name="action_settings">Axustes</string>
-  <string name="settings_with_arrow">Axustes &gt;</string>
-  <string name="settings">Axustes</string>
+  <string name="welcome">Afáyate</string>
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->
@@ -29,10 +27,6 @@
          to a number that he/she typed. eg. "Send to 650-555-1234" -->
   <!-- example: "image January 17 2015 1 59 pm" -->
   <!-- Abbreviated message to express that something occurred some number of minutes in the past (e.g., 5 minutes ago). -->
-  <plurals name="num_minutes_ago">
-    <item quantity="one"><xliff:g id="count">%d</xliff:g> min</item>
-    <item quantity="other"><xliff:g id="count">%d</xliff:g> mins</item>
-  </plurals>
   <!-- Abbreviated message to express that something occurred some number of hours in the past (e.g., 5 hours ago). -->
   <!-- Abbreviated message to express that something occurred some number of days in the past (e.g., 5 days ago). -->
   <!--
@@ -40,7 +34,6 @@
         Example: "Delete messages older than a week"
     -->
   <!-- Title of the class-0 message activity. -->
-  <string name="save">Guardar</string>
   <!-- Text for SMS storage low text, when auto delete is enabled -->
   <!-- Title for SMS storage low notification and dialog. Must match the framework's notification title, i.e. //frameworks/base/core/res/res/values/strings.xml#low_internal_storage_view_title -->
   <!-- Text for SMS storage low notification and dialog -->
@@ -66,6 +59,7 @@
   <!-- Timestamp line for MMS which failed to download. -->
   <!-- Timestamp line for MMS which is selected. -->
   <!-- Timestamp line to display while downloading a message. -->
+  <string name="message_status_downloading">Baxando&#8230;</string>
   <!-- Timestamp line for MMS for expired or invalid message. -->
   <!-- Display this info line with an MMS notification -->
   <!-- While sending a message, if it has invalid recipient, display this message. -->
@@ -78,6 +72,7 @@
          this default subject. -->
   <!-- When an error occurs downloading a new message and the sender is unknown, substitute
          this default text. -->
+  <string name="unknown_sender">Remitente desconocíu</string>
   <!-- When an error occurs downloading a new message, display this message.
          An example: Download of message Wanna get pizza from dorkman was unsuccessful. -->
   <!-- When a database error occurs due to low memory this toast is shown. -->
@@ -89,8 +84,6 @@
   <!-- Notification content when emergency SMS fails to send -->
   <!-- notification line 1 for new message notification on the lock screen -->
   <!-- Text for starting a new conversation button in the compose UI -->
-  <string name="camera_error_opening">Cámara non disponible</string>
-  <string name="camera_error_unknown">Cámara non disponible</string>
   <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
   <!-- Content description text for Back button on the action bar -->
   <!-- Action menu title for showing archived conversations -->
@@ -101,12 +94,12 @@
   <!-- Action menu title for turning on notification for the selected conversations in conversation list -->
   <!-- Action menu title for adding the contacts for the selected conversations in conversation list -->
   <!-- Action menu title for downloading failed message selected in conversation -->
+  <string name="action_download">Baxar</string>
   <!-- Action menu title for sending failed message selected in conversation -->
   <!-- Action menu title for deleting failed message selected in conversation -->
   <!-- Alert dialog title to accept or decline deleting conversation(s). -->
   <!-- Alert dialog accept deleting this conversation button. -->
   <!-- Alert dialog decline deleting this conversation button. -->
-  <string name="delete_conversation_decline_button">Encaboxar</string>
   <!-- Hint text for the recipient chips text box when it's empty -->
   <!-- Action menu title for multiple selection in gallery image picker -->
   <!-- Action menu title for confirming multiple selection in gallery image picker -->
@@ -127,7 +120,6 @@
   <!-- Notification action label for SMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
   <string name="notification_reply_via_sms">Responder per SMS</string>
   <!-- Notification action label for MMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
-  <string name="notification_reply_via_mms">Responder per MMS</string>
   <!-- Notification voice reply prompt (visible on wearable device only). [CHAR LIMIT=15] -->
   <!-- The bottom line on a wearable notification that shows how many participants in the conversation -->
   <!-- Shown in the Android Wear conversation log as the sender for outgoing messages,
@@ -143,25 +135,24 @@
   <!-- Toast shown when the user tries to send a message, and then sets Bugle as the default SMS app. -->
   <!-- Toast shown when the user successfully sets Bugle as the default SMS app. -->
   <!-- Accessibility : Content descriptinon for ImageButtons and ImageViews -->
+  <string name="audio_attachment_content_description">Axuntu d\'audiu</string>
   <!-- Accessibility announcement for an incoming message -->
   <!-- Accessibility description for conversation list for 1:1 conversations -->
   <!-- Accessibility description for conversation list for group conversations -->
   <!-- Accessibility description for conversation list for failed messages -->
   <!-- Accessibility name for a group conversation -->
+  <string name="group_conversation_description">Conversación con <xliff:g id="participants">%s</xliff:g></string>
   <!-- Accessibility : text read on the small X icon on the subject editor -->
+  <string name="camera_switch_to_video_mode">Capturar videu</string>
   <!-- Description shown in the download manager for an attachment that the user manually saved -->
   <!-- Title for the preferences/settings activity -->
-  <string name="settings_activity_title">Axustes</string>
   <!-- Title for the archived conversations activity -->
   <!-- Action title: Close -->
   <!-- Preference category: MMS messaging -->
   <!-- Preference category: Advanced -->
-  <string name="advanced_category_pref_title">Avanzao</string>
   <!-- Preference category: Debug -->
   <!-- Title for the preference for whether or to notify the user of new messages -->
-  <string name="notifications_enabled_pref_title">Avisos</string>
   <!-- Title for the notification sound preference -->
-  <string name="notification_sound_pref_title">Soníu</string>
   <!-- What to display in the settings screen for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
   <!-- Title for the preference for whether or not to vibrate with notifications -->
   <!-- Title for the preference for whether or not to request/show delivery reports for SMS -->
@@ -171,9 +162,9 @@
   <!-- Preference summary: Current default SMS app -->
   <!-- Preference title: MMS phone number -->
   <!-- Display text for phone number preference when the number is unknown -->
+  <string name="unknown_phone_number_pref_display_value">Desconocíu</string>
   <!-- Title for the preference for playing a message send sound -->
   <!-- Strings for dump sms/mms dialog -->
-  <string name="wireless_alerts_title">Alertes inalámbriques</string>
   <!-- Title of long press menu on an individual message. -->
   <!-- Menu item to copy message text -->
   <!-- Title of long press menu for details about an individual message. -->
@@ -193,11 +184,11 @@
   <!-- Label in "Message details" dialog -->
   <!-- "Priority" value in "Message details" dialog -->
   <!-- "Priority" value in "Message details" dialog -->
-  <string name="priority_normal">Normal</string>
   <!-- "Priority" value in "Message details" dialog -->
   <!-- SIM identified using the slot number. e.g. SIM 1 -->
   <!-- Sender to be used if the sender address has been hidden -->
   <!-- Shows when the user attempts to send message while some attachment(s) haven't finished loading -->
+  <string name="cant_send_message_while_loading_attachments">Nun pue unviase\'l mensaxe entrín se cargaben los axuntos.</string>
   <!-- Notifies the user when an attachment fails to load -->
   <!-- Shows when the user attempts to send message when there is no active subscription -->
   <!-- Content description for the checkbox when selecting an item in the gallery -->
@@ -210,26 +201,41 @@
   <string name="general_settings_title">Xeneral</string>
   <!-- Title for the list of participants in the "People and options" activity -->
   <!-- Title for the phone call button in the action bar that lets the user call a participant in an SMS conversation -->
+  <string name="action_call">Facer una llamada</string>
   <!-- The hint text shown in the message compose input box prompting the user to send a message -->
+  <string name="compose_message_view_hint_text">Unviar mensaxe</string>
   <!-- The hint text shown in the message compose input box prompting the user to send a message when there are multiple SIMs. -->
   <!-- The hint text shown in the message compose input box when photo(s) is attached -->
+  <plurals name="compose_message_view_hint_text_photo">
+    <item quantity="one">Unviar semeya</item>
+    <item quantity="other">Unviar semeyes</item>
+  </plurals>
   <!-- The hint text shown in the message compose input box when audio recording(s) is attached -->
+  <plurals name="compose_message_view_hint_text_audio">
+    <item quantity="one">Unviar audiu</item>
+    <item quantity="other">Unviar audios</item>
+  </plurals>
   <!-- The hint text shown in the message compose input box when video(s) is attached -->
+  <plurals name="compose_message_view_hint_text_video">
+    <item quantity="one">Unviar videu</item>
+    <item quantity="other">Unviar vídeos</item>
+  </plurals>
   <!-- The hint text shown in the message compose input box when vcard(s) is attached -->
   <!-- The hint text shown in the message compose input box when a single unknown attachment, or multiple different attachments are attached -->
   <!-- Announcement after the user adds or removes an attachment -->
   <!-- Action menu title in the HelpAndFeedbackFragment to let users send feedback -->
   <!-- Action menu title in the HelpAndFeedbackFragment to let users view the app in the Google Play Store -->
+  <string name="menu_view_in_store">Ver na Google Play Store</string>
   <!-- Action menu title in the HelpAndFeedbackFragment to let users view the version of Bugle -->
   <string name="menu_version_info">Información de versión</string>
   <!-- The format of the subtitle of the help activity. -->
   <!--  Action menu title to let users view open source license -->
   <!-- Title for the per-conversation preference for whether or to notify the user of new messages -->
-  <string name="notifications_enabled_conversation_pref_title">Avisos</string>
   <!-- Reached MMS message attachment limit -->
   <!-- Message attachment load failed -->
   <!-- Alert dialog title to accept or decline adding the given phone number to your contacts. -->
   <!-- Alert dialog accept adding the given phone number to your contacts button. -->
+  <string name="add_contact_confirmation">Amestar contautu</string>
   <!-- The text shown as a label before the message subject input box -->
   <!-- The text shown as a label before the message subject input box -->
   <!-- When there's a subject in an mms, the subject + message are shown in a notification -->
@@ -239,6 +245,11 @@
   <!-- Text shown on contact VCard when it failed to load -->
   <!-- Text shown on contact VCard promping the user to tap to view the contact -->
   <!-- VCard display name for when there's more than one contact, e.g. "2 contact cards" -->
+  <plurals name="vcard_multiple_display_name">
+    <!-- quantity="one" is not needed by the app, but it keeps the translation pipeline happy. -->
+    <item quantity="one"><xliff:g id="count">%d</xliff:g> contautu</item>
+    <item quantity="other"><xliff:g id="count">%d</xliff:g> contautos</item>
+  </plurals>
   <!-- Title for the activity that shows details of VCards -->
   <!-- VCard label for displaying birthdays -->
   <!-- VCard label for describing the Notes field of a contact. -->
@@ -251,19 +262,19 @@
          default SMS application in order to send messages -->
   <!-- Snackbar message that indicates users must set Messaging as their default SMS application in order to perform the requested action. -->
   <!-- Snackbar button text to switch default SMS apps shown in snackbar. -->
+  <string name="requires_default_sms_change_button">Camudar</string>
   <!-- Toast message that indicates uses must set Messaging as their
          default SMS application in order to receive replies in the app. -->
   <!-- Toast message that indicates no preferred SIM was selected for sending the message -->
   <!-- Dialog message that indicates user must be granted permissions from the phone owner to
          send SMS messages. -->
+  <string name="requires_sms_permissions_message">Esta aplicación nun tien el permisu\'l dueñu\'l preséu.</string>
   <!-- Dialog button text that closes the application. -->
-  <string name="requires_sms_permissions_close_button">ACEUTAR</string>
   <!-- Toast text when creating a conversation with more participants than MMS/SMS config permits -->
   <!-- Toast text when creating a conversation with an invalid participant -->
   <!-- Error toast message shown when a camera image failed to attach to the message -->
   <!-- A message prefix to indicate the message was sent by the user. -->
   <!-- A message prefix to indicate the message was sent by another user in a group conversation. -->
-  <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
   <!-- A message in conversation list view to indicate that the snipit text and preview is from an unsent draft. -->
   <!-- String to show in the conversation list view when there are no messages. -->
   <!-- String to show in the archived conversation list view when there are no messages. -->
@@ -280,6 +291,7 @@
   <!-- Label of unblock contact item in People & Options for 1:1 conversation -->
   <!-- Title of block confirmation dialog -->
   <!-- Text describing what happens when user is blocked via the block actionbar action -->
+  <string name="block_confirmation_message">Siguirás recibiendo mensaxes d\'esti númberu pero yá nun se t\'avisará. Esta conversación archivaráse.</string>
   <!-- The title of the list of blocked contacts -->
   <!-- The message in a blocked contact item which indicates tapping will unblock -->
   <!-- Action menu title for viewing the list of blocked contacts -->
@@ -298,6 +310,7 @@
   <!-- Accessibility : content description for numbers -->
   <!-- Error message which shows the user a carrier specific error code such as "Unable to send message: xxxxx error 97" -->
   <!-- Text prepended to the subject of a forwarded message -->
+  <string name="message_fwd">Re: <xliff:g id="subject">%s</xliff:g></string>
   <!-- Detailed MMS failure strings, may need to be adjusted per carrier for TA -->
   <!-- The notification toast text and action button label shown at bottom of screen, for when a new message comes in while the user
          is in that conversation, but the message list is not scrolled to the bottom -->
@@ -307,7 +320,6 @@
   <!-- Accessibility : Content description for deleting a recipient chip. -->
   <!-- Label for new message button in share intent dialog -->
   <!-- Label for new message button in share intent dialog -->
-  <string name="share_cancel">Encaboxar</string>
   <!-- Screen title after user selects APNs setting option -->
   <!-- Edit access point label summary text when no value has been set -->
   <string name="apn_not_set">Nun s\'afitó</string>
@@ -325,10 +337,13 @@
   <!-- Edit access point screen menu option to discard the user's changes for this APN -->
   <string name="menu_discard_apn_change">Escartar</string>
   <!-- APN error dialog messages: -->
+  <string name="error_apn_name_empty">El campu Nome nun pue tar baleru.</string>
   <!-- APN error dialog messages: -->
   <string name="error_apn_empty">L\'APN nun pue tar balera.</string>
   <!-- APN error dialog messages: -->
+  <string name="error_mcc_not3">El campu MMC ha ser de 3 díxitos.</string>
   <!-- APN error dialog messages: -->
+  <string name="error_mnc_not23">El campu MMC ha ser de 2 ó 3 díxitos.</string>
   <!-- The message of dialog indicated restoring default APN settings in progress -->
   <!-- APNs screen menu option to reset default APN settings -->
   <!-- APNs screen toast message to inform reset default APN settings is completed -->
@@ -344,12 +359,11 @@
   <!-- The title for advanced settings section in the settings activity  -->
   <string name="advanced_settings">Avanzao</string>
   <!-- The title for general settings activity  -->
-  <string name="general_settings_activity_title">Axustes xenerales</string>
   <!-- The title for advanced settings activity  -->
-  <string name="advanced_settings_activity_title">Axustes avanzaos</string>
   <!-- The title for sim_specific settings  -->
   <!-- The group MMS choices in settings -->
   <!-- SIM number shown in the settings when the number is not known -->
+  <string name="sim_settings_unknown_number">Númberu desconocíu</string>
   <!-- Notification title for incoming sms/mms message for secondary user -->
   <!-- Ticker for notification  for incoming sms/mms message for secondary user -->
   <!-- Content description for the SIM selector button in the conversation -->

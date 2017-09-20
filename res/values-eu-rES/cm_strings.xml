@@ -57,7 +57,7 @@
   <string name="pref_messages_to_save">Ezarri gorde beharreko mezu kopurua</string>
   <!-- Swipe to delete conversation -->
   <string name="swipe_to_delete_conversation_pref_title">Pasatu hatza ezabatzeko</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Pasatu hatza eskumara elkarrizketa bat ezabatzeko</string>
+  <string name="swipe_to_delete_conversation_pref_summary">Pasatu hatza eskuinera elkarrizketa bat ezabatzeko</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
   <string name="pref_quickmessage">Mezu eta erantzun azkarrak</string>

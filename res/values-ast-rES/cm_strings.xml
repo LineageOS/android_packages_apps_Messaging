@@ -43,10 +43,13 @@
   <!-- Storage specific Settings -->
   <string name="sms_storage_pref_title">Almacenamientu</string>
   <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensaxes per conversación</string>
+  <string name="set">Afitar</string>
   <string name="no">Encaboxar</string>
   <!-- Swipe to delete conversation -->
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
+  <string name="pref_close_all_title">Zarrar too</string>
+  <string name="pref_close_all_summary">El botón Zarrar zarra tolos mensaxes</string>
   <string name="message_counter">%1$d de %2$d</string>
   <!-- QM Dialog box buttons -->
   <string name="button_close">Zarrar</string>
@@ -54,27 +57,43 @@
   <!-- Hint text in message body field when keyboard is exposed -->
   <!-- QM Toast -->
   <!-- QM - Quick reply -->
+  <string name="qm_quick_reply">Rempuesta rápida</string>
+  <string name="send">Unviar</string>
   <!-- Show emoticons -->
+  <string name="show_emoticons_pref_summary">Amuesa la tecla de fustaxes nel tecláu</string>
+  <string name="select_phone_account_title">Unviar con</string>
   <!-- Copy message to sim -->
   <!-- Settings item for entering SIM card message screen -->
+  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> mensaxe guardaos na tarxeta SIM.</string>
+  <string name="copy_to_sim_fail">Nun pue guardase\'l mensaxe</string>
+  <string name="copy_to_phone_fail">Nun pue guardase\'l mensaxe</string>
   <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
+  <string name="sim_empty">Nun hai mensaxes na tarxeta SIM.</string>
   <!-- Context menu item on an individual message for emailing the sender -->
   <!-- Context menu item on an individual message for dialing the sender's phone number -->
   <!-- Menu shown in the context menu when long pressing on a message when the message contains
          one or more phone numbers and/or email addresses and the number or email is new to
          contacts. [CHAR LIMIT=50] -->
+  <string name="sim_capacity_title">Capacidá de SIM</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
+  <string name="confirm_dialog_title">¿Desaniciar?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <!-- Message that appears on screen while SIM card messages are retrieved -->
+  <string name="refreshing">Refrescando\u2026</string>
   <!-- Delete button title -->
+  <string name="delete">Desaniciar</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
   <string name="sim_copy_to_phone_memory" product="tablet">Copiar a la memoria de la tableta</string>
   <!-- Menu title to copy a selected message from the SIM card to the phone. -->
+  <string name="selected_all">Esbillar too</string>
   <string name="deselected_all">Nun esbillar nada</string>
   <!-- Text to be used for affirmative response button in dialog boxes -->
+  <string name="yes">Aceutar</string>
   <!-- Copy message to sim -->
+  <string name="slot1">SIM 1</string>
+  <string name="slot2">SIM 2</string>
   <!-- Audio Library Tab for MMS attachments -->
   <string name="mediapicker_audio_list_item_unselected_content_description">Nun s\'esbilló l\'audiu.</string>
 </resources>

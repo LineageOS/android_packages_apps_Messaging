@@ -56,7 +56,7 @@
   <string name="no">Cancelar</string>
   <string name="pref_messages_to_save">Definir o número de mensagens a guardar</string>
   <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Deslize para eliminar</string>
+  <string name="swipe_to_delete_conversation_pref_title">Deslize para apagar</string>
   <string name="swipe_to_delete_conversation_pref_summary">Deslize para a direita para apagar uma conversa</string>
   <!-- QUICKMESSAGE SUPPORT -->
   <!-- Preferences -->
@@ -107,14 +107,14 @@
   <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> registos do cartão SIM a serem utilizados</string>
   <!-- Confirm Delete -->
   <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Eliminar?</string>
+  <string name="confirm_dialog_title">Apagar?</string>
   <!-- Title of screen displaying messages on SIM card -->
   <string name="sim_manage_messages_title">Mensagens SMS no cartão SIM</string>
   <!-- Message that appears on screen while SIM card messages are retrieved -->
   <string name="refreshing">A atualizar\u2026</string>
-  <string name="confirm_delete_selected_messages">As mensagens selecionadas serão eliminadas.</string>
+  <string name="confirm_delete_selected_messages">A mensagem selecionada será apagada.</string>
   <!-- Delete button title -->
-  <string name="delete">Eliminar</string>
+  <string name="delete">Apagar</string>
   <!-- Context menu item on an individual message for forwarding it to another recipient -->
   <string name="menu_forward">Avançar</string>
   <string name="menu_reply">Responder</string>
