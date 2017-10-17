@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #  Copyright (C) 2015 The Android Open Source Project
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
 #  limitations under the License.
 for i in `find . -name \*.apk`
 do
-	echo -n $i
+	echo -n "$i"
 	echo -n " "
 	aapt dump badging $i | grep versionCode | sed -E 's/^.*versionCode/versionCode/'
 done
