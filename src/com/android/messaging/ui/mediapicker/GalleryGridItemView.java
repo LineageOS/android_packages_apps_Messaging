@@ -18,7 +18,9 @@ package com.android.messaging.ui.mediapicker;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
+import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -26,11 +28,16 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView.ScaleType;
 
+import android.widget.Toast;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.datamodel.data.DraftMessageData;
 import com.android.messaging.datamodel.data.GalleryGridItemData;
+import com.android.messaging.datamodel.data.ParticipantData;
+import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.ui.AsyncImageView;
 import com.android.messaging.ui.ConversationDrawables;
+import com.android.messaging.util.UriUtil;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.concurrent.TimeUnit;
@@ -39,6 +46,7 @@ import java.util.concurrent.TimeUnit;
  * Shows an item in the gallery picker grid view. Hosts an FileImageView with a checkbox.
  */
 public class GalleryGridItemView extends FrameLayout {
+    private static final String TAG = GalleryGridItemView.class.getSimpleName();
     /**
      * Implemented by the owner of this GalleryGridItemView instance to communicate on media
      * picking and selection events.
@@ -47,17 +55,74 @@ public class GalleryGridItemView extends FrameLayout {
         void onItemClicked(View view, GalleryGridItemData data, boolean longClick);
         boolean isItemSelected(GalleryGridItemData data);
         boolean isMultiSelectEnabled();
+        int getSubscriptionProviderSubId();
     }
 
     @VisibleForTesting
     GalleryGridItemData mData;
+    private View mVideoButtonOverlayView;
     private AsyncImageView mImageView;
     private CheckBox mCheckBox;
     private HostInterface mHostInterface;
+    private static long mTotalContentSize = 0;
+    private static long mMaxMessageSize = 0;
+
+    private boolean checkSize() {
+        if (mData.isDocumentPickerItem()) {
+            return true;
+        }
+        // only perform the check for videos, since they are not being compressed
+        // images will be compressed, so exclude them from this check
+
+        // determine the maximum message size, this will be computed only once per this class
+        if (mMaxMessageSize == 0) {
+            int subId = mHostInterface.getSubscriptionProviderSubId();
+            mMaxMessageSize = MmsConfig.get(subId).getMaxMessageSize();
+        }
+
+        long contentSize = mData.getContentSize();
+        if (mHostInterface.isMultiSelectEnabled()) {
+            if (mData.isVideoItem()) {
+                if (mHostInterface.isItemSelected(mData)) {
+                    // un-selecting
+                    mTotalContentSize -= contentSize;
+                    if (mTotalContentSize < 0) {
+                        mTotalContentSize = 0;
+                    }
+                } else {
+                    // selecting
+                    mTotalContentSize += contentSize;
+                }
+            }
+        } else {
+            // short click or first long click
+            if (mData.isVideoItem()) {
+                mTotalContentSize = contentSize;
+            } else {
+                mTotalContentSize = 0;
+            }
+        }
+
+        if (mTotalContentSize > mMaxMessageSize) {
+            mTotalContentSize -= contentSize;
+            if (mTotalContentSize < 0) {
+                mTotalContentSize = 0;
+            }
+
+            Toast.makeText(getContext(), getContext().
+                    getString(R.string.mediapicker_gallery_image_item_attachment_too_large),
+                    Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
     private final OnClickListener mOnClickListener = new OnClickListener() {
         @Override
         public void onClick(final View v) {
-            mHostInterface.onItemClicked(GalleryGridItemView.this, mData, false /*longClick*/);
+            if (checkSize()) {
+                mHostInterface.onItemClicked(GalleryGridItemView.this, mData, false /*longClick*/);
+            }
         }
     };
 
@@ -69,6 +134,7 @@ public class GalleryGridItemView extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+        mVideoButtonOverlayView = findViewById(R.id.video_button);
         mImageView = (AsyncImageView) findViewById(R.id.image);
         mCheckBox = (CheckBox) findViewById(R.id.checkbox);
         mCheckBox.setOnClickListener(mOnClickListener);
@@ -76,7 +142,9 @@ public class GalleryGridItemView extends FrameLayout {
         final OnLongClickListener longClickListener = new OnLongClickListener() {
             @Override
             public boolean onLongClick(final View v) {
-                mHostInterface.onItemClicked(v, mData, true /* longClick */);
+                if (checkSize()) {
+                    mHostInterface.onItemClicked(v, mData, true /* longClick */);
+                }
                 return true;
             }
         };
@@ -136,12 +204,26 @@ public class GalleryGridItemView extends FrameLayout {
 
     private void updateImageView() {
         if (mData.isDocumentPickerItem()) {
+            hideVideoPlayButtonOverlay();
             mImageView.setScaleType(ScaleType.CENTER);
             setBackgroundColor(ConversationDrawables.get().getConversationThemeColor());
             mImageView.setImageResourceId(null);
             mImageView.setImageResource(R.drawable.ic_photo_library_light);
             mImageView.setContentDescription(getResources().getString(
                     R.string.pick_image_from_document_library_content_description));
+        } else if (mData.isVideoItem()) {
+            showVideoPlayButtonOverlay();
+            mImageView.setScaleType(ScaleType.CENTER_CROP);
+            setBackgroundColor(getResources().getColor(R.color.gallery_image_default_background));
+            mImageView.setImageResourceId(mData.getImageRequestDescriptor());
+            final long dateSeconds = mData.getDateSeconds();
+            final boolean isValidDate = (dateSeconds > 0);
+            final int templateId = isValidDate ?
+                    R.string.mediapicker_gallery_image_item_description :
+                    R.string.mediapicker_gallery_image_item_description_no_date;
+            String contentDescription = String.format(getResources().getString(templateId),
+                    dateSeconds * TimeUnit.SECONDS.toMillis(1));
+            mImageView.setContentDescription(contentDescription);
         } else {
             mImageView.setScaleType(ScaleType.CENTER_CROP);
             setBackgroundColor(getResources().getColor(R.color.gallery_image_default_background));
@@ -156,4 +238,17 @@ public class GalleryGridItemView extends FrameLayout {
             mImageView.setContentDescription(contentDescription);
         }
     }
+
+    private void showVideoPlayButtonOverlay() {
+        if (mVideoButtonOverlayView != null) {
+            mVideoButtonOverlayView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void hideVideoPlayButtonOverlay() {
+        if (mVideoButtonOverlayView != null) {
+            mVideoButtonOverlayView.setVisibility(View.INVISIBLE);
+        }
+    }
+
 }
