@@ -21,7 +21,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.provider.Telephony;
 import android.support.v7.app.ActionBar;
+import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +31,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Toast;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.GalleryGridItemData;
@@ -37,6 +40,7 @@ import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.MediaPickerData.MediaPickerDataListener;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.OsUtil;
+import com.android.messaging.util.UriUtil;
 
 /**
  * Chooser which allows the user to select one or more existing images or videos
@@ -46,6 +50,7 @@ class GalleryMediaChooser extends MediaChooser implements
     private final GalleryGridAdapter mAdapter;
     private GalleryGridView mGalleryGridView;
     private View mMissingPermissionView;
+    private static final String TAG = GalleryMediaChooser.class.getSimpleName();
 
     GalleryMediaChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);
@@ -127,6 +132,7 @@ class GalleryMediaChooser extends MediaChooser implements
 
         mGalleryGridView = (GalleryGridView) view.findViewById(R.id.gallery_grid_view);
         mAdapter.setHostInterface(mGalleryGridView);
+        mGalleryGridView.setSubscriptionProvider(this);
         mGalleryGridView.setAdapter(mAdapter);
         mGalleryGridView.setHostInterface(this);
         mGalleryGridView.setDraftMessageDataModel(mMediaPicker.getDraftMessageDataModel());
@@ -172,6 +178,7 @@ class GalleryMediaChooser extends MediaChooser implements
         if (data instanceof Cursor) {
             rawCursor = (Cursor) data;
         }
+
         // Before delivering the cursor, wrap around the local gallery cursor
         // with an extra item for document picker integration in the front.
         final MatrixCursor specialItemsCursor =
@@ -188,6 +195,9 @@ class GalleryMediaChooser extends MediaChooser implements
             // Work around a bug in MediaStore where cursors querying the Files provider don't get
             // updated for changes to Images.Media or Video.Media.
             startMediaPickerDataLoader();
+            updateForPermissionState(true);
+        } else {
+            updateForPermissionState(false);
         }
     }
 
