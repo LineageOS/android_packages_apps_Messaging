@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.cyanogenmod.messaging.util;
+package org.lineageos.messaging.util;
 
 import android.content.Context;
 import com.android.messaging.Factory;
