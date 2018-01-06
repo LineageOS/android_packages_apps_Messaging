@@ -122,6 +122,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:background="@drawable/msg_bubble_input"
+                        android:backgroundTint="@color/message_bubble_color_outgoing"
                         android:hint="@string/compose_message_view_hint_text"
                         android:imeOptions="actionSend|flagNoEnterAction|flagNoExtractUi" />
 

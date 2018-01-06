@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
@@ -68,6 +69,10 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
      */
     public static boolean isRunningTests() {
         return sRunningTests;
+    }
+
+    static {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
     }
 
     @Override
