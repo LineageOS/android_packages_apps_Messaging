@@ -15,8 +15,8 @@
     limitations under the License.
 -->
 <resources>
-    <color name="primary_color">#689F38</color>
-    <color name="permission_check_activity_background">@color/primary_color</color>
+    <color name="primary_color">@*lineageos.platform:color/platform_app_messaging_color_primary</color>
+    <color name="permission_check_activity_background">@*lineageos.platform:color/platform_app_messaging_color_primary_dark</color>
 
     <!--  Action bar -->
     <color name="action_bar_title_text_color">#ffffff</color>
