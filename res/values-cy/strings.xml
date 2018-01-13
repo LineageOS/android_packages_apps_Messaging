@@ -47,6 +47,7 @@
   <!-- Prefix for accessibility to indicate who the sender of text with hyperlinks, an attachment, or yet-to-be-downloaded message is. -->
   <!-- While sending a message display this message. -->
   <!-- When sending a message failed display this message. -->
+  <string name="message_status_send_failed">Heb ei anfon. Tara i geisio eto.</string>
   <!-- When retrying sending for a message. -->
   <!-- When showing resend action display this message. -->
   <!-- When sending a message to an emergency number failed display this message in the conversation. -->
@@ -55,7 +56,9 @@
   <!-- Title line for an MMS auto-downloading. -->
   <!-- Title line for MMS which failed to download. -->
   <!-- Timestamp line for MMS which failed to download. -->
+  <string name="message_status_download_failed">Tara i geisio eto</string>
   <!-- Timestamp line for MMS which failed to download. -->
+  <string name="message_status_download">Tara i lawrlwytho</string>
   <!-- Timestamp line for MMS which is selected. -->
   <!-- Timestamp line to display while downloading a message. -->
   <!-- Timestamp line for MMS for expired or invalid message. -->
@@ -104,6 +107,7 @@
   <!-- Failed to replay recorded audio -->
   <!-- Error occurred while recording audio -->
   <!-- Hint text on the audio recorder that instructs user how to start recording -->
+  <string name="audio_picker_hint_text">Taro a dal</string>
   <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
   <!-- Separator between parts of a notification in each line of an inboxStyle notification. [CHAR LIMIT=2] -->
   <!-- Separator between title and content in notification ticker -->
@@ -128,12 +132,14 @@
   <!-- The text of the toast/snack message shown when a notifications turned off for selected conversations -->
   <!-- The text of the toast/snack message shown when a notifications turned on for selected conversations -->
   <!-- Toast shown when the user tries to send a message, and then sets Bugle as the default SMS app. -->
+  <string name="toast_after_setting_default_sms_app_for_message_send">Yn barod. Tara Anfon unwaith eto.</string>
   <!-- Toast shown when the user successfully sets Bugle as the default SMS app. -->
   <!-- Accessibility : Content descriptinon for ImageButtons and ImageViews -->
   <!-- Accessibility announcement for an incoming message -->
   <!-- Accessibility description for conversation list for 1:1 conversations -->
   <!-- Accessibility description for conversation list for group conversations -->
   <!-- Accessibility description for conversation list for failed messages -->
+  <string name="failed_message_content_description">Methodd y neges. Tara i geisio eto.</string>
   <!-- Accessibility name for a group conversation -->
   <!-- Accessibility : text read on the small X icon on the subject editor -->
   <!-- Description shown in the download manager for an attachment that the user manually saved -->
@@ -319,6 +325,7 @@
   <!-- Custom TalkBack description for send button long click event when there's no SIM selector, i.e. edit subject -->
   <!-- Custom TalkBack description for send button long click event when there is SIM selector -->
   <!-- Content description for the audio record view -->
+  <string name="audio_record_view_content_description">Tara a dal i recordio sain</string>
   <!-- Content description for new conversation button in desktop widget -->
   <!-- Content description for widget title -->
   <!-- Displayed name of the desktop widget that shows the list of conversations-->
@@ -332,6 +339,7 @@
   <!-- Toast message telling the user a conversation has been deleted -->
   <!-- Displayed when user adds a new conversation widget. Tapping on the widget in this
           mode will bring user to the conversation selection screen -->
+  <string name="tap_to_configure">Mae\'r sgwrs wedi ei dileu. Tara i ddangos sgwrs negeseuon arall.</string>
   <!-- Toast message telling the user that someone was blocked -->
   <!-- Toast message telling the user that someone was unblocked -->
   <!-- Title for attachment chooser activity -->
@@ -347,4 +355,5 @@
     displayed.  For example, a link "click here" which navigates to "www.google.com" would have
     text="click here" and url="www.google.com", using the below format to create "click here (www.google.com)" -->
   <!-- The accessibility text read when the sim chooser pops up to read the current selected sim -->
+  <string name="work_directory_display_name">Cysylltiadau Proffil Gwaith</string>
 </resources>

@@ -36,6 +36,7 @@
   <!-- Title of the class-0 message activity. -->
   <!-- Text for SMS storage low text, when auto delete is enabled -->
   <!-- Title for SMS storage low notification and dialog. Must match the framework's notification title, i.e. //frameworks/base/core/res/res/values/strings.xml#low_internal_storage_view_title -->
+  <string name="sms_storage_low_title">Ta escosando l\'almacenamientu</string>
   <!-- Text for SMS storage low notification and dialog -->
   <!-- Ticker for SMS storage low notification -->
   <!-- Title for asking the user to enter their phone number -->
