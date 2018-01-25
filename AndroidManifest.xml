@@ -58,6 +58,7 @@
     <application
         android:name="com.android.messaging.BugleApplication"
         android:allowBackup="false"
+        android:appCategory="social"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/BugleTheme"
