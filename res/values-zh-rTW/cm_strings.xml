@@ -27,7 +27,7 @@
   <string name="mediapicker_audioListChooserDescription">從這個裝置中選擇音訊檔案</string>
   <string name="mediapicker_gallery_image_item_attachment_too_large">無法附加影片。訊息超出大小限制。</string>
   <string name="mediapicker_audio_list_title">選擇音訊</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">已選取的音訊</string>
+  <string name="mediapicker_audio_list_item_selected_content_description">已選擇的音訊</string>
   <string name="mediapicker_audio_list_item_unselected_content_description">輕觸即可選擇</string>
-  <string name="mediapicker_audio_list_title_selection">已選取 <xliff:g id="count">%d</xliff:g> 個</string>
+  <string name="mediapicker_audio_list_title_selection">已選擇 <xliff:g id="count">%d</xliff:g> 個</string>
 </resources>
