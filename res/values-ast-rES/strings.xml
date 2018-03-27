@@ -165,6 +165,7 @@
   <!-- Preference title: SMS disabled (Messaging is not default SMS app) -->
   <!-- Preference title: SMS enabled (Messaging is the default SMS app) -->
   <!-- Preference summary: Current default SMS app -->
+  <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
   <!-- Preference title: MMS phone number -->
   <!-- Display text for phone number preference when the number is unknown -->
   <string name="unknown_phone_number_pref_display_value">Desconocíu</string>
