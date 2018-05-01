@@ -81,6 +81,12 @@ public class ShareIntentActivity extends BaseBugleActivity implements
         final String action = intent.getAction();
         if (Intent.ACTION_SEND.equals(action)) {
             final Uri contentUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            if (UriUtil.isFileUri(contentUri)) {
+                LogUtil.i(
+                    LogUtil.BUGLE_TAG,
+                    "Ignoring attachment from file URI which are no longer supported.");
+                return;
+            }
             if (UriUtil.isFileUri(contentUri) && !OsUtil.hasStoragePermission()) {
                 requestPermissions(
                         new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
@@ -125,6 +131,12 @@ public class ShareIntentActivity extends BaseBugleActivity implements
                 if (imageUris != null && imageUris.size() > 0) {
                     mDraftMessage = MessageData.createSharedMessage(null);
                     for (final Uri imageUri : imageUris) {
+                        if (UriUtil.isFileUri(imageUri)) {
+                            LogUtil.i(
+                                LogUtil.BUGLE_TAG,
+                                "Ignoring attachment from file URI which are no longer supported.");
+                            continue;
+                        }
                         if (UriUtil.isFileUri(imageUri) && !OsUtil.hasStoragePermission()) {
                             requestPermissions(
                                     new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
