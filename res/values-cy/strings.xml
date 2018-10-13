@@ -45,6 +45,7 @@
          to a number that he/she typed. eg. "Send to 650-555-1234" -->
   <string name="contact_list_send_to_text">Anfon at <xliff:g id="destination">%s</xliff:g></string>
   <string name="mediapicker_cameraChooserDescription">Cipio lluniau neu fideo</string>
+  <string name="mediapicker_galleryChooserDescription">Dewis delweddau o\'r ddyfais hon</string>
   <string name="mediapicker_audioChooserDescription">Recordio sain</string>
   <string name="mediapicker_gallery_title">Dewis llun</string>
   <string name="mediapicker_gallery_item_selected_content_description">Dewiswyd y cyfrwng.</string>
@@ -176,6 +177,7 @@
   <!-- Timestamp line for MMS which is selected. -->
   <string name="message_status_download_action">Lawrlwytho neu ddileu</string>
   <!-- Timestamp line to display while downloading a message. -->
+  <string name="message_status_downloading">Yn lawrlwytho&#8230;</string>
   <!-- Timestamp line for MMS for expired or invalid message. -->
   <string name="message_status_download_error">Neges wedi dod i ben neu ddim ar gael</string>
   <!-- Display this info line with an MMS notification -->
@@ -725,6 +727,7 @@ Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun at <xliff:g id="num
   <!-- String to show in the archived conversation list view when there are no messages. -->
   <string name="archived_conversation_list_empty_text">Mae sgyrsiau wedi\'u harchifo yn ymddangos yma</string>
   <!-- String to show in the conversation list view when we haven't synchronized the SMS database yet -->
+  <string name="conversation_list_first_sync_text">Yn llwytho sgyrsiau&#8230;</string>
   <!-- Shown in conversation as the snippet when there is no text and an attached picture. [CHAR LIMIT=25] -->
   <string name="conversation_list_snippet_picture">Llun</string>
   <!-- Shown in conversation as the snippet when there is no text and an attached audio clip. [CHAR LIMIT=25] -->
