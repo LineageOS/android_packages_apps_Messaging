@@ -23,6 +23,7 @@
   <!-- Inform user of the names of permissions that are required to use the app -->
   <!-- The tab header for the frequently used contacts list -->
   <!-- The tab header for all contacts list -->
+  <string name="contact_picker_all_contacts_tab_title">Tolos contautos</string>
   <!-- The text on the list item in the contact picker that allows a user to send an SMS directly
          to a number that he/she typed. eg. "Send to 650-555-1234" -->
   <!-- example: "image January 17 2015 1 59 pm" -->
@@ -74,6 +75,7 @@
   <!-- Download Manager -->
   <!-- When an error occurs downloading a new message and a subject isn't available, substitute
          this default subject. -->
+  <string name="no_subject">(Nun hai asuntu)</string>
   <!-- When an error occurs downloading a new message and the sender is unknown, substitute
          this default text. -->
   <string name="unknown_sender">Remitente desconocíu</string>
@@ -86,6 +88,10 @@
   <!-- notification line 1 for multiple downloads failed -->
   <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
   <!-- Notification content when emergency SMS fails to send -->
+  <string name="notification_emergency_send_failure_line2">
+        Llama a los servicios d\'emerxencia, por favor. Nesti momentu nun
+        pudo entregase\'l mensaxe a <xliff:g id="number">%1$s</xliff:g>.
+    </string>
   <!-- notification line 1 for new message notification on the lock screen -->
   <!-- Text for starting a new conversation button in the compose UI -->
   <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
@@ -108,14 +114,19 @@
   <!-- Action menu title for multiple selection in gallery image picker -->
   <!-- Action menu title for confirming multiple selection in gallery image picker -->
   <!-- Text for showing there are more items in the attachments than is shown (e.g. "+2") -->
+  <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
   <!-- Failed to start recording audio -->
   <!-- Failed to replay recorded audio -->
   <!-- Error occurred while recording audio -->
+  <string name="audio_recording_error"> Nun pudo guardase l\'audiu. Volvi tentalo.</string>
   <!-- Hint text on the audio recorder that instructs user how to start recording -->
   <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
+  <string name="enumeration_comma">,\u0020</string>
   <!-- Separator between parts of a notification in each line of an inboxStyle notification. [CHAR LIMIT=2] -->
+  <string name="notification_separator">\u0020\u0020</string>
   <!-- Separator between title and content in notification ticker -->
   <!-- Separator between title and content in notifications -->
+  <string name="notification_space_separator">\u0020\u0020</string>
   <!-- Shown in notifications when there's a picture. [CHAR LIMIT=25] -->
   <!-- Shown in notifications when there's an audio clip. [CHAR LIMIT=25] -->
   <!-- Shown in notifications when there's a video. [CHAR LIMIT=25] -->
@@ -262,7 +273,9 @@
   <!-- Title for the message forwarding dialog -->
   <!-- Title for the message reply dialog -->
   <!-- String to show when eliding the number of participants in a conversation due to length (used when there is one extra) -->
+  <string name="plus_one">+1</string>
   <!-- String to show when eliding the number of participants in a conversation due to length (used when there is more than one extra) -->
+  <string name="plus_n">+%d</string>
   <!-- Toast error shown when SMS functionality is disabled -->
   <!-- Snackbar message that indicates users must set Messaging as their
          default SMS application in order to send messages -->
@@ -314,6 +327,7 @@
   <string name="download_message_failure_airplane_mode">Nun puen baxase mensaxes nel mou avión</string>
   <!-- Error toast shown when a message could not be downloaded because of unspecified error. -->
   <!-- Accessibility : content description for numbers -->
+  <string name="content_description_for_number_zero">Cero</string>
   <!-- Error message which shows the user a carrier specific error code such as "Unable to send message: xxxxx error 97" -->
   <!-- Text prepended to the subject of a forwarded message -->
   <string name="message_fwd">Re: <xliff:g id="subject">%s</xliff:g></string>
@@ -331,6 +345,7 @@
   <string name="apn_not_set">Nun s\'afitó</string>
   <!-- Edit access point labels: A label the user can give to the APN to allow him to differentiate it from the others -->
   <!-- Edit access point labels: The actual access point name-->
+  <string name="apn_apn">APN</string>
   <!-- Edit access point labels: -->
   <!-- Edit access point labels: The proxy to use for MMS (multimedia messages)-->
   <!-- Edit access point labels: The port on the proxy used for MMS-->
@@ -356,6 +371,7 @@
   <!-- Name to assign to a Network Access Point that was saved without a name -->
   <!-- Title for Access Point Names settings -->
   <!-- Title for Access Point Names settings activity -->
+  <string name="apn_settings">APNs</string>
   <!-- APNs screen menu option to create a brand spanking new APN -->
   <!-- Error message for users that aren't allowed to modify Access Point Names settings [CHAR LIMIT=none] -->
   <!-- Alert dialog title to copy information displayed in dialog to system clipboard. -->
@@ -367,6 +383,7 @@
   <!-- The title for general settings activity  -->
   <!-- The title for advanced settings activity  -->
   <!-- The title for sim_specific settings  -->
+  <string name="sim_specific_settings">SIM «<xliff:g id="sim_name">%s</xliff:g>»</string>
   <!-- The group MMS choices in settings -->
   <!-- SIM number shown in the settings when the number is not known -->
   <string name="sim_settings_unknown_number">Númberu desconocíu</string>
