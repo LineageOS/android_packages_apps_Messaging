@@ -898,6 +898,13 @@ public class BugleNotifications {
                 multiMessageNotificationState.mConvList.mConvInfos.get(0);
         final String selfId = convInfo.mSelfParticipantId;
 
+        final PendingIntent readPendingIntent = UIIntents.get().getMarkAsReadPendingIntent(
+                context, conversationId);
+        final NotificationCompat.Action.Builder readActionBuilder =
+                new NotificationCompat.Action.Builder(R.drawable.ic_wear_reply,
+                        context.getString(R.string.notification_mark_as_read), readPendingIntent);
+        wearableExtender.addAction(readActionBuilder.build());
+
         final boolean requiresMms =
                 MmsSmsUtils.getRequireMmsForEmailAddress(
                         convInfo.mIncludeEmailAddress, convInfo.mSubId) ||
@@ -911,7 +918,7 @@ public class BugleNotifications {
         final int replyLabelRes = requiresMms ? R.string.notification_reply_via_mms :
             R.string.notification_reply_via_sms;
 
-        final NotificationCompat.Action.Builder actionBuilder =
+        final NotificationCompat.Action.Builder replyActionBuilder =
                 new NotificationCompat.Action.Builder(R.drawable.ic_wear_reply,
                         context.getString(replyLabelRes), replyPendingIntent);
         final String[] choices = context.getResources().getStringArray(
@@ -920,8 +927,8 @@ public class BugleNotifications {
                 context.getString(R.string.notification_reply_prompt)).
                 setChoices(choices)
                 .build();
-        actionBuilder.addRemoteInput(remoteInput);
-        wearableExtender.addAction(actionBuilder.build());
+        replyActionBuilder.addRemoteInput(remoteInput);
+        wearableExtender.addAction(replyActionBuilder.build());
     }
 
     private static void addDownloadMmsAction(final NotificationCompat.Builder notifBuilder,
