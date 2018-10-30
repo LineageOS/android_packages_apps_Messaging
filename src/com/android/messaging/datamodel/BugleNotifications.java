@@ -807,6 +807,12 @@ public class BugleNotifications {
             wearableExtender.setBackground(defaultBackground);
         }
 
+        final PendingIntent readPendingIntent = notificationState.getReadIntent();
+        final NotificationCompat.Action.Builder readActionBuilder =
+                new NotificationCompat.Action.Builder(R.drawable.ic_wear_reply,
+                        context.getString(R.string.notification_mark_as_read), readPendingIntent);
+        notifBuilder.addAction(readActionBuilder.build());
+
         if (notificationState instanceof MultiMessageNotificationState) {
             if (attachmentBitmap != null) {
                 // When we've got a picture attachment, we do some switcheroo trickery. When
