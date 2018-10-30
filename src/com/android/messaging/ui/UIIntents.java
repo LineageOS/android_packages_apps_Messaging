@@ -374,5 +374,4 @@ public abstract class UIIntents {
      */
     public abstract PendingIntent getWidgetPendingIntentForConfigurationActivity(
             final Context context, final int appWidgetId);
-
 }

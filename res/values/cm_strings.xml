@@ -31,4 +31,7 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Selected audio</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Tap to select</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selected</string>
+
+    <!-- Mark message as read -->
+    <string name="notification_mark_as_read">Mark as read</string>
 </resources>
