@@ -64,6 +64,8 @@
         android:theme="@style/BugleTheme"
         android:supportsRtl="true">
 
+        <activity android:name=".ui.MarkAsReadActivity" />
+
         <!-- Displays a list of conversations -->
         <activity
             android:name=".ui.conversationlist.ConversationListActivity"
