@@ -49,6 +49,7 @@ import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.receiver.NotificationReceiver;
 import com.android.messaging.sms.MmsSmsUtils;
+import com.android.messaging.ui.MarkAsReadActivity;
 import com.android.messaging.ui.appsettings.ApnEditorActivity;
 import com.android.messaging.ui.appsettings.ApnSettingsActivity;
 import com.android.messaging.ui.appsettings.ApplicationSettingsActivity;
@@ -573,5 +574,13 @@ public class UIIntentsImpl extends UIIntents {
         configureIntent.setData(Uri.parse(configureIntent.toUri(Intent.URI_INTENT_SCHEME)));
         configureIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
         return getPendingIntentWithParentStack(context, configureIntent, 0);
+    }
+
+    @Override
+    public PendingIntent getMarkAsReadPendingIntent(final Context context,
+            final String conversationId) {
+        final Intent intent = new Intent(context, MarkAsReadActivity.class);
+        intent.putExtra(UI_INTENT_EXTRA_CONVERSATION_ID, conversationId);
+        return getPendingIntentWithParentStack(context, intent, 0);
     }
 }

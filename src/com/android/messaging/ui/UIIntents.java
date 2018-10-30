@@ -375,4 +375,10 @@ public abstract class UIIntents {
     public abstract PendingIntent getWidgetPendingIntentForConfigurationActivity(
             final Context context, final int appWidgetId);
 
+
+    /**
+     * Get a PendingIntent for marking all messages in a conversation as read.
+     */
+    public abstract PendingIntent getMarkAsReadPendingIntent(final Context context,
+            final String conversationId);
 }
