@@ -23,6 +23,9 @@
     <string name="show_emoticons_pref_title">Emoticons access</string>
     <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
 
+    <!-- Mark message as read -->
+    <string name="notification_mark_as_read">Mark as read</string>
+
     <!-- Notification channel -->
     <string name="notification_channel_messages_title">Messages</string>
 </resources>
