@@ -231,7 +231,7 @@
     <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
     <string name="notification_emergency_send_failure_line1">Neges at <xliff:g id="number">%1$s</xliff:g> heb ei hanfon</string>
     <!-- Notification content when emergency SMS fails to send -->
-    <string name="notification_emergency_send_failure_line2">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun at <xliff:g id="number">%1$s</xliff:g> heb ei hanfon ar hyn o bryd.</string>
+    <string name="notification_emergency_send_failure_line2">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun at <xliff:g id="number">%1$s</xliff:g> heb ei hanfon ar hyn o bryd.    </string>
     <!-- notification line 1 for new message notification on the lock screen -->
     <plurals name="notification_new_messages">
         <item quantity="zero"><xliff:g id="messages">%d</xliff:g> negeseuon newydd</item>
