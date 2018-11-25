@@ -155,13 +155,13 @@
     <!-- While sending a message display this message. -->
     <string name="message_status_sending">Yn anfon&#8230;</string>
     <!-- When sending a message failed display this message. -->
-    <string name="message_status_send_failed">Heb ei hanfon. Tara i geisio eto.</string>
+    <string name="message_status_send_failed">Heb ei anfon. Tara i geisio eto.</string>
     <!-- When retrying sending for a message. -->
-    <string name="message_status_send_retrying">Heb ei hanfon. Yn ceisio eto&#8230;</string>
+    <string name="message_status_send_retrying">Heb ei anfon. Yn ceisio eto&#8230;</string>
     <!-- When showing resend action display this message. -->
     <string name="message_status_resend">Ail-anfon neu ddileu</string>
     <!-- When sending a message to an emergency number failed display this message in the conversation. -->
-    <string name="message_status_send_failed_emergency_number">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun heb ei hanfon ar hyn o bryd.</string>
+    <string name="message_status_send_failed_emergency_number">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun heb ei anfon ar hyn o bryd.</string>
     <!-- When showing resend action, display this message. -->
     <string name="message_status_failed">Wedi methu</string>
     <!-- Title line for an MMS requiring manual download. -->
@@ -229,9 +229,9 @@
         <item quantity="other"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
     </plurals>
     <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
-    <string name="notification_emergency_send_failure_line1">Neges at <xliff:g id="number">%1$s</xliff:g> heb ei hanfon</string>
+    <string name="notification_emergency_send_failure_line1">Neges at <xliff:g id="number">%1$s</xliff:g> heb ei anfon</string>
     <!-- Notification content when emergency SMS fails to send -->
-    <string name="notification_emergency_send_failure_line2">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun at <xliff:g id="number">%1$s</xliff:g> heb ei hanfon ar hyn o bryd.    </string>
+    <string name="notification_emergency_send_failure_line2">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun at <xliff:g id="number">%1$s</xliff:g> heb ei anfon ar hyn o bryd.    </string>
     <!-- notification line 1 for new message notification on the lock screen -->
     <plurals name="notification_new_messages">
         <item quantity="zero"><xliff:g id="messages">%d</xliff:g> negeseuon newydd</item>
@@ -374,14 +374,14 @@
     <!-- Accessibility description for conversation list for 1:1 conversations -->
     <string name="one_on_one_incoming_failed_message_prefix">Neges wedi methu oddi wrth <xliff:g id="sender">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="one_on_one_incoming_successful_message_prefix">Neges oddi wrth <xliff:g id="sender">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
-    <string name="one_on_one_outgoing_draft_message_prefix">Neges heb ei hanfon at <xliff:g id="contact">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_draft_message_prefix">Neges heb ei anfon at <xliff:g id="contact">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="one_on_one_outgoing_sending_message_prefix">Yn anfon neges at <xliff:g id="contact">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="one_on_one_outgoing_failed_message_prefix">Neges wedi methu at <xliff:g id="contact">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="one_on_one_outgoing_successful_message_prefix">Neges at <xliff:g id="contact">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <!-- Accessibility description for conversation list for group conversations -->
     <string name="group_incoming_failed_message_prefix">Neges wedi methu oddi wrth <xliff:g id="sender">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>. <xliff:g id="groupInfo">%s</xliff:g>.</string>
     <string name="group_incoming_successful_message_prefix">Neges oddi wrth <xliff:g id="sender">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>. <xliff:g id="groupInfo">%s</xliff:g>.</string>
-    <string name="group_outgoing_draft_message_prefix">Neges heb ei hanfon at <xliff:g id="group">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
+    <string name="group_outgoing_draft_message_prefix">Neges heb ei anfon at <xliff:g id="group">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="group_outgoing_sending_message_prefix">Yn anfon neges at <xliff:g id="group">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="group_outgoing_failed_message_prefix">Neges wedi methu at <xliff:g id="group">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
     <string name="group_outgoing_successful_message_prefix">Neges at <xliff:g id="group">%s</xliff:g>: <xliff:g id="message">%s</xliff:g>. Amser: <xliff:g id="time">%s</xliff:g>.</string>
@@ -796,11 +796,11 @@
     <string name="message_fwd">Yml: <xliff:g id="subject">%s</xliff:g></string>
     <!-- Detailed MMS failure strings, may need to be adjusted per carrier for TA -->
     <string name="mms_failure_outgoing_service">Ni anfonwyd y neges: gwasanaeth heb ei actifadu ar y rhwydwaith</string>
-    <string name="mms_failure_outgoing_address">Neges heb ei hanfon: cyfeiriad annilys</string>
-    <string name="mms_failure_outgoing_corrupt">Neges heb ei hanfon: neges annilys</string>
-    <string name="mms_failure_outgoing_content">Neges heb ei hanfon: cynnwys anghydnaws</string>
-    <string name="mms_failure_outgoing_unsupported">Neges heb ei hanfon: neges anghydnaws</string>
-    <string name="mms_failure_outgoing_too_large">Neges heb ei hanfon: rhy fawr</string>
+    <string name="mms_failure_outgoing_address">Neges heb ei anfon: cyfeiriad annilys</string>
+    <string name="mms_failure_outgoing_corrupt">Neges heb ei anfon: neges annilys</string>
+    <string name="mms_failure_outgoing_content">Neges heb ei anfon: cynnwys anghydnaws</string>
+    <string name="mms_failure_outgoing_unsupported">Neges heb ei anfon: neges anghydnaws</string>
+    <string name="mms_failure_outgoing_too_large">Neges heb ei anfon: rhy fawr</string>
     <!-- The notification toast text and action button label shown at bottom of screen, for when a new message comes in while the user
          is in that conversation, but the message list is not scrolled to the bottom -->
     <string name="in_conversation_notify_new_message_text">Neges newydd</string>

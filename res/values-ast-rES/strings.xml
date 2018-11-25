@@ -87,8 +87,9 @@
     <!-- notification line 1 for multiple downloads failed -->
     <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
     <!-- Notification content when emergency SMS fails to send -->
-    <string name="notification_emergency_send_failure_line2">Llama a los servicios d\'emerxencia, por favor. Nesti momentu nun
-        pudo entregase\'l mensaxe a <xliff:g id="number">%1$s</xliff:g>.</string>
+    <string name="notification_emergency_send_failure_line2">        Llama a los servicios d\'emerxencia, por favor. Nesti momentu nun
+        pudo entregase\'l mensaxe a <xliff:g id="number">%1$s</xliff:g>.
+    </string>
     <!-- notification line 1 for new message notification on the lock screen -->
     <!-- Text for starting a new conversation button in the compose UI -->
     <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
@@ -115,7 +116,7 @@
     <!-- Failed to start recording audio -->
     <!-- Failed to replay recorded audio -->
     <!-- Error occurred while recording audio -->
-    <string name="audio_recording_error">Nun pudo guardase l\'audiu. Volvi tentalo.</string>
+    <string name="audio_recording_error"> Nun pudo guardase l\'audiu. Volvi tentalo.</string>
     <!-- Hint text on the audio recorder that instructs user how to start recording -->
     <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
     <string name="enumeration_comma">,\u0020</string>
