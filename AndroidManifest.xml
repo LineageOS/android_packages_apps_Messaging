@@ -18,7 +18,7 @@
     package="com.android.messaging"
     android:installLocation="internalOnly">
 
-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="24" />
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
 
     <!-- Application holds CPU wakelock while working in background -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -47,6 +47,10 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- To preserve access to Service#startForeground on P+. See b/72116995.
+         This is for Play Store accounting and is not user visible. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <!--  Optional features -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />

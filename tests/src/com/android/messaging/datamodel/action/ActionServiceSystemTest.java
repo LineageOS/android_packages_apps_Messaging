@@ -309,11 +309,20 @@ public class ActionServiceSystemTest extends BugleServiceTestCase<ActionServiceI
 
     @Override
     public void startServiceForStub(final Intent intent) {
+        Log.d(TAG, "ChatActionTest startServiceForStub");
+        this.startService(intent);
+    }
+
+    @Override
+    public void startForegroundServiceForStub(final Intent intent) {
+        Log.d(TAG, "ChatActionTest startForegroundServiceForStub");
+        // TODO(rtenneti): Should we call startForegroundService?
         this.startService(intent);
     }
 
     @Override
     public void onStartCommandForStub(final Intent intent, final int flags, final int startId) {
+        Log.d(TAG, "ChatActionTest onStartCommandForStub");
         this.getService().onStartCommand(intent, flags, startId);
     }
 

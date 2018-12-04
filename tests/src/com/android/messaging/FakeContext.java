@@ -34,6 +34,7 @@ public class FakeContext extends RenamingDelegatingContext {
     public interface FakeContextHost {
         public String getServiceClassName();
         public void startServiceForStub(Intent intent);
+        public void startForegroundServiceForStub(Intent intent);
         public void onStartCommandForStub(Intent intent, int flags, int startid);
     }
 
@@ -61,11 +62,35 @@ public class FakeContext extends RenamingDelegatingContext {
     }
 
     @Override
+    public ComponentName startForegroundService(final Intent intent) {
+        // Record that a startForegroundService occurred with the intent that was passed.
+        Log.d(TAG, "MockContext receiving startForegroundService. intent=" + intent.toString());
+        mStartedIntents.add(intent);
+        if (mService == null) {
+            Log.d(TAG, "MockContext startForegroundService.");
+            return super.startForegroundService(intent);
+        } else if (intent.getComponent() != null &&
+                intent.getComponent().getClassName().equals(mService.getServiceClassName())) {
+            if (!mServiceStarted) {
+                Log.d(TAG, "MockContext first start foreground service.");
+                mService.startForegroundServiceForStub(intent);
+            } else {
+                Log.d(TAG, "MockContext not first start foreground service. Calling onStartCommand.");
+                mService.onStartCommandForStub(intent, 0, 0);
+            }
+            mServiceStarted = true;
+            return new ComponentName(this, intent.getComponent().getClassName());
+        }
+        return null;
+    }
+
+    @Override
     public ComponentName startService(final Intent intent) {
         // Record that a startService occurred with the intent that was passed.
         Log.d(TAG, "MockContext receiving startService. intent=" + intent.toString());
         mStartedIntents.add(intent);
         if (mService == null) {
+            Log.d(TAG, "MockContext startService.");
             return super.startService(intent);
         } else if (intent.getComponent() != null &&
                 intent.getComponent().getClassName().equals(mService.getServiceClassName())) {
