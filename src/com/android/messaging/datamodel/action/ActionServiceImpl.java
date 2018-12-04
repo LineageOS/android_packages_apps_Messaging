@@ -18,12 +18,18 @@ package com.android.messaging.datamodel.action;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
@@ -207,12 +213,27 @@ public class ActionServiceImpl extends IntentService {
         super.onCreate();
         mBackgroundWorker = DataModel.get().getBackgroundWorkerForActionService();
         DataModel.get().getConnectivityUtil().registerForSignalStrength();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String CHANNEL_ID = "my_channel_01";
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    "Channel human readable title 1",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
+            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                    .setContentTitle("")
+                    .setContentText("").build();
+            int NOTIFICATION_ID = (int) (System.currentTimeMillis()%10000);
+            startForeground(NOTIFICATION_ID, notification);
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         DataModel.get().getConnectivityUtil().unregisterForSignalStrength();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+        }
     }
 
     private static final String WAKELOCK_ID = "bugle_datamodel_service_wakelock";
@@ -236,12 +257,7 @@ public class ActionServiceImpl extends IntentService {
         // memory (in total around 1MB). See this article for background
         // http://developer.android.com/reference/android/os/TransactionTooLargeException.html
         // Perhaps we should keep large structures in the action monitor?
-        if (context.startService(intent) == null) {
-            LogUtil.e(TAG,
-                    "ActionService.startServiceWithIntent: failed to start service for intent "
-                    + intent);
-            sWakeLock.release(intent, opcode);
-        }
+        ContextCompat.startForegroundService(context, intent);
     }
 
     /**

@@ -17,9 +17,16 @@
 package com.android.messaging.datamodel.action;
 
 import android.app.IntentService;
+import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
@@ -32,6 +39,8 @@ import com.google.common.annotations.VisibleForTesting;
 
 import java.util.List;
 
+import com.android.messaging.R;
+
 /**
  * Background worker service is an initial example of a background work queue handler
  * Used to actually "send" messages which may take some time and should not block ActionService
@@ -40,6 +49,7 @@ import java.util.List;
 public class BackgroundWorkerService extends IntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     private static final boolean VERBOSE = false;
+    private static final String CHANNEL_ID = "messaging_channel";
 
     private static final String WAKELOCK_ID = "bugle_background_worker_wakelock";
     @VisibleForTesting
@@ -97,11 +107,31 @@ public class BackgroundWorkerService extends IntentService {
             LogUtil.v(TAG, "acquiring wakelock for opcode " + opcode);
         }
 
-        if (context.startService(intent) == null) {
-            LogUtil.e(TAG,
-                    "BackgroundWorkerService.startServiceWithAction: failed to start service for "
-                    + opcode);
-            sWakeLock.release(intent, opcode);
+        ContextCompat.startForegroundService(context, intent);
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
+        }
+
+        createChannel();
+        Context context = Factory.get().getApplicationContext();
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(context.getString(R.string.background_worker_notif))
+                .build();
+        int notifId = (int) System.currentTimeMillis() % 10000;
+        startForeground(notifId, notification);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
         }
     }
 
@@ -164,5 +194,20 @@ public class BackgroundWorkerService extends IntentService {
                 mHost.handleFailureFromBackgroundWorker(action, exception);
             }
         }
+    }
+
+    private void createChannel() {
+        NotificationManager manager = getSystemService(NotificationManager.class);
+
+        NotificationChannel existing = manager.getNotificationChannel(CHANNEL_ID);
+        if (existing != null) {
+            return;
+        }
+
+        Context context = Factory.get().getApplicationContext();
+        String title = context.getString(R.string.notification_channel_title);
+        NotificationChannel newChannel = new NotificationChannel(CHANNEL_ID,
+                title, NotificationManager.IMPORTANCE_DEFAULT);
+        manager.createNotificationChannel(newChannel);
     }
 }
