@@ -163,7 +163,7 @@ public class ActionServiceTest extends BugleServiceTestCase<ActionServiceImpl>
 
         mWorker = new StubBackgroundWorker();
         mContext = new FakeContext(getContext(), this);
-        FakeFactory.registerWithFakeContext(getContext(),mContext)
+        FakeFactory.registerWithFakeContext(getContext(), mContext)
                 .withDataModel(new FakeDataModel(mContext)
                 .withBackgroundWorkerForActionService(mWorker)
                 .withActionService(new ActionService())
@@ -182,6 +182,13 @@ public class ActionServiceTest extends BugleServiceTestCase<ActionServiceImpl>
 
     @Override
     public void startServiceForStub(final Intent intent) {
+        // Do nothing until later
+        assertFalse(mServiceStarted);
+        mServiceStarted = true;
+    }
+
+    @Override
+    public void startForegroundServiceForStub(final Intent intent) {
         // Do nothing until later
         assertFalse(mServiceStarted);
         mServiceStarted = true;

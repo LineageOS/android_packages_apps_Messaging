@@ -1244,4 +1244,3 @@ public class BugleNotifications {
                 builder.build());
     }
 }
-
