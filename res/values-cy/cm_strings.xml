@@ -17,6 +17,11 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!-- Swipe to delete conversation -->
+    <string name="swipe_to_delete_conversation_pref_title">Llusgo i\'w dileu</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Llusgo sgwrs i\'r dde i\'w dileu</string>
     <!-- Show emoticons -->
+    <string name="show_emoticons_pref_title">Mynediad at wenogluniau</string>
+    <string name="show_emoticons_pref_summary">Dangos y fysell gwenogluniau ar y bysellfwrdd</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <string name="mediapicker_audio_list_item_unselected_content_description">Tara i ddewis</string>
 </resources>
