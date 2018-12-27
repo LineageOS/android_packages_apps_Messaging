@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.android.messaging.R;
-import com.android.messaging.util.Assert;
 
 /**
  * An activity that hosts VCardDetailFragment that shows the content of a VCard that contains one
@@ -37,11 +36,11 @@ public class VCardDetailActivity extends BugleActionBarActivity {
 
     @Override
     public void onAttachFragment(final Fragment fragment) {
-        Assert.isTrue(fragment instanceof VCardDetailFragment);
         final Uri vCardUri = getIntent().getParcelableExtra(UIIntents.UI_INTENT_EXTRA_VCARD_URI);
-        Assert.notNull(vCardUri);
-        final VCardDetailFragment vCardDetailFragment = (VCardDetailFragment) fragment;
-        vCardDetailFragment.setVCardUri(vCardUri);
+        if (fragment instanceof VCardDetailFragment && vCardUri != null) {
+            final VCardDetailFragment vCardDetailFragment = (VCardDetailFragment) fragment;
+            vCardDetailFragment.setVCardUri(vCardUri);
+        }
     }
 
     @Override
