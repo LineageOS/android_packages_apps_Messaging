@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright (C) 2016 The CyanogenMod Project
     Copyright (C) 2018 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +15,9 @@
     limitations under the License.
 -->
 <resources>
-    <color name="lineage_accent">#FF9800</color>
-    <color name="button_text">#000000</color>
-
-    <color name="navigation_bar_bg">@android:color/white</color>
-    <color name="navigation_bar_divider">#1f000000</color>
+    <style name="BugleBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:navigationBarColor">@color/navigation_bar_bg</item>
+        <item name="android:navigationBarDividerColor">@color/navigation_bar_divider</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
 </resources>
