@@ -38,4 +38,7 @@
     <!-- Notification channel -->
     <string name="notification_channel_title">Messages</string>
     <string name="background_worker_notif">Checking messages\u2026</string>
+
+    <!-- Notification Reply -->
+    <string name="notification_reply_pref">Quick reply notification</string>
 </resources>
