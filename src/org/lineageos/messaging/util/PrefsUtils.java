@@ -23,6 +23,7 @@ import com.android.messaging.util.BuglePrefs;
 
 public class PrefsUtils {
     public static final String SHOW_EMOTICONS_ENABLED = "pref_show_emoticons";
+    public static final String NOTIFICATION_REPLY_ENABLED = "pref_notification_reply";
 
     private PrefsUtils() {
         //Don't instantiate
@@ -48,5 +49,13 @@ public class PrefsUtils {
         final boolean defaultValue = context.getResources().getBoolean(
                 R.bool.show_emoticons_pref_default);
         return prefs.getBoolean(SHOW_EMOTICONS_ENABLED, defaultValue);
+    }
+
+    public static boolean isNotificationReplyEnabled() {
+        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
+        final Context context = Factory.get().getApplicationContext();
+        final boolean defaultValue = context.getResources().getBoolean(
+                R.bool.notification_reply_pref_default);
+        return prefs.getBoolean(NOTIFICATION_REPLY_ENABLED, defaultValue);
     }
 }
