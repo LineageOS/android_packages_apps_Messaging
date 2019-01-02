@@ -37,4 +37,7 @@
 
     <!-- Notification channel -->
     <string name="notification_channel_messages_title">Messages</string>
+
+    <!-- Notification Reply -->
+    <string name="notification_reply_pref">Quick reply notification</string>
 </resources>
