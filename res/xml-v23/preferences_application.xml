@@ -49,6 +49,12 @@
         android:persistent="true" />
 
     <SwitchPreference
+        android:key="pref_notification_reply"
+        android:title="@string/notification_reply_pref"
+        android:defaultValue="@bool/notification_reply_pref_default"
+        android:persistent="true" />
+
+    <SwitchPreference
         android:key="pref_show_emoticons"
         android:title="@string/show_emoticons_pref_title"
         android:persistent="true"

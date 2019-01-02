@@ -25,4 +25,7 @@
     <!-- Preference keys for user-visible settings -->
     <!-- Application-wide settings -->
     <bool name="show_emoticons_pref_default" translatable="false">true</bool>
+
+    <!-- Notification Reply -->
+    <bool name="notification_reply_pref_default">false</bool>
 </resources>

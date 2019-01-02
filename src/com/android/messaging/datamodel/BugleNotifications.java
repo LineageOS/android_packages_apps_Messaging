@@ -89,6 +89,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.lineageos.messaging.util.PrefsUtils;
+
 /**
  * Handle posting, updating and removing all conversation notifications.
  *
@@ -868,7 +870,9 @@ public class BugleNotifications {
                 setChoices(choices)
                 .build();
         actionBuilder.addRemoteInput(remoteInput);
-        notifBuilder.addAction(actionBuilder.build());
+        if (PrefsUtils.isNotificationReplyEnabled()) {
+            notifBuilder.addAction(actionBuilder.build());
+        }
 
         // Support the action on a wearable device as well
         wearableExtender.addAction(actionBuilder.build());
