@@ -30,4 +30,5 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Áudio selecionado</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Toque para selecionar</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selecionado(s)</string>
+    <!-- Mark message as read -->
 </resources>

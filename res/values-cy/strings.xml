@@ -332,7 +332,7 @@
         <item quantity="zero"><xliff:g id="count">%d</xliff:g> cyfranogwyr</item>
         <item quantity="one"><xliff:g id="count">%d</xliff:g> cyfranogwr</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> gyfranogwr</item>
-        <item quantity="few"><xliff:g id="count">%d</xliff:g> chyfranogwr</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> cyfranogwr</item>
         <item quantity="many"><xliff:g id="count">%d</xliff:g> chyfranogwr</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> cyfranogwr</item>
     </plurals>
@@ -665,7 +665,7 @@
         <!-- quantity="one" is not needed by the app, but it keeps the translation pipeline happy. -->
         <item quantity="one"><xliff:g id="count">%d</xliff:g> cyswllt</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> gyswllt</item>
-        <item quantity="few"><xliff:g id="count">%d</xliff:g> chyswllt</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> cyswllt</item>
         <item quantity="many"><xliff:g id="count">%d</xliff:g> chyswllt</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> cyswllt</item>
     </plurals>

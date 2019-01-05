@@ -28,4 +28,5 @@
     <string name="mediapicker_gallery_image_item_attachment_too_large">Video konnt net ugehaange ginn. Maximal Gréisst iwwerschratt.</string>
     <string name="mediapicker_audio_list_title">Toun auswielen</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> ausgewielt</string>
+    <!-- Mark message as read -->
 </resources>

@@ -30,4 +30,5 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Изабрани аудио-снимак</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Додирните да бисте изабрали</string>
     <string name="mediapicker_audio_list_title_selection">Изабрано: <xliff:g id="count">%d</xliff:g></string>
+    <!-- Mark message as read -->
 </resources>

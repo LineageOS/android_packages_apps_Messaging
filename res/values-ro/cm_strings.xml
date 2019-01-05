@@ -30,4 +30,5 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Audio selectat</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Atingeți pentru a selecta</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selectate</string>
+    <!-- Mark message as read -->
 </resources>

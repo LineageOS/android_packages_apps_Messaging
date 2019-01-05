@@ -30,4 +30,5 @@
     <string name="mediapicker_audio_list_item_selected_content_description">선택한 오디오</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">눌러서 선택</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g>개 선택됨</string>
+    <!-- Mark message as read -->
 </resources>

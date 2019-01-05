@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">ئىپادە بەلگىسىنى كۆرسىتىش</string>
     <string name="show_emoticons_pref_summary">كونۇپكا تاختىسىدا ئىپادە بەلگىسىنى كۆرسىتىش</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>

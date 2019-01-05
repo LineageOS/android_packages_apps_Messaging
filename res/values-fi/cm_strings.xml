@@ -30,4 +30,5 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Valittu äänitiedosto</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Paina valitaksesi</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valittu</string>
+    <!-- Mark message as read -->
 </resources>

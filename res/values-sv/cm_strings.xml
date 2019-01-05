@@ -26,4 +26,5 @@
     <string name="mediapicker_audio_list_title">Välj ljud</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Tryck för att välja</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
+    <!-- Mark message as read -->
 </resources>

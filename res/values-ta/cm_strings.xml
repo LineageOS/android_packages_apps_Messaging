@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">எமோடிகான்கள் அணுகல்</string>
     <string name="show_emoticons_pref_summary">விசைப்பலகையில் உள்ள எமோடிகான் விசையை காண்பிக்கவும்</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>
