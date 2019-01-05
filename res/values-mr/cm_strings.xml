@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">इमोटीकन्स अॅक्सेस</string>
     <string name="show_emoticons_pref_summary">किबोर्ड वरील इमोटीकन्स कि दाखवा</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>

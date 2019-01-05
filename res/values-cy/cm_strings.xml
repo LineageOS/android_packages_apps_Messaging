@@ -23,5 +23,9 @@
     <string name="show_emoticons_pref_title">Mynediad at wenogluniau</string>
     <string name="show_emoticons_pref_summary">Dangos y fysell gwenogluniau ar y bysellfwrdd</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <string name="mediapicker_galleryChooserDescription_cm">Dewis delweddau neu fideos o\'r ddyfais hon</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Methu ag atodi\'r fideo oherwydd cyfyngiad maint negeseuon.</string>
+    <string name="mediapicker_audio_list_title">Dewis sain</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Tara i ddewis</string>
+    <!-- Mark message as read -->
 </resources>

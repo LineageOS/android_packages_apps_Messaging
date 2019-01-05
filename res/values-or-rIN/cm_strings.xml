@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">ଇମୋଟିକନ୍‍ ଆକ୍ସେସ୍</string>
     <string name="show_emoticons_pref_summary">ସୋ ଦ ଇମୋକସନ କି ଅନ ଦି କିବୋର୍ଡ଼</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>

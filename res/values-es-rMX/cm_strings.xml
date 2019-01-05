@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">Acceso de emoticonos</string>
     <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>

@@ -30,4 +30,6 @@
     <string name="mediapicker_audio_list_item_selected_content_description">所选的音频</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">点击以选择</string>
     <string name="mediapicker_audio_list_title_selection">已选择 <xliff:g id="count">%d</xliff:g> 项。</string>
+    <!-- Mark message as read -->
+    <string name="notification_mark_as_read">标记为已读</string>
 </resources>

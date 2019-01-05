@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">ഇമോട്ടിക്കോൺ ആക്സസ്</string>
     <string name="show_emoticons_pref_summary">കീബോർഡിലെ ഇമോഷനുകളുടെ കീ കാണിക്കുക</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>

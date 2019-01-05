@@ -30,4 +30,5 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Âm thanh đã chọn</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Chạm để chọn</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> đã chọn</string>
+    <!-- Mark message as read -->
 </resources>

@@ -23,4 +23,5 @@
     <string name="show_emoticons_pref_title">ઇમોટિકન્સ વપરાશ</string>
     <string name="show_emoticons_pref_summary">કીબોર્ડ પર લાગણીઓ કી દેખાડો</string>
     <!-- Audio Library Tab for MMS attachments -->
+    <!-- Mark message as read -->
 </resources>
