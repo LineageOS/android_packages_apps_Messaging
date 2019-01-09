@@ -17,8 +17,6 @@
 package com.android.messaging.datamodel;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -119,8 +117,6 @@ public class BugleNotifications {
     private static final String SMS_ERROR_NOTIFICATION_TAG = ":error:";
 
     private static final String WEARABLE_COMPANION_APP_PACKAGE = "com.google.android.wearable.app";
-
-    private static final String CHANNEL_ID = "messaging_channel";
 
     private static final Set<NotificationState> sPendingNotifications =
             new HashSet<NotificationState>();
@@ -424,7 +420,7 @@ public class BugleNotifications {
     private static void processAndSend(final NotificationState state, final boolean silent,
             final boolean softSound) {
         final Context context = Factory.get().getApplicationContext();
-        final NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context, CHANNEL_ID);
+        final NotificationCompat.Builder notifBuilder = new NotificationCompat.Builder(context);
         notifBuilder.setCategory(Notification.CATEGORY_MESSAGE);
         // TODO: Need to fix this for multi conversation notifications to rate limit dings.
         final String conversationId = state.mConversationIds.first();
@@ -831,7 +827,7 @@ public class BugleNotifications {
 
                 // Add a wearable page with no visible card so you can more easily see the photo.
                 final NotificationCompat.Builder photoPageNotifBuilder =
-                        new NotificationCompat.Builder(Factory.get().getApplicationContext(), CHANNEL_ID);
+                        new NotificationCompat.Builder(Factory.get().getApplicationContext());
                 final WearableExtender photoPageWearableExtender = new WearableExtender();
                 photoPageWearableExtender.setHintShowBackgroundOnly(true);
                 if (attachmentBitmap != null) {
@@ -1002,8 +998,6 @@ public class BugleNotifications {
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_LIGHTS;
-
-        createChannel();
 
         notificationManager.notify(notificationTag, type, notification);
 
@@ -1234,7 +1228,7 @@ public class BugleNotifications {
         final PendingIntent destinationIntent = UIIntents.get()
                 .getPendingIntentForConversationActivity(context, conversationId, null /* draft */);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setTicker(line1)
                 .setContentTitle(line1)
                 .setContentText(line2)
@@ -1244,25 +1238,10 @@ public class BugleNotifications {
                 .setSound(UriUtil.getUriForResourceId(context, R.raw.message_failure));
 
         final String tag = context.getPackageName() + ":emergency_sms_error";
-        createChannel();
         NotificationManagerCompat.from(context).notify(
                 tag,
                 PendingIntentConstants.MSG_SEND_ERROR,
                 builder.build());
     }
-
-    private static void createChannel() {
-        Context context = Factory.get().getApplicationContext();
-        NotificationManager manager = context.getSystemService(NotificationManager.class);
-
-        NotificationChannel existing = manager.getNotificationChannel(CHANNEL_ID);
-        if (existing != null) {
-            return;
-        }
-
-        String title = context.getString(R.string.notification_channel_title);
-        NotificationChannel newChannel = new NotificationChannel(CHANNEL_ID,
-                title, NotificationManager.IMPORTANCE_DEFAULT);
-        manager.createNotificationChannel(newChannel);
-    }
 }
+
