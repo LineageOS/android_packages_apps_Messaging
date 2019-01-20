@@ -49,7 +49,7 @@ import com.android.messaging.R;
 public class BackgroundWorkerService extends IntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     private static final boolean VERBOSE = false;
-    private static final String CHANNEL_ID = "messaging_channel";
+    private static final String CHANNEL_ID = "processing_channel";
 
     private static final String WAKELOCK_ID = "bugle_background_worker_wakelock";
     @VisibleForTesting
@@ -121,10 +121,10 @@ public class BackgroundWorkerService extends IntentService {
         Context context = Factory.get().getApplicationContext();
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(context.getString(R.string.background_worker_notif))
+                .setSmallIcon(R.drawable.ic_sms_light)
                 .build();
         int notifId = (int) System.currentTimeMillis() % 10000;
         startForeground(notifId, notification);
-
     }
 
     @Override
@@ -205,9 +205,9 @@ public class BackgroundWorkerService extends IntentService {
         }
 
         Context context = Factory.get().getApplicationContext();
-        String title = context.getString(R.string.notification_channel_title);
+        String title = context.getString(R.string.notification_channel_processing_title);
         NotificationChannel newChannel = new NotificationChannel(CHANNEL_ID,
-                title, NotificationManager.IMPORTANCE_DEFAULT);
+                title, NotificationManager.IMPORTANCE_LOW);
         manager.createNotificationChannel(newChannel);
     }
 }

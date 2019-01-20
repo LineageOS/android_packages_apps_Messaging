@@ -1260,7 +1260,7 @@ public class BugleNotifications {
             return;
         }
 
-        String title = context.getString(R.string.notification_channel_title);
+        String title = context.getString(R.string.notification_channel_messages_title);
         NotificationChannel newChannel = new NotificationChannel(CHANNEL_ID,
                 title, NotificationManager.IMPORTANCE_DEFAULT);
         manager.createNotificationChannel(newChannel);
