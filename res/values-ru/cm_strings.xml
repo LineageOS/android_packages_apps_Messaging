@@ -33,6 +33,6 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Прочитано</string>
     <!-- Notification channel -->
-    <string name="notification_channel_title">Сообщения</string>
+    <string name="notification_channel_messages_title">Сообщения</string>
     <string name="background_worker_notif">Проверка сообщений\u2026</string>
 </resources>

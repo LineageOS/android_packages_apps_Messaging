@@ -33,6 +33,6 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Okundu olarak işaretle</string>
     <!-- Notification channel -->
-    <string name="notification_channel_title">Mesajlar</string>
+    <string name="notification_channel_messages_title">Mesajlar</string>
     <string name="background_worker_notif">Mesaj gönderiliyor\u2026</string>
 </resources>
