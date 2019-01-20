@@ -39,12 +39,6 @@ import java.util.List;
  */
 public class BackgroundWorkerService extends JobIntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
-    private static final boolean VERBOSE = false;
-
-    /**
-     * Unique job ID for this service.
-     */
-    public static final int JOB_ID = 1001;
 
     private final ActionService mHost;
 
@@ -61,6 +55,11 @@ public class BackgroundWorkerService extends JobIntentService {
             startServiceWithAction(action, 0);
         }
     }
+
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1001;
 
     // ops
     @VisibleForTesting
@@ -97,7 +96,7 @@ public class BackgroundWorkerService extends JobIntentService {
         enqueueWork(context, intent);
     }
 
-    public static void enqueueWork(Context context, Intent work) {
+    static void enqueueWork(Context context, Intent work) {
         enqueueWork(context, BackgroundWorkerService.class, JOB_ID, work);
     }
 

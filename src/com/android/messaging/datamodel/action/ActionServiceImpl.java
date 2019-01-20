@@ -28,7 +28,6 @@ import androidx.core.app.JobIntentService;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.util.ConnectivityUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
 import com.google.common.annotations.VisibleForTesting;
@@ -38,12 +37,6 @@ import com.google.common.annotations.VisibleForTesting;
  */
 public class ActionServiceImpl extends JobIntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
-    private static final boolean VERBOSE = false;
-
-    /**
-     * Unique job ID for this service.
-     */
-    public static final int JOB_ID = 1000;
 
     public ActionServiceImpl() {
         super();
@@ -111,6 +104,11 @@ public class ActionServiceImpl extends JobIntentService {
         startServiceWithIntent(intent);
     }
 
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1000;
+
     // ops
     @VisibleForTesting
     protected static final int OP_START_ACTION = 200;
@@ -134,7 +132,6 @@ public class ActionServiceImpl extends JobIntentService {
     protected static final String BUNDLE_ACTION = "bundle_action";
 
     private BackgroundWorker mBackgroundWorker;
-    private ConnectivityUtil mConnectivityUtil;
 
     /**
      * Allocate an intent with a specific opcode.
@@ -213,14 +210,13 @@ public class ActionServiceImpl extends JobIntentService {
     public void onCreate() {
         super.onCreate();
         mBackgroundWorker = DataModel.get().getBackgroundWorkerForActionService();
-        mConnectivityUtil = DataModel.get().getConnectivityUtil();
-        mConnectivityUtil.registerForSignalStrength();
+        DataModel.get().getConnectivityUtil().registerForSignalStrength();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mConnectivityUtil.unregisterForSignalStrength();
+        DataModel.get().getConnectivityUtil().unregisterForSignalStrength();
     }
 
     /**
@@ -230,10 +226,11 @@ public class ActionServiceImpl extends JobIntentService {
         final Context context = Factory.get().getApplicationContext();
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
         intent.setClass(context, ActionServiceImpl.class);
+
         enqueueWork(context, intent);
     }
 
-    public static void enqueueWork(Context context, Intent work) {
+    static void enqueueWork(Context context, Intent work) {
         enqueueWork(context, ActionServiceImpl.class, JOB_ID, work);
     }
 
