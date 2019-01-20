@@ -22,6 +22,6 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Märgi loetuks</string>
     <!-- Notification channel -->
-    <string name="notification_channel_title">Sõnumid</string>
+    <string name="notification_channel_messages_title">Sõnumid</string>
     <string name="background_worker_notif">Sõnumite kontrollimine\u2026</string>
 </resources>
