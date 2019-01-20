@@ -33,6 +33,6 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Marcar como lleíu</string>
     <!-- Notification channel -->
-    <string name="notification_channel_title">Mensaxes</string>
+    <string name="notification_channel_messages_title">Mensaxes</string>
     <string name="background_worker_notif">Verificando mensaxes\u2026</string>
 </resources>

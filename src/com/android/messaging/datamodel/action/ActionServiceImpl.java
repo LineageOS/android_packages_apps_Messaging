@@ -19,7 +19,6 @@ package com.android.messaging.datamodel.action;
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -38,12 +37,17 @@ import com.android.messaging.util.LoggingTimer;
 import com.android.messaging.util.WakeLockHelper;
 import com.google.common.annotations.VisibleForTesting;
 
+import org.lineageos.messaging.util.NotifUtils;
+
+import com.android.messaging.R;
+
 /**
  * ActionService used to perform background processing for data model
  */
 public class ActionServiceImpl extends IntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     private static final boolean VERBOSE = false;
+    private static final String CHANNEL_ID = "processing_channel";
 
     public ActionServiceImpl() {
         super("ActionService");
@@ -213,18 +217,22 @@ public class ActionServiceImpl extends IntentService {
         super.onCreate();
         mBackgroundWorker = DataModel.get().getBackgroundWorkerForActionService();
         DataModel.get().getConnectivityUtil().registerForSignalStrength();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String CHANNEL_ID = "my_channel_01";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Channel human readable title 1",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("")
-                    .setContentText("").build();
-            int NOTIFICATION_ID = (int) (System.currentTimeMillis()%10000);
-            startForeground(NOTIFICATION_ID, notification);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
         }
+
+        Context context = Factory.get().getApplicationContext();
+        NotifUtils.createNotificationChannel(context,
+                CHANNEL_ID,
+                R.string.notification_channel_processing_title,
+                NotificationManager.IMPORTANCE_MIN);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(context.getString(R.string.background_worker_notif))
+            .setSmallIcon(R.drawable.ic_sms_light)
+            .build();
+        int notificationId = (int) (System.currentTimeMillis() % 10000);
+        startForeground(notificationId, notification);
     }
 
     @Override
