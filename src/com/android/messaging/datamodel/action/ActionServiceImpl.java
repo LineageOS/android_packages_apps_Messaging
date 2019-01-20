@@ -38,12 +38,15 @@ import com.android.messaging.util.LoggingTimer;
 import com.android.messaging.util.WakeLockHelper;
 import com.google.common.annotations.VisibleForTesting;
 
+import com.android.messaging.R;
+
 /**
  * ActionService used to perform background processing for data model
  */
 public class ActionServiceImpl extends IntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     private static final boolean VERBOSE = false;
+    private static final String CHANNEL_ID = "processing_channel";
 
     public ActionServiceImpl() {
         super("ActionService");
@@ -213,18 +216,19 @@ public class ActionServiceImpl extends IntentService {
         super.onCreate();
         mBackgroundWorker = DataModel.get().getBackgroundWorkerForActionService();
         DataModel.get().getConnectivityUtil().registerForSignalStrength();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String CHANNEL_ID = "my_channel_01";
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
-                    "Channel human readable title 1",
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(channel);
-            Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                    .setContentTitle("")
-                    .setContentText("").build();
-            int NOTIFICATION_ID = (int) (System.currentTimeMillis()%10000);
-            startForeground(NOTIFICATION_ID, notification);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
         }
+
+        createChannel();
+        Context context = Factory.get().getApplicationContext();
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setContentTitle(context.getString(R.string.background_worker_notif))
+            .setSmallIcon(R.drawable.ic_sms_light)
+            .build();
+        int notificationId = (int) (System.currentTimeMillis() % 10000);
+        startForeground(notificationId, notification);
     }
 
     @Override
@@ -353,5 +357,20 @@ public class ActionServiceImpl extends IntentService {
             final Action action, final String methodName) {
         return new LoggingTimer(TAG, action.getClass().getSimpleName() + methodName,
                 EXECUTION_TIME_WARN_LIMIT_MS);
+    }
+
+    private void createChannel() {
+        NotificationManager manager = getSystemService(NotificationManager.class);
+
+        NotificationChannel existing = manager.getNotificationChannel(CHANNEL_ID);
+        if (existing != null) {
+            return;
+        }
+
+        Context context = Factory.get().getApplicationContext();
+        String title = context.getString(R.string.notification_channel_processing_title);
+        NotificationChannel newChannel = new NotificationChannel(CHANNEL_ID,
+                title, NotificationManager.IMPORTANCE_MIN);
+        manager.createNotificationChannel(newChannel);
     }
 }

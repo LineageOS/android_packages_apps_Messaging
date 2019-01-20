@@ -33,6 +33,6 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Σήμανση ως αναγνωσμένο</string>
     <!-- Notification channel -->
-    <string name="notification_channel_title">Μηνύματα</string>
+    <string name="notification_channel_messages_title">Μηνύματα</string>
     <string name="background_worker_notif">Έλεγχος μηνυμάτων\u2026</string>
 </resources>

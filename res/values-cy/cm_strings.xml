@@ -29,6 +29,6 @@
     <string name="mediapicker_audio_list_item_unselected_content_description">Tara i ddewis</string>
     <!-- Mark message as read -->
     <!-- Notification channel -->
-    <string name="notification_channel_title">Negeseuon</string>
+    <string name="notification_channel_messages_title">Negeseuon</string>
     <string name="background_worker_notif">Yn gwirio negeseuon\u2026</string>
 </resources>
