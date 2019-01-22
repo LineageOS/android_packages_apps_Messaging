@@ -22,6 +22,30 @@
       "revId": "1e9251c854673d5458b4e7d30c3e1c921f0fc9d8",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e716dd0e_5d1d39d9",
+        "filename": "src/com/android/messaging/datamodel/action/BackgroundWorkerService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2019-01-22T07:33:01Z",
+      "side": 1,
+      "message": "The unknown reason probably is \u0027whatever worker service comes first and creates the channel gets to choose the importance level\u0027.\n\nMaybe move this to an utils class to deduplicate code here?",
+      "parentUuid": "5f8a2590_6a6f7e77",
+      "range": {
+        "startLine": 210,
+        "startChar": 43,
+        "endLine": 210,
+        "endChar": 57
+      },
+      "revId": "1e9251c854673d5458b4e7d30c3e1c921f0fc9d8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
     }
   ]
 }
