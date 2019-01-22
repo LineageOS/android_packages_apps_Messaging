@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f8a2590_6a6f7e77",
+        "filename": "src/com/android/messaging/datamodel/action/BackgroundWorkerService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 10258
+      },
+      "writtenOn": "2019-01-22T05:58:56Z",
+      "side": 1,
+      "message": "For unknown reason \"Background operations\" channel\u0027s default behavior is still \"Show silently\" w/o changing this to IMPORTANCE_MIN. I wiped data before testing.",
+      "range": {
+        "startLine": 210,
+        "startChar": 43,
+        "endLine": 210,
+        "endChar": 57
+      },
+      "revId": "1e9251c854673d5458b4e7d30c3e1c921f0fc9d8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
