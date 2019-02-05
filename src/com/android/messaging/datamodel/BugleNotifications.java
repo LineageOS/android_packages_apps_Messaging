@@ -919,11 +919,8 @@ public class BugleNotifications {
         final NotificationCompat.Action.Builder actionBuilder =
                 new NotificationCompat.Action.Builder(R.drawable.ic_wear_reply,
                         context.getString(replyLabelRes), replyPendingIntent);
-        final String[] choices = context.getResources().getStringArray(
-                R.array.notification_reply_choices);
         final RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(
-                context.getString(R.string.notification_reply_prompt)).
-                setChoices(choices)
+                context.getString(R.string.notification_reply_prompt))
                 .build();
         actionBuilder.addRemoteInput(remoteInput);
         notifBuilder.addAction(actionBuilder.build());
