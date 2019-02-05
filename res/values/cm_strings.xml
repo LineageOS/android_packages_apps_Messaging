@@ -37,6 +37,4 @@
 
     <!-- Notification channel -->
     <string name="notification_channel_messages_title">Messages</string>
-    <string name="notification_channel_processing_title">Background operations</string>
-    <string name="background_worker_notif">Checking messages\u2026</string>
 </resources>

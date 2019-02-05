@@ -16,16 +16,11 @@
 
 package com.android.messaging.datamodel.action;
 
-import android.app.IntentService;
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.JobIntentService;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
@@ -33,33 +28,22 @@ import com.android.messaging.datamodel.DataModelException;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
-import com.android.messaging.util.WakeLockHelper;
 import com.google.common.annotations.VisibleForTesting;
 
-import org.lineageos.messaging.util.NotifUtils;
-
 import java.util.List;
-
-import com.android.messaging.R;
 
 /**
  * Background worker service is an initial example of a background work queue handler
  * Used to actually "send" messages which may take some time and should not block ActionService
  * or UI
  */
-public class BackgroundWorkerService extends IntentService {
+public class BackgroundWorkerService extends JobIntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
-    private static final boolean VERBOSE = false;
-    private static final String CHANNEL_ID = "processing_channel";
-
-    private static final String WAKELOCK_ID = "bugle_background_worker_wakelock";
-    @VisibleForTesting
-    static WakeLockHelper sWakeLock = new WakeLockHelper(WAKELOCK_ID);
 
     private final ActionService mHost;
 
     public BackgroundWorkerService() {
-        super("BackgroundWorker");
+        super();
         mHost = DataModel.get().getActionService();
     }
 
@@ -71,6 +55,11 @@ public class BackgroundWorkerService extends IntentService {
             startServiceWithAction(action, 0);
         }
     }
+
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1001;
 
     // ops
     @VisibleForTesting
@@ -85,7 +74,7 @@ public class BackgroundWorkerService extends IntentService {
     protected static final String EXTRA_ATTEMPT = "retry_attempt";
 
     /**
-     * Queue action intent to the BackgroundWorkerService after acquiring wake lock
+     * Queue action intent to the BackgroundWorkerService
      */
     private static void startServiceWithAction(final Action action,
             final int retryCount) {
@@ -96,73 +85,40 @@ public class BackgroundWorkerService extends IntentService {
     }
 
     /**
-     * Queue intent to the BackgroundWorkerService after acquiring wake lock
+     * Queue intent to the BackgroundWorkerService
      */
     private static void startServiceWithIntent(final int opcode, final Intent intent) {
         final Context context = Factory.get().getApplicationContext();
 
         intent.setClass(context, BackgroundWorkerService.class);
         intent.putExtra(EXTRA_OP_CODE, opcode);
-        sWakeLock.acquire(context, intent, opcode);
-        if (VERBOSE) {
-            LogUtil.v(TAG, "acquiring wakelock for opcode " + opcode);
-        }
 
-        ContextCompat.startForegroundService(context, intent);
+        enqueueWork(context, intent);
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
-        Context context = Factory.get().getApplicationContext();
-        NotifUtils.createNotificationChannel(context,
-                CHANNEL_ID,
-                R.string.notification_channel_processing_title,
-                NotificationManager.IMPORTANCE_MIN);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(context.getString(R.string.background_worker_notif))
-                .setSmallIcon(R.drawable.ic_sms_light)
-                .build();
-        int notifId = (int) System.currentTimeMillis() % 10000;
-        startForeground(notifId, notification);
-    }
+    static void enqueueWork(Context context, Intent work) {
+        enqueueWork(context, BackgroundWorkerService.class, JOB_ID, work);
+     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stopForeground(true);
-        }
-    }
-
-    @Override
-    protected void onHandleIntent(final Intent intent) {
+    protected void onHandleWork(final Intent intent) {
         if (intent == null) {
             // Shouldn't happen but sometimes does following another crash.
             LogUtil.w(TAG, "BackgroundWorkerService.onHandleIntent: Called with null intent");
             return;
         }
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
-        sWakeLock.ensure(intent, opcode);
 
-        try {
-            switch(opcode) {
-                case OP_PROCESS_REQUEST: {
-                    final Action action = intent.getParcelableExtra(EXTRA_ACTION);
-                    final int attempt = intent.getIntExtra(EXTRA_ATTEMPT, -1);
-                    doBackgroundWork(action, attempt);
-                    break;
-                }
-
-                default:
-                    throw new RuntimeException("Unrecognized opcode in BackgroundWorkerService");
+        switch(opcode) {
+            case OP_PROCESS_REQUEST: {
+                final Action action = intent.getParcelableExtra(EXTRA_ACTION);
+                final int attempt = intent.getIntExtra(EXTRA_ATTEMPT, -1);
+                doBackgroundWork(action, attempt);
+                break;
             }
-        } finally {
-            sWakeLock.release(intent, opcode);
+
+            default:
+                throw new RuntimeException("Unrecognized opcode in BackgroundWorkerService");
         }
     }
 

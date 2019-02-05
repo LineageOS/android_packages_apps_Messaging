@@ -17,9 +17,6 @@
 package com.android.messaging.datamodel.action;
 
 import android.app.AlarmManager;
-import android.app.IntentService;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -27,30 +24,22 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.JobIntentService;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
-import com.android.messaging.util.WakeLockHelper;
 import com.google.common.annotations.VisibleForTesting;
-
-import org.lineageos.messaging.util.NotifUtils;
-
-import com.android.messaging.R;
 
 /**
  * ActionService used to perform background processing for data model
  */
-public class ActionServiceImpl extends IntentService {
+public class ActionServiceImpl extends JobIntentService {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
-    private static final boolean VERBOSE = false;
-    private static final String CHANNEL_ID = "processing_channel";
 
     public ActionServiceImpl() {
-        super("ActionService");
+        super();
     }
 
     /**
@@ -114,6 +103,11 @@ public class ActionServiceImpl extends IntentService {
 
         startServiceWithIntent(intent);
     }
+
+    /**
+     * Unique job ID for this service.
+     */
+    static final int JOB_ID = 1000;
 
     // ops
     @VisibleForTesting
@@ -217,103 +211,69 @@ public class ActionServiceImpl extends IntentService {
         super.onCreate();
         mBackgroundWorker = DataModel.get().getBackgroundWorkerForActionService();
         DataModel.get().getConnectivityUtil().registerForSignalStrength();
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
-        Context context = Factory.get().getApplicationContext();
-        NotifUtils.createNotificationChannel(context,
-                CHANNEL_ID,
-                R.string.notification_channel_processing_title,
-                NotificationManager.IMPORTANCE_MIN);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(context.getString(R.string.background_worker_notif))
-            .setSmallIcon(R.drawable.ic_sms_light)
-            .build();
-        int notificationId = (int) (System.currentTimeMillis() % 10000);
-        startForeground(notificationId, notification);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         DataModel.get().getConnectivityUtil().unregisterForSignalStrength();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stopForeground(true);
-        }
     }
 
-    private static final String WAKELOCK_ID = "bugle_datamodel_service_wakelock";
-    @VisibleForTesting
-    static WakeLockHelper sWakeLock = new WakeLockHelper(WAKELOCK_ID);
-
     /**
-     * Queue intent to the ActionService after acquiring wake lock
+     * Queue intent to the ActionService
      */
     private static void startServiceWithIntent(final Intent intent) {
         final Context context = Factory.get().getApplicationContext();
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
-        // Increase refCount on wake lock - acquiring if necessary
-        if (VERBOSE) {
-            LogUtil.v(TAG, "acquiring wakelock for opcode " + opcode);
-        }
-        sWakeLock.acquire(context, intent, opcode);
         intent.setClass(context, ActionServiceImpl.class);
 
-        // TODO: Note that intent will be quietly discarded if it exceeds available rpc
-        // memory (in total around 1MB). See this article for background
-        // http://developer.android.com/reference/android/os/TransactionTooLargeException.html
-        // Perhaps we should keep large structures in the action monitor?
-        ContextCompat.startForegroundService(context, intent);
+        enqueueWork(context, intent);
     }
+
+    static void enqueueWork(Context context, Intent work) {
+        enqueueWork(context, ActionServiceImpl.class, JOB_ID, work);
+     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    protected void onHandleIntent(final Intent intent) {
+    protected void onHandleWork(final Intent intent) {
         if (intent == null) {
             // Shouldn't happen but sometimes does following another crash.
             LogUtil.w(TAG, "ActionService.onHandleIntent: Called with null intent");
             return;
         }
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
-        sWakeLock.ensure(intent, opcode);
 
-        try {
-            Action action;
-            final Bundle actionBundle = intent.getBundleExtra(EXTRA_ACTION_BUNDLE);
-            actionBundle.setClassLoader(getClassLoader());
-            switch(opcode) {
-                case OP_START_ACTION: {
-                    action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
-                    executeAction(action);
-                    break;
-                }
-
-                case OP_RECEIVE_BACKGROUND_RESPONSE: {
-                    action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
-                    final Bundle response = intent.getBundleExtra(EXTRA_WORKER_RESPONSE);
-                    processBackgroundResponse(action, response);
-                    break;
-                }
-
-                case OP_RECEIVE_BACKGROUND_FAILURE: {
-                    action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
-                    processBackgroundFailure(action);
-                    break;
-                }
-
-                default:
-                    throw new RuntimeException("Unrecognized opcode in ActionServiceImpl");
+        Action action;
+        final Bundle actionBundle = intent.getBundleExtra(EXTRA_ACTION_BUNDLE);
+        actionBundle.setClassLoader(getClassLoader());
+        switch(opcode) {
+            case OP_START_ACTION: {
+                action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
+                executeAction(action);
+                break;
             }
 
-            action.sendBackgroundActions(mBackgroundWorker);
-        } finally {
-            // Decrease refCount on wake lock - releasing if necessary
-            sWakeLock.release(intent, opcode);
+            case OP_RECEIVE_BACKGROUND_RESPONSE: {
+                action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
+                final Bundle response = intent.getBundleExtra(EXTRA_WORKER_RESPONSE);
+                processBackgroundResponse(action, response);
+                break;
+            }
+
+            case OP_RECEIVE_BACKGROUND_FAILURE: {
+                action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
+                processBackgroundFailure(action);
+                break;
+            }
+
+            default:
+                throw new RuntimeException("Unrecognized opcode in ActionServiceImpl");
         }
+
+        action.sendBackgroundActions(mBackgroundWorker);
     }
 
     private static final long EXECUTION_TIME_WARN_LIMIT_MS = 1000; // 1 second
