@@ -22,6 +22,30 @@
       "revId": "55393e98919fe304d3f99b332b7e77da9cb8e2ba",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "667fcc01_32ac45a2",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2019-02-05T17:26:45Z",
+      "side": 0,
+      "message": "I\u0027m sure google will change some of the strings in upcoming tags. It\u0027s not worth creating a huge delta",
+      "parentUuid": "4e320ba9_431da1a0",
+      "range": {
+        "startLine": 923,
+        "startChar": 24,
+        "endLine": 923,
+        "endChar": 50
+      },
+      "revId": "55393e98919fe304d3f99b332b7e77da9cb8e2ba",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
     }
   ]
 }
