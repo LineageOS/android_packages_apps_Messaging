@@ -846,7 +846,8 @@ public class BugleNotifications {
             maybeAddWearableConversationLog(wearableExtender,
                     (MultiMessageNotificationState) notificationState);
             addDownloadMmsAction(notifBuilder, wearableExtender, notificationState);
-            addReplyAction(notifBuilder, wearableExtender, notificationState);
+            addWearableVoiceReplyAction(wearableExtender, notificationState);
+            addReplyAction(notifBuilder, notificationState);
             addReadAction(notifBuilder, wearableExtender, notificationState);
         }
 
@@ -889,11 +890,8 @@ public class BugleNotifications {
         }
     }
 
-    private static void addReplyAction(final NotificationCompat.Builder notifBuilder,
-            final WearableExtender wearableExtender, final NotificationState notificationState) {
-        if (!(notificationState instanceof MultiMessageNotificationState)) {
-            return;
-        }
+    private static NotificationCompat.Action.Builder getActionBuilder(
+            final NotificationState notificationState) {
         final MultiMessageNotificationState multiMessageNotificationState =
                 (MultiMessageNotificationState) notificationState;
         final Context context = Factory.get().getApplicationContext();
@@ -916,19 +914,40 @@ public class BugleNotifications {
         final int replyLabelRes = requiresMms ? R.string.notification_reply_via_mms :
             R.string.notification_reply_via_sms;
 
+        return new NotificationCompat.Action.Builder(R.drawable.ic_wear_reply,
+                context.getString(replyLabelRes), replyPendingIntent);
+    }
+
+    private static void addReplyAction(final NotificationCompat.Builder notifBuilder,
+            final NotificationState notificationState) {
+        if (!(notificationState instanceof MultiMessageNotificationState)) {
+            return;
+        }
+        final Context context = Factory.get().getApplicationContext();
+        final RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(
+                context.getString(R.string.notification_reply_prompt))
+                .build();
         final NotificationCompat.Action.Builder actionBuilder =
-                new NotificationCompat.Action.Builder(R.drawable.ic_wear_reply,
-                        context.getString(replyLabelRes), replyPendingIntent);
+                getActionBuilder(notificationState);
+        actionBuilder.addRemoteInput(remoteInput);
+        notifBuilder.addAction(actionBuilder.build());
+    }
+
+    private static void addWearableVoiceReplyAction(
+            final WearableExtender wearableExtender, final NotificationState notificationState) {
+        if (!(notificationState instanceof MultiMessageNotificationState)) {
+            return;
+        }
+        final Context context = Factory.get().getApplicationContext();
         final String[] choices = context.getResources().getStringArray(
                 R.array.notification_reply_choices);
         final RemoteInput remoteInput = new RemoteInput.Builder(Intent.EXTRA_TEXT).setLabel(
                 context.getString(R.string.notification_reply_prompt)).
                 setChoices(choices)
                 .build();
+        final NotificationCompat.Action.Builder actionBuilder =
+                getActionBuilder(notificationState);
         actionBuilder.addRemoteInput(remoteInput);
-        notifBuilder.addAction(actionBuilder.build());
-
-        // Support the action on a wearable device as well
         wearableExtender.addAction(actionBuilder.build());
     }
 
