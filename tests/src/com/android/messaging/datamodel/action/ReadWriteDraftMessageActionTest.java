@@ -113,7 +113,7 @@ public class ReadWriteDraftMessageActionTest extends BugleTestCase {
         participants.add(ParticipantData.getFromRawPhoneBySystemLocale(participantNumber));
 
         final String conversationId = BugleDatabaseOperations.getOrCreateConversation(db, threadId,
-                senderBlocked, participants, false, false, null);
+                senderBlocked, participants);
         assertNotNull("No conversation", conversationId);
         return conversationId;
     }
@@ -189,7 +189,7 @@ public class ReadWriteDraftMessageActionTest extends BugleTestCase {
         participants.add(ParticipantData.getFromRawPhoneBySystemLocale(Long.toString(phoneNumber)));
 
         conversationId = BugleDatabaseOperations.getOrCreateConversation(db, threadId,
-                senderBlocked, participants, false, false, null);
+                senderBlocked, participants);
         assertNotNull("No conversation", conversationId);
 
         final MessageData actual = BugleDatabaseOperations.readDraftMessageData(db, conversationId,
