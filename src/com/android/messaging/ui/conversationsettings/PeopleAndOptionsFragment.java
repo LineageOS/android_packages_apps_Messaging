@@ -131,24 +131,12 @@ public class PeopleAndOptionsFragment extends Fragment
     }
 
     @Override
-    public void onOptionsItemViewClicked(final PeopleOptionsItemData item,
-            final boolean isChecked) {
+    public void onOptionsItemViewClicked(final PeopleOptionsItemData item) {
         switch (item.getItemId()) {
-            case PeopleOptionsItemData.SETTING_NOTIFICATION_ENABLED:
-                mBinding.getData().enableConversationNotifications(mBinding, isChecked);
-                break;
-
-            case PeopleOptionsItemData.SETTING_NOTIFICATION_SOUND_URI:
-                final Intent ringtonePickerIntent = UIIntents.get().getRingtonePickerIntent(
-                        getString(R.string.notification_sound_pref_title),
-                        item.getRingtoneUri(), Settings.System.DEFAULT_NOTIFICATION_URI,
-                        RingtoneManager.TYPE_NOTIFICATION);
-                startActivityForResult(ringtonePickerIntent, REQUEST_CODE_RINGTONE_PICKER);
-                break;
-
-            case PeopleOptionsItemData.SETTING_NOTIFICATION_VIBRATION:
-                mBinding.getData().enableConversationNotificationVibration(mBinding,
-                        isChecked);
+            case PeopleOptionsItemData.SETTING_NOTIFICATION:
+                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+                startActivity(intent);
                 break;
 
             case PeopleOptionsItemData.SETTING_BLOCKED:

@@ -74,7 +74,7 @@ public class PeopleAndOptionsData extends BindableData implements
                     final Uri uri =
                             MessagingContentProvider.buildConversationMetadataUri(mConversationId);
                     return new BoundCursorLoader(bindingId, mContext, uri,
-                            PeopleOptionsItemData.PROJECTION, null, null, null);
+                            new String[]{}, null, null, null);
                 }
 
                 case PARTICIPANT_LOADER: {
