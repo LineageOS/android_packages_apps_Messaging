@@ -22,8 +22,18 @@ import android.content.Context;
 import android.os.Build;
 
 public final class NotifUtils {
+    public static final String DEFAULT_CHANNEL_ID = "messaging_channel";
 
     private NotifUtils() {
+    }
+
+    public static NotificationChannel getNotificationChannel(Context context, String id) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return null;
+        }
+
+        NotificationManager manager = context.getSystemService(NotificationManager.class);
+        return manager.getNotificationChannel(id);
     }
 
     public static void createNotificationChannel(Context context, String id,

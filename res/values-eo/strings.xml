@@ -191,7 +191,7 @@
     <!-- Preference category: Advanced -->
     <!-- Preference category: Debug -->
     <!-- Title for the preference for whether or to notify the user of new messages -->
-    <string name="notifications_enabled_pref_title">Sciigoj</string>
+    <string name="notifications_pref_title">Sciigoj</string>
     <!-- Title for the notification sound preference -->
     <!-- What to display in the settings screen for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
     <!-- Title for the preference for whether or not to vibrate with notifications -->
