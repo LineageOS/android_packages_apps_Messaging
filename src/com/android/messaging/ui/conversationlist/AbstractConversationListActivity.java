@@ -190,23 +190,6 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
     }
 
     @Override
-    public void onActionBarNotification(final Iterable<SelectedConversation> conversations,
-            final boolean isNotificationOn) {
-        for (final SelectedConversation conversation : conversations) {
-            UpdateConversationOptionsAction.enableConversationNotifications(
-                    conversation.conversationId, isNotificationOn);
-        }
-
-        final int textId = isNotificationOn ?
-                R.string.notification_on_toast_message : R.string.notification_off_toast_message;
-        final String message = getResources().getString(textId, 1);
-        UiUtils.showSnackBar(this, findViewById(android.R.id.list), message,
-            null /* undoRunnable */,
-            SnackBar.Action.SNACK_BAR_UNDO, mConversationListFragment.getSnackBarInteractions());
-        exitMultiSelectState();
-    }
-
-    @Override
     public void onActionBarAddContact(final SelectedConversation conversation) {
         final Uri avatarUri;
         if (conversation.icon != null) {

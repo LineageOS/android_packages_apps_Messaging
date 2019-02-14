@@ -30,7 +30,6 @@ import com.android.messaging.datamodel.action.DeleteConversationAction;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.Dates;
-import com.android.messaging.util.NotificationUtil;
 import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
@@ -53,9 +52,6 @@ public class ConversationListItemData {
     private String mOtherParticipantNormalizedDestination;
     private String mSelfId;
     private int mParticipantCount;
-    private boolean mNotificationEnabled;
-    private String mNotificationSoundUri;
-    private boolean mNotificationVibrate;
     private boolean mIncludeEmailAddress;
     private int mMessageStatus;
     private int mMessageRawTelephonyStatus;
@@ -93,11 +89,6 @@ public class ConversationListItemData {
                 INDEX_OTHER_PARTICIPANT_NORMALIZED_DESTINATION);
         mSelfId = cursor.getString(INDEX_SELF_ID);
         mParticipantCount = cursor.getInt(INDEX_PARTICIPANT_COUNT);
-        mNotificationEnabled = NotificationUtil.getConversationNotificationEnabled
-                (cursor.getInt(INDEX_NOTIFICATION_ENABLED));
-        mNotificationSoundUri = cursor.getString(INDEX_NOTIFICATION_SOUND_URI);
-        mNotificationVibrate = NotificationUtil.getConversationNotificationVibrateEnabled(
-                cursor.getInt(INDEX_NOTIFICATION_VIBRATION));
         mIncludeEmailAddress = cursor.getInt(INDEX_INCLUDE_EMAIL_ADDRESS) == 1;
         mMessageStatus = cursor.getInt(INDEX_MESSAGE_STATUS);
         mMessageRawTelephonyStatus = cursor.getInt(INDEX_MESSAGE_RAW_TELEPHONY_STATUS);
@@ -200,18 +191,6 @@ public class ConversationListItemData {
 
     public boolean getIncludeEmailAddress() {
         return mIncludeEmailAddress;
-    }
-
-    public boolean getNotificationEnabled() {
-        return mNotificationEnabled;
-    }
-
-    public String getNotificationSoundUri() {
-        return mNotificationSoundUri;
-    }
-
-    public boolean getNotifiationVibrate() {
-        return mNotificationVibrate;
     }
 
     public final boolean getIsFailedStatus() {
