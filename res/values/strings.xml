@@ -436,7 +436,7 @@
     <!-- Preference category: Debug -->
     <string name="debug_category_pref_title">Debug</string>
     <!-- Title for the preference for whether or to notify the user of new messages -->
-    <string name="notifications_enabled_pref_title">Notifications</string>
+    <string name="notifications_pref_title">Notifications</string>
     <!-- Title for the notification sound preference -->
     <string name="notification_sound_pref_title">Sound</string>
     <!-- What to display in the settings screen for Ringtone when the user chooses "silent" [CHAR LIMIT=100]-->
