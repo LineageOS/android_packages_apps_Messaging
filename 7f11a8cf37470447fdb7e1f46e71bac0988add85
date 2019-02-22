@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "872e4430_3ea71d78",
+        "filename": "src/org/lineageos/messaging/util/NotifUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2019-02-22T21:15:54Z",
+      "side": 1,
+      "message": "groupId",
+      "revId": "7f11a8cf37470447fdb7e1f46e71bac0988add85",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d589782_1a95e626",
+        "filename": "src/org/lineageos/messaging/util/NotifUtils.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2019-02-22T21:15:54Z",
+      "side": 1,
+      "message": "groupId",
+      "revId": "7f11a8cf37470447fdb7e1f46e71bac0988add85",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
