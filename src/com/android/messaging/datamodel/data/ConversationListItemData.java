@@ -310,12 +310,6 @@ public class ConversationListItemData {
             + " as " + ConversationListViewColumns.PREVIEW_CONTENT_TYPE + ", "
             + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.PARTICIPANT_COUNT
             + " as " + ConversationListViewColumns.PARTICIPANT_COUNT + ", "
-            + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.NOTIFICATION_ENABLED
-            + " as " + ConversationListViewColumns.NOTIFICATION_ENABLED + ", "
-            + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.NOTIFICATION_SOUND_URI
-            + " as " + ConversationListViewColumns.NOTIFICATION_SOUND_URI + ", "
-            + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.NOTIFICATION_VIBRATION
-            + " as " + ConversationListViewColumns.NOTIFICATION_VIBRATION + ", "
             + DatabaseHelper.CONVERSATIONS_TABLE + '.' +
                     ConversationColumns.INCLUDE_EMAIL_ADDRESS
             + " as " + ConversationListViewColumns.INCLUDE_EMAIL_ADDRESS + ", "
@@ -378,9 +372,6 @@ public class ConversationListItemData {
                 ConversationColumns.OTHER_PARTICIPANT_NORMALIZED_DESTINATION;
         static final String CURRENT_SELF_ID = ConversationColumns.CURRENT_SELF_ID;
         static final String PARTICIPANT_COUNT = ConversationColumns.PARTICIPANT_COUNT;
-        static final String NOTIFICATION_ENABLED = ConversationColumns.NOTIFICATION_ENABLED;
-        static final String NOTIFICATION_SOUND_URI = ConversationColumns.NOTIFICATION_SOUND_URI;
-        static final String NOTIFICATION_VIBRATION = ConversationColumns.NOTIFICATION_VIBRATION;
         static final String INCLUDE_EMAIL_ADDRESS =
                 ConversationColumns.INCLUDE_EMAIL_ADDRESS;
         static final String MESSAGE_STATUS = MessageColumns.STATUS;
@@ -406,9 +397,6 @@ public class ConversationListItemData {
         ConversationListViewColumns.OTHER_PARTICIPANT_NORMALIZED_DESTINATION,
         ConversationListViewColumns.PARTICIPANT_COUNT,
         ConversationListViewColumns.CURRENT_SELF_ID,
-        ConversationListViewColumns.NOTIFICATION_ENABLED,
-        ConversationListViewColumns.NOTIFICATION_SOUND_URI,
-        ConversationListViewColumns.NOTIFICATION_VIBRATION,
         ConversationListViewColumns.INCLUDE_EMAIL_ADDRESS,
         ConversationListViewColumns.MESSAGE_STATUS,
         ConversationListViewColumns.SHOW_DRAFT,
