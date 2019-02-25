@@ -68,6 +68,15 @@ public final class NotifUtils {
         manager.createNotificationChannel(newChannel);
     }
 
+    public static void deleteNotificationChannel(Context context, String id) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return;
+        }
+
+        NotificationManager manager = context.getSystemService(NotificationManager.class);
+        manager.deleteNotificationChannel(id);
+    }
+
     public static void createNotificationChannelGroup(Context context, String id,
             int titleResId) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
