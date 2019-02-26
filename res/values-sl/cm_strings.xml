@@ -33,6 +33,4 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Označi kot prebrano</string>
     <!-- Notification channel -->
-    <string name="notification_channel_messages_title">Sporočila</string>
-    <string name="background_worker_notif">Preverjanje sporočil \u2026</string>
 </resources>

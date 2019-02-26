@@ -27,8 +27,7 @@
     <string name="mediapicker_gallery_image_item_attachment_too_large">Methu ag atodi\'r fideo oherwydd cyfyngiad maint negeseuon.</string>
     <string name="mediapicker_audio_list_title">Dewis sain</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Tara i ddewis</string>
+    <string name="mediapicker_audio_list_title_selection">Dewiswyd <xliff:g id="count">%d</xliff:g></string>
     <!-- Mark message as read -->
     <!-- Notification channel -->
-    <string name="notification_channel_messages_title">Negeseuon</string>
-    <string name="background_worker_notif">Yn gwirio negeseuon\u2026</string>
 </resources>

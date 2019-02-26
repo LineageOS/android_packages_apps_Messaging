@@ -33,6 +33,4 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Segna come letto</string>
     <!-- Notification channel -->
-    <string name="notification_channel_messages_title">Messaggi</string>
-    <string name="background_worker_notif">Controllo messaggi\u2026</string>
 </resources>

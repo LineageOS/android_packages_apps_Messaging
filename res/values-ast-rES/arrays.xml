@@ -19,19 +19,23 @@
     <!-- String to match as no subject and filter out as a subject. For example, if the
          subject string is "no subject", we won't display that. We'll pretend
          no subject string was delivered. -->
+    <string-array name="empty_subject_strings">
+        <item>ensin asuntu</item>
+        <item>Ensin asuntu</item>
+    </string-array>
     <!-- Choices for quick-reply to message notification. Users with an Android
     Wear device (e.g. smartwatch) can reply to messages either by speaking their
     response, or choosing one of these predefined options. -->
     <string-array name="notification_reply_choices">
-        <item>Yes</item>
-        <item>No</item>
+        <item>Sí</item>
+        <item>Non</item>
         <item>ACEUTAR</item>
-        <item>Hehe</item>
-        <item>Thanks</item>
-        <item>I agree</item>
-        <item>Nice</item>
-        <item>On my way</item>
-        <item>OK, let me get back to you later</item>
+        <item>Ḥeḥe</item>
+        <item>Gracies</item>
+        <item>Toi acordies</item>
+        <item>Bien</item>
+        <item>Al mio xeitu</item>
+        <item>Val, déxame contestate más sero</item>
         <item>:)</item>
         <item>:(</item>
     </string-array>

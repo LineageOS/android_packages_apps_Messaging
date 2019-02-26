@@ -33,6 +33,4 @@
     <!-- Mark message as read -->
     <string name="notification_mark_as_read">Marchează ca citit</string>
     <!-- Notification channel -->
-    <string name="notification_channel_messages_title">Mesaje</string>
-    <string name="background_worker_notif">Verificarea mesajelor\u2026</string>
 </resources>
