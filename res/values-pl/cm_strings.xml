@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Przesuń, aby usunąć</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Przesuń w prawo, aby usunąć konwersację</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Dostęp do emotikon</string>
-  <string name="show_emoticons_pref_summary">Pokaż klawisz emotikon na klawiaturze</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Wybierz zdjęcia lub wideo z tego urządzenia</string>
-  <string name="mediapicker_audioListChooserDescription">Wybierz pliki dźwiękowe z tego urządzenia</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Nie można dołączyć wideo. Maksymalny rozmiar wiadomości został przekroczony.</string>
-  <string name="mediapicker_audio_list_title">Wybierz muzykę</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Wybrany dźwięk</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Dotknij, aby wybrać</string>
-  <string name="mediapicker_audio_list_title_selection">Wybrano: <xliff:g id="count">%d</xliff:g></string>
+    <string name="swipe_to_delete_conversation_pref_title">Przesuń, aby usunąć</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Przesuń w prawo, aby usunąć konwersację</string>
+    <string name="show_emoticons_pref_title">Dostęp do emotikon</string>
+    <string name="show_emoticons_pref_summary">Pokaż klawisz emotikon na klawiaturze</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Wybierz zdjęcia lub wideo z tego urządzenia</string>
+    <string name="mediapicker_audioListChooserDescription">Wybierz pliki dźwiękowe z tego urządzenia</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Nie można dołączyć wideo. Maksymalny rozmiar wiadomości został przekroczony.</string>
+    <string name="mediapicker_audio_list_title">Wybierz muzykę</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Wybrany dźwięk</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Dotknij, aby wybrać</string>
+    <string name="mediapicker_audio_list_title_selection">Wybrano: <xliff:g id="count">%d</xliff:g></string>
 </resources>

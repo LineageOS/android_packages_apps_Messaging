@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">החלק כדי למחוק</string>
-  <string name="swipe_to_delete_conversation_pref_summary">החלק ימינה כדי למחוק שיחה</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">גישה לרגישונים</string>
-  <string name="show_emoticons_pref_summary">הצג את לחצן הרגישונים במקלדת</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">בחר תמונות או קטעי וידאו ממכשיר זה</string>
-  <string name="mediapicker_audioListChooserDescription">בחר קבצי שמע ממכשיר זה</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">לא ניתן לצרף וידאו. הגעת למגבלת גודל ההודעה.</string>
-  <string name="mediapicker_audio_list_title">בחירת קובץ שמע</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">שמע נבחר</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">הקש בכדי לבחור</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> נבחרו</string>
+    <string name="swipe_to_delete_conversation_pref_title">החלק כדי למחוק</string>
+    <string name="swipe_to_delete_conversation_pref_summary">החלק ימינה כדי למחוק שיחה</string>
+    <string name="show_emoticons_pref_title">גישה לרגישונים</string>
+    <string name="show_emoticons_pref_summary">הצג את לחצן הרגישונים במקלדת</string>
+    <string name="mediapicker_galleryChooserDescription_cm">בחר תמונות או קטעי וידאו ממכשיר זה</string>
+    <string name="mediapicker_audioListChooserDescription">בחר קבצי שמע ממכשיר זה</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">לא ניתן לצרף וידאו. הגעת למגבלת גודל ההודעה.</string>
+    <string name="mediapicker_audio_list_title">בחירת קובץ שמע</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">שמע נבחר</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">הקש בכדי לבחור</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> נבחרו</string>
 </resources>

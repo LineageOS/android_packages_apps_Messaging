@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Esvarar para eliminar</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Esvarar cara a dereita para eliminar unha conversa</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Acceso ás emoticonas</string>
-  <string name="show_emoticons_pref_summary">Amosar a tecla das emoticonas no teclado</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Escolle imaxes ou vídeos deste dispositivo</string>
-  <string name="mediapicker_audioListChooserDescription">Elixa arquivos de audio deste dispositivo</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Non é posíble anexar o vídeo. O tamaño máximo da mensaxe foi excedido.</string>
-  <string name="mediapicker_audio_list_title">Escoller audio</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Audio elexido</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Toca para seleccionar</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> sleccionado</string>
+    <string name="swipe_to_delete_conversation_pref_title">Esvarar para eliminar</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Esvarar cara a dereita para eliminar unha conversa</string>
+    <string name="show_emoticons_pref_title">Acceso ás emoticonas</string>
+    <string name="show_emoticons_pref_summary">Amosar a tecla das emoticonas no teclado</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Escolle imaxes ou vídeos deste dispositivo</string>
+    <string name="mediapicker_audioListChooserDescription">Elixa arquivos de audio deste dispositivo</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Non é posíble anexar o vídeo. O tamaño máximo da mensaxe foi excedido.</string>
+    <string name="mediapicker_audio_list_title">Escoller audio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Audio elexido</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Toca para seleccionar</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> sleccionado</string>
 </resources>

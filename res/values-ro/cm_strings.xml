@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Glisare pentru a șterge</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Glisați spre dreapta pentru a şterge o conversație</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Acces emoticoane</string>
-  <string name="show_emoticons_pref_summary">Arată emoticoane pe tastatură</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Alegeți imagini sau videoclipuri de pe acest dispozitiv</string>
-  <string name="mediapicker_audioListChooserDescription">Alegeți fişiere audio de pe acest dispozitiv</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Nu se poate atașa videoclipul. Dimensiunea maximă a mesajului a fost depășită.</string>
-  <string name="mediapicker_audio_list_title">Alegeți fișierul audio</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Audio selectat</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Atingeți pentru a selecta</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selectate</string>
+    <string name="swipe_to_delete_conversation_pref_title">Glisare pentru a șterge</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Glisați spre dreapta pentru a şterge o conversație</string>
+    <string name="show_emoticons_pref_title">Acces emoticoane</string>
+    <string name="show_emoticons_pref_summary">Arată emoticoane pe tastatură</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Alegeți imagini sau videoclipuri de pe acest dispozitiv</string>
+    <string name="mediapicker_audioListChooserDescription">Alegeți fişiere audio de pe acest dispozitiv</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Nu se poate atașa videoclipul. Dimensiunea maximă a mesajului a fost depășită.</string>
+    <string name="mediapicker_audio_list_title">Alegeți fișierul audio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Audio selectat</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Atingeți pentru a selecta</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selectate</string>
 </resources>

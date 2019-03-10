@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Rrëshqit gishtin për të fshirë</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Rrëshqit gishtin djathtas për të fshirë një bisedë</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Aksesi i emotikonave</string>
-  <string name="show_emoticons_pref_summary">Trego tastin e emotikonave në tastjerë</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Zgjidh imazhet ose videot nga kjo pajisje</string>
-  <string name="mediapicker_audioListChooserDescription">Zgjidh audiot nga kjo pajisje</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Videoja nuk mund të bashkangjitet. Madhësia maksimale e mesazhit është tejkaluar.</string>
-  <string name="mediapicker_audio_list_title">Zgjidh audion</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Audio e zgjedhur</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Shtyp për të zgjedhur</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> të zgjedhura</string>
+    <string name="swipe_to_delete_conversation_pref_title">Rrëshqit gishtin për të fshirë</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Rrëshqit gishtin djathtas për të fshirë një bisedë</string>
+    <string name="show_emoticons_pref_title">Aksesi i emotikonave</string>
+    <string name="show_emoticons_pref_summary">Trego tastin e emotikonave në tastjerë</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Zgjidh imazhet ose videot nga kjo pajisje</string>
+    <string name="mediapicker_audioListChooserDescription">Zgjidh audiot nga kjo pajisje</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Videoja nuk mund të bashkangjitet. Madhësia maksimale e mesazhit është tejkaluar.</string>
+    <string name="mediapicker_audio_list_title">Zgjidh audion</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Audio e zgjedhur</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Shtyp për të zgjedhur</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> të zgjedhura</string>
 </resources>

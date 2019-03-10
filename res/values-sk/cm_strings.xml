@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Potiahnutím zmazať</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Potiahnutím vpravo zmazať konverzáciu</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Zobrazenie smajlíkov</string>
-  <string name="show_emoticons_pref_summary">Klávesu pre zobrazenie smajlíkov zobrazovať na klávesnici</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Vyberte obrázky alebo videá z tohto zariadenia</string>
-  <string name="mediapicker_audioListChooserDescription">Vyberte audio súbory z tohto zariadenia</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Video sa nedá pripojiť. Prekročená maximálna veľkosť správy.</string>
-  <string name="mediapicker_audio_list_title">Vybrať zvuk</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Vybraný zvuk</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Vybrať dotykom</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vybraný</string>
+    <string name="swipe_to_delete_conversation_pref_title">Potiahnutím zmazať</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Potiahnutím vpravo zmazať konverzáciu</string>
+    <string name="show_emoticons_pref_title">Zobrazenie smajlíkov</string>
+    <string name="show_emoticons_pref_summary">Klávesu pre zobrazenie smajlíkov zobrazovať na klávesnici</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Vyberte obrázky alebo videá z tohto zariadenia</string>
+    <string name="mediapicker_audioListChooserDescription">Vyberte audio súbory z tohto zariadenia</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Video sa nedá pripojiť. Prekročená maximálna veľkosť správy.</string>
+    <string name="mediapicker_audio_list_title">Vybrať zvuk</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Vybraný zvuk</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Vybrať dotykom</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vybraný</string>
 </resources>

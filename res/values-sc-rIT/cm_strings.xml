@@ -16,9 +16,6 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <!-- Show emoticons -->
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_audio_list_item_selected_content_description">Àudio ischertadu</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Incarca pro ischertare</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Àudio ischertadu</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Incarca pro ischertare</string>
 </resources>

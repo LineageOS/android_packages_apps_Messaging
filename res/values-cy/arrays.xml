@@ -16,27 +16,21 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- String to match as no subject and filter out as a subject. For example, if the
-         subject string is "no subject", we won't display that. We'll pretend
-         no subject string was delivered. -->
-  <string-array name="empty_subject_strings">
-    <item>dim pwnc</item>
-    <item>dimpwnc</item>
-  </string-array>
-  <!-- Choices for quick-reply to message notification. Users with an Android
-    Wear device (e.g. smartwatch) can reply to messages either by speaking their
-    response, or choosing one of these predefined options. -->
-  <string-array name="notification_reply_choices">
-    <item>Ie</item>
-    <item>Na</item>
-    <item>Iawn</item>
-    <item>Haha</item>
-    <item>Diolch</item>
-    <item>Cytuno</item>
-    <item>Da iawn</item>
-    <item>Dw i ar y ffordd</item>
-    <item>Iawn. Ddo\'i nôl atat ti\'n hwyrach.</item>
-    <item>:)</item>
-    <item>:(</item>
-  </string-array>
+    <string-array name="empty_subject_strings">
+        <item>dim pwnc</item>
+        <item>dimpwnc</item>
+    </string-array>
+    <string-array name="notification_reply_choices">
+        <item>Ie</item>
+        <item>Na</item>
+        <item>Iawn</item>
+        <item>Haha</item>
+        <item>Diolch</item>
+        <item>Cytuno</item>
+        <item>Da iawn</item>
+        <item>Dw i ar y ffordd</item>
+        <item>Iawn. Ddo\'i nôl atat ti\'n hwyrach.</item>
+        <item>:)</item>
+        <item>:(</item>
+    </string-array>
 </resources>

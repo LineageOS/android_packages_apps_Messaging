@@ -16,7 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <!-- Show emoticons -->
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="swipe_to_delete_conversation_pref_title">Llusgo i ddileu</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Llusgo sgwrs i\'r dde yn ei dileu</string>
+    <string name="show_emoticons_pref_title">Mynediad at wenogluniau</string>
+    <string name="show_emoticons_pref_summary">Dangos y fysell gwenogluniau ar y bysellfwrdd</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Dewis delweddau neu fideos o\'r ddyfais hon</string>
+    <string name="mediapicker_audioListChooserDescription">Dewis ffeiliau sain o\'r ddyfais hon</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Methu ag atodi\'r fideo oherwydd cyfyngiad maint negeseuon.</string>
+    <string name="mediapicker_audio_list_title">Dewis sain</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Sain a ddewiswyd</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Tapia i ddewis</string>
+    <string name="mediapicker_audio_list_title_selection">Dewiswyd <xliff:g id="count">%d</xliff:g></string>
 </resources>

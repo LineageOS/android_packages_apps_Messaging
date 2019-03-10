@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Проведіть для видалення</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Проведіть вправо для видалення бесіди</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Доступ до емограм</string>
-  <string name="show_emoticons_pref_summary">Показувати кнопку емограм на клавіатурі</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Вибрати зображення чи відео на цьому пристрої</string>
-  <string name="mediapicker_audioListChooserDescription">Вибрати аудіо з цього пристрою</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Не вдалося прикріпити відео. Досягнуто максимального розміру повідомлення.</string>
-  <string name="mediapicker_audio_list_title">Вибрати аудіо</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Вибране аудіо</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Натисніть, щоб вибрати</string>
-  <string name="mediapicker_audio_list_title_selection">Вибрано <xliff:g id="count">%d</xliff:g></string>
+    <string name="swipe_to_delete_conversation_pref_title">Проведіть для видалення</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Проведіть вправо для видалення бесіди</string>
+    <string name="show_emoticons_pref_title">Доступ до емограм</string>
+    <string name="show_emoticons_pref_summary">Показувати кнопку емограм на клавіатурі</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Вибрати зображення чи відео на цьому пристрої</string>
+    <string name="mediapicker_audioListChooserDescription">Вибрати аудіо з цього пристрою</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Не вдалося прикріпити відео. Досягнуто максимального розміру повідомлення.</string>
+    <string name="mediapicker_audio_list_title">Вибрати аудіо</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Вибране аудіо</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Натисніть, щоб вибрати</string>
+    <string name="mediapicker_audio_list_title_selection">Вибрано <xliff:g id="count">%d</xliff:g></string>
 </resources>

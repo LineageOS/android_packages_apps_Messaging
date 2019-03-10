@@ -16,14 +16,11 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
-  <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_audio_list_title">Välj ljud</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Tryck för att välja</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
+    <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
+    <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
+    <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
+    <string name="mediapicker_audio_list_title">Välj ljud</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Tryck för att välja</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
 </resources>

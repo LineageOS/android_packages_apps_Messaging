@@ -16,11 +16,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Deslize a la derecha para borrar una conversación</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Acceso de emoticonos</string>
-  <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Deslize a la derecha para borrar una conversación</string>
+    <string name="show_emoticons_pref_title">Acceso de emoticonos</string>
+    <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
 </resources>

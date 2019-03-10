@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Dra for å slette</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Sveip til høyre for å slette en samtale</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Uttrykksikoners tilgang</string>
-  <string name="show_emoticons_pref_summary">Vis uttrykksikoner-tasten på tastaturet</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Velg bilder eller videoer fra denne enheten</string>
-  <string name="mediapicker_audioListChooserDescription">Velg lydfiler fra denne enheten</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan ikke legge til video. Meldingstørrelse grense er nådd.</string>
-  <string name="mediapicker_audio_list_title">Velg lyd</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Valgt lyd</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Trykk for å velge</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt</string>
+    <string name="swipe_to_delete_conversation_pref_title">Dra for å slette</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Sveip til høyre for å slette en samtale</string>
+    <string name="show_emoticons_pref_title">Uttrykksikoners tilgang</string>
+    <string name="show_emoticons_pref_summary">Vis uttrykksikoner-tasten på tastaturet</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Velg bilder eller videoer fra denne enheten</string>
+    <string name="mediapicker_audioListChooserDescription">Velg lydfiler fra denne enheten</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Kan ikke legge til video. Meldingstørrelse grense er nådd.</string>
+    <string name="mediapicker_audio_list_title">Velg lyd</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Valgt lyd</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Trykk for å velge</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> valgt</string>
 </resources>

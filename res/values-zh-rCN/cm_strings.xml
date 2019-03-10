@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
-  <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">访问表情符号</string>
-  <string name="show_emoticons_pref_summary">在键盘上显示表情符号键</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">从此设备选择图像或视频</string>
-  <string name="mediapicker_audioListChooserDescription">从此设备选择音频</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">无法附加视频。视频超过最大邮件大小。</string>
-  <string name="mediapicker_audio_list_title">选择音频</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">所选的音频</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">点击以选择</string>
-  <string name="mediapicker_audio_list_title_selection">已选择 <xliff:g id="count">%d</xliff:g> 项。</string>
+    <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
+    <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
+    <string name="show_emoticons_pref_title">访问表情符号</string>
+    <string name="show_emoticons_pref_summary">在键盘上显示表情符号键</string>
+    <string name="mediapicker_galleryChooserDescription_cm">从此设备选择图像或视频</string>
+    <string name="mediapicker_audioListChooserDescription">从此设备选择音频</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">无法附加视频。视频超过最大邮件大小。</string>
+    <string name="mediapicker_audio_list_title">选择音频</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">所选的音频</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">点击以选择</string>
+    <string name="mediapicker_audio_list_title_selection">已选择 <xliff:g id="count">%d</xliff:g> 项。</string>
 </resources>

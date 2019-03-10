@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Sleep om uit te vee</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Vee na regs om gesprek uit te vee</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Emosieikone toegang</string>
-  <string name="show_emoticons_pref_summary">Wys emosieikone sleutel op die sleutelbord</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Kies prente of video\'s van hierdie toestel</string>
-  <string name="mediapicker_audioListChooserDescription">Kies oudio-lêers van hierdie toestel</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan nie video aanheg nie. Maks boodskap grootte oorskry.</string>
-  <string name="mediapicker_audio_list_title">Kies oudio</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Geselekteerde oudio</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Tik om te kies</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> gekies</string>
+    <string name="swipe_to_delete_conversation_pref_title">Sleep om uit te vee</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Vee na regs om gesprek uit te vee</string>
+    <string name="show_emoticons_pref_title">Emosieikone toegang</string>
+    <string name="show_emoticons_pref_summary">Wys emosieikone sleutel op die sleutelbord</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Kies prente of video\'s van hierdie toestel</string>
+    <string name="mediapicker_audioListChooserDescription">Kies oudio-lêers van hierdie toestel</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Kan nie video aanheg nie. Maks boodskap grootte oorskry.</string>
+    <string name="mediapicker_audio_list_title">Kies oudio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Geselekteerde oudio</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Tik om te kies</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> gekies</string>
 </resources>

@@ -16,11 +16,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">હટાવા માટે સ્વાઇપ કરો</string>
-  <string name="swipe_to_delete_conversation_pref_summary">વાતચીત કાઢી નાખવા જમણી બાજુ સ્વાઇપ કરો</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">ઇમોટિકન્સ વપરાશ</string>
-  <string name="show_emoticons_pref_summary">કીબોર્ડ પર લાગણીઓ કી દેખાડો</string>
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="swipe_to_delete_conversation_pref_title">હટાવા માટે સ્વાઇપ કરો</string>
+    <string name="swipe_to_delete_conversation_pref_summary">વાતચીત કાઢી નાખવા જમણી બાજુ સ્વાઇપ કરો</string>
+    <string name="show_emoticons_pref_title">ઇમોટિકન્સ વપરાશ</string>
+    <string name="show_emoticons_pref_summary">કીબોર્ડ પર લાગણીઓ કી દેખાડો</string>
 </resources>

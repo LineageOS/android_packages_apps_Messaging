@@ -16,18 +16,15 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Плъзнете от ляво надясно за да изтриете кореспонденцията</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Достъп до емотикони</string>
-  <string name="show_emoticons_pref_summary">Показва клавиш с емотикони на клавиатурата</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Изберете снимки или видео от това устройство</string>
-  <string name="mediapicker_audioListChooserDescription">Изберете аудио файлове от това устройство</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Това видео не може да бъде прикачено. Максималният размер на на съобщението е превишен.</string>
-  <string name="mediapicker_audio_list_title">Изберете звук</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Избрано аудио</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Натиснете, за да изберете</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> избрано</string>
+    <string name="swipe_to_delete_conversation_pref_title">Бързо изтриване</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Плъзнете от ляво надясно за да изтриете кореспонденцията</string>
+    <string name="show_emoticons_pref_title">Достъп до емотикони</string>
+    <string name="show_emoticons_pref_summary">Показва клавиш с емотикони на клавиатурата</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Изберете снимки или видео от това устройство</string>
+    <string name="mediapicker_audioListChooserDescription">Изберете аудио файлове от това устройство</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Това видео не може да бъде прикачено. Максималният размер на на съобщението е превишен.</string>
+    <string name="mediapicker_audio_list_title">Изберете звук</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Избрано аудио</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Натиснете, за да изберете</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> избрано</string>
 </resources>
