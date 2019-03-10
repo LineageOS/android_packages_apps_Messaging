@@ -269,7 +269,7 @@
     <string name="camera_switch_to_still_mode">Cipio llun llonydd</string>
     <string name="camera_take_picture">Tynnu llun</string>
     <string name="camera_start_recording">Dechrau recordio fideo</string>
-    <string name="camera_switch_full_screen">Newid i gamera sgrin llawn</string>
+    <string name="camera_switch_full_screen">Newid i gamera sgrin lawn</string>
     <string name="camera_switch_camera_facing">Newid rhwng camerâu cefn a blaen</string>
     <string name="camera_stop_recording">Stopio recordio ac atodi fideo</string>
     <string name="camera_cancel_recording">Stopio recordio fideo</string>
@@ -551,7 +551,7 @@
     <string name="apn_edit">Golygu pwynt mynediad</string>
     <string name="apn_not_set">Heb ei osod</string>
     <string name="apn_name">Enw</string>
-    <string name="apn_apn">APN</string>
+    <string name="apn_apn">Enw Pwynt Mynediad (APN)</string>
     <string name="apn_mmsc">MMSC</string>
     <string name="apn_mms_proxy">Procsi MMS</string>
     <string name="apn_mms_port">Porth MMS</string>
@@ -570,10 +570,10 @@
     <string name="menu_restore_default_apn">Ailosod i\'r rhagosodiad</string>
     <string name="restore_default_apn_completed">Cwblhawyd ailosod rhagosodiadau APN.</string>
     <string name="untitled_apn">Heb deitl</string>
-    <string name="sms_apns_title">Enwau Pwyntiau Mynediad</string>
+    <string name="sms_apns_title">Enwau Pwyntiau Mynediad (APN)</string>
     <string name="apn_settings">APNau</string>
     <string name="menu_new">APN newydd</string>
-    <string name="apn_settings_not_available">Dyw gosodiadau Enwau Pwyntiau Mynediad ddim ar gael ar gyfer y defnyddiwr hwn.</string>
+    <string name="apn_settings_not_available">Dyw gosodiadau Enwau Pwyntiau Mynediad (APN) ddim ar gael ar gyfer y defnyddiwr hwn.</string>
     <string name="copy_to_clipboard_dialog_title">Copïo i\'r clipfwrdd?</string>
     <string name="copy_to_clipboard">Copïo</string>
     <string name="incoming_sim_name_text">at <xliff:g id="sim_name">%s</xliff:g></string>
