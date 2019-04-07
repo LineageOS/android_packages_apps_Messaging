@@ -27,4 +27,6 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Audio e zgjedhur</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Shtyp për të zgjedhur</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> të zgjedhura</string>
+    <string name="notification_mark_as_read">Shëno si të lexuar</string>
+    <string name="notification_channel_messages_title">Mesazhet</string>
 </resources>

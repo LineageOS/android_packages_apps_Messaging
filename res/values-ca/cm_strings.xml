@@ -28,4 +28,5 @@
     <string name="mediapicker_audio_list_item_unselected_content_description">Pica per seleccionar</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seleccionat</string>
     <string name="notification_mark_as_read">Marca com a llegit</string>
+    <string name="notification_channel_messages_title">Missatges</string>
 </resources>

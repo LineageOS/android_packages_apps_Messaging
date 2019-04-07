@@ -28,4 +28,5 @@
     <string name="mediapicker_audio_list_item_unselected_content_description">Ukitu aukeratzeko</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> aukeratuta</string>
     <string name="notification_mark_as_read">Markatu irakurrita bezala</string>
+    <string name="notification_channel_messages_title">Mezuak</string>
 </resources>

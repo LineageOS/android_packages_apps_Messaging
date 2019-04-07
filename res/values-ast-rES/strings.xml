@@ -167,6 +167,7 @@
     <string name="audio_recording_start_failed">Nun pue grabase audiu. Vuelvi tentalo.</string>
     <string name="audio_recording_replay_failed">Nun pue reproducise audiu. Vuelvi tentalo.</string>
     <string name="audio_recording_error"> Nun pudo guardase l\'audiu. Volvi tentalo.</string>
+    <string name="audio_picker_hint_text">Tener &amp; primío</string>
     <string name="enumeration_comma">,\u0020</string>
     <string name="notification_separator">\u0020\u0020</string>
     <string name="notification_ticker_separator">:\u0020</string>
@@ -190,6 +191,7 @@
     <string name="unarchived_toast_message"><xliff:g id="count">%d</xliff:g> non archivaes</string>
     <string name="notification_off_toast_message">Desactiváronse los avisos</string>
     <string name="notification_on_toast_message">Activáronse los avisos</string>
+    <string name="toast_after_setting_default_sms_app_for_message_send">Too afitao. Calca de nueves Unviar.</string>
     <string name="toast_after_setting_default_sms_app">La mensaxería afitóse correcho como l\'app de SMS predeterminada.</string>
     <plurals name="attachment_preview_close_content_description">
         <item quantity="one">Desaniciar axuntu</item>
@@ -483,6 +485,7 @@
     <string name="sim_selector_button_content_description_with_selection"><xliff:g id="sim">%1$s</xliff:g> esbilláu selector SIM</string>
     <string name="send_button_long_click_description_no_sim_selector">Editar asuntu</string>
     <string name="send_button_long_click_description_with_sim_selector">Esbillar SIM o editar asuntu</string>
+    <string name="audio_record_view_content_description">Ten &amp; primío pa grabar audiu</string>
     <string name="widget_new_conversation_content_description">Entamar una conversación nueva</string>
     <string name="widget_title_content_description">Mensaxería</string>
     <string name="widget_conversation_list_name">Llistáu de mensaxes</string>
@@ -509,4 +512,5 @@
     <string name="conversation_creation_failure">Nun pudo aniciase la conversación</string>
     <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
     <string name="selected_sim_content_message"><xliff:g id="selected_sim">%s</xliff:g> esbilláu</string>
+    <string name="work_directory_display_name">Contautos del perfil de trabayu</string>
 </resources>
