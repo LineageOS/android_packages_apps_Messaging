@@ -18,6 +18,12 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="swipe_to_delete_conversation_pref_title">ಅಳಿಸಲು ಸ್ವೈಪ್ ಮಾಡಿ</string>
     <string name="swipe_to_delete_conversation_pref_summary">ಒಂದು ಸಂವಾದವನ್ನು ಅಳಿಸಲು ಬಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ</string>
+    <string name="show_emoticons_pref_title">ಭಾವಚಿಹ್ನೆಗಳ ಪ್ರವೇಶ</string>
     <string name="show_emoticons_pref_summary">ಕೀಬೋರ್ಡ್ ಮೇಲೆ ಭಾವನೆಗಳ ಪ್ರಮುಖ ತೋರಿಸಿ</string>
+    <string name="mediapicker_galleryChooserDescription_cm">ಈ ಸಾಧನದಿಂದ ಚಿತ್ರಗಳು ಅಥವಾ ದೃಶ್ಯಗಳನ್ನು ಆರಿಸು</string>
+    <string name="mediapicker_audioListChooserDescription">ಈ ಸಾಧನದಿಂದ ಶ್ರಾವ್ಯ ಕಡತಗಳನ್ನು ಆರಿಸು</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">ದೃಶ್ಯವನ್ನು ಲಗತ್ತಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಸಂದೇಶ ಗರಿಷ್ಠ ಗಾತ್ರ ಮೀರಿದೆ.</string>
+    <string name="mediapicker_audio_list_title">ಶ್ರಾವ್ಯ ಆರಿಸು</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> ಆಯ್ಕೆಯಾಗಿದೆ</string>
     <string name="notification_mark_as_read">ಓದಿರುವುದಾಗಿ ಗುರುತಿಸು</string>
 </resources>
