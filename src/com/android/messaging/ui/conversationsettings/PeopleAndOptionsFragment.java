@@ -63,6 +63,7 @@ public class PeopleAndOptionsFragment extends Fragment
     private ListView mListView;
     private OptionsListAdapter mOptionsListAdapter;
     private PeopleListAdapter mPeopleListAdapter;
+    private List<ParticipantData> mOtherParticipants;
     private final Binding<PeopleAndOptionsData> mBinding =
             BindingBase.createBinding(this);
 
@@ -113,6 +114,7 @@ public class PeopleAndOptionsFragment extends Fragment
             final List<ParticipantData> participants) {
         mBinding.ensureBound(data);
         mPeopleListAdapter.updateParticipants(participants);
+        mOtherParticipants = participants;
         final ParticipantData otherParticipant = participants.size() == 1 ?
                 participants.get(0) : null;
         mOptionsListAdapter.setOtherParticipant(otherParticipant);
@@ -122,12 +124,16 @@ public class PeopleAndOptionsFragment extends Fragment
     public void onOptionsItemViewClicked(final PeopleOptionsItemData item) {
         switch (item.getItemId()) {
             case PeopleOptionsItemData.SETTING_NOTIFICATION:
+                ArrayList<String> participantsNames = new ArrayList<String>();
+                for (ParticipantData participant : mOtherParticipants) {
+                    participantsNames.add(participant.getDisplayName(true));
+                }
                 NotificationsUtil.createNotificationChannelGroup(getActivity(),
                         NotificationsUtil.CONVERSATION_GROUP_NAME,
                         R.string.notification_channel_messages_title);
                 NotificationsUtil.createNotificationChannel(getActivity(),
                         mBinding.getData().getConversationId(),
-                        item.getOtherParticipant().getDisplayName(true),
+                        String.join(", ", participantsNames),
                         NotificationManager.IMPORTANCE_DEFAULT,
                         NotificationsUtil.CONVERSATION_GROUP_NAME);
                 Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
