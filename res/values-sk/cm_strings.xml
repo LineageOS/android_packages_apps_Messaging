@@ -27,4 +27,6 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Vybraný zvuk</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Vybrať dotykom</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vybraný</string>
+    <string name="notification_mark_as_read">Označiť ako prečítané</string>
+    <string name="notification_channel_messages_title">Správy</string>
 </resources>

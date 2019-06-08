@@ -27,4 +27,6 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Audio sélectionné</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Appuyez pour sélectionner</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> sélectionné(s)</string>
+    <string name="notification_mark_as_read">Marquer comme lue</string>
+    <string name="notification_channel_messages_title">Messages</string>
 </resources>
