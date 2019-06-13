@@ -1194,7 +1194,8 @@ public class MmsUtils {
 
     public static SmsMessage getSmsMessageFromDeliveryReport(final Intent intent) {
         final byte[] pdu = intent.getByteArrayExtra("pdu");
-        return SmsMessage.createFromPdu(pdu);
+        final String format = intent.getStringExtra("format");
+        return SmsMessage.createFromPdu(pdu, format);
     }
 
     /**
@@ -1915,7 +1916,7 @@ public class MmsUtils {
             final String transactionId, final String contentLocation,
             final boolean autoDownload, final long receivedTimestampInSeconds,
             final RetrieveConf retrieveConf) {
-        final byte[] transactionIdBytes = stringToBytes(transactionId, "UTF-8");
+        final byte[] notificationTransactionId = stringToBytes(transactionId, "UTF-8");
         Uri messageUri = null;
         int status = MMS_REQUEST_MANUAL_RETRY;
         int retrieveStatus = PDU_HEADER_VALUE_UNDEFINED;
@@ -1940,10 +1941,15 @@ public class MmsUtils {
         if (status == MMS_REQUEST_SUCCEEDED) {
             // Send response of the notification
             if (autoDownload) {
-                sendNotifyResponseForMmsDownload(context, subId, transactionIdBytes,
-                        contentLocation, PduHeaders.STATUS_RETRIEVED);
+                sendNotifyResponseForMmsDownload(
+                        context,
+                        subId,
+                        notificationTransactionId,
+                        contentLocation,
+                        PduHeaders.STATUS_RETRIEVED);
             } else {
-                sendAcknowledgeForMmsDownload(context, subId, transactionIdBytes, contentLocation);
+                sendAcknowledgeForMmsDownload(
+                        context, subId, retrieveConf.getTransactionId(), contentLocation);
             }
 
             // Insert downloaded message into telephony
@@ -1954,8 +1960,12 @@ public class MmsUtils {
             // For a retry do nothing
         } else if (status == MMS_REQUEST_MANUAL_RETRY && autoDownload) {
             // Failure from autodownload - just treat like manual download
-            sendNotifyResponseForMmsDownload(context, subId, transactionIdBytes,
-                    contentLocation, PduHeaders.STATUS_DEFERRED);
+            sendNotifyResponseForMmsDownload(
+                    context,
+                    subId,
+                    notificationTransactionId,
+                    contentLocation,
+                    PduHeaders.STATUS_DEFERRED);
         }
         return new StatusPlusUri(status, retrieveStatus, messageUri);
     }
