@@ -27,5 +27,6 @@
     <string name="mediapicker_audio_list_item_selected_content_description">Audio terpilih</string>
     <string name="mediapicker_audio_list_item_unselected_content_description">Ketuk untuk memilih</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> terpilih</string>
+    <string name="notification_mark_as_read">Tandai telah dibaca</string>
     <string name="notification_channel_messages_title">Pesan</string>
 </resources>
