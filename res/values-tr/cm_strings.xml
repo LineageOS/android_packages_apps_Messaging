@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">%s kişisine spam olarak bildirin</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Unicode\'u çıkar</string>
-  <string name="pref_unicode_stripping_leave_intact">Karakterleri olduğu gibi bırak</string>
-  <string name="pref_unicode_stripping_non_encodable">Görüntülünemeyen karakterleri çıkar</string>
-  <string name="pref_unicode_stripping_all">Tüm unicode karakterleri çıkar</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Geçerlilik süresi</string>
-  <string name="validity_period_slot1_pref_title">SIM 1 için geçerlilik süresi</string>
-  <string name="validity_period_slot2_pref_title">SIM 2 için geçerlilik süresi</string>
-  <string name="sms_validity_period_not_set">Ayarlanmadı</string>
-  <string name="sms_validity_period_one_hour">1 saat</string>
-  <string name="sms_validity_period_six_hours">6 saat</string>
-  <string name="sms_validity_period_twelve_hours">12 saat</string>
-  <string name="sms_validity_period_one_day">1 gün</string>
-  <string name="mms_validity_period_two_days">2 gün</string>
-  <string name="mms_validity_period_one_week">1 hafta</string>
-  <string name="validity_period_maximum">Maksimum</string>
-  <string name="pref_summary_mms_delivery_reports">Gönderdiğiniz her ileti için bir teslim raporu isteyin</string>
-  <string name="pref_summary_mms_read_reports">Gönderdiğiniz her ileti için bir teslim raporu isteyin</string>
-  <string name="delivery_reports_mms_pref_title">Teslim raporları</string>
-  <string name="read_reports_mms_pref_title">Okundu raporları</string>
-  <string name="status_label">Durum:\u0020</string>
-  <string name="status_read">Oku</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">Gönderim önceliği</string>
-  <string name="priority_low">Düşük</string>
-  <string name="priority_normal">Normal</string>
-  <string name="priority_high">Yüksek</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Depolama</string>
-  <string name="pref_summary_auto_delete">Sınıra ulaştığında eski mesajları sil</string>
-  <string name="auto_delete_pref_title">Eski mesajları sil</string>
-  <string name="pref_summary_delete_limit">Her konuşmada <xliff:g id="count">%1$s</xliff:g> mesaj</string>
-  <string name="sms_delete_pref_title">Metin mesajı sınırı</string>
-  <string name="mms_delete_pref_title">Multimedya mesajı sınırı</string>
-  <string name="set">Ayarla</string>
-  <string name="no">İptal</string>
-  <string name="pref_messages_to_save">Kaydedilecek mesaj sayısını ayarla</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Silmek için kaydırın</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Bir sohbeti silmek için sağa kaydırın</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">HızlıMesaj ve Yanıt</string>
-  <string name="pref_quickmessage_title">HızlıMesaj\'ı göster</string>
-  <string name="pref_quickmessage_summary">Gelen SMS mesajları için HızlıMesaj açılır penceresini otomatik göster</string>
-  <string name="pref_close_all_title">Tümünü kapat</string>
-  <string name="pref_close_all_summary">Kapat tuşu tüm mesajları kapatır</string>
-  <string name="message_counter">%1$d / %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Kapat</string>
-  <string name="button_view">Görüntüle</string>
-  <string name="button_templates">Şablonlar</string>
-  <string name="qm_button_full_conversation">Tam sohbet</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Yanıtlamak için yazın</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Mesaj gönderiliyor\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Hızlı cevap</string>
-  <string name="send">Gönder</string>
-  <string name="compose_message_hint_text">İleti girin</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Emoji erişimi</string>
-  <string name="show_emoticons_pref_summary">Klavyede emoji tuşunu göster</string>
-  <string name="select_phone_account_title">Şununla gönder</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">SIM mesajlarını yönet</string>
-  <string name="pref_title_manage_sim_messages_slot1">SIM 1 mesajlarını yönet</string>
-  <string name="pref_title_manage_sim_messages_slot2">SIM 2 mesajlarını yönet</string>
-  <string name="copy_to_sim">Mesajı SIM karta kopyala</string>
-  <string name="copy_to_sim_success"><xliff:g id="count">%1$d </xliff:g> <xliff:g id="total">%2$d </xliff:g> mesajları SIM kartına kaydedilir.</string>
-  <string name="copy_to_sim_fail">Mesaj kaydedilemedi</string>
-  <string name="copy_to_phone_success">Mesaj kaydedildi</string>
-  <string name="copy_to_phone_fail">Mesaj kaydedilemedi</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">SIM kartta mesaj yok.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Şuraya email gönder: <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">Sesli arama yap: <xliff:g id="Name">%s</xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s </xliff:g> kişilere ekle</string>
-  <string name="sim_capacity_title">SIM kapasitesi</string>
-  <string name="sim_capacity"><xliff:g id="used">%1$d </xliff:g>-<xliff:g id="total">%2$d </xliff:g> SIM kart girişleri kullanılır</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Sil?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">SIM karttaki mesajlar</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Yenileniyor\u2026</string>
-  <string name="confirm_delete_selected_messages">Seçilen mesaj silinecek.</string>
-  <!-- Delete button title -->
-  <string name="delete">Sil</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Yönlendir</string>
-  <string name="menu_reply">Yanıtla</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">Tablet hafızasına kopyala</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Telefon hafızasına kopyalayın</string>
-  <string name="selected_all">Tümünü seç</string>
-  <string name="deselected_all">Tüm seçilenleri kaldır</string>
-  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> öge seçildi</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">TAMAM</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">Mesajı SIM karta kopyala</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Bu cihazdan resim veya video seç</string>
-  <string name="mediapicker_audioListChooserDescription">Bu cihazdan ses dosyası seçin</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Video eklenemiyor. En büyük ileti boyutu aşıldı.</string>
-  <string name="mediapicker_audio_list_title">Ses seçin</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Ses seçildi.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Ses seçilmedi.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seçildi</string>
+    <string name="report_as_spam_to">%s kişisine spam olarak bildirin</string>
+    <string name="unicode_stripping_pref_title">Unicode\'u çıkar</string>
+    <string name="pref_unicode_stripping_leave_intact">Karakterleri olduğu gibi bırak</string>
+    <string name="pref_unicode_stripping_non_encodable">Görüntülünemeyen karakterleri çıkar</string>
+    <string name="pref_unicode_stripping_all">Tüm unicode karakterleri çıkar</string>
+    <string name="validity_period_pref_title">Geçerlilik süresi</string>
+    <string name="validity_period_slot1_pref_title">SIM 1 için geçerlilik süresi</string>
+    <string name="validity_period_slot2_pref_title">SIM 2 için geçerlilik süresi</string>
+    <string name="sms_validity_period_not_set">Ayarlanmadı</string>
+    <string name="sms_validity_period_one_hour">1 saat</string>
+    <string name="sms_validity_period_six_hours">6 saat</string>
+    <string name="sms_validity_period_twelve_hours">12 saat</string>
+    <string name="sms_validity_period_one_day">1 gün</string>
+    <string name="mms_validity_period_two_days">2 gün</string>
+    <string name="mms_validity_period_one_week">1 hafta</string>
+    <string name="validity_period_maximum">Maksimum</string>
+    <string name="pref_summary_mms_delivery_reports">Gönderdiğiniz her ileti için bir teslim raporu isteyin</string>
+    <string name="pref_summary_mms_read_reports">Gönderdiğiniz her ileti için bir teslim raporu isteyin</string>
+    <string name="delivery_reports_mms_pref_title">Teslim raporları</string>
+    <string name="read_reports_mms_pref_title">Okundu raporları</string>
+    <string name="status_label">Durum:\u0020</string>
+    <string name="status_read">Oku</string>
+    <string name="priority_pref_title">Gönderim önceliği</string>
+    <string name="priority_low">Düşük</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_high">Yüksek</string>
+    <string name="sms_storage_pref_title">Depolama</string>
+    <string name="pref_summary_auto_delete">Sınıra ulaştığında eski mesajları sil</string>
+    <string name="auto_delete_pref_title">Eski mesajları sil</string>
+    <string name="pref_summary_delete_limit">Her konuşmada <xliff:g id="count">%1$s</xliff:g> mesaj</string>
+    <string name="sms_delete_pref_title">Metin mesajı sınırı</string>
+    <string name="mms_delete_pref_title">Multimedya mesajı sınırı</string>
+    <string name="set">Ayarla</string>
+    <string name="no">İptal</string>
+    <string name="pref_messages_to_save">Kaydedilecek mesaj sayısını ayarla</string>
+    <string name="swipe_to_delete_conversation_pref_title">Silmek için kaydırın</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Bir sohbeti silmek için sağa kaydırın</string>
+    <string name="pref_quickmessage">HızlıMesaj ve Yanıt</string>
+    <string name="pref_quickmessage_title">HızlıMesaj\'ı göster</string>
+    <string name="pref_quickmessage_summary">Gelen SMS mesajları için HızlıMesaj açılır penceresini otomatik göster</string>
+    <string name="pref_close_all_title">Tümünü kapat</string>
+    <string name="pref_close_all_summary">Kapat tuşu tüm mesajları kapatır</string>
+    <string name="message_counter">%1$d / %2$d</string>
+    <string name="button_close">Kapat</string>
+    <string name="button_view">Görüntüle</string>
+    <string name="button_templates">Şablonlar</string>
+    <string name="qm_button_full_conversation">Tam sohbet</string>
+    <string name="type_to_reply_text_enter_to_send">Yanıtlamak için yazın</string>
+    <string name="toast_sending_message">Mesaj gönderiliyor\u2026</string>
+    <string name="qm_quick_reply">Hızlı cevap</string>
+    <string name="send">Gönder</string>
+    <string name="compose_message_hint_text">İleti girin</string>
+    <string name="show_emoticons_pref_title">Emoji erişimi</string>
+    <string name="show_emoticons_pref_summary">Klavyede emoji tuşunu göster</string>
+    <string name="select_phone_account_title">Şununla gönder</string>
+    <string name="pref_title_manage_sim_messages">SIM mesajlarını yönet</string>
+    <string name="pref_title_manage_sim_messages_slot1">SIM 1 mesajlarını yönet</string>
+    <string name="pref_title_manage_sim_messages_slot2">SIM 2 mesajlarını yönet</string>
+    <string name="copy_to_sim">Mesajı SIM karta kopyala</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d </xliff:g> <xliff:g id="total">%2$d </xliff:g> mesajları SIM kartına kaydedilir.</string>
+    <string name="copy_to_sim_fail">Mesaj kaydedilemedi</string>
+    <string name="copy_to_phone_success">Mesaj kaydedildi</string>
+    <string name="copy_to_phone_fail">Mesaj kaydedilemedi</string>
+    <string name="sim_empty">SIM kartta mesaj yok.</string>
+    <string name="menu_send_email">Şuraya email gönder: <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Sesli arama yap: <xliff:g id="Name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s </xliff:g> kişilere ekle</string>
+    <string name="sim_capacity_title">SIM kapasitesi</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d </xliff:g>-<xliff:g id="total">%2$d </xliff:g> SIM kart girişleri kullanılır</string>
+    <string name="confirm_dialog_title">Sil?</string>
+    <string name="sim_manage_messages_title">SIM karttaki mesajlar</string>
+    <string name="refreshing">Yenileniyor\u2026</string>
+    <string name="confirm_delete_selected_messages">Seçilen mesaj silinecek.</string>
+    <string name="delete">Sil</string>
+    <string name="menu_forward">Yönlendir</string>
+    <string name="menu_reply">Yanıtla</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Tablet hafızasına kopyala</string>
+    <string name="sim_copy_to_phone_memory" product="default">Telefon hafızasına kopyalayın</string>
+    <string name="selected_all">Tümünü seç</string>
+    <string name="deselected_all">Tüm seçilenleri kaldır</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> öge seçildi</string>
+    <string name="yes">TAMAM</string>
+    <string name="operation_to_card_memory">Mesajı SIM karta kopyala</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Bu cihazdan resim veya video seç</string>
+    <string name="mediapicker_audioListChooserDescription">Bu cihazdan ses dosyası seçin</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Video eklenemiyor. En büyük ileti boyutu aşıldı.</string>
+    <string name="mediapicker_audio_list_title">Ses seçin</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Ses seçildi.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Ses seçilmedi.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> seçildi</string>
 </resources>

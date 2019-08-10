@@ -16,88 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">الإبلاغ كإزعاج لـ %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">تجريد unicode</string>
-  <string name="pref_unicode_stripping_leave_intact">ترك الأحرف سليمة</string>
-  <string name="pref_unicode_stripping_non_encodable">تجريد الأحرف غير القابلة للتشفير</string>
-  <string name="pref_unicode_stripping_all">تجريد كافة أحرف unicode</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">فترة الصلاحية</string>
-  <string name="validity_period_slot1_pref_title">فترة الصلاحية للشريحة SIM 1</string>
-  <string name="validity_period_slot2_pref_title">فترة الصلاحية للشريحة SIM 2</string>
-  <string name="sms_validity_period_not_set">لم يتم التعيين</string>
-  <string name="sms_validity_period_one_hour">1 ساعة</string>
-  <string name="sms_validity_period_six_hours">6 ساعات</string>
-  <string name="sms_validity_period_twelve_hours">12 ساعة</string>
-  <string name="sms_validity_period_one_day">١ يوم</string>
-  <string name="mms_validity_period_two_days">2 يوم</string>
-  <string name="mms_validity_period_one_week">١ أسبوع</string>
-  <string name="validity_period_maximum">الحد الأقصى</string>
-  <string name="pref_summary_mms_delivery_reports">اطلب تقرير توصيل لكل رسالة ترسلها</string>
-  <string name="pref_summary_mms_read_reports">اطلب تقرير قراءة لكل رسالة ترسلها</string>
-  <string name="delivery_reports_mms_pref_title">تقارير التوصيل</string>
-  <string name="read_reports_mms_pref_title">تقارير القراءة</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">أولوية الإرسال</string>
-  <string name="priority_low">منخفض</string>
-  <string name="priority_normal">عادي</string>
-  <string name="priority_high">مرتفع</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">المخزن</string>
-  <string name="pref_summary_auto_delete">حذف الرسائل القديمة عند الوصول إلى الحدود</string>
-  <string name="auto_delete_pref_title">حذف الرسائل القديمة</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> رسائل لكل محادثة</string>
-  <string name="sms_delete_pref_title">حد الرسالة النصية</string>
-  <string name="mms_delete_pref_title">حد رسالة الوسائط المتعددة</string>
-  <string name="set">تعيين</string>
-  <string name="no">إلغاء</string>
-  <string name="pref_messages_to_save">تعيين عدد من الرسائل لحفظها</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">تمرير لإجراء حذف</string>
-  <string name="swipe_to_delete_conversation_pref_summary">تمرير إلى اليمين لحذف محادثة</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">رسالة سريعة ورد</string>
-  <string name="pref_quickmessage_title">عرض الرسالة السريعة</string>
-  <string name="pref_quickmessage_summary">عرض إطار \" رسالة سريعة\" المنبثق تلقائياً للرسائل القصيرة الواردة</string>
-  <string name="pref_close_all_title">إغلاق الكل</string>
-  <string name="pref_close_all_summary">زر الإغلاق يعمل على إغلاق كل الرسائل</string>
-  <string name="message_counter">%1$d من %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">إغلاق</string>
-  <string name="button_view">عرض</string>
-  <string name="button_templates">قوالب</string>
-  <string name="qm_button_full_conversation">محادثة كاملة</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">اكتب للرد</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">جاري إرسال الرسالة…</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">الرد السريع</string>
-  <string name="send">إرسال</string>
-  <string name="compose_message_hint_text">إدخال رسالة</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">الوصول إلى التعبيرات</string>
-  <string name="show_emoticons_pref_summary">إظهار مفتاح التعبيرات على لوحة المفاتيح</string>
-  <string name="select_phone_account_title">إرسال بواسطة</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <!-- Title of screen displaying messages on SIM card -->
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <!-- Delete button title -->
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <!-- Copy message to sim -->
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="report_as_spam_to">الإبلاغ كإزعاج لـ %s</string>
+    <string name="unicode_stripping_pref_title">تجريد unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">ترك الأحرف سليمة</string>
+    <string name="pref_unicode_stripping_non_encodable">تجريد الأحرف غير القابلة للتشفير</string>
+    <string name="pref_unicode_stripping_all">تجريد كافة أحرف unicode</string>
+    <string name="validity_period_pref_title">فترة الصلاحية</string>
+    <string name="validity_period_slot1_pref_title">فترة الصلاحية للشريحة SIM 1</string>
+    <string name="validity_period_slot2_pref_title">فترة الصلاحية للشريحة SIM 2</string>
+    <string name="sms_validity_period_not_set">لم يتم التعيين</string>
+    <string name="sms_validity_period_one_hour">1 ساعة</string>
+    <string name="sms_validity_period_six_hours">6 ساعات</string>
+    <string name="sms_validity_period_twelve_hours">12 ساعة</string>
+    <string name="sms_validity_period_one_day">١ يوم</string>
+    <string name="mms_validity_period_two_days">2 يوم</string>
+    <string name="mms_validity_period_one_week">١ أسبوع</string>
+    <string name="validity_period_maximum">الحد الأقصى</string>
+    <string name="pref_summary_mms_delivery_reports">اطلب تقرير توصيل لكل رسالة ترسلها</string>
+    <string name="pref_summary_mms_read_reports">اطلب تقرير قراءة لكل رسالة ترسلها</string>
+    <string name="delivery_reports_mms_pref_title">تقارير التوصيل</string>
+    <string name="read_reports_mms_pref_title">تقارير القراءة</string>
+    <string name="status_label">الحالة:\u0020</string>
+    <string name="status_read">مقروءة</string>
+    <string name="priority_pref_title">أولوية الإرسال</string>
+    <string name="priority_low">منخفض</string>
+    <string name="priority_normal">عادي</string>
+    <string name="priority_high">مرتفع</string>
+    <string name="sms_storage_pref_title">المخزن</string>
+    <string name="pref_summary_auto_delete">حذف الرسائل القديمة عند الوصول إلى الحدود</string>
+    <string name="auto_delete_pref_title">حذف الرسائل القديمة</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> رسائل لكل محادثة</string>
+    <string name="sms_delete_pref_title">حد الرسالة النصية</string>
+    <string name="mms_delete_pref_title">حد رسالة الوسائط المتعددة</string>
+    <string name="set">تعيين</string>
+    <string name="no">إلغاء</string>
+    <string name="pref_messages_to_save">تعيين عدد من الرسائل لحفظها</string>
+    <string name="swipe_to_delete_conversation_pref_title">تمرير لإجراء حذف</string>
+    <string name="swipe_to_delete_conversation_pref_summary">تمرير إلى اليمين لحذف محادثة</string>
+    <string name="pref_quickmessage">رسالة سريعة ورد</string>
+    <string name="pref_quickmessage_title">عرض الرسالة السريعة</string>
+    <string name="pref_quickmessage_summary">عرض إطار \" رسالة سريعة\" المنبثق تلقائياً للرسائل القصيرة الواردة</string>
+    <string name="pref_close_all_title">إغلاق الكل</string>
+    <string name="pref_close_all_summary">زر الإغلاق يعمل على إغلاق كل الرسائل</string>
+    <string name="message_counter">%1$d من %2$d</string>
+    <string name="button_close">إغلاق</string>
+    <string name="button_view">عرض</string>
+    <string name="button_templates">قوالب</string>
+    <string name="qm_button_full_conversation">محادثة كاملة</string>
+    <string name="type_to_reply_text_enter_to_send">اكتب للرد</string>
+    <string name="toast_sending_message">جاري إرسال الرسالة…</string>
+    <string name="qm_quick_reply">الرد السريع</string>
+    <string name="send">إرسال</string>
+    <string name="compose_message_hint_text">إدخال رسالة</string>
+    <string name="show_emoticons_pref_title">الوصول إلى التعبيرات</string>
+    <string name="show_emoticons_pref_summary">إظهار مفتاح التعبيرات على لوحة المفاتيح</string>
+    <string name="select_phone_account_title">إرسال بواسطة</string>
+    <string name="pref_title_manage_sim_messages">إدارة رسائل بطاقة SIM</string>
+    <string name="pref_title_manage_sim_messages_slot1">إدارة رسائل بطاقة SIM 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">إدارة رسائل بطاقة SIM 2</string>
+    <string name="copy_to_sim">نسخ الرسالة إلى بطاقة SIM</string>
+    <string name="copy_to_sim_success">تم حفظ <xliff:g id="count">%1$d </xliff:g> من <xliff:g id="total">%2$d </xliff:g> رسائل في بطاقة SIM.</string>
+    <string name="copy_to_sim_fail">تعذَّر حفظ الرسالة</string>
+    <string name="copy_to_phone_success">تم حفظ الرسالة</string>
+    <string name="copy_to_phone_fail">تعذَّر حفظ الرسالة</string>
+    <string name="sim_empty">لا توجد رسائل في بطاقة SIM.</string>
+    <string name="menu_send_email">إرسال بريد إلكتروني إلى <xliff:g id="name">%s </xliff:g></string>
+    <string name="menu_call_back">الاتصال بـ <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">إضافة <xliff:g id="contactEmailOrNumber">%s </xliff:g> إلى الأسماء</string>
+    <string name="sim_capacity_title">سعة بطاقة SIM</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> من <xliff:g id="total">%2$d</xliff:g> إدخالات بطاقة SIM مستخدمة</string>
+    <string name="confirm_dialog_title">حذف؟</string>
+    <string name="sim_manage_messages_title">الرسائل النصية على بطاقة SIM</string>
+    <string name="refreshing">تحديث</string>
+    <string name="confirm_delete_selected_messages">سيتم حذف الرسالة المحددة.</string>
+    <string name="delete">حذف</string>
+    <string name="menu_forward">إعادة إرسال</string>
+    <string name="menu_reply">الرد</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">النسخ إلى ذاكرة الجهاز اللوحي</string>
+    <string name="sim_copy_to_phone_memory" product="default">النسخ إلى ذاكرة الهاتف</string>
+    <string name="selected_all">تحديد الكل</string>
+    <string name="deselected_all">إلغاء تحديد الكل</string>
+    <string name="selected_count">تم تحديد <xliff:g id="Count">%d</xliff:g></string>
+    <string name="yes">موافق</string>
+    <string name="operation_to_card_memory">نسخ الرسالة إلى بطاقة SIM</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">اختيار صور أو فيديوهات من هذا الجهاز</string>
+    <string name="mediapicker_audioListChooserDescription">اختيار ملفات صوتية من هذا الجهاز</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">لا يمكن إرفاق الفيديو. تم تجاوز الحجم الأقصى للرسالة.</string>
+    <string name="mediapicker_audio_list_title">اختر ملف صوتي</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">تم تحديد الملف الصوتي.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">تم إلغاء تحديد الملف الصوتي.</string>
+    <string name="mediapicker_audio_list_title_selection">تم تحديد <xliff:g id="Count">%d</xliff:g></string>
 </resources>

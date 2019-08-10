@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Rapporteren als ongewenst aan %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Unicode-tekens verwijderen</string>
-  <string name="pref_unicode_stripping_leave_intact">Tekens intact laten</string>
-  <string name="pref_unicode_stripping_non_encodable">Niet-encodeerbare tekens verwijderen</string>
-  <string name="pref_unicode_stripping_all">Alle Unicode-tekens verwijderen</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Geldigheidsduur</string>
-  <string name="validity_period_slot1_pref_title">Geldigheidsduur voor SIM 1</string>
-  <string name="validity_period_slot2_pref_title">Geldigheidsduur voor SIM 2</string>
-  <string name="sms_validity_period_not_set">Niet ingesteld</string>
-  <string name="sms_validity_period_one_hour">1 uur</string>
-  <string name="sms_validity_period_six_hours">6 uur</string>
-  <string name="sms_validity_period_twelve_hours">12 uur</string>
-  <string name="sms_validity_period_one_day">1 dag</string>
-  <string name="mms_validity_period_two_days">2 dagen</string>
-  <string name="mms_validity_period_one_week">1 week</string>
-  <string name="validity_period_maximum">Maximaal</string>
-  <string name="pref_summary_mms_delivery_reports">Ontvangstbevestiging vragen voor elk verzonden bericht</string>
-  <string name="pref_summary_mms_read_reports">Leesbevestiging vragen voor elk verzonden bericht</string>
-  <string name="delivery_reports_mms_pref_title">Ontvangstbevestigingen</string>
-  <string name="read_reports_mms_pref_title">Leesbevestigingen</string>
-  <string name="status_label">Status:\u0020</string>
-  <string name="status_read">Gelezen</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">Prioriteit</string>
-  <string name="priority_low">Laag</string>
-  <string name="priority_normal">Normaal</string>
-  <string name="priority_high">Hoog</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Opslag</string>
-  <string name="pref_summary_auto_delete">Oude berichten verwijderen wanneer limiet bereikt is</string>
-  <string name="auto_delete_pref_title">Oude berichten verwijderen</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> berichten per gesprek</string>
-  <string name="sms_delete_pref_title">Limiet sms-berichten</string>
-  <string name="mms_delete_pref_title">Limiet multimediaberichten</string>
-  <string name="set">Instellen</string>
-  <string name="no">Annuleren</string>
-  <string name="pref_messages_to_save">Aantal berichten om te bewaren</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Vegen om te verwijderen</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Naar rechts vegen om een gesprek te verwijderen</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">Snelbericht en -beantwoorden</string>
-  <string name="pref_quickmessage_title">Snelbericht weergeven</string>
-  <string name="pref_quickmessage_summary">Automatisch een Snelbericht-venster weergeven bij inkomende sms-berichten</string>
-  <string name="pref_close_all_title">Alles sluiten</string>
-  <string name="pref_close_all_summary">Sluiten-knop sluit alle berichten</string>
-  <string name="message_counter">%1$d van %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Sluiten</string>
-  <string name="button_view">Tonen</string>
-  <string name="button_templates">Sjablonen</string>
-  <string name="qm_button_full_conversation">Volledig gesprek</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Typ om te beantwoorden</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Bericht verzenden\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Snelbeantwoorden</string>
-  <string name="send">Verzenden</string>
-  <string name="compose_message_hint_text">Bericht invoeren</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Toegang tot emoticons</string>
-  <string name="show_emoticons_pref_summary">Emoticons-toets op het toetsenbord weergeven</string>
-  <string name="select_phone_account_title">Verzenden met</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Berichten op simkaart beheren</string>
-  <string name="pref_title_manage_sim_messages_slot1">Berichten op SIM 1 beheren</string>
-  <string name="pref_title_manage_sim_messages_slot2">Berichten op SIM 2 beheren</string>
-  <string name="copy_to_sim">Bericht kopiëren naar simkaart</string>
-  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> berichten opgeslagen op simkaart.</string>
-  <string name="copy_to_sim_fail">Kan bericht niet opslaan</string>
-  <string name="copy_to_phone_success">Bericht opgeslagen</string>
-  <string name="copy_to_phone_fail">Kan bericht niet opslaan</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">Geen berichten op simkaart.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">E-mail verzenden naar <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g> bellen</string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g> aan contacten toevoegen</string>
-  <string name="sim_capacity_title">SIM-capaciteit</string>
-  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> plekken op simkaart in gebruik</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Verwijderen?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">Berichten op simkaart</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Vernieuwen\u2026</string>
-  <string name="confirm_delete_selected_messages">Geselecteerd bericht wordt verwijderd.</string>
-  <!-- Delete button title -->
-  <string name="delete">Verwijderen</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Doorsturen</string>
-  <string name="menu_reply">Beantwoorden</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">Bericht kopiëren naar tabletgeheugen</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Bericht kopiëren naar telefoongeheugen</string>
-  <string name="selected_all">Alles selecteren</string>
-  <string name="deselected_all">Alles deselecteren</string>
-  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> geselecteerd</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">OK</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">Bericht kopiëren naar simkaart</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Afbeeldingen of video\'s op dit apparaat selecteren</string>
-  <string name="mediapicker_audioListChooserDescription">Audiobestanden op dit apparaat selecteren</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Kan video niet toevoegen. Maximale berichtgrootte overschreden.</string>
-  <string name="mediapicker_audio_list_title">Audio selecteren</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Audio is geselecteerd.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Audio is niet geselecteerd.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> geselecteerd</string>
+    <string name="report_as_spam_to">Rapporteren als ongewenst aan %s</string>
+    <string name="unicode_stripping_pref_title">Unicode-tekens verwijderen</string>
+    <string name="pref_unicode_stripping_leave_intact">Tekens intact laten</string>
+    <string name="pref_unicode_stripping_non_encodable">Niet-encodeerbare tekens verwijderen</string>
+    <string name="pref_unicode_stripping_all">Alle Unicode-tekens verwijderen</string>
+    <string name="validity_period_pref_title">Geldigheidsduur</string>
+    <string name="validity_period_slot1_pref_title">Geldigheidsduur voor SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Geldigheidsduur voor SIM 2</string>
+    <string name="sms_validity_period_not_set">Niet ingesteld</string>
+    <string name="sms_validity_period_one_hour">1 uur</string>
+    <string name="sms_validity_period_six_hours">6 uur</string>
+    <string name="sms_validity_period_twelve_hours">12 uur</string>
+    <string name="sms_validity_period_one_day">1 dag</string>
+    <string name="mms_validity_period_two_days">2 dagen</string>
+    <string name="mms_validity_period_one_week">1 week</string>
+    <string name="validity_period_maximum">Maximaal</string>
+    <string name="pref_summary_mms_delivery_reports">Ontvangstbevestiging vragen voor elk verzonden bericht</string>
+    <string name="pref_summary_mms_read_reports">Leesbevestiging vragen voor elk verzonden bericht</string>
+    <string name="delivery_reports_mms_pref_title">Ontvangstbevestigingen</string>
+    <string name="read_reports_mms_pref_title">Leesbevestigingen</string>
+    <string name="status_label">Status:\u0020</string>
+    <string name="status_read">Gelezen</string>
+    <string name="priority_pref_title">Prioriteit</string>
+    <string name="priority_low">Laag</string>
+    <string name="priority_normal">Normaal</string>
+    <string name="priority_high">Hoog</string>
+    <string name="sms_storage_pref_title">Opslag</string>
+    <string name="pref_summary_auto_delete">Oude berichten verwijderen wanneer limiet bereikt is</string>
+    <string name="auto_delete_pref_title">Oude berichten verwijderen</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> berichten per gesprek</string>
+    <string name="sms_delete_pref_title">Limiet sms-berichten</string>
+    <string name="mms_delete_pref_title">Limiet multimediaberichten</string>
+    <string name="set">Instellen</string>
+    <string name="no">Annuleren</string>
+    <string name="pref_messages_to_save">Aantal berichten om te bewaren</string>
+    <string name="swipe_to_delete_conversation_pref_title">Vegen om te verwijderen</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Naar rechts vegen om een gesprek te verwijderen</string>
+    <string name="pref_quickmessage">Snelbericht en -beantwoorden</string>
+    <string name="pref_quickmessage_title">Snelbericht weergeven</string>
+    <string name="pref_quickmessage_summary">Automatisch een Snelbericht-venster weergeven bij inkomende sms-berichten</string>
+    <string name="pref_close_all_title">Alles sluiten</string>
+    <string name="pref_close_all_summary">Sluiten-knop sluit alle berichten</string>
+    <string name="message_counter">%1$d van %2$d</string>
+    <string name="button_close">Sluiten</string>
+    <string name="button_view">Tonen</string>
+    <string name="button_templates">Sjablonen</string>
+    <string name="qm_button_full_conversation">Volledig gesprek</string>
+    <string name="type_to_reply_text_enter_to_send">Typ om te beantwoorden</string>
+    <string name="toast_sending_message">Bericht verzenden\u2026</string>
+    <string name="qm_quick_reply">Snelbeantwoorden</string>
+    <string name="send">Verzenden</string>
+    <string name="compose_message_hint_text">Bericht invoeren</string>
+    <string name="show_emoticons_pref_title">Toegang tot emoticons</string>
+    <string name="show_emoticons_pref_summary">Emoticons-toets op het toetsenbord weergeven</string>
+    <string name="select_phone_account_title">Verzenden met</string>
+    <string name="pref_title_manage_sim_messages">Berichten op simkaart beheren</string>
+    <string name="pref_title_manage_sim_messages_slot1">Berichten op SIM 1 beheren</string>
+    <string name="pref_title_manage_sim_messages_slot2">Berichten op SIM 2 beheren</string>
+    <string name="copy_to_sim">Bericht kopiëren naar simkaart</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> berichten opgeslagen op simkaart.</string>
+    <string name="copy_to_sim_fail">Kan bericht niet opslaan</string>
+    <string name="copy_to_phone_success">Bericht opgeslagen</string>
+    <string name="copy_to_phone_fail">Kan bericht niet opslaan</string>
+    <string name="sim_empty">Geen berichten op simkaart.</string>
+    <string name="menu_send_email">E-mail verzenden naar <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back"><xliff:g id="name">%s</xliff:g> bellen</string>
+    <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g> aan contacten toevoegen</string>
+    <string name="sim_capacity_title">SIM-capaciteit</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> plekken op simkaart in gebruik</string>
+    <string name="confirm_dialog_title">Verwijderen?</string>
+    <string name="sim_manage_messages_title">Berichten op simkaart</string>
+    <string name="refreshing">Vernieuwen\u2026</string>
+    <string name="confirm_delete_selected_messages">Geselecteerd bericht wordt verwijderd.</string>
+    <string name="delete">Verwijderen</string>
+    <string name="menu_forward">Doorsturen</string>
+    <string name="menu_reply">Beantwoorden</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Bericht kopiëren naar tabletgeheugen</string>
+    <string name="sim_copy_to_phone_memory" product="default">Bericht kopiëren naar telefoongeheugen</string>
+    <string name="selected_all">Alles selecteren</string>
+    <string name="deselected_all">Alles deselecteren</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> geselecteerd</string>
+    <string name="yes">OK</string>
+    <string name="operation_to_card_memory">Bericht kopiëren naar simkaart</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Afbeeldingen of video\'s op dit apparaat selecteren</string>
+    <string name="mediapicker_audioListChooserDescription">Audiobestanden op dit apparaat selecteren</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Kan video niet toevoegen. Maximale berichtgrootte overschreden.</string>
+    <string name="mediapicker_audio_list_title">Audio selecteren</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Audio is geselecteerd.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Audio is niet geselecteerd.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> geselecteerd</string>
 </resources>

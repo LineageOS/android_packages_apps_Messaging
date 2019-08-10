@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">报告为垃圾信息至 %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">除去 Unicode</string>
-  <string name="pref_unicode_stripping_leave_intact">保留所有字符</string>
-  <string name="pref_unicode_stripping_non_encodable">除去非可编码字符</string>
-  <string name="pref_unicode_stripping_all">除去所有 Unicode 字符</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">有效期</string>
-  <string name="validity_period_slot1_pref_title">SIM 卡 1 的有效期</string>
-  <string name="validity_period_slot2_pref_title">SIM 卡 2 的有效期</string>
-  <string name="sms_validity_period_not_set">未设置</string>
-  <string name="sms_validity_period_one_hour">1 小时</string>
-  <string name="sms_validity_period_six_hours">6 小时</string>
-  <string name="sms_validity_period_twelve_hours">12 小时</string>
-  <string name="sms_validity_period_one_day">1 天</string>
-  <string name="mms_validity_period_two_days">2 天</string>
-  <string name="mms_validity_period_one_week">1 周</string>
-  <string name="validity_period_maximum">最大值</string>
-  <string name="pref_summary_mms_delivery_reports">为每条发送的消息请求送达报告</string>
-  <string name="pref_summary_mms_read_reports">为每条发送的消息请求已读报告</string>
-  <string name="delivery_reports_mms_pref_title">送达报告</string>
-  <string name="read_reports_mms_pref_title">已读报告</string>
-  <string name="status_label">状态：\u0020</string>
-  <string name="status_read">已读</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">发送优先级</string>
-  <string name="priority_low">低</string>
-  <string name="priority_normal">一般</string>
-  <string name="priority_high">高</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">存储</string>
-  <string name="pref_summary_auto_delete">当达到限制时删除旧信息</string>
-  <string name="auto_delete_pref_title">删除旧信息</string>
-  <string name="pref_summary_delete_limit">每个会话 <xliff:g id="count">%1$s</xliff:g> 条信息</string>
-  <string name="sms_delete_pref_title">文本信息限制</string>
-  <string name="mms_delete_pref_title">多媒体信息限制</string>
-  <string name="set">设置</string>
-  <string name="no">取消</string>
-  <string name="pref_messages_to_save">设置要保存的邮件数</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
-  <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">快速信息和答复</string>
-  <string name="pref_quickmessage_title">显示快速信息</string>
-  <string name="pref_quickmessage_summary">为传入短信自动打开快速信息窗口</string>
-  <string name="pref_close_all_title">全部关闭</string>
-  <string name="pref_close_all_summary">\'关闭\' 按钮将关闭所有的消息</string>
-  <string name="message_counter">%2$d 中的 %1$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">关闭</string>
-  <string name="button_view">查看</string>
-  <string name="button_templates">模板</string>
-  <string name="qm_button_full_conversation">完整的会话</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">键入信息</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">正在发送信息\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">快速回复</string>
-  <string name="send">发送</string>
-  <string name="compose_message_hint_text">输入消息</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">访问表情符号</string>
-  <string name="show_emoticons_pref_summary">在键盘上显示表情符号键</string>
-  <string name="select_phone_account_title">发送方式</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">管理 SIM 卡的信息</string>
-  <string name="pref_title_manage_sim_messages_slot1">管理 SIM 卡 1 的信息</string>
-  <string name="pref_title_manage_sim_messages_slot2">管理 SIM 卡 2 的信息</string>
-  <string name="copy_to_sim">将信息复制到 SIM 卡</string>
-  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> 条信息已保存到 SIM 卡。</string>
-  <string name="copy_to_sim_fail">无法保存信息</string>
-  <string name="copy_to_phone_success">信息已保存</string>
-  <string name="copy_to_phone_fail">无法保存信息</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">SIM 卡中无信息。</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">发送电子邮件到 <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">呼叫 <xliff:g id="name">%s</xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">将 <xliff:g id="contactEmailOrNumber">%s</xliff:g> 添加到联系人</string>
-  <string name="sim_capacity_title">SIM 卡容量</string>
-  <string name="sim_capacity">SIM 卡容量已使用 <xliff:g id="used">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> 项</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">确定删除？</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">SIM 卡中的信息</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">正在刷新\u2026</string>
-  <string name="confirm_delete_selected_messages">选中的信息将被删除。</string>
-  <!-- Delete button title -->
-  <string name="delete">删除</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">前进</string>
-  <string name="menu_reply">回复</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">复制到平板电脑存储</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">复制到手机存储</string>
-  <string name="selected_all">选择所有</string>
-  <string name="deselected_all">取消全选</string>
-  <string name="selected_count">已选择 <xliff:g id="COUNT">%d</xliff:g> 项</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">确定</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">将信息复制到 SIM 卡</string>
-  <string name="slot1">SIM 卡 1</string>
-  <string name="slot2">SIM 卡 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">从此设备选择图像或视频</string>
-  <string name="mediapicker_audioListChooserDescription">从此设备选择音频</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">无法附加视频。视频超过最大邮件大小。</string>
-  <string name="mediapicker_audio_list_title">选择音频</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">音频已选择。</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">音频未选择。</string>
-  <string name="mediapicker_audio_list_title_selection">已选择 <xliff:g id="count">%d</xliff:g> 项。</string>
+    <string name="report_as_spam_to">报告为垃圾信息至 %s</string>
+    <string name="unicode_stripping_pref_title">除去 Unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">保留所有字符</string>
+    <string name="pref_unicode_stripping_non_encodable">除去非可编码字符</string>
+    <string name="pref_unicode_stripping_all">除去所有 Unicode 字符</string>
+    <string name="validity_period_pref_title">有效期</string>
+    <string name="validity_period_slot1_pref_title">SIM 卡 1 的有效期</string>
+    <string name="validity_period_slot2_pref_title">SIM 卡 2 的有效期</string>
+    <string name="sms_validity_period_not_set">未设置</string>
+    <string name="sms_validity_period_one_hour">1 小时</string>
+    <string name="sms_validity_period_six_hours">6 小时</string>
+    <string name="sms_validity_period_twelve_hours">12 小时</string>
+    <string name="sms_validity_period_one_day">1 天</string>
+    <string name="mms_validity_period_two_days">2 天</string>
+    <string name="mms_validity_period_one_week">1 周</string>
+    <string name="validity_period_maximum">最大值</string>
+    <string name="pref_summary_mms_delivery_reports">为每条发送的消息请求送达报告</string>
+    <string name="pref_summary_mms_read_reports">为每条发送的消息请求已读报告</string>
+    <string name="delivery_reports_mms_pref_title">送达报告</string>
+    <string name="read_reports_mms_pref_title">已读报告</string>
+    <string name="status_label">状态：\u0020</string>
+    <string name="status_read">已读</string>
+    <string name="priority_pref_title">发送优先级</string>
+    <string name="priority_low">低</string>
+    <string name="priority_normal">一般</string>
+    <string name="priority_high">高</string>
+    <string name="sms_storage_pref_title">存储</string>
+    <string name="pref_summary_auto_delete">当达到限制时删除旧信息</string>
+    <string name="auto_delete_pref_title">删除旧信息</string>
+    <string name="pref_summary_delete_limit">每个会话 <xliff:g id="count">%1$s</xliff:g> 条信息</string>
+    <string name="sms_delete_pref_title">文本信息限制</string>
+    <string name="mms_delete_pref_title">多媒体信息限制</string>
+    <string name="set">设置</string>
+    <string name="no">取消</string>
+    <string name="pref_messages_to_save">设置要保存的邮件数</string>
+    <string name="swipe_to_delete_conversation_pref_title">滑动删除邮件</string>
+    <string name="swipe_to_delete_conversation_pref_summary">向右滑动以删除会话</string>
+    <string name="pref_quickmessage">快速信息和答复</string>
+    <string name="pref_quickmessage_title">显示快速信息</string>
+    <string name="pref_quickmessage_summary">为传入短信自动打开快速信息窗口</string>
+    <string name="pref_close_all_title">全部关闭</string>
+    <string name="pref_close_all_summary">\'关闭\' 按钮将关闭所有的消息</string>
+    <string name="message_counter">%2$d 中的 %1$d</string>
+    <string name="button_close">关闭</string>
+    <string name="button_view">查看</string>
+    <string name="button_templates">模板</string>
+    <string name="qm_button_full_conversation">完整的会话</string>
+    <string name="type_to_reply_text_enter_to_send">键入信息</string>
+    <string name="toast_sending_message">正在发送信息\u2026</string>
+    <string name="qm_quick_reply">快速回复</string>
+    <string name="send">发送</string>
+    <string name="compose_message_hint_text">输入消息</string>
+    <string name="show_emoticons_pref_title">访问表情符号</string>
+    <string name="show_emoticons_pref_summary">在键盘上显示表情符号键</string>
+    <string name="select_phone_account_title">发送方式</string>
+    <string name="pref_title_manage_sim_messages">管理 SIM 卡的信息</string>
+    <string name="pref_title_manage_sim_messages_slot1">管理 SIM 卡 1 的信息</string>
+    <string name="pref_title_manage_sim_messages_slot2">管理 SIM 卡 2 的信息</string>
+    <string name="copy_to_sim">将信息复制到 SIM 卡</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> 条信息已保存到 SIM 卡。</string>
+    <string name="copy_to_sim_fail">无法保存信息</string>
+    <string name="copy_to_phone_success">信息已保存</string>
+    <string name="copy_to_phone_fail">无法保存信息</string>
+    <string name="sim_empty">SIM 卡中无信息。</string>
+    <string name="menu_send_email">发送电子邮件到 <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">呼叫 <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">将 <xliff:g id="contactEmailOrNumber">%s</xliff:g> 添加到联系人</string>
+    <string name="sim_capacity_title">SIM 卡容量</string>
+    <string name="sim_capacity">SIM 卡容量已使用 <xliff:g id="used">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> 项</string>
+    <string name="confirm_dialog_title">确定删除？</string>
+    <string name="sim_manage_messages_title">SIM 卡中的信息</string>
+    <string name="refreshing">正在刷新\u2026</string>
+    <string name="confirm_delete_selected_messages">选中的信息将被删除。</string>
+    <string name="delete">删除</string>
+    <string name="menu_forward">前进</string>
+    <string name="menu_reply">回复</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">复制到平板电脑存储</string>
+    <string name="sim_copy_to_phone_memory" product="default">复制到手机存储</string>
+    <string name="selected_all">选择所有</string>
+    <string name="deselected_all">取消全选</string>
+    <string name="selected_count">已选择 <xliff:g id="COUNT">%d</xliff:g> 项</string>
+    <string name="yes">确定</string>
+    <string name="operation_to_card_memory">将信息复制到 SIM 卡</string>
+    <string name="slot1">SIM 卡 1</string>
+    <string name="slot2">SIM 卡 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">从此设备选择图像或视频</string>
+    <string name="mediapicker_audioListChooserDescription">从此设备选择音频</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">无法附加视频。视频超过最大邮件大小。</string>
+    <string name="mediapicker_audio_list_title">选择音频</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">音频已选择。</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">音频未选择。</string>
+    <string name="mediapicker_audio_list_title_selection">已选择 <xliff:g id="count">%d</xliff:g> 项。</string>
 </resources>

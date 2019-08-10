@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Informar como spam a %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Limpiar unicode</string>
-  <string name="pref_unicode_stripping_leave_intact">Dejar texto intacto</string>
-  <string name="pref_unicode_stripping_non_encodable">Sustituir los caracteres no compatibles</string>
-  <string name="pref_unicode_stripping_all">Limpiar todos los caracteres unicode</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Período de validez</string>
-  <string name="validity_period_slot1_pref_title">Período de validez de la SIM 1</string>
-  <string name="validity_period_slot2_pref_title">Período de validez de la SIM 2</string>
-  <string name="sms_validity_period_not_set">No establecido</string>
-  <string name="sms_validity_period_one_hour">1 hora</string>
-  <string name="sms_validity_period_six_hours">6 horas</string>
-  <string name="sms_validity_period_twelve_hours">12 horas</string>
-  <string name="sms_validity_period_one_day">1 día</string>
-  <string name="mms_validity_period_two_days">2 días</string>
-  <string name="mms_validity_period_one_week">1 semana</string>
-  <string name="validity_period_maximum">Máximo</string>
-  <string name="pref_summary_mms_delivery_reports">Solicitar un informe de entrega para cada mensaje enviado</string>
-  <string name="pref_summary_mms_read_reports">Pedir confirmacion de lectura por cada mensaje SMS enviado</string>
-  <string name="delivery_reports_mms_pref_title">Informes de entrega</string>
-  <string name="read_reports_mms_pref_title">Leer informes</string>
-  <string name="status_label">Estado: \u0020</string>
-  <string name="status_read">Leído</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">Prioridad de envío</string>
-  <string name="priority_low">Baja</string>
-  <string name="priority_normal">Normal</string>
-  <string name="priority_high">Alta</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Almacenamiento</string>
-  <string name="pref_summary_auto_delete">Eliminar los mensajes antiguos cuando alcancen los límites</string>
-  <string name="auto_delete_pref_title">Eliminar mensajes antiguos</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensajes por conversación</string>
-  <string name="sms_delete_pref_title">Límite de mensajes de texto</string>
-  <string name="mms_delete_pref_title">Límite de mensajes multimedia</string>
-  <string name="set">Establecer</string>
-  <string name="no">Cancelar</string>
-  <string name="pref_messages_to_save">Establece el número de mensajes a guardar</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Deslize a la derecha para borrar una conversación</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">Mensaje rápido y respuesta</string>
-  <string name="pref_quickmessage_title">Mostrar mensaje rápido</string>
-  <string name="pref_quickmessage_summary">Abrir automáticamente la respuesta rápida para los mensajes SMS entrantes</string>
-  <string name="pref_close_all_title">Cerrar todo</string>
-  <string name="pref_close_all_summary">Al pulsar Cerrar, se cerrarán todos los mensajes</string>
-  <string name="message_counter">%1$d de %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Cerrar</string>
-  <string name="button_view">Ver</string>
-  <string name="button_templates">Plantillas</string>
-  <string name="qm_button_full_conversation">Conversación completa</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Escribir mensaje</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Enviando mensaje\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Respuesta rápida</string>
-  <string name="send">Enviar</string>
-  <string name="compose_message_hint_text">Ingresar mensaje</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Acceso de emoticonos</string>
-  <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
-  <string name="select_phone_account_title">Enviar con</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Administrar mensajes de la SIM</string>
-  <string name="pref_title_manage_sim_messages_slot1">Administrar mensajes de la SIM 1</string>
-  <string name="pref_title_manage_sim_messages_slot2">Administrar mensajes de la SIM 2</string>
-  <string name="copy_to_sim">Copiar el mensaje a la tarjeta SIM</string>
-  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> mensajes guardados en la tarjeta SIM.</string>
-  <string name="copy_to_sim_fail">No se pudo guardar el mensaje</string>
-  <string name="copy_to_phone_success">Mensaje guardado</string>
-  <string name="copy_to_phone_fail">No se pudo guardar el mensaje</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">No hay mensajes en tarjeta SIM.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Enviar un correo electrónico a <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">Llamar a <xliff:g id="name">%s</xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">Añadir a <xliff:g id="contactEmailOrNumber">%s</xliff:g> a Personas</string>
-  <string name="sim_capacity_title">Capacidad SIM</string>
-  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> entradas de la tarjeta SIM en uso</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">¿Eliminar?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">Mensajes de texto en la tarjeta SIM</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Actualizando\u2026</string>
-  <string name="confirm_delete_selected_messages">Se eliminará el mensaje seleccionado.</string>
-  <!-- Delete button title -->
-  <string name="delete">Eliminar</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Reenviar</string>
-  <string name="menu_reply">Responder</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">Copiar a la memoria de la tableta</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Copiar a la memoria del teléfono</string>
-  <string name="selected_all">Seleccionar todo</string>
-  <string name="deselected_all">Anular selección</string>
-  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> seleccionado</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">ACEPTAR</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">Copiar el mensaje a la tarjeta SIM</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Selecciona imágenes o videos de este dispositivo</string>
-  <string name="mediapicker_audioListChooserDescription">Selecciona archivos de audio de este dispositivo</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
-  <string name="mediapicker_audio_list_title">Selecciona un audio</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">El audio está seleccionado.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">El audio no está seleccionado.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> seleccionados</string>
+    <string name="report_as_spam_to">Informar como spam a %s</string>
+    <string name="unicode_stripping_pref_title">Limpiar unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">Dejar texto intacto</string>
+    <string name="pref_unicode_stripping_non_encodable">Sustituir los caracteres no compatibles</string>
+    <string name="pref_unicode_stripping_all">Limpiar todos los caracteres unicode</string>
+    <string name="validity_period_pref_title">Período de validez</string>
+    <string name="validity_period_slot1_pref_title">Período de validez de la SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Período de validez de la SIM 2</string>
+    <string name="sms_validity_period_not_set">No establecido</string>
+    <string name="sms_validity_period_one_hour">1 hora</string>
+    <string name="sms_validity_period_six_hours">6 horas</string>
+    <string name="sms_validity_period_twelve_hours">12 horas</string>
+    <string name="sms_validity_period_one_day">1 día</string>
+    <string name="mms_validity_period_two_days">2 días</string>
+    <string name="mms_validity_period_one_week">1 semana</string>
+    <string name="validity_period_maximum">Máximo</string>
+    <string name="pref_summary_mms_delivery_reports">Solicitar un informe de entrega para cada mensaje enviado</string>
+    <string name="pref_summary_mms_read_reports">Pedir confirmacion de lectura por cada mensaje SMS enviado</string>
+    <string name="delivery_reports_mms_pref_title">Informes de entrega</string>
+    <string name="read_reports_mms_pref_title">Leer informes</string>
+    <string name="status_label">Estado: \u0020</string>
+    <string name="status_read">Leído</string>
+    <string name="priority_pref_title">Prioridad de envío</string>
+    <string name="priority_low">Baja</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_high">Alta</string>
+    <string name="sms_storage_pref_title">Almacenamiento</string>
+    <string name="pref_summary_auto_delete">Eliminar los mensajes antiguos cuando alcancen los límites</string>
+    <string name="auto_delete_pref_title">Eliminar mensajes antiguos</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> mensajes por conversación</string>
+    <string name="sms_delete_pref_title">Límite de mensajes de texto</string>
+    <string name="mms_delete_pref_title">Límite de mensajes multimedia</string>
+    <string name="set">Establecer</string>
+    <string name="no">Cancelar</string>
+    <string name="pref_messages_to_save">Establece el número de mensajes a guardar</string>
+    <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Deslize a la derecha para borrar una conversación</string>
+    <string name="pref_quickmessage">Mensaje rápido y respuesta</string>
+    <string name="pref_quickmessage_title">Mostrar mensaje rápido</string>
+    <string name="pref_quickmessage_summary">Abrir automáticamente la respuesta rápida para los mensajes SMS entrantes</string>
+    <string name="pref_close_all_title">Cerrar todo</string>
+    <string name="pref_close_all_summary">Al pulsar Cerrar, se cerrarán todos los mensajes</string>
+    <string name="message_counter">%1$d de %2$d</string>
+    <string name="button_close">Cerrar</string>
+    <string name="button_view">Ver</string>
+    <string name="button_templates">Plantillas</string>
+    <string name="qm_button_full_conversation">Conversación completa</string>
+    <string name="type_to_reply_text_enter_to_send">Escribir mensaje</string>
+    <string name="toast_sending_message">Enviando mensaje\u2026</string>
+    <string name="qm_quick_reply">Respuesta rápida</string>
+    <string name="send">Enviar</string>
+    <string name="compose_message_hint_text">Ingresar mensaje</string>
+    <string name="show_emoticons_pref_title">Acceso de emoticonos</string>
+    <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
+    <string name="select_phone_account_title">Enviar con</string>
+    <string name="pref_title_manage_sim_messages">Administrar mensajes de la SIM</string>
+    <string name="pref_title_manage_sim_messages_slot1">Administrar mensajes de la SIM 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">Administrar mensajes de la SIM 2</string>
+    <string name="copy_to_sim">Copiar el mensaje a la tarjeta SIM</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> mensajes guardados en la tarjeta SIM.</string>
+    <string name="copy_to_sim_fail">No se pudo guardar el mensaje</string>
+    <string name="copy_to_phone_success">Mensaje guardado</string>
+    <string name="copy_to_phone_fail">No se pudo guardar el mensaje</string>
+    <string name="sim_empty">No hay mensajes en tarjeta SIM.</string>
+    <string name="menu_send_email">Enviar un correo electrónico a <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Llamar a <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">Añadir a <xliff:g id="contactEmailOrNumber">%s</xliff:g> a Personas</string>
+    <string name="sim_capacity_title">Capacidad SIM</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g> entradas de la tarjeta SIM en uso</string>
+    <string name="confirm_dialog_title">¿Eliminar?</string>
+    <string name="sim_manage_messages_title">Mensajes de texto en la tarjeta SIM</string>
+    <string name="refreshing">Actualizando\u2026</string>
+    <string name="confirm_delete_selected_messages">Se eliminará el mensaje seleccionado.</string>
+    <string name="delete">Eliminar</string>
+    <string name="menu_forward">Reenviar</string>
+    <string name="menu_reply">Responder</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Copiar a la memoria de la tableta</string>
+    <string name="sim_copy_to_phone_memory" product="default">Copiar a la memoria del teléfono</string>
+    <string name="selected_all">Seleccionar todo</string>
+    <string name="deselected_all">Anular selección</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> seleccionado</string>
+    <string name="yes">ACEPTAR</string>
+    <string name="operation_to_card_memory">Copiar el mensaje a la tarjeta SIM</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Selecciona imágenes o videos de este dispositivo</string>
+    <string name="mediapicker_audioListChooserDescription">Selecciona archivos de audio de este dispositivo</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">No se puede adjuntar el vídeo. Tamaño máximo del mensaje excedido.</string>
+    <string name="mediapicker_audio_list_title">Selecciona un audio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">El audio está seleccionado.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">El audio no está seleccionado.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d </xliff:g> seleccionados</string>
 </resources>

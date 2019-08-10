@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Сообщить о спаме в %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Заменять юникод</string>
-  <string name="pref_unicode_stripping_leave_intact">Не заменять символы юникода</string>
-  <string name="pref_unicode_stripping_non_encodable">Заменять некодируемые символы</string>
-  <string name="pref_unicode_stripping_all">Заменять все символы юникода</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Срок действия</string>
-  <string name="validity_period_slot1_pref_title">Срок действия для SIM 1</string>
-  <string name="validity_period_slot2_pref_title">Срок действия для SIM 2</string>
-  <string name="sms_validity_period_not_set">Не установлен</string>
-  <string name="sms_validity_period_one_hour">1 час</string>
-  <string name="sms_validity_period_six_hours">6 часов</string>
-  <string name="sms_validity_period_twelve_hours">12 часов</string>
-  <string name="sms_validity_period_one_day">1 день</string>
-  <string name="mms_validity_period_two_days">2 дня</string>
-  <string name="mms_validity_period_one_week">1 неделя</string>
-  <string name="validity_period_maximum">Предельно возможный</string>
-  <string name="pref_summary_mms_delivery_reports">Запрашивать отчёт о доставке каждого отправленного вами сообщения</string>
-  <string name="pref_summary_mms_read_reports">Запрашивать отчёт о прочтении каждого отправленного вами сообщения</string>
-  <string name="delivery_reports_mms_pref_title">Отчёты о доставке</string>
-  <string name="read_reports_mms_pref_title">Отчёты о прочтении</string>
-  <string name="status_label">Состояние:\u0020</string>
-  <string name="status_read">Прочитано</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">Приоритет отправки</string>
-  <string name="priority_low">Низкий</string>
-  <string name="priority_normal">Обычный</string>
-  <string name="priority_high">Высокий</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Хранилище</string>
-  <string name="pref_summary_auto_delete">Удалять старые сообщения при достижении предела</string>
-  <string name="auto_delete_pref_title">Удалить старые сообщения</string>
-  <string name="pref_summary_delete_limit">Сообщений в беседе: <xliff:g id="count">%1$s</xliff:g></string>
-  <string name="sms_delete_pref_title">Ограничение SMS-сообщений</string>
-  <string name="mms_delete_pref_title">Ограничение MMS-сообщений</string>
-  <string name="set">Установить</string>
-  <string name="no">Отмена</string>
-  <string name="pref_messages_to_save">Количество сообщений для сохранения</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Быстрое удаление</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Проведите вправо, чтобы удалить диалог</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">Всплывающие уведомления</string>
-  <string name="pref_quickmessage_title">Быстрый ответ</string>
-  <string name="pref_quickmessage_summary">Автоматически открывать окно быстрого ответа для новых сообщений</string>
-  <string name="pref_close_all_title">Закрывать всё</string>
-  <string name="pref_close_all_summary">Кнопка «Закрыть» закрывает все сообщения</string>
-  <string name="message_counter">%1$d из %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Закрыть</string>
-  <string name="button_view">Посмотреть</string>
-  <string name="button_templates">Шаблоны</string>
-  <string name="qm_button_full_conversation">Перейти к диалогу</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Введите текст ответа</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Отправка сообщения\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Быстрый ответ</string>
-  <string name="send">Отправить</string>
-  <string name="compose_message_hint_text">Введите сообщение</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Доступ к смайлам</string>
-  <string name="show_emoticons_pref_summary">Показать кнопку смайлов на клавиатуре</string>
-  <string name="select_phone_account_title">Отправить через</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Управление сообщениями SIM-карты</string>
-  <string name="pref_title_manage_sim_messages_slot1">Управление сообщениями SIM 1</string>
-  <string name="pref_title_manage_sim_messages_slot2">Управление сообщениями SIM 2</string>
-  <string name="copy_to_sim">Копировать сообщение на SIM-карту</string>
-  <string name="copy_to_sim_success">Сообщения (<xliff:g id="count">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g>) сохранены на SIM-карте.</string>
-  <string name="copy_to_sim_fail">Не удалось сохранить сообщение</string>
-  <string name="copy_to_phone_success">Сообщение сохранено</string>
-  <string name="copy_to_phone_fail">Не удалось сохранить сообщение</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">Нет сообщений на SIM-карте.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Отправить эл. сообщение <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">Позвонить <xliff:g id="name">%s</xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">Добавить <xliff:g id="contactEmailOrNumber">%s</xliff:g> в контакты</string>
-  <string name="sim_capacity_title">Ёмкость SIM-карты</string>
-  <string name="sim_capacity">Используется <xliff:g id="used">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g> возможных записей на SIM-карте</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Удалить?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">Текстовые сообщения на SIM-карте</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Обновление\u2026</string>
-  <string name="confirm_delete_selected_messages">Выбранное сообщение будет удалено.</string>
-  <!-- Delete button title -->
-  <string name="delete">Удалить</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Вперед</string>
-  <string name="menu_reply">Ответить</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">Копировать в память планшета</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Копировать в память телефона</string>
-  <string name="selected_all">Выбрать все</string>
-  <string name="deselected_all">Отменить выбор</string>
-  <string name="selected_count">Выбрано: <xliff:g id="COUNT">%d</xliff:g></string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">OK</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">Копировать сообщение на SIM-карту</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Выберите изображения или видео с этого устройства</string>
-  <string name="mediapicker_audioListChooserDescription">Выберите аудио файлы на этом устройстве</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Невозможно прикрепить видео. Превышен максимальный размер сообщения.</string>
-  <string name="mediapicker_audio_list_title">Выберите аудио</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Аудио выбрано.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Аудио не выбрано.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> выбрано</string>
+    <string name="report_as_spam_to">Сообщить о спаме в %s</string>
+    <string name="unicode_stripping_pref_title">Заменять юникод</string>
+    <string name="pref_unicode_stripping_leave_intact">Не заменять символы юникода</string>
+    <string name="pref_unicode_stripping_non_encodable">Заменять некодируемые символы</string>
+    <string name="pref_unicode_stripping_all">Заменять все символы юникода</string>
+    <string name="validity_period_pref_title">Срок действия</string>
+    <string name="validity_period_slot1_pref_title">Срок действия для SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Срок действия для SIM 2</string>
+    <string name="sms_validity_period_not_set">Не установлен</string>
+    <string name="sms_validity_period_one_hour">1 час</string>
+    <string name="sms_validity_period_six_hours">6 часов</string>
+    <string name="sms_validity_period_twelve_hours">12 часов</string>
+    <string name="sms_validity_period_one_day">1 день</string>
+    <string name="mms_validity_period_two_days">2 дня</string>
+    <string name="mms_validity_period_one_week">1 неделя</string>
+    <string name="validity_period_maximum">Предельно возможный</string>
+    <string name="pref_summary_mms_delivery_reports">Запрашивать отчет о доставке каждого отправленного вами сообщения</string>
+    <string name="pref_summary_mms_read_reports">Запрашивать отчет о прочтении каждого отправленного вами сообщения</string>
+    <string name="delivery_reports_mms_pref_title">Отчеты о доставке</string>
+    <string name="read_reports_mms_pref_title">Отчеты о прочтении</string>
+    <string name="status_label">Состояние:\u0020</string>
+    <string name="status_read">Прочитано</string>
+    <string name="priority_pref_title">Приоритет отправки</string>
+    <string name="priority_low">Низкий</string>
+    <string name="priority_normal">Обычный</string>
+    <string name="priority_high">Высокий</string>
+    <string name="sms_storage_pref_title">Хранилище</string>
+    <string name="pref_summary_auto_delete">Удалять старые сообщения при достижении предела</string>
+    <string name="auto_delete_pref_title">Удалить старые сообщения</string>
+    <string name="pref_summary_delete_limit">Сообщений в беседе: <xliff:g id="count">%1$s</xliff:g></string>
+    <string name="sms_delete_pref_title">Ограничение SMS-сообщений</string>
+    <string name="mms_delete_pref_title">Ограничение MMS-сообщений</string>
+    <string name="set">Установить</string>
+    <string name="no">Отмена</string>
+    <string name="pref_messages_to_save">Количество сообщений для сохранения</string>
+    <string name="swipe_to_delete_conversation_pref_title">Свайп для удаления</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Свайп вправо для удаления разговора</string>
+    <string name="pref_quickmessage">Всплывающие уведомления</string>
+    <string name="pref_quickmessage_title">Быстрый ответ</string>
+    <string name="pref_quickmessage_summary">Автоматически открывать окно быстрого ответа для новых сообщений</string>
+    <string name="pref_close_all_title">Закрывать все</string>
+    <string name="pref_close_all_summary">Кнопка «Закрыть» закрывает все сообщения</string>
+    <string name="message_counter">%1$d из %2$d</string>
+    <string name="button_close">Закрыть</string>
+    <string name="button_view">Посмотреть</string>
+    <string name="button_templates">Шаблоны</string>
+    <string name="qm_button_full_conversation">Перейти к диалогу</string>
+    <string name="type_to_reply_text_enter_to_send">Введите текст ответа</string>
+    <string name="toast_sending_message">Отправка сообщения\u2026</string>
+    <string name="qm_quick_reply">Быстрый ответ</string>
+    <string name="send">Отправить</string>
+    <string name="compose_message_hint_text">Введите сообщение</string>
+    <string name="show_emoticons_pref_title">Доступ к смайлам</string>
+    <string name="show_emoticons_pref_summary">Показать кнопку смайлов на клавиатуре</string>
+    <string name="select_phone_account_title">Отправить через</string>
+    <string name="pref_title_manage_sim_messages">Управление сообщениями SIM-карты</string>
+    <string name="pref_title_manage_sim_messages_slot1">Управление сообщениями SIM 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">Управление сообщениями SIM 2</string>
+    <string name="copy_to_sim">Копировать сообщение на SIM-карту</string>
+    <string name="copy_to_sim_success">Сообщения (<xliff:g id="count">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g>) сохранены на SIM-карте.</string>
+    <string name="copy_to_sim_fail">Не удалось сохранить сообщение</string>
+    <string name="copy_to_phone_success">Сообщение сохранено</string>
+    <string name="copy_to_phone_fail">Не удалось сохранить сообщение</string>
+    <string name="sim_empty">Нет сообщений на SIM-карте.</string>
+    <string name="menu_send_email">Отправить эл. сообщение <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Позвонить <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">Добавить <xliff:g id="contactEmailOrNumber">%s</xliff:g> в контакты</string>
+    <string name="sim_capacity_title">Вместимость SIM-карты</string>
+    <string name="sim_capacity">Используется <xliff:g id="used">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g> возможных записей на SIM-карте</string>
+    <string name="confirm_dialog_title">Удалить?</string>
+    <string name="sim_manage_messages_title">Текстовые сообщения на SIM-карте</string>
+    <string name="refreshing">Обновление\u2026</string>
+    <string name="confirm_delete_selected_messages">Выбранное сообщение будет удалено.</string>
+    <string name="delete">Удалить</string>
+    <string name="menu_forward">Вперед</string>
+    <string name="menu_reply">Ответить</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Копировать в память планшета</string>
+    <string name="sim_copy_to_phone_memory" product="default">Копировать в память телефона</string>
+    <string name="selected_all">Выбрать все</string>
+    <string name="deselected_all">Отменить выбор</string>
+    <string name="selected_count">Выбрано: <xliff:g id="COUNT">%d</xliff:g></string>
+    <string name="yes">OK</string>
+    <string name="operation_to_card_memory">Копировать сообщение на SIM-карту</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Выберите изображения или видео с этого устройства</string>
+    <string name="mediapicker_audioListChooserDescription">Выберите аудио файлы на этом устройстве</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Невозможно прикрепить видео. Превышен максимальный размер сообщения.</string>
+    <string name="mediapicker_audio_list_title">Выберите аудио</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Аудио выбрано.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Аудио не выбрано.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> выбрано</string>
 </resources>

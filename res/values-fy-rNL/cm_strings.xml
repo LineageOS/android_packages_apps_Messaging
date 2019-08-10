@@ -16,35 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Strip unicode -->
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <!-- Item Descriptions for MMS sending Priority -->
-  <!-- Storage specific Settings -->
-  <!-- Swipe to delete conversation -->
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <!-- QM Dialog box buttons -->
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <!-- QM Toast -->
-  <!-- QM - Quick reply -->
-  <!-- Show emoticons -->
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <!-- Title of screen displaying messages on SIM card -->
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <!-- Delete button title -->
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <!-- Copy message to sim -->
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="report_as_spam_to">Rapportearje oan %s as net-winske</string>
+    <string name="unicode_stripping_pref_title">Unikoade-tekens fuortsmite</string>
+    <string name="pref_unicode_stripping_leave_intact">Tekens yntakt litte</string>
+    <string name="pref_unicode_stripping_non_encodable">Net-enkodearbere tekens fuortsmite</string>
+    <string name="pref_unicode_stripping_all">Alle Unikoade-tekens fuortsmite</string>
+    <string name="validity_period_pref_title">Jildichheidsdoer</string>
+    <string name="validity_period_slot1_pref_title">Jildichheidsdoer foar SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Jildichheidsdoer foar SIM 2</string>
+    <string name="sms_validity_period_not_set">Net ynsteld</string>
+    <string name="sms_validity_period_one_hour">1 oer</string>
+    <string name="sms_validity_period_six_hours">6 oeren</string>
+    <string name="sms_validity_period_twelve_hours">12 oeren</string>
+    <string name="sms_validity_period_one_day">1 dei</string>
+    <string name="mms_validity_period_two_days">2 dagen</string>
+    <string name="mms_validity_period_one_week">1 wike</string>
+    <string name="validity_period_maximum">Maksimaal</string>
+    <string name="pref_summary_mms_delivery_reports">Untfangstbefêstiging freegje foar elk ferstjoerd berjocht</string>
+    <string name="pref_summary_mms_read_reports">Lêsbefêstiging freegje foar elk ferstjoerd berjocht</string>
+    <string name="delivery_reports_mms_pref_title">Untfangstbefêstigingen</string>
+    <string name="read_reports_mms_pref_title">Lêsbefêstigingen</string>
+    <string name="status_label">Steat:\u0020</string>
+    <string name="status_read">Lêzen</string>
+    <string name="priority_pref_title">Prioriteit</string>
+    <string name="priority_low">Leech</string>
+    <string name="priority_normal">Normaal</string>
+    <string name="priority_high">Heech</string>
+    <string name="sms_storage_pref_title">Unthâld</string>
+    <string name="pref_summary_auto_delete">Alde berjochten fuortsmite as limyt berikke is</string>
+    <string name="auto_delete_pref_title">Alde berjochten fuortsmite</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> berjochten per petear</string>
+    <string name="sms_delete_pref_title">Limyt sms-berjochten</string>
+    <string name="mms_delete_pref_title">Limyt multimediaberjochten</string>
+    <string name="set">Ynstelle</string>
+    <string name="no">Annulearje</string>
+    <string name="pref_messages_to_save">Oantal berjochten om te bewarjen</string>
+    <string name="swipe_to_delete_conversation_pref_title">Feie om fuort te smiten</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Nei rjochts feie om in petear fuort te smiten</string>
+    <string name="pref_quickmessage">Fluchberjocht en beäntwurdzje</string>
+    <string name="pref_quickmessage_title">Fluchberjocht toane</string>
+    <string name="pref_quickmessage_summary">Automatysk in Fluchberjocht-finster toane by ynkommende sms-berjochten</string>
+    <string name="pref_close_all_title">Alles slute</string>
+    <string name="pref_close_all_summary">Slute-knop slút alle berjochten</string>
+    <string name="message_counter">%1$d fan %2$d</string>
+    <string name="button_close">Slute</string>
+    <string name="button_view">Toane</string>
+    <string name="button_templates">Sjabloanen</string>
+    <string name="qm_button_full_conversation">Folslein petear</string>
+    <string name="type_to_reply_text_enter_to_send">Typ om te beäntwurdzjen</string>
+    <string name="toast_sending_message">Berjocht ferstjoere\u2026</string>
+    <string name="qm_quick_reply">Fluchbeäntwurdzje</string>
+    <string name="send">Ferstjoere</string>
+    <string name="compose_message_hint_text">Berjocht ynfiere</string>
+    <string name="show_emoticons_pref_title">Tagong ta emoticons</string>
+    <string name="show_emoticons_pref_summary">Emoticons-toets op it toetseboerd toane</string>
+    <string name="select_phone_account_title">Ferstjoere mei</string>
+    <string name="pref_title_manage_sim_messages">Berjochten op simkaart beheare</string>
+    <string name="pref_title_manage_sim_messages_slot1">Berjochten op SIM 1 beheare</string>
+    <string name="pref_title_manage_sim_messages_slot2">Berjochten op SIM 2 beheare</string>
+    <string name="copy_to_sim">Berjocht nei simkaart kopiearje</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g> berjochten op simkaart bewarre.</string>
+    <string name="copy_to_sim_fail">Kin berjocht net bewarje</string>
+    <string name="copy_to_phone_success">Berjocht bewarre</string>
+    <string name="copy_to_phone_fail">Kin berjocht net bewarje</string>
+    <string name="sim_empty">Gjin berjochten op simkaart.</string>
+    <string name="menu_send_email">E-mailberjocht ferstjoere nei <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back"><xliff:g id="name">%s</xliff:g> belle</string>
+    <string name="menu_add_address_to_contacts"><xliff:g id="contactEmailOrNumber">%s</xliff:g> oan kontakten tafoegje</string>
+    <string name="sim_capacity_title">Sim-kapasiteit</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> fan <xliff:g id="total">%2$d</xliff:g> plakken op simkaart yn gebrûk</string>
+    <string name="confirm_dialog_title">Fuortsmite?</string>
+    <string name="sim_manage_messages_title">Berjochten op simkaart</string>
+    <string name="refreshing">Fernije\u2026</string>
+    <string name="confirm_delete_selected_messages">Selektearre berjocht wurdt fuortsmiten.</string>
+    <string name="delete">Fuortsmite</string>
+    <string name="menu_forward">Trochstjoere</string>
+    <string name="menu_reply">Beäntwurdzje</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Berjocht kopiearje nei tabletûnthâld</string>
+    <string name="sim_copy_to_phone_memory" product="default">Berjocht kopiearje nei telefoanûnthâld</string>
+    <string name="selected_all">Alles selektearje</string>
+    <string name="deselected_all">Alles deselektearje</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> selektearre</string>
+    <string name="yes">OK</string>
+    <string name="operation_to_card_memory">Berjocht nei simkaart kopiearje</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Ofbyldingen of fideo\'s op dit apparaat selektearje</string>
+    <string name="mediapicker_audioListChooserDescription">Audiobestannen op dit apparaat selektearje</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Kin fideo net tafoegje. Oer maksimale berjochtgrutte hinne.</string>
+    <string name="mediapicker_audio_list_title">Audio selektearje</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Audio is selektearre.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Audio is net selektearre.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> selektearre</string>
 </resources>

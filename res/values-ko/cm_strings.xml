@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">%s에 스팸으로 신고</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">유니코드 제거</string>
-  <string name="pref_unicode_stripping_leave_intact">문자 인코딩 유지</string>
-  <string name="pref_unicode_stripping_non_encodable">인코딩할 수 없는 문자 제거</string>
-  <string name="pref_unicode_stripping_all">모든 유니코드 문자 제거</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">유효 기간</string>
-  <string name="validity_period_slot1_pref_title">SIM 카드 1의 유효 기간</string>
-  <string name="validity_period_slot2_pref_title">SIM 카드 2의 유효 기간</string>
-  <string name="sms_validity_period_not_set">설정되지 않음</string>
-  <string name="sms_validity_period_one_hour">1시간</string>
-  <string name="sms_validity_period_six_hours">6시간</string>
-  <string name="sms_validity_period_twelve_hours">12시간</string>
-  <string name="sms_validity_period_one_day">1일</string>
-  <string name="mms_validity_period_two_days">2일</string>
-  <string name="mms_validity_period_one_week">1주</string>
-  <string name="validity_period_maximum">최대</string>
-  <string name="pref_summary_mms_delivery_reports">보내는 메시지마다 전송 확인을 요청하기</string>
-  <string name="pref_summary_mms_read_reports">보내는 메시지마다 읽음 확인을 요청하기</string>
-  <string name="delivery_reports_mms_pref_title">전송 보고서</string>
-  <string name="read_reports_mms_pref_title">읽음 보고서</string>
-  <string name="status_label">상태:\u0020</string>
-  <string name="status_read">읽기</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">전송 우선 순위</string>
-  <string name="priority_low">낮음</string>
-  <string name="priority_normal">중간</string>
-  <string name="priority_high">높음</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">저장소</string>
-  <string name="pref_summary_auto_delete">한계에 도달하면 오래된 메시지 삭제</string>
-  <string name="auto_delete_pref_title">오래된 메시지 삭제</string>
-  <string name="pref_summary_delete_limit">대화 마다 <xliff:g id="count">%1$s</xliff:g>개의 메시지</string>
-  <string name="sms_delete_pref_title">문자 메시지 제한</string>
-  <string name="mms_delete_pref_title">멀티미디어 메시지 제한</string>
-  <string name="set">설정</string>
-  <string name="no">취소</string>
-  <string name="pref_messages_to_save">저장할 메시지의 수 설정</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">스와이프하여 삭제</string>
-  <string name="swipe_to_delete_conversation_pref_summary">오른쪽으로 스와이프하여 대화 삭제</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">QuickMessage와 답장</string>
-  <string name="pref_quickmessage_title">QuickMessage 보기</string>
-  <string name="pref_quickmessage_summary">SMS메시지를 받으면 자동으로 QuickMessage 보이기</string>
-  <string name="pref_close_all_title">전부 닫기</string>
-  <string name="pref_close_all_summary">닫기 버튼으로 모든 메시지를 닫습니다</string>
-  <string name="message_counter">%2$d건 중 %1$d건</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">닫기</string>
-  <string name="button_view">표시</string>
-  <string name="button_templates">템플릿</string>
-  <string name="qm_button_full_conversation">전체 대화</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">답장을 입력하세요</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">메시지 전송 중\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">빠른 답장</string>
-  <string name="send">전송</string>
-  <string name="compose_message_hint_text">메시지 입력</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">이모티콘 표시</string>
-  <string name="show_emoticons_pref_summary">키보드에 이모티콘 키를 표시합니다</string>
-  <string name="select_phone_account_title">다른 앱으로 보내기</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">SIM 카드 메시지 관리</string>
-  <string name="pref_title_manage_sim_messages_slot1">SIM 1 메시지 관리</string>
-  <string name="pref_title_manage_sim_messages_slot2">SIM 2 메시지 관리</string>
-  <string name="copy_to_sim">메시지를 SIM 카드에 복사</string>
-  <string name="copy_to_sim_success"><xliff:g id="total">%2$d</xliff:g>건 중 <xliff:g id="count">%1$d</xliff:g>건의 메시지가 SIM 카드에 저장되었습니다.</string>
-  <string name="copy_to_sim_fail">메시지를 저장할 수 없음</string>
-  <string name="copy_to_phone_success">메시지가 저장됨</string>
-  <string name="copy_to_phone_fail">메시지를 저장할 수 없음</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">SIM 카드에 메시지가 없습니다.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email"><xliff:g id="name">%s</xliff:g>에게 이메일 보내기</string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back"><xliff:g id="name">%s</xliff:g>에게 전화 걸기</string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">연락처에 <xliff:g id="contactEmailOrNumber">%s</xliff:g> 추가</string>
-  <string name="sim_capacity_title">SIM 용량</string>
-  <string name="sim_capacity"><xliff:g id="total">%2$d</xliff:g> 중 <xliff:g id="used">%1$d</xliff:g>의 SIM카드 저장소가 사용됨</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">삭제할까요?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">SIM 카드에 있는 문자 메시지</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">새로 고치는 중\u2026</string>
-  <string name="confirm_delete_selected_messages">선택된 메시지가 삭제됩니다.</string>
-  <!-- Delete button title -->
-  <string name="delete">삭제</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">전달</string>
-  <string name="menu_reply">답장</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">태블릿 메모리에 복사</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">휴대 전화 메모리에 복사</string>
-  <string name="selected_all">모두 선택</string>
-  <string name="deselected_all">모두 선택 해제</string>
-  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> 선택됨</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">확인</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">메시지를 SIM 카드에 복사</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">이 기기에서 이미지 또는 영상 선택</string>
-  <string name="mediapicker_audioListChooserDescription">이 기기에서 오디오 선택</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">영상을 첨부할 수 없습니다. 최대 메시지 크기를 초과했습니다.</string>
-  <string name="mediapicker_audio_list_title">오디오 선택</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">오디오가 선택되었습니다.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">오디오 선택이 취소되었습니다.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g>개 선택됨</string>
+    <string name="report_as_spam_to">%s에 스팸으로 신고</string>
+    <string name="unicode_stripping_pref_title">유니코드 제거</string>
+    <string name="pref_unicode_stripping_leave_intact">문자 인코딩 유지</string>
+    <string name="pref_unicode_stripping_non_encodable">인코딩할 수 없는 문자 제거</string>
+    <string name="pref_unicode_stripping_all">모든 유니코드 문자 제거</string>
+    <string name="validity_period_pref_title">유효 기간</string>
+    <string name="validity_period_slot1_pref_title">SIM 카드 1의 유효 기간</string>
+    <string name="validity_period_slot2_pref_title">SIM 카드 2의 유효 기간</string>
+    <string name="sms_validity_period_not_set">설정되지 않음</string>
+    <string name="sms_validity_period_one_hour">1시간</string>
+    <string name="sms_validity_period_six_hours">6시간</string>
+    <string name="sms_validity_period_twelve_hours">12시간</string>
+    <string name="sms_validity_period_one_day">1일</string>
+    <string name="mms_validity_period_two_days">2일</string>
+    <string name="mms_validity_period_one_week">1주</string>
+    <string name="validity_period_maximum">최대</string>
+    <string name="pref_summary_mms_delivery_reports">보내는 메시지마다 전송 확인을 요청하기</string>
+    <string name="pref_summary_mms_read_reports">보내는 메시지마다 읽음 확인을 요청하기</string>
+    <string name="delivery_reports_mms_pref_title">전송 보고서</string>
+    <string name="read_reports_mms_pref_title">읽음 보고서</string>
+    <string name="status_label">상태:\u0020</string>
+    <string name="status_read">읽기</string>
+    <string name="priority_pref_title">전송 우선 순위</string>
+    <string name="priority_low">낮음</string>
+    <string name="priority_normal">중간</string>
+    <string name="priority_high">높음</string>
+    <string name="sms_storage_pref_title">저장소</string>
+    <string name="pref_summary_auto_delete">한계에 도달하면 오래된 메시지 삭제</string>
+    <string name="auto_delete_pref_title">오래된 메시지 삭제</string>
+    <string name="pref_summary_delete_limit">대화 마다 <xliff:g id="count">%1$s</xliff:g>개의 메시지</string>
+    <string name="sms_delete_pref_title">문자 메시지 제한</string>
+    <string name="mms_delete_pref_title">멀티미디어 메시지 제한</string>
+    <string name="set">설정</string>
+    <string name="no">취소</string>
+    <string name="pref_messages_to_save">저장할 메시지의 수 설정</string>
+    <string name="swipe_to_delete_conversation_pref_title">스와이프하여 삭제</string>
+    <string name="swipe_to_delete_conversation_pref_summary">오른쪽으로 스와이프하여 대화 삭제</string>
+    <string name="pref_quickmessage">QuickMessage와 답장</string>
+    <string name="pref_quickmessage_title">QuickMessage 보기</string>
+    <string name="pref_quickmessage_summary">SMS메시지를 받으면 자동으로 QuickMessage 보이기</string>
+    <string name="pref_close_all_title">전부 닫기</string>
+    <string name="pref_close_all_summary">닫기 버튼으로 모든 메시지를 닫습니다</string>
+    <string name="message_counter">%2$d건 중 %1$d건</string>
+    <string name="button_close">닫기</string>
+    <string name="button_view">표시</string>
+    <string name="button_templates">템플릿</string>
+    <string name="qm_button_full_conversation">전체 대화</string>
+    <string name="type_to_reply_text_enter_to_send">답장을 입력하세요</string>
+    <string name="toast_sending_message">메시지 전송 중\u2026</string>
+    <string name="qm_quick_reply">빠른 답장</string>
+    <string name="send">전송</string>
+    <string name="compose_message_hint_text">메시지 입력</string>
+    <string name="show_emoticons_pref_title">이모티콘 표시</string>
+    <string name="show_emoticons_pref_summary">키보드에 이모티콘 키를 표시합니다</string>
+    <string name="select_phone_account_title">다른 앱으로 보내기</string>
+    <string name="pref_title_manage_sim_messages">SIM 카드 메시지 관리</string>
+    <string name="pref_title_manage_sim_messages_slot1">SIM 1 메시지 관리</string>
+    <string name="pref_title_manage_sim_messages_slot2">SIM 2 메시지 관리</string>
+    <string name="copy_to_sim">메시지를 SIM 카드에 복사</string>
+    <string name="copy_to_sim_success"><xliff:g id="total">%2$d</xliff:g>건 중 <xliff:g id="count">%1$d</xliff:g>건의 메시지가 SIM 카드에 저장되었습니다.</string>
+    <string name="copy_to_sim_fail">메시지를 저장할 수 없음</string>
+    <string name="copy_to_phone_success">메시지가 저장됨</string>
+    <string name="copy_to_phone_fail">메시지를 저장할 수 없음</string>
+    <string name="sim_empty">SIM 카드에 메시지가 없습니다.</string>
+    <string name="menu_send_email"><xliff:g id="name">%s</xliff:g>에게 이메일 보내기</string>
+    <string name="menu_call_back"><xliff:g id="name">%s</xliff:g>에게 전화 걸기</string>
+    <string name="menu_add_address_to_contacts">연락처에 <xliff:g id="contactEmailOrNumber">%s</xliff:g> 추가</string>
+    <string name="sim_capacity_title">SIM 용량</string>
+    <string name="sim_capacity"><xliff:g id="total">%2$d</xliff:g> 중 <xliff:g id="used">%1$d</xliff:g>의 SIM카드 저장소가 사용됨</string>
+    <string name="confirm_dialog_title">삭제할까요?</string>
+    <string name="sim_manage_messages_title">SIM 카드에 있는 문자 메시지</string>
+    <string name="refreshing">새로 고치는 중\u2026</string>
+    <string name="confirm_delete_selected_messages">선택된 메시지가 삭제됩니다.</string>
+    <string name="delete">삭제</string>
+    <string name="menu_forward">전달</string>
+    <string name="menu_reply">답장</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">태블릿 메모리에 복사</string>
+    <string name="sim_copy_to_phone_memory" product="default">휴대 전화 메모리에 복사</string>
+    <string name="selected_all">모두 선택</string>
+    <string name="deselected_all">모두 선택 해제</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> 선택됨</string>
+    <string name="yes">확인</string>
+    <string name="operation_to_card_memory">메시지를 SIM 카드에 복사</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">이 기기에서 이미지 또는 영상 선택</string>
+    <string name="mediapicker_audioListChooserDescription">이 기기에서 오디오 선택</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">영상을 첨부할 수 없습니다. 최대 메시지 크기를 초과했습니다.</string>
+    <string name="mediapicker_audio_list_title">오디오 선택</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">오디오가 선택되었습니다.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">오디오 선택이 취소되었습니다.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g>개 선택됨</string>
 </resources>

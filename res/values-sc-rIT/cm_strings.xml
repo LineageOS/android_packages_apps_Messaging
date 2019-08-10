@@ -16,35 +16,20 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Strip unicode -->
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <!-- Item Descriptions for MMS sending Priority -->
-  <!-- Storage specific Settings -->
-  <!-- Swipe to delete conversation -->
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <!-- QM Dialog box buttons -->
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <!-- QM Toast -->
-  <!-- QM - Quick reply -->
-  <!-- Show emoticons -->
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <!-- Title of screen displaying messages on SIM card -->
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <!-- Delete button title -->
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <!-- Copy message to sim -->
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="sms_validity_period_one_hour">1 ora</string>
+    <string name="sms_validity_period_six_hours">6 oras</string>
+    <string name="sms_validity_period_twelve_hours">12 oras</string>
+    <string name="sms_validity_period_one_day">1 die</string>
+    <string name="mms_validity_period_two_days">2 dies</string>
+    <string name="mms_validity_period_one_week">1 chida</string>
+    <string name="priority_high">Arta</string>
+    <string name="set">Cunfigura</string>
+    <string name="no">Annulla</string>
+    <string name="message_counter">%1$d de %2$d</string>
+    <string name="button_close">Serra</string>
+    <string name="send">Imbia</string>
+    <string name="delete">Iscantzella</string>
+    <string name="menu_forward">Torra a imbiare</string>
+    <string name="menu_reply">Risponde</string>
+    <string name="yes">AB</string>
 </resources>

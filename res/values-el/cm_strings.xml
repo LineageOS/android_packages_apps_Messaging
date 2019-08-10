@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Αναφορά ως ανεπιθύμητο στο %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Αφαίρεση unicode</string>
-  <string name="pref_unicode_stripping_leave_intact">Καμία αλλαγή στους χαρακτήρες</string>
-  <string name="pref_unicode_stripping_non_encodable">Αφαίρεση χαρακτήρων που δεν μπορούν να κωδικοποιηθούν</string>
-  <string name="pref_unicode_stripping_all">Αφαίρεση όλων των χαρακτήρων unicode</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Περίοδος ισχύος</string>
-  <string name="validity_period_slot1_pref_title">Περίοδος ισχύος για SIM 1</string>
-  <string name="validity_period_slot2_pref_title">Περίοδος ισχύος για SIM 2</string>
-  <string name="sms_validity_period_not_set">Δεν ορίστηκε</string>
-  <string name="sms_validity_period_one_hour">1 ώρα</string>
-  <string name="sms_validity_period_six_hours">6 ώρες</string>
-  <string name="sms_validity_period_twelve_hours">12 ώρες</string>
-  <string name="sms_validity_period_one_day">1 ημέρα</string>
-  <string name="mms_validity_period_two_days">2 ημέρες</string>
-  <string name="mms_validity_period_one_week">1 εβδομάδα</string>
-  <string name="validity_period_maximum">Μέγιστη</string>
-  <string name="pref_summary_mms_delivery_reports">Αίτημα αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε</string>
-  <string name="pref_summary_mms_read_reports">Αίτημα αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε</string>
-  <string name="delivery_reports_mms_pref_title">Αναφορές παράδοσης</string>
-  <string name="read_reports_mms_pref_title">Αναφορές ανάγνωσης</string>
-  <string name="status_label">Κατάσταση:\u0020</string>
-  <string name="status_read">Διαβάστηκε</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">Προτεραιότητα αποστολής</string>
-  <string name="priority_low">Χαμηλή</string>
-  <string name="priority_normal">Κανονική</string>
-  <string name="priority_high">Υψηλή</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Αποθηκευτικός χώρος</string>
-  <string name="pref_summary_auto_delete">Διαγραφή παλιών μηνυμάτων όταν εξαντλούνται τα όρια</string>
-  <string name="auto_delete_pref_title">Διαγραφή παλιών μηνυμάτων</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> μηνύματα ανά συνομιλία</string>
-  <string name="sms_delete_pref_title">Όριο μηνυμάτων κειμένου</string>
-  <string name="mms_delete_pref_title">Όριο μηνυμάτων πολυμέσων</string>
-  <string name="set">Ορισμός</string>
-  <string name="no">Ακύρωση</string>
-  <string name="pref_messages_to_save">Ορίστε τον αριθμό μηνυμάτων που θα αποθηκεύονται</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Ολίσθηση για διαγραφή</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Σύρετε προς τα δεξιά για να διαγράψετε μια συζήτηση</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">Αναδυόμενο μήνυμα και απάντηση</string>
-  <string name="pref_quickmessage_title">Εμφάνιση αναδυόμενου μηνύματος</string>
-  <string name="pref_quickmessage_summary">Αυτόματη εμφάνιση αναδυόμενου μηνύματος για τα εισερχόμενα SMS</string>
-  <string name="pref_close_all_title">Κλείσιμο όλων</string>
-  <string name="pref_close_all_summary">Το κουμπί κλείσιμο κλείνει όλα τα μηνύματα</string>
-  <string name="message_counter">%1$d από %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Κλείσιμο</string>
-  <string name="button_view">Εμφάνιση</string>
-  <string name="button_templates">Πρότυπα</string>
-  <string name="qm_button_full_conversation">Πλήρης συνομιλία</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Πληκτρολογήστε για να απαντήσετε</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Αποστολή μηνύματος\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Γρήγορη απάντηση</string>
-  <string name="send">Αποστολή</string>
-  <string name="compose_message_hint_text">Εισάγετε μήνυμα</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Πρόσβαση emoticon</string>
-  <string name="show_emoticons_pref_summary">Εμφάνιση του πλήκτρου emoticon στο πληκτρολόγιο</string>
-  <string name="select_phone_account_title">Αποστολή με</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Διαχείριση μηνυμάτων κάρτας SIM</string>
-  <string name="pref_title_manage_sim_messages_slot1">Διαχείριση μηνυμάτων της SIM 1</string>
-  <string name="pref_title_manage_sim_messages_slot2">Διαχείριση μηνυμάτων της SIM 2</string>
-  <string name="copy_to_sim">Αντιγραφή μηνύματος στην κάρτα SIM</string>
-  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> από <xliff:g id="total">%2$d</xliff:g> μηνύματα αποθηκεύτηκαν στην κάρτα SIM.</string>
-  <string name="copy_to_sim_fail">Δεν ήταν δυνατή η αποθήκευση του μηνύματος</string>
-  <string name="copy_to_phone_success">Το μήνυμα αποθηκεύτηκε</string>
-  <string name="copy_to_phone_fail">Δεν ήταν δυνατή η αποθήκευση του μηνύματος</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">Δεν υπάρχουν μηνύματα στην κάρτα SIM.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Αποστολή email στο <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">Κλήση <xliff:g id="name">%s</xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">Προσθήκη <xliff:g id="contactEmailOrNumber">%s</xliff:g> στις Επαφές</string>
-  <string name="sim_capacity_title">Χωρητικότητα SIM</string>
-  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> από <xliff:g id="total">%2$d</xliff:g> καταχωρήσεις κάρτας SIM σε χρήση</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Διαγραφή;</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">Μηνύματα κειμένου στην κάρτα SIM</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Ανανέωση\u2026</string>
-  <string name="confirm_delete_selected_messages">Το επιλεγμένο μήνυμα θα διαγραφεί.</string>
-  <!-- Delete button title -->
-  <string name="delete">Διαγραφή</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Προώθηση</string>
-  <string name="menu_reply">Απάντηση</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">Αντιγραφή στη μνήμη tablet</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Αντιγραφή στη μνήμη τηλεφώνου</string>
-  <string name="selected_all">Επιλογή όλων</string>
-  <string name="deselected_all">Αποεπιλογή όλων</string>
-  <string name="selected_count">Επιλέχθηκαν <xliff:g id="COUNT">%d</xliff:g></string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">OK</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">Αντιγραφή μήνυματος στην κάρτα SIM</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Επιλέξτε εικόνες ή βίντεο από αυτήν τη συσκευή</string>
-  <string name="mediapicker_audioListChooserDescription">Επιλέξτε αρχεία ήχου από αυτήν τη συσκευή</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Δεν είναι δυνατή η επισύναψη του βίντεο. Υπέρβαση μέγιστου μεγέθους μηνύματος.</string>
-  <string name="mediapicker_audio_list_title">Επιλογή ήχου</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Ο ήχος είναι επιλεγμένος.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Ο ήχος δεν είναι επιλεγμένος.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> επιλεγμένα</string>
+    <string name="report_as_spam_to">Αναφορά ως ανεπιθύμητο στο %s</string>
+    <string name="unicode_stripping_pref_title">Αφαίρεση unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">Καμία αλλαγή στους χαρακτήρες</string>
+    <string name="pref_unicode_stripping_non_encodable">Αφαίρεση χαρακτήρων που δεν μπορούν να κωδικοποιηθούν</string>
+    <string name="pref_unicode_stripping_all">Αφαίρεση όλων των χαρακτήρων unicode</string>
+    <string name="validity_period_pref_title">Περίοδος ισχύος</string>
+    <string name="validity_period_slot1_pref_title">Περίοδος ισχύος για SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Περίοδος ισχύος για SIM 2</string>
+    <string name="sms_validity_period_not_set">Δεν ορίστηκε</string>
+    <string name="sms_validity_period_one_hour">1 ώρα</string>
+    <string name="sms_validity_period_six_hours">6 ώρες</string>
+    <string name="sms_validity_period_twelve_hours">12 ώρες</string>
+    <string name="sms_validity_period_one_day">1 ημέρα</string>
+    <string name="mms_validity_period_two_days">2 ημέρες</string>
+    <string name="mms_validity_period_one_week">1 εβδομάδα</string>
+    <string name="validity_period_maximum">Μέγιστη</string>
+    <string name="pref_summary_mms_delivery_reports">Αίτημα αναφοράς παράδοσης για κάθε μήνυμα που στέλνετε</string>
+    <string name="pref_summary_mms_read_reports">Αίτημα αναφοράς ανάγνωσης για κάθε μήνυμα που στέλνετε</string>
+    <string name="delivery_reports_mms_pref_title">Αναφορές παράδοσης</string>
+    <string name="read_reports_mms_pref_title">Αναφορές ανάγνωσης</string>
+    <string name="status_label">Κατάσταση:\u0020</string>
+    <string name="status_read">Διαβάστηκε</string>
+    <string name="priority_pref_title">Προτεραιότητα αποστολής</string>
+    <string name="priority_low">Χαμηλή</string>
+    <string name="priority_normal">Κανονική</string>
+    <string name="priority_high">Υψηλή</string>
+    <string name="sms_storage_pref_title">Αποθηκευτικός χώρος</string>
+    <string name="pref_summary_auto_delete">Διαγραφή παλιών μηνυμάτων όταν εξαντλούνται τα όρια</string>
+    <string name="auto_delete_pref_title">Διαγραφή παλιών μηνυμάτων</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> μηνύματα ανά συνομιλία</string>
+    <string name="sms_delete_pref_title">Όριο μηνυμάτων κειμένου</string>
+    <string name="mms_delete_pref_title">Όριο μηνυμάτων πολυμέσων</string>
+    <string name="set">Ορισμός</string>
+    <string name="no">Ακύρωση</string>
+    <string name="pref_messages_to_save">Ορίστε τον αριθμό μηνυμάτων που θα αποθηκεύονται</string>
+    <string name="swipe_to_delete_conversation_pref_title">Ολίσθηση για διαγραφή</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Σύρετε προς τα δεξιά για να διαγράψετε μια συζήτηση</string>
+    <string name="pref_quickmessage">Αναδυόμενο μήνυμα και απάντηση</string>
+    <string name="pref_quickmessage_title">Εμφάνιση αναδυόμενου μηνύματος</string>
+    <string name="pref_quickmessage_summary">Αυτόματη εμφάνιση αναδυόμενου μηνύματος για τα εισερχόμενα SMS</string>
+    <string name="pref_close_all_title">Κλείσιμο όλων</string>
+    <string name="pref_close_all_summary">Το κουμπί κλείσιμο κλείνει όλα τα μηνύματα</string>
+    <string name="message_counter">%1$d από %2$d</string>
+    <string name="button_close">Κλείσιμο</string>
+    <string name="button_view">Εμφάνιση</string>
+    <string name="button_templates">Πρότυπα</string>
+    <string name="qm_button_full_conversation">Πλήρης συνομιλία</string>
+    <string name="type_to_reply_text_enter_to_send">Πληκτρολογήστε για να απαντήσετε</string>
+    <string name="toast_sending_message">Αποστολή μηνύματος\u2026</string>
+    <string name="qm_quick_reply">Γρήγορη απάντηση</string>
+    <string name="send">Αποστολή</string>
+    <string name="compose_message_hint_text">Εισάγετε μήνυμα</string>
+    <string name="show_emoticons_pref_title">Πρόσβαση emoticon</string>
+    <string name="show_emoticons_pref_summary">Εμφάνιση του πλήκτρου emoticon στο πληκτρολόγιο</string>
+    <string name="select_phone_account_title">Αποστολή με</string>
+    <string name="pref_title_manage_sim_messages">Διαχείριση μηνυμάτων κάρτας SIM</string>
+    <string name="pref_title_manage_sim_messages_slot1">Διαχείριση μηνυμάτων της SIM 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">Διαχείριση μηνυμάτων της SIM 2</string>
+    <string name="copy_to_sim">Αντιγραφή μηνύματος στην κάρτα SIM</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> από <xliff:g id="total">%2$d</xliff:g> μηνύματα αποθηκεύτηκαν στην κάρτα SIM.</string>
+    <string name="copy_to_sim_fail">Δεν ήταν δυνατή η αποθήκευση του μηνύματος</string>
+    <string name="copy_to_phone_success">Το μήνυμα αποθηκεύτηκε</string>
+    <string name="copy_to_phone_fail">Δεν ήταν δυνατή η αποθήκευση του μηνύματος</string>
+    <string name="sim_empty">Δεν υπάρχουν μηνύματα στην κάρτα SIM.</string>
+    <string name="menu_send_email">Αποστολή email στο <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Κλήση <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">Προσθήκη <xliff:g id="contactEmailOrNumber">%s</xliff:g> στις Επαφές</string>
+    <string name="sim_capacity_title">Χωρητικότητα SIM</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> από <xliff:g id="total">%2$d</xliff:g> καταχωρήσεις κάρτας SIM σε χρήση</string>
+    <string name="confirm_dialog_title">Διαγραφή;</string>
+    <string name="sim_manage_messages_title">Μηνύματα κειμένου στην κάρτα SIM</string>
+    <string name="refreshing">Ανανέωση\u2026</string>
+    <string name="confirm_delete_selected_messages">Το επιλεγμένο μήνυμα θα διαγραφεί.</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="menu_forward">Προώθηση</string>
+    <string name="menu_reply">Απάντηση</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Αντιγραφή στη μνήμη tablet</string>
+    <string name="sim_copy_to_phone_memory" product="default">Αντιγραφή στη μνήμη τηλεφώνου</string>
+    <string name="selected_all">Επιλογή όλων</string>
+    <string name="deselected_all">Αποεπιλογή όλων</string>
+    <string name="selected_count">Επιλέχθηκαν <xliff:g id="COUNT">%d</xliff:g></string>
+    <string name="yes">OK</string>
+    <string name="operation_to_card_memory">Αντιγραφή μήνυματος στην κάρτα SIM</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Επιλέξτε εικόνες ή βίντεο από αυτήν τη συσκευή</string>
+    <string name="mediapicker_audioListChooserDescription">Επιλέξτε αρχεία ήχου από αυτήν τη συσκευή</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Δεν είναι δυνατή η επισύναψη του βίντεο. Υπέρβαση μέγιστου μεγέθους μηνύματος.</string>
+    <string name="mediapicker_audio_list_title">Επιλογή ήχου</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Ο ήχος είναι επιλεγμένος.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Ο ήχος δεν είναι επιλεγμένος.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> επιλεγμένα</string>
 </resources>

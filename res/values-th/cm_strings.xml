@@ -16,88 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">รายงานว่าเป็นสแปมไป %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">ถอด unicode</string>
-  <string name="pref_unicode_stripping_leave_intact">ปล่อยตัวอักษรไว้เหมือนเดิม</string>
-  <string name="pref_unicode_stripping_non_encodable">ตัดตัวอักษรที่แปลงเป็นรหัสไม่ได้</string>
-  <string name="pref_unicode_stripping_all">ตัดตัวอักษร unicode ทั้งหมด</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">ระยะเวลาความถูกต้อง</string>
-  <string name="validity_period_slot1_pref_title">ระยะเวลาสำหรับซิม 1</string>
-  <string name="validity_period_slot2_pref_title">ระยะเวลาสำหรับซิม 2</string>
-  <string name="sms_validity_period_not_set">ไม่ได้กำหนด</string>
-  <string name="sms_validity_period_one_hour">1 ชั่วโมง</string>
-  <string name="sms_validity_period_six_hours">6 ชั่วโมง</string>
-  <string name="sms_validity_period_twelve_hours">12 ชั่วโมง</string>
-  <string name="sms_validity_period_one_day">1 วัน</string>
-  <string name="mms_validity_period_two_days">2 วัน</string>
-  <string name="mms_validity_period_one_week">1 สัปดาห์</string>
-  <string name="validity_period_maximum">สูงสุด</string>
-  <string name="pref_summary_mms_delivery_reports">ต้องการผลการส่งสำหรับทุกข้อความที่คุณส่ง</string>
-  <string name="pref_summary_mms_read_reports">ต้องการผลการอ่านข้อความ สำหรับทุกข้อความที่คุณส่ง</string>
-  <string name="delivery_reports_mms_pref_title">ผลการส่ง</string>
-  <string name="read_reports_mms_pref_title">ผลการอ่าน</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">ความสำคัญในการส่ง</string>
-  <string name="priority_low">ต่ำ</string>
-  <string name="priority_normal">ปกติ</string>
-  <string name="priority_high">สูง</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">พื้นที่จัดเก็บ</string>
-  <string name="pref_summary_auto_delete">ลบข้อความเก่าเนื่องจากถึงขีดจำกัด</string>
-  <string name="auto_delete_pref_title">ลบข้อความเก่า</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> ข้อความต่อการสนทนา</string>
-  <string name="sms_delete_pref_title">ขีดจำกัดข้อความสูงสุด</string>
-  <string name="mms_delete_pref_title">ขีดจำกัดข้อความมัลติมีเดีย</string>
-  <string name="set">ตั้งค่า</string>
-  <string name="no">ยกเลิก</string>
-  <string name="pref_messages_to_save">ตั้งค่าจำนวนข้อความเพื่อบันทึก</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">กวาดนิ้วเพื่อลบ</string>
-  <string name="swipe_to_delete_conversation_pref_summary">กวาดนิ้วไปทางขวาเพื่อลบการสนทนา</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">ข้อความแบบรวดเร็วและตอบกลับ</string>
-  <string name="pref_quickmessage_title">แสดงข้อความตอบกลับแบบรวดเร็ว</string>
-  <string name="pref_quickmessage_summary">เปิดป๊อปอัปข้อความตอบกลับแบบรวดเร็วเมื่อมี SMS เข้า</string>
-  <string name="pref_close_all_title">ปิดทั้งหมด</string>
-  <string name="pref_close_all_summary">ปุ่มปิดเพื่อปิดข้อความทั้งหมด</string>
-  <string name="message_counter">%1$d ของ %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">ปิด</string>
-  <string name="button_view">ดู</string>
-  <string name="button_templates">แม่แบบ</string>
-  <string name="qm_button_full_conversation">การสนทนาทั้งหมด</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">พิมพ์ตอบ</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">กำลังส่งข้อความ\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">ตอบด่วน</string>
-  <string name="send">ส่ง</string>
-  <string name="compose_message_hint_text">ป้อนข้อความ</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">การเข้าถึงอีโมติคอน</string>
-  <string name="show_emoticons_pref_summary">แสดงแป้นอีโมติคอนบนแป้นพิมพ์</string>
-  <string name="select_phone_account_title">ส่งด้วย</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <!-- Title of screen displaying messages on SIM card -->
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <!-- Delete button title -->
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <!-- Copy message to sim -->
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="report_as_spam_to">รายงานว่าเป็นสแปมไป %s</string>
+    <string name="unicode_stripping_pref_title">ถอด unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">ปล่อยตัวอักษรไว้เหมือนเดิม</string>
+    <string name="pref_unicode_stripping_non_encodable">ตัดตัวอักษรที่แปลงเป็นรหัสไม่ได้</string>
+    <string name="pref_unicode_stripping_all">ตัดตัวอักษร unicode ทั้งหมด</string>
+    <string name="validity_period_pref_title">ระยะเวลาความถูกต้อง</string>
+    <string name="validity_period_slot1_pref_title">ระยะเวลาสำหรับซิม 1</string>
+    <string name="validity_period_slot2_pref_title">ระยะเวลาสำหรับซิม 2</string>
+    <string name="sms_validity_period_not_set">ไม่ได้กำหนด</string>
+    <string name="sms_validity_period_one_hour">1 ชั่วโมง</string>
+    <string name="sms_validity_period_six_hours">6 ชั่วโมง</string>
+    <string name="sms_validity_period_twelve_hours">12 ชั่วโมง</string>
+    <string name="sms_validity_period_one_day">1 วัน</string>
+    <string name="mms_validity_period_two_days">2 วัน</string>
+    <string name="mms_validity_period_one_week">1 สัปดาห์</string>
+    <string name="validity_period_maximum">สูงสุด</string>
+    <string name="pref_summary_mms_delivery_reports">ต้องการผลการส่งสำหรับทุกข้อความที่คุณส่ง</string>
+    <string name="pref_summary_mms_read_reports">ต้องการผลการอ่านข้อความ สำหรับทุกข้อความที่คุณส่ง</string>
+    <string name="delivery_reports_mms_pref_title">ผลการส่ง</string>
+    <string name="read_reports_mms_pref_title">ผลการอ่าน</string>
+    <string name="status_label">สถานะ:\u0020</string>
+    <string name="status_read">อ่าน</string>
+    <string name="priority_pref_title">ความสำคัญในการส่ง</string>
+    <string name="priority_low">ต่ำ</string>
+    <string name="priority_normal">ปกติ</string>
+    <string name="priority_high">สูง</string>
+    <string name="sms_storage_pref_title">พื้นที่จัดเก็บ</string>
+    <string name="pref_summary_auto_delete">ลบข้อความเก่าเนื่องจากถึงขีดจำกัด</string>
+    <string name="auto_delete_pref_title">ลบข้อความเก่า</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> ข้อความต่อการสนทนา</string>
+    <string name="sms_delete_pref_title">ขีดจำกัดข้อความสูงสุด</string>
+    <string name="mms_delete_pref_title">ขีดจำกัดข้อความมัลติมีเดีย</string>
+    <string name="set">ตั้งค่า</string>
+    <string name="no">ยกเลิก</string>
+    <string name="pref_messages_to_save">ตั้งค่าจำนวนข้อความเพื่อบันทึก</string>
+    <string name="swipe_to_delete_conversation_pref_title">กวาดนิ้วเพื่อลบ</string>
+    <string name="swipe_to_delete_conversation_pref_summary">กวาดนิ้วไปทางขวาเพื่อลบการสนทนา</string>
+    <string name="pref_quickmessage">ข้อความแบบรวดเร็วและตอบกลับ</string>
+    <string name="pref_quickmessage_title">แสดงข้อความตอบกลับแบบรวดเร็ว</string>
+    <string name="pref_quickmessage_summary">เปิดป๊อปอัปข้อความตอบกลับแบบรวดเร็วเมื่อมี SMS เข้า</string>
+    <string name="pref_close_all_title">ปิดทั้งหมด</string>
+    <string name="pref_close_all_summary">ปุ่มปิดเพื่อปิดข้อความทั้งหมด</string>
+    <string name="message_counter">%1$d ของ %2$d</string>
+    <string name="button_close">ปิด</string>
+    <string name="button_view">ดู</string>
+    <string name="button_templates">แม่แบบ</string>
+    <string name="qm_button_full_conversation">การสนทนาทั้งหมด</string>
+    <string name="type_to_reply_text_enter_to_send">พิมพ์ตอบ</string>
+    <string name="toast_sending_message">กำลังส่งข้อความ\u2026</string>
+    <string name="qm_quick_reply">ตอบด่วน</string>
+    <string name="send">ส่ง</string>
+    <string name="compose_message_hint_text">ป้อนข้อความ</string>
+    <string name="show_emoticons_pref_title">การเข้าถึงอีโมติคอน</string>
+    <string name="show_emoticons_pref_summary">แสดงแป้นอีโมติคอนบนแป้นพิมพ์</string>
+    <string name="select_phone_account_title">ส่งด้วย</string>
+    <string name="pref_title_manage_sim_messages">จัดการ​ข้อ​ความ​ในซิมการ์ด</string>
+    <string name="pref_title_manage_sim_messages_slot1">จัดการ​ข้อ​ความ​ในซิม 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">จัดการ​ข้อ​ความ​ในซิม 2</string>
+    <string name="copy_to_sim">คัดลอกข้อความไปซิมการ์ด</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> จาก <xliff:g id="total">%2$d</xliff:g> ข้อความที่บันทึกไว้ในซิมการ์ด</string>
+    <string name="copy_to_sim_fail">ไม่สามารถบันทึกข้อความได้</string>
+    <string name="copy_to_phone_success">บันทึกข้อความแล้ว</string>
+    <string name="copy_to_phone_fail">ไม่สามารถบันทึกข้อความได้</string>
+    <string name="sim_empty">ไม่มีข้อความบนซิมการ์ด</string>
+    <string name="menu_send_email">ส่งอีเมลไปยัง <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">โทร <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">เพิ่ม <xliff:g id="contactEmailOrNumber">%s</xliff:g> กับบุคคล</string>
+    <string name="sim_capacity_title">ความจุของซิมการ์ด</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> จาก <xliff:g id="total">%2$d</xliff:g> รายการซิมการ์ดถูกใช้</string>
+    <string name="confirm_dialog_title">ลบ?</string>
+    <string name="sim_manage_messages_title">ข้อความตัวอักษรบนซิมการ์ด</string>
+    <string name="refreshing">กำลังรีเฟรช\u2026</string>
+    <string name="confirm_delete_selected_messages">ข้อความที่เลือกจะถูกลบ</string>
+    <string name="delete">ลบ</string>
+    <string name="menu_forward">ส่งต่อ</string>
+    <string name="menu_reply">ตอบกลับ</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">คัดลอกไปยังหน่วยความจำของแท็บเล็ต</string>
+    <string name="sim_copy_to_phone_memory" product="default">คัดลอกไปยังหน่วยความจำของโทรศัพท์</string>
+    <string name="selected_all">เลือกทั้งหมด</string>
+    <string name="deselected_all">ยกเลิกการเลือกทั้งหมด</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> ถูกเลือก</string>
+    <string name="yes">ตกลง</string>
+    <string name="operation_to_card_memory">คัดลอกข้อความไปซิมการ์ด</string>
+    <string name="slot1">ซิม 1</string>
+    <string name="slot2">ซิม 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">เลือกรูปภาพหรือวิดีโอจากอุปกรณ์นี้</string>
+    <string name="mediapicker_audioListChooserDescription">เลือกไฟล์เสียงจากอุปกรณ์นี้</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">ไม่สามารถแนบวิดีโอได้ เกินขนาดข้อความสูงสุดแล้ว</string>
+    <string name="mediapicker_audio_list_title">เลือกเสียง</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">เลือกเสียงแล้ว</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">ไม่มีการเลือกเสียง</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> ถูกเลือก</string>
 </resources>

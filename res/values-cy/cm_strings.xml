@@ -16,35 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <!-- Strip unicode -->
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <!-- Item Descriptions for MMS sending Priority -->
-  <!-- Storage specific Settings -->
-  <!-- Swipe to delete conversation -->
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <!-- QM Dialog box buttons -->
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <!-- QM Toast -->
-  <!-- QM - Quick reply -->
-  <!-- Show emoticons -->
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <!-- Title of screen displaying messages on SIM card -->
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <!-- Delete button title -->
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <!-- Copy message to sim -->
-  <!-- Audio Library Tab for MMS attachments -->
+    <string name="report_as_spam_to">Adrodd fel sbam i %s</string>
+    <string name="unicode_stripping_pref_title">Stripio unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">Cadw nodau yn gyflawn</string>
+    <string name="pref_unicode_stripping_non_encodable">Stripio nodau na fedrir eu hamgodio</string>
+    <string name="pref_unicode_stripping_all">Stripio holl nodau unicode</string>
+    <string name="validity_period_pref_title">Cyfnod dilysrwydd</string>
+    <string name="validity_period_slot1_pref_title">Cyfnod dilysrwydd ar gyfer SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Cyfnod dilysrwydd ar gyfer SIM 2</string>
+    <string name="sms_validity_period_not_set">Heb ei osod</string>
+    <string name="sms_validity_period_one_hour">1 awr</string>
+    <string name="sms_validity_period_six_hours">6 awr</string>
+    <string name="sms_validity_period_twelve_hours">12 awr</string>
+    <string name="sms_validity_period_one_day">1 diwrnod</string>
+    <string name="mms_validity_period_two_days">2 ddiwrnod</string>
+    <string name="mms_validity_period_one_week">1 wythnos</string>
+    <string name="validity_period_maximum">Hiraf</string>
+    <string name="pref_summary_mms_delivery_reports">Gofyn am adroddiad ar gyfer pob neges wyt ti\'n ei anfon i gadarnhau ei bod wedi cyrraedd</string>
+    <string name="pref_summary_mms_read_reports">Gofyn am adroddiad ar gyfer pob neges wyt ti\'n ei anfon i gadarnhau ei bod wedi\'i darllen</string>
+    <string name="delivery_reports_mms_pref_title">Adroddiadau cyrraedd</string>
+    <string name="read_reports_mms_pref_title">Darllen adroddiadau</string>
+    <string name="status_label">Statws:\u0020</string>
+    <string name="status_read">Darllen</string>
+    <string name="priority_pref_title">Blaenoriaeth anfon</string>
+    <string name="priority_low">Isel</string>
+    <string name="priority_normal">Arferol</string>
+    <string name="priority_high">Uchel</string>
+    <string name="sms_storage_pref_title">Storfa</string>
+    <string name="pref_summary_auto_delete">Dileu hen negeseuon wrth gyrraedd terfynau</string>
+    <string name="auto_delete_pref_title">Dileu hen negeseuon</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> neges y sgwrs</string>
+    <string name="sms_delete_pref_title">Cyfyngiad negeseuon testun</string>
+    <string name="mms_delete_pref_title">Cyfyngiad negeseuon amlgyfrwng</string>
+    <string name="set">Gosod</string>
+    <string name="no">Diddymu</string>
+    <string name="pref_messages_to_save">Gosoda\'r nifer o negeseuon i\'w cadw</string>
+    <string name="swipe_to_delete_conversation_pref_title">Llusgo i ddileu</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Llusgo sgwrs i\'r dde yn ei dileu</string>
+    <string name="pref_quickmessage">NegesCyflym ac Ateb</string>
+    <string name="pref_quickmessage_title">Dangos NegesCyflym</string>
+    <string name="pref_quickmessage_summary">Dangos y dewis NegesCyflym yn awtomatig wrth dderbyn pob neges SMS</string>
+    <string name="pref_close_all_title">Cau\'r cwbl</string>
+    <string name="pref_close_all_summary">Botwm cau yn cau pob neges</string>
+    <string name="message_counter">%1$d o %2$d</string>
+    <string name="button_close">Cau</string>
+    <string name="button_view">Gweld</string>
+    <string name="button_templates">Templedi</string>
+    <string name="qm_button_full_conversation">Sgwrs llawn</string>
+    <string name="type_to_reply_text_enter_to_send">Teipia i ateb</string>
+    <string name="toast_sending_message">Yn anfon neges\u2026</string>
+    <string name="qm_quick_reply">Ateb cyflym</string>
+    <string name="send">Anfon</string>
+    <string name="compose_message_hint_text">Rho neges</string>
+    <string name="show_emoticons_pref_title">Mynediad at wenogluniau</string>
+    <string name="show_emoticons_pref_summary">Dangos y fysell gwenogluniau ar y bysellfwrdd</string>
+    <string name="select_phone_account_title">Anfon gyda</string>
+    <string name="pref_title_manage_sim_messages">Rheoli negeseuon y cerdyn SIM</string>
+    <string name="pref_title_manage_sim_messages_slot1">Rheoli negeseuon SIM 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">Rheoli negeseuon SIM 2</string>
+    <string name="copy_to_sim">Copïo’r neges i gerdyn SIM</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> o <xliff:g id="total">%2$d</xliff:g> neges wedi\'u cadw i\'r cerdyn SIM.</string>
+    <string name="copy_to_sim_fail">Methu â chadw\'r neges</string>
+    <string name="copy_to_phone_success">Cadwyd y neges</string>
+    <string name="copy_to_phone_fail">Methu â chadw\'r neges</string>
+    <string name="sim_empty">Does dim negeseuon ar y cerdyn SIM.</string>
+    <string name="menu_send_email">Anfon e-bost at <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Galw <xliff:g id="name">%s </xliff:g></string>
+    <string name="menu_add_address_to_contacts">Ychwanegu <xliff:g id="contactEmailOrNumber">%s</xliff:g> at Bobol</string>
+    <string name="sim_capacity_title">Capasiti\'r SIM</string>
+    <string name="sim_capacity">Mae <xliff:g id="used">%1$d</xliff:g> o <xliff:g id="total">%2$d</xliff:g> cofnod SIM wedi eu defnyddio</string>
+    <string name="confirm_dialog_title">Dileu?</string>
+    <string name="sim_manage_messages_title">Negeseuon destun ar gerdyn SIM</string>
+    <string name="refreshing">Yn ail-lwytho\u2026</string>
+    <string name="confirm_delete_selected_messages">Caiff y neges a ddewiswyd ei dileu.</string>
+    <string name="delete">Dileu</string>
+    <string name="menu_forward">Ymlaen</string>
+    <string name="menu_reply">Ateb</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Copïo i gof y llechen</string>
+    <string name="sim_copy_to_phone_memory" product="default">Copïo i gof y ffôn</string>
+    <string name="selected_all">Dewis y cwbl</string>
+    <string name="deselected_all">Dewis dim</string>
+    <string name="selected_count">Dewiswyd <xliff:g id="COUNT">%d</xliff:g></string>
+    <string name="yes">Iawn</string>
+    <string name="operation_to_card_memory">Copïo’r neges i gerdyn SIM</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Dewis delweddau neu fideos o\'r ddyfais hon</string>
+    <string name="mediapicker_audioListChooserDescription">Dewis ffeiliau sain o\'r ddyfais hon</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Methu ag atodi\'r fideo oherwydd cyfyngiad maint negeseuon.</string>
+    <string name="mediapicker_audio_list_title">Dewis sain</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Mae\'r sain wedi\'i dewis.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Dyw\'r sain heb ei dewis.</string>
+    <string name="mediapicker_audio_list_title_selection">Dewiswyd <xliff:g id="count">%d</xliff:g></string>
 </resources>

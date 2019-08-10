@@ -16,127 +16,96 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Prijavi kao neželjenu poštu %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Nacrtaj unikod</string>
-  <string name="pref_unicode_stripping_leave_intact">Ostavi znakove netaknute</string>
-  <string name="pref_unicode_stripping_non_encodable">Montiraj ne-kodirane znakove</string>
-  <string name="pref_unicode_stripping_all">Montiraj sve unikod znakove</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Rok valjanosti</string>
-  <string name="validity_period_slot1_pref_title">Rok valjanosti za SIM 1</string>
-  <string name="validity_period_slot2_pref_title">Rok valjanosti za SIM 2</string>
-  <string name="sms_validity_period_not_set">Nije postavljeno</string>
-  <string name="sms_validity_period_one_hour">1 sat</string>
-  <string name="sms_validity_period_six_hours">6 sati</string>
-  <string name="sms_validity_period_twelve_hours">12 sati</string>
-  <string name="sms_validity_period_one_day">1 dan</string>
-  <string name="mms_validity_period_two_days">2 dana</string>
-  <string name="mms_validity_period_one_week">1 tjedan</string>
-  <string name="validity_period_maximum">Maksimalno</string>
-  <string name="pref_summary_mms_delivery_reports">Zahtjevaj potvrdu isporuke za svaku poslanu poruku</string>
-  <string name="pref_summary_mms_read_reports">Zatraži potvrdu čitanja za svaku poslanu poruku</string>
-  <string name="delivery_reports_mms_pref_title">Izvješća o isporuci</string>
-  <string name="read_reports_mms_pref_title">Čitaj izvještaje</string>
-  <string name="status_label">Stanje:\u0020</string>
-  <string name="status_read">Čitanje</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_pref_title">Prioritet slanja</string>
-  <string name="priority_low">Nizak</string>
-  <string name="priority_normal">Normalan</string>
-  <string name="priority_high">Visok</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Pohrana</string>
-  <string name="pref_summary_auto_delete">Izbrišite stare poruke kada se dosegne ograničenje</string>
-  <string name="auto_delete_pref_title">Izbriši stare poruke</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> poruka po razgovoru</string>
-  <string name="sms_delete_pref_title">Ograničenje SMS poruka</string>
-  <string name="mms_delete_pref_title">Ograničenje za multimedijske poruke</string>
-  <string name="set">Postavi</string>
-  <string name="no">Poništi</string>
-  <string name="pref_messages_to_save">Postavi broj poruka za spremanje</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Prijeđite prstom da biste izbrisali</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Prstom prijeđite udesno da biste izbrisali razgovor</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">BrzaPoruka i Odgovor</string>
-  <string name="pref_quickmessage_title">Pokaži BrzuPoruku</string>
-  <string name="pref_quickmessage_summary">Automatski otvori skočni prozor Brze poruke za dolazeće SMS poruke</string>
-  <string name="pref_close_all_title">Zatvori sve</string>
-  <string name="pref_close_all_summary">Zatvori tipka zatvara sve poruke</string>
-  <string name="message_counter">%1$d od %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Zatvori</string>
-  <string name="button_view">Pogledaj</string>
-  <string name="button_templates">Predlošci</string>
-  <string name="qm_button_full_conversation">Cijeli razgovor</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Napišite odgovor</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Slanje poruke\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Brze Poruke</string>
-  <string name="send">Pošalji</string>
-  <string name="compose_message_hint_text">Unesite poruku</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Pristup emotikonima</string>
-  <string name="show_emoticons_pref_summary">Pokaži tipku emotikona na tipkovnici</string>
-  <string name="select_phone_account_title">Pošalji s</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages">Upravljanje porukama SIM kartice</string>
-  <string name="pref_title_manage_sim_messages_slot1">Upravljanje porukama SIM 1</string>
-  <string name="pref_title_manage_sim_messages_slot2">Upravljanje porukama SIM 2</string>
-  <string name="copy_to_sim">Kopiraj poruku na SIM karticu</string>
-  <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> od <xliff:g id="total">%2$d</xliff:g> poruka spremljeno na SIM karticu.</string>
-  <string name="copy_to_sim_fail">Nije moguće spremiti poruku</string>
-  <string name="copy_to_phone_success">Poruka spremljena</string>
-  <string name="copy_to_phone_fail">Nije moguće spremiti poruku</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">Nema poruka na SIM kartici.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Pošalji e-poštu na <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">Nazovi <xliff:g id="name">%s</xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">Dodaj <xliff:g id="contactEmailOrNumber">%s </xliff:g> u Osobe</string>
-  <string name="sim_capacity_title">SIM kapacitet</string>
-  <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> od <xliff:g id="total">%2$d</xliff:g> unosa SIM kartice iskorišteno</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Izbrisati?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">Tekstualne poruke na SIM kartici</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Osvježavanje\u2026</string>
-  <string name="confirm_delete_selected_messages">Odabrane poruke će biti izbrisane.</string>
-  <!-- Delete button title -->
-  <string name="delete">Izbriši</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Proslijedi</string>
-  <string name="menu_reply">Odgovori</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="tablet">Kopiraj u memoriju tableta</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Kopiraj u memoriju telefona</string>
-  <string name="selected_all">Odaberi sve</string>
-  <string name="deselected_all">Poništi odabir</string>
-  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> odabrano</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">U redu</string>
-  <!-- Copy message to sim -->
-  <string name="operation_to_card_memory">Kopiraj poruku na SIM karticu</string>
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_galleryChooserDescription_cm">Odaberite slike ili videozapise s ovog uređaja</string>
-  <string name="mediapicker_audioListChooserDescription">Odaberite audio datoteke s ovog uređaja</string>
-  <string name="mediapicker_gallery_image_item_attachment_too_large">Ne mogu priložiti videozapis. Premašena maks. veličina poruke.</string>
-  <string name="mediapicker_audio_list_title">Odaberite audio</string>
-  <string name="mediapicker_audio_list_item_selected_content_description">Audio je odabran.</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Audio nije odabran.</string>
-  <string name="mediapicker_audio_list_title_selection">Odabrano <xliff:g id="count">%d</xliff:g></string>
+    <string name="report_as_spam_to">Prijavi kao neželjenu poštu %s</string>
+    <string name="unicode_stripping_pref_title">Nacrtaj unikod</string>
+    <string name="pref_unicode_stripping_leave_intact">Ostavi znakove netaknute</string>
+    <string name="pref_unicode_stripping_non_encodable">Montiraj ne-kodirane znakove</string>
+    <string name="pref_unicode_stripping_all">Montiraj sve unikod znakove</string>
+    <string name="validity_period_pref_title">Rok valjanosti</string>
+    <string name="validity_period_slot1_pref_title">Rok valjanosti za SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Rok valjanosti za SIM 2</string>
+    <string name="sms_validity_period_not_set">Nije postavljeno</string>
+    <string name="sms_validity_period_one_hour">1 sat</string>
+    <string name="sms_validity_period_six_hours">6 sati</string>
+    <string name="sms_validity_period_twelve_hours">12 sati</string>
+    <string name="sms_validity_period_one_day">1 dan</string>
+    <string name="mms_validity_period_two_days">2 dana</string>
+    <string name="mms_validity_period_one_week">1 tjedan</string>
+    <string name="validity_period_maximum">Maksimalno</string>
+    <string name="pref_summary_mms_delivery_reports">Zahtjevaj potvrdu isporuke za svaku poslanu poruku</string>
+    <string name="pref_summary_mms_read_reports">Zatraži potvrdu čitanja za svaku poslanu poruku</string>
+    <string name="delivery_reports_mms_pref_title">Izvješća o isporuci</string>
+    <string name="read_reports_mms_pref_title">Čitaj izvještaje</string>
+    <string name="status_label">Stanje:\u0020</string>
+    <string name="status_read">Čitanje</string>
+    <string name="priority_pref_title">Prioritet slanja</string>
+    <string name="priority_low">Nizak</string>
+    <string name="priority_normal">Normalan</string>
+    <string name="priority_high">Visok</string>
+    <string name="sms_storage_pref_title">Pohrana</string>
+    <string name="pref_summary_auto_delete">Izbrišite stare poruke kada se dosegne ograničenje</string>
+    <string name="auto_delete_pref_title">Izbriši stare poruke</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> poruka po razgovoru</string>
+    <string name="sms_delete_pref_title">Ograničenje SMS poruka</string>
+    <string name="mms_delete_pref_title">Ograničenje za multimedijske poruke</string>
+    <string name="set">Postavi</string>
+    <string name="no">Poništi</string>
+    <string name="pref_messages_to_save">Postavi broj poruka za spremanje</string>
+    <string name="swipe_to_delete_conversation_pref_title">Prijeđite prstom da biste izbrisali</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Prstom prijeđite udesno da biste izbrisali razgovor</string>
+    <string name="pref_quickmessage">BrzaPoruka i Odgovor</string>
+    <string name="pref_quickmessage_title">Pokaži BrzuPoruku</string>
+    <string name="pref_quickmessage_summary">Automatski otvori skočni prozor Brze poruke za dolazeće SMS poruke</string>
+    <string name="pref_close_all_title">Zatvori sve</string>
+    <string name="pref_close_all_summary">Zatvori tipka zatvara sve poruke</string>
+    <string name="message_counter">%1$d od %2$d</string>
+    <string name="button_close">Zatvori</string>
+    <string name="button_view">Pogledaj</string>
+    <string name="button_templates">Predlošci</string>
+    <string name="qm_button_full_conversation">Cijeli razgovor</string>
+    <string name="type_to_reply_text_enter_to_send">Napišite odgovor</string>
+    <string name="toast_sending_message">Slanje poruke\u2026</string>
+    <string name="qm_quick_reply">Brze Poruke</string>
+    <string name="send">Pošalji</string>
+    <string name="compose_message_hint_text">Unesite poruku</string>
+    <string name="show_emoticons_pref_title">Pristup emotikonima</string>
+    <string name="show_emoticons_pref_summary">Pokaži tipku emotikona na tipkovnici</string>
+    <string name="select_phone_account_title">Pošalji s</string>
+    <string name="pref_title_manage_sim_messages">Upravljanje porukama SIM kartice</string>
+    <string name="pref_title_manage_sim_messages_slot1">Upravljanje porukama SIM 1</string>
+    <string name="pref_title_manage_sim_messages_slot2">Upravljanje porukama SIM 2</string>
+    <string name="copy_to_sim">Kopiraj poruku na SIM karticu</string>
+    <string name="copy_to_sim_success"><xliff:g id="count">%1$d</xliff:g> od <xliff:g id="total">%2$d</xliff:g> poruka spremljeno na SIM karticu.</string>
+    <string name="copy_to_sim_fail">Nije moguće spremiti poruku</string>
+    <string name="copy_to_phone_success">Poruka spremljena</string>
+    <string name="copy_to_phone_fail">Nije moguće spremiti poruku</string>
+    <string name="sim_empty">Nema poruka na SIM kartici.</string>
+    <string name="menu_send_email">Pošalji e-poštu na <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Nazovi <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_add_address_to_contacts">Dodaj <xliff:g id="contactEmailOrNumber">%s </xliff:g> u Osobe</string>
+    <string name="sim_capacity_title">SIM kapacitet</string>
+    <string name="sim_capacity"><xliff:g id="used">%1$d</xliff:g> od <xliff:g id="total">%2$d</xliff:g> unosa SIM kartice iskorišteno</string>
+    <string name="confirm_dialog_title">Izbrisati?</string>
+    <string name="sim_manage_messages_title">Tekstualne poruke na SIM kartici</string>
+    <string name="refreshing">Osvježavanje\u2026</string>
+    <string name="confirm_delete_selected_messages">Odabrane poruke će biti izbrisane.</string>
+    <string name="delete">Izbriši</string>
+    <string name="menu_forward">Proslijedi</string>
+    <string name="menu_reply">Odgovori</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Kopiraj u memoriju tableta</string>
+    <string name="sim_copy_to_phone_memory" product="default">Kopiraj u memoriju telefona</string>
+    <string name="selected_all">Odaberi sve</string>
+    <string name="deselected_all">Poništi odabir</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> odabrano</string>
+    <string name="yes">U redu</string>
+    <string name="operation_to_card_memory">Kopiraj poruku na SIM karticu</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_galleryChooserDescription_cm">Odaberite slike ili videozapise s ovog uređaja</string>
+    <string name="mediapicker_audioListChooserDescription">Odaberite audio datoteke s ovog uređaja</string>
+    <string name="mediapicker_gallery_image_item_attachment_too_large">Ne mogu priložiti videozapis. Premašena maks. veličina poruke.</string>
+    <string name="mediapicker_audio_list_title">Odaberite audio</string>
+    <string name="mediapicker_audio_list_item_selected_content_description">Audio je odabran.</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Audio nije odabran.</string>
+    <string name="mediapicker_audio_list_title_selection">Odabrano <xliff:g id="count">%d</xliff:g></string>
 </resources>

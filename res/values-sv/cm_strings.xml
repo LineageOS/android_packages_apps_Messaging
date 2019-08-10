@@ -16,111 +16,87 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="report_as_spam_to">Rapportera som spam till %s</string>
-  <!-- Strip unicode -->
-  <string name="unicode_stripping_pref_title">Konvertera unicode</string>
-  <string name="pref_unicode_stripping_leave_intact">Lämna tecken intakta</string>
-  <string name="pref_unicode_stripping_non_encodable">Konvertera ej kodbara tecken</string>
-  <string name="pref_unicode_stripping_all">Konvertera alla unicodetecken</string>
-  <!-- Settings item description for SMS and MMS Validity period -->
-  <string name="validity_period_pref_title">Giltighetsperiod</string>
-  <string name="validity_period_slot1_pref_title">Giltighetsperiod för SIM 1</string>
-  <string name="validity_period_slot2_pref_title">Giltighetsperiod för SIM 2</string>
-  <string name="sms_validity_period_not_set">Inte inställt</string>
-  <string name="sms_validity_period_one_hour">1 timme</string>
-  <string name="sms_validity_period_six_hours">6 timmar</string>
-  <string name="sms_validity_period_twelve_hours">12 timmar</string>
-  <string name="sms_validity_period_one_day">1 dag</string>
-  <string name="mms_validity_period_two_days">2 dagar</string>
-  <string name="mms_validity_period_one_week">1 vecka</string>
-  <string name="validity_period_maximum">Maximalt</string>
-  <string name="pref_summary_mms_read_reports">Begär en läsrapport för varje meddelande du skickar</string>
-  <string name="delivery_reports_mms_pref_title">Leveransrapporter</string>
-  <string name="read_reports_mms_pref_title">Läsa rapporter</string>
-  <string name="status_label">Status:\u0020</string>
-  <string name="status_read">Läst</string>
-  <!-- Item Descriptions for MMS sending Priority -->
-  <string name="priority_low">Låg</string>
-  <string name="priority_normal">Normal</string>
-  <string name="priority_high">Hög</string>
-  <!-- Storage specific Settings -->
-  <string name="sms_storage_pref_title">Lagring</string>
-  <string name="auto_delete_pref_title">Ta bort gamla meddelanden</string>
-  <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> meddelanden per konversation</string>
-  <string name="mms_delete_pref_title">Gräns för multimediameddelande</string>
-  <string name="set">Ställ in</string>
-  <string name="no">Avbryt</string>
-  <!-- Swipe to delete conversation -->
-  <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
-  <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
-  <!-- QUICKMESSAGE SUPPORT -->
-  <!-- Preferences -->
-  <string name="pref_quickmessage">Snabbmeddelande och svar</string>
-  <string name="pref_quickmessage_title">Visa snabbmeddelande</string>
-  <string name="pref_quickmessage_summary">Öppna snabbmeddelande i ett pop-up-fönster automatiskt för inkommande SMS-meddelanden</string>
-  <string name="pref_close_all_title">Stäng alla</string>
-  <string name="pref_close_all_summary">Stängknappen stänger alla meddelanden</string>
-  <string name="message_counter">%1$d av %2$d</string>
-  <!-- QM Dialog box buttons -->
-  <string name="button_close">Stäng</string>
-  <string name="button_view">Visa</string>
-  <string name="button_templates">Mallar</string>
-  <string name="qm_button_full_conversation">Hel konversation</string>
-  <!-- Hint text in message body field when keyboard is exposed -->
-  <string name="type_to_reply_text_enter_to_send">Skriv för att svara</string>
-  <!-- QM Toast -->
-  <string name="toast_sending_message">Skickar meddelande\u2026</string>
-  <!-- QM - Quick reply -->
-  <string name="qm_quick_reply">Snabbsvar</string>
-  <string name="send">Skicka</string>
-  <string name="compose_message_hint_text">Skriv meddelande</string>
-  <!-- Show emoticons -->
-  <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
-  <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
-  <string name="select_phone_account_title">Skicka med</string>
-  <!-- Copy message to sim -->
-  <!-- Settings item for entering SIM card message screen -->
-  <string name="pref_title_manage_sim_messages_slot1">Hantera SIM 1-meddelanden</string>
-  <string name="pref_title_manage_sim_messages_slot2">Hantera SIM 2-meddelanden</string>
-  <string name="copy_to_sim">Kopiera meddelande till SIM-kort</string>
-  <string name="copy_to_phone_success">Meddelandet sparades</string>
-  <string name="copy_to_phone_fail">Det gick inte att spara meddelandet</string>
-  <!-- Message that appears on the "SMS messges on SIM card" screen when there are no messages on the SIM card -->
-  <string name="sim_empty">Inga meddelanden på SIM-kortet.</string>
-  <!-- Context menu item on an individual message for emailing the sender -->
-  <string name="menu_send_email">Skicka mail till <xliff:g id="name">%s</xliff:g></string>
-  <!-- Context menu item on an individual message for dialing the sender's phone number -->
-  <string name="menu_call_back">Ring <xliff:g id="name">%s </xliff:g></string>
-  <!-- Menu shown in the context menu when long pressing on a message when the message contains
-         one or more phone numbers and/or email addresses and the number or email is new to
-         contacts. [CHAR LIMIT=50] -->
-  <string name="menu_add_address_to_contacts">Lägg till <xliff:g id="contactEmailOrNumber">%s</xliff:g> till kontakter</string>
-  <string name="sim_capacity_title">SIM-kapacitet</string>
-  <!-- Confirm Delete -->
-  <!-- Delete confirmation dialog title -->
-  <string name="confirm_dialog_title">Ta bort?</string>
-  <!-- Title of screen displaying messages on SIM card -->
-  <string name="sim_manage_messages_title">SMS på SIM-kortet</string>
-  <!-- Message that appears on screen while SIM card messages are retrieved -->
-  <string name="refreshing">Uppdaterar\u2026</string>
-  <!-- Delete button title -->
-  <string name="delete">Ta bort</string>
-  <!-- Context menu item on an individual message for forwarding it to another recipient -->
-  <string name="menu_forward">Framåt</string>
-  <string name="menu_reply">Svara</string>
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <!-- Menu title to copy a selected message from the SIM card to the phone. -->
-  <string name="sim_copy_to_phone_memory" product="default">Kopiera till telefonens minne</string>
-  <string name="selected_all">Markera alla</string>
-  <string name="deselected_all">Avmarkera alla</string>
-  <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> markerade</string>
-  <!-- Text to be used for affirmative response button in dialog boxes -->
-  <string name="yes">OK</string>
-  <!-- Copy message to sim -->
-  <string name="slot1">SIM 1</string>
-  <string name="slot2">SIM 2</string>
-  <!-- Audio Library Tab for MMS attachments -->
-  <string name="mediapicker_audio_list_title">Välj ljud</string>
-  <string name="mediapicker_audio_list_item_unselected_content_description">Ljudet är inte valt.</string>
-  <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
+    <string name="report_as_spam_to">Rapportera som spam till %s</string>
+    <string name="unicode_stripping_pref_title">Konvertera unicode</string>
+    <string name="pref_unicode_stripping_leave_intact">Lämna tecken intakta</string>
+    <string name="pref_unicode_stripping_non_encodable">Konvertera ej kodbara tecken</string>
+    <string name="pref_unicode_stripping_all">Konvertera alla unicodetecken</string>
+    <string name="validity_period_pref_title">Giltighetsperiod</string>
+    <string name="validity_period_slot1_pref_title">Giltighetsperiod för SIM 1</string>
+    <string name="validity_period_slot2_pref_title">Giltighetsperiod för SIM 2</string>
+    <string name="sms_validity_period_not_set">Inte inställt</string>
+    <string name="sms_validity_period_one_hour">1 timme</string>
+    <string name="sms_validity_period_six_hours">6 timmar</string>
+    <string name="sms_validity_period_twelve_hours">12 timmar</string>
+    <string name="sms_validity_period_one_day">1 dag</string>
+    <string name="mms_validity_period_two_days">2 dagar</string>
+    <string name="mms_validity_period_one_week">1 vecka</string>
+    <string name="validity_period_maximum">Maximalt</string>
+    <string name="pref_summary_mms_read_reports">Begär en läsrapport för varje meddelande du skickar</string>
+    <string name="delivery_reports_mms_pref_title">Leveransrapporter</string>
+    <string name="read_reports_mms_pref_title">Läsa rapporter</string>
+    <string name="status_label">Status:\u0020</string>
+    <string name="status_read">Läst</string>
+    <string name="priority_pref_title">Skickar prioritet</string>
+    <string name="priority_low">Låg</string>
+    <string name="priority_normal">Normal</string>
+    <string name="priority_high">Hög</string>
+    <string name="sms_storage_pref_title">Lagring</string>
+    <string name="auto_delete_pref_title">Ta bort gamla meddelanden</string>
+    <string name="pref_summary_delete_limit"><xliff:g id="count">%1$s</xliff:g> meddelanden per konversation</string>
+    <string name="sms_delete_pref_title">Textmeddelandegräns</string>
+    <string name="mms_delete_pref_title">Gräns för multimediameddelande</string>
+    <string name="set">Ställ in</string>
+    <string name="no">Avbryt</string>
+    <string name="swipe_to_delete_conversation_pref_title">Svep för att radera</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
+    <string name="pref_quickmessage">Snabbmeddelande och svar</string>
+    <string name="pref_quickmessage_title">Visa snabbmeddelande</string>
+    <string name="pref_quickmessage_summary">Öppna snabbmeddelande i ett pop-up-fönster automatiskt för inkommande SMS-meddelanden</string>
+    <string name="pref_close_all_title">Stäng alla</string>
+    <string name="pref_close_all_summary">Stängknappen stänger alla meddelanden</string>
+    <string name="message_counter">%1$d av %2$d</string>
+    <string name="button_close">Stäng</string>
+    <string name="button_view">Visa</string>
+    <string name="button_templates">Mallar</string>
+    <string name="qm_button_full_conversation">Hel konversation</string>
+    <string name="type_to_reply_text_enter_to_send">Skriv för att svara</string>
+    <string name="toast_sending_message">Skickar meddelande\u2026</string>
+    <string name="qm_quick_reply">Snabbsvar</string>
+    <string name="send">Skicka</string>
+    <string name="compose_message_hint_text">Skriv meddelande</string>
+    <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
+    <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
+    <string name="select_phone_account_title">Skicka med</string>
+    <string name="pref_title_manage_sim_messages_slot1">Hantera SIM 1-meddelanden</string>
+    <string name="pref_title_manage_sim_messages_slot2">Hantera SIM 2-meddelanden</string>
+    <string name="copy_to_sim">Kopiera meddelande till SIM-kort</string>
+    <string name="copy_to_sim_fail">Det gick inte att spara meddelandet</string>
+    <string name="copy_to_phone_success">Meddelandet sparades</string>
+    <string name="copy_to_phone_fail">Det gick inte att spara meddelandet</string>
+    <string name="sim_empty">Inga meddelanden på SIM-kortet.</string>
+    <string name="menu_send_email">Skicka mail till <xliff:g id="name">%s</xliff:g></string>
+    <string name="menu_call_back">Ring <xliff:g id="name">%s </xliff:g></string>
+    <string name="menu_add_address_to_contacts">Lägg till <xliff:g id="contactEmailOrNumber">%s</xliff:g> till kontakter</string>
+    <string name="sim_capacity_title">SIM-kapacitet</string>
+    <string name="confirm_dialog_title">Ta bort?</string>
+    <string name="sim_manage_messages_title">SMS på SIM-kortet</string>
+    <string name="refreshing">Uppdaterar\u2026</string>
+    <string name="confirm_delete_selected_messages">Markerade meddelandet kommer att raderas.</string>
+    <string name="delete">Ta bort</string>
+    <string name="menu_forward">Framåt</string>
+    <string name="menu_reply">Svara</string>
+    <string name="sim_copy_to_phone_memory" product="tablet">Kopiera till surfplattans minne</string>
+    <string name="sim_copy_to_phone_memory" product="default">Kopiera till telefonens minne</string>
+    <string name="selected_all">Markera alla</string>
+    <string name="deselected_all">Avmarkera alla</string>
+    <string name="selected_count"><xliff:g id="COUNT">%d</xliff:g> markerade</string>
+    <string name="yes">OK</string>
+    <string name="operation_to_card_memory">Kopiera meddelande till SIM-kort</string>
+    <string name="slot1">SIM 1</string>
+    <string name="slot2">SIM 2</string>
+    <string name="mediapicker_audioListChooserDescription">Välj ljudfiler från denna enhet</string>
+    <string name="mediapicker_audio_list_title">Välj ljud</string>
+    <string name="mediapicker_audio_list_item_unselected_content_description">Ljudet är inte valt.</string>
+    <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vald</string>
 </resources>
