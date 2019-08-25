@@ -28,4 +28,5 @@
     <string name="mediapicker_audio_list_item_unselected_content_description">Dotykem vybrat</string>
     <string name="mediapicker_audio_list_title_selection"><xliff:g id="count">%d</xliff:g> vybrán</string>
     <string name="notification_mark_as_read">Označit jako přečtené</string>
+    <string name="notification_channel_messages_title">Zprávy</string>
 </resources>
