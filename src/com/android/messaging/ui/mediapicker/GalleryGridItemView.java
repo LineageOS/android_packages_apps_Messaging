@@ -18,7 +18,7 @@ package com.android.messaging.ui.mediapicker;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
-import android.support.v7.mms.CarrierConfigValuesLoader;
+import androidx.appcompat.mms.CarrierConfigValuesLoader;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;

@@ -19,7 +19,7 @@ package com.android.messaging.ui.mediapicker;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;

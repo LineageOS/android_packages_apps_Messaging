@@ -23,7 +23,7 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import android.provider.Telephony;
 import androidx.appcompat.app.ActionBar;
-import android.support.v7.mms.CarrierConfigValuesLoader;
+import androidx.appcompat.mms.CarrierConfigValuesLoader;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
