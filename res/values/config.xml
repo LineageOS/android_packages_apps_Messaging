@@ -18,4 +18,7 @@
 <resources>
     <!-- The packaged version of APNs and MMS configurations -->
     <integer name="apnsAndMmsConfigsVersion">0</integer>
+
+    <!-- Use individual colors for contacts -->
+    <bool name="contact_colors">true</bool>
 </resources>
