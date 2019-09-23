@@ -102,6 +102,23 @@
     <color name="gallery_image_pressed">#6733b5e5</color>
     <color name="attachment_preview_more_items_text_background">#44000000</color>
 
+    <array name="letter_tile_colors">
+        <item>#DB4437</item>
+        <item>#E91E63</item>
+        <item>#9C27B0</item>
+        <item>#673AB7</item>
+        <item>#3F51B5</item>
+        <item>#4285F4</item>
+        <item>#039BE5</item>
+        <item>#0097A7</item>
+        <item>#009688</item>
+        <item>#0F9D58</item>
+        <item>#689F38</item>
+        <item>#EF6C00</item>
+        <item>#FF5722</item>
+        <item>#757575</item>
+    </array>
+
     <color name="letter_tile_font_color">#ffffff</color>
 
     <color name="audio_picker_level_primary_color">#29000000</color>

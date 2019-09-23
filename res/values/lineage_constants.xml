@@ -25,4 +25,8 @@
     <!-- Preference keys for user-visible settings -->
     <!-- Application-wide settings -->
     <bool name="show_emoticons_pref_default" translatable="false">true</bool>
+
+    <!-- Contact Colors -->
+    <bool name="contact_colors_pref_default" translatable="false">true</bool>
+    <string name="contact_colors_pref_key" translatable="false">contact_colors</string>
 </resources>
