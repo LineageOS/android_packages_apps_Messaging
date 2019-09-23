@@ -30,6 +30,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.LicenseActivity;
@@ -88,6 +89,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         private String mSmsEnabledPrefKey;
         private Preference mSmsEnabledPreference;
         private boolean mIsSmsPreferenceClicked;
+        private String mContactColorsPrefKey;
+        private SwitchPreference mContactColorsPreference;
         private String mSwipeRightToDeleteConversationkey;
         private SwitchPreference mSwipeRightToDeleteConversationPreference;
 
@@ -109,6 +112,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSmsDisabledPreference = findPreference(mSmsDisabledPrefKey);
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
+            mContactColorsPrefKey = getString(R.string.contact_colors_pref_key);
+            mContactColorsPreference = (SwitchPreference) findPreference(mContactColorsPrefKey);
             mSwipeRightToDeleteConversationkey = getString(
                     R.string.swipe_right_deletes_conversation_key);
             mSwipeRightToDeleteConversationPreference =
@@ -146,6 +151,9 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             if (preference.getKey() ==  mSmsDisabledPrefKey ||
                     preference.getKey() == mSmsEnabledPrefKey) {
                 mIsSmsPreferenceClicked = true;
+            }
+            if (preference.getKey() == mContactColorsPrefKey) {
+                Factory.get().reclaimMemory();
             }
             return super.onPreferenceTreeClick(preferenceScreen, preference);
         }

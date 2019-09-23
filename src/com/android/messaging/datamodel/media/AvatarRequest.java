@@ -17,6 +17,7 @@ package com.android.messaging.datamodel.media;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -27,10 +28,13 @@ import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.text.TextUtils;
 
+import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
+import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UriUtil;
 
@@ -42,10 +46,18 @@ import java.util.List;
 public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
     private static Bitmap sDefaultPersonBitmap;
     private static Bitmap sDefaultPersonBitmapLarge;
+    private TypedArray sColors;
+    private final String mColorContactsKey;
+    private final boolean mColorContactsDefault;
+    private final BuglePrefs mPrefs = BuglePrefs.getApplicationPrefs();
 
     public AvatarRequest(final Context context,
             final AvatarRequestDescriptor descriptor) {
         super(context, descriptor);
+        sColors = mContext.getResources().obtainTypedArray(R.array.letter_tile_colors);
+        mColorContactsKey = context.getString(R.string.contact_colors_pref_key);
+        mColorContactsDefault = context.getResources().getBoolean(
+                R.bool.contact_colors_pref_default);
     }
 
     @Override
@@ -116,7 +128,7 @@ public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
 
     private Bitmap renderDefaultAvatar(final int width, final int height) {
         final Bitmap bitmap = getBitmapPool().createOrReuseBitmap(width, height,
-                getBackgroundColor());
+                getBackgroundColor(AvatarUriUtil.getIdentifier(mDescriptor.uri)));
         final Canvas canvas = new Canvas(bitmap);
 
         if (sDefaultPersonBitmap == null) {
@@ -158,7 +170,7 @@ public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
         final float halfHeight = height / 2;
         final int minOfWidthAndHeight = Math.min(width, height);
         final Bitmap bitmap = getBitmapPool().createOrReuseBitmap(width, height,
-                getBackgroundColor());
+                getBackgroundColor(AvatarUriUtil.getIdentifier(mDescriptor.uri)));
         final Resources resources = mContext.getResources();
         final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -178,8 +190,15 @@ public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
         return bitmap;
     }
 
-    private int getBackgroundColor() {
-        return mContext.getResources().getColor(R.color.primary_color);
+    private int getBackgroundColor(final String identifier) {
+        if (!TextUtils.isEmpty(identifier) &&
+                mPrefs.getBoolean(mColorContactsKey, mColorContactsDefault)) {
+            int idcolor = Math.abs(identifier.hashCode()) % sColors.length();
+            return sColors.getColor(idcolor,
+                     mContext.getResources().getColor(R.color.primary_color));
+        } else {
+            return mContext.getResources().getColor(R.color.primary_color);
+        }
     }
 
     @Override
