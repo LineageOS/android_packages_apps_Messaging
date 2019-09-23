@@ -40,6 +40,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
 
+import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.annotation.VisibleForAnimation;
 import com.android.messaging.datamodel.DataModel;
@@ -54,6 +55,7 @@ import com.android.messaging.ui.SnackBarInteraction;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.AccessibilityUtil;
 import com.android.messaging.util.Assert;
+import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
@@ -75,6 +77,9 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     private boolean mArchiveMode;
     private boolean mBlockedAvailable;
     private boolean mForwardMessageMode;
+    private boolean mColorContacts;
+    private boolean mColorContactsDefault;
+    private String mColorContactsKey;
 
     public interface ConversationListFragmentHost {
         public void onConversationClick(final ConversationListData listData,
@@ -93,6 +98,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     private ImageView mStartNewConversationButton;
     private ListEmptyView mEmptyListMessageView;
     private ConversationListAdapter mAdapter;
+    private final BuglePrefs mPrefs = BuglePrefs.getApplicationPrefs();
 
     // Saved Instance State Data - only for temporal data which is nice to maintain but not
     // critical for correctness.
@@ -127,6 +133,11 @@ public class ConversationListFragment extends Fragment implements ConversationLi
         super.onCreate(bundle);
         mListBinding.getData().init(getLoaderManager(), mListBinding);
         mAdapter = new ConversationListAdapter(getActivity(), null, this);
+        final Context context = Factory.get().getApplicationContext();
+        mColorContactsKey = context.getString(R.string.contact_colors_pref_key);
+        mColorContactsDefault = context.getResources().getBoolean(
+                R.bool.contact_colors_pref_default);
+        mColorContacts = mPrefs.getBoolean(mColorContactsKey, mColorContactsDefault);
     }
 
     @Override
@@ -301,6 +312,10 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     }
 
     public void updateUi() {
+        if (mColorContacts != mPrefs.getBoolean(mColorContactsKey, mColorContactsDefault)) {
+            mRecyclerView.setAdapter(mAdapter);
+            mColorContacts = !mColorContacts;
+        }
         mAdapter.notifyDataSetChanged();
     }
 

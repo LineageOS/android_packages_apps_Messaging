@@ -17,10 +17,12 @@ package com.android.messaging.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
+import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.ImageUtils;
 
 /**
@@ -52,6 +54,10 @@ public class ConversationDrawables {
     private int mIncomingAudioButtonColor;
     private int mSelectedBubbleColor;
     private int mThemeColor;
+    private TypedArray sColors;
+    private final String mColorContactsKey;
+    private final boolean mColorContactsDefault;
+    private final BuglePrefs mPrefs = BuglePrefs.getApplicationPrefs();
 
     public static ConversationDrawables get() {
         if (sInstance == null) {
@@ -64,6 +70,9 @@ public class ConversationDrawables {
         mContext = context;
         // Pre-create all the drawables.
         updateDrawables();
+        mColorContactsKey = context.getString(R.string.contact_colors_pref_key);
+        mColorContactsDefault = context.getResources().getBoolean(
+                R.bool.contact_colors_pref_default);
     }
 
     public int getConversationThemeColor() {
@@ -102,10 +111,11 @@ public class ConversationDrawables {
                 resources.getColor(R.color.message_audio_button_color_incoming);
         mSelectedBubbleColor = resources.getColor(R.color.message_bubble_color_selected);
         mThemeColor = resources.getColor(R.color.primary_color);
+        sColors = resources.obtainTypedArray(R.array.letter_tile_colors);
     }
 
     public Drawable getBubbleDrawable(final boolean selected, final boolean incoming,
-            final boolean needArrow, final boolean isError) {
+            final boolean needArrow, final boolean isError, final String identifier) {
         final Drawable protoDrawable;
         if (needArrow) {
             if (incoming) {
@@ -127,7 +137,13 @@ public class ConversationDrawables {
             if (isError) {
                 color = mIncomingErrorBubbleColor;
             } else {
-                color = mThemeColor;
+                if (identifier != null &&
+                        mPrefs.getBoolean(mColorContactsKey, mColorContactsDefault)) {
+                    int idcolor = Math.abs(identifier.hashCode()) % sColors.length();
+                    color = sColors.getColor(idcolor, mThemeColor);
+                } else {
+                    color = mThemeColor;
+                }
             }
         } else {
             color = mOutgoingBubbleColor;

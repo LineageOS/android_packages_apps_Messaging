@@ -23,6 +23,10 @@
     <string name="show_emoticons_pref_title">Emoticons access</string>
     <string name="show_emoticons_pref_summary">Show the emoticons key on the keyboard</string>
 
+    <!-- Contact Colors -->
+    <string name="contact_colors_pref_title">Contact Colors</string>
+    <string name="contact_colors_pref_summary">Use individual colors for contacts</string>
+
     <!-- Audio Library Tab for MMS attachments -->
     <string name="mediapicker_galleryChooserDescription_cm">Choose images or videos from this device</string>
     <string name="mediapicker_audioListChooserDescription">Choose audio files from this device</string>
