@@ -16,6 +16,24 @@
       "revId": "c037c3aeae09b79ab3f27a80e34205ce78119d12",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1afd2f_8bd085e9",
+        "filename": "src/org/lineageos/messaging/util/PrefsUtils.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2019-10-29T18:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "357b0472_7f8be0fd",
+      "revId": "c037c3aeae09b79ab3f27a80e34205ce78119d12",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": false
     }
   ]
 }
