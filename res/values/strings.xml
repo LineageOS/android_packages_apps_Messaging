@@ -967,7 +967,4 @@
     <string name="selected_sim_content_message"><xliff:g id="selected_sim">%s</xliff:g> selected</string>
 
     <string name="work_directory_display_name">Work Profile contacts</string>
-
-    <!-- Notification channel -->
-    <string name="notification_channel_messages_title">Messages</string>
 </resources>
