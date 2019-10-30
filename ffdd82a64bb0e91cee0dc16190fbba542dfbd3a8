@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d65a8d3f_f3db9390",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 17257
+      },
+      "writtenOn": "2019-10-30T00:12:41Z",
+      "side": 1,
+      "message": "Should be reverted to the old version.",
+      "revId": "ffdd82a64bb0e91cee0dc16190fbba542dfbd3a8",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
