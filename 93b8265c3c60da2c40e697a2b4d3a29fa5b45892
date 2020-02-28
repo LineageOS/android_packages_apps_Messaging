@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "306c8683_525807ac",
+        "filename": "src/com/android/messaging/datamodel/media/AvatarRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2020-02-28T19:50:51Z",
+      "side": 1,
+      "message": "mColors",
+      "revId": "93b8265c3c60da2c40e697a2b4d3a29fa5b45892",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32dbca8d_0a0f6b97",
+        "filename": "src/com/android/messaging/ui/ConversationDrawables.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2020-02-28T19:50:51Z",
+      "side": 1,
+      "message": "mColors",
+      "revId": "93b8265c3c60da2c40e697a2b4d3a29fa5b45892",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
