@@ -23,6 +23,7 @@ import android.database.MatrixCursor;
 import android.database.MergeCursor;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.mms.CarrierConfigValuesLoader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -191,9 +192,6 @@ class GalleryMediaChooser extends MediaChooser implements
             // Work around a bug in MediaStore where cursors querying the Files provider don't get
             // updated for changes to Images.Media or Video.Media.
             startMediaPickerDataLoader();
-            updateForPermissionState(true);
-        } else {
-            updateForPermissionState(false);
         }
     }
 
