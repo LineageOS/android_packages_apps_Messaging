@@ -25,7 +25,6 @@ import com.android.messaging.datamodel.action.ActionService;
 import com.android.messaging.datamodel.action.BackgroundWorker;
 import com.android.messaging.datamodel.action.FixupMessageStatusOnStartupAction;
 import com.android.messaging.datamodel.action.ProcessPendingMessagesAction;
-import com.android.messaging.datamodel.data.AudioListItemData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData.BlockedParticipantsDataListener;
 import com.android.messaging.datamodel.data.ContactListItemData;
@@ -113,11 +112,6 @@ public class DataModelImpl extends DataModel {
     @Override
     public GalleryGridItemData createGalleryGridItemData() {
         return new GalleryGridItemData();
-    }
-
-    @Override
-    public AudioListItemData createAudioListItemData() {
-        return new AudioListItemData();
     }
 
     @Override

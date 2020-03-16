@@ -19,8 +19,6 @@ package com.android.messaging.datamodel.data;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Handler;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Images.Media;
 import android.text.TextUtils;
@@ -30,7 +28,6 @@ import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
 import com.android.messaging.datamodel.media.VideoThumbnailRequestDescriptor;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.UriUtil;
 
 /**
  * Provides data for GalleryGridItemView
@@ -65,7 +62,6 @@ public class GalleryGridItemData {
     private boolean mIsDocumentPickerItem;
     private boolean mIsVideoItem;
     private long mDateSeconds;
-    private long mContentSize = 0;
 
     public GalleryGridItemData() {
     }
@@ -114,31 +110,7 @@ public class GalleryGridItemData {
                         true /* allowCompression */,
                         true /* isStatic */);
             }
-
-            // the the size of the image in the background, needed for selection size checking
-            // preload here in the background, so that it's ready when the thumb is clicked on
-            // TODO - remove when video compression is added, as no size check will be performed
-            // TODO - at selection time
-            if (mIsVideoItem) {
-                new AsyncTask<Void, Void, Long>() {
-                    @Override
-                    protected Long doInBackground(Void... params) {
-                        Long size = UriUtil.getContentSize(getImageUri());
-                        return size;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Long result) {
-                        mContentSize = result;
-                    }
-                }.execute();
-            }
-
         }
-    }
-
-    public long getContentSize() {
-        return mContentSize;
     }
 
     public boolean isDocumentPickerItem() {
