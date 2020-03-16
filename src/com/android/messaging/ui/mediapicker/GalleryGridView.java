@@ -34,7 +34,6 @@ import com.android.messaging.datamodel.data.DraftMessageData;
 import com.android.messaging.datamodel.data.GalleryGridItemData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageDataListener;
-import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.PersistentInstanceState;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
@@ -70,18 +69,9 @@ public class GalleryGridView extends MediaPickerGridView implements
     private boolean mIsMultiSelectMode = false;
     private ImmutableBindingRef<DraftMessageData> mDraftMessageDataModel;
 
-    /** Provides subscription-related data to access per-subscription configurations. */
-    private DraftMessageData.DraftMessageSubscriptionDataProvider mSubscriptionDataProvider;
-
-
     public GalleryGridView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         mSelectedImages = new ArrayMap<Uri, MessagePartData>();
-    }
-
-    public void setSubscriptionProvider(DraftMessageData.DraftMessageSubscriptionDataProvider
-                                                provider) {
-        mSubscriptionDataProvider = provider;
     }
 
     public void setHostInterface(final GalleryGridViewListener hostInterface) {
@@ -130,16 +120,6 @@ public class GalleryGridView extends MediaPickerGridView implements
     public boolean isMultiSelectEnabled() {
         return mIsMultiSelectMode;
     }
-
-    @Override
-    public int getSubscriptionProviderSubId() {
-        if (mSubscriptionDataProvider != null) {
-            return mSubscriptionDataProvider.getConversationSelfSubId();
-        } else {
-            return ParticipantData.DEFAULT_SELF_SUB_ID;
-        }
-    }
-
 
     private void toggleItemSelection(final Rect startRect, final GalleryGridItemData data) {
         Assert.isTrue(isMultiSelectEnabled());

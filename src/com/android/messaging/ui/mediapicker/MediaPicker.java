@@ -178,7 +178,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         mChoosers = new MediaChooser[] {
             new CameraMediaChooser(this),
             new GalleryMediaChooser(this),
-            new AudioListChooser(this),
             new AudioMediaChooser(this),
         };
 
