@@ -33,10 +33,9 @@ public class GalleryBoundCursorLoader extends BoundCursorLoader {
     public static final String MEDIA_SCANNER_VOLUME_EXTERNAL = "external";
     private static final Uri STORAGE_URI = Files.getContentUri(MEDIA_SCANNER_VOLUME_EXTERNAL);
     private static final String SORT_ORDER = Media.DATE_MODIFIED + " DESC";
-    private static final String TAG = GalleryBoundCursorLoader.class.getSimpleName();
     private static final String IMAGE_SELECTION = createSelection(
             MessagePartData.ACCEPTABLE_IMAGE_TYPES,
-            new Integer[] { FileColumns.MEDIA_TYPE_IMAGE, FileColumns.MEDIA_TYPE_VIDEO});
+            new Integer[] { FileColumns.MEDIA_TYPE_IMAGE, FileColumns.MEDIA_TYPE_VIDEO });
 
     public GalleryBoundCursorLoader(final String bindingId, final Context context) {
         super(bindingId, context, STORAGE_URI, GalleryGridItemData.IMAGE_PROJECTION,
