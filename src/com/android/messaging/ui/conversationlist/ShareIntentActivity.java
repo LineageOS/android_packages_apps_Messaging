@@ -74,14 +74,6 @@ public class ShareIntentActivity extends BaseBugleActivity implements
     public void onAttachFragment(final Fragment fragment) {
         final Intent intent = getIntent();
         final String action = intent.getAction();
-
-        String sharedSubject = null;
-        if (intent.hasExtra(Intent.EXTRA_SUBJECT)) {
-            sharedSubject = intent.getStringExtra(Intent.EXTRA_SUBJECT);
-        } else if (intent.hasExtra(Intent.EXTRA_TITLE)) {
-            sharedSubject = intent.getStringExtra(Intent.EXTRA_TITLE);
-        }
-
         if (Intent.ACTION_SEND.equals(action)) {
             final Uri contentUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
             if (UriUtil.isFileUri(contentUri)) {
@@ -99,7 +91,7 @@ public class ShareIntentActivity extends BaseBugleActivity implements
             if (ContentType.TEXT_PLAIN.equals(contentType)) {
                 final String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
                 if (sharedText != null) {
-                    mDraftMessage = MessageData.createSharedMessage(sharedText, sharedSubject);
+                    mDraftMessage = MessageData.createSharedMessage(sharedText);
                 } else {
                     mDraftMessage = null;
                 }
@@ -108,7 +100,7 @@ public class ShareIntentActivity extends BaseBugleActivity implements
                     ContentType.isAudioType(contentType) ||
                     ContentType.isVideoType(contentType)) {
                 if (contentUri != null) {
-                    mDraftMessage = MessageData.createSharedMessage(null, sharedSubject);
+                    mDraftMessage = MessageData.createSharedMessage(null);
                     addSharedImagePartToDraft(contentType, contentUri);
                 } else {
                     mDraftMessage = null;
@@ -125,7 +117,7 @@ public class ShareIntentActivity extends BaseBugleActivity implements
                 final ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(
                         Intent.EXTRA_STREAM);
                 if (imageUris != null && imageUris.size() > 0) {
-                    mDraftMessage = MessageData.createSharedMessage(null, sharedSubject);
+                    mDraftMessage = MessageData.createSharedMessage(null);
                     for (final Uri imageUri : imageUris) {
                         if (UriUtil.isFileUri(imageUri)) {
                             LogUtil.i(
