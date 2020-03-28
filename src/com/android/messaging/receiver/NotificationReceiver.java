@@ -54,13 +54,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                 }
             }
         } else if (intent.getAction().equals(UIIntents.ACTION_MARK_AS_READ)) {
-            final String conversationIdSetString =
-                    intent.getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID_SET);
-            if (conversationIdSetString != null) {
-                for (final String conversationId :
-                        ConversationIdSet.createSet(conversationIdSetString)) {
-                        MarkAsReadAction.markAsRead(conversationId);
-                }
+            final String conversationId =
+                    intent.getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID);
+            if (conversationId != null) {
+                    MarkAsReadAction.markAsRead(conversationId);
             }
         }
     }
