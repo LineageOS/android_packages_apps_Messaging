@@ -15,20 +15,16 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string-array name="empty_subject_strings">
-        <item>kee Sujet</item>
-        <item>nosubject</item>
-    </string-array>
     <string-array name="notification_reply_choices">
-        <item>Jo</item>
-        <item>Nee</item>
+        <item>Yes</item>
+        <item>No</item>
         <item>OK</item>
         <item>Hehe</item>
-        <item>Merci</item>
-        <item>Ech sinn averstanen</item>
-        <item>Wonnerbar</item>
-        <item>Sinn ënnerwee</item>
-        <item>OK, ech melle mech</item>
+        <item>Thanks</item>
+        <item>I agree</item>
+        <item>Snog</item>
+        <item>On my way</item>
+        <item>OK, let me get back to you later</item>
         <item>:)</item>
         <item>:(</item>
     </string-array>
