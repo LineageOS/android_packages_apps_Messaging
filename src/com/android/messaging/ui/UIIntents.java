@@ -332,7 +332,7 @@ public abstract class UIIntents {
      * <p>This is intended to be used by notifications.
      */
     public abstract PendingIntent getPendingIntentForMarkingAsRead(final Context context,
-            final ConversationIdSet conversationIdSet, final int requestCode);
+            final String conversationId, final int requestCode);
 
     /**
      * Get a PendingIntent for showing low storage notifications.
