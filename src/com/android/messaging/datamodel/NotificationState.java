@@ -79,11 +79,6 @@ public abstract class NotificationState {
      */
     public abstract PendingIntent getClearIntent();
 
-    /**
-     * The intent to be triggered when mark as read is pressed.
-     */
-    public abstract PendingIntent getReadIntent();
-
     protected Uri getAttachmentUri() {
         return null;
     }
