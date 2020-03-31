@@ -181,6 +181,23 @@ public class SnackBarManager {
             mPopupWindow.showAsDropDown(anchorView, 0, getRelativeOffset(snackBar));
         }
 
+        snackBar.getParentView()
+                .addOnAttachStateChangeListener(
+                        new View.OnAttachStateChangeListener() {
+                            @Override
+                            public void onViewDetachedFromWindow(View v) {
+                                // Dismiss the PopupWindow and clear SnackBarManager state.
+                                mHideHandler.removeCallbacks(mDismissRunnable);
+                                mPopupWindow.dismiss();
+
+                                mCurrentSnackBar = null;
+                                mNextSnackBar = null;
+                                mIsCurrentlyDismissing = false;
+                            }
+
+                            @Override
+                            public void onViewAttachedToWindow(View v) {}
+                        });
 
         // Animate the toast bar into view.
         placeSnackBarOffScreen(snackBar);
