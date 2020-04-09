@@ -390,8 +390,11 @@ public class ParticipantRefresh {
             // For subscriptions already in the database, refresh ParticipantColumns.SIM_SLOT_ID.
             for (final Integer subId : activeSubscriptionIdToRecordMap.keySet()) {
                 final SubscriptionInfo record = activeSubscriptionIdToRecordMap.get(subId);
+                // We don't know why displayName would be null, but it looks like it can be
                 final String displayName =
-                        DatabaseUtils.sqlEscapeString(record.getDisplayName().toString());
+                        DatabaseUtils.sqlEscapeString(record.getDisplayName() != null
+                            ? record.getDisplayName().toString()
+                            : "");
                 db.execSQL(getUpdateSelfParticipantSubscriptionInfoSql(record.getSimSlotIndex(),
                         record.getIconTint(), displayName,
                         ParticipantColumns.SUB_ID + " = " + subId));
