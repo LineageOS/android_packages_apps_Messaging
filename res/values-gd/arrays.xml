@@ -15,10 +15,17 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Poista liu\'uttamalla</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Pyyhkäise oikealle poistaaksesi keskustelun</string>
-    <string name="show_emoticons_pref_title">Hymiöiden käyttö</string>
-    <string name="show_emoticons_pref_summary">Näytä hymiönäppäin näppäimistöllä</string>
-    <string name="notification_mark_as_read">Merkitse luetuksi</string>
-    <string name="notification_channel_messages_title">Viestit</string>
+    <string-array name="notification_reply_choices">
+        <item>Yes</item>
+        <item>No</item>
+        <item>OK</item>
+        <item>Hehe</item>
+        <item>Thanks</item>
+        <item>I agree</item>
+        <item>Snog</item>
+        <item>On my way</item>
+        <item>OK, let me get back to you later</item>
+        <item>:)</item>
+        <item>:(</item>
+    </string-array>
 </resources>
