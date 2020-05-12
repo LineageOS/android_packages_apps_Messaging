@@ -772,8 +772,7 @@ public class BugleNotifications {
                     id = conversationId;
                 }
                 final NotificationCompat.Builder photoPageNotifBuilder =
-                        new NotificationCompat.Builder(Factory.get().getApplicationContext(),
-                        NotificationsUtil.DEFAULT_CHANNEL_ID);
+                        new NotificationCompat.Builder(Factory.get().getApplicationContext(), id);
                 final WearableExtender photoPageWearableExtender = new WearableExtender();
                 photoPageWearableExtender.setHintShowBackgroundOnly(true);
                 if (attachmentBitmap != null) {
