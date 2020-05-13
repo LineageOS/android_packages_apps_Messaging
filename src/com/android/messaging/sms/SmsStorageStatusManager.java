@@ -16,6 +16,7 @@
 package com.android.messaging.sms;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.res.Resources;
@@ -25,6 +26,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.ui.UIIntents;
+import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.PendingIntentConstants;
 import com.android.messaging.util.PhoneUtils;
 
@@ -65,7 +67,8 @@ public class SmsStorageStatusManager {
         final PendingIntent pendingIntent = UIIntents.get()
                 .getPendingIntentForLowStorageNotifications(context);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        final NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(context, NotificationsUtil.DEFAULT_CHANNEL_ID);
         builder.setContentTitle(resources.getString(R.string.sms_storage_low_title))
                 .setTicker(resources.getString(R.string.sms_storage_low_notification_ticker))
                 .setSmallIcon(R.drawable.ic_failed_light)
@@ -82,6 +85,11 @@ public class SmsStorageStatusManager {
         final NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(Factory.get().getApplicationContext());
 
+        NotificationsUtil.createNotificationChannel(context,
+                NotificationsUtil.DEFAULT_CHANNEL_ID,
+                R.string.notification_channel_messages_title,
+                NotificationManager.IMPORTANCE_HIGH,
+                null);
         notificationManager.notify(getNotificationTag(),
                 PendingIntentConstants.SMS_STORAGE_LOW_NOTIFICATION_ID, notification);
     }

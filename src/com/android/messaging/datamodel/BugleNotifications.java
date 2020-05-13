@@ -772,8 +772,7 @@ public class BugleNotifications {
                     id = conversationId;
                 }
                 final NotificationCompat.Builder photoPageNotifBuilder =
-                        new NotificationCompat.Builder(Factory.get().getApplicationContext(),
-                        NotificationsUtil.DEFAULT_CHANNEL_ID);
+                        new NotificationCompat.Builder(Factory.get().getApplicationContext(), id);
                 final WearableExtender photoPageWearableExtender = new WearableExtender();
                 photoPageWearableExtender.setHintShowBackgroundOnly(true);
                 if (attachmentBitmap != null) {
@@ -954,7 +953,7 @@ public class BugleNotifications {
         NotificationsUtil.createNotificationChannel(context,
                 NotificationsUtil.DEFAULT_CHANNEL_ID,
                 R.string.notification_channel_messages_title,
-                NotificationManager.IMPORTANCE_DEFAULT,
+                NotificationManager.IMPORTANCE_HIGH,
                 NotificationsUtil.CONVERSATION_GROUP_NAME);
         notificationManager.notify(notificationTag, type, notification);
 

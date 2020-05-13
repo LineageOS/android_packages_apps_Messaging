@@ -134,10 +134,11 @@ public class PeopleAndOptionsFragment extends Fragment
                 NotificationsUtil.createNotificationChannel(getActivity(),
                         mBinding.getData().getConversationId(),
                         String.join(", ", participantsNames),
-                        NotificationManager.IMPORTANCE_DEFAULT,
+                        NotificationManager.IMPORTANCE_HIGH,
                         NotificationsUtil.CONVERSATION_GROUP_NAME);
-                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS)
+                        .putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName())
+                        .putExtra(Settings.EXTRA_CHANNEL_ID, mBinding.getData().getConversationId());
                 startActivity(intent);
                 break;
 

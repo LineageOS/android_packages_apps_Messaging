@@ -37,7 +37,7 @@ public final class NotificationsUtil {
 
     public static void createNotificationChannel(Context context, String id,
             String title, int priority, String groupId) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (!OsUtil.isAtLeastO()) {
             return;
         }
 
@@ -48,7 +48,6 @@ public final class NotificationsUtil {
         }
 
         NotificationChannel newChannel = new NotificationChannel(id, title, priority);
-        newChannel.enableLights(true);
         if (groupId != null) {
             newChannel.setGroup(groupId);
         }
@@ -56,7 +55,7 @@ public final class NotificationsUtil {
     }
 
     public static void deleteNotificationChannel(Context context, String id) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (!OsUtil.isAtLeastO()) {
             return;
         }
 
@@ -66,7 +65,7 @@ public final class NotificationsUtil {
 
     public static void createNotificationChannelGroup(Context context, String id,
             int titleResId) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (!OsUtil.isAtLeastO()) {
             return;
         }
 
@@ -82,7 +81,7 @@ public final class NotificationsUtil {
     }
 
     public static NotificationChannel getNotificationChannel(Context context, String id) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (!OsUtil.isAtLeastO()) {
             return null;
         }
 
@@ -91,7 +90,7 @@ public final class NotificationsUtil {
     }
 
     public static NotificationChannelGroup getNotificationChannelGroup(Context context, String id) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        if (!OsUtil.isAtLeastO()) {
             return null;
         }
 
