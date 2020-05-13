@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5671f6b_a748ead1",
+        "filename": "src/com/android/messaging/ui/conversationsettings/PeopleAndOptionsFragment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 4550
+      },
+      "writtenOn": "2020-05-13T16:23:01Z",
+      "side": 1,
+      "message": "100 chars",
+      "revId": "b164058c019dbd6b58652bdb288767df5b3e1e60",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
