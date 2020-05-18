@@ -779,6 +779,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         updateTextAppearance();
 
+        mMessageBubble.setForceDarkAllowed(false);
+
         requestLayout();
     }
 
