@@ -40,6 +40,13 @@
          <item name="apnPreferenceStyle">@style/ApnPreference</item>
     </style>
 
+    <style name="LaunchTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+         <item name="colorPrimary">@color/action_bar_background_color</item>
+         <item name="colorPrimaryDark">@color/action_bar_background_color_dark</item>
+         <item name="colorAccent">@color/lineage_accent</item>
+         <item name="actionBarStyle">@style/BugleActionBar</item>
+    </style>
+
     <style name="BugleTheme.ConversationActivity"
         parent="@style/BugleTheme.ConversationActivityBase">
     </style>
