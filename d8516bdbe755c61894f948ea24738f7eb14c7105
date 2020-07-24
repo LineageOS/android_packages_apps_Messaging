@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b70d0688_15178508",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1063
+      },
+      "writtenOn": "2020-07-24T16:27:47Z",
+      "side": 1,
+      "message": "Damn, I missed this is addRemoteInput, not setRemoteInput. Looks like you indeed need 2 action builders, otherwise you attach 2 RemoteInput instances to the wearable extender.",
+      "revId": "d8516bdbe755c61894f948ea24738f7eb14c7105",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71",
+      "unresolved": true
+    }
+  ]
+}
