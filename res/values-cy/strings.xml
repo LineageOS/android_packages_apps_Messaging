@@ -189,6 +189,7 @@
     <string name="action_send">Anfon</string>
     <string name="action_delete_message">Dileu</string>
     <string name="delete_message_confirmation_dialog_title">Dileu\'r neges hon?</string>
+    <string name="delete_message_confirmation_dialog_text">Ni fydd yn bosib dadwneud hyn!</string>
     <string name="delete_message_confirmation_button">Dileu</string>
     <plurals name="delete_conversations_confirmation_dialog_title">
         <item quantity="zero">Dileu\'r sgyrsiau hyn?</item>
