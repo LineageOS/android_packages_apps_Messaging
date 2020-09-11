@@ -15,8 +15,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Potegnite za brisanje</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Za izbris pogovora potegnite na desno</string>
+    <string name="swipe_to_delete_conversation_pref_title">Poteg za brisanje</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Povlecite desno za izbris pogovora</string>
     <string name="show_emoticons_pref_title">Dostop do izraznih ikon</string>
     <string name="show_emoticons_pref_summary">Na tipkovnici prikaži tipko za izrazne ikone</string>
     <string name="notification_mark_as_read">Označi kot prebrano</string>
