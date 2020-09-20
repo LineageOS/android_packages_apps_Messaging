@@ -20,4 +20,5 @@
     <string name="show_emoticons_pref_title">Cothrom air samhlaidhean-gnùise</string>
     <string name="show_emoticons_pref_summary">Seall iuchair nan samhlaidhean-gnùise air a’ mheur-chlàr</string>
     <string name="notification_mark_as_read">Cuir comharra gun deach a leughadh</string>
+    <string name="notification_channel_messages_title">Teachdaireachdan</string>
 </resources>

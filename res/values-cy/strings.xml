@@ -617,4 +617,5 @@
     <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
     <string name="selected_sim_content_message"><xliff:g id="selected_sim">%s</xliff:g> wedi\'i ddewis</string>
     <string name="work_directory_display_name">Cysylltiadau Proffil Gwaith</string>
+    <string name="disallow_emergency_call">Ni ellir gwneud alwad i\'r gwasanaethau brys fan hyn.</string>
 </resources>

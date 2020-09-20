@@ -34,10 +34,16 @@
     <string name="save">Sàbhail</string>
     <string name="enter_phone_number_hint">Àireamh fòn</string>
     <string name="ignore">Leig seachad</string>
+    <string name="message_status_send_failed">Cha deach a chur. Thoir gnogag airson feuchainn ris a-rithist.</string>
+    <string name="message_status_download_failed">Thoir gnogag airson feuchainn ris a-rithist</string>
+    <string name="message_status_download">Thoir gnogag gus a luchdadh a-nuas</string>
     <string name="notification_send_failures_line1_singular">Cha deach an teachdaireachd a chur</string>
     <string name="recipient_hint">Gu</string>
     <string name="action_confirm_multiselect">Dearbh an taghadh</string>
+    <string name="audio_picker_hint_text">Thoir gnogag ⁊ cùm sìos</string>
     <string name="unknown_self_participant">Uam</string>
+    <string name="toast_after_setting_default_sms_app_for_message_send">Tha thu ullamh ma-thà. Thoir gnogag air “Cuir” a-rithist.</string>
+    <string name="failed_message_content_description">Dh’fhàillig leis an teachdaireachd. Thoir gnogag airson feuchainn ris a-rithist.</string>
     <string name="settings_activity_title">Roghainnean</string>
     <string name="action_close">Dùin</string>
     <string name="notifications_pref_title">Brathan</string>
@@ -69,7 +75,10 @@
     <string name="advanced_settings_activity_title">Roghainnean adhartach</string>
     <string name="sim_settings_unknown_number">Àireamh nach aithne dhuinn</string>
     <string name="secondary_user_new_message_title">Teachdaireachd ùr</string>
+    <string name="audio_record_view_content_description">Thoir gnogag ⁊ cùm sìos airson fuaim a chlàradh</string>
     <string name="widget_new_message_content_description">Teachdaireachd ùr</string>
+    <string name="tap_to_configure">Chaidh an còmhradh a sguabadh às. Thoir gnogag a shealltainn còmhradh eile de theachdaireachdan</string>
     <string name="action_confirm_selection">Dearbh an taghadh</string>
     <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> air a thaghadh</string>
+    <string name="work_directory_display_name">Luchd-aithne aig pròifil na h-obrach</string>
 </resources>
