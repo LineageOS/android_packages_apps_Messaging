@@ -16,13 +16,16 @@
 
 package com.android.messaging.widget;
 
+import android.annotation.TargetApi;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Build;
 
 import com.android.messaging.util.LogUtil;
 
@@ -37,6 +40,9 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     public static final int SIZE_SMALL  = 1;
     public static final int SIZE_MEDIUM = 2;
     public static final int SIZE_PRE_JB = 3;
+
+    private static boolean sWidgetChecked = false;
+    private static boolean sWidgetSupported = false;
 
     /**
      * Update all widgets in the list
@@ -62,6 +68,10 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
         // been sent or received (or a conversation has been read) and is telling the widget it
         // needs to update.
         if (getAction().equals(action)) {
+            if (!isWidgetSupported(context)) {
+                return;
+            }
+
             final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context,
                     this.getClass()));
@@ -94,7 +104,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
      */
     protected abstract void updateWidget(Context context, int appWidgetId);
 
-    private int getWidgetSize(AppWidgetManager appWidgetManager, int appWidgetId) {
+    private int getWidgetSize(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize");
         }
@@ -158,11 +168,13 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
             int appWidgetId, Bundle newOptions) {
 
-        final int widgetSize = getWidgetSize(appWidgetManager, appWidgetId);
+        if (isWidgetSupported(context)) {
+            final int widgetSize = getWidgetSize(context, appWidgetManager, appWidgetId);
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "BaseWidgetProvider.onAppWidgetOptionsChanged new size: " +
-                    widgetSize);
+            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
+                LogUtil.v(TAG, "BaseWidgetProvider.onAppWidgetOptionsChanged new size: " +
+                        widgetSize);
+            }
         }
 
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
@@ -185,6 +197,27 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
         for (final int widgetId : appWidgetIds) {
             deletePreferences(widgetId);
         }
+    }
+
+    public static boolean isWidgetSupported(Context context) {
+        if (!sWidgetChecked) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                sWidgetSupported = hasAppWidgetsSystemFeature(context);
+            } else {
+                // Before SDK 18, we can assume AppWidgetManager#getInstance will
+                // never return null, so we can always return true regardless of
+                // whether the widgets are really supported.
+                sWidgetSupported = true;
+            }
+            sWidgetChecked = true;
+        }
+
+        return sWidgetSupported;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    private static boolean hasAppWidgetsSystemFeature(Context context) {
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_APP_WIDGETS);
     }
 
 }
