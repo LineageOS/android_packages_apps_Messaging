@@ -41,6 +41,10 @@ public class BugleWidgetProvider extends BaseWidgetProvider {
      */
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (OsUtil.hasRequiredPermissions()) {
             SafeAsyncTask.executeOnThreadPool(new Runnable() {
                 @Override
@@ -65,6 +69,10 @@ public class BugleWidgetProvider extends BaseWidgetProvider {
     }
 
     public static void rebuildWidget(final Context context, final int appWidgetId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "BugleWidgetProvider.rebuildWidget appWidgetId: " + appWidgetId);
         }
