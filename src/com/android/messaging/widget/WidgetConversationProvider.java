@@ -54,6 +54,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "updateWidget appWidgetId: " + appWidgetId);
         }
@@ -76,6 +80,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
     }
 
     public static void rebuildWidget(final Context context, final int appWidgetId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "WidgetConversationProvider.rebuildWidget appWidgetId: " + appWidgetId);
         }
@@ -181,6 +189,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     public static void notifyConversationDeleted(final Context context,
             final String conversationId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "notifyConversationDeleted convId: " + conversationId);
         }
@@ -207,6 +219,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     public static void notifyConversationRenamed(final Context context,
             final String conversationId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "notifyConversationRenamed convId: " + conversationId);
         }
@@ -236,6 +252,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
         // been sent or received (or a conversation has been read) and is telling the widget it
         // needs to update.
         if (getAction().equals(action)) {
+            if (!BaseWidgetProvider.isWidgetSupported(context)) {
+                return;
+            }
+
             final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             final int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context,
                     this.getClass()));
