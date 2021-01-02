@@ -54,6 +54,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "updateWidget appWidgetId: " + appWidgetId);
         }
@@ -76,6 +80,10 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
     }
 
     public static void rebuildWidget(final Context context, final int appWidgetId) {
+        if (!BaseWidgetProvider.isWidgetSupported(context)) {
+            return;
+        }
+
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "WidgetConversationProvider.rebuildWidget appWidgetId: " + appWidgetId);
         }
