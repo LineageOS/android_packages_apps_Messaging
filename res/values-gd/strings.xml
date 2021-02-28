@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Teachdaireachdan</string>
+    <string name="share_intent_label">Teachdaireachdan</string>
+    <string name="share_intent_activity_label">Tagh còmhradh</string>
+    <string name="action_settings">Roghainnean</string>
+    <string name="sendButtonContentDescription">Cuir teachdaireachd</string>
+    <string name="attachMediaButtonContentDescription">Cuir ceanglachan ris</string>
+    <string name="help_and_feedback_activity_label">Cobhair</string>
+    <string name="welcome">Fàilte</string>
+    <string name="skip">Leum thairis air</string>
+    <string name="next_with_arrow">Air adhart &gt;</string>
+    <string name="next">Air adhart</string>
+    <string name="exit">Fàg</string>
+    <string name="settings_with_arrow">Roghainnean &gt;</string>
+    <string name="settings">Roghainnean</string>
+    <string name="required_permissions_promo">Feumaidh na teachdaireachdan cead air SMS, an fhòn ’s an luchd-aithne</string>
+    <string name="enable_permission_procedure">’S urrainn dhut na ceadan atharrachadh ann an Roghainnean &gt; Aplacaidean &gt; Ceadan.</string>
+    <string name="enable_permission_procedure_description">’S urrainn dhut na ceadan atharrachadh ann an Roghainnean, Aplacaidean, Teachdaireachdan, Ceadan.</string>
+    <string name="contact_picker_frequents_tab_title">An fheadhainn thric</string>
+    <string name="contact_picker_all_contacts_tab_title">A h-uile neach-aithne</string>
+    <string name="contact_list_send_to_text">Cuir gu <xliff:g id="destination">%s</xliff:g></string>
+    <string name="mediapicker_cameraChooserDescription">Glac dealbhan no video</string>
+    <string name="mediapicker_audioChooserDescription">Clàraich fuaim</string>
+    <string name="mediapicker_gallery_item_selected_content_description">Thagh thu meadhan.</string>
+    <string name="mediapicker_gallery_item_unselected_content_description">Dì-thagh thu meadhan.</string>
+    <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> air a thaghadh</string>
+    <string name="mediapicker_gallery_image_item_description">dealbh <xliff:g id="date">%1$te %1$tB %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
+    <string name="mediapicker_gallery_image_item_description_no_date">dealbh</string>
+    <string name="mediapicker_audio_title">Clàraich fuaim</string>
+    <string name="action_share">Co-roinn</string>
+    <string name="posted_just_now">"An-dràsta fhèin"</string>
+    <string name="posted_now">"An-dràsta"</string>
+    <plurals name="num_minutes_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> mhion</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> mhion</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> mion</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> mion</item>
+    </plurals>
+    <plurals name="num_hours_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> uair</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> uair</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> uairean</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> uair</item>
+    </plurals>
+    <plurals name="num_days_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> latha</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> latha</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> làithean</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> latha</item>
+    </plurals>
+    <plurals name="week_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> seachdain</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> sheachdain</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> seachdainean</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> seachdain</item>
+    </plurals>
+    <plurals name="month_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> mhìos</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> mhìos</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> mìosan</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> mìos</item>
+    </plurals>
+    <plurals name="year_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> bhliadhna</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> bhliadhna</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> bliadhnaichean</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> bliadhna</item>
+    </plurals>
+    <string name="class_0_message_activity">Teachdaireachd clas 0</string>
+    <string name="save">Sàbhail</string>
+    <string name="sms_storage_low_auto_delete_enabled_dialog_text">Tha an t-àite a’ fàs gann air an uidheam. Sguabaidh aplacaid nan teachdaireachdan seann-teachdaireachdan às airson àite a shaoradh.</string>
+    <string name="sms_storage_low_title">Tha an stòras gann</string>
+    <string name="sms_storage_low_text">Dh’fhaoidte nach dèid teachdaireachd a chur no fhaighinn mus bi barrachd àite air an uidheam agad.</string>
+    <string name="sms_storage_low_notification_ticker">Tha stòras nan SMS gann. Dh’fhaoidte gum bi agad ri teachdaireachdan a sguabadh às.</string>
+    <string name="enter_phone_number_title">Dearbh an àireamh fòn agad</string>
+    <string name="enter_phone_number_text">Chan fheum thu seo a dhèanamh ach aon turas agus nì e cinnteach gun dèid na teachdaireachdan buidhinn a lìbhrigeadh dhut mar bu chòir.</string>
+    <string name="enter_phone_number_hint">Àireamh fòn</string>
+    <string name="delete_all_media">Sguab às a h-uile teachdaireachd ris a bheil meadhan</string>
+    <string name="delete_oldest_messages">Sguab às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g></string>
+    <string name="auto_delete_oldest_messages">Sguab às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g> gu fèin-obrachail</string>
+    <string name="ignore">Leig seachad</string>
+    <string name="delete_all_media_confirmation">An sguab thu às a h-uile teachdaireachd ris a bheil meadhan?</string>
+    <string name="delete_oldest_messages_confirmation">An sguab thu às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g>?</string>
+    <string name="auto_delete_oldest_messages_confirmation">An sguab thu às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g> ’s an dèan sinn seo gu fèin-obrachail o seo a-mach?</string>
+    <string name="incoming_text_sender_content_description">Thuirt <xliff:g id="sender">%s</xliff:g></string>
+    <string name="outgoing_text_sender_content_description">Thuirt thu</string>
+    <string name="incoming_sender_content_description">Teachdaireachd o <xliff:g id="sender">%s</xliff:g></string>
+    <string name="outgoing_sender_content_description">Chuir thu teachdaireachd</string>
+    <string name="message_status_send_failed">Cha deach a chur. Thoir gnogag airson feuchainn ris a-rithist.</string>
+    <string name="message_status_resend">Ath-chuir no sguab às</string>
+    <string name="message_status_send_failed_emergency_number">Dèan gairm gutha dha na seirbheisean-èiginn. Cha b’ urrainn dhuinn an teachdaireachd teacsa agad a lìbhrigeadh aig an àm seo.</string>
+    <string name="message_status_failed">Dh’fhàillig leis</string>
+    <string name="message_title_manual_download">Tha teachdaireachd MMS ùr ri luchdadh a-nuas ann</string>
+    <string name="message_title_downloading">Teachdaireachd MMS ùr</string>
+    <string name="message_title_download_failed">Cha b’ urrainn dhuinn seo a luchdadh a-nuas</string>
+    <string name="message_status_download_failed">Thoir gnogag airson feuchainn ris a-rithist</string>
+    <string name="message_status_download">Thoir gnogag gus a luchdadh a-nuas</string>
+    <string name="message_status_download_action">Luchdaich a-nuas no sguab às</string>
+    <string name="message_status_download_error">Dh’fhalbh an ùine air an teachdaireachd no chan eil i ri làimh</string>
+    <string name="mms_info">meud: <xliff:g id="messageSize">%1$s</xliff:g>, falbhaidh an ùine air: <xliff:g id="messageExpire">%2$s</xliff:g></string>
+    <string name="invalid_destination">Cha ghabh a chur. Chan eil am faightear dligheach.</string>
+    <string name="service_not_activated">Chan eil an t-seirbheis gnìomhach air an lìonra seo</string>
+    <string name="service_network_problem">Cha b’ urrainn dhuinn a chur ri linn duilgheadasan leis an lìonra</string>
+    <string name="service_message_not_found">Dh’fhalbh an ùine air an teachdaireachd no chan eil i ri làimh</string>
+    <string name="no_subject">(Gun chuspair)</string>
+    <string name="unknown_sender">Seòladair nach aithne dhuinn</string>
+    <string name="delivered_status_content_description">Air a libhrigeadh</string>
+    <string name="dl_failure_notification">Cha b’ urrainn dhuinn teachdaireachd <xliff:g id="subject">%1$s</xliff:g> o <xliff:g id="from">%2$s</xliff:g> a luchdadh a-nuas.</string>
+    <string name="low_memory">Cha b’ urrainn dhuinn an gnìomh stòir-dhàta a choileanadh air sgàth gainnead cuimhne</string>
+    <string name="notification_send_failures_line1_singular">Cha deach an teachdaireachd a chur</string>
+    <string name="notification_send_failures_line1_plural">Cha do chuir aplacaid nan teachdaireachdan a h-uile teachdaireachd</string>
+    <plurals name="notification_send_failures">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> chòmhradh</item>
+        <item quantity="two"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> chòmhradh</item>
+        <item quantity="few"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhraidhean</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhradh</item>
+    </plurals>
+    <string name="notification_download_failures_line1_singular">Cha deach an teachdaireachd a luchdadh a-nuas</string>
+    <string name="notification_download_failures_line1_plural">Cha do luchdaich aplacaid nan teachdaireachdan a h-uile teachdaireachd a-nuas</string>
+    <plurals name="notification_download_failures">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> chòmhradh</item>
+        <item quantity="two"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> chòmhradh</item>
+        <item quantity="few"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhraidhean</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhradh</item>
+    </plurals>
+    <string name="notification_emergency_send_failure_line1">Cha deach an teachdaireachd gu <xliff:g id="number">%1$s</xliff:g> a chur</string>
+    <string name="notification_emergency_send_failure_line2">        Dèan gairm gutha dha na seirbheisean-èiginn. Cha b’ urrainn dhuinn an teachdaireachd teacsa agad gu
+        <xliff:g id="number">%1$s</xliff:g> a lìbhrigeadh aig an àm seo.
+    </string>
+    <plurals name="notification_new_messages">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> teachdaireachd ùr</item>
+        <item quantity="two"><xliff:g id="messages">%d</xliff:g> teachdaireachd ùr</item>
+        <item quantity="few"><xliff:g id="messages">%d</xliff:g> teachdaireachdan ùra</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> teachdaireachd ùr</item>
+    </plurals>
+    <string name="start_conversation">Tòisich</string>
+    <string name="camera_error_opening">Chan eil camara ri làimh</string>
+    <string name="camera_error_unknown">Chan eil camara ri làimh</string>
+    <string name="camera_error_video_init_fail">Chan eil glacadh video ri làimh</string>
+    <string name="camera_error_storage_fail">Cha ghabh meadhan a shàbhaladh</string>
+    <string name="camera_error_failure_taking_picture">Cha ghabh dealbh a thogail</string>
+    <string name="back">Air ais</string>
+    <string name="action_menu_show_archived">Air a chur san tasg-lann</string>
+    <string name="action_delete">Sguab às</string>
+    <string name="action_archive">Tasg-lann</string>
+    <string name="action_unarchive">Thoir às an tasg-lann</string>
+    <string name="action_add_contact">Cuir neach-aithne ris</string>
+    <string name="action_download">Luchdaich a-nuas</string>
+    <string name="action_send">Cuir</string>
+    <string name="action_delete_message">Sguab às</string>
+    <string name="delete_message_confirmation_dialog_title">An sguab thu às an teachdaireachd seo?</string>
+    <string name="delete_message_confirmation_dialog_text">Cha ghabh seo a neo-dhèanamh.</string>
+    <string name="delete_message_confirmation_button">Sguab às</string>
+    <plurals name="delete_conversations_confirmation_dialog_title">
+        <item quantity="one">An sguab thu às an còmhradh seo?</item>
+        <item quantity="two">An sguab thu às na còmhraidhean seo?</item>
+        <item quantity="few">An sguab thu às na còmhraidhean seo?</item>
+        <item quantity="other">An sguab thu às na còmhraidhean seo?</item>
+    </plurals>
+    <string name="delete_conversation_confirmation_button">Sguab às</string>
+    <string name="delete_conversation_decline_button">Sguir dheth</string>
+    <string name="recipient_hint">Gu</string>
+    <string name="action_multiselect">Tagh iomadh dealbh</string>
+    <string name="action_confirm_multiselect">Dearbh an taghadh</string>
+    <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
+    <string name="audio_recording_start_failed">Cha b’ urrainn dhuinn an fhuaim a chlàradh. Feuch ris a-rithist.</string>
+    <string name="audio_recording_replay_failed">Cha b’ urrainn dhuinn an fhuaim a chluich. Feuch ris a-rithist.</string>
+    <string name="audio_recording_error"> Cha b’ urrainn dhuinn an fhuaim a shàbhaladh. Feuch ris a-rithist.</string>
+    <string name="audio_picker_hint_text">Thoir gnogag ⁊ cùm sìos</string>
+    <string name="enumeration_comma">,\u0020</string>
+    <string name="notification_separator">\u0020\u0020</string>
+    <string name="notification_ticker_separator">:\u0020</string>
+    <string name="notification_space_separator">\u0020\u0020</string>
+    <string name="notification_picture">Dealbh</string>
+    <string name="notification_audio">Bearradh fuaime</string>
+    <string name="notification_video">Video</string>
+    <string name="notification_vcard">Cairt-chonaltraidh</string>
+    <string name="notification_download_mms">Luchdaich a-nuas</string>
+    <string name="notification_reply_via_sms">Freagair le SMS</string>
+    <string name="notification_reply_via_mms">Freagair le MMS</string>
+    <string name="notification_reply_prompt">Freagairt</string>
+    <plurals name="wearable_participant_count">
+        <item quantity="one">&lt;xliff:g id="count"&gt; chom-pàirtiche</item>
+        <item quantity="two">&lt;xliff:g id="count"&gt; chom-pàirtiche</item>
+        <item quantity="few">&lt;xliff:g id="count"&gt; com-pàirtichean</item>
+        <item quantity="other">&lt;xliff:g id="count"&gt; com-pàirtiche</item>
+    </plurals>
+    <string name="unknown_self_participant">Uam</string>
+    <string name="blocked_toast_message">Chaidh an neach-aithne a bhacadh ⁊ a chur san tasg-lann</string>
+    <string name="unblocked_toast_message">Chaidh an neach-aithne a bhacadh ⁊ a thoirt às an tasg-lann</string>
+    <string name="archived_toast_message">Chaidh <xliff:g id="count">%d</xliff:g> a chur san tasg-lann</string>
+    <string name="unarchived_toast_message">Chaidh <xliff:g id="count">%d</xliff:g> a thoirt às an tasg-lann</string>
+    <string name="notification_off_toast_message">Chaidh na brathan a chur dheth</string>
+    <string name="notification_on_toast_message">Chaidh na brathan a chur air</string>
+    <string name="toast_after_setting_default_sms_app_for_message_send">Tha thu ullamh ma-thà. Thoir gnogag air “Cuir” a-rithist.</string>
+    <string name="toast_after_setting_default_sms_app">Chaidh aplacaid nan teachdaireachdan a shuidheachadh mar thè thùsail nan SMS.</string>
+    <plurals name="attachment_preview_close_content_description">
+        <item quantity="one">Tilg air falbh an ceanglachan</item>
+        <item quantity="two">Tilg air falbh na ceanglachain</item>
+        <item quantity="few">Tilg air falbh na ceanglachain</item>
+        <item quantity="other">Tilg air falbh na ceanglachain</item>
+    </plurals>
+    <string name="audio_attachment_content_description">Ceanglachan fuaime</string>
+    <string name="audio_play_content_description">Cluich an ceanglachan fuaime</string>
+    <string name="audio_pause_content_description">Cuir ’na stad</string>
+    <string name="failed_message_content_description">Dh’fhàillig leis an teachdaireachd. Thoir gnogag airson feuchainn ris a-rithist.</string>
+    <string name="group_conversation_description">Còmhradh le <xliff:g id="participants">%s</xliff:g></string>
+    <string name="delete_subject_content_description">Sguab às an cuspair</string>
+    <string name="camera_switch_to_video_mode">Glac video</string>
+    <string name="camera_switch_to_still_mode">Glac dealbh</string>
+    <string name="camera_take_picture">Tog dealbh</string>
+    <string name="camera_start_recording">Tòisich air video a chlàradh</string>
+    <string name="camera_switch_full_screen">Geàrr leum gu camara na làn-sgrìn</string>
+    <string name="camera_switch_camera_facing">Geàrr leum eadar camara a’ bheulaibh ’s a’ chùlaibh</string>
+    <string name="camera_stop_recording">Cuir stad air a’ clàradh ’s ceangal a’ video ris</string>
+    <string name="camera_cancel_recording">Cuir stad air a’ chlàradh a’ video</string>
+    <string name="photo_view_activity_title">Dealbhan theachdaireachdan</string>
+    <plurals name="photos_saved_to_album">
+        <item quantity="one">Chaidh <xliff:g id="quantity">%d</xliff:g> dealbh a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="two">Chaidh <xliff:g id="quantity">%d</xliff:g> dhealbh a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="few">Chaidh <xliff:g id="quantity">%d</xliff:g> dealbhan a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="other">Chaidh <xliff:g id="quantity">%d</xliff:g> dealbh a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+    </plurals>
+    <plurals name="videos_saved_to_album">
+        <item quantity="one">Chaidh <xliff:g id="quantity">%d</xliff:g> video a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="two">Chaidh <xliff:g id="quantity">%d</xliff:g> video a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="few">Chaidh <xliff:g id="quantity">%d</xliff:g> videothan a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="other">Chaidh <xliff:g id="quantity">%d</xliff:g> video a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+    </plurals>
+    <plurals name="attachments_saved_to_album">
+        <item quantity="one">Chaidh <xliff:g id="quantity">%d</xliff:g> cheanglachan a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="two">Chaidh <xliff:g id="quantity">%d</xliff:g> cheanglachan a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="few">Chaidh <xliff:g id="quantity">%d</xliff:g> ceanglachain a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+        <item quantity="other">Chaidh <xliff:g id="quantity">%d</xliff:g> ceanglachan a shàbhaladh dhan albam “<xliff:g id="albumName">%s</xliff:g>”</item>
+    </plurals>
+    <plurals name="attachments_saved_to_downloads">
+        <item quantity="one">Chaidh <xliff:g id="quantity">%d</xliff:g> cheanglachan a shàbhaladh gu “Luchdaidhean a-nuas”</item>
+        <item quantity="two">Chaidh <xliff:g id="quantity">%d</xliff:g> cheanglachan a shàbhaladh gu “Luchdaidhean a-nuas”</item>
+        <item quantity="few">Chaidh <xliff:g id="quantity">%d</xliff:g> ceanglachain a shàbhaladh gu “Luchdaidhean a-nuas”</item>
+        <item quantity="other">Chaidh <xliff:g id="quantity">%d</xliff:g> ceanglachan a shàbhaladh gu “Luchdaidhean a-nuas”</item>
+    </plurals>
+    <plurals name="attachments_saved">
+        <item quantity="one">Chaidh <xliff:g id="quantity">%d</xliff:g> cheanglachan a shàbhaladh</item>
+        <item quantity="two">Chaidh <xliff:g id="quantity">%d</xliff:g> cheanglachan a shàbhaladh</item>
+        <item quantity="few">Chaidh <xliff:g id="quantity">%d</xliff:g> ceanglachain a shàbhaladh</item>
+        <item quantity="other">Chaidh <xliff:g id="quantity">%d</xliff:g> ceanglachan a shàbhaladh</item>
+    </plurals>
+    <plurals name="attachment_save_error">
+        <item quantity="one">Tha <xliff:g id="quantity">%d</xliff:g> cheanglachan nach b’ urrainn dhuinn a shàbhaladh ann</item>
+        <item quantity="two">Tha <xliff:g id="quantity">%d</xliff:g> cheanglachan nach b’ urrainn dhuinn a shàbhaladh ann</item>
+        <item quantity="few">Tha <xliff:g id="quantity">%d</xliff:g> ceanglachain nach b’ urrainn dhuinn a shàbhaladh ann</item>
+        <item quantity="other">Tha <xliff:g id="quantity">%d</xliff:g> ceanglachan nach b’ urrainn dhuinn a shàbhaladh ann</item>
+    </plurals>
+    <string name="attachment_file_description">Ceanglachan MMS air a shàbhaladh</string>
+    <string name="settings_activity_title">Roghainnean</string>
+    <string name="archived_activity_title">Air a chur san tasg-lann</string>
+    <string name="action_close">Dùin</string>
+    <string name="mms_messaging_category_pref_title">MMS</string>
+    <string name="advanced_category_pref_title">Adhartach</string>
+    <string name="debug_category_pref_title">Dì-bhugachadh</string>
+    <string name="notifications_pref_title">Brathan</string>
+    <string name="silent_ringtone">’Na thost</string>
+    <string name="blocked_pref_title">Bacte</string>
+    <string name="delivery_reports_pref_title">Aithisgean lìbhrigidh SMS</string>
+    <string name="delivery_reports_pref_summary">Iarr aithisg lìbhrigidh airson gach SMS a chuireas tu</string>
+    <string name="auto_retrieve_mms_pref_title">Faigh gu fèin-obrachail</string>
+    <string name="auto_retrieve_mms_pref_summary">Faigh teachdaireachdan MMS gu fèin-obrachail</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_title">Faigh gu fèin-obrachail air fàrsan</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_summary">Faigh teachdaireachdan MMS gu fèin-obrachail fhad ’s a bhios tu air fàrsan</string>
+    <string name="group_mms_pref_title">Teachdaireachdan buidhinn</string>
+    <string name="group_mms_pref_summary">Cleachd MMS a chur aon teachdaireachd nuair a bhios iomadh faightear ann</string>
+    <string name="sms_disabled_pref_title">Aplacaid SMS thùsail</string>
+    <string name="sms_enabled_pref_title">Aplacaid SMS thùsail</string>
+    <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
+    <string name="mms_phone_number_pref_title">An àireamh fòn agad</string>
+    <string name="unknown_phone_number_pref_display_value">Neo-aithnichte</string>
+    <string name="send_sound_pref_title">Fuaimean nan teachdaireachdan a-mach</string>
+    <string name="dump_sms_pref_title">Dumpaich an SMS</string>
+    <string name="dump_sms_pref_summary">Dèan dump de dàta amh an SMS a fhuair thu gu faidhle stòrais air an taobh a-muigh</string>
+    <string name="dump_mms_pref_title">Dumpaich an MMS</string>
+    <string name="dump_mms_pref_summary">Dèan dump de dàta amh an MMS a fhuair thu gu faidhle stòrais air an taobh a-muigh</string>
+    <string name="wireless_alerts_title">Caismeachdan gun uèir</string>
+    <string name="message_context_menu_title">Roghainnean na teachdaireachd</string>
+    <string name="message_context_menu_copy_text">Dèan lethbhreac dhen teacsa</string>
+    <string name="message_context_menu_view_details">Seall am mion-fhiosrachadh</string>
+    <string name="message_context_menu_delete_message">Sguab às</string>
+    <string name="message_context_menu_forward_message">Sìn air adhart</string>
+    <string name="message_details_title">Mion-fhiosrachadh mun teachdaireachd</string>
+    <string name="message_type_label">Seòrsa:\u0020</string>
+    <string name="text_message">Teachdaireachd teacsa</string>
+    <string name="multimedia_message">Teachdaireachd ioma-mheadhain</string>
+    <string name="from_label">O:\u0020</string>
+    <string name="to_address_label">Gu:\u0020</string>
+    <string name="sent_label">Air a chur:\u0020</string>
+    <string name="received_label">Air fhaighinn:\u0020</string>
+    <string name="subject_label">Cuspair:\u0020</string>
+    <string name="message_size_label">Meud:\u0020</string>
+    <string name="priority_label">Prìomhachas:\u0020</string>
+    <string name="sim_label">SIM:\u0020</string>
+    <string name="priority_high">Àrd</string>
+    <string name="priority_normal">Àbhaisteach</string>
+    <string name="priority_low">Ìosal</string>
+    <string name="sim_slot_identifier">SIM <xliff:g id="sim_slot_number">%s</xliff:g></string>
+    <string name="hidden_sender_address">Seòladh falaichte an t-seòladair</string>
+    <string name="cant_send_message_while_loading_attachments">Chan urrainn dhuinn teachdaireachd a chur fhad ’s a tha ceanglachan ’ga luchdadh.</string>
+    <string name="fail_to_load_attachment">Cha b’ urrainn dhuinn ceanglachan a luchdadh. Feuch ris a-rithist.</string>
+    <string name="cant_send_message_without_active_subscription">Chan eil an lìonra deiseil. Feuch ris a-rithist.</string>
+    <string name="chips_text_delete_button_content_description">Sguab às an teacsa</string>
+    <string name="numeric_text_keyboard_toggle_button_content_description">Geàrr leum eadar cur a-steach teacsa is àireamhan</string>
+    <string name="add_more_participants_button_content_description">Cuir barrachd com-pàirtichean ris</string>
+    <string name="confrim_participants_button_content_description">Dearbh na com-pàirtichean</string>
+    <string name="start_new_conversation">Tòisich air còmhradh ùr</string>
+    <string name="gallery_checkbox_content_description">Tagh an nì seo</string>
+    <string name="video_thumbnail_view_play_button_content_description">Cluich a’ video</string>
+    <string name="action_people_and_options">Daoine ⁊ roghainnean</string>
+    <string name="action_debug_options">Dì-bhugachadh</string>
+    <string name="people_and_options_activity_title">Daoine ⁊ roghainnean</string>
+    <string name="general_settings_title">Coitcheann</string>
+    <string name="participant_list_title">Na daoine sa chòmhradh seo</string>
+    <string name="action_call">Cuir fòn</string>
+    <string name="compose_message_view_hint_text">Cuir teachdaireachd</string>
+    <string name="compose_message_view_hint_text_multi_sim">Cuir an teachdaireachd&lt;br/&gt;&lt;small&gt;le <xliff:g id="sim_name">%s</xliff:g>&lt;/small&gt;</string>
+    <plurals name="compose_message_view_hint_text_photo">
+        <item quantity="one">Cuir dealbh</item>
+        <item quantity="two">Cuir dealbhan</item>
+        <item quantity="few">Cuir dealbhan</item>
+        <item quantity="other">Cuir dealbhan</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_audio">
+        <item quantity="one">Cuir fuaim</item>
+        <item quantity="two">Cuir fuaimean</item>
+        <item quantity="few">Cuir fuaimean</item>
+        <item quantity="other">Cuir fuaimean</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_video">
+        <item quantity="one">Cuir video</item>
+        <item quantity="two">Cuir videothan</item>
+        <item quantity="few">Cuir videothan</item>
+        <item quantity="other">Cuir videothan</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_vcard">
+        <item quantity="one">Cuir cairt-chonaltraidh</item>
+        <item quantity="two">Cuir cairtean-conaltraidh</item>
+        <item quantity="few">Cuir cairtean-conaltraidh</item>
+        <item quantity="other">Cuir cairtean-conaltraidh</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_attachments">
+        <item quantity="one">Cuir ceanglachan</item>
+        <item quantity="two">Cuir ceanglachain</item>
+        <item quantity="few">Cuir ceanglachain</item>
+        <item quantity="other">Cuir ceanglachain</item>
+    </plurals>
+    <plurals name="attachment_changed_accessibility_announcement">
+        <item quantity="one">Tha <xliff:g id="attachment_count">%d</xliff:g> cheanglachan deiseil ri chur</item>
+        <item quantity="two">Tha <xliff:g id="attachment_count">%d</xliff:g> cheanglachan deiseil ri chur</item>
+        <item quantity="few">Tha <xliff:g id="attachment_count">%d</xliff:g> ceanglachain deiseil ri chur</item>
+        <item quantity="other">Tha <xliff:g id="attachment_count">%d</xliff:g> ceanglachan deiseil ri chur</item>
+    </plurals>
+    <string name="menu_send_feedback">Cuir do bheachd thugainn</string>
+    <string name="menu_view_in_store">Seall am broinn Google Play Store</string>
+    <string name="menu_version_info">Fiosrachadh mun tionndadh</string>
+    <string name="subtitle_format_for_version_number">Tionndadh %1$s</string>
+    <string name="menu_license">Ceadachasan Open Source</string>
+    <string name="notifications_enabled_conversation_pref_title">Brathan</string>
+    <string name="mms_attachment_limit_reached">Ràinig thu a’ chrìoch nan ceanglachan</string>
+    <string name="mms_attachment_load_failed">Dh’fhàillig le luchdadh a’ cheanglachain.</string>
+    <string name="add_contact_confirmation_dialog_title">A cuir thu seo ris an luchd-aithne?</string>
+    <string name="add_contact_confirmation">Cuir neach-aithne ris</string>
+    <string name="compose_message_view_subject_hint_text">Cuspair</string>
+    <string name="conversation_message_view_subject_text">Cuspair:\u0020</string>
+    <string name="loading_vcard">A’ luchdadh na cairte-conaltraidh</string>
+    <string name="failed_loading_vcard">Cha b’ urrainn dhuinn a’ chairt-chonaltraidh a luchdadh</string>
+    <string name="vcard_tap_hint">Seall a’ chairt-chonaltraidh</string>
+    <plurals name="vcard_multiple_display_name">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> neach-aithne</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> luchd-aithne</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> luchd-aithne</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> neach-aithne</item>
+    </plurals>
+    <string name="vcard_detail_activity_title">Cairt-chonaltraidh</string>
+    <string name="vcard_detail_birthday_label">Co-là breith</string>
+    <string name="vcard_detail_notes_label">Nòtaichean</string>
+    <string name="forward_message_activity_title">Sìneadh air adhart</string>
+    <string name="reply_activity_title">Freagairt</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_n">+%d</string>
+    <string name="sms_disabled">Tha SMS à comas</string>
+    <string name="requires_default_sms_app_to_send">Airson a chur, suidhich aplacaid nan teachdaireachdan mar thè thùsail nan SMS</string>
+    <string name="requires_default_sms_app">Suidhich aplacaid nan teachdaireachdan mar thè thùsail nan SMS</string>
+    <string name="requires_default_sms_change_button">Atharraich</string>
+    <string name="recommend_set_default_sms_app">Airson teachdaireachdan fhaighinn, suidhich aplacaid nan teachdaireachdan mar thè thùsail nan SMS</string>
+    <string name="no_preferred_sim_selected">Cha do thagh thu an SIM as fheàrr leat airson teachdaireachdan SMS a chur</string>
+    <string name="requires_sms_permissions_message">Cha cheadaich sealbhadair an uidheim an aplacaid seo.</string>
+    <string name="requires_sms_permissions_close_button">Ceart ma-thà</string>
+    <string name="too_many_participants">Tha cus chom-pàirtichean ann an còmhradh</string>
+    <plurals name="add_invalid_contact_error">
+        <item quantity="one">Neach-aithne mì-dhligheach</item>
+        <item quantity="two">Luchd-aithne mì-dhligheach</item>
+        <item quantity="few">Luchd-aithne mì-dhligheach</item>
+        <item quantity="other">Luchd-aithne mì-dhligheach</item>
+    </plurals>
+    <string name="camera_media_failure">Cha b’ urrainn dhuinn dealbh a’ chamara a luchdadh</string>
+    <string name="conversation_list_item_view_sent_from_you_prefix">Thusa:\u0020</string>
+    <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
+    <string name="conversation_list_item_view_draft_message">Dreachd</string>
+    <string name="conversation_list_empty_text">Nuair a thòisicheas tu air còmhradh ùr, chì thu an-seo e</string>
+    <string name="archived_conversation_list_empty_text">Nochdaidhean còmhraidhean na tasg-lainn an-seo</string>
+    <string name="conversation_list_snippet_picture">Dealbh</string>
+    <string name="conversation_list_snippet_audio_clip">Bearradh fuaime</string>
+    <string name="conversation_list_snippet_video">Video</string>
+    <string name="conversation_list_snippet_vcard">Cairt-chonaltraidh</string>
+    <string name="mms_text">MMS</string>
+    <string name="snack_bar_undo">Neo-dhèan</string>
+    <string name="snack_bar_retry">Feuch ris a-rithist</string>
+    <string name="contact_list_empty_text">Cuir a-steach ainm no àireamh fòn neach-aithne airson teachdaireachd ùr a thòiseachadh</string>
+    <string name="action_block">Bac</string>
+    <string name="block_contact_title">Bac <xliff:g id="destination">%s</xliff:g></string>
+    <string name="unblock_contact_title">Dì-bhac <xliff:g id="destination">%s</xliff:g></string>
+    <string name="block_confirmation_title">Am bac thu <xliff:g id="destination">%s</xliff:g>?</string>
+    <string name="block_confirmation_message">Gheibh thu teachdaireachdan on àireamh seo fhathast ach chan fhaigh thu brath mun dèidhinn. Thèid an còmhradh seo a chur san tasg-lann.</string>
+    <string name="blocked_contacts_title">Luchd-aithne a chaidh a bhacadh</string>
+    <string name="tap_to_unblock_message">DÌ-BHAC</string>
+    <string name="view_blocked_contacts_title">Luchd-aithne a chaidh a bhacadh</string>
+    <string name="pick_image_from_document_library_content_description">Tagh dealbh o leabhar-lann nan sgrìobhainnean</string>
+    <string name="sending_message">A’ cur na teachdaireachd</string>
+    <string name="send_message_success">Chaidh an teachdaireachd a chur</string>
+    <string name="send_message_failure_no_data">Chaidh an dàta mobile a chur dheth. Thoir sùil air na roghainnean agad.</string>
+    <string name="send_message_failure_airplane_mode">Chan urrainn dhuinn teachdaireachd a chur fhad ’s a bhios am modh itealain air</string>
+    <string name="send_message_failure">Cha b’ urrainn dhuinn an teachdaireachd a chur</string>
+    <string name="download_message_success">Chaidh an teachdaireachd a luchdadh a-nuas</string>
+    <string name="download_message_failure_no_data">Chaidh an dàta mobile a chur dheth. Thoir sùil air na roghainnean agad.</string>
+    <string name="download_message_failure_airplane_mode">Chan urrainn dhuinn teachdaireachd a luchdadh a-nuas fhad ’s a bhios am modh itealain air</string>
+    <string name="download_message_failure">Cha b’ urrainn dhuinn an teachdaireachd a luchdadh a-nuas</string>
+    <string name="content_description_for_number_zero">A neoini</string>
+    <string name="content_description_for_number_one">A h-aon</string>
+    <string name="content_description_for_number_two">A dhà</string>
+    <string name="content_description_for_number_three">A trì</string>
+    <string name="content_description_for_number_four">A ceithir</string>
+    <string name="content_description_for_number_five">A còig</string>
+    <string name="content_description_for_number_six">A sia</string>
+    <string name="content_description_for_number_seven">A seachd</string>
+    <string name="content_description_for_number_eight">A h-ochd</string>
+    <string name="content_description_for_number_nine">A naoi</string>
+    <string name="carrier_send_error">Cha b’ urrainn dhuinn an teachdaireachd a chur le <xliff:g id="carrierName">%1$s</xliff:g>, mearachd <xliff:g id="errorCode">%2$d</xliff:g></string>
+    <string name="carrier_send_error_unknown_carrier">Cha b’ urrainn dhuinn an teachdaireachd a chur ’s chan eil fhios cò an giùlanair, mearachd <xliff:g id="errorCode">%1$d</xliff:g></string>
+    <string name="message_fwd">Fwd: <xliff:g id="subject">%s</xliff:g></string>
+    <string name="mms_failure_outgoing_service">Cha deach an teachdaireachd a chur: chan eil an t-seirbheis gnìomhach air an lìonra seo</string>
+    <string name="mms_failure_outgoing_address">Cha deach an teachdaireachd a chur: seòladh-uidhe mì-dhligheach</string>
+    <string name="mms_failure_outgoing_corrupt">Cha deach an teachdaireachd a chur: teachdaireachd mhì-dhligheach</string>
+    <string name="mms_failure_outgoing_content">Cha deach an teachdaireachd a chur: susbaint ris nach eil taic</string>
+    <string name="mms_failure_outgoing_unsupported">Cha deach an teachdaireachd a chur: teachdaireachd ris nach eil taic</string>
+    <string name="mms_failure_outgoing_too_large">Cha deach an teachdaireachd a chur: ro mhòr</string>
+    <string name="in_conversation_notify_new_message_text">Teachdaireachd ùr</string>
+    <string name="in_conversation_notify_new_message_action">Seall</string>
+    <string name="message_image_content_description">Dealbh</string>
+    <string name="activity_not_found_message">Cha do lorg sinn aplacaid iomchaidh</string>
+    <string name="chips_delete_content_description">Thoir faightear air falbh</string>
+    <string name="share_new_message">Teachdaireachd ùr</string>
+    <string name="share_cancel">Sguir dheth</string>
+    <string name="apn_edit">Deasaich a’ phuing-inntrigidh</string>
+    <string name="apn_not_set">Cha deach a shuidheachadh</string>
+    <string name="apn_name">Ainm</string>
+    <string name="apn_apn">APN</string>
+    <string name="apn_mmsc">MMSC</string>
+    <string name="apn_mms_proxy">Progsaidh MMS</string>
+    <string name="apn_mms_port">Port MMS</string>
+    <string name="apn_mcc">MCC</string>
+    <string name="apn_mnc">MNC</string>
+    <string name="apn_type">Seòrsa APN</string>
+    <string name="menu_delete_apn">Sguab às APN</string>
+    <string name="menu_new_apn">APN ùr</string>
+    <string name="menu_save_apn">Sàbhail</string>
+    <string name="menu_discard_apn_change">Tilg air falbh</string>
+    <string name="error_apn_name_empty">Chan fhaod raon an ainm a bhith bàn.</string>
+    <string name="error_apn_empty">Chan fhaod APN a bhith bàn.</string>
+    <string name="error_mcc_not3">Feumaidh 3 àireamhan a bhith ann an raon MCC.</string>
+    <string name="error_mnc_not23">Feumaidh 2 no 3 àireamhan a bhith ann an raon MNC.</string>
+    <string name="restore_default_apn">Ag aiseag bun-roghainnean APN.</string>
+    <string name="menu_restore_default_apn">Ath-shuidhich air a’ bhun-roghainn</string>
+    <string name="restore_default_apn_completed">Chaidh bun-roghainnean APN ath-shuidheachadh.</string>
+    <string name="untitled_apn">Gun tiotal</string>
+    <string name="sms_apns_title">Ainmean puing-inntrigidh</string>
+    <string name="apn_settings">APNs</string>
+    <string name="menu_new">APN ùr</string>
+    <string name="apn_settings_not_available">Chan eil roghainnean ainm na puing-inntrigidh ri fhaighinn airson a’ cleachdaiche seo</string>
+    <string name="copy_to_clipboard_dialog_title">An cuir thu lethbhreac dheth air an stòr-bhòrd?</string>
+    <string name="copy_to_clipboard">Dèan lethbhreac</string>
+    <string name="incoming_sim_name_text">gu <xliff:g id="sim_name">%s</xliff:g></string>
+    <string name="general_settings">Coitcheann</string>
+    <string name="advanced_settings">Adhartach</string>
+    <string name="general_settings_activity_title">Roghainnean coitcheann</string>
+    <string name="advanced_settings_activity_title">Roghainnean adhartach</string>
+    <string name="sim_specific_settings">SIM “<xliff:g id="sim_name">%s</xliff:g>”</string>
+    <string name="disable_group_mms">Cuir teachdaireachd SMS fa leth do gach faightear. Chan fhaigh ach thu fhèin freagairt</string>
+    <string name="enable_group_mms">Cuir aon MMS gu na faightearan uile</string>
+    <string name="sim_settings_unknown_number">Àireamh nach aithne dhuinn</string>
+    <string name="secondary_user_new_message_title">Teachdaireachd ùr</string>
+    <string name="secondary_user_new_message_ticker">Teachdaireachd ùr.</string>
+    <string name="sim_selector_button_content_description">Roghnaichear nan SIM</string>
+    <string name="sim_selector_button_content_description_with_selection">Chaidh <xliff:g id="sim">%1$s</xliff:g> a thaghadh, roghnaichear nan SIM</string>
+    <string name="send_button_long_click_description_no_sim_selector">Deasaich an cuspair</string>
+    <string name="send_button_long_click_description_with_sim_selector">Tagh SIM no deasaich an cuspair</string>
+    <string name="audio_record_view_content_description">Thoir gnogag ⁊ cùm sìos airson fuaim a chlàradh</string>
+    <string name="widget_new_conversation_content_description">Tòisich air còmhradh ùr</string>
+    <string name="widget_title_content_description">Teachdaireachdan</string>
+    <string name="widget_conversation_list_name">Liosta nan teachdaireachdan</string>
+    <string name="widget_conversation_name">Teachdaireachdan</string>
+    <string name="widget_new_message_content_description">Teachdaireachd ùr</string>
+    <string name="widget_conversation_list_content_description">Liosta nan còmhraidhean</string>
+    <string name="loading_conversations">A’ luchdadh nan còmhraidhean</string>
+    <string name="loading_messages">A’ luchdadh nan teachdaireachdan</string>
+    <string name="view_more_conversations">Seall barrachd chòmhraidhean</string>
+    <string name="view_more_messages">Seall barrachd theachdaireachdan</string>
+    <string name="conversation_deleted">Chaidh còmhradh a sguabadh às</string>
+    <string name="tap_to_configure">Chaidh an còmhradh a sguabadh às. Thoir gnogag a shealltainn còmhradh eile de theachdaireachdan</string>
+    <string name="update_destination_blocked">Chaidh a bhacadh</string>
+    <string name="update_destination_unblocked">Chaidh a dhì-bhacadh</string>
+    <string name="db_full">Tha an stòras gann. Dh’fhaoidte gun dèid dàta air chall.</string>
+    <string name="attachment_chooser_activity_title">Tagh ceanglachain</string>
+    <string name="action_confirm_selection">Dearbh an taghadh</string>
+    <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> air a thaghadh</string>
+    <string name="attachment_limit_reached_dialog_message_when_composing">Thoir air falbh ceanglachan no dhà is feuch ris a-rithist.</string>
+    <string name="attachment_limit_reached_dialog_message_when_sending">’S urrainn dhut feuchainn ri cur na teachdaireachd ach dh’fhaoidte nach dèid a cur mus doir thu air falbh ceanglachan no dhà.</string>
+    <string name="video_attachment_limit_exceeded_when_sending">Chan urrainn dhut ach aon video a chur leis gach teachdaireachd. Thoir air falbh na videothan anabarrach is feuch ris a-rithist.</string>
+    <string name="attachment_load_failed_dialog_message">Dh’fhàillig le luchdadh ceanglachain.</string>
+    <string name="attachment_limit_reached_send_anyway">Cuir e co-dhiù</string>
+    <string name="conversation_creation_failure">Cha b’ urrainn dhuinn tòiseachadh air a’ chòmhradh</string>
+    <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
+    <string name="selected_sim_content_message">Chaidh <xliff:g id="selected_sim">%s</xliff:g> a thaghadh</string>
+    <string name="work_directory_display_name">Luchd-aithne aig pròifil na h-obrach</string>
+</resources>

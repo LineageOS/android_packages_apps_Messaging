@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Negesu</string>
+    <string name="share_intent_label">Negesu</string>
+    <string name="share_intent_activity_label">Dewis sgwrs</string>
+    <string name="action_settings">Gosodiadau</string>
+    <string name="sendButtonContentDescription">Anfon Neges</string>
+    <string name="attachMediaButtonContentDescription">Ychwanegu atodiad</string>
+    <string name="help_and_feedback_activity_label">Cymorth</string>
+    <string name="welcome">Croeso</string>
+    <string name="skip">Neidio</string>
+    <string name="next_with_arrow">Nesaf &gt;</string>
+    <string name="next">Nesaf</string>
+    <string name="exit">Cau</string>
+    <string name="settings_with_arrow">Gosodiadau &gt;</string>
+    <string name="settings">Gosodiadau</string>
+    <string name="required_permissions_promo">Mae ar Negesu angen caniatâd SMS, Ffôn a Cysylltiadau.</string>
+    <string name="enable_permission_procedure">Mae\'n bosib newid caniatâd yn Gosodiadau &gt; Apiau &gt; Negesu &gt; Caniatâd.</string>
+    <string name="enable_permission_procedure_description">Mae\'n bosib newid caniatâd yn Gosodiadau, Apiau, Negesu, Caniatâd.</string>
+    <string name="contact_picker_frequents_tab_title">Cysylltir yn aml</string>
+    <string name="contact_picker_all_contacts_tab_title">Pob cyswllt</string>
+    <string name="contact_list_send_to_text">Anfon at <xliff:g id="destination">%s</xliff:g></string>
+    <string name="mediapicker_cameraChooserDescription">Cipio lluniau neu fideo</string>
+    <string name="mediapicker_galleryChooserDescription">Dewis delweddau o\'r ddyfais hon</string>
+    <string name="mediapicker_audioChooserDescription">Recordio sain</string>
+    <string name="mediapicker_contactChooserDescription">Dewis cyswllt o\'r ddyfais hon</string>
+    <string name="mediapicker_gallery_title">Dewis cyfrwng</string>
+    <string name="mediapicker_gallery_item_selected_content_description">Dewiswyd y cyfrwng.</string>
+    <string name="mediapicker_gallery_item_unselected_content_description">Dad-ddewiswyd y cyfrwng.</string>
+    <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> wedi\'u dewis</string>
+    <string name="mediapicker_gallery_image_item_description">delwedd <xliff:g id="date">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
+    <string name="mediapicker_gallery_image_item_description_no_date">delwedd</string>
+    <string name="mediapicker_audio_title">Recordio sain</string>
+    <string name="mediapicker_contact_title">Dewis cyswllt</string>
+    <string name="contact_picker_hint_text">Clicia i agor rhestr cysylltiadau y ddyfais hon</string>
+    <string name="action_share">Rhannu</string>
+    <string name="posted_just_now">"Jyst nawr"</string>
+    <string name="posted_now">"Nawr"</string>
+    <plurals name="num_minutes_ago">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> mun</item>
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> mun</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> fun</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> mun</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> mun</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> mun</item>
+    </plurals>
+    <plurals name="num_hours_ago">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> oriau</item>
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> awr</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> awr</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> awr</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> awr</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> awr</item>
+    </plurals>
+    <plurals name="num_days_ago">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> diwrnodau</item>
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> diwrnod</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> ddiwrnod</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> diwrnod</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> diwrnod</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> diwrnod</item>
+    </plurals>
+    <plurals name="week_count">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> wythnosau</item>
+        <item quantity="one">wythnos</item>
+        <item quantity="two">pythefnos</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> wythnos</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> wythnos</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> wythnos</item>
+    </plurals>
+    <plurals name="month_count">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> misoedd</item>
+        <item quantity="one">mis</item>
+        <item quantity="two">deufis</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> mis</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> mis</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> mis</item>
+    </plurals>
+    <plurals name="year_count">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> blynyddoedd</item>
+        <item quantity="one">blwyddyn</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> flwyddyn</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> blwyddyn</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> blwyddyn</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> blwyddyn</item>
+    </plurals>
+    <string name="class_0_message_activity">Neges dosbarth 0</string>
+    <string name="save">Cadw</string>
+    <string name="sms_storage_low_auto_delete_enabled_dialog_text">Does dim llawer o le yn weddill ar y ddyfais. Bydd negeseuon hyn yn cael eu dileu yn awtomatig i ryddhau lle.</string>
+    <string name="sms_storage_low_title">Yn rhedeg yn brin o le storio</string>
+    <string name="sms_storage_low_text">Mae\'n bosib na fydd Negesu yn anfon na derbyn negeseuon hyd nes bod mwy o le ar gael ar dy ddyfais.</string>
+    <string name="sms_storage_low_notification_ticker">Nid oes lawer o le i storio SMS. Mae\'n bosib bydd rhaid dileu negeseuon.</string>
+    <string name="enter_phone_number_title">Cadarnha dy rif ffôn</string>
+    <string name="enter_phone_number_text">Bydd y cam un tro yma yn sicrhau bod Negesu yn anfon dy negeseuon grwpiau yn gywir.</string>
+    <string name="enter_phone_number_hint">Rhif ffôn</string>
+    <string name="delete_all_media">Dileu pob neges sydd â chyfrwng</string>
+    <string name="delete_oldest_messages">Dileu negeseuon sy\'n hyn na <xliff:g id="duration">%s</xliff:g></string>
+    <string name="auto_delete_oldest_messages">Awto-dileu negeseuon sy\'n hyn na <xliff:g id="duration">%s</xliff:g></string>
+    <string name="ignore">Anwybyddu</string>
+    <string name="delete_all_media_confirmation">Dileu pob neges gyda chyfrwng?</string>
+    <string name="delete_oldest_messages_confirmation">Dileu negeseuon sy\'n hyn na <xliff:g id="duration">%s</xliff:g>?</string>
+    <string name="auto_delete_oldest_messages_confirmation">Dileu negeseuon yn hyn na <xliff:g id="duration">%s</xliff:g> a rhoi awto-dileu ar waith?</string>
+    <string name="incoming_text_sender_content_description">Dywedodd <xliff:g id="sender">%s</xliff:g></string>
+    <string name="outgoing_text_sender_content_description">Dywedaist</string>
+    <string name="incoming_sender_content_description">Neges oddi wrth <xliff:g id="sender">%s</xliff:g></string>
+    <string name="outgoing_sender_content_description">Anfonaist neges</string>
+    <string name="message_status_sending">Yn anfon…</string>
+    <string name="message_status_send_failed">Heb ei anfon. Tapia i geisio eto.</string>
+    <string name="message_status_send_retrying">Heb ei anfon. Yn ceisio eto…</string>
+    <string name="message_status_resend">Ail-anfon neu ddileu</string>
+    <string name="message_status_send_failed_emergency_number">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun heb ei anfon ar hyn o bryd.</string>
+    <string name="message_status_failed">Wedi methu</string>
+    <string name="message_title_manual_download">Neges MMS newydd i\'w lawrlwytho</string>
+    <string name="message_title_downloading">Neges MMS newydd</string>
+    <string name="message_title_download_failed">Methwyd â lawrlwytho</string>
+    <string name="message_status_download_failed">Tapia i geisio eto</string>
+    <string name="message_status_download">Tapia i lawrlwytho</string>
+    <string name="message_status_download_action">Lawrlwytho neu ddileu</string>
+    <string name="message_status_downloading">Yn lawrlwytho…</string>
+    <string name="message_status_download_error">Neges wedi dod i ben neu ddim ar gael</string>
+    <string name="mms_info">maint: <xliff:g id="messageSize">%1$s</xliff:g>, dod i ben: <xliff:g id="messageExpire">%2$s</xliff:g></string>
+    <string name="invalid_destination">Methu ag anfon. Derbynnydd annilys.</string>
+    <string name="service_not_activated">Gwasanaeth heb ei actifadu ar y rhwydwaith</string>
+    <string name="service_network_problem">Methwyd ag anfon o achos problem rhwydwaith</string>
+    <string name="service_message_not_found">Neges wedi dod i ben neu ddim ar gael</string>
+    <string name="no_subject">(Dim pwnc)</string>
+    <string name="unknown_sender">Anfonwr anhysbys</string>
+    <string name="delivered_status_content_description">Wedi\'i derbyn</string>
+    <string name="dl_failure_notification">Methwyd â lawrlwytho\'r neges <xliff:g id="subject">%1$s</xliff:g> oddi wrth <xliff:g id="from">%2$s</xliff:g>.</string>
+    <string name="low_memory">Methwyd â chwblhau weithred y gronfa ddata gan nad oed digon o gof</string>
+    <string name="notification_send_failures_line1_singular">Neges heb ei anfon</string>
+    <string name="notification_send_failures_line1_plural">Dyw rhai negeseuon heb eu hanfon yn Negeseua</string>
+    <plurals name="notification_send_failures">
+        <item quantity="zero"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> neges mewn un sgwrs</item>
+        <item quantity="two"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="few"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="many"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+    </plurals>
+    <string name="notification_download_failures_line1_singular">Neges heb ei lawrlwytho</string>
+    <string name="notification_download_failures_line1_plural">Rhai negeseuon heb lawrlwytho yn Negesu</string>
+    <plurals name="notification_download_failures">
+        <item quantity="zero"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgyrsiau</item>
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> neges mewn un sgwrs</item>
+        <item quantity="two"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="few"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="many"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> neges mewn <xliff:g id="conversations">%d</xliff:g> sgwrs</item>
+    </plurals>
+    <string name="notification_emergency_send_failure_line1">Neges at <xliff:g id="number">%1$s</xliff:g> heb ei anfon</string>
+    <string name="notification_emergency_send_failure_line2">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun at <xliff:g id="number">%1$s</xliff:g> heb ei anfon ar hyn o bryd.    </string>
+    <plurals name="notification_new_messages">
+        <item quantity="zero"><xliff:g id="messages">%d</xliff:g> negeseuon newydd</item>
+        <item quantity="one">Neges newydd</item>
+        <item quantity="two"><xliff:g id="messages">%d</xliff:g> neges newydd</item>
+        <item quantity="few"><xliff:g id="messages">%d</xliff:g> neges newydd</item>
+        <item quantity="many"><xliff:g id="messages">%d</xliff:g> neges newydd</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> neges newydd</item>
+    </plurals>
+    <string name="start_conversation">Dechrau</string>
+    <string name="camera_error_opening">Camera ddim ar gael</string>
+    <string name="camera_error_unknown">Camera ddim ar gael</string>
+    <string name="camera_error_video_init_fail">Cipio fideo dim ar gael</string>
+    <string name="camera_error_storage_fail">Methu â chadw\'r cyfrwng</string>
+    <string name="camera_error_failure_taking_picture">Methu â chymryd llun</string>
+    <string name="back">Nôl</string>
+    <string name="action_menu_show_archived">Wedi\'u harchifo</string>
+    <string name="action_delete">Dileu</string>
+    <string name="action_archive">Archifo</string>
+    <string name="action_unarchive">Tynnu o\'r archif</string>
+    <string name="action_add_contact">Ychwanegu cyswllt</string>
+    <string name="action_download">Lawrlwytho</string>
+    <string name="action_send">Anfon</string>
+    <string name="action_delete_message">Dileu</string>
+    <string name="delete_message_confirmation_dialog_title">Dileu\'r neges hon?</string>
+    <string name="delete_message_confirmation_dialog_text">Ni fydd yn bosib dadwneud hyn!</string>
+    <string name="delete_message_confirmation_button">Dileu</string>
+    <plurals name="delete_conversations_confirmation_dialog_title">
+        <item quantity="zero">Dileu\'r sgyrsiau hyn?</item>
+        <item quantity="one">Dileu\'r sgwrs hon?</item>
+        <item quantity="two">Dileu\'r sgyrsiau hyn?</item>
+        <item quantity="few">Dileu\'r sgyrsiau hyn?</item>
+        <item quantity="many">Dileu\'r sgyrsiau hyn?</item>
+        <item quantity="other">Dileu\'r sgyrsiau hyn?</item>
+    </plurals>
+    <string name="delete_conversation_confirmation_button">Dileu</string>
+    <string name="delete_conversation_decline_button">Diddymu</string>
+    <string name="recipient_hint">At</string>
+    <string name="action_multiselect">Dewis mwy nag un ddelwedd</string>
+    <string name="action_confirm_multiselect">Cadarnhau\'r dewis</string>
+    <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
+    <string name="audio_recording_start_failed">Methu â recordio sain. Ceisia eto.</string>
+    <string name="audio_recording_replay_failed">Methu â chwarae sain. Ceisia eto.</string>
+    <string name="audio_recording_error">Methwyd â chadw sain. Ceisia eto.</string>
+    <string name="audio_picker_hint_text">Tapio a dal</string>
+    <string name="enumeration_comma">,\u0020</string>
+    <string name="notification_separator">\u0020\u0020</string>
+    <string name="notification_ticker_separator">:\u0020</string>
+    <string name="notification_space_separator">\u0020\u0020</string>
+    <string name="notification_picture">Llun</string>
+    <string name="notification_audio">Clip sain</string>
+    <string name="notification_video">Fideo</string>
+    <string name="notification_vcard">Cerdyn cyswllt</string>
+    <string name="notification_download_mms">Lawrlwytho</string>
+    <string name="notification_reply_via_sms">Ateb trwy SMS</string>
+    <string name="notification_reply_via_mms">Ateb trwy MMS</string>
+    <string name="notification_reply_prompt">Ateb</string>
+    <plurals name="wearable_participant_count">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> cyfranogwyr</item>
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> cyfranogwr</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> gyfranogwr</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> chyfranogwr</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> chyfranogwr</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> cyfranogwr</item>
+    </plurals>
+    <string name="unknown_self_participant">Fi</string>
+    <string name="blocked_toast_message">Cyswllt wedi\'i rwystro a\'i archifo</string>
+    <string name="unblocked_toast_message">Cyswllt wedi\'i dadrwystro a\'i dynnu o\'r archif</string>
+    <string name="archived_toast_message"><xliff:g id="count">%d</xliff:g> wedi\'u harchifo</string>
+    <string name="unarchived_toast_message"><xliff:g id="count">%d</xliff:g> wedi\'u dad-archifo</string>
+    <string name="notification_off_toast_message">Hysbysiadau i ffwrdd</string>
+    <string name="notification_on_toast_message">Hysbysiadau ymlaen</string>
+    <string name="toast_after_setting_default_sms_app_for_message_send">Yn barod. Tapia Anfon unwaith eto.</string>
+    <string name="toast_after_setting_default_sms_app">Gosodwyd Negesu fel yr ap rhagosodedig ar gyfer SMS.</string>
+    <plurals name="attachment_preview_close_content_description">
+        <item quantity="zero">Gwaredu atodiadau</item>
+        <item quantity="one">Gwaredu atodiad</item>
+        <item quantity="two">Gwaredu atodiadau</item>
+        <item quantity="few">Gwaredu atodiadau</item>
+        <item quantity="many">Gwaredu atodiadau</item>
+        <item quantity="other">Gwaredu atodiadau</item>
+    </plurals>
+    <string name="audio_attachment_content_description">Atodiad sain</string>
+    <string name="audio_play_content_description">Chwarae atodiad sain</string>
+    <string name="audio_pause_content_description">Saib</string>
+    <string name="incoming_message_announcement">Neges oddi wrth <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>.</string>
+    <string name="one_on_one_incoming_failed_message_prefix">Neges wedi methu oddi wrth <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_incoming_successful_message_prefix">Neges oddi wrth <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_draft_message_prefix">Neges heb ei anfon at <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_sending_message_prefix">Yn anfon neges at <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_failed_message_prefix">Neges wedi methu at <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_successful_message_prefix">Neges at <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_incoming_failed_message_prefix">Neges wedi methu oddi wrth <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
+    <string name="group_incoming_successful_message_prefix">Neges oddi wrth <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
+    <string name="group_outgoing_draft_message_prefix">Neges heb ei anfon at <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_sending_message_prefix">Yn anfon neges at <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_failed_message_prefix">Neges wedi methu at <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_successful_message_prefix">Neges at <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Amser: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="failed_message_content_description">Methodd y neges. Tapia i geisio eto.</string>
+    <string name="group_conversation_description">Sgwrs gyda <xliff:g id="participants">%s</xliff:g></string>
+    <string name="delete_subject_content_description">Dileu\'r pwnc</string>
+    <string name="camera_switch_to_video_mode">Cipio fideo</string>
+    <string name="camera_switch_to_still_mode">Cipio llun llonydd</string>
+    <string name="camera_take_picture">Tynnu llun</string>
+    <string name="camera_start_recording">Dechrau recordio fideo</string>
+    <string name="camera_switch_full_screen">Newid i gamera sgrin lawn</string>
+    <string name="camera_switch_camera_facing">Newid rhwng camerâu cefn a blaen</string>
+    <string name="camera_stop_recording">Stopio recordio ac atodi fideo</string>
+    <string name="camera_cancel_recording">Stopio recordio fideo</string>
+    <string name="photo_view_activity_title">Lluniau Negeseua</string>
+    <plurals name="photos_saved_to_album">
+        <item quantity="zero"><xliff:g id="quantity">%d</xliff:g> lluniau wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> llun wedi ei gadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="two"><xliff:g id="quantity">%d</xliff:g> lun wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="few"><xliff:g id="quantity">%d</xliff:g> llun wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="many"><xliff:g id="quantity">%d</xliff:g> llun wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> llun wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="videos_saved_to_album">
+        <item quantity="zero"><xliff:g id="quantity">%d</xliff:g> fideos wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> fideo wedi ei gadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="two"><xliff:g id="quantity">%d</xliff:g> fideo wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="few"><xliff:g id="quantity">%d</xliff:g> fideo wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="many"><xliff:g id="quantity">%d</xliff:g> fideo wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> fideo wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_album">
+        <item quantity="zero"><xliff:g id="quantity">%d</xliff:g> atodiadau wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> atodiad wedi ei gadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="two"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="few"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="many"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw i\'r casgliad \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_downloads">
+        <item quantity="zero"><xliff:g id="quantity">%d</xliff:g> atodiadau wedi eu cadw yn \"Llwythi\"</item>
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> atodiad wedi ei gadw yn \"Llwythi\"</item>
+        <item quantity="two"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw yn \"Llwythi\"</item>
+        <item quantity="few"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw yn \"Llwythi\"</item>
+        <item quantity="many"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw yn \"Llwythi\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw yn \"Llwythi\"</item>
+    </plurals>
+    <plurals name="attachments_saved">
+        <item quantity="zero"><xliff:g id="quantity">%d</xliff:g> atodiadau wedi eu cadw</item>
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> atodiad wedi ei gadw</item>
+        <item quantity="two"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw</item>
+        <item quantity="few"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw</item>
+        <item quantity="many"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> atodiad wedi eu cadw</item>
+    </plurals>
+    <plurals name="attachment_save_error">
+        <item quantity="zero">Methwyd â chadw <xliff:g id="quantity">%d</xliff:g> atodiadau</item>
+        <item quantity="one">Methwyd â chadw <xliff:g id="quantity">%d</xliff:g> atodiad</item>
+        <item quantity="two">Methwyd â chadw <xliff:g id="quantity">%d</xliff:g> atodiad</item>
+        <item quantity="few">Methwyd â chadw <xliff:g id="quantity">%d</xliff:g> atodiad</item>
+        <item quantity="many">Methwyd â chadw <xliff:g id="quantity">%d</xliff:g> atodiad</item>
+        <item quantity="other">Methwyd â chadw <xliff:g id="quantity">%d</xliff:g> atodiad</item>
+    </plurals>
+    <string name="attachment_file_description">Atodiad MMS wedi\'i gadw</string>
+    <string name="settings_activity_title">Gosodiadau</string>
+    <string name="archived_activity_title">Wedi\'u harchifo</string>
+    <string name="action_close">Cau</string>
+    <string name="mms_messaging_category_pref_title">MMS</string>
+    <string name="advanced_category_pref_title">Uwch</string>
+    <string name="debug_category_pref_title">Dadfygio</string>
+    <string name="notifications_pref_title">Hysbysiadau</string>
+    <string name="silent_ringtone">Distaw</string>
+    <string name="blocked_pref_title">Wedi\'i rhwystro</string>
+    <string name="delivery_reports_pref_title">Adroddiadau danfon SMS</string>
+    <string name="delivery_reports_pref_summary">Gofyn am adroddiad ar gyfer pob neges SMS wyt ti\'n ei anfon i gadarnhau ei bod wedi cyrraedd</string>
+    <string name="auto_retrieve_mms_pref_title">Cyrchu\'n awtomatig</string>
+    <string name="auto_retrieve_mms_pref_summary">Nôl negeseuon MMS yn awtomatig</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_title">Cyrchu\'n awtomatig wrth grwydro</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_summary">Nôl negeseuon MMS yn awtomatig wrth grwydro tramor</string>
+    <string name="group_mms_pref_title">Negeseua grŵp</string>
+    <string name="group_mms_pref_summary">Defnyddia MMS i anfon yr un neges at nifer o bobol.</string>
+    <string name="sms_disabled_pref_title">Ap SMS rhagosodedig</string>
+    <string name="sms_enabled_pref_title">Ap SMS rhagosodedig</string>
+    <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
+    <string name="mms_phone_number_pref_title">Dy rif ffôn</string>
+    <string name="unknown_phone_number_pref_display_value">Anhysybys</string>
+    <string name="send_sound_pref_title">Seiniau negeseuon allan</string>
+    <string name="dump_sms_pref_title">Dympio SMS</string>
+    <string name="dump_sms_pref_summary">Dympio data craidd negeseuon SMS a dderbyniwyd mewn i ffeil storfa allanol</string>
+    <string name="dump_mms_pref_title">Dympio MMS</string>
+    <string name="dump_mms_pref_summary">Dympio data craidd negeseuon MMS a dderbyniwyd mewn i ffeil storfa allanol</string>
+    <string name="wireless_alerts_title">Hysbysiadau di-wifr</string>
+    <string name="message_context_menu_title">Dewisiadau neges</string>
+    <string name="message_context_menu_copy_text">Copïo\'r testun</string>
+    <string name="message_context_menu_view_details">Gweld manylion</string>
+    <string name="message_context_menu_delete_message">Dileu</string>
+    <string name="message_context_menu_forward_message">Anfon ymlaen</string>
+    <string name="message_details_title">Manylion y neges</string>
+    <string name="message_type_label">Math:\u0020</string>
+    <string name="text_message">Neges destun</string>
+    <string name="multimedia_message">Neges amlgyfrwng</string>
+    <string name="from_label">Oddi wrth:\u0020</string>
+    <string name="to_address_label">At:\u0020</string>
+    <string name="sent_label">Anfonwyd:\u0020</string>
+    <string name="received_label">Derbyniwyd:\u0020</string>
+    <string name="subject_label">Pwnc:\u0020</string>
+    <string name="message_size_label">Maint:\u0020</string>
+    <string name="priority_label">Blaenoriaeth:\u0020</string>
+    <string name="sim_label">SIM:\u0020</string>
+    <string name="priority_high">Uchel</string>
+    <string name="priority_normal">Arferol</string>
+    <string name="priority_low">Isel</string>
+    <string name="sim_slot_identifier">SIM <xliff:g id="sim_slot_number">%s</xliff:g></string>
+    <string name="hidden_sender_address">Cyfeiriad anfonwr cudd</string>
+    <string name="cant_send_message_while_loading_attachments">Methu ag anfon neges wrth lwytho atodiadau.</string>
+    <string name="fail_to_load_attachment">Methu â llwytho\'r atodiad. Ceisia eto.</string>
+    <string name="cant_send_message_without_active_subscription">Dyw\'r rhwydwaith ddim yn barod. Ceisia eto.</string>
+    <string name="chips_text_delete_button_content_description">Dileu testun</string>
+    <string name="numeric_text_keyboard_toggle_button_content_description">Newid rhwng mewnbynnu testun a rhifau</string>
+    <string name="add_more_participants_button_content_description">Ychwanegu rhagor o gyfranogwyr</string>
+    <string name="confrim_participants_button_content_description">Cadarnhau cyfranogwyr</string>
+    <string name="start_new_conversation">Dechrau sgwrs newydd</string>
+    <string name="gallery_checkbox_content_description">Dewis yr eitem hon</string>
+    <string name="video_thumbnail_view_play_button_content_description">Chwarae fideo</string>
+    <string name="action_people_and_options">Pobol a dewisiadau</string>
+    <string name="action_debug_options">Dadfygio</string>
+    <string name="people_and_options_activity_title">Pobol a dewisiadau</string>
+    <string name="general_settings_title">Cyffredinol</string>
+    <string name="participant_list_title">Pobl yn y sgwrs hon</string>
+    <string name="action_call">Gwneud galwad</string>
+    <string name="compose_message_view_hint_text">Anfon neges</string>
+    <string name="compose_message_view_hint_text_multi_sim">Anfon neges &lt;br/&gt;&lt;small&gt;oddi wrth<xliff:g id="sim_name">%s</xliff:g>&lt;/small&gt;</string>
+    <plurals name="compose_message_view_hint_text_photo">
+        <item quantity="zero">Anfon lluniau</item>
+        <item quantity="one">Anfon llun</item>
+        <item quantity="two">Anfon lluniau</item>
+        <item quantity="few">Anfon lluniau</item>
+        <item quantity="many">Anfon lluniau</item>
+        <item quantity="other">Anfon lluniau</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_audio">
+        <item quantity="zero">Anfon sain</item>
+        <item quantity="one">Anfon sain</item>
+        <item quantity="two">Anfon sain</item>
+        <item quantity="few">Anfon sain</item>
+        <item quantity="many">Anfon sain</item>
+        <item quantity="other">Anfon sain</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_video">
+        <item quantity="zero">Anfon fideos</item>
+        <item quantity="one">Anfon fideo</item>
+        <item quantity="two">Anfon fideos</item>
+        <item quantity="few">Anfon fideos</item>
+        <item quantity="many">Anfon fideos</item>
+        <item quantity="other">Anfon fideos</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_vcard">
+        <item quantity="zero">Anfon cardiau cyswllt</item>
+        <item quantity="one">Anfon cerdyn cyswllt</item>
+        <item quantity="two">Anfon cardiau cyswllt</item>
+        <item quantity="few">Anfon cardiau cyswllt</item>
+        <item quantity="many">Anfon cardiau cyswllt</item>
+        <item quantity="other">Anfon cardiau cyswllt</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_attachments">
+        <item quantity="zero">Anfon atodiadau</item>
+        <item quantity="one">Anfon atodiad</item>
+        <item quantity="two">Anfon atodiadau</item>
+        <item quantity="few">Anfon atodiadau</item>
+        <item quantity="many">Anfon atodiadau</item>
+        <item quantity="other">Anfon atodiadau</item>
+    </plurals>
+    <plurals name="attachment_changed_accessibility_announcement">
+        <item quantity="zero"><xliff:g id="attachment_count">%d</xliff:g> atodiadau yn barod i\'w hanfon</item>
+        <item quantity="one">Un atodiad yn barod i\'w anfon</item>
+        <item quantity="two"><xliff:g id="attachment_count">%d</xliff:g> atodiad yn barod i\'w hanfon</item>
+        <item quantity="few"><xliff:g id="attachment_count">%d</xliff:g> atodiad yn barod i\'w hanfon</item>
+        <item quantity="many"><xliff:g id="attachment_count">%d</xliff:g> atodiad yn barod i\'w hanfon</item>
+        <item quantity="other"><xliff:g id="attachment_count">%d</xliff:g> atodiad yn barod i\'w hanfon</item>
+    </plurals>
+    <string name="menu_send_feedback">Anfon adborth</string>
+    <string name="menu_view_in_store">Gweld yn Google Play Store</string>
+    <string name="menu_version_info">Gwybodaeth am y fersiwn</string>
+    <string name="subtitle_format_for_version_number">Fersiwn %1$s</string>
+    <string name="menu_license">Trwyddedau cod agored</string>
+    <string name="notifications_enabled_conversation_pref_title">Hysbysiadau</string>
+    <string name="mms_attachment_limit_reached">Wedi cyrraedd mwyafswm atodiadau</string>
+    <string name="mms_attachment_load_failed">Methwyd â llwytho atodiad.</string>
+    <string name="add_contact_confirmation_dialog_title">Ychwanegu at Gysylltiadau?</string>
+    <string name="add_contact_confirmation">Ychwanegu Cyswllt</string>
+    <string name="compose_message_view_subject_hint_text">Pwnc</string>
+    <string name="conversation_message_view_subject_text">Pwnc:\u0020</string>
+    <string name="notification_subject"><xliff:g id="subject_label">%1$s</xliff:g><xliff:g id="messageText">%2$s</xliff:g></string>
+    <string name="loading_vcard">Yn llwytho cerdyn cyswllt</string>
+    <string name="failed_loading_vcard">Methwyd â llwytho cerdyn cyswllt</string>
+    <string name="vcard_tap_hint">Gweld cerdyn cyswllt</string>
+    <plurals name="vcard_multiple_display_name">
+        <item quantity="zero"><xliff:g id="count">%d</xliff:g> cysylltiadau</item>
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> cyswllt</item>
+        <item quantity="two"><xliff:g id="count">%d</xliff:g> gyswllt</item>
+        <item quantity="few"><xliff:g id="count">%d</xliff:g> chyswllt</item>
+        <item quantity="many"><xliff:g id="count">%d</xliff:g> chyswllt</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> cyswllt</item>
+    </plurals>
+    <string name="vcard_detail_activity_title">Cardiau cysylltiadau</string>
+    <string name="vcard_detail_birthday_label">Pen-blwydd</string>
+    <string name="vcard_detail_notes_label">Nodiadau</string>
+    <string name="forward_message_activity_title">Anfon y neges ymlaen</string>
+    <string name="reply_activity_title">Ateb</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_n">+%d</string>
+    <string name="sms_disabled">SMS wedi\'i analluogi</string>
+    <string name="requires_default_sms_app_to_send">I anfon y neges, gosoda Negesu fel yr ap SMS rhagosodedig.</string>
+    <string name="requires_default_sms_app">Gosod Negesu fel yr ap SMS rhagosodedig</string>
+    <string name="requires_default_sms_change_button">Newid</string>
+    <string name="recommend_set_default_sms_app">I dderbyn negeseuon, gosoda Negesu fel yr ap SMS rhagosodedig</string>
+    <string name="no_preferred_sim_selected">Nid oes SIM wedi\'i ddewis i\'w ffafrio ar gyfer anfon negeseuon SMS.</string>
+    <string name="requires_sms_permissions_message">Nid yw perchennog y ddyfais yn caniatáu\'r ap hwn.</string>
+    <string name="requires_sms_permissions_close_button">Iawn</string>
+    <string name="too_many_participants">Gormod o gyfranogwyr mewn sgwrs</string>
+    <plurals name="add_invalid_contact_error">
+        <item quantity="zero">Cysylltiadau annilys</item>
+        <item quantity="one">Cyswllt annilys</item>
+        <item quantity="two">Cysylltiadau annilys</item>
+        <item quantity="few">Cysylltiadau annilys</item>
+        <item quantity="many">Cysylltiadau annilys</item>
+        <item quantity="other">Cysylltiadau annilys</item>
+    </plurals>
+    <string name="camera_media_failure">Methwyd â llwytho delwedd camera</string>
+    <string name="conversation_list_item_view_sent_from_you_prefix">Ti:\u0020</string>
+    <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
+    <string name="conversation_list_item_view_draft_message">Drafft</string>
+    <string name="conversation_list_empty_text">Pan fyddi\'n dechrau sgwrs newydd, mi fydd yn ymddangos mewn rhestr yma</string>
+    <string name="archived_conversation_list_empty_text">Mae sgyrsiau wedi\'u harchifo yn ymddangos yma</string>
+    <string name="conversation_list_first_sync_text">Yn llwytho sgyrsiau…</string>
+    <string name="conversation_list_snippet_picture">Llun</string>
+    <string name="conversation_list_snippet_audio_clip">Clip sain</string>
+    <string name="conversation_list_snippet_video">Fideo</string>
+    <string name="conversation_list_snippet_vcard">Cerdyn cyswllt</string>
+    <string name="mms_text">MMS</string>
+    <string name="snack_bar_undo">Dadwneud</string>
+    <string name="snack_bar_retry">Ail-geisio</string>
+    <string name="contact_list_empty_text">Rho enw neu rif ffôn cyswllt i ddechrau neges newydd.</string>
+    <string name="action_block">Rhwystro</string>
+    <string name="block_contact_title">Rhwystro <xliff:g id="destination">%s</xliff:g></string>
+    <string name="unblock_contact_title">Dadrwystro <xliff:g id="destination">%s</xliff:g></string>
+    <string name="block_confirmation_title">Rhwystro <xliff:g id="destination">%s</xliff:g>?</string>
+    <string name="block_confirmation_message">Mi fyddi\'n parhau i dderbyn negeseuon oddi wrth y rhif hwn ond ni fyddi di bellach yn cael dy hysbysu. Caiff y sgwrs hon ei harchifo.</string>
+    <string name="blocked_contacts_title">Cysylltiadau a rhwystrwyd</string>
+    <string name="tap_to_unblock_message">DADRWYSTRO</string>
+    <string name="view_blocked_contacts_title">Cysylltiadau a rhwystrwyd</string>
+    <string name="pick_image_from_document_library_content_description">Dewis delwedd o\'r llyfrgell dogfennau</string>
+    <string name="sending_message">Anfon neges</string>
+    <string name="send_message_success">Anfonwyd y neges</string>
+    <string name="send_message_failure_no_data">Rhwydwaith symudol wedi\'i ddiffodd. Gwiria dy osodiadau.</string>
+    <string name="send_message_failure_airplane_mode">Nid yw\'n bosib anfon negeseuon ym Modd Awyren</string>
+    <string name="send_message_failure">Methwyd ag anfon y neges</string>
+    <string name="download_message_success">Neges wedi\'i lawrlwytho</string>
+    <string name="download_message_failure_no_data">Rhwydwaith symudol wedi\'i ddiffodd. Gwiria dy osodiadau.</string>
+    <string name="download_message_failure_airplane_mode">Nid yw\'n bosib lawrlwytho negeseuon ym Modd Awyren</string>
+    <string name="download_message_failure">Methwyd â lawrlwytho\'r neges</string>
+    <string name="content_description_for_number_zero">Sero</string>
+    <string name="content_description_for_number_one">Un</string>
+    <string name="content_description_for_number_two">Dau</string>
+    <string name="content_description_for_number_three">Tri</string>
+    <string name="content_description_for_number_four">Pedwar</string>
+    <string name="content_description_for_number_five">Pump</string>
+    <string name="content_description_for_number_six">Chwech</string>
+    <string name="content_description_for_number_seven">Saith</string>
+    <string name="content_description_for_number_eight">Wyth</string>
+    <string name="content_description_for_number_nine">Naw</string>
+    <string name="carrier_send_error">Methu ag anfon neges gyda <xliff:g id="carrierName">%1$s</xliff:g>. Gwall <xliff:g id="errorCode">%2$d</xliff:g></string>
+    <string name="carrier_send_error_unknown_carrier">Methu ag anfon neges gyda gwasanaeth anhysbys. Gwall <xliff:g id="errorCode">%1$d</xliff:g></string>
+    <string name="message_fwd">Yml: <xliff:g id="subject">%s</xliff:g></string>
+    <string name="mms_failure_outgoing_service">Ni anfonwyd y neges: gwasanaeth heb ei actifadu ar y rhwydwaith</string>
+    <string name="mms_failure_outgoing_address">Neges heb ei anfon: cyfeiriad annilys</string>
+    <string name="mms_failure_outgoing_corrupt">Neges heb ei anfon: neges annilys</string>
+    <string name="mms_failure_outgoing_content">Neges heb ei anfon: cynnwys anghydnaws</string>
+    <string name="mms_failure_outgoing_unsupported">Neges heb ei anfon: neges anghydnaws</string>
+    <string name="mms_failure_outgoing_too_large">Neges heb ei anfon: rhy fawr</string>
+    <string name="in_conversation_notify_new_message_text">Neges newydd</string>
+    <string name="in_conversation_notify_new_message_action">Gweld</string>
+    <string name="message_image_content_description">Delwedd</string>
+    <string name="activity_not_found_message">Methwyd â chanfod ap priodol</string>
+    <string name="chips_delete_content_description">Tynnu\'r cyfranogwr</string>
+    <string name="share_new_message">Neges newydd</string>
+    <string name="share_cancel">Diddymu</string>
+    <string name="apn_edit">Golygu pwynt mynediad</string>
+    <string name="apn_not_set">Heb ei osod</string>
+    <string name="apn_name">Enw</string>
+    <string name="apn_apn">Enw Pwynt Mynediad (APN)</string>
+    <string name="apn_mmsc">MMSC</string>
+    <string name="apn_mms_proxy">Procsi MMS</string>
+    <string name="apn_mms_port">Porth MMS</string>
+    <string name="apn_mcc">MCC</string>
+    <string name="apn_mnc">MNC</string>
+    <string name="apn_type">Math APN</string>
+    <string name="menu_delete_apn">Dileu APN</string>
+    <string name="menu_new_apn">APN newydd</string>
+    <string name="menu_save_apn">Cadw</string>
+    <string name="menu_discard_apn_change">Gwaredu</string>
+    <string name="error_apn_name_empty">Rhaid rhoi rhywbeth yn y maes Enw.</string>
+    <string name="error_apn_empty">Ni all yr APN fod yn wag.</string>
+    <string name="error_mcc_not3">Rhaid i\'r maes MCC fod yn 3 digid.</string>
+    <string name="error_mnc_not23">Rhaid i\'r maes MNC fod yn 2 neu 3 digid.</string>
+    <string name="restore_default_apn">Yn adfer rhagosodiadau APN.</string>
+    <string name="menu_restore_default_apn">Ailosod i\'r rhagosodiad</string>
+    <string name="restore_default_apn_completed">Cwblhawyd ailosod rhagosodiadau APN.</string>
+    <string name="untitled_apn">Heb deitl</string>
+    <string name="sms_apns_title">Enwau Pwyntiau Mynediad (APN)</string>
+    <string name="apn_settings">APNau</string>
+    <string name="menu_new">APN newydd</string>
+    <string name="apn_settings_not_available">Dyw gosodiadau Enwau Pwyntiau Mynediad (APN) ddim ar gael ar gyfer y defnyddiwr hwn.</string>
+    <string name="copy_to_clipboard_dialog_title">Copïo i\'r clipfwrdd?</string>
+    <string name="copy_to_clipboard">Copïo</string>
+    <string name="incoming_sim_name_text">at <xliff:g id="sim_name">%s</xliff:g></string>
+    <string name="general_settings">Cyffredinol</string>
+    <string name="advanced_settings">Uwch</string>
+    <string name="general_settings_activity_title">Gosodiadau cyffredin</string>
+    <string name="advanced_settings_activity_title">Gosodiadau uwch</string>
+    <string name="sim_specific_settings">\"<xliff:g id="sim_name">%s</xliff:g>\" SIM</string>
+    <string name="disable_group_mms">Anfon negeseuon SMS i bawb yn unigol. Bydd unrhyw atebion atat ti yn unig.</string>
+    <string name="enable_group_mms">Anfon yr un MMS i bob derbynnydd</string>
+    <string name="sim_settings_unknown_number">Rhif anhysbys</string>
+    <string name="secondary_user_new_message_title">Neges newydd</string>
+    <string name="secondary_user_new_message_ticker">Neges newydd.</string>
+    <string name="sim_selector_button_content_description">Dewisydd SIM</string>
+    <string name="sim_selector_button_content_description_with_selection">Dewisydd SIM, <xliff:g id="sim">%1$s</xliff:g> wedi\'i dewis</string>
+    <string name="send_button_long_click_description_no_sim_selector">Golygu pwnc</string>
+    <string name="send_button_long_click_description_with_sim_selector">Dewis SIM neu olygu pwnc</string>
+    <string name="audio_record_view_content_description">Tapia a dal i recordio sain</string>
+    <string name="widget_new_conversation_content_description">Dechrau sgwrs newydd</string>
+    <string name="widget_title_content_description">Negeseua</string>
+    <string name="widget_conversation_list_name">Rhestr Negeseuon</string>
+    <string name="widget_conversation_name">Negeseua</string>
+    <string name="widget_new_message_content_description">Neges newydd</string>
+    <string name="widget_conversation_list_content_description">Rhestr sgyrsiau</string>
+    <string name="loading_conversations">Yn llwytho sgyrsiau</string>
+    <string name="loading_messages">Yn llwytho negeseuon</string>
+    <string name="view_more_conversations">Gweld rhagor o sgyrsiau</string>
+    <string name="view_more_messages">Gweld rhagor o negeseuon</string>
+    <string name="conversation_deleted">Dilëwyd y sgwrs</string>
+    <string name="tap_to_configure">Mae\'r sgwrs wedi ei dileu. Tapia i ddangos sgwrs negeseuon arall.</string>
+    <string name="update_destination_blocked">Wedi\'i rhwystro</string>
+    <string name="update_destination_unblocked">Wedi\'i dad-rwystro</string>
+    <string name="db_full">Nid oes lawer o le i storio SMS. Mae\'n bosib caiff rhywfaint o ddata ei golli.</string>
+    <string name="attachment_chooser_activity_title">Dewis atodiadau</string>
+    <string name="action_confirm_selection">Cadarnhau dewis</string>
+    <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> wedi\'u dewis</string>
+    <string name="attachment_limit_reached_dialog_message_when_composing">Tynna un neu ragor o atodiadau a rhoi cynnig arall arni.</string>
+    <string name="attachment_limit_reached_dialog_message_when_sending">Mae croeso iti geisio anfon dy neges, ond mae\'n bosib na fydd yn cael ei derbyn oni bai dy fod yn tynnu un neu ragor o atodiadau.</string>
+    <string name="video_attachment_limit_exceeded_when_sending">Dyw ond yn bosib anfon un fideo gyda phob neges. Tynna fideos ychwanegol a rhoi cynnig arall arni.</string>
+    <string name="attachment_load_failed_dialog_message">Methodd Negeseua â llwytho\'r atodiad.</string>
+    <string name="attachment_limit_reached_send_anyway">Anfon beth bynnag</string>
+    <string name="conversation_creation_failure">Methwyd â dechrau sgwrs</string>
+    <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
+    <string name="selected_sim_content_message"><xliff:g id="selected_sim">%s</xliff:g> wedi\'i ddewis</string>
+    <string name="work_directory_display_name">Cysylltiadau Proffil Gwaith</string>
+    <string name="disallow_emergency_call">Ni ellir gwneud alwad i\'r gwasanaethau brys fan hyn.</string>
+</resources>

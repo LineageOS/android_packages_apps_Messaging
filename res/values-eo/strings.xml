@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="action_settings">Agordoj</string>
+    <string name="sendButtonContentDescription">Sendi mesaĝon</string>
+    <string name="settings_with_arrow">Agordoj &gt;</string>
+    <string name="settings">Agordoj</string>
+    <string name="contact_picker_all_contacts_tab_title">Ĉiuj kontaktoj</string>
+    <string name="mediapicker_gallery_image_item_description">bildo <xliff:g id="date">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
+    <plurals name="num_hours_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> horo</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> horoj</item>
+    </plurals>
+    <plurals name="num_days_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> tago</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> tagoj</item>
+    </plurals>
+    <plurals name="week_count">
+        <item quantity="one">semajno</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> semajnoj</item>
+    </plurals>
+    <plurals name="month_count">
+        <item quantity="one">monato</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> monatoj</item>
+    </plurals>
+    <plurals name="year_count">
+        <item quantity="one">jari</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> jaroj</item>
+    </plurals>
+    <plurals name="notification_new_messages">
+        <item quantity="one">Nova mesaĝo</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> novaj mesaĝoj</item>
+    </plurals>
+    <string name="action_delete">Forigi</string>
+    <string name="action_delete_message">Forigi</string>
+    <string name="delete_message_confirmation_button">Forigi</string>
+    <string name="delete_conversation_confirmation_button">Forigi</string>
+    <string name="delete_conversation_decline_button">Nuligi</string>
+    <string name="enumeration_comma">,\u0020</string>
+    <string name="notification_separator">\u0020\u0020</string>
+    <string name="notification_ticker_separator">:\u0020</string>
+    <string name="notification_space_separator">\u0020\u0020</string>
+    <string name="notification_picture">Bildo</string>
+    <string name="settings_activity_title">Agordoj</string>
+    <string name="notifications_pref_title">Sciigoj</string>
+    <string name="message_context_menu_delete_message">Forigi</string>
+    <string name="chips_text_delete_button_content_description">Forigi tekston</string>
+    <string name="notifications_enabled_conversation_pref_title">Sciigoj</string>
+    <string name="conversation_list_item_view_sent_from_you_prefix">Vi:\u0020</string>
+    <string name="conversation_list_item_view_draft_message">Malneto</string>
+    <string name="conversation_list_snippet_picture">Bildo</string>
+    <string name="in_conversation_notify_new_message_text">Nova mesaĝo</string>
+    <string name="share_new_message">Nova mesaĝo</string>
+    <string name="share_cancel">Nuligi</string>
+    <string name="secondary_user_new_message_title">Nova mesaĝo</string>
+    <string name="secondary_user_new_message_ticker">Nova mesaĝo.</string>
+    <string name="widget_new_message_content_description">Nova mesaĝo</string>
+</resources>
