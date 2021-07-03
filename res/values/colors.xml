@@ -67,8 +67,8 @@
     <color name="message_bubble_color_outgoing">#ffffffff</color>
     <color name="message_error_bubble_color_incoming">#e2e2e2</color>
     <color name="message_audio_button_color_incoming">#ffffffff</color>
-    <color name="message_bubble_color_selected">@color/lineage_accent</color>
-    <color name="message_image_selected_tint">#80FF9800</color>
+    <color name="message_bubble_color_selected">#8BC34A</color>
+    <color name="message_image_selected_tint">#80689F38</color>
     <color name="generic_video_icon">#ff808080</color>
 
     <!-- Base color used for color filtering. -->
