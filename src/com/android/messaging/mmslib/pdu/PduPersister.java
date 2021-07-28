@@ -801,7 +801,7 @@ public class PduPersister {
                 // reliable.
                 final String encodedDataString = new EncodedStringValue(charset, data).getString();
                 if (encodedDataString != null && encodedDataString.startsWith(BEGIN_VCARD)) {
-                    contentType = ContentType.TEXT_VCARD;
+                    contentType = ContentType.TEXT_X_VCARD;
                     part.setContentType(contentType.getBytes());
                     if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
                         LogUtil.d(TAG, "PduPersister.persistPart part: " + uri + " contentType: " +

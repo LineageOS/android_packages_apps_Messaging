@@ -133,7 +133,7 @@ class ContactMediaChooser extends MediaChooser {
                         public void run() {
                             final PendingAttachmentData pendingItem =
                                     PendingAttachmentData.createPendingAttachmentData(
-                                            ContentType.TEXT_VCARD.toLowerCase(), vCardUri);
+                                            ContentType.TEXT_X_VCARD.toLowerCase(), vCardUri);
                             mMediaPicker.dispatchPendingItemAdded(pendingItem);
                         }
                     });
