@@ -301,7 +301,7 @@ public class UIIntentsImpl extends UIIntents {
         Assert.isTrue(MediaScratchFileProvider.isMediaScratchSpaceUri(vcardUri));
         final Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(vcardUri, ContentType.TEXT_VCARD.toLowerCase());
+        intent.setDataAndType(vcardUri, ContentType.TEXT_X_VCARD.toLowerCase());
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startExternalActivity(context, intent);
     }
