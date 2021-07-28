@@ -43,8 +43,10 @@ public final class ContentType {
 
     public static final String TEXT_PLAIN        = "text/plain";
     public static final String TEXT_HTML         = "text/html";
-    public static final String TEXT_VCALENDAR    = "text/x-vCalendar";
-    public static final String TEXT_VCARD        = "text/x-vCard";
+    public static final String TEXT_VCALENDAR    = "text/vCalendar";
+    public static final String TEXT_VCARD        = "text/vCard";
+    public static final String TEXT_X_VCALENDAR  = "text/x-vCalendar";
+    public static final String TEXT_X_VCARD      = "text/x-vCard";
 
     public static final String IMAGE_PREFIX      = "image/";
     public static final String IMAGE_UNSPECIFIED = "image/*";
@@ -128,7 +130,9 @@ public final class ContentType {
     }
 
     public static boolean isVCardType(final String contentType) {
-        return (null != contentType) && contentType.equalsIgnoreCase(TEXT_VCARD);
+        return (null != contentType)
+                && (contentType.equalsIgnoreCase(TEXT_X_VCARD)
+                        || contentType.equalsIgnoreCase(TEXT_VCARD));
     }
 
     public static boolean isDrmType(final String contentType) {

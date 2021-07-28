@@ -30,8 +30,10 @@ public class ContentType {
 
     public static final String TEXT_PLAIN        = "text/plain";
     public static final String TEXT_HTML         = "text/html";
-    public static final String TEXT_VCALENDAR    = "text/x-vCalendar";
-    public static final String TEXT_VCARD        = "text/x-vCard";
+    public static final String TEXT_VCALENDAR    = "text/vCalendar";
+    public static final String TEXT_VCARD        = "text/vCard";
+    public static final String TEXT_X_VCALENDAR  = "text/x-vCalendar";
+    public static final String TEXT_X_VCARD      = "text/x-vCard";
 
     public static final String IMAGE_UNSPECIFIED = "image/*";
     public static final String IMAGE_JPEG        = "image/jpeg";
@@ -85,6 +87,8 @@ public class ContentType {
         sSupportedContentTypes.add(TEXT_HTML);
         sSupportedContentTypes.add(TEXT_VCALENDAR);
         sSupportedContentTypes.add(TEXT_VCARD);
+        sSupportedContentTypes.add(TEXT_X_VCALENDAR);
+        sSupportedContentTypes.add(TEXT_X_VCARD);
 
         sSupportedContentTypes.add(IMAGE_JPEG);
         sSupportedContentTypes.add(IMAGE_GIF);
