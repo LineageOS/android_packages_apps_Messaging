@@ -29,20 +29,25 @@
     <string name="exit">Fàg</string>
     <string name="settings_with_arrow">Roghainnean &gt;</string>
     <string name="settings">Roghainnean</string>
-    <string name="required_permissions_promo">Feumaidh na teachdaireachdan cead air SMS, an fhòn ’s an luchd-aithne</string>
+    <string name="required_permissions_promo">Feumaidh na teachdaireachdan cead air SMS, an fhòn ’s an luchd-aithne.</string>
     <string name="enable_permission_procedure">’S urrainn dhut na ceadan atharrachadh ann an Roghainnean &gt; Aplacaidean &gt; Ceadan.</string>
     <string name="enable_permission_procedure_description">’S urrainn dhut na ceadan atharrachadh ann an Roghainnean, Aplacaidean, Teachdaireachdan, Ceadan.</string>
     <string name="contact_picker_frequents_tab_title">An fheadhainn thric</string>
     <string name="contact_picker_all_contacts_tab_title">A h-uile neach-aithne</string>
     <string name="contact_list_send_to_text">Cuir gu <xliff:g id="destination">%s</xliff:g></string>
     <string name="mediapicker_cameraChooserDescription">Glac dealbhan no video</string>
+    <string name="mediapicker_galleryChooserDescription">Tagh dealbhan on uidheam seo</string>
     <string name="mediapicker_audioChooserDescription">Clàraich fuaim</string>
+    <string name="mediapicker_contactChooserDescription">Tagh neach-aithne on uidheam seo</string>
+    <string name="mediapicker_gallery_title">Tagh meadhanan</string>
     <string name="mediapicker_gallery_item_selected_content_description">Thagh thu meadhan.</string>
     <string name="mediapicker_gallery_item_unselected_content_description">Dì-thagh thu meadhan.</string>
     <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> air a thaghadh</string>
     <string name="mediapicker_gallery_image_item_description">dealbh <xliff:g id="date">%1$te %1$tB %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
     <string name="mediapicker_gallery_image_item_description_no_date">dealbh</string>
     <string name="mediapicker_audio_title">Clàraich fuaim</string>
+    <string name="mediapicker_contact_title">Tagh neach-aithne</string>
+    <string name="contact_picker_hint_text">Dèan briogadh a dh’fhosgladh liosta an luchd-aithne air an uidheam seo</string>
     <string name="action_share">Co-roinn</string>
     <string name="posted_just_now">"An-dràsta fhèin"</string>
     <string name="posted_now">"An-dràsta"</string>
@@ -102,7 +107,9 @@
     <string name="outgoing_text_sender_content_description">Thuirt thu</string>
     <string name="incoming_sender_content_description">Teachdaireachd o <xliff:g id="sender">%s</xliff:g></string>
     <string name="outgoing_sender_content_description">Chuir thu teachdaireachd</string>
+    <string name="message_status_sending">’Ga chur…</string>
     <string name="message_status_send_failed">Cha deach a chur. Thoir gnogag airson feuchainn ris a-rithist.</string>
+    <string name="message_status_send_retrying">Cha deach a chur. A’ feuchainn ris a-rithist…</string>
     <string name="message_status_resend">Ath-chuir no sguab às</string>
     <string name="message_status_send_failed_emergency_number">Dèan gairm gutha dha na seirbheisean-èiginn. Cha b’ urrainn dhuinn an teachdaireachd teacsa agad a lìbhrigeadh aig an àm seo.</string>
     <string name="message_status_failed">Dh’fhàillig leis</string>
@@ -112,6 +119,7 @@
     <string name="message_status_download_failed">Thoir gnogag airson feuchainn ris a-rithist</string>
     <string name="message_status_download">Thoir gnogag gus a luchdadh a-nuas</string>
     <string name="message_status_download_action">Luchdaich a-nuas no sguab às</string>
+    <string name="message_status_downloading">’Ga luchdadh a-nuas…</string>
     <string name="message_status_download_error">Dh’fhalbh an ùine air an teachdaireachd no chan eil i ri làimh</string>
     <string name="mms_info">meud: <xliff:g id="messageSize">%1$s</xliff:g>, falbhaidh an ùine air: <xliff:g id="messageExpire">%2$s</xliff:g></string>
     <string name="invalid_destination">Cha ghabh a chur. Chan eil am faightear dligheach.</string>
@@ -196,10 +204,10 @@
     <string name="notification_reply_via_mms">Freagair le MMS</string>
     <string name="notification_reply_prompt">Freagairt</string>
     <plurals name="wearable_participant_count">
-        <item quantity="one">&lt;xliff:g id="count"&gt; chom-pàirtiche</item>
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> chom-pàirtiche</item>
         <item quantity="two">&lt;xliff:g id="count"&gt; chom-pàirtiche</item>
         <item quantity="few">&lt;xliff:g id="count"&gt; com-pàirtichean</item>
-        <item quantity="other">&lt;xliff:g id="count"&gt; com-pàirtiche</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> chom-pàirtiche</item>
     </plurals>
     <string name="unknown_self_participant">Uam</string>
     <string name="blocked_toast_message">Chaidh an neach-aithne a bhacadh ⁊ a chur san tasg-lann</string>
@@ -209,7 +217,7 @@
     <string name="notification_off_toast_message">Chaidh na brathan a chur dheth</string>
     <string name="notification_on_toast_message">Chaidh na brathan a chur air</string>
     <string name="toast_after_setting_default_sms_app_for_message_send">Tha thu ullamh ma-thà. Thoir gnogag air “Cuir” a-rithist.</string>
-    <string name="toast_after_setting_default_sms_app">Chaidh aplacaid nan teachdaireachdan a shuidheachadh mar thè thùsail nan SMS.</string>
+    <string name="toast_after_setting_default_sms_app">Chaidh aplacaid nan teachdaireachdan a shuidheachadh mar thè bhunaiteach nan SMS.</string>
     <plurals name="attachment_preview_close_content_description">
         <item quantity="one">Tilg air falbh an ceanglachan</item>
         <item quantity="two">Tilg air falbh na ceanglachain</item>
@@ -219,6 +227,19 @@
     <string name="audio_attachment_content_description">Ceanglachan fuaime</string>
     <string name="audio_play_content_description">Cluich an ceanglachan fuaime</string>
     <string name="audio_pause_content_description">Cuir ’na stad</string>
+    <string name="incoming_message_announcement">Teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>.</string>
+    <string name="one_on_one_incoming_failed_message_prefix">Dh’fhàillig leis an teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_incoming_successful_message_prefix">Teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_draft_message_prefix">Teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g> nach deach a chur: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_sending_message_prefix">A’ cur teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_failed_message_prefix">Dh’fhàillig leis an teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_successful_message_prefix">Teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_incoming_failed_message_prefix">Dh’fhàillig leis an teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
+    <string name="group_incoming_successful_message_prefix">Teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
+    <string name="group_outgoing_draft_message_prefix">Teachdaireachd gu <xliff:g id="group">%1$s</xliff:g> nach deach a chur: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_sending_message_prefix">A’ cur teachdaireachd gu <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_failed_message_prefix">Dh’fhàillig leis an teachdaireachd gu <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_successful_message_prefix">Teachdaireachd gu <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="failed_message_content_description">Dh’fhàillig leis an teachdaireachd. Thoir gnogag airson feuchainn ris a-rithist.</string>
     <string name="group_conversation_description">Còmhradh le <xliff:g id="participants">%s</xliff:g></string>
     <string name="delete_subject_content_description">Sguab às an cuspair</string>
@@ -227,7 +248,7 @@
     <string name="camera_take_picture">Tog dealbh</string>
     <string name="camera_start_recording">Tòisich air video a chlàradh</string>
     <string name="camera_switch_full_screen">Geàrr leum gu camara na làn-sgrìn</string>
-    <string name="camera_switch_camera_facing">Geàrr leum eadar camara a’ bheulaibh ’s a’ chùlaibh</string>
+    <string name="camera_switch_camera_facing">Geàrr leum eadar camara beòil ’s cùil</string>
     <string name="camera_stop_recording">Cuir stad air a’ clàradh ’s ceangal a’ video ris</string>
     <string name="camera_cancel_recording">Cuir stad air a’ chlàradh a’ video</string>
     <string name="photo_view_activity_title">Dealbhan theachdaireachdan</string>
@@ -285,8 +306,8 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary">Faigh teachdaireachdan MMS gu fèin-obrachail fhad ’s a bhios tu air fàrsan</string>
     <string name="group_mms_pref_title">Teachdaireachdan buidhinn</string>
     <string name="group_mms_pref_summary">Cleachd MMS a chur aon teachdaireachd nuair a bhios iomadh faightear ann</string>
-    <string name="sms_disabled_pref_title">Aplacaid SMS thùsail</string>
-    <string name="sms_enabled_pref_title">Aplacaid SMS thùsail</string>
+    <string name="sms_disabled_pref_title">Aplacaid SMS bhunaiteach</string>
+    <string name="sms_enabled_pref_title">Aplacaid SMS bhunaiteach</string>
     <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
     <string name="mms_phone_number_pref_title">An àireamh fòn agad</string>
     <string name="unknown_phone_number_pref_display_value">Neo-aithnichte</string>
@@ -295,7 +316,7 @@
     <string name="dump_sms_pref_summary">Dèan dump de dàta amh an SMS a fhuair thu gu faidhle stòrais air an taobh a-muigh</string>
     <string name="dump_mms_pref_title">Dumpaich an MMS</string>
     <string name="dump_mms_pref_summary">Dèan dump de dàta amh an MMS a fhuair thu gu faidhle stòrais air an taobh a-muigh</string>
-    <string name="wireless_alerts_title">Caismeachdan gun uèir</string>
+    <string name="wireless_alerts_title">Rabhaidhean gun uèir</string>
     <string name="message_context_menu_title">Roghainnean na teachdaireachd</string>
     <string name="message_context_menu_copy_text">Dèan lethbhreac dhen teacsa</string>
     <string name="message_context_menu_view_details">Seall am mion-fhiosrachadh</string>
@@ -384,6 +405,7 @@
     <string name="add_contact_confirmation">Cuir neach-aithne ris</string>
     <string name="compose_message_view_subject_hint_text">Cuspair</string>
     <string name="conversation_message_view_subject_text">Cuspair:\u0020</string>
+    <string name="notification_subject"><xliff:g id="subject_label">%1$s</xliff:g><xliff:g id="messageText">%2$s</xliff:g></string>
     <string name="loading_vcard">A’ luchdadh na cairte-conaltraidh</string>
     <string name="failed_loading_vcard">Cha b’ urrainn dhuinn a’ chairt-chonaltraidh a luchdadh</string>
     <string name="vcard_tap_hint">Seall a’ chairt-chonaltraidh</string>
@@ -401,10 +423,10 @@
     <string name="plus_one">+1</string>
     <string name="plus_n">+%d</string>
     <string name="sms_disabled">Tha SMS à comas</string>
-    <string name="requires_default_sms_app_to_send">Airson a chur, suidhich aplacaid nan teachdaireachdan mar thè thùsail nan SMS</string>
-    <string name="requires_default_sms_app">Suidhich aplacaid nan teachdaireachdan mar thè thùsail nan SMS</string>
+    <string name="requires_default_sms_app_to_send">Airson a chur, suidhich aplacaid nan teachdaireachdan mar thè bhunaiteach nan SMS</string>
+    <string name="requires_default_sms_app">Suidhich aplacaid nan teachdaireachdan mar thè bhunaiteach nan SMS</string>
     <string name="requires_default_sms_change_button">Atharraich</string>
-    <string name="recommend_set_default_sms_app">Airson teachdaireachdan fhaighinn, suidhich aplacaid nan teachdaireachdan mar thè thùsail nan SMS</string>
+    <string name="recommend_set_default_sms_app">Airson teachdaireachdan fhaighinn, suidhich aplacaid nan teachdaireachdan mar thè bhunaiteach nan SMS</string>
     <string name="no_preferred_sim_selected">Cha do thagh thu an SIM as fheàrr leat airson teachdaireachdan SMS a chur</string>
     <string name="requires_sms_permissions_message">Cha cheadaich sealbhadair an uidheim an aplacaid seo.</string>
     <string name="requires_sms_permissions_close_button">Ceart ma-thà</string>
@@ -421,6 +443,7 @@
     <string name="conversation_list_item_view_draft_message">Dreachd</string>
     <string name="conversation_list_empty_text">Nuair a thòisicheas tu air còmhradh ùr, chì thu an-seo e</string>
     <string name="archived_conversation_list_empty_text">Nochdaidhean còmhraidhean na tasg-lainn an-seo</string>
+    <string name="conversation_list_first_sync_text">A’ luchdadh nan còmhraidhean…</string>
     <string name="conversation_list_snippet_picture">Dealbh</string>
     <string name="conversation_list_snippet_audio_clip">Bearradh fuaime</string>
     <string name="conversation_list_snippet_video">Video</string>
@@ -544,4 +567,5 @@
     <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
     <string name="selected_sim_content_message">Chaidh <xliff:g id="selected_sim">%s</xliff:g> a thaghadh</string>
     <string name="work_directory_display_name">Luchd-aithne aig pròifil na h-obrach</string>
+    <string name="disallow_emergency_call">Chan urrainn dhut gairm gutha a dhèanamh dha na seirbheisean-èiginn an-seo.</string>
 </resources>
