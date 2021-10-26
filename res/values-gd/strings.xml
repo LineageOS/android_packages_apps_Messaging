@@ -128,7 +128,7 @@
     <string name="service_message_not_found">Dh’fhalbh an ùine air an teachdaireachd no chan eil i ri làimh</string>
     <string name="no_subject">(Gun chuspair)</string>
     <string name="unknown_sender">Seòladair nach aithne dhuinn</string>
-    <string name="delivered_status_content_description">Air a libhrigeadh</string>
+    <string name="delivered_status_content_description">Air a lìbhrigeadh</string>
     <string name="dl_failure_notification">Cha b’ urrainn dhuinn teachdaireachd <xliff:g id="subject">%1$s</xliff:g> o <xliff:g id="from">%2$s</xliff:g> a luchdadh a-nuas.</string>
     <string name="low_memory">Cha b’ urrainn dhuinn an gnìomh stòir-dhàta a choileanadh air sgàth gainnead cuimhne</string>
     <string name="notification_send_failures_line1_singular">Cha deach an teachdaireachd a chur</string>

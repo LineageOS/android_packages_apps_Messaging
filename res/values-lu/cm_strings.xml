@@ -15,9 +15,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Vegen om te verwijderen</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Naar rechts vegen om een gesprek te verwijderen</string>
-    <string name="show_emoticons_pref_title">Toegang tot emoticons</string>
-    <string name="show_emoticons_pref_summary">Emoticons-toets op het toetsenbord weergeven</string>
-    <string name="notification_channel_messages_title">Berichten</string>
+    <string name="swipe_to_delete_conversation_pref_title">Wësche fir ze läschen</string>
+    <string name="swipe_to_delete_conversation_pref_summary">No riets Wësche fir eng Konversatioun ze läschen</string>
+    <string name="show_emoticons_pref_title">Zougrëff op Smileyen</string>
+    <string name="show_emoticons_pref_summary">Smiley-Tast op der Tastatur uweisen</string>
 </resources>
