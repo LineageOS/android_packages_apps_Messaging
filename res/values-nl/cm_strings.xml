@@ -20,4 +20,5 @@
     <string name="show_emoticons_pref_title">Toegang tot emoticons</string>
     <string name="show_emoticons_pref_summary">Emoticons-toets op het toetsenbord weergeven</string>
     <string name="notification_mark_as_read">Markeren als gelezen</string>
+    <string name="notification_channel_messages_title">Berichten</string>
 </resources>

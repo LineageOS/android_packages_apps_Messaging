@@ -15,10 +15,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Grad-shlaighd airson a sguabadh às</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Grad-shlaighd gun taobh deas airson còmhradh a sguabadh às</string>
-    <string name="show_emoticons_pref_title">Cothrom air samhlaidhean-gnùise</string>
-    <string name="show_emoticons_pref_summary">Seall iuchair nan samhlaidhean-gnùise air a’ mheur-chlàr</string>
-    <string name="notification_mark_as_read">Cuir comharra gun deach a leughadh</string>
-    <string name="notification_channel_messages_title">Teachdaireachdan</string>
+    <string name="swipe_to_delete_conversation_pref_title">Wësche fir ze läschen</string>
+    <string name="swipe_to_delete_conversation_pref_summary">No riets Wësche fir eng Konversatioun ze läschen</string>
+    <string name="show_emoticons_pref_title">Zougrëff op Smileyen</string>
+    <string name="show_emoticons_pref_summary">Smiley-Tast op der Tastatur uweisen</string>
 </resources>
