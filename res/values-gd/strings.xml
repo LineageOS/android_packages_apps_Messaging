@@ -15,8 +15,11 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- The name of the application as it appears under the main Launcher icon and in various activity titles -->
     <string name="app_name">Teachdaireachdan</string>
+    <!-- The name of the application as it appears in external share intent dialogs -->
     <string name="share_intent_label">Teachdaireachdan</string>
+    <!-- The title when selecting a conversation to share to -->
     <string name="share_intent_activity_label">Tagh còmhradh</string>
     <string name="action_settings">Roghainnean</string>
     <string name="sendButtonContentDescription">Cuir teachdaireachd</string>
@@ -29,11 +32,16 @@
     <string name="exit">Fàg</string>
     <string name="settings_with_arrow">Roghainnean &gt;</string>
     <string name="settings">Roghainnean</string>
+    <!-- Inform user of the names of permissions that are required to use the app -->
     <string name="required_permissions_promo">Feumaidh na teachdaireachdan cead air SMS, an fhòn ’s an luchd-aithne.</string>
     <string name="enable_permission_procedure">’S urrainn dhut na ceadan atharrachadh ann an Roghainnean &gt; Aplacaidean &gt; Ceadan.</string>
     <string name="enable_permission_procedure_description">’S urrainn dhut na ceadan atharrachadh ann an Roghainnean, Aplacaidean, Teachdaireachdan, Ceadan.</string>
+    <!-- The tab header for the frequently used contacts list -->
     <string name="contact_picker_frequents_tab_title">An fheadhainn thric</string>
+    <!-- The tab header for all contacts list -->
     <string name="contact_picker_all_contacts_tab_title">A h-uile neach-aithne</string>
+    <!-- The text on the list item in the contact picker that allows a user to send an SMS directly
+         to a number that he/she typed. eg. "Send to 650-555-1234" -->
     <string name="contact_list_send_to_text">Cuir gu <xliff:g id="destination">%s</xliff:g></string>
     <string name="mediapicker_cameraChooserDescription">Glac dealbhan no video</string>
     <string name="mediapicker_galleryChooserDescription">Tagh dealbhan on uidheam seo</string>
@@ -43,95 +51,153 @@
     <string name="mediapicker_gallery_item_selected_content_description">Thagh thu meadhan.</string>
     <string name="mediapicker_gallery_item_unselected_content_description">Dì-thagh thu meadhan.</string>
     <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> air a thaghadh</string>
+    <!-- example: "image January 17 2015 1 59 pm" -->
     <string name="mediapicker_gallery_image_item_description">dealbh <xliff:g id="date">%1$te %1$tB %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
     <string name="mediapicker_gallery_image_item_description_no_date">dealbh</string>
     <string name="mediapicker_audio_title">Clàraich fuaim</string>
     <string name="mediapicker_contact_title">Tagh neach-aithne</string>
+    <!-- Hint text on the contact picker -->
     <string name="contact_picker_hint_text">Dèan briogadh a dh’fhosgladh liosta an luchd-aithne air an uidheam seo</string>
     <string name="action_share">Co-roinn</string>
     <string name="posted_just_now">"An-dràsta fhèin"</string>
     <string name="posted_now">"An-dràsta"</string>
+    <!-- Abbreviated message to express that something occurred some number of minutes in the past (e.g., 5 minutes ago). -->
     <plurals name="num_minutes_ago">
         <item quantity="one"><xliff:g id="count">%d</xliff:g> mhion</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> mhion</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> mion</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> mion</item>
     </plurals>
+    <!-- Abbreviated message to express that something occurred some number of hours in the past (e.g., 5 hours ago). -->
     <plurals name="num_hours_ago">
         <item quantity="one"><xliff:g id="count">%d</xliff:g> uair</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> uair</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> uairean</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> uair</item>
     </plurals>
+    <!-- Abbreviated message to express that something occurred some number of days in the past (e.g., 5 days ago). -->
     <plurals name="num_days_ago">
         <item quantity="one"><xliff:g id="count">%d</xliff:g> latha</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> latha</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> làithean</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> latha</item>
     </plurals>
+    <!--
+        Plurals used for the duration in free sms storage action and confirm strings above
+        Example: "Delete messages older than a week"
+    -->
     <plurals name="week_count">
+        <!-- Singular case -->
         <item quantity="one"><xliff:g id="count">%d</xliff:g> seachdain</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> sheachdain</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> seachdainean</item>
+        <!-- Plural case -->
         <item quantity="other"><xliff:g id="count">%d</xliff:g> seachdain</item>
     </plurals>
     <plurals name="month_count">
+        <!-- Singular case -->
         <item quantity="one"><xliff:g id="count">%d</xliff:g> mhìos</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> mhìos</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> mìosan</item>
+        <!-- Plural case -->
         <item quantity="other"><xliff:g id="count">%d</xliff:g> mìos</item>
     </plurals>
     <plurals name="year_count">
+        <!-- Singular case -->
         <item quantity="one"><xliff:g id="count">%d</xliff:g> bhliadhna</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> bhliadhna</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> bliadhnaichean</item>
+        <!-- Plural case -->
         <item quantity="other"><xliff:g id="count">%d</xliff:g> bliadhna</item>
     </plurals>
+    <!-- Title of the class-0 message activity. -->
     <string name="class_0_message_activity">Teachdaireachd clas 0</string>
     <string name="save">Sàbhail</string>
+    <!-- Text for SMS storage low text, when auto delete is enabled -->
     <string name="sms_storage_low_auto_delete_enabled_dialog_text">Tha an t-àite a’ fàs gann air an uidheam. Sguabaidh aplacaid nan teachdaireachdan seann-teachdaireachdan às airson àite a shaoradh.</string>
+    <!-- Title for SMS storage low notification and dialog. Must match the framework's notification title, i.e. //frameworks/base/core/res/res/values/strings.xml#low_internal_storage_view_title -->
     <string name="sms_storage_low_title">Tha an stòras gann</string>
+    <!-- Text for SMS storage low notification and dialog -->
     <string name="sms_storage_low_text">Dh’fhaoidte nach dèid teachdaireachd a chur no fhaighinn mus bi barrachd àite air an uidheam agad.</string>
+    <!-- Ticker for SMS storage low notification -->
     <string name="sms_storage_low_notification_ticker">Tha stòras nan SMS gann. Dh’fhaoidte gum bi agad ri teachdaireachdan a sguabadh às.</string>
+    <!-- Title for asking the user to enter their phone number -->
     <string name="enter_phone_number_title">Dearbh an àireamh fòn agad</string>
+    <!-- Text for asking the user to enter their phone number -->
     <string name="enter_phone_number_text">Chan fheum thu seo a dhèanamh ach aon turas agus nì e cinnteach gun dèid na teachdaireachdan buidhinn a lìbhrigeadh dhut mar bu chòir.</string>
+    <!-- EditText hint for asking the user to enter their phone number -->
     <string name="enter_phone_number_hint">Àireamh fòn</string>
+    <!-- Free SMS storage actions -->
     <string name="delete_all_media">Sguab às a h-uile teachdaireachd ris a bheil meadhan</string>
     <string name="delete_oldest_messages">Sguab às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g></string>
     <string name="auto_delete_oldest_messages">Sguab às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g> gu fèin-obrachail</string>
     <string name="ignore">Leig seachad</string>
+    <!-- Free SMS storage action confirm dialog message -->
     <string name="delete_all_media_confirmation">An sguab thu às a h-uile teachdaireachd ris a bheil meadhan?</string>
     <string name="delete_oldest_messages_confirmation">An sguab thu às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g>?</string>
     <string name="auto_delete_oldest_messages_confirmation">An sguab thu às na teachdaireachdan nas sine na <xliff:g id="duration">%s</xliff:g> ’s an dèan sinn seo gu fèin-obrachail o seo a-mach?</string>
+    <!-- ####### Strings to support the mms/sms service ####### -->
+    <!-- Prefix for accessibility to indicate who the sender of a plain text message is. -->
     <string name="incoming_text_sender_content_description">Thuirt <xliff:g id="sender">%s</xliff:g></string>
     <string name="outgoing_text_sender_content_description">Thuirt thu</string>
+    <!-- Prefix for accessibility to indicate who the sender of text with hyperlinks, an attachment, or yet-to-be-downloaded message is. -->
     <string name="incoming_sender_content_description">Teachdaireachd o <xliff:g id="sender">%s</xliff:g></string>
     <string name="outgoing_sender_content_description">Chuir thu teachdaireachd</string>
-    <string name="message_status_sending">’Ga chur…</string>
+    <!-- While sending a message display this message. -->
+    <string name="message_status_sending">’Ga chur&#8230;</string>
+    <!-- When sending a message failed display this message. -->
     <string name="message_status_send_failed">Cha deach a chur. Thoir gnogag airson feuchainn ris a-rithist.</string>
-    <string name="message_status_send_retrying">Cha deach a chur. A’ feuchainn ris a-rithist…</string>
+    <!-- When retrying sending for a message. -->
+    <string name="message_status_send_retrying">Cha deach a chur. A’ feuchainn ris a-rithist&#8230;</string>
+    <!-- When showing resend action display this message. -->
     <string name="message_status_resend">Ath-chuir no sguab às</string>
+    <!-- When sending a message to an emergency number failed display this message in the conversation. -->
     <string name="message_status_send_failed_emergency_number">Dèan gairm gutha dha na seirbheisean-èiginn. Cha b’ urrainn dhuinn an teachdaireachd teacsa agad a lìbhrigeadh aig an àm seo.</string>
+    <!-- When showing resend action, display this message. -->
     <string name="message_status_failed">Dh’fhàillig leis</string>
+    <!-- Title line for an MMS requiring manual download. -->
     <string name="message_title_manual_download">Tha teachdaireachd MMS ùr ri luchdadh a-nuas ann</string>
+    <!-- Title line for an MMS auto-downloading. -->
     <string name="message_title_downloading">Teachdaireachd MMS ùr</string>
+    <!-- Title line for MMS which failed to download. -->
     <string name="message_title_download_failed">Cha b’ urrainn dhuinn seo a luchdadh a-nuas</string>
+    <!-- Timestamp line for MMS which failed to download. -->
     <string name="message_status_download_failed">Thoir gnogag airson feuchainn ris a-rithist</string>
+    <!-- Timestamp line for MMS which failed to download. -->
     <string name="message_status_download">Thoir gnogag gus a luchdadh a-nuas</string>
+    <!-- Timestamp line for MMS which is selected. -->
     <string name="message_status_download_action">Luchdaich a-nuas no sguab às</string>
-    <string name="message_status_downloading">’Ga luchdadh a-nuas…</string>
+    <!-- Timestamp line to display while downloading a message. -->
+    <string name="message_status_downloading">’Ga luchdadh a-nuas&#8230;</string>
+    <!-- Timestamp line for MMS for expired or invalid message. -->
     <string name="message_status_download_error">Dh’fhalbh an ùine air an teachdaireachd no chan eil i ri làimh</string>
+    <!-- Display this info line with an MMS notification -->
     <string name="mms_info">meud: <xliff:g id="messageSize">%1$s</xliff:g>, falbhaidh an ùine air: <xliff:g id="messageExpire">%2$s</xliff:g></string>
+    <!-- While sending a message, if it has invalid recipient, display this message. -->
     <string name="invalid_destination">Cha ghabh a chur. Chan eil am faightear dligheach.</string>
+    <!-- While sending a message, this error is expected to be generated when user does not have
+         MMS enabled on his account. [CHAR LIMIT=NONE] -->
     <string name="service_not_activated">Chan eil an t-seirbheis gnìomhach air an lìonra seo</string>
+    <!-- If a message can't be sent because of a MMSC network problem, show this toast. [CHAR LIMIT=NONE] -->
     <string name="service_network_problem">Cha b’ urrainn dhuinn a chur ri linn duilgheadasan leis an lìonra</string>
+    <!-- If a message has expired and is no longer available on MMSC, show this toast. [CHAR LIMIT=NONE] -->
     <string name="service_message_not_found">Dh’fhalbh an ùine air an teachdaireachd no chan eil i ri làimh</string>
+    <!-- Download Manager -->
+    <!-- When an error occurs downloading a new message and a subject isn't available, substitute
+         this default subject. -->
     <string name="no_subject">(Gun chuspair)</string>
+    <!-- When an error occurs downloading a new message and the sender is unknown, substitute
+         this default text. -->
     <string name="unknown_sender">Seòladair nach aithne dhuinn</string>
     <string name="delivered_status_content_description">Air a lìbhrigeadh</string>
+    <!-- When an error occurs downloading a new message, display this message.
+         An example: Download of message Wanna get pizza from dorkman was unsuccessful. -->
     <string name="dl_failure_notification">Cha b’ urrainn dhuinn teachdaireachd <xliff:g id="subject">%1$s</xliff:g> o <xliff:g id="from">%2$s</xliff:g> a luchdadh a-nuas.</string>
+    <!-- When a database error occurs due to low memory this toast is shown. -->
     <string name="low_memory">Cha b’ urrainn dhuinn an gnìomh stòir-dhàta a choileanadh air sgàth gainnead cuimhne</string>
+    <!-- notification line 1 for "there are some failed messages" -->
     <string name="notification_send_failures_line1_singular">Cha deach an teachdaireachd a chur</string>
+    <!-- notification line 1 for "there are some failed messages" -->
     <string name="notification_send_failures_line1_plural">Cha do chuir aplacaid nan teachdaireachdan a h-uile teachdaireachd</string>
     <plurals name="notification_send_failures">
         <item quantity="one"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> chòmhradh</item>
@@ -139,7 +205,9 @@
         <item quantity="few"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhraidhean</item>
         <item quantity="other"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhradh</item>
     </plurals>
+    <!-- notification line 1 for download failed -->
     <string name="notification_download_failures_line1_singular">Cha deach an teachdaireachd a luchdadh a-nuas</string>
+    <!-- notification line 1 for multiple downloads failed -->
     <string name="notification_download_failures_line1_plural">Cha do luchdaich aplacaid nan teachdaireachdan a h-uile teachdaireachd a-nuas</string>
     <plurals name="notification_download_failures">
         <item quantity="one"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> chòmhradh</item>
@@ -147,77 +215,128 @@
         <item quantity="few"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhraidhean</item>
         <item quantity="other"><xliff:g id="messages">%d</xliff:g> teachdaireachdan am broinn <xliff:g id="conversations">%d</xliff:g> còmhradh</item>
     </plurals>
+    <!-- Notification title when emergency SMS (e.g. to 911) fails to send -->
     <string name="notification_emergency_send_failure_line1">Cha deach an teachdaireachd gu <xliff:g id="number">%1$s</xliff:g> a chur</string>
+    <!-- Notification content when emergency SMS fails to send -->
     <string name="notification_emergency_send_failure_line2">        Dèan gairm gutha dha na seirbheisean-èiginn. Cha b’ urrainn dhuinn an teachdaireachd teacsa agad gu
         <xliff:g id="number">%1$s</xliff:g> a lìbhrigeadh aig an àm seo.
     </string>
+    <!-- notification line 1 for new message notification on the lock screen -->
     <plurals name="notification_new_messages">
         <item quantity="one"><xliff:g id="messages">%d</xliff:g> teachdaireachd ùr</item>
         <item quantity="two"><xliff:g id="messages">%d</xliff:g> teachdaireachd ùr</item>
         <item quantity="few"><xliff:g id="messages">%d</xliff:g> teachdaireachdan ùra</item>
         <item quantity="other"><xliff:g id="messages">%d</xliff:g> teachdaireachd ùr</item>
     </plurals>
+    <!-- Text for starting a new conversation button in the compose UI -->
     <string name="start_conversation">Tòisich</string>
     <string name="camera_error_opening">Chan eil camara ri làimh</string>
     <string name="camera_error_unknown">Chan eil camara ri làimh</string>
     <string name="camera_error_video_init_fail">Chan eil glacadh video ri làimh</string>
+    <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
     <string name="camera_error_storage_fail">Cha ghabh meadhan a shàbhaladh</string>
     <string name="camera_error_failure_taking_picture">Cha ghabh dealbh a thogail</string>
+    <!-- Content description text for Back button on the action bar -->
     <string name="back">Air ais</string>
+    <!-- Action menu title for showing archived conversations -->
     <string name="action_menu_show_archived">Air a chur san tasg-lann</string>
+    <!-- Action menu title for deleting selected conversations in conversation list -->
     <string name="action_delete">Sguab às</string>
+    <!-- Action menu title for archiving selected conversations in conversation list -->
     <string name="action_archive">Tasg-lann</string>
+    <!-- Action menu title for unarchiving selected conversations in conversation list -->
     <string name="action_unarchive">Thoir às an tasg-lann</string>
+    <!-- Action menu title for adding the contacts for the selected conversations in conversation list -->
     <string name="action_add_contact">Cuir neach-aithne ris</string>
+    <!-- Action menu title for downloading failed message selected in conversation -->
     <string name="action_download">Luchdaich a-nuas</string>
+    <!-- Action menu title for sending failed message selected in conversation -->
     <string name="action_send">Cuir</string>
+    <!-- Action menu title for deleting failed message selected in conversation -->
     <string name="action_delete_message">Sguab às</string>
     <string name="delete_message_confirmation_dialog_title">An sguab thu às an teachdaireachd seo?</string>
     <string name="delete_message_confirmation_dialog_text">Cha ghabh seo a neo-dhèanamh.</string>
     <string name="delete_message_confirmation_button">Sguab às</string>
+    <!-- Alert dialog title to accept or decline deleting conversation(s). -->
     <plurals name="delete_conversations_confirmation_dialog_title">
         <item quantity="one">An sguab thu às an còmhradh seo?</item>
         <item quantity="two">An sguab thu às na còmhraidhean seo?</item>
         <item quantity="few">An sguab thu às na còmhraidhean seo?</item>
         <item quantity="other">An sguab thu às na còmhraidhean seo?</item>
     </plurals>
+    <!-- Alert dialog accept deleting this conversation button. -->
     <string name="delete_conversation_confirmation_button">Sguab às</string>
+    <!-- Alert dialog decline deleting this conversation button. -->
     <string name="delete_conversation_decline_button">Sguir dheth</string>
+    <!-- Hint text for the recipient chips text box when it's empty -->
     <string name="recipient_hint">Gu</string>
+    <!-- Action menu title for multiple selection in gallery image picker -->
     <string name="action_multiselect">Tagh iomadh dealbh</string>
+    <!-- Action menu title for confirming multiple selection in gallery image picker -->
     <string name="action_confirm_multiselect">Dearbh an taghadh</string>
+    <!-- Text for showing there are more items in the attachments than is shown (e.g. "+2") -->
     <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
+    <!-- Failed to start recording audio -->
     <string name="audio_recording_start_failed">Cha b’ urrainn dhuinn an fhuaim a chlàradh. Feuch ris a-rithist.</string>
+    <!-- Failed to replay recorded audio -->
     <string name="audio_recording_replay_failed">Cha b’ urrainn dhuinn an fhuaim a chluich. Feuch ris a-rithist.</string>
+    <!-- Error occurred while recording audio -->
     <string name="audio_recording_error"> Cha b’ urrainn dhuinn an fhuaim a shàbhaladh. Feuch ris a-rithist.</string>
+    <!-- Hint text on the audio recorder that instructs user how to start recording -->
     <string name="audio_picker_hint_text">Thoir gnogag ⁊ cùm sìos</string>
+    <!-- An enumeration comma for separating multiple names in notifications. [CHAR LIMIT=2] -->
     <string name="enumeration_comma">,\u0020</string>
+    <!-- Separator between parts of a notification in each line of an inboxStyle notification. [CHAR LIMIT=2] -->
     <string name="notification_separator">\u0020\u0020</string>
+    <!-- Separator between title and content in notification ticker -->
     <string name="notification_ticker_separator">:\u0020</string>
+    <!-- Separator between title and content in notifications -->
     <string name="notification_space_separator">\u0020\u0020</string>
+    <!-- Shown in notifications when there's a picture. [CHAR LIMIT=25] -->
     <string name="notification_picture">Dealbh</string>
+    <!-- Shown in notifications when there's an audio clip. [CHAR LIMIT=25] -->
     <string name="notification_audio">Bearradh fuaime</string>
+    <!-- Shown in notifications when there's a video. [CHAR LIMIT=25] -->
     <string name="notification_video">Video</string>
+    <!-- Shown in notifications when there's a vcard. [CHAR LIMIT=25] -->
     <string name="notification_vcard">Cairt-chonaltraidh</string>
+    <!-- Notification action label for download MMS when set to manual downloads. [CHAR LIMIT=15] -->
     <string name="notification_download_mms">Luchdaich a-nuas</string>
+    <!-- Notification action label for SMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
     <string name="notification_reply_via_sms">Freagair le SMS</string>
+    <!-- Notification action label for MMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
     <string name="notification_reply_via_mms">Freagair le MMS</string>
+    <!-- Notification voice reply prompt (visible on wearable device only). [CHAR LIMIT=15] -->
     <string name="notification_reply_prompt">Freagairt</string>
+    <!-- The bottom line on a wearable notification that shows how many participants in the conversation -->
     <plurals name="wearable_participant_count">
         <item quantity="one"><xliff:g id="count">%d</xliff:g> chom-pàirtiche</item>
         <item quantity="two">&lt;xliff:g id="count"&gt; chom-pàirtiche</item>
         <item quantity="few">&lt;xliff:g id="count"&gt; com-pàirtichean</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> chom-pàirtiche</item>
     </plurals>
+    <!-- Shown in the Android Wear conversation log as the sender for outgoing messages,
+         when we don't know the user's real name (e.g. no "Me" contact on the phone). -->
     <string name="unknown_self_participant">Uam</string>
+    <!-- The text of the toast/snack message shown when a contact is blocked -->
     <string name="blocked_toast_message">Chaidh an neach-aithne a bhacadh ⁊ a chur san tasg-lann</string>
+    <!-- The text of the toast/snack message shown when a contact is unblocked -->
     <string name="unblocked_toast_message">Chaidh an neach-aithne a bhacadh ⁊ a thoirt às an tasg-lann</string>
+    <!-- The text of the toast/snack message shown when the selected conversation(s) are archived.
+         Displays the number of converstions archived -->
     <string name="archived_toast_message">Chaidh <xliff:g id="count">%d</xliff:g> a chur san tasg-lann</string>
+    <!-- The text of the toast/snack message shown when the selected conversation(s) are unarchived.
+         Displays the number of conversations unarchived -->
     <string name="unarchived_toast_message">Chaidh <xliff:g id="count">%d</xliff:g> a thoirt às an tasg-lann</string>
+    <!-- The text of the toast/snack message shown when a notifications turned off for selected conversations -->
     <string name="notification_off_toast_message">Chaidh na brathan a chur dheth</string>
+    <!-- The text of the toast/snack message shown when a notifications turned on for selected conversations -->
     <string name="notification_on_toast_message">Chaidh na brathan a chur air</string>
+    <!-- Toast shown when the user tries to send a message, and then sets Bugle as the default SMS app. -->
     <string name="toast_after_setting_default_sms_app_for_message_send">Tha thu ullamh ma-thà. Thoir gnogag air “Cuir” a-rithist.</string>
+    <!-- Toast shown when the user successfully sets Bugle as the default SMS app. -->
     <string name="toast_after_setting_default_sms_app">Chaidh aplacaid nan teachdaireachdan a shuidheachadh mar thè bhunaiteach nan SMS.</string>
+    <!-- Accessibility : Content descriptinon for ImageButtons and ImageViews -->
     <plurals name="attachment_preview_close_content_description">
         <item quantity="one">Tilg air falbh an ceanglachan</item>
         <item quantity="two">Tilg air falbh na ceanglachain</item>
@@ -227,21 +346,27 @@
     <string name="audio_attachment_content_description">Ceanglachan fuaime</string>
     <string name="audio_play_content_description">Cluich an ceanglachan fuaime</string>
     <string name="audio_pause_content_description">Cuir ’na stad</string>
+    <!-- Accessibility announcement for an incoming message -->
     <string name="incoming_message_announcement">Teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>.</string>
+    <!-- Accessibility description for conversation list for 1:1 conversations -->
     <string name="one_on_one_incoming_failed_message_prefix">Dh’fhàillig leis an teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="one_on_one_incoming_successful_message_prefix">Teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="one_on_one_outgoing_draft_message_prefix">Teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g> nach deach a chur: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="one_on_one_outgoing_sending_message_prefix">A’ cur teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="one_on_one_outgoing_failed_message_prefix">Dh’fhàillig leis an teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="one_on_one_outgoing_successful_message_prefix">Teachdaireachd gu <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <!-- Accessibility description for conversation list for group conversations -->
     <string name="group_incoming_failed_message_prefix">Dh’fhàillig leis an teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
     <string name="group_incoming_successful_message_prefix">Teachdaireachd o <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
     <string name="group_outgoing_draft_message_prefix">Teachdaireachd gu <xliff:g id="group">%1$s</xliff:g> nach deach a chur: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="group_outgoing_sending_message_prefix">A’ cur teachdaireachd gu <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="group_outgoing_failed_message_prefix">Dh’fhàillig leis an teachdaireachd gu <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
     <string name="group_outgoing_successful_message_prefix">Teachdaireachd gu <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Àm: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <!-- Accessibility description for conversation list for failed messages -->
     <string name="failed_message_content_description">Dh’fhàillig leis an teachdaireachd. Thoir gnogag airson feuchainn ris a-rithist.</string>
+    <!-- Accessibility name for a group conversation -->
     <string name="group_conversation_description">Còmhradh le <xliff:g id="participants">%s</xliff:g></string>
+    <!-- Accessibility : text read on the small X icon on the subject editor -->
     <string name="delete_subject_content_description">Sguab às an cuspair</string>
     <string name="camera_switch_to_video_mode">Glac video</string>
     <string name="camera_switch_to_still_mode">Glac dealbh</string>
@@ -288,188 +413,317 @@
         <item quantity="few">Tha <xliff:g id="quantity">%d</xliff:g> ceanglachain nach b’ urrainn dhuinn a shàbhaladh ann</item>
         <item quantity="other">Tha <xliff:g id="quantity">%d</xliff:g> ceanglachan nach b’ urrainn dhuinn a shàbhaladh ann</item>
     </plurals>
+    <!-- Description shown in the download manager for an attachment that the user manually saved -->
     <string name="attachment_file_description">Ceanglachan MMS air a shàbhaladh</string>
+    <!-- Title for the preferences/settings activity -->
     <string name="settings_activity_title">Roghainnean</string>
+    <!-- Title for the archived conversations activity -->
     <string name="archived_activity_title">Air a chur san tasg-lann</string>
+    <!-- Action title: Close -->
     <string name="action_close">Dùin</string>
+    <!-- Preference category: MMS messaging -->
     <string name="mms_messaging_category_pref_title">MMS</string>
+    <!-- Preference category: Advanced -->
     <string name="advanced_category_pref_title">Adhartach</string>
+    <!-- Preference category: Debug -->
     <string name="debug_category_pref_title">Dì-bhugachadh</string>
+    <!-- Title for the preference for whether or to notify the user of new messages -->
     <string name="notifications_pref_title">Brathan</string>
+    <!-- Title for the notification sound preference -->
     <string name="silent_ringtone">’Na thost</string>
     <string name="blocked_pref_title">Bacte</string>
+    <!-- Title for the preference for whether or not to request/show delivery reports for SMS -->
     <string name="delivery_reports_pref_title">Aithisgean lìbhrigidh SMS</string>
     <string name="delivery_reports_pref_summary">Iarr aithisg lìbhrigidh airson gach SMS a chuireas tu</string>
     <string name="auto_retrieve_mms_pref_title">Faigh gu fèin-obrachail</string>
     <string name="auto_retrieve_mms_pref_summary">Faigh teachdaireachdan MMS gu fèin-obrachail</string>
+    <!-- Title for the preference for whether or not to auto-retrieve MMS when roaming -->
     <string name="auto_retrieve_mms_when_roaming_pref_title">Faigh gu fèin-obrachail air fàrsan</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary">Faigh teachdaireachdan MMS gu fèin-obrachail fhad ’s a bhios tu air fàrsan</string>
     <string name="group_mms_pref_title">Teachdaireachdan buidhinn</string>
     <string name="group_mms_pref_summary">Cleachd MMS a chur aon teachdaireachd nuair a bhios iomadh faightear ann</string>
+    <!-- Preference title: SMS disabled (Messaging is not default SMS app) -->
     <string name="sms_disabled_pref_title">Aplacaid SMS bhunaiteach</string>
+    <!-- Preference title: SMS enabled (Messaging is the default SMS app) -->
     <string name="sms_enabled_pref_title">Aplacaid SMS bhunaiteach</string>
+    <!-- Preference summary: Current default SMS app -->
     <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
+    <!-- Preference title: MMS phone number -->
     <string name="mms_phone_number_pref_title">An àireamh fòn agad</string>
+    <!-- Display text for phone number preference when the number is unknown -->
     <string name="unknown_phone_number_pref_display_value">Neo-aithnichte</string>
+    <!-- Title for the preference for playing a message send sound -->
     <string name="send_sound_pref_title">Fuaimean nan teachdaireachdan a-mach</string>
     <string name="dump_sms_pref_title">Dumpaich an SMS</string>
     <string name="dump_sms_pref_summary">Dèan dump de dàta amh an SMS a fhuair thu gu faidhle stòrais air an taobh a-muigh</string>
     <string name="dump_mms_pref_title">Dumpaich an MMS</string>
     <string name="dump_mms_pref_summary">Dèan dump de dàta amh an MMS a fhuair thu gu faidhle stòrais air an taobh a-muigh</string>
+    <!-- Strings for dump sms/mms dialog -->
     <string name="wireless_alerts_title">Rabhaidhean gun uèir</string>
+    <!-- Title of long press menu on an individual message. -->
     <string name="message_context_menu_title">Roghainnean na teachdaireachd</string>
+    <!-- Menu item to copy message text -->
     <string name="message_context_menu_copy_text">Dèan lethbhreac dhen teacsa</string>
+    <!-- Title of long press menu for details about an individual message. -->
     <string name="message_context_menu_view_details">Seall am mion-fhiosrachadh</string>
+    <!-- Title of long press menu for deleting an individual message. -->
     <string name="message_context_menu_delete_message">Sguab às</string>
+    <!-- Title of long press menu for forwarding an individual message. -->
     <string name="message_context_menu_forward_message">Sìn air adhart</string>
+    <!-- Title of "Message details" dialog -->
     <string name="message_details_title">Mion-fhiosrachadh mun teachdaireachd</string>
+    <!-- Label in "Message details" dialog -->
     <string name="message_type_label">Seòrsa:\u0020</string>
+    <!-- "Type" value in "Message details" dialog -->
     <string name="text_message">Teachdaireachd teacsa</string>
+    <!-- "Type" value in "Message details" dialog -->
     <string name="multimedia_message">Teachdaireachd ioma-mheadhain</string>
+    <!-- Label in "Message details" dialog showing who sent the message. -->
     <string name="from_label">O:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="to_address_label">Gu:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="sent_label">Air a chur:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="received_label">Air fhaighinn:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="subject_label">Cuspair:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="message_size_label">Meud:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="priority_label">Prìomhachas:\u0020</string>
+    <!-- Label in "Message details" dialog -->
     <string name="sim_label">SIM:\u0020</string>
+    <!-- "Priority" value in "Message details" dialog -->
     <string name="priority_high">Àrd</string>
+    <!-- "Priority" value in "Message details" dialog -->
     <string name="priority_normal">Àbhaisteach</string>
+    <!-- "Priority" value in "Message details" dialog -->
     <string name="priority_low">Ìosal</string>
+    <!-- SIM identified using the slot number. e.g. SIM 1 -->
     <string name="sim_slot_identifier">SIM <xliff:g id="sim_slot_number">%s</xliff:g></string>
+    <!-- Sender to be used if the sender address has been hidden -->
     <string name="hidden_sender_address">Seòladh falaichte an t-seòladair</string>
+    <!-- Shows when the user attempts to send message while some attachment(s) haven't finished loading -->
     <string name="cant_send_message_while_loading_attachments">Chan urrainn dhuinn teachdaireachd a chur fhad ’s a tha ceanglachan ’ga luchdadh.</string>
+    <!-- Notifies the user when an attachment fails to load -->
     <string name="fail_to_load_attachment">Cha b’ urrainn dhuinn ceanglachan a luchdadh. Feuch ris a-rithist.</string>
+    <!-- Shows when the user attempts to send message when there is no active subscription -->
     <string name="cant_send_message_without_active_subscription">Chan eil an lìonra deiseil. Feuch ris a-rithist.</string>
     <string name="chips_text_delete_button_content_description">Sguab às an teacsa</string>
     <string name="numeric_text_keyboard_toggle_button_content_description">Geàrr leum eadar cur a-steach teacsa is àireamhan</string>
     <string name="add_more_participants_button_content_description">Cuir barrachd com-pàirtichean ris</string>
     <string name="confrim_participants_button_content_description">Dearbh na com-pàirtichean</string>
     <string name="start_new_conversation">Tòisich air còmhradh ùr</string>
+    <!-- Content description for the checkbox when selecting an item in the gallery -->
     <string name="gallery_checkbox_content_description">Tagh an nì seo</string>
     <string name="video_thumbnail_view_play_button_content_description">Cluich a’ video</string>
+    <!-- Option menu item in the conversation view that lets user view list of conversation participants and change options -->
     <string name="action_people_and_options">Daoine ⁊ roghainnean</string>
+    <!-- Option menu item in the conversation list view and conversation view that shows debug menu -->
     <string name="action_debug_options">Dì-bhugachadh</string>
+    <!-- Title for the "People and Options" activity -->
     <string name="people_and_options_activity_title">Daoine ⁊ roghainnean</string>
+    <!-- Title for the general settings section in the "People and options" activity -->
     <string name="general_settings_title">Coitcheann</string>
+    <!-- Title for the list of participants in the "People and options" activity -->
     <string name="participant_list_title">Na daoine sa chòmhradh seo</string>
+    <!-- Title for the phone call button in the action bar that lets the user call a participant in an SMS conversation -->
     <string name="action_call">Cuir fòn</string>
+    <!-- The hint text shown in the message compose input box prompting the user to send a message -->
     <string name="compose_message_view_hint_text">Cuir teachdaireachd</string>
+    <!-- The hint text shown in the message compose input box prompting the user to send a message when there are multiple SIMs. -->
     <string name="compose_message_view_hint_text_multi_sim">Cuir an teachdaireachd&lt;br/&gt;&lt;small&gt;le <xliff:g id="sim_name">%s</xliff:g>&lt;/small&gt;</string>
+    <!-- The hint text shown in the message compose input box when photo(s) is attached -->
     <plurals name="compose_message_view_hint_text_photo">
         <item quantity="one">Cuir dealbh</item>
         <item quantity="two">Cuir dealbhan</item>
         <item quantity="few">Cuir dealbhan</item>
         <item quantity="other">Cuir dealbhan</item>
     </plurals>
+    <!-- The hint text shown in the message compose input box when audio recording(s) is attached -->
     <plurals name="compose_message_view_hint_text_audio">
         <item quantity="one">Cuir fuaim</item>
         <item quantity="two">Cuir fuaimean</item>
         <item quantity="few">Cuir fuaimean</item>
         <item quantity="other">Cuir fuaimean</item>
     </plurals>
+    <!-- The hint text shown in the message compose input box when video(s) is attached -->
     <plurals name="compose_message_view_hint_text_video">
         <item quantity="one">Cuir video</item>
         <item quantity="two">Cuir videothan</item>
         <item quantity="few">Cuir videothan</item>
         <item quantity="other">Cuir videothan</item>
     </plurals>
+    <!-- The hint text shown in the message compose input box when vcard(s) is attached -->
     <plurals name="compose_message_view_hint_text_vcard">
         <item quantity="one">Cuir cairt-chonaltraidh</item>
         <item quantity="two">Cuir cairtean-conaltraidh</item>
         <item quantity="few">Cuir cairtean-conaltraidh</item>
         <item quantity="other">Cuir cairtean-conaltraidh</item>
     </plurals>
+    <!-- The hint text shown in the message compose input box when a single unknown attachment, or multiple different attachments are attached -->
     <plurals name="compose_message_view_hint_text_attachments">
         <item quantity="one">Cuir ceanglachan</item>
         <item quantity="two">Cuir ceanglachain</item>
         <item quantity="few">Cuir ceanglachain</item>
         <item quantity="other">Cuir ceanglachain</item>
     </plurals>
+    <!-- Announcement after the user adds or removes an attachment -->
     <plurals name="attachment_changed_accessibility_announcement">
         <item quantity="one">Tha <xliff:g id="attachment_count">%d</xliff:g> cheanglachan deiseil ri chur</item>
         <item quantity="two">Tha <xliff:g id="attachment_count">%d</xliff:g> cheanglachan deiseil ri chur</item>
         <item quantity="few">Tha <xliff:g id="attachment_count">%d</xliff:g> ceanglachain deiseil ri chur</item>
         <item quantity="other">Tha <xliff:g id="attachment_count">%d</xliff:g> ceanglachan deiseil ri chur</item>
     </plurals>
+    <!-- Action menu title in the HelpAndFeedbackFragment to let users send feedback -->
     <string name="menu_send_feedback">Cuir do bheachd thugainn</string>
+    <!-- Action menu title in the HelpAndFeedbackFragment to let users view the app in the Google Play Store -->
     <string name="menu_view_in_store">Seall am broinn Google Play Store</string>
+    <!-- Action menu title in the HelpAndFeedbackFragment to let users view the version of Bugle -->
     <string name="menu_version_info">Fiosrachadh mun tionndadh</string>
+    <!-- The format of the subtitle of the help activity. -->
     <string name="subtitle_format_for_version_number">Tionndadh %1$s</string>
+    <!--  Action menu title to let users view open source license -->
     <string name="menu_license">Ceadachasan Open Source</string>
+    <!-- Title for the per-conversation preference for whether or to notify the user of new messages -->
     <string name="notifications_enabled_conversation_pref_title">Brathan</string>
+    <!-- Reached MMS message attachment limit -->
     <string name="mms_attachment_limit_reached">Ràinig thu a’ chrìoch nan ceanglachan</string>
+    <!-- Message attachment load failed -->
     <string name="mms_attachment_load_failed">Dh’fhàillig le luchdadh a’ cheanglachain.</string>
+    <!-- Alert dialog title to accept or decline adding the given phone number to your contacts. -->
     <string name="add_contact_confirmation_dialog_title">A cuir thu seo ris an luchd-aithne?</string>
+    <!-- Alert dialog accept adding the given phone number to your contacts button. -->
     <string name="add_contact_confirmation">Cuir neach-aithne ris</string>
+    <!-- The text shown as a label before the message subject input box -->
     <string name="compose_message_view_subject_hint_text">Cuspair</string>
+    <!-- The text shown as a label before the message subject input box -->
     <string name="conversation_message_view_subject_text">Cuspair:\u0020</string>
+    <!-- When there's a subject in an mms, the subject + message are shown in a notification -->
     <string name="notification_subject"><xliff:g id="subject_label">%1$s</xliff:g><xliff:g id="messageText">%2$s</xliff:g></string>
+    <!-- Text shown on contact VCard when it's being loaded -->
     <string name="loading_vcard">A’ luchdadh na cairte-conaltraidh</string>
+    <!-- Text shown on contact VCard when it failed to load -->
     <string name="failed_loading_vcard">Cha b’ urrainn dhuinn a’ chairt-chonaltraidh a luchdadh</string>
+    <!-- Text shown on contact VCard promping the user to tap to view the contact -->
     <string name="vcard_tap_hint">Seall a’ chairt-chonaltraidh</string>
+    <!-- VCard display name for when there's more than one contact, e.g. "2 contact cards" -->
     <plurals name="vcard_multiple_display_name">
+        <!-- quantity="one" is not needed by the app, but it keeps the translation pipeline happy. -->
         <item quantity="one"><xliff:g id="count">%d</xliff:g> neach-aithne</item>
         <item quantity="two"><xliff:g id="count">%d</xliff:g> luchd-aithne</item>
         <item quantity="few"><xliff:g id="count">%d</xliff:g> luchd-aithne</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> neach-aithne</item>
     </plurals>
+    <!-- Title for the activity that shows details of VCards -->
     <string name="vcard_detail_activity_title">Cairt-chonaltraidh</string>
+    <!-- VCard label for displaying birthdays -->
     <string name="vcard_detail_birthday_label">Co-là breith</string>
+    <!-- VCard label for describing the Notes field of a contact. -->
     <string name="vcard_detail_notes_label">Nòtaichean</string>
+    <!-- Title for the message forwarding dialog -->
     <string name="forward_message_activity_title">Sìneadh air adhart</string>
+    <!-- Title for the message reply dialog -->
     <string name="reply_activity_title">Freagairt</string>
+    <!-- String to show when eliding the number of participants in a conversation due to length (used when there is one extra) -->
     <string name="plus_one">+1</string>
+    <!-- String to show when eliding the number of participants in a conversation due to length (used when there is more than one extra) -->
     <string name="plus_n">+%d</string>
+    <!-- Toast error shown when SMS functionality is disabled -->
     <string name="sms_disabled">Tha SMS à comas</string>
+    <!-- Snackbar message that indicates users must set Messaging as their
+         default SMS application in order to send messages -->
     <string name="requires_default_sms_app_to_send">Airson a chur, suidhich aplacaid nan teachdaireachdan mar thè bhunaiteach nan SMS</string>
+    <!-- Snackbar message that indicates users must set Messaging as their default SMS application in order to perform the requested action. -->
     <string name="requires_default_sms_app">Suidhich aplacaid nan teachdaireachdan mar thè bhunaiteach nan SMS</string>
+    <!-- Snackbar button text to switch default SMS apps shown in snackbar. -->
     <string name="requires_default_sms_change_button">Atharraich</string>
+    <!-- Toast message that indicates uses must set Messaging as their
+         default SMS application in order to receive replies in the app. -->
     <string name="recommend_set_default_sms_app">Airson teachdaireachdan fhaighinn, suidhich aplacaid nan teachdaireachdan mar thè bhunaiteach nan SMS</string>
+    <!-- Toast message that indicates no preferred SIM was selected for sending the message -->
     <string name="no_preferred_sim_selected">Cha do thagh thu an SIM as fheàrr leat airson teachdaireachdan SMS a chur</string>
+    <!-- Dialog message that indicates user must be granted permissions from the phone owner to
+         send SMS messages. -->
     <string name="requires_sms_permissions_message">Cha cheadaich sealbhadair an uidheim an aplacaid seo.</string>
+    <!-- Dialog button text that closes the application. -->
     <string name="requires_sms_permissions_close_button">Ceart ma-thà</string>
+    <!-- Toast text when creating a conversation with more participants than MMS/SMS config permits -->
     <string name="too_many_participants">Tha cus chom-pàirtichean ann an còmhradh</string>
+    <!-- Toast text when creating a conversation with an invalid participant -->
     <plurals name="add_invalid_contact_error">
         <item quantity="one">Neach-aithne mì-dhligheach</item>
         <item quantity="two">Luchd-aithne mì-dhligheach</item>
         <item quantity="few">Luchd-aithne mì-dhligheach</item>
         <item quantity="other">Luchd-aithne mì-dhligheach</item>
     </plurals>
+    <!-- Error toast message shown when a camera image failed to attach to the message -->
     <string name="camera_media_failure">Cha b’ urrainn dhuinn dealbh a’ chamara a luchdadh</string>
+    <!-- A message prefix to indicate the message was sent by the user. -->
     <string name="conversation_list_item_view_sent_from_you_prefix">Thusa:\u0020</string>
+    <!-- A message prefix to indicate the message was sent by another user in a group conversation. -->
     <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
+    <!-- A message in conversation list view to indicate that the snipit text and preview is from an unsent draft. -->
     <string name="conversation_list_item_view_draft_message">Dreachd</string>
+    <!-- String to show in the conversation list view when there are no messages. -->
     <string name="conversation_list_empty_text">Nuair a thòisicheas tu air còmhradh ùr, chì thu an-seo e</string>
+    <!-- String to show in the archived conversation list view when there are no messages. -->
     <string name="archived_conversation_list_empty_text">Nochdaidhean còmhraidhean na tasg-lainn an-seo</string>
-    <string name="conversation_list_first_sync_text">A’ luchdadh nan còmhraidhean…</string>
+    <!-- String to show in the conversation list view when we haven't synchronized the SMS database yet -->
+    <string name="conversation_list_first_sync_text">A’ luchdadh nan còmhraidhean&#8230;</string>
+    <!-- Shown in conversation as the snippet when there is no text and an attached picture. [CHAR LIMIT=25] -->
     <string name="conversation_list_snippet_picture">Dealbh</string>
+    <!-- Shown in conversation as the snippet when there is no text and an attached audio clip. [CHAR LIMIT=25] -->
     <string name="conversation_list_snippet_audio_clip">Bearradh fuaime</string>
+    <!-- Shown in conversation as the snippet when there is no text and an attached video. [CHAR LIMIT=25] -->
     <string name="conversation_list_snippet_video">Video</string>
+    <!-- Shown in conversation as the snippet when there is no text and an attached vcard. [CHAR LIMIT=25] -->
     <string name="conversation_list_snippet_vcard">Cairt-chonaltraidh</string>
+    <!-- Indicates that the current message will be sent via MMS -->
     <string name="mms_text">MMS</string>
+    <!-- The string we display with the snack bar notification (very similar to toast) to undo the action that the notification is about. -->
     <string name="snack_bar_undo">Neo-dhèan</string>
     <string name="snack_bar_retry">Feuch ris a-rithist</string>
+    <!-- Hint text shown on the contact list when there's no contacts -->
     <string name="contact_list_empty_text">Cuir a-steach ainm no àireamh fòn neach-aithne airson teachdaireachd ùr a thòiseachadh</string>
+    <!-- Action menu title for blocking and archiving selected conversations in conversation list -->
     <string name="action_block">Bac</string>
+    <!-- Label of block contact item in People & Options for 1:1 conversation -->
     <string name="block_contact_title">Bac <xliff:g id="destination">%s</xliff:g></string>
+    <!-- Label of unblock contact item in People & Options for 1:1 conversation -->
     <string name="unblock_contact_title">Dì-bhac <xliff:g id="destination">%s</xliff:g></string>
+    <!-- Title of block confirmation dialog -->
     <string name="block_confirmation_title">Am bac thu <xliff:g id="destination">%s</xliff:g>?</string>
+    <!-- Text describing what happens when user is blocked via the block actionbar action -->
     <string name="block_confirmation_message">Gheibh thu teachdaireachdan on àireamh seo fhathast ach chan fhaigh thu brath mun dèidhinn. Thèid an còmhradh seo a chur san tasg-lann.</string>
+    <!-- The title of the list of blocked contacts -->
     <string name="blocked_contacts_title">Luchd-aithne a chaidh a bhacadh</string>
+    <!-- The message in a blocked contact item which indicates tapping will unblock -->
     <string name="tap_to_unblock_message">DÌ-BHAC</string>
+    <!-- Action menu title for viewing the list of blocked contacts -->
     <string name="view_blocked_contacts_title">Luchd-aithne a chaidh a bhacadh</string>
+    <!-- Content description for the button in gallery media picker to pick an image from the document library -->
     <string name="pick_image_from_document_library_content_description">Tagh dealbh o leabhar-lann nan sgrìobhainnean</string>
+    <!-- Accessibility toast shown when a message is sending. -->
     <string name="sending_message">A’ cur na teachdaireachd</string>
+    <!-- Accessibility toast shown when a message is sent. -->
     <string name="send_message_success">Chaidh an teachdaireachd a chur</string>
+    <!-- Error toast shown when an MMS could not be sent because mobile data was disabled. -->
     <string name="send_message_failure_no_data">Chaidh an dàta mobile a chur dheth. Thoir sùil air na roghainnean agad.</string>
+    <!-- Error toast shown when a message could not be sent because of airplane mode. -->
     <string name="send_message_failure_airplane_mode">Chan urrainn dhuinn teachdaireachd a chur fhad ’s a bhios am modh itealain air</string>
+    <!-- Error toast shown when a message could not be sent because of unspecified error. -->
     <string name="send_message_failure">Cha b’ urrainn dhuinn an teachdaireachd a chur</string>
+    <!-- Accessibility toast shown when an MMS is downloaded. -->
     <string name="download_message_success">Chaidh an teachdaireachd a luchdadh a-nuas</string>
+    <!-- Error toast shown when an MMS could not be downloaded because mobile data was disabled. -->
     <string name="download_message_failure_no_data">Chaidh an dàta mobile a chur dheth. Thoir sùil air na roghainnean agad.</string>
+    <!-- Error toast shown when a message could not be downloaded because of airplane mode. -->
     <string name="download_message_failure_airplane_mode">Chan urrainn dhuinn teachdaireachd a luchdadh a-nuas fhad ’s a bhios am modh itealain air</string>
+    <!-- Error toast shown when a message could not be downloaded because of unspecified error. -->
     <string name="download_message_failure">Cha b’ urrainn dhuinn an teachdaireachd a luchdadh a-nuas</string>
+    <!-- Accessibility : content description for numbers -->
     <string name="content_description_for_number_zero">A neoini</string>
     <string name="content_description_for_number_one">A h-aon</string>
     <string name="content_description_for_number_two">A dhà</string>
@@ -480,92 +734,174 @@
     <string name="content_description_for_number_seven">A seachd</string>
     <string name="content_description_for_number_eight">A h-ochd</string>
     <string name="content_description_for_number_nine">A naoi</string>
+    <!-- Error message which shows the user a carrier specific error code such as "Unable to send message: xxxxx error 97" -->
     <string name="carrier_send_error">Cha b’ urrainn dhuinn an teachdaireachd a chur le <xliff:g id="carrierName">%1$s</xliff:g>, mearachd <xliff:g id="errorCode">%2$d</xliff:g></string>
     <string name="carrier_send_error_unknown_carrier">Cha b’ urrainn dhuinn an teachdaireachd a chur ’s chan eil fhios cò an giùlanair, mearachd <xliff:g id="errorCode">%1$d</xliff:g></string>
+    <!-- Text prepended to the subject of a forwarded message -->
     <string name="message_fwd">Fwd: <xliff:g id="subject">%s</xliff:g></string>
+    <!-- Detailed MMS failure strings, may need to be adjusted per carrier for TA -->
     <string name="mms_failure_outgoing_service">Cha deach an teachdaireachd a chur: chan eil an t-seirbheis gnìomhach air an lìonra seo</string>
     <string name="mms_failure_outgoing_address">Cha deach an teachdaireachd a chur: seòladh-uidhe mì-dhligheach</string>
     <string name="mms_failure_outgoing_corrupt">Cha deach an teachdaireachd a chur: teachdaireachd mhì-dhligheach</string>
     <string name="mms_failure_outgoing_content">Cha deach an teachdaireachd a chur: susbaint ris nach eil taic</string>
     <string name="mms_failure_outgoing_unsupported">Cha deach an teachdaireachd a chur: teachdaireachd ris nach eil taic</string>
     <string name="mms_failure_outgoing_too_large">Cha deach an teachdaireachd a chur: ro mhòr</string>
+    <!-- The notification toast text and action button label shown at bottom of screen, for when a new message comes in while the user
+         is in that conversation, but the message list is not scrolled to the bottom -->
     <string name="in_conversation_notify_new_message_text">Teachdaireachd ùr</string>
     <string name="in_conversation_notify_new_message_action">Seall</string>
+    <!-- Content description for the message images in a conversation or for the image preview in the conversation list if the lastest message in that conversation contains an image-->
     <string name="message_image_content_description">Dealbh</string>
+    <!-- Text for a toast message notifying the user that we can't find an appropriate application to handle their request -->
     <string name="activity_not_found_message">Cha do lorg sinn aplacaid iomchaidh</string>
+    <!-- Accessibility : Content description for deleting a recipient chip. -->
     <string name="chips_delete_content_description">Thoir faightear air falbh</string>
+    <!-- Label for new message button in share intent dialog -->
     <string name="share_new_message">Teachdaireachd ùr</string>
+    <!-- Label for new message button in share intent dialog -->
     <string name="share_cancel">Sguir dheth</string>
+    <!-- Screen title after user selects APNs setting option -->
     <string name="apn_edit">Deasaich a’ phuing-inntrigidh</string>
+    <!-- Edit access point label summary text when no value has been set -->
     <string name="apn_not_set">Cha deach a shuidheachadh</string>
+    <!-- Edit access point labels: A label the user can give to the APN to allow him to differentiate it from the others -->
     <string name="apn_name">Ainm</string>
+    <!-- Edit access point labels: The actual access point name-->
     <string name="apn_apn">APN</string>
+    <!-- Edit access point labels: -->
     <string name="apn_mmsc">MMSC</string>
+    <!-- Edit access point labels: The proxy to use for MMS (multimedia messages)-->
     <string name="apn_mms_proxy">Progsaidh MMS</string>
+    <!-- Edit access point labels: The port on the proxy used for MMS-->
     <string name="apn_mms_port">Port MMS</string>
+    <!-- Edit access point labels: -->
     <string name="apn_mcc">MCC</string>
+    <!-- Edit access point labels: -->
     <string name="apn_mnc">MNC</string>
+    <!-- Edit access point labels: The type of APN -->
     <string name="apn_type">Seòrsa APN</string>
+    <!-- Edit access point screen menu option to delete this APN -->
     <string name="menu_delete_apn">Sguab às APN</string>
+    <!-- APNs screen menu option to create a brand spanking new APN -->
     <string name="menu_new_apn">APN ùr</string>
+    <!-- Edit access point screen menu option to save the user's changes for this APN to the persistent storage -->
     <string name="menu_save_apn">Sàbhail</string>
+    <!-- Edit access point screen menu option to discard the user's changes for this APN -->
     <string name="menu_discard_apn_change">Tilg air falbh</string>
+    <!-- APN error dialog messages: -->
     <string name="error_apn_name_empty">Chan fhaod raon an ainm a bhith bàn.</string>
+    <!-- APN error dialog messages: -->
     <string name="error_apn_empty">Chan fhaod APN a bhith bàn.</string>
+    <!-- APN error dialog messages: -->
     <string name="error_mcc_not3">Feumaidh 3 àireamhan a bhith ann an raon MCC.</string>
+    <!-- APN error dialog messages: -->
     <string name="error_mnc_not23">Feumaidh 2 no 3 àireamhan a bhith ann an raon MNC.</string>
+    <!-- The message of dialog indicated restoring default APN settings in progress -->
     <string name="restore_default_apn">Ag aiseag bun-roghainnean APN.</string>
+    <!-- APNs screen menu option to reset default APN settings -->
     <string name="menu_restore_default_apn">Ath-shuidhich air a’ bhun-roghainn</string>
+    <!-- APNs screen toast message to inform reset default APN settings is completed -->
     <string name="restore_default_apn_completed">Chaidh bun-roghainnean APN ath-shuidheachadh.</string>
+    <!-- Name to assign to a Network Access Point that was saved without a name -->
     <string name="untitled_apn">Gun tiotal</string>
+    <!-- Title for Access Point Names settings -->
     <string name="sms_apns_title">Ainmean puing-inntrigidh</string>
+    <!-- Title for Access Point Names settings activity -->
     <string name="apn_settings">APNs</string>
+    <!-- APNs screen menu option to create a brand spanking new APN -->
     <string name="menu_new">APN ùr</string>
+    <!-- Error message for users that aren't allowed to modify Access Point Names settings [CHAR LIMIT=none] -->
     <string name="apn_settings_not_available">Chan eil roghainnean ainm na puing-inntrigidh ri fhaighinn airson a’ cleachdaiche seo</string>
+    <!-- Alert dialog title to copy information displayed in dialog to system clipboard. -->
     <string name="copy_to_clipboard_dialog_title">An cuir thu lethbhreac dheth air an stòr-bhòrd?</string>
+    <!-- Alert dialog accept to copy information displayed in dialog to system clipboard. -->
     <string name="copy_to_clipboard">Dèan lethbhreac</string>
+    <!-- SIM name incoming message bubbles indicating which SIM the message was delivered to -->
     <string name="incoming_sim_name_text">gu <xliff:g id="sim_name">%s</xliff:g></string>
+    <!-- The title for general settings section in the settings activity  -->
     <string name="general_settings">Coitcheann</string>
+    <!-- The title for advanced settings section in the settings activity  -->
     <string name="advanced_settings">Adhartach</string>
+    <!-- The title for general settings activity  -->
     <string name="general_settings_activity_title">Roghainnean coitcheann</string>
+    <!-- The title for advanced settings activity  -->
     <string name="advanced_settings_activity_title">Roghainnean adhartach</string>
+    <!-- The title for sim_specific settings  -->
     <string name="sim_specific_settings">SIM “<xliff:g id="sim_name">%s</xliff:g>”</string>
+    <!-- The group MMS choices in settings -->
     <string name="disable_group_mms">Cuir teachdaireachd SMS fa leth do gach faightear. Chan fhaigh ach thu fhèin freagairt</string>
     <string name="enable_group_mms">Cuir aon MMS gu na faightearan uile</string>
+    <!-- SIM number shown in the settings when the number is not known -->
     <string name="sim_settings_unknown_number">Àireamh nach aithne dhuinn</string>
+    <!-- Notification title for incoming sms/mms message for secondary user -->
     <string name="secondary_user_new_message_title">Teachdaireachd ùr</string>
+    <!-- Ticker for notification  for incoming sms/mms message for secondary user -->
     <string name="secondary_user_new_message_ticker">Teachdaireachd ùr.</string>
+    <!-- Content description for the SIM selector button in the conversation -->
     <string name="sim_selector_button_content_description">Roghnaichear nan SIM</string>
+    <!-- Content description for the SIM selector button with selected sim name -->
     <string name="sim_selector_button_content_description_with_selection">Chaidh <xliff:g id="sim">%1$s</xliff:g> a thaghadh, roghnaichear nan SIM</string>
+    <!-- Custom TalkBack description for send button long click event when there's no SIM selector, i.e. edit subject -->
     <string name="send_button_long_click_description_no_sim_selector">Deasaich an cuspair</string>
+    <!-- Custom TalkBack description for send button long click event when there is SIM selector -->
     <string name="send_button_long_click_description_with_sim_selector">Tagh SIM no deasaich an cuspair</string>
+    <!-- Content description for the audio record view -->
     <string name="audio_record_view_content_description">Thoir gnogag ⁊ cùm sìos airson fuaim a chlàradh</string>
+    <!-- Content description for new conversation button in desktop widget -->
     <string name="widget_new_conversation_content_description">Tòisich air còmhradh ùr</string>
+    <!-- Content description for widget title -->
     <string name="widget_title_content_description">Teachdaireachdan</string>
+    <!-- Displayed name of the desktop widget that shows the list of conversations-->
     <string name="widget_conversation_list_name">Liosta nan teachdaireachdan</string>
+    <!-- Displayed name of the desktop widget that shows a single conversation-->
     <string name="widget_conversation_name">Teachdaireachdan</string>
+    <!-- Content description for new message button in desktop widget -->
     <string name="widget_new_message_content_description">Teachdaireachd ùr</string>
+    <!-- Content description for conversation list button in desktop widget -->
     <string name="widget_conversation_list_content_description">Liosta nan còmhraidhean</string>
+    <!-- Shown when loading conversations in the widget -->
     <string name="loading_conversations">A’ luchdadh nan còmhraidhean</string>
+    <!-- Shown when loading messages in the widget -->
     <string name="loading_messages">A’ luchdadh nan teachdaireachdan</string>
+    <!-- Displayed at the end of the conversation list in the widget. Tapping on this will open bugle home activity. [CHAR LIMIT=35] -->
     <string name="view_more_conversations">Seall barrachd chòmhraidhean</string>
+    <!-- Displayed at the beginning of the message list in the widget. Tapping on this will open bugle home activity. [CHAR LIMIT=35] -->
     <string name="view_more_messages">Seall barrachd theachdaireachdan</string>
+    <!-- Toast message telling the user a conversation has been deleted -->
     <string name="conversation_deleted">Chaidh còmhradh a sguabadh às</string>
+    <!-- Displayed when user adds a new conversation widget. Tapping on the widget in this
+          mode will bring user to the conversation selection screen -->
     <string name="tap_to_configure">Chaidh an còmhradh a sguabadh às. Thoir gnogag a shealltainn còmhradh eile de theachdaireachdan</string>
+    <!-- Toast message telling the user that someone was blocked -->
     <string name="update_destination_blocked">Chaidh a bhacadh</string>
+    <!-- Toast message telling the user that someone was unblocked -->
     <string name="update_destination_unblocked">Chaidh a dhì-bhacadh</string>
     <string name="db_full">Tha an stòras gann. Dh’fhaoidte gun dèid dàta air chall.</string>
+    <!-- Title for attachment chooser activity -->
     <string name="attachment_chooser_activity_title">Tagh ceanglachain</string>
+    <!-- Action menu title for confirming attachment selection in the attachment chooser -->
     <string name="action_confirm_selection">Dearbh an taghadh</string>
+    <!-- Shows the number of selected attachments in the attachment chooser activity -->
     <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> air a thaghadh</string>
+    <!-- The dialog message content for when the message is over the attachment limit when composing the message -->
     <string name="attachment_limit_reached_dialog_message_when_composing">Thoir air falbh ceanglachan no dhà is feuch ris a-rithist.</string>
+    <!-- The dialog message content for when the message is over the attachment limit when sending the message -->
     <string name="attachment_limit_reached_dialog_message_when_sending">’S urrainn dhut feuchainn ri cur na teachdaireachd ach dh’fhaoidte nach dèid a cur mus doir thu air falbh ceanglachan no dhà.</string>
+    <!-- The dialog message content for when the message is over the attachment limit when sending the message -->
     <string name="video_attachment_limit_exceeded_when_sending">Chan urrainn dhut ach aon video a chur leis gach teachdaireachd. Thoir air falbh na videothan anabarrach is feuch ris a-rithist.</string>
+    <!-- The dialog message content for when the message load failed -->
     <string name="attachment_load_failed_dialog_message">Dh’fhàillig le luchdadh ceanglachain.</string>
+    <!-- The option to send the message anyway when the user is presented with the warning that the attachment size might be over limit -->
     <string name="attachment_limit_reached_send_anyway">Cuir e co-dhiù</string>
+    <!-- Toast message telling the user a conversation with a recipient could not be found or created -->
     <string name="conversation_creation_failure">Cha b’ urrainn dhuinn tòiseachadh air a’ chòmhradh</string>
+    <!-- When converting html to text link urls are inlined.  This specifies how the link should be
+    displayed.  For example, a link "click here" which navigates to "www.google.com" would have
+    text="click here" and url="www.google.com", using the below format to create "click here (www.google.com)" -->
     <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
+    <!-- The accessibility text read when the sim chooser pops up to read the current selected sim -->
     <string name="selected_sim_content_message">Chaidh <xliff:g id="selected_sim">%s</xliff:g> a thaghadh</string>
     <string name="work_directory_display_name">Luchd-aithne aig pròifil na h-obrach</string>
+    <!-- When making a call to emergency numbers, show this toast -->
     <string name="disallow_emergency_call">Chan urrainn dhut gairm gutha a dhèanamh dha na seirbheisean-èiginn an-seo.</string>
 </resources>

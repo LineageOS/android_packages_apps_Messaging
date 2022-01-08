@@ -15,8 +15,11 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Swipe to delete conversation -->
     <string name="swipe_to_delete_conversation_pref_title">Dra for å slette</string>
     <string name="swipe_to_delete_conversation_pref_summary">Sveip til høyre for å slette en samtale</string>
+    <!-- Show emoticons -->
     <string name="show_emoticons_pref_title">Uttrykksikoners tilgang</string>
     <string name="show_emoticons_pref_summary">Vis uttrykksikoner-tasten på tastaturet</string>
+    <!-- Notification channel -->
 </resources>

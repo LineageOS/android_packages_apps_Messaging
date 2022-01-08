@@ -15,9 +15,12 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Swipe to delete conversation -->
     <string name="swipe_to_delete_conversation_pref_title">Grad-shlaighd airson a sguabadh às</string>
     <string name="swipe_to_delete_conversation_pref_summary">Grad-shlaighd gun taobh deas airson còmhradh a sguabadh às</string>
+    <!-- Show emoticons -->
     <string name="show_emoticons_pref_title">Cothrom air samhlaidhean-gnùise</string>
     <string name="show_emoticons_pref_summary">Seall iuchair nan samhlaidhean-gnùise air a’ mheur-chlàr</string>
+    <!-- Notification channel -->
     <string name="notification_channel_messages_title">Teachdaireachdan</string>
 </resources>
