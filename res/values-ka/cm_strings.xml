@@ -15,5 +15,6 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="notification_mark_as_read">წაკითხულად მონიშვნა</string>
     <string name="notification_channel_messages_title">შეტყობინებები</string>
 </resources>

@@ -15,16 +15,20 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string-array name="empty_subject_strings">
+        <item>peruna chistione</item>
+        <item>peruna chistione</item>
+    </string-array>
     <string-array name="notification_reply_choices">
-        <item>Yes</item>
-        <item>No</item>
-        <item>D\'acuerdu</item>
+        <item>Eja</item>
+        <item>Nono</item>
+        <item>AB</item>
         <item>Hehe</item>
-        <item>Thanks</item>
-        <item>I agree</item>
-        <item>Nice</item>
-        <item>On my way</item>
-        <item>OK, let me get back to you later</item>
+        <item>Gràtzias</item>
+        <item>De acordu</item>
+        <item>Belleddu</item>
+        <item>In su caminu meu</item>
+        <item>AB, t\'apo a rispòndere prus a tardu</item>
         <item>:)</item>
         <item>:(</item>
     </string-array>
