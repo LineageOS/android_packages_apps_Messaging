@@ -395,7 +395,7 @@
     </plurals>
     <string name="menu_send_feedback">Cuir do bheachd thugainn</string>
     <string name="menu_view_in_store">Seall am broinn Google Play Store</string>
-    <string name="menu_version_info">Fiosrachadh mun tionndadh</string>
+    <string name="menu_version_info">Mun tionndadh</string>
     <string name="subtitle_format_for_version_number">Tionndadh %1$s</string>
     <string name="menu_license">Ceadachasan Open Source</string>
     <string name="notifications_enabled_conversation_pref_title">Brathan</string>

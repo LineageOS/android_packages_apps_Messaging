@@ -15,20 +15,16 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string-array name="empty_subject_strings">
-        <item>ensin asuntu</item>
-        <item>Ensin asuntu</item>
-    </string-array>
     <string-array name="notification_reply_choices">
-        <item>Sí</item>
-        <item>Non</item>
-        <item>ACEUTAR</item>
-        <item>Ḥeḥe</item>
-        <item>Gracies</item>
-        <item>Toi acordies</item>
-        <item>Bien</item>
-        <item>Al mio xeitu</item>
-        <item>Val, déxame contestate más sero</item>
+        <item>Yes</item>
+        <item>No</item>
+        <item>D\'acuerdu</item>
+        <item>Hehe</item>
+        <item>Thanks</item>
+        <item>I agree</item>
+        <item>Nice</item>
+        <item>On my way</item>
+        <item>OK, let me get back to you later</item>
         <item>:)</item>
         <item>:(</item>
     </string-array>
