@@ -16,19 +16,19 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string-array name="empty_subject_strings">
-        <item>kee Sujet</item>
-        <item>nosubject</item>
+        <item>peruna chistione</item>
+        <item>peruna chistione</item>
     </string-array>
     <string-array name="notification_reply_choices">
-        <item>Jo</item>
-        <item>Nee</item>
-        <item>OK</item>
+        <item>Eja</item>
+        <item>Nono</item>
+        <item>AB</item>
         <item>Hehe</item>
-        <item>Merci</item>
-        <item>Ech sinn averstanen</item>
-        <item>Wonnerbar</item>
-        <item>Sinn ënnerwee</item>
-        <item>OK, ech melle mech</item>
+        <item>Gràtzias</item>
+        <item>De acordu</item>
+        <item>Belleddu</item>
+        <item>In su caminu meu</item>
+        <item>AB, t\'apo a rispòndere prus a tardu</item>
         <item>:)</item>
         <item>:(</item>
     </string-array>

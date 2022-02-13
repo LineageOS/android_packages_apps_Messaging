@@ -15,21 +15,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string-array name="empty_subject_strings">
-        <item>kee Sujet</item>
-        <item>nosubject</item>
-    </string-array>
-    <string-array name="notification_reply_choices">
-        <item>Jo</item>
-        <item>Nee</item>
-        <item>OK</item>
-        <item>Hehe</item>
-        <item>Merci</item>
-        <item>Ech sinn averstanen</item>
-        <item>Wonnerbar</item>
-        <item>Sinn ënnerwee</item>
-        <item>OK, ech melle mech</item>
-        <item>:)</item>
-        <item>:(</item>
-    </string-array>
+    <string name="swipe_to_delete_conversation_pref_title">মচি পেলাবলৈ স্ৱাইপ কৰক</string>
+    <string name="swipe_to_delete_conversation_pref_summary">কথোপকথন মচিবলৈ সোঁ ফাললৈ স্ৱাইপ কৰক</string>
+    <string name="show_emoticons_pref_title">ইমটিকনৰ অনুমতি</string>
+    <string name="show_emoticons_pref_summary">ইমটিকনৰ কীটো কীবৰ্ডত দেখাওক</string>
 </resources>

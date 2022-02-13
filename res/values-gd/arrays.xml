@@ -16,19 +16,19 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string-array name="empty_subject_strings">
-        <item>kee Sujet</item>
-        <item>nosubject</item>
+        <item>gun chuspair</item>
+        <item>no subject</item>
     </string-array>
     <string-array name="notification_reply_choices">
-        <item>Jo</item>
-        <item>Nee</item>
-        <item>OK</item>
-        <item>Hehe</item>
-        <item>Merci</item>
-        <item>Ech sinn averstanen</item>
-        <item>Wonnerbar</item>
-        <item>Sinn ënnerwee</item>
-        <item>OK, ech melle mech</item>
+        <item>Tha</item>
+        <item>Chan eil</item>
+        <item>Ceart ma-thà</item>
+        <item>Èibhinn</item>
+        <item>Mòran taing</item>
+        <item>Sin dìreach</item>
+        <item>Snog</item>
+        <item>Air an t-slighe</item>
+        <item>Cluinnidh tu uam a dh’aithghearr</item>
         <item>:)</item>
         <item>:(</item>
     </string-array>
