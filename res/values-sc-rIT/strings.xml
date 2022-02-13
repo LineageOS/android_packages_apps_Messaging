@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Messagìstica</string>
+    <string name="share_intent_label">Messagìstica</string>
+    <string name="share_intent_activity_label">Seletziona resonada</string>
+    <string name="action_settings">Impostatziones</string>
+    <string name="sendButtonContentDescription">Imbia messàgiu</string>
+    <string name="attachMediaButtonContentDescription">Agiunghe unu alligongiadu</string>
+    <string name="help_and_feedback_activity_label">Agiudu</string>
+    <string name="welcome">Ti donamus sa benebènnida</string>
+    <string name="skip">Brinca</string>
+    <string name="next_with_arrow">Imbeniente &gt;</string>
+    <string name="next">Imbeniente</string>
+    <string name="exit">Essi</string>
+    <string name="settings_with_arrow">Impostatziones &gt;</string>
+    <string name="settings">Impostatziones</string>
+    <string name="required_permissions_promo">Sa messagìstica cheret s\'autorizatzione tràmite SMS, telèfonu e cuntatos.</string>
+    <string name="enable_permission_procedure">Podes cambiare permissos in Impostatziones &gt; Aplicatziones &gt; Messagìstica &gt; Permissos.</string>
+    <string name="enable_permission_procedure_description">Podes cambiare permissos in Impostatziones, Aplicatziones, Messagìstica, Permissos.</string>
+    <string name="contact_picker_frequents_tab_title">Fitianos</string>
+    <string name="contact_picker_all_contacts_tab_title">Totu is cuntatos</string>
+    <string name="contact_list_send_to_text">Imbia a <xliff:g id="destination">%s</xliff:g></string>
+    <string name="mediapicker_cameraChooserDescription">Catura immàgines o vìdeos</string>
+    <string name="mediapicker_audioChooserDescription">Registra àudio</string>
+    <string name="mediapicker_gallery_item_selected_content_description">Su cuntenutu est seletzionadu.</string>
+    <string name="mediapicker_gallery_item_unselected_content_description">Su cuntenutu est deseletzionadu.</string>
+    <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> seletzionadu</string>
+    <string name="mediapicker_gallery_image_item_description">immàgine <xliff:g id="date">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
+    <string name="mediapicker_gallery_image_item_description_no_date">immàgine</string>
+    <string name="action_share">Cumpartzi</string>
+    <string name="posted_just_now">"Immoe etotu"</string>
+    <string name="posted_now">"Immoe"</string>
+    <plurals name="num_minutes_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> min</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> minutos</item>
+    </plurals>
+    <plurals name="num_hours_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> ora</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> oras</item>
+    </plurals>
+    <plurals name="num_days_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> die</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> dies</item>
+    </plurals>
+    <plurals name="week_count">
+        <item quantity="one">una chida</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> chidas</item>
+    </plurals>
+    <plurals name="month_count">
+        <item quantity="one">unu mese</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> meses</item>
+    </plurals>
+    <plurals name="year_count">
+        <item quantity="one">un\'annu</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> annos</item>
+    </plurals>
+    <string name="class_0_message_activity">Messàgiu classe 0</string>
+    <string name="save">Sarva</string>
+    <string name="sms_storage_low_auto_delete_enabled_dialog_text">In su dispositivu b\'at pagu logu. Messagìstica at a eliminare in automàticu is messàgios prus betzos pro fàghere logu.</string>
+    <string name="sms_storage_low_title">Su logu pro s\'archiviatzione est acabbende</string>
+    <string name="sms_storage_low_text">S\'aplicatzione Messagìstica diat pòdere no imbiare o retzire messàgios finas a cando non b\'at a èssere prus logu lìberu in su dispositivu tuo.</string>
+    <string name="sms_storage_low_notification_ticker">Memòria SMS bassa. Ti diat pòdere dèpere tocare de cantzellare messàgios.</string>
+    <string name="enter_phone_number_title">Cunfirma su nùmeru de telèfonu tuo</string>
+    <string name="enter_phone_number_text">Custu passàgiu at a segurare chi Messagìstica at a cunsignare in manera curreta is messàgios de grupu.</string>
+    <string name="enter_phone_number_hint">Nùmeru de telèfonu</string>
+    <string name="delete_all_media">Cantzella totu is messàgios cun cuntenutos multimediales</string>
+    <string name="delete_oldest_messages">Cantzella messàgios prus betzos de <xliff:g id="duration">%s</xliff:g></string>
+    <string name="auto_delete_oldest_messages">Cantzelladura automàtica de is messàgios prus betzos de <xliff:g id="duration">%s</xliff:g></string>
+    <string name="ignore">Ignora</string>
+    <string name="delete_all_media_confirmation">Boles eliminare totu is messàgios cun cuntenutos multimediales?</string>
+    <string name="delete_oldest_messages_confirmation">Cantzellare messàgios prus betzos de <xliff:g id="duration">%s</xliff:g>?</string>
+    <string name="auto_delete_oldest_messages_confirmation">Boles cantzellare is messàgios prus betzos de <xliff:g id="duration">%s</xliff:g> e ativare sa cantzelladura automàtica?</string>
+    <string name="incoming_text_sender_content_description"><xliff:g id="sender">%s</xliff:g> at naradu</string>
+    <string name="outgoing_text_sender_content_description">As naradu</string>
+    <string name="incoming_sender_content_description">Messàgiu dae <xliff:g id="sender">%s</xliff:g></string>
+    <string name="outgoing_sender_content_description">As imbiadu unu messàgiu</string>
+    <string name="message_status_resend">Torra a imbiare o cantzella</string>
+    <string name="message_status_send_failed_emergency_number">Si pregat de fàghere una mutida vocale a is servìtzios de emergèntzia. Su messàgiu tuo de testu in custu momentu no fàghet a ddu cunsignare.</string>
+    <string name="message_status_failed">Faddidu</string>
+    <string name="message_title_manual_download">Messàgios MMS noos de iscarrigare</string>
+    <string name="message_title_downloading">Messàgios MMS noos</string>
+    <string name="message_title_download_failed">Non faghet a iscarrigare</string>
+    <string name="message_status_download_action">Iscàrriga o cantzella</string>
+    <string name="message_status_download_error">Messàgiu iscadidu o no a disponimentu</string>
+    <string name="mms_info">mannària: <xliff:g id="messageSize">%1$s</xliff:g>, iscadèntzia: <xliff:g id="messageExpire">%2$s</xliff:g></string>
+    <string name="invalid_destination">Non faghet a imbiare. Destinatàriu non bàlidu.</string>
+    <string name="service_not_activated">Servìtziu no ativu in sa rete</string>
+    <string name="service_network_problem">No at fatu a dd\'imbiare pro problemas de rete</string>
+    <string name="service_message_not_found">Messàgiu iscadidu o no a disponimentu</string>
+    <string name="no_subject">(Perunu sugetu)</string>
+    <string name="unknown_sender">Mitente disconnotu</string>
+    <string name="delivered_status_content_description">Cunsignadu</string>
+    <string name="dl_failure_notification">No at fatu a iscarrigare su messàgiu <xliff:g id="subject">%1$s</xliff:g> dae <xliff:g id="from">%2$s</xliff:g>.</string>
+    <string name="low_memory">No at fatu a cumpletare s\'operatzione de sa base de datos pro neghe de sa pagu memòria</string>
+    <string name="notification_send_failures_line1_singular">Messàgiu no imbiadu</string>
+    <string name="notification_send_failures_line1_plural">Unos cantos messàgios no iscarrigados in Messagìstica</string>
+    <plurals name="notification_send_failures">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> messàgios in una tzarrada</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> messàgios in <xliff:g id="conversations">%d</xliff:g> tzarradas</item>
+    </plurals>
+    <string name="notification_download_failures_line1_singular">Messàgiu no iscarrigadu</string>
+    <string name="notification_download_failures_line1_plural">Unos cantos messàgios no iscarrigados in Messagìstica</string>
+    <plurals name="notification_download_failures">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> messàgios in una tzarrada</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> messàgios in <xliff:g id="conversations">%d</xliff:g> tzarradas</item>
+    </plurals>
+    <string name="notification_emergency_send_failure_line1">Messàgiu a <xliff:g id="number">%1$s</xliff:g> no imbiadu</string>
+    <string name="notification_emergency_send_failure_line2">        Faghe una mutida a boghe a servìtzios de emergèntzia. Su messàgiu a 
+       <xliff:g id="number">%1$s</xliff:g> custa borta no at fatu a ddu cunsignare.
+    </string>
+    <plurals name="notification_new_messages">
+        <item quantity="one">Messàgiu nou</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> messàgios noos</item>
+    </plurals>
+    <string name="start_conversation">Cumintza</string>
+    <string name="camera_error_opening">Càmera no a disponimentu</string>
+    <string name="camera_error_unknown">Càmera no a disponimentu</string>
+    <string name="camera_error_video_init_fail">Catura vìdeu no a disponimentu</string>
+    <string name="camera_error_storage_fail">Non faghet a sarvare cuntenutos multimediales</string>
+    <string name="camera_error_failure_taking_picture">Non faghet a tirare fotos</string>
+    <string name="back">In segus</string>
+    <string name="action_menu_show_archived">Archiviadu</string>
+    <string name="action_delete">Cantzella</string>
+    <string name="action_archive">Archìvia</string>
+    <string name="action_unarchive">Boga dae s\'archìviu</string>
+    <string name="action_add_contact">Agiunghe cuntatu</string>
+    <string name="action_download">Iscàrriga</string>
+    <string name="action_send">Imbia</string>
+    <string name="action_delete_message">Cantzella</string>
+    <string name="delete_message_confirmation_dialog_title">Boles cantzellare custu messàgiu?</string>
+    <string name="delete_message_confirmation_dialog_text">Custa atzione non la podes annullare.</string>
+    <string name="delete_message_confirmation_button">Cantzella</string>
+    <plurals name="delete_conversations_confirmation_dialog_title">
+        <item quantity="one">Boles cantzellare custa resonada?</item>
+        <item quantity="other">Boles cantzellare custas resonadas?</item>
+    </plurals>
+    <string name="delete_conversation_confirmation_button">Cantzella</string>
+    <string name="delete_conversation_decline_button">Annulla</string>
+    <string name="recipient_hint">A</string>
+    <string name="action_multiselect">Seletziona immàgines mùltiplas</string>
+    <string name="action_confirm_multiselect">Cunfirma seletzione</string>
+    <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
+    <string name="audio_recording_start_failed">Non faghet a registrare su sonu. Torra a proare.</string>
+    <string name="audio_recording_replay_failed">Non faghet a riproduire su sonu. Torra a proare.</string>
+    <string name="audio_recording_error"> No at fatu a sarvare su sonu. Torra a proare.</string>
+    <string name="enumeration_comma">,\u0020</string>
+    <string name="notification_separator">\u0020\u0020</string>
+    <string name="notification_ticker_separator">:\u0020</string>
+    <string name="notification_space_separator">\u0020\u0020</string>
+    <string name="notification_picture">Immàgine</string>
+    <string name="notification_video">Vìdeu</string>
+    <string name="notification_vcard">Ischeda cuntatu</string>
+    <string name="notification_download_mms">Iscàrriga</string>
+    <string name="notification_reply_via_sms">Risponde tràmite SMS</string>
+    <string name="notification_reply_via_mms">Risponde tràmite MMS</string>
+    <string name="notification_reply_prompt">Risponde</string>
+    <plurals name="wearable_participant_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> partetzipante</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> partetzipantes</item>
+    </plurals>
+    <string name="unknown_self_participant">Deo</string>
+    <string name="blocked_toast_message">Cuntatu blocadu e archiviadu</string>
+    <string name="unblocked_toast_message">Cuntatu isblocadu e no archiviadu</string>
+    <string name="archived_toast_message"><xliff:g id="count">%d</xliff:g> archiviadu</string>
+    <string name="unarchived_toast_message"><xliff:g id="count">%d</xliff:g> no archiviados</string>
+    <string name="notification_off_toast_message">Notìficas disativadas</string>
+    <string name="notification_on_toast_message">Notìficas ativadas</string>
+    <string name="toast_after_setting_default_sms_app">Messagìstica impostadu in manera curreta comente aplicatzione SMS predefinida.</string>
+    <plurals name="attachment_preview_close_content_description">
+        <item quantity="one">Iscarta alligongiadu </item>
+        <item quantity="other">Iscarta alligongiados</item>
+    </plurals>
+    <string name="audio_pause_content_description">Pàusa</string>
+    <string name="group_conversation_description">Tzarrada cun <xliff:g id="participants">%s</xliff:g></string>
+    <string name="delete_subject_content_description">Cantzella sugetu</string>
+    <string name="camera_switch_to_video_mode">Catura vìdeu</string>
+    <string name="camera_switch_to_still_mode">Catura un\'immàgine fissa</string>
+    <string name="camera_take_picture">Tira una foto</string>
+    <string name="camera_start_recording">Cumintza sa registratzione</string>
+    <string name="camera_switch_full_screen">Passa a fotocàmera a totu ischermu</string>
+    <string name="camera_switch_camera_facing">Càmbia tra càmera de in antis e de palas</string>
+    <string name="camera_stop_recording">Tzessa de registrare e imbia vìdeu</string>
+    <string name="camera_cancel_recording">Firma sa registratzione</string>
+    <string name="photo_view_activity_title">Imbiende fotos</string>
+    <plurals name="photos_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> fotografia sarvada in s\'album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> fotografias sarvadas in s\'album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="videos_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> vìdeu sarvadu in s\'album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> vìdeos sarvados in s\'album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> fotografia sarvada in s\'album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> fotografias sarvadas in s\'album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_downloads">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> alligongiadu sarvadu in \"Iscarrigados\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> alligongiados sarvados in \"Iscarrigados\"</item>
+    </plurals>
+    <plurals name="attachments_saved">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> alligongiadu sarvadu</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> alligongiados sarvados</item>
+    </plurals>
+    <plurals name="attachment_save_error">
+        <item quantity="one">No at fatu a sarvare <xliff:g id="quantity">%d</xliff:g> alligongiadu</item>
+        <item quantity="other">No at fatu a sarvare <xliff:g id="quantity">%d</xliff:g> alligongiados</item>
+    </plurals>
+    <string name="attachment_file_description">Alligongiadu de su MMS sarvadu </string>
+    <string name="settings_activity_title">Impostatziones</string>
+    <string name="archived_activity_title">Archiviadu</string>
+    <string name="action_close">Serra</string>
+    <string name="mms_messaging_category_pref_title">MMS</string>
+    <string name="advanced_category_pref_title">Avantzadas</string>
+    <string name="notifications_pref_title">Notìficas</string>
+    <string name="silent_ringtone">A sa muda</string>
+    <string name="blocked_pref_title">Blocadu</string>
+    <string name="delivery_reports_pref_title">Relatas de cunsigna de SMS </string>
+    <string name="delivery_reports_pref_summary">Rechede una relata de cunsigna pro cada SMS chi imbias</string>
+    <string name="auto_retrieve_mms_pref_title">Recùperu automàticu</string>
+    <string name="auto_retrieve_mms_pref_summary">Recùperu automàticu MMS </string>
+    <string name="auto_retrieve_mms_when_roaming_pref_title">Recùperu automàticu càmbiu operadore</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_summary">Recùpera in automàticu is MMS cando càmbias s\'operadore</string>
+    <string name="group_mms_pref_title">Messàgios de grupu</string>
+    <string name="group_mms_pref_summary">Imprea MMS pro imbiare unu messàgiu sìngulu cando b\'at prus destinatàrios</string>
+    <string name="sms_disabled_pref_title">Aplicatzione de SMS predefinida </string>
+    <string name="sms_enabled_pref_title">Aplicatzione predefinida SMS</string>
+    <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
+    <string name="mms_phone_number_pref_title">Nùmeru tuo de telèfonu</string>
+    <string name="unknown_phone_number_pref_display_value">Disconnotu</string>
+    <string name="send_sound_pref_title">Sonos de messàgios in essida</string>
+    <string name="dump_sms_pref_title">Isbòida SMS</string>
+    <string name="dump_sms_pref_summary">Isbòida is datos grusseris SMS retzidos in una memòria de archiviatzione esterna</string>
+    <string name="dump_mms_pref_title">Isbòida MMS</string>
+    <string name="dump_mms_pref_summary">Isbòida is datos grusseris MMS retzidos in una memòria de archiviatzione esterna</string>
+    <string name="message_context_menu_title">Optziones pro sos messàgios</string>
+    <string name="message_context_menu_copy_text">Còpia testu</string>
+    <string name="message_context_menu_view_details">Ammustra detàllios</string>
+    <string name="message_context_menu_delete_message">Cantzella</string>
+    <string name="message_context_menu_forward_message">Torra a imbiare</string>
+    <string name="message_details_title">Detàllios messàgios</string>
+    <string name="message_type_label">Genia:\u0020</string>
+    <string name="text_message">Messàgiu de testu</string>
+    <string name="multimedia_message">Messàgiu multimediale</string>
+    <string name="from_label">Dae:\u0020</string>
+    <string name="to_address_label">A:\u0020</string>
+    <string name="sent_label">Imbiadu:\u0020</string>
+    <string name="received_label">Retzidu:\u0020</string>
+    <string name="subject_label">Sugetu:\u0020</string>
+    <string name="message_size_label">Mannària:\u0020</string>
+    <string name="priority_label">Prioridade:\u0020</string>
+    <string name="sim_label">SIM:\u0020</string>
+    <string name="priority_high">Arta</string>
+    <string name="priority_normal">Normale</string>
+    <string name="priority_low">Bàscia</string>
+    <string name="sim_slot_identifier">SIM <xliff:g id="sim_slot_number">%s</xliff:g></string>
+    <string name="hidden_sender_address">Indiritzu mitente cuadu</string>
+    <string name="cant_send_message_while_loading_attachments">Non faghet a mandare messàgios in su mentres chi sunt carrighende is alligongiados.</string>
+    <string name="fail_to_load_attachment">Non faghet a carrigare s\'alligongiadu. Torra a proare.</string>
+    <string name="cant_send_message_without_active_subscription">Sa rete no est pronta. Torra a proare.</string>
+    <string name="chips_text_delete_button_content_description">Cantzella testu</string>
+    <string name="numeric_text_keyboard_toggle_button_content_description">Càmbia tra nch\'insertare testu e nùmeros</string>
+    <string name="add_more_participants_button_content_description">Agiunghe àteros partetzipantes</string>
+    <string name="confrim_participants_button_content_description">Cunfirma partetzipantes</string>
+    <string name="start_new_conversation">Cumintza tzarrada noa</string>
+    <string name="gallery_checkbox_content_description">Seletziona custu elementu</string>
+    <string name="video_thumbnail_view_play_button_content_description">Riprodui su vìdeu</string>
+    <string name="subtitle_format_for_version_number">Versione %1$s</string>
+    <string name="menu_license">Lissèntzias de còdighe abertu</string>
+    <string name="notifications_enabled_conversation_pref_title">Notìficas</string>
+    <string name="mms_attachment_limit_reached">Lìmite de is alligongiados cròmpidu</string>
+    <string name="mms_attachment_load_failed">Carrigamentu alligongiadu faddidu.</string>
+    <string name="add_contact_confirmation_dialog_title">Boles agiùnghere a cuntatos?</string>
+    <string name="add_contact_confirmation">Agiunghe cuntatu</string>
+    <string name="compose_message_view_subject_hint_text">Ogetu</string>
+    <string name="conversation_message_view_subject_text">Sugetu:\u0020</string>
+    <string name="loading_vcard">Carrighende ischeda cuntatu</string>
+    <string name="failed_loading_vcard">No at fatu a carrigare ischeda cuntatu</string>
+    <string name="vcard_tap_hint">Visualiza ischeda cuntatu</string>
+    <plurals name="vcard_multiple_display_name">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> cuntatu</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> cuntatos</item>
+    </plurals>
+    <string name="vcard_detail_activity_title">Ischeda cuntatu</string>
+    <string name="vcard_detail_birthday_label">Cumpleannu</string>
+    <string name="vcard_detail_notes_label">Notas</string>
+    <string name="forward_message_activity_title">Torra a imbiare su messàgiu</string>
+    <string name="reply_activity_title">Risponde</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_n">+%d</string>
+    <string name="sms_disabled">SMS disativadu</string>
+    <string name="requires_default_sms_app_to_send">Pro imbiare, imposta Messagìstica comente aplicatzione predefinida SMS</string>
+    <string name="requires_default_sms_app">Imposta Messagìstica comente aplicatzione predefinida SMS</string>
+    <string name="requires_default_sms_change_button">Càmbia</string>
+    <string name="recommend_set_default_sms_app">Pro retzire messàgios, imposta Messagìstica comente aplicatzione SMS predefinida</string>
+    <string name="no_preferred_sim_selected">SIM seletzionada non preferida pro imbiare SMS</string>
+    <string name="requires_sms_permissions_message">Custa aplicatzione no est permìtida dae su mere de su dispositivu.</string>
+    <string name="requires_sms_permissions_close_button">AB</string>
+    <string name="camera_media_failure">No at fatu a carrigare s\'immàgine</string>
+    <string name="conversation_list_item_view_sent_from_you_prefix">Tue:\u0020</string>
+    <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
+    <string name="conversation_list_item_view_draft_message">Anteprima</string>
+    <string name="conversation_list_snippet_video">Vìdeu</string>
+    <string name="mms_text">MMS</string>
+    <string name="snack_bar_undo">Annulla</string>
+    <string name="snack_bar_retry">Torra a proare</string>
+    <string name="action_block">Bloca</string>
+    <string name="block_contact_title">Bloca <xliff:g id="destination">%s</xliff:g></string>
+    <string name="unblock_contact_title">Isbloca <xliff:g id="destination">%s</xliff:g></string>
+    <string name="block_confirmation_title">Bloca &lt;xliff:g id="destination"&gt;%s&lt;/xliff:g</string>
+    <string name="tap_to_unblock_message">ISBLOCA</string>
+    <string name="sending_message">Imbiende su messàgiu</string>
+    <string name="send_message_success">Messàgiu imbiadu</string>
+    <string name="send_message_failure_no_data">Is datos mòbiles sunt disativados. Controlla is impostatziones tuas.</string>
+    <string name="download_message_failure_no_data">Is datos mòbiles sunt disativados. Controlla is impostatziones tuas.</string>
+    <string name="content_description_for_number_one">Unu</string>
+    <string name="content_description_for_number_two">Duos</string>
+    <string name="content_description_for_number_three">Tres</string>
+    <string name="content_description_for_number_four">Bator</string>
+    <string name="content_description_for_number_five">Chimbe</string>
+    <string name="content_description_for_number_nine">Noe</string>
+    <string name="message_fwd">Inoltradu: <xliff:g id="subject">%s</xliff:g></string>
+    <string name="in_conversation_notify_new_message_text">Messàgiu nou</string>
+    <string name="in_conversation_notify_new_message_action">Visualiza</string>
+    <string name="message_image_content_description">Immàgine</string>
+    <string name="share_new_message">Messàgiu nou</string>
+    <string name="share_cancel">Annulla</string>
+    <string name="apn_not_set">No impostadu</string>
+    <string name="apn_name">Nùmene</string>
+    <string name="apn_apn">Puntu de atzessu (APN)</string>
+    <string name="apn_mmsc">MMSC</string>
+    <string name="apn_mms_proxy">Serbidore intermediàriu MMS</string>
+    <string name="apn_mcc">MCC</string>
+    <string name="apn_mnc">MNC</string>
+    <string name="apn_type">Genia de APN </string>
+    <string name="menu_save_apn">Sarva</string>
+    <string name="menu_discard_apn_change">Iscarta</string>
+    <string name="menu_restore_default_apn">Torra a is impostatziones predefinidas</string>
+    <string name="untitled_apn">Sena tìtulu</string>
+    <string name="copy_to_clipboard">Còpia</string>
+    <string name="incoming_sim_name_text">a <xliff:g id="sim_name">%s</xliff:g></string>
+    <string name="general_settings">Generales</string>
+    <string name="advanced_settings">Avantzadas</string>
+    <string name="general_settings_activity_title">Impostatziones generales</string>
+    <string name="advanced_settings_activity_title">Impostatziones avantzadas</string>
+    <string name="sim_specific_settings">SIM \"<xliff:g id="sim_name">%s</xliff:g>\"</string>
+    <string name="sim_settings_unknown_number">Nùmeru disconnotu</string>
+    <string name="secondary_user_new_message_title">Messàgiu nou</string>
+    <string name="secondary_user_new_message_ticker">Messàgiu nou.</string>
+    <string name="widget_title_content_description">Messagìstica</string>
+    <string name="widget_conversation_name">Messagìstica</string>
+    <string name="widget_new_message_content_description">Messàgiu nou</string>
+    <string name="widget_conversation_list_content_description">Lista de is resonadas</string>
+    <string name="loading_conversations">Carrighende resonadas</string>
+    <string name="loading_messages">Carrighende messàgios</string>
+    <string name="view_more_conversations">Càstia àteras resonadas</string>
+    <string name="view_more_messages">Càstia àteros messàgios</string>
+    <string name="conversation_deleted">Resonada eliminada</string>
+    <string name="update_destination_blocked">Blocadu</string>
+    <string name="update_destination_unblocked">Isblocadu</string>
+    <string name="db_full">Pagu logu de archiviatzione. Unos cantos datos si diant pòdere pèrdere.</string>
+    <string name="attachment_chooser_activity_title">Seletziona alligongiados</string>
+    <string name="action_confirm_selection">Cunfirma seletzione</string>
+    <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> seletzionadu</string>
+    <string name="attachment_limit_reached_dialog_message_when_composing">Boga unu o prus alligongiados e torra a proare.</string>
+    <string name="attachment_limit_reached_dialog_message_when_sending">Podes proare a imbiare su messàgiu, ma diat pòdere no èssere cunsignadu si non nch\'as a bogare unu o prus alligongiados.</string>
+    <string name="video_attachment_limit_exceeded_when_sending">Podes imbiare isceti unu vìdeu pro cada messàgiu. Boga·nche is àteros vìdeos e torra a proare.</string>
+    <string name="attachment_load_failed_dialog_message">Messagìstica at faddidu carrighende s\'alligongiadu.</string>
+    <string name="attachment_limit_reached_send_anyway">Imbia a su pròpiu</string>
+    <string name="conversation_creation_failure">No at fatu a cumintzare sa tzarrada</string>
+    <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
+    <string name="selected_sim_content_message"><xliff:g id="selected_sim">%s</xliff:g> seletzionadu</string>
+</resources>
