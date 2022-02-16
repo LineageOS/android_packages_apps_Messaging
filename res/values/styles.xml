@@ -61,7 +61,7 @@
     </style>
 
     <style name="BugleTheme.ConversationListActivity" parent="BugleTheme">
-        <item name="android:windowBackground">@android:color/background_light</item>
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
 
     <style name="BugleTheme.ArchivedConversationListActivity" parent="BugleTheme.ConversationListActivity">
