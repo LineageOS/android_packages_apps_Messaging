@@ -46,7 +46,7 @@
         android:background="@drawable/fab_new_message_bg"
         android:elevation="@dimen/fab_elevation"
         android:scaleType="center"
-        android:src="@drawable/ic_add_white"
+        android:src="@drawable/ic_message"
         android:stateListAnimator="@animator/fab_anim"
         android:contentDescription="@string/start_new_conversation"/>
 
