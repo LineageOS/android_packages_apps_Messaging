@@ -24,6 +24,30 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11a6b6ee_7b321319",
+        "filename": "src/android/support/v7/mms/pdu/ContentType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2022-02-16T20:26:39Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "fed737e0_c3ef912e",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 66
+      },
+      "revId": "68a07f1af0552551c813fd840636efbb4e0ad282",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26662d05_50075d38",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-16T20:22:42Z",
       "side": 0,
       "message": "Same here.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 66
+      },
+      "revId": "68a07f1af0552551c813fd840636efbb4e0ad282",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97de3cf3_71ca8612",
+        "filename": "src/com/android/messaging/util/ContentType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2022-02-16T20:26:39Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "26662d05_50075d38",
       "range": {
         "startLine": 44,
         "startChar": 0,
