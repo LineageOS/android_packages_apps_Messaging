@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1594fef8_e6319bb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13648
+      },
+      "writtenOn": "2022-02-16T20:30:42Z",
+      "side": 1,
+      "message": "This patch is pointless in this branch as \"text/v-vCalendar\" and \"text/x-Vcard\" MIME types are already supported.",
+      "revId": "1687a8e19c66639d026cee7cc9c5cb1eb0933426",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
