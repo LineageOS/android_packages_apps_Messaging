@@ -16,7 +16,7 @@
     limitations under the License.
 -->
 <resources>
-    <color name="lineage_accent">#FF9800</color>
+    <color name="lineage_accent">@android:color/system_accent1_400</color>
     <color name="button_text">#000000</color>
 
     <color name="navigation_bar_bg">@android:color/white</color>
