@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a07d6b2c_4d82218b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 9760
+      },
+      "writtenOn": "2022-02-16T19:44:23Z",
+      "side": 1,
+      "message": "Old PR - https://github.com/LineageOS/android_packages_apps_Messaging/pull/1/commits/ec7b1d0372fa21386a65b9e32fff2b74fa3d92dc",
+      "revId": "95fda0cf096c245bbfa30914d626a0087daf5738",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
