@@ -342,10 +342,8 @@ public class UiUtils {
 
         // Have all the conditions been met:
         // Supports SMS?
-        // Has a preferred sim?
         // Is the default sms app?
         return phoneUtils.isSmsCapable() &&
-                phoneUtils.getHasPreferredSmsSim() &&
                 phoneUtils.isDefaultSmsApp();
     }
 
