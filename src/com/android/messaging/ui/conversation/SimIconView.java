@@ -49,7 +49,7 @@ public class SimIconView extends ContactIconView {
         if (isClickable()) {
             return super.onTouchEvent(event);
         }
-        return true;
+        return false;
     }
 
     @Override
