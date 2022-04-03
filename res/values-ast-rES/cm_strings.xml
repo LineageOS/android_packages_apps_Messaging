@@ -16,8 +16,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="swipe_to_delete_conversation_pref_title">Eslizar pa desaniciar</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Esliza a la drecha pa desaniciar una conversación</string>
-    <string name="show_emoticons_pref_title">Accesu a fustaxes</string>
-    <string name="show_emoticons_pref_summary">Amuesa la tecla de fustaxes nel tecláu</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Esliza a la derecha pa desaniciar una conversación</string>
+    <string name="show_emoticons_pref_title">Accesu a los fustaxes</string>
     <string name="notification_channel_messages_title">Mensaxes</string>
 </resources>

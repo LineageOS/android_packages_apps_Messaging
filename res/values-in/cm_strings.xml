@@ -17,7 +17,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="swipe_to_delete_conversation_pref_title">Usap untuk menghapus</string>
     <string name="swipe_to_delete_conversation_pref_summary">Usap ke kanan untuk menghapus percakapan</string>
-    <string name="show_emoticons_pref_title">Emoticon akses</string>
+    <string name="show_emoticons_pref_title">Akses emoticon</string>
     <string name="show_emoticons_pref_summary">Tampilkan tombol emoticon di keyboard</string>
     <string name="notification_channel_messages_title">Pesan</string>
 </resources>
