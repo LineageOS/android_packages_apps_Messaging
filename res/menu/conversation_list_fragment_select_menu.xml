@@ -20,31 +20,31 @@
 
     <item
         android:id="@+id/action_archive"
-        android:icon="@drawable/ic_archive_small_dark"
+        android:icon="@drawable/ic_file_download_light"
         android:orderInCategory="50"
         android:title="@string/action_archive"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_unarchive"
-        android:icon="@drawable/ic_archive_undo_small_dark"
+        android:icon="@drawable/ic_wear_reply"
         android:orderInCategory="50"
         android:title="@string/action_unarchive"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_delete"
-        android:icon="@drawable/ic_delete_small_dark"
+        android:icon="@drawable/ic_delete_small_light"
         android:orderInCategory="60"
         android:title="@string/action_delete"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_add_contact"
-        android:icon="@drawable/ic_person_add_dark"
+        android:icon="@drawable/ic_people_add_light"
         android:orderInCategory="90"
         android:title="@string/action_add_contact"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_block"
-        android:icon="@drawable/ic_dnd_on_dark"
+        android:icon="@drawable/ic_dnd_on_light"
         android:orderInCategory="100"
         android:title="@string/action_block"
         appcompat:showAsAction="collapseActionView|always"/>
