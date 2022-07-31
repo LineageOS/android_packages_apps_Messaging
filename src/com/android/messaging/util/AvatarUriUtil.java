@@ -161,7 +161,8 @@ public class AvatarUriUtil {
     public static Uri createAvatarUri(final Uri profilePhotoUri, final CharSequence name,
             final String defaultIdentifier, final String contactLookupKey) {
         Uri generatedUri;
-        if (!TextUtils.isEmpty(name) && isValidFirstCharacter(name)) {
+        if (name != null && !TextUtils.isEmpty(name)
+                && Character.isLetter(name.charAt(0))) {
             generatedUri = AvatarUriUtil.fromName(name, contactLookupKey);
         } else {
             final String identifier = TextUtils.isEmpty(contactLookupKey)
@@ -178,11 +179,6 @@ public class AvatarUriUtil {
         } else {
             return generatedUri;
         }
-    }
-
-    public static boolean isValidFirstCharacter(final CharSequence name) {
-        final char c = name.charAt(0);
-        return c != '+';
     }
 
     /**
