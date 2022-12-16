@@ -15,7 +15,7 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Прагарнi, каб выдалiць</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Прагарнi направа, каб выдалiць размову</string>
+    <string name="swipe_to_delete_conversation_pref_title">Правядзіце для выдалення</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Правядзіце ўправа для выдалення размовы</string>
     <string name="show_emoticons_pref_title">Доступ да смайлаў</string>
 </resources>
