@@ -143,6 +143,7 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:paddingLeft">@dimen/compose_message_text_box_padding_side</item>
         <item name="android:paddingRight">@dimen/compose_message_text_box_padding_side</item>
+        <item name="android:layout_marginRight">8dp</item>
         <item name="android:minHeight">@dimen/conversation_message_contact_icon_size</item>
         <item name="android:maxLines">4</item>
         <item name="android:background">@null</item>
@@ -267,7 +268,7 @@
     <style name="ComposeMessageViewAttachMediaButtonStyle">
         <item name="android:paddingLeft">@dimen/compose_message_attachment_padding_sides</item>
         <item name="android:paddingRight">@dimen/compose_message_attachment_padding_sides</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="ContactListItemViewStyle">

@@ -287,8 +287,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      * contains media attachments or if shouldShowSimplifiedVisualStyle() is true.
      */
     private boolean shouldShowMessageBubbleArrow() {
-        return !shouldShowSimplifiedVisualStyle()
-                && !(mData.hasAttachments() || mMessageHasYouTubeLink);
+        return false;
     }
 
     /**
