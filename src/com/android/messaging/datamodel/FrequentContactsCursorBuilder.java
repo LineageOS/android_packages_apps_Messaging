@@ -121,12 +121,26 @@ public class FrequentContactsCursorBuilder {
                     row[ContactUtil.INDEX_PHOTO_URI] =
                             mAllContactsCursor.getString(ContactUtil.INDEX_PHOTO_URI);
                     row[ContactUtil.INDEX_PHONE_EMAIL] =
-                            mAllContactsCursor.getString(ContactUtil.INDEX_PHONE_EMAIL);
+                            mAllContactsCursor.getString(ContactUtil.INDEX_PHONE_EMAIL)
+                                    .replaceAll("[^\\d+]", "");
                     row[ContactUtil.INDEX_PHONE_EMAIL_TYPE] =
                             mAllContactsCursor.getInt(ContactUtil.INDEX_PHONE_EMAIL_TYPE);
                     row[ContactUtil.INDEX_PHONE_EMAIL_LABEL] =
                             mAllContactsCursor.getString(ContactUtil.INDEX_PHONE_EMAIL_LABEL);
-                    rows.add(row);
+
+                    boolean numberAlreadyAdded = false;
+                    for (Object[] oldRow : rows) {
+                        final int idxType = ContactUtil.INDEX_PHONE_EMAIL_TYPE;
+                        final int idxPhone = ContactUtil.INDEX_PHONE_EMAIL;
+                        if (oldRow[idxType] == row[idxType] &&
+                                oldRow[idxPhone].toString().equals(row[idxPhone].toString())) {
+                            numberAlreadyAdded = true;
+                            break;
+                        }
+                    }
+                    if (!numberAlreadyAdded) {
+                        rows.add(row);
+                    }
                 }
             }
             mAllContactsCursor.moveToPosition(oldPosition);
