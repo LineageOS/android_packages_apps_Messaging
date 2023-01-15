@@ -17,6 +17,7 @@
 <com.android.messaging.ui.conversation.ComposeMessageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/message_compose_view_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -110,6 +111,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_attachment_dark"
+                        android:minHeight="48dp"
+                        android:minWidth="48dp"
                         android:paddingTop="@dimen/compose_message_attachment_padding_topBottom"
                         android:paddingBottom="@dimen/compose_message_attachment_padding_topBottom"
                         android:contentDescription="@string/attachMediaButtonContentDescription" />
@@ -121,7 +124,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:background="@drawable/msg_bubble_input"
+                        android:background="@drawable/msg_bubble_input_rounded"
                         android:hint="@string/compose_message_view_hint_text"
                         android:imeOptions="actionSend|flagNoEnterAction|flagNoExtractUi" />
 
