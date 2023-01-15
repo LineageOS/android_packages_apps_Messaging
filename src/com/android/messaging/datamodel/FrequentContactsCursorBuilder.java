@@ -74,7 +74,7 @@ public class FrequentContactsCursorBuilder {
      * are both ready to be consumed.
      * @return the frequent contact cursor if built successfully, or null if it can't be built yet.
      */
-    public Cursor build() {
+    public Cursor build(boolean getAllContacts) {
         if (mFrequentContactsCursor != null && mAllContactsCursor != null) {
             Assert.isTrue(!mFrequentContactsCursor.isClosed());
             Assert.isTrue(!mAllContactsCursor.isClosed());
@@ -108,7 +108,7 @@ public class FrequentContactsCursorBuilder {
             mAllContactsCursor.moveToPosition(-1);
             while (mAllContactsCursor.moveToNext()) {
                 final String lookupKey = mAllContactsCursor.getString(ContactUtil.INDEX_LOOKUP_KEY);
-                if (lookupKeyToRankMap.containsKey(lookupKey)) {
+                if (lookupKeyToRankMap.containsKey(lookupKey) || getAllContacts) {
                     final Object[] row = new Object[ContactUtil.PhoneQuery.PROJECTION.length];
                     row[ContactUtil.INDEX_DATA_ID] =
                             mAllContactsCursor.getLong(ContactUtil.INDEX_DATA_ID);
@@ -121,15 +121,37 @@ public class FrequentContactsCursorBuilder {
                     row[ContactUtil.INDEX_PHOTO_URI] =
                             mAllContactsCursor.getString(ContactUtil.INDEX_PHOTO_URI);
                     row[ContactUtil.INDEX_PHONE_EMAIL] =
-                            mAllContactsCursor.getString(ContactUtil.INDEX_PHONE_EMAIL);
+                            mAllContactsCursor.getString(ContactUtil.INDEX_PHONE_EMAIL)
+                                    .replaceAll("[^\\d+]", "");
                     row[ContactUtil.INDEX_PHONE_EMAIL_TYPE] =
                             mAllContactsCursor.getInt(ContactUtil.INDEX_PHONE_EMAIL_TYPE);
                     row[ContactUtil.INDEX_PHONE_EMAIL_LABEL] =
                             mAllContactsCursor.getString(ContactUtil.INDEX_PHONE_EMAIL_LABEL);
-                    rows.add(row);
+
+                    boolean numberAlreadyAdded = false;
+                    for (Object[] oldRow : rows) {
+                        final int idxType = ContactUtil.INDEX_PHONE_EMAIL_TYPE;
+                        final int idxPhone = ContactUtil.INDEX_PHONE_EMAIL;
+                        if (oldRow[idxType] == row[idxType] &&
+                                oldRow[idxPhone].toString().equals(row[idxPhone].toString())) {
+                            numberAlreadyAdded = true;
+                            break;
+                        }
+                    }
+                    if (!numberAlreadyAdded) {
+                        rows.add(row);
+                    }
                 }
             }
             mAllContactsCursor.moveToPosition(oldPosition);
+
+            // We can return all rows at this point, no sorting or further filtering needed
+            if (getAllContacts) {
+                for (final Object[] row : rows) {
+                    retCursor.addRow(row);
+                }
+                return retCursor;
+            }
 
             // Now we have a list of rows containing frequent contacts in alphabetical order.
             // Therefore, sort all the rows according to their actual ranks in the frequents list.
