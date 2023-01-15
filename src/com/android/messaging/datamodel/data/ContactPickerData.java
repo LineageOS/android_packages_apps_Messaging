@@ -22,6 +22,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import com.android.messaging.datamodel.AllContactsCursorBuilder;
 import com.android.messaging.datamodel.BoundCursorLoader;
 import com.android.messaging.datamodel.FrequentContactsCursorBuilder;
 import com.android.messaging.datamodel.MessagingContentProvider;
@@ -96,8 +97,9 @@ public class ContactPickerData extends BindableData implements
         if (isBound(cursorLoader.getBindingId())) {
             switch (loader.getId()) {
                 case ALL_CONTACTS_LOADER:
-                    mListener.onAllContactsCursorUpdated(data);
                     mFrequentContactsCursorBuilder.setAllContacts(data);
+                    final Cursor allContactsCursor = AllContactsCursorBuilder.build(data);
+                    mListener.onAllContactsCursorUpdated(allContactsCursor);
                     break;
                 case FREQUENT_CONTACTS_LOADER:
                     mFrequentContactsCursorBuilder.setFrequents(data);
