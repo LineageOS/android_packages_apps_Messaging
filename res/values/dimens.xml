@@ -32,7 +32,7 @@
     <dimen name="conversation_list_image_preview_corner_radius">3dp</dimen>
     <dimen name="conversation_list_image_preview_size">56dp</dimen>
     <dimen name="conversation_list_contact_icon_size">56dp</dimen>
-    <dimen name="conversation_message_contact_icon_size">42dp</dimen>
+    <dimen name="conversation_message_contact_icon_size">48dp</dimen>
     <dimen name="conversation_message_photo_min_size">96dp</dimen>
     <dimen name="conversation_list_empty_text_bottom_margin">30dp</dimen>
     <dimen name="blocked_participant_list_item_view_padding">16dp</dimen>
@@ -53,7 +53,7 @@
     <dimen name="compose_message_chip_padding">3dp</dimen>
     <dimen name="compose_message_fields_horizontal_margin">16dp</dimen>
     <dimen name="compose_message_font_size">16sp</dimen>
-    <dimen name="compose_message_attachment_padding_sides">20dp</dimen>
+    <dimen name="compose_message_attachment_padding_sides">0dp</dimen>
     <dimen name="compose_message_attachment_padding_topBottom">10dp</dimen>
     <dimen name="compose_message_chips_view_max_height">133dp</dimen>
     <dimen name="compose_message_subject_left_padding">52dp</dimen>
@@ -64,7 +64,7 @@
     <dimen name="compose_message_subject_cancel_left_margin">12dp</dimen>
     <dimen name="compose_message_mms_indicator_padding_top">2dp</dimen>
     <dimen name="compose_message_send_button_padding_right">12dp</dimen>
-    <dimen name="compose_message_text_box_padding_side">8dp</dimen>
+    <dimen name="compose_message_text_box_padding_side">16dp</dimen>
 
     <!-- Notification related dimensions. -->
     <dimen name="notification_wearable_image_height">240dp</dimen>
