@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "390a7d5b_8f7a6993",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2023-01-15T19:37:16Z",
+      "side": 1,
+      "message": "For \"All\" this doesn\u0027t work (sectioning) - on it",
+      "revId": "77da9d854bc8d314496e9b262bf207dff516c8fd",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
