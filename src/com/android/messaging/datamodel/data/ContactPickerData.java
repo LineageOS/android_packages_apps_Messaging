@@ -96,7 +96,6 @@ public class ContactPickerData extends BindableData implements
         if (isBound(cursorLoader.getBindingId())) {
             switch (loader.getId()) {
                 case ALL_CONTACTS_LOADER:
-                    mListener.onAllContactsCursorUpdated(data);
                     mFrequentContactsCursorBuilder.setAllContacts(data);
                     break;
                 case FREQUENT_CONTACTS_LOADER:
@@ -115,10 +114,14 @@ public class ContactPickerData extends BindableData implements
                 // all contacts and frequent contacts loader, and we don't know which will finish
                 // first. Therefore, try to build the cursor and notify the listener if it's
                 // successfully built.
-                final Cursor frequentContactsCursor = mFrequentContactsCursorBuilder.build();
+                final Cursor frequentContactsCursor = mFrequentContactsCursorBuilder.build(false);
                 if (frequentContactsCursor != null) {
                     mListener.onFrequentContactsCursorUpdated(frequentContactsCursor);
+
+                    final Cursor allContactsCursor = mFrequentContactsCursorBuilder.build(true);
+                    mListener.onAllContactsCursorUpdated(allContactsCursor);
                 }
+
             }
         } else {
             LogUtil.w(LogUtil.BUGLE_TAG, "Loader finished after unbinding the contacts list");
