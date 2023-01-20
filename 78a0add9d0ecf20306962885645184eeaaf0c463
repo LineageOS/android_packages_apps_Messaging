@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f19ad985_76e51ca1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2023-01-20T16:39:42Z",
+      "side": 1,
+      "message": "I just replaced the build() method with one that could give me either of the cursors I needed, thus removing the code duplication while achieving the same output.\n\nDoing this with projection: nope.\na) We still want the number multiple times if someone has it stored with multiple types\nb) We need to remove invalid characters and spaces which can only be done once the data was built\n\n",
+      "revId": "78a0add9d0ecf20306962885645184eeaaf0c463",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
