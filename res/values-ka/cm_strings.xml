@@ -15,5 +15,9 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="swipe_to_delete_conversation_pref_title">გადასმით წაშლა</string>
+    <string name="swipe_to_delete_conversation_pref_summary">თითის მარჯვნივ გადასმა, საუბრის წასაშლელად</string>
+    <string name="show_emoticons_pref_title">სიცილაკებთან წვდომა</string>
+    <string name="show_emoticons_pref_summary">სიცილაკების ღილაკის ჩვენება კლავიატურაზე</string>
     <string name="notification_channel_messages_title">შეტყობინებები</string>
 </resources>

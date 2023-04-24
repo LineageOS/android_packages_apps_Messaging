@@ -19,4 +19,5 @@
     <string name="swipe_to_delete_conversation_pref_summary">Проведіть вправо для видалення бесіди</string>
     <string name="show_emoticons_pref_title">Доступ до емограм</string>
     <string name="show_emoticons_pref_summary">Показувати кнопку емограм на клавіатурі</string>
+    <string name="notification_channel_messages_title">Повідомлення</string>
 </resources>
