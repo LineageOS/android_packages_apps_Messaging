@@ -19,4 +19,5 @@
     <string name="swipe_to_delete_conversation_pref_summary">Vuốt sang phải để xóa một cuộc trò chuyện</string>
     <string name="show_emoticons_pref_title">Truy cập vào biểu tượng cảm xúc</string>
     <string name="show_emoticons_pref_summary">Hiển thị phím biểu tượng cảm xúc trên bàn phím</string>
+    <string name="notification_channel_messages_title">Tin nhắn</string>
 </resources>

@@ -15,5 +15,39 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="posted_just_now">"Puramente agora"</string>
+    <string name="posted_now">"Agora"</string>
+    <string name="enumeration_comma">,\u0020</string>
+    <string name="notification_separator">\u0020\u0020</string>
+    <string name="notification_ticker_separator">:\u0020</string>
+    <string name="notification_space_separator">\u0020\u0020</string>
+    <string name="notification_picture">Semeya</string>
+    <string name="notification_audio">Clip d\'audiu</string>
+    <string name="notification_video">Videu</string>
+    <string name="unknown_self_participant">Yo</string>
+    <string name="mms_messaging_category_pref_title">MMS</string>
+    <string name="advanced_category_pref_title">Axustes avanzaos</string>
+    <string name="notifications_pref_title">Avisos</string>
+    <string name="wireless_alerts_title">Alertes ensin filos</string>
+    <string name="notifications_enabled_conversation_pref_title">Avisos</string>
     <string name="requires_sms_permissions_close_button">D\'acuerdu</string>
+    <string name="conversation_list_item_view_sent_from_you_prefix">Tu:\u0020</string>
+    <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
+    <string name="conversation_list_snippet_picture">Semeya</string>
+    <string name="conversation_list_snippet_audio_clip">Clip d\'audiu</string>
+    <string name="conversation_list_snippet_video">Videu</string>
+    <string name="mms_text">MMS</string>
+    <string name="content_description_for_number_zero">Cero</string>
+    <string name="content_description_for_number_one">Uno</string>
+    <string name="content_description_for_number_two">Dos</string>
+    <string name="content_description_for_number_three">Trés</string>
+    <string name="content_description_for_number_four">Cuatro</string>
+    <string name="content_description_for_number_five">Cinco</string>
+    <string name="content_description_for_number_six">Seis</string>
+    <string name="content_description_for_number_seven">Siete</string>
+    <string name="content_description_for_number_eight">Ocho</string>
+    <string name="content_description_for_number_nine">Nueve</string>
+    <string name="advanced_settings">Axustes avanzaos</string>
+    <string name="advanced_settings_activity_title">Axustes avanzaos</string>
+    <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
 </resources>

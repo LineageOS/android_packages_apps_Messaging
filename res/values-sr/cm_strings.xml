@@ -16,7 +16,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="swipe_to_delete_conversation_pref_title">Брисање превлачењем</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Превуците у десно да бисте избрисали конверзацију</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Превуците удесно да бисте избрисали конверзацију.</string>
     <string name="show_emoticons_pref_title">Приступ емотиконима</string>
-    <string name="show_emoticons_pref_summary">Прикажите дугме са емотиконима на тастатури</string>
+    <string name="show_emoticons_pref_summary">Прикажите дугме са емотиконима на тастатури.</string>
 </resources>
