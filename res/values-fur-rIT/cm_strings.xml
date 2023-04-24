@@ -15,9 +15,9 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Usap untuk menghapus</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Usap ke kanan untuk menghapus percakapan</string>
-    <string name="show_emoticons_pref_title">Akses emoticon</string>
-    <string name="show_emoticons_pref_summary">Tampilkan tombol emoticon di keyboard</string>
-    <string name="notification_channel_messages_title">Pesan</string>
+    <string name="swipe_to_delete_conversation_pref_title">Scor par eliminâ</string>
+    <string name="swipe_to_delete_conversation_pref_summary">Scor viers diestre par eliminâ une conversazion</string>
+    <string name="show_emoticons_pref_title">Acès aes emoticons</string>
+    <string name="show_emoticons_pref_summary">Mostre il boton des emoticons su la tastiere</string>
+    <string name="notification_channel_messages_title">Messaçs</string>
 </resources>

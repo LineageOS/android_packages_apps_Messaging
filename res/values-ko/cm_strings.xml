@@ -15,8 +15,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">스와이프하여 삭제</string>
-    <string name="swipe_to_delete_conversation_pref_summary">오른쪽으로 스와이프하여 대화 삭제</string>
+    <string name="swipe_to_delete_conversation_pref_title">밀어서 삭제</string>
+    <string name="swipe_to_delete_conversation_pref_summary">오른쪽으로 밀어 대화 삭제</string>
     <string name="show_emoticons_pref_title">이모티콘 표시</string>
     <string name="show_emoticons_pref_summary">키보드에 이모티콘 키를 표시합니다</string>
     <string name="notification_channel_messages_title">메시지</string>
