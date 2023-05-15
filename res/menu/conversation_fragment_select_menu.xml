@@ -21,43 +21,43 @@
     <item
         android:id="@+id/share_message_menu"
         android:title="@string/action_share"
-        android:icon="@drawable/ic_share_dark"
+        android:icon="@drawable/ic_share_light"
         appcompat:showAsAction="collapseActionView|always" />
     <item
         android:id="@+id/forward_message_menu"
         android:title="@string/message_context_menu_forward_message"
-        android:icon="@drawable/ic_forward_dark"
+        android:icon="@drawable/ic_forward_light"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/save_attachment"
         android:title="@string/save"
-        android:icon="@drawable/ic_save_dark"
+        android:icon="@drawable/ic_save_light"
         appcompat:showAsAction="collapseActionView|always" />
     <item
         android:id="@+id/copy_text"
         android:title="@string/message_context_menu_copy_text"
-        android:icon="@drawable/ic_content_copy_dark"
+        android:icon="@drawable/ic_content_copy_light"
         appcompat:showAsAction="collapseActionView|always"/>
 
     <item
         android:id="@+id/details_menu"
         android:title="@string/message_context_menu_view_details"
-        android:icon="@drawable/ic_info_dark"
+        android:icon="@drawable/ic_info_light"
         appcompat:showAsAction="collapseActionView|always"/>
 
     <item
         android:id="@+id/action_send"
-        android:icon="@drawable/ic_send_dark"
+        android:icon="@drawable/ic_send_light"
         android:title="@string/action_send"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_download"
-        android:icon="@drawable/ic_file_download_dark"
+        android:icon="@drawable/ic_file_download_light"
         android:title="@string/action_download"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_delete_message"
-        android:icon="@drawable/ic_delete_small_dark"
+        android:icon="@drawable/ic_delete_small_light"
         android:title="@string/action_delete_message"
         appcompat:showAsAction="collapseActionView|always"/>
 </menu>
