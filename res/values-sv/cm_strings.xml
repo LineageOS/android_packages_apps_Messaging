@@ -19,4 +19,5 @@
     <string name="swipe_to_delete_conversation_pref_summary">Svep till höger för att ta bort en konversation</string>
     <string name="show_emoticons_pref_title">Tillgång till uttryckssymboler</string>
     <string name="show_emoticons_pref_summary">Visa knappen för uttryckssymboler på tangentbordet</string>
+    <string name="notification_channel_messages_title">Meddelanden</string>
 </resources>
