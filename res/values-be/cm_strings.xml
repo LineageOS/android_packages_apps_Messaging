@@ -18,4 +18,5 @@
     <string name="swipe_to_delete_conversation_pref_title">Правядзіце для выдалення</string>
     <string name="swipe_to_delete_conversation_pref_summary">Правядзіце ўправа для выдалення размовы</string>
     <string name="show_emoticons_pref_title">Доступ да смайлаў</string>
+    <string name="notification_channel_messages_title">Паведамленні</string>
 </resources>
