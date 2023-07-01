@@ -19,4 +19,5 @@
     <string name="swipe_to_delete_conversation_pref_summary">Stryg mod højre, for at slette en samtale</string>
     <string name="show_emoticons_pref_title">Humørikoner-adgang</string>
     <string name="show_emoticons_pref_summary">Vis humørikoner-tasten på tastaturet</string>
+    <string name="notification_channel_messages_title">Beskeder</string>
 </resources>
