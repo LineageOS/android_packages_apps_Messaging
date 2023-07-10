@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22f9431a_b5852349",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2023-07-10T21:38:00Z",
+      "side": 1,
+      "message": "Replaced the xml with one provided by Asher - it\u0027s now the same size as the avatar icons. it was previously too small and the ratio checkmark/bg didn\u0027t match the avatar-icons",
+      "revId": "cc69b49df086ffd2d72c3942bb666c5627455b15",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
