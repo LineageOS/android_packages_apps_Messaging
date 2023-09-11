@@ -18,6 +18,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     class="com.android.messaging.ui.VCardDetailFragment"
     android:id="@+id/vcard_detail_fragment"
-    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    android:theme="@style/Theme.AppCompat.DayNight"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />

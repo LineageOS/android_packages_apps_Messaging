@@ -15,7 +15,7 @@
     limitations under the License.
 -->
 <resources>
-    <style name="BugleBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BugleBaseTheme" parent="Theme.AppCompat.DayNight">
         <item name="android:forceDarkAllowed">true</item>
         <item name="android:navigationBarColor">@color/navigation_bar_bg</item>
         <item name="android:navigationBarDividerColor">@color/navigation_bar_divider</item>

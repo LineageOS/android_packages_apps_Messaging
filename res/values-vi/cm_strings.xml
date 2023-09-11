@@ -14,7 +14,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources>
     <string name="swipe_to_delete_conversation_pref_title">Vuốt để xóa</string>
     <string name="swipe_to_delete_conversation_pref_summary">Vuốt sang phải để xóa một cuộc trò chuyện</string>
     <string name="show_emoticons_pref_title">Truy cập vào biểu tượng cảm xúc</string>

@@ -239,7 +239,7 @@
          <!-- License -->
         <activity android:name=".ui.LicenseActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Holo.Light.Dialog"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
             android:label="@string/menu_license">
         </activity>
 

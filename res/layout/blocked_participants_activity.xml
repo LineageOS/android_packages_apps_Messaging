@@ -18,6 +18,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     class="com.android.messaging.ui.BlockedParticipantsFragment"
     android:id="@+id/blocked_participants_fragment"
-    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    android:theme="@style/Theme.AppCompat.DayNight"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" />
