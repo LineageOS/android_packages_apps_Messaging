@@ -18,6 +18,24 @@
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf5748cf_cf990306",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 24262
+      },
+      "writtenOn": "2023-09-24T15:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f010b6b0_328a86be",
+      "revId": "fde1c587e18f2a6f4d88296bd59a3a0004f067fb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78450818_df308137",
@@ -31,6 +49,24 @@
       "writtenOn": "2023-09-24T11:59:29Z",
       "side": 1,
       "message": "100 chars",
+      "revId": "fde1c587e18f2a6f4d88296bd59a3a0004f067fb",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0d36f4e_bd45696b",
+        "filename": "src/com/android/messaging/datamodel/MessageNotificationState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1201,
+      "author": {
+        "id": 24262
+      },
+      "writtenOn": "2023-09-24T15:24:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78450818_df308137",
       "revId": "fde1c587e18f2a6f4d88296bd59a3a0004f067fb",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
