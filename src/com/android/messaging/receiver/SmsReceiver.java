@@ -48,6 +48,7 @@ import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.LogUtil;
+import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PendingIntentConstants;
 import com.android.messaging.util.PhoneUtils;
@@ -260,7 +261,8 @@ public final class SmsReceiver extends BroadcastReceiver {
         final PendingIntent pendingIntent = UIIntents.get()
                 .getPendingIntentForSecondaryUserNewMessageNotification(context);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context,
+                NotificationsUtil.DEFAULT_CHANNEL_ID);
         builder.setContentTitle(resources.getString(R.string.secondary_user_new_message_title))
                 .setTicker(resources.getString(R.string.secondary_user_new_message_ticker))
                 .setSmallIcon(R.drawable.ic_sms_light)
