@@ -46,9 +46,10 @@ public class ForwardMessageActivity extends BaseBugleActivity
 
     @Override
     public void onAttachFragment(final Fragment fragment) {
-        Assert.isTrue(fragment instanceof ConversationListFragment);
-        final ConversationListFragment clf = (ConversationListFragment) fragment;
-        clf.setHost(this);
+        if (fragment instanceof ConversationListFragment) {
+            final ConversationListFragment clf = (ConversationListFragment) fragment;
+            clf.setHost(this);
+        }
     }
 
     @Override
