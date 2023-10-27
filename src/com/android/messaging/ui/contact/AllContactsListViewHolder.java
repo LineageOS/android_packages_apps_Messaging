@@ -27,7 +27,7 @@ import com.android.messaging.ui.contact.ContactListItemView.HostInterface;
 public class AllContactsListViewHolder extends CustomHeaderPagerListViewHolder {
     public AllContactsListViewHolder(final Context context, final HostInterface clivHostInterface) {
         super(context, new ContactListAdapter(context, null, clivHostInterface,
-                true /* needAlphabetHeader */));
+                false /* needAlphabetHeader */));
     }
 
     @Override
