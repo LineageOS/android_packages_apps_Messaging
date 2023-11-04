@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee34647e_e839980d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2023-11-04T12:52:47Z",
+      "side": 1,
+      "message": "title is a little misleading since Messaging generally already supports notification channels. Maybe \"Messaging: Add notification channels where missing\" or similar?",
+      "revId": "9014bf6dcf82962010f7494dc7f852262410c2bc",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
