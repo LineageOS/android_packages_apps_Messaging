@@ -16,7 +16,7 @@
 
 package com.android.messaging.datamodel;
 
-import android.test.suitebuilder.annotation.SmallTest;
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.datamodel.binding.BindableData;

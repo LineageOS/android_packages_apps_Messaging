@@ -20,8 +20,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.util.Log;
+
+import androidx.test.filters.MediumTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.Factory;
@@ -36,8 +37,6 @@ import com.android.messaging.datamodel.action.ActionMonitor.ActionExecutedListen
 import com.android.messaging.datamodel.action.ActionTestHelpers.ResultTracker;
 import com.android.messaging.datamodel.action.ActionTestHelpers.StubBackgroundWorker;
 import com.android.messaging.datamodel.action.ActionTestHelpers.StubLoader;
-
-import java.util.ArrayList;
 
 @MediumTest
 public class ActionServiceSystemTest extends BugleServiceTestCase<ActionServiceImpl>
