@@ -399,7 +399,7 @@
     <string name="subtitle_format_for_version_number">Tionndadh %1$s</string>
     <string name="menu_license">Ceadachasan Open Source</string>
     <string name="notifications_enabled_conversation_pref_title">Brathan</string>
-    <string name="mms_attachment_limit_reached">Ràinig thu a’ chrìoch nan ceanglachan</string>
+    <string name="mms_attachment_limit_reached">Ràinig thu crìoch nan ceanglachan</string>
     <string name="mms_attachment_load_failed">Dh’fhàillig le luchdadh a’ cheanglachain.</string>
     <string name="add_contact_confirmation_dialog_title">A cuir thu seo ris an luchd-aithne?</string>
     <string name="add_contact_confirmation">Cuir neach-aithne ris</string>

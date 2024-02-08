@@ -106,7 +106,7 @@
     <string name="sms_storage_low_text">Mae\'n bosib na fydd Negesu yn anfon na derbyn negeseuon hyd nes bod mwy o le ar gael ar dy ddyfais.</string>
     <string name="sms_storage_low_notification_ticker">Nid oes lawer o le i storio SMS. Mae\'n bosib bydd rhaid dileu negeseuon.</string>
     <string name="enter_phone_number_title">Cadarnha dy rif ffôn</string>
-    <string name="enter_phone_number_text">Bydd y cam un tro yma yn sicrhau bod Negesu yn anfon dy negeseuon grwpiau yn gywir.</string>
+    <string name="enter_phone_number_text">Bydd y cam un-tro hwn yn sicrhau bod Negesu yn anfon dy negeseuon grwpiau yn gywir.</string>
     <string name="enter_phone_number_hint">Rhif ffôn</string>
     <string name="delete_all_media">Dileu pob neges sydd â chyfrwng</string>
     <string name="delete_oldest_messages">Dileu negeseuon sy\'n hyn na <xliff:g id="duration">%s</xliff:g></string>
@@ -122,7 +122,7 @@
     <string name="message_status_sending">Yn anfon…</string>
     <string name="message_status_send_failed">Heb ei anfon. Tapia i geisio eto.</string>
     <string name="message_status_send_retrying">Heb ei anfon. Yn ceisio eto…</string>
-    <string name="message_status_resend">Ail-anfon neu ddileu</string>
+    <string name="message_status_resend">Ail-anfon neu dileu</string>
     <string name="message_status_send_failed_emergency_number">Gwna alwad llais i\'r gwasanaethau brys. Dyw dy neges destun heb ei anfon ar hyn o bryd.</string>
     <string name="message_status_failed">Wedi methu</string>
     <string name="message_title_manual_download">Neges MMS newydd i\'w lawrlwytho</string>
@@ -130,7 +130,7 @@
     <string name="message_title_download_failed">Methwyd â lawrlwytho</string>
     <string name="message_status_download_failed">Tapia i geisio eto</string>
     <string name="message_status_download">Tapia i lawrlwytho</string>
-    <string name="message_status_download_action">Lawrlwytho neu ddileu</string>
+    <string name="message_status_download_action">Lawrlwytho neu dileu</string>
     <string name="message_status_downloading">Yn lawrlwytho…</string>
     <string name="message_status_download_error">Neges wedi dod i ben neu ddim ar gael</string>
     <string name="mms_info">maint: <xliff:g id="messageSize">%1$s</xliff:g>, dod i ben: <xliff:g id="messageExpire">%2$s</xliff:g></string>

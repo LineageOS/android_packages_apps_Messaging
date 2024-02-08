@@ -20,4 +20,5 @@
     <string name="show_emoticons_pref_title">Truy cập vào biểu tượng cảm xúc</string>
     <string name="show_emoticons_pref_summary">Hiển thị phím biểu tượng cảm xúc trên bàn phím</string>
     <string name="notification_mark_as_read">Đánh dấu là đã đọc</string>
+    <string name="notification_channel_messages_title">Tin nhắn</string>
 </resources>

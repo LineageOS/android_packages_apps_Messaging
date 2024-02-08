@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Tamyazent</string>
+    <string name="share_intent_label">Tamyazent</string>
+    <string name="action_settings">Iɣewwaṛen</string>
+    <string name="sendButtonContentDescription">Azen izen</string>
+    <string name="help_and_feedback_activity_label">Tallelt</string>
+    <string name="welcome">Ansuf</string>
+    <string name="skip">Zgel</string>
+    <string name="next_with_arrow">Uḍfir &gt;</string>
+    <string name="next">Uḍfiṛ</string>
+    <string name="exit">Ffeγ</string>
+    <string name="settings_with_arrow">Iγewwaṛen &gt;</string>
+    <string name="settings">Iγewwaṛen</string>
+    <string name="contact_picker_all_contacts_tab_title">Inermisen i meṛṛa</string>
+    <string name="mediapicker_audioChooserDescription">Sekles imesli</string>
+    <string name="mediapicker_contactChooserDescription">Fren anermis seg ibenk-a</string>
+    <string name="mediapicker_gallery_title">Fren amidya</string>
+    <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> ittwafernen</string>
+    <string name="mediapicker_gallery_image_item_description_no_date">tugna</string>
+    <string name="mediapicker_audio_title">Sekles imesli</string>
+    <string name="mediapicker_contact_title">Fren anermis</string>
+    <string name="action_share">Bḍu</string>
+    <string name="posted_just_now">"Tura kan"</string>
+    <string name="posted_now">"Tura"</string>
+    <plurals name="num_minutes_ago">
+        <item quantity="one">1 tisdat<xliff:g id="count">%d</xliff:g> tesdat</item>
+        <item quantity="other">1 tisdat<xliff:g id="count">%d</xliff:g> tisdatin</item>
+    </plurals>
+    <string name="save">Sekles</string>
+    <string name="enter_phone_number_hint">Uṭṭun n tiliγri</string>
+    <string name="ignore">Ignorer</string>
+    <string name="message_status_failed">Yerreẓ</string>
+    <string name="message_status_download">Nnal akken ad tessidreḍ</string>
+    <string name="delivered_status_content_description">Yawweḍ</string>
+    <string name="start_conversation">Bdu</string>
+    <string name="back">Tuγalin</string>
+    <string name="action_menu_show_archived">Yeɣber</string>
+    <string name="action_delete">Kkes</string>
+    <string name="action_archive">Tarcivt</string>
+    <string name="action_unarchive">Kkes aɣbar</string>
+    <string name="action_add_contact">Rnu anermis</string>
+    <string name="action_download">Sider</string>
+    <string name="action_send">Azen</string>
+    <string name="action_delete_message">Kkes</string>
+    <string name="delete_message_confirmation_button">Mḥu</string>
+    <string name="delete_conversation_confirmation_button">Mḥu</string>
+    <string name="delete_conversation_decline_button">Sefsex</string>
+    <string name="recipient_hint">I</string>
+    <string name="notification_picture">Image</string>
+    <string name="notification_video">Tavidyut</string>
+    <string name="notification_download_mms">Sider</string>
+    <string name="notification_reply_prompt">Err</string>
+    <string name="unknown_self_participant">Nekki</string>
+    <string name="audio_pause_content_description">Steɛfu</string>
+    <string name="camera_take_picture">Ṭṭef-d tawleft</string>
+    <plurals name="photos_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> n tewlaft tettwasekles ar ulbum \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> n tewlafin ttwaskelsent ar ulbum \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="videos_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> n tvidyut tettwasekles ar ulbum \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> n tvidyutin ttwaskelsen ar ulbum \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> n ufaylu yeddan yettwasekles ar ulbum \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> n ifuyla yeddan ttwaskelsen ar ulbum \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <string name="settings_activity_title">Iγewwaṛen</string>
+    <string name="archived_activity_title">Yeɣber</string>
+    <string name="action_close">Mdel</string>
+    <string name="mms_messaging_category_pref_title">MMS</string>
+    <string name="advanced_category_pref_title">Talqayt</string>
+    <string name="debug_category_pref_title">Seγtu</string>
+    <string name="notifications_pref_title">Ilɣa</string>
+    <string name="silent_ringtone">Ulac sut</string>
+    <string name="blocked_pref_title">Yettusewḥel</string>
+    <string name="unknown_phone_number_pref_display_value">Arussin</string>
+    <string name="message_context_menu_copy_text">Nɣel aḍris</string>
+    <string name="message_context_menu_view_details">Beqqeḍ ifatusen</string>
+    <string name="message_context_menu_delete_message">Kkes</string>
+    <string name="message_context_menu_forward_message">Ɣer zdat</string>
+    <string name="message_details_title">Talqayt n yizen</string>
+    <string name="multimedia_message">Izen n wallalen n umidyat</string>
+    <string name="from_label">S γur :\u0020</string>
+    <string name="to_address_label">Γer :\u0020</string>
+    <string name="subject_label">Ahil :\u0020</string>
+    <string name="priority_high">Haut</string>
+    <string name="priority_normal">Amagnu</string>
+    <string name="priority_low">Faible</string>
+    <string name="action_debug_options">Seɣtu</string>
+    <string name="general_settings_title">Amatu</string>
+    <string name="compose_message_view_hint_text">Azen izen</string>
+    <string name="menu_send_feedback">Azen-d tikti i:</string>
+    <string name="subtitle_format_for_version_number">Lqem %1$s</string>
+    <string name="menu_license">Turagin n uɣbalu yeldin</string>
+    <string name="notifications_enabled_conversation_pref_title">Ilɣa</string>
+    <string name="add_contact_confirmation">Rnu anermis</string>
+    <string name="compose_message_view_subject_hint_text">Ahil</string>
+    <string name="conversation_message_view_subject_text">Ahil :\u0020</string>
+    <string name="vcard_detail_birthday_label">Azemz n tlalit</string>
+    <string name="vcard_detail_notes_label">Tizmilin</string>
+    <string name="reply_activity_title">Err</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_n">+%d</string>
+    <string name="requires_default_sms_change_button">Senfel</string>
+    <string name="requires_sms_permissions_close_button">IH</string>
+    <string name="conversation_list_item_view_draft_message">Arewway</string>
+    <string name="conversation_list_snippet_picture">Tawlaft</string>
+    <string name="conversation_list_snippet_video">Tavidyut</string>
+    <string name="mms_text">MMS</string>
+    <string name="snack_bar_undo">Err-d</string>
+    <string name="snack_bar_retry">Ɛref̣ tikelt-nniḍen</string>
+    <string name="action_block">Sewḥel</string>
+    <string name="send_message_success">Izen yettwazen</string>
+    <string name="content_description_for_number_zero">Warrun</string>
+    <string name="content_description_for_number_one">Yiwet</string>
+    <string name="content_description_for_number_two">Sin</string>
+    <string name="content_description_for_number_three">Krad</string>
+    <string name="in_conversation_notify_new_message_text">Izen amaynut</string>
+    <string name="in_conversation_notify_new_message_action">Askan</string>
+    <string name="message_image_content_description">Tugna</string>
+    <string name="share_new_message">Izen amaynut</string>
+    <string name="share_cancel">Sefsex</string>
+    <string name="apn_not_set">Ur ittwasbadu ara</string>
+    <string name="apn_name">Isem</string>
+    <string name="menu_save_apn">Sekles</string>
+    <string name="menu_discard_apn_change">Ignorer</string>
+    <string name="menu_restore_default_apn">Ales awennez ar iɣewwaren imezwar</string>
+    <string name="untitled_apn">War azwel</string>
+    <string name="copy_to_clipboard">Nγel</string>
+    <string name="general_settings">Amatu</string>
+    <string name="advanced_settings">Talqayt</string>
+    <string name="general_settings_activity_title">Iγewwaṛen imuta</string>
+    <string name="advanced_settings_activity_title">Iγewwaṛen n telqayt</string>
+    <string name="secondary_user_new_message_title">Izen amaynut</string>
+    <string name="secondary_user_new_message_ticker">Izen amaynut.</string>
+    <string name="widget_title_content_description">Tamyazent</string>
+    <string name="widget_conversation_name">Tamyazent</string>
+    <string name="widget_new_message_content_description">Izen amaynut</string>
+    <string name="conversation_deleted">Adiwenni yettwakkes</string>
+    <string name="update_destination_blocked">Yettusewḥel</string>
+    <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> ittwafernen</string>
+</resources>

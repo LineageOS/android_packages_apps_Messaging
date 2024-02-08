@@ -15,9 +15,21 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Stryg for at slette</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Stryg mod højre, for at slette en samtale</string>
-    <string name="show_emoticons_pref_title">Humørikoner-adgang</string>
-    <string name="show_emoticons_pref_summary">Vis humørikoner-tasten på tastaturet</string>
-    <string name="notification_channel_messages_title">Beskeder</string>
+    <string-array name="empty_subject_strings">
+        <item>nissun ogjet</item>
+        <item>nissunogjet</item>
+    </string-array>
+    <string-array name="notification_reply_choices">
+        <item>Sì</item>
+        <item>No</item>
+        <item>Va ben</item>
+        <item>Hehe</item>
+        <item>Graciis</item>
+        <item>O concuardi</item>
+        <item>Biel</item>
+        <item>O rivi</item>
+        <item>Va ben, fasimi tornâ di te plui tart</item>
+        <item>:)</item>
+        <item>:(</item>
+    </string-array>
 </resources>

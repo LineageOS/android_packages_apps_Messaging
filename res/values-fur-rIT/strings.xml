@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2015 The Android Open Source Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Messaçs</string>
+    <string name="share_intent_label">Messaçs</string>
+    <string name="share_intent_activity_label">Selezione conversazion</string>
+    <string name="action_settings">Impostazions</string>
+    <string name="sendButtonContentDescription">Mande messaç</string>
+    <string name="attachMediaButtonContentDescription">Zonte une zonte</string>
+    <string name="help_and_feedback_activity_label">Jutori</string>
+    <string name="welcome">Benvignûts</string>
+    <string name="skip">Salte</string>
+    <string name="next_with_arrow">Indenant &gt;</string>
+    <string name="next">Indenant</string>
+    <string name="exit">Jes</string>
+    <string name="settings_with_arrow">Impostazion &gt;</string>
+    <string name="settings">Impostazions</string>
+    <string name="required_permissions_promo">Messaçs al à bisugne dai permès a SMS, Telefon e Contats.</string>
+    <string name="enable_permission_procedure">Tu puedis cambiâ i permès in Impostazions &gt; Aplicazion &gt; Messaçs &gt; Permès.</string>
+    <string name="enable_permission_procedure_description">Tu puedis cambiâ i permès in Impostazions, Aplicazion, Messaçs, Permès.</string>
+    <string name="contact_picker_frequents_tab_title">Dispès</string>
+    <string name="contact_picker_all_contacts_tab_title">Ducj i contats</string>
+    <string name="contact_list_send_to_text">Invie a <xliff:g id="destination">%s</xliff:g></string>
+    <string name="mediapicker_cameraChooserDescription">Cature imagjins o videos</string>
+    <string name="mediapicker_galleryChooserDescription">Sielç imagjins di chest dispositîf</string>
+    <string name="mediapicker_audioChooserDescription">Regjistre audio</string>
+    <string name="mediapicker_contactChooserDescription">Sielç un contat di chest dispositîf</string>
+    <string name="mediapicker_gallery_title">Sielç media</string>
+    <string name="mediapicker_gallery_item_selected_content_description">Il media al è selezionât.</string>
+    <string name="mediapicker_gallery_item_unselected_content_description">Il media nol è selezionât.</string>
+    <string name="mediapicker_gallery_title_selection">Selezionât: <xliff:g id="count">%d</xliff:g></string>
+    <string name="mediapicker_gallery_image_item_description">imagjin <xliff:g id="date">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
+    <string name="mediapicker_gallery_image_item_description_no_date">imagjin</string>
+    <string name="mediapicker_audio_title">Regjistre audio</string>
+    <string name="mediapicker_contact_title">Sielç un contat</string>
+    <string name="contact_picker_hint_text">Fâs clic par vierzi la liste dai contats su chest dispositîf</string>
+    <string name="action_share">Condivît</string>
+    <string name="posted_just_now">"Juste cumò"</string>
+    <string name="posted_now">"Cumò"</string>
+    <plurals name="num_minutes_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> min</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> min</item>
+    </plurals>
+    <plurals name="num_hours_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> ore</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> oris</item>
+    </plurals>
+    <plurals name="num_days_ago">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> dì</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> dîs</item>
+    </plurals>
+    <plurals name="week_count">
+        <item quantity="one">une setemane</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> setemanis</item>
+    </plurals>
+    <plurals name="month_count">
+        <item quantity="one">un mês</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> mês</item>
+    </plurals>
+    <plurals name="year_count">
+        <item quantity="one">un an</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> agns</item>
+    </plurals>
+    <string name="class_0_message_activity">Messaç classe 0</string>
+    <string name="save">Salve</string>
+    <string name="sms_storage_low_auto_delete_enabled_dialog_text">Spazi sul dispositîf cuasi esaurît. Messaçs al eliminarà in automatic i messaçs plui vecjos par liberâ spazi.</string>
+    <string name="sms_storage_low_title">Spazi di archiviazion in esauriment</string>
+    <string name="sms_storage_low_text">Al è pussibil che Messaçs nol invii o nol ricevi i messaçs fintremai che nol sarà disponibil plui spazi sul dispositîf.</string>
+    <string name="sms_storage_low_notification_ticker">Memorie pai SMS basse. Al podarès coventâ che ti tocj eliminâ messaçs.</string>
+    <string name="enter_phone_number_title">Conferme il to numar di telefon</string>
+    <string name="enter_phone_number_text">Chest passaç, che al vignarà fat une volte sole, al sigurarà che Messaçs al spedissi ben i tiei messaçs di grup.</string>
+    <string name="enter_phone_number_hint">Numar telefonic</string>
+    <string name="delete_all_media">Elimine ducj i messaçs cun multimedia</string>
+    <string name="delete_oldest_messages">Elimine i messaçs plui vieris di <xliff:g id="duration">%s</xliff:g></string>
+    <string name="auto_delete_oldest_messages">Auto-elimine i messaçs plui vieris di <xliff:g id="duration">%s</xliff:g></string>
+    <string name="ignore">Ignore</string>
+    <string name="delete_all_media_confirmation">Eliminâ i messaçs cun multimedia?</string>
+    <string name="delete_oldest_messages_confirmation">Eliminâ i messaçs plui vieris di <xliff:g id="duration">%s</xliff:g>?</string>
+    <string name="auto_delete_oldest_messages_confirmation">Eliminâ i messaç plui vieris di <xliff:g id="duration">%s</xliff:g> e ativâ la auto-eliminazion?</string>
+    <string name="incoming_text_sender_content_description">Il mitent <xliff:g id="sender">%s</xliff:g> al à dit</string>
+    <string name="outgoing_text_sender_content_description">Tu âs dit</string>
+    <string name="incoming_sender_content_description">Messaç di <xliff:g id="sender">%s</xliff:g></string>
+    <string name="outgoing_sender_content_description">Tu âs mandât un messaç</string>
+    <string name="message_status_sending">Daûr a inviâ…</string>
+    <string name="message_status_send_failed">No inviât. Tocje par tornâ a provâ.</string>
+    <string name="message_status_send_retrying">No inviât. Daûr a tentâ di gnûf…</string>
+    <string name="message_status_resend">Torne invie o elimine</string>
+    <string name="message_status_send_failed_emergency_number">Par plasê fâs une clamade vocâl ai servizis di emergjence. In chest moment nol è stât pussibil spedî il to messaç di test.</string>
+    <string name="message_status_failed">Falît</string>
+    <string name="message_title_manual_download">Gnûf messaç MMS di discjariâ</string>
+    <string name="message_title_downloading">Gnûf messaç MMS</string>
+    <string name="message_title_download_failed">Nol è stât pussibil discjariâ</string>
+    <string name="message_status_download_failed">Tocje par tornâ a provâ</string>
+    <string name="message_status_download">Tocje par discjariâ</string>
+    <string name="message_status_download_action">Discjame o elimine</string>
+    <string name="message_status_downloading">Daûr a discjariâ…</string>
+    <string name="message_status_download_error">Messaç scjadût o no disponibil</string>
+    <string name="mms_info">dimension: <xliff:g id="messageSize">%1$s</xliff:g>, scjadince: <xliff:g id="messageExpire">%2$s</xliff:g></string>
+    <string name="invalid_destination">Impussibil inviâ. Il destinatari nol è valit.</string>
+    <string name="service_not_activated">Il servizi nol è stât ativât su la rêt</string>
+    <string name="service_network_problem">Nol è stât pussibil inviâ par vie di problemis di rêt</string>
+    <string name="service_message_not_found">Messaç scjadût o no disponibil</string>
+    <string name="no_subject">(Nissun ogjet)</string>
+    <string name="unknown_sender">Mitent no cognossût</string>
+    <string name="delivered_status_content_description">Spedît</string>
+    <string name="dl_failure_notification">Nol è stât pussibil discjariâ il messaç <xliff:g id="subject">%1$s</xliff:g> di <xliff:g id="from">%2$s</xliff:g>.</string>
+    <string name="low_memory">Nol è stât pussibil completâ la operazion de base di dâts par vie de pocje memorie</string>
+    <string name="notification_send_failures_line1_singular">Messaç no mandât</string>
+    <string name="notification_send_failures_line1_plural">In Messaçs cualchi messaç nol è stât inviât</string>
+    <plurals name="notification_send_failures">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> messaçs intune conversazion</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> messaçs in <xliff:g id="conversations">%d</xliff:g> conversazions</item>
+    </plurals>
+    <string name="notification_download_failures_line1_singular">Messaç no discjariât</string>
+    <string name="notification_download_failures_line1_plural">In Messaçs cualchi messaç nol è stât discjariât</string>
+    <plurals name="notification_download_failures">
+        <item quantity="one"><xliff:g id="messages">%d</xliff:g> messaçs intune conversazion</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> messaçs in <xliff:g id="conversations">%d</xliff:g> conversazions</item>
+    </plurals>
+    <string name="notification_emergency_send_failure_line1">Il messaç a <xliff:g id="number">%1$s</xliff:g> nol è stât inviât</string>
+    <string name="notification_emergency_send_failure_line2">        Par plasê fâs une clamade vocâl ai servizis di emergjence. In chest moment
+        nol è stât  pussibil spedî il to messaç di test a <xliff:g id="number">%1$s</xliff:g>.
+    </string>
+    <plurals name="notification_new_messages">
+        <item quantity="one">Gnûf messaç</item>
+        <item quantity="other"><xliff:g id="messages">%d</xliff:g> gnûfs messaçs</item>
+    </plurals>
+    <string name="start_conversation">Scomence</string>
+    <string name="camera_error_opening">Fotocjamare no disponibile</string>
+    <string name="camera_error_unknown">Fotocjamare no disponibile</string>
+    <string name="camera_error_video_init_fail">Acuisizion video no disponibile</string>
+    <string name="camera_error_storage_fail">Impussibil salvâ il contignût multimediâl</string>
+    <string name="camera_error_failure_taking_picture">Impussibil fâ la foto</string>
+    <string name="back">Indaûr</string>
+    <string name="action_menu_show_archived">Archiviadis</string>
+    <string name="action_delete">Elimine</string>
+    <string name="action_archive">Archivie</string>
+    <string name="action_unarchive">Tire fûr dal archivi</string>
+    <string name="action_add_contact">Zonte contat</string>
+    <string name="action_download">Discjame</string>
+    <string name="action_send">Invie</string>
+    <string name="action_delete_message">Elimine</string>
+    <string name="delete_message_confirmation_dialog_title">Eliminâ chest messaç?</string>
+    <string name="delete_message_confirmation_dialog_text">Cheste azion e je ireversibile.</string>
+    <string name="delete_message_confirmation_button">Elimine</string>
+    <plurals name="delete_conversations_confirmation_dialog_title">
+        <item quantity="one">Eliminâ cheste conversazion?</item>
+        <item quantity="other">Eliminâ chestis conversazions?</item>
+    </plurals>
+    <string name="delete_conversation_confirmation_button">Elimine</string>
+    <string name="delete_conversation_decline_button">Anule</string>
+    <string name="recipient_hint">A</string>
+    <string name="action_multiselect">Selezione imagjins multiplis</string>
+    <string name="action_confirm_multiselect">Conferme selezion</string>
+    <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
+    <string name="audio_recording_start_failed">Impussibil regjistrâ l\'audio. Torne prove.</string>
+    <string name="audio_recording_replay_failed">Impussibil riprodusi l\'audio. Torne prove.</string>
+    <string name="audio_recording_error">Nol è stât pussibil salvâ l\'audio. Torne prove.</string>
+    <string name="audio_picker_hint_text">Tocje e manten</string>
+    <string name="enumeration_comma">,\u0020</string>
+    <string name="notification_separator">\u0020\u0020</string>
+    <string name="notification_ticker_separator">:\u0020</string>
+    <string name="notification_space_separator">\u0020\u0020</string>
+    <string name="notification_picture">Imagjin</string>
+    <string name="notification_audio">Toc audio</string>
+    <string name="notification_video">Video</string>
+    <string name="notification_vcard">Schede di contat</string>
+    <string name="notification_download_mms">Discjame</string>
+    <string name="notification_reply_via_sms">Rispuint vie SMS</string>
+    <string name="notification_reply_via_mms">Rispuint vie MMS</string>
+    <string name="notification_reply_prompt">Rispuint</string>
+    <plurals name="wearable_participant_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> partecipant</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> partecipants</item>
+    </plurals>
+    <string name="unknown_self_participant">Jo</string>
+    <string name="blocked_toast_message">Contat blocât e archiviât</string>
+    <string name="unblocked_toast_message">Contat sblocât e tirât fûr dal archivi</string>
+    <string name="archived_toast_message"><xliff:g id="count">%d</xliff:g> archiviadis</string>
+    <string name="unarchived_toast_message"><xliff:g id="count">%d</xliff:g> tiradis fûr dal archivi</string>
+    <string name="notification_off_toast_message">Notifichis disativadis</string>
+    <string name="notification_on_toast_message">Notifichis ativadis</string>
+    <string name="toast_after_setting_default_sms_app_for_message_send">Dut configurât. Tocje par tornâ a mandâ.</string>
+    <string name="toast_after_setting_default_sms_app">Aplicazion Messaçs metude cun sucès tant che aplicazion predefinide pai SMS.</string>
+    <plurals name="attachment_preview_close_content_description">
+        <item quantity="one">Scarte zonte</item>
+        <item quantity="other">Scarte zontis</item>
+    </plurals>
+    <string name="audio_attachment_content_description">Zonte audio</string>
+    <string name="audio_play_content_description">Riprodûs zonte audio</string>
+    <string name="audio_pause_content_description">Pause</string>
+    <string name="incoming_message_announcement">Messaç di <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>.</string>
+    <string name="one_on_one_incoming_failed_message_prefix">Messaç falît di <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_incoming_successful_message_prefix">Messaç di <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_draft_message_prefix">Messaç no inviât a  <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_sending_message_prefix">Daûr a mandâ il messaç a <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_failed_message_prefix">Messaç falît a <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="one_on_one_outgoing_successful_message_prefix">Messaç a <xliff:g id="contact">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_incoming_failed_message_prefix">Messaç falît di <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
+    <string name="group_incoming_successful_message_prefix">Messaç di <xliff:g id="sender">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>. <xliff:g id="groupInfo">%4$s</xliff:g>.</string>
+    <string name="group_outgoing_draft_message_prefix">Messaç no inviât a <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_sending_message_prefix">Daûr a inviâ il messaç a <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_failed_message_prefix">Messaç falît a <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="group_outgoing_successful_message_prefix">Messaç a <xliff:g id="group">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g>. Ore: <xliff:g id="time">%3$s</xliff:g>.</string>
+    <string name="failed_message_content_description">Messaç falît. Tocje par tornâ a provâ.</string>
+    <string name="group_conversation_description">Conversazion cun <xliff:g id="participants">%s</xliff:g></string>
+    <string name="delete_subject_content_description">Elimine ogjet</string>
+    <string name="camera_switch_to_video_mode">Cature video</string>
+    <string name="camera_switch_to_still_mode">Cature une imagjin ferme</string>
+    <string name="camera_take_picture">Fâs foto</string>
+    <string name="camera_start_recording">Scomence a regjistrâ il video</string>
+    <string name="camera_switch_full_screen">Passe ae fotocjamare a plen schermi</string>
+    <string name="camera_switch_camera_facing">Passe de fotocjamare frontâl a chê posteriôr e contrari</string>
+    <string name="camera_stop_recording">Ferme di regjistrâ e zonte il video</string>
+    <string name="camera_cancel_recording">Ferme di regjistrâ il video</string>
+    <string name="photo_view_activity_title">Daûr a mandâ lis fotos</string>
+    <plurals name="photos_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> foto salvade sul album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> fotos salvadis sul album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="videos_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> video salvât sul album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> videos salvâts sul album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_album">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> zonte salvade sul album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> zontis salvadis sul album \"<xliff:g id="albumName">%s</xliff:g>\"</item>
+    </plurals>
+    <plurals name="attachments_saved_to_downloads">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> zonte salvade in \"Discjariâts\"</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> zontis salvadis in \"Discjariâts\"</item>
+    </plurals>
+    <plurals name="attachments_saved">
+        <item quantity="one"><xliff:g id="quantity">%d</xliff:g> zonte salvade</item>
+        <item quantity="other"><xliff:g id="quantity">%d</xliff:g> zontis salvadis</item>
+    </plurals>
+    <plurals name="attachment_save_error">
+        <item quantity="one">Nol è stât pussibil salvâ <xliff:g id="quantity">%d</xliff:g> zonte</item>
+        <item quantity="other">Nol è stât pussibil salvâ <xliff:g id="quantity">%d</xliff:g> zontis</item>
+    </plurals>
+    <string name="attachment_file_description">Salvade zonte MMS</string>
+    <string name="settings_activity_title">Impostazions</string>
+    <string name="archived_activity_title">Archiviadis</string>
+    <string name="action_close">Siere</string>
+    <string name="mms_messaging_category_pref_title">MMS</string>
+    <string name="advanced_category_pref_title">Avanzadis</string>
+    <string name="debug_category_pref_title">Debug</string>
+    <string name="notifications_pref_title">Notifichis</string>
+    <string name="silent_ringtone">Cidin</string>
+    <string name="blocked_pref_title">Blocât</string>
+    <string name="delivery_reports_pref_title">Rapuarts di spedizion di SMS</string>
+    <string name="delivery_reports_pref_summary">Domande un rapuart di spedizion par ogni SMS che tu inviis</string>
+    <string name="auto_retrieve_mms_pref_title">Recupar automatic</string>
+    <string name="auto_retrieve_mms_pref_summary">Recupere in automatic i messaçs MMS</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_title">Recupar automatic in roaming</string>
+    <string name="auto_retrieve_mms_when_roaming_pref_summary">Recupere in automatic i MMS cuant che tu sês in roaming</string>
+    <string name="group_mms_pref_title">Messaçs di grup</string>
+    <string name="group_mms_pref_summary">Dopre i MMS par inviâ un singul messaç se a son plui destinataris</string>
+    <string name="sms_disabled_pref_title">Aplicazion pai SMS predefinide</string>
+    <string name="sms_enabled_pref_title">Aplicazion pai SMS predefinide</string>
+    <string name="default_sms_app"><xliff:g id="app_name">%s</xliff:g></string>
+    <string name="mms_phone_number_pref_title">Il to numar di telefon</string>
+    <string name="unknown_phone_number_pref_display_value">No cognossût</string>
+    <string name="send_sound_pref_title">Suns pai messaçs in jessude</string>
+    <string name="dump_sms_pref_title">Bute jù SMS</string>
+    <string name="dump_sms_pref_summary">Bute jù suntun file in une memorie esterne i dâts grês dai SMS ricevûts</string>
+    <string name="dump_mms_pref_title">Bute jù MMS</string>
+    <string name="dump_mms_pref_summary">Bute jù suntun file in une memorie esterne i dâts grês dai MMS ricevûts</string>
+    <string name="wireless_alerts_title">Avîs wireless</string>
+    <string name="message_context_menu_title">Opzions dal messaç</string>
+    <string name="message_context_menu_copy_text">Copie test</string>
+    <string name="message_context_menu_view_details">Viôt i detais</string>
+    <string name="message_context_menu_delete_message">Elimine</string>
+    <string name="message_context_menu_forward_message">Mande indenant</string>
+    <string name="message_details_title">Detais dal messaç</string>
+    <string name="message_type_label">Gjenar:\u0020</string>
+    <string name="text_message">Messaç di test</string>
+    <string name="multimedia_message">Messaç multimediâl</string>
+    <string name="from_label">Di:\u0020</string>
+    <string name="to_address_label">A:\u0020</string>
+    <string name="sent_label">Mandât:\u0020</string>
+    <string name="received_label">Recevût:\u0020</string>
+    <string name="subject_label">Ogjet:\u0020</string>
+    <string name="message_size_label">Dimension:\u0020</string>
+    <string name="priority_label">Prioritât:\u0020</string>
+    <string name="sim_label">SIM:\u0020</string>
+    <string name="priority_high">Alte</string>
+    <string name="priority_normal">Normâl</string>
+    <string name="priority_low">Basse</string>
+    <string name="sim_slot_identifier">SIM <xliff:g id="sim_slot_number">%s</xliff:g></string>
+    <string name="hidden_sender_address">Direzion mitent platade</string>
+    <string name="cant_send_message_while_loading_attachments">Impussibil inviâ il messaç se si sta cjariant lis zontis.</string>
+    <string name="fail_to_load_attachment">Impussibil cjariâ la zonte. Torne prove.</string>
+    <string name="cant_send_message_without_active_subscription">La rêt no je pronte. Torne prove.</string>
+    <string name="chips_text_delete_button_content_description">Scancele test</string>
+    <string name="numeric_text_keyboard_toggle_button_content_description">Cambie tra l\'inserî test e numars</string>
+    <string name="add_more_participants_button_content_description">Zonte plui partecipants</string>
+    <string name="confrim_participants_button_content_description">Conferme partecipants</string>
+    <string name="start_new_conversation">Scomence une gnove conversazion</string>
+    <string name="gallery_checkbox_content_description">Selezione chest element</string>
+    <string name="video_thumbnail_view_play_button_content_description">Riprodûs video</string>
+    <string name="action_people_and_options">Personis e opzions</string>
+    <string name="action_debug_options">Debug</string>
+    <string name="people_and_options_activity_title">Personis e opzions</string>
+    <string name="general_settings_title">Gjenerâls</string>
+    <string name="participant_list_title">Personis in cheste conversazion</string>
+    <string name="action_call">Fâs une clamade</string>
+    <string name="compose_message_view_hint_text">Mande messaç</string>
+    <string name="compose_message_view_hint_text_multi_sim">Mande messaç&lt;br/&gt;&lt;small&gt;di <xliff:g id="sim_name">%s</xliff:g>&lt;/small&gt;</string>
+    <plurals name="compose_message_view_hint_text_photo">
+        <item quantity="one">Invie foto</item>
+        <item quantity="other">Invie fotos</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_audio">
+        <item quantity="one">Invie audio</item>
+        <item quantity="other">Invie audios</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_video">
+        <item quantity="one">Invie video</item>
+        <item quantity="other">Invie videos</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_vcard">
+        <item quantity="one">Invie schede di contat</item>
+        <item quantity="other">Invie schedis di contats</item>
+    </plurals>
+    <plurals name="compose_message_view_hint_text_attachments">
+        <item quantity="one">Invie zonte</item>
+        <item quantity="other">Invie zontis</item>
+    </plurals>
+    <plurals name="attachment_changed_accessibility_announcement">
+        <item quantity="one">Une zonte pronte di inviâ</item>
+        <item quantity="other"><xliff:g id="attachment_count">%d</xliff:g> zontis prontis di inviâ</item>
+    </plurals>
+    <string name="menu_send_feedback">Mande coment</string>
+    <string name="menu_view_in_store">Viôt in Google Play Store</string>
+    <string name="menu_version_info">Informazions di version</string>
+    <string name="subtitle_format_for_version_number">Version %1$s</string>
+    <string name="menu_license">Licencis di codiç viert</string>
+    <string name="notifications_enabled_conversation_pref_title">Notifichis</string>
+    <string name="mms_attachment_limit_reached">Rivâts al limit pes zontis</string>
+    <string name="mms_attachment_load_failed">Impussibil cjamâ la zonte.</string>
+    <string name="add_contact_confirmation_dialog_title">Zontâ ai contats?</string>
+    <string name="add_contact_confirmation">Zonte contat</string>
+    <string name="compose_message_view_subject_hint_text">Ogjet</string>
+    <string name="conversation_message_view_subject_text">Ogjet:\u0020</string>
+    <string name="notification_subject"><xliff:g id="subject_label">%1$s</xliff:g><xliff:g id="messageText">%2$s</xliff:g></string>
+    <string name="loading_vcard">Cjariament schede dal contat</string>
+    <string name="failed_loading_vcard">Nol è stât pussibil cjariâ la schede dal contat</string>
+    <string name="vcard_tap_hint">Visualize schede dal contat</string>
+    <plurals name="vcard_multiple_display_name">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> contat</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> contats</item>
+    </plurals>
+    <string name="vcard_detail_activity_title">Schedis dai contats</string>
+    <string name="vcard_detail_birthday_label">Complean</string>
+    <string name="vcard_detail_notes_label">Notis</string>
+    <string name="forward_message_activity_title">Mande indenant messaç</string>
+    <string name="reply_activity_title">Rispuint</string>
+    <string name="plus_one">+1</string>
+    <string name="plus_n">+%d</string>
+    <string name="sms_disabled">SMS disabilitâts</string>
+    <string name="requires_default_sms_app_to_send">Par inviâ, met Messaçs come aplicazion predefinide pai SMS</string>
+    <string name="requires_default_sms_app">Met Messaçs come aplicazion predefinide pai SMS</string>
+    <string name="requires_default_sms_change_button">Cambie</string>
+    <string name="recommend_set_default_sms_app">Par ricevi messaçs, met Messaçs come aplicazion predefinide pai SMS</string>
+    <string name="no_preferred_sim_selected">Nissune SIM preferide selezionade par mandâ i messaçs SMS</string>
+    <string name="requires_sms_permissions_message">Cheste aplicazion no je consintude dal proprietari dal dispositîf.</string>
+    <string name="requires_sms_permissions_close_button">Va ben</string>
+    <string name="too_many_participants">Masse partecipants intune conversazion</string>
+    <plurals name="add_invalid_contact_error">
+        <item quantity="one">Contat no valit</item>
+        <item quantity="other">Contats no valits</item>
+    </plurals>
+    <string name="camera_media_failure">Nol è stât pussibil cjariâ la imagjin de fotocjamare</string>
+    <string name="conversation_list_item_view_sent_from_you_prefix">Tu:\u0020</string>
+    <string name="conversation_list_item_view_sent_from_other_prefix"><xliff:g id="firstNameOfSender">%s</xliff:g>:\u0020</string>
+    <string name="conversation_list_item_view_draft_message">Stampon</string>
+    <string name="conversation_list_empty_text">Une volte scomençade une gnove conversazion, tu le viodarâs listade achì</string>
+    <string name="archived_conversation_list_empty_text">Lis conversazions archiviadis a vignaran fûr achì</string>
+    <string name="conversation_list_first_sync_text">Daûr a cjariâ lis conversazions…</string>
+    <string name="conversation_list_snippet_picture">Imagjin</string>
+    <string name="conversation_list_snippet_audio_clip">Toc audio</string>
+    <string name="conversation_list_snippet_video">Video</string>
+    <string name="conversation_list_snippet_vcard">Schede di contat</string>
+    <string name="mms_text">MMS</string>
+    <string name="snack_bar_undo">Anule</string>
+    <string name="snack_bar_retry">Torne prove</string>
+    <string name="contact_list_empty_text">Inserìs un non di contat o un numar di telefon par scomençâ un gnûf messaç</string>
+    <string name="action_block">Bloche</string>
+    <string name="block_contact_title">Bloche <xliff:g id="destination">%s</xliff:g></string>
+    <string name="unblock_contact_title">Sbloche <xliff:g id="destination">%s</xliff:g></string>
+    <string name="block_confirmation_title">Blocâ <xliff:g id="destination">%s</xliff:g>?</string>
+    <string name="block_confirmation_message">Tu continuarâs a ricevi i messaçs di chest numar ma no tu vignarâs plui notificât. Cheste conversazion e vignarà archiviade.</string>
+    <string name="blocked_contacts_title">Contats blocâts</string>
+    <string name="tap_to_unblock_message">SBLOCHE</string>
+    <string name="view_blocked_contacts_title">Contats blocâts</string>
+    <string name="pick_image_from_document_library_content_description">Sielç une imagjin de librarie dai documents</string>
+    <string name="sending_message">Daûr a inviâ il messaç</string>
+    <string name="send_message_success">Massaç inviât</string>
+    <string name="send_message_failure_no_data">I dâts mobii a son disativâts. Controle lis impostazions.</string>
+    <string name="send_message_failure_airplane_mode">Impussibil inviâ i messaçs in modalitât avion</string>
+    <string name="send_message_failure">Nol è stât pussibil inviâ il messaç</string>
+    <string name="download_message_success">Messaç discjariât</string>
+    <string name="download_message_failure_no_data">I dâts mobii a son disativâts. Controle lis impostazions.</string>
+    <string name="download_message_failure_airplane_mode">Impussibil discjariâ i messaçs in modalitât avion</string>
+    <string name="download_message_failure">Nol è stât pussibil discjariâ il messaç</string>
+    <string name="content_description_for_number_zero">Zero</string>
+    <string name="content_description_for_number_one">Un</string>
+    <string name="content_description_for_number_two">Doi</string>
+    <string name="content_description_for_number_three">Trê</string>
+    <string name="content_description_for_number_four">Cuatri</string>
+    <string name="content_description_for_number_five">Cinc</string>
+    <string name="content_description_for_number_six">Sîs</string>
+    <string name="content_description_for_number_seven">Siet</string>
+    <string name="content_description_for_number_eight">Vot</string>
+    <string name="content_description_for_number_nine">Nûf</string>
+    <string name="carrier_send_error">Impussibil inviâ il messaç cun <xliff:g id="carrierName">%1$s</xliff:g>, erôr <xliff:g id="errorCode">%2$d</xliff:g></string>
+    <string name="carrier_send_error_unknown_carrier">Impussibil inviâ il messaç cuntun operadôr no cognossût, erôr <xliff:g id="errorCode">%1$d</xliff:g></string>
+    <string name="message_fwd">M.Ind: <xliff:g id="subject">%s</xliff:g></string>
+    <string name="mms_failure_outgoing_service">Messaç no inviât: il servizi nol è ativât su la rêt</string>
+    <string name="mms_failure_outgoing_address">Messaç no inviât: la direzion di destinazion no je valide</string>
+    <string name="mms_failure_outgoing_corrupt">Messaç no inviât: il messaç nol è valit</string>
+    <string name="mms_failure_outgoing_content">Messaç no inviât: il contignût nol è supuartât</string>
+    <string name="mms_failure_outgoing_unsupported">Messaç no inviât: il messaç nol è supuartât</string>
+    <string name="mms_failure_outgoing_too_large">Messaç no inviât: masse grant</string>
+    <string name="in_conversation_notify_new_message_text">Gnûf messaç</string>
+    <string name="in_conversation_notify_new_message_action">Viôt</string>
+    <string name="message_image_content_description">Imagjin</string>
+    <string name="activity_not_found_message">Nol è stât pussibil cjatâ une aplicazion adate</string>
+    <string name="chips_delete_content_description">Gjave il destinatari</string>
+    <string name="share_new_message">Gnûf messaç</string>
+    <string name="share_cancel">Anule</string>
+    <string name="apn_edit">Modifiche pont di acès</string>
+    <string name="apn_not_set">No configurât</string>
+    <string name="apn_name">Non</string>
+    <string name="apn_apn">APN</string>
+    <string name="apn_mmsc">MMSC</string>
+    <string name="apn_mms_proxy">Proxy MMS</string>
+    <string name="apn_mms_port">Puarte MMS</string>
+    <string name="apn_mcc">MCC</string>
+    <string name="apn_mnc">MNC</string>
+    <string name="apn_type">Gjenar APN</string>
+    <string name="menu_delete_apn">Elimine APN</string>
+    <string name="menu_new_apn">Gnûf APN</string>
+    <string name="menu_save_apn">Salve</string>
+    <string name="menu_discard_apn_change">Scarte</string>
+    <string name="error_apn_name_empty">Il cjamp Non nol pues jessi vueit.</string>
+    <string name="error_apn_empty">L\'APN nol pues jessi vueit.</string>
+    <string name="error_mcc_not3">Il cjamp MCC al à di vê 3 cifris.</string>
+    <string name="error_mnc_not23">Il cjamp MNC al à di vê 2 o 3 cifris.</string>
+    <string name="restore_default_apn">Daûr a ripristinâ lis impostazions predefinidis pal APN.</string>
+    <string name="menu_restore_default_apn">Ripristine valôr predefinît</string>
+    <string name="restore_default_apn_completed">Ripristinament completât des impostazions APN predefinidis.</string>
+    <string name="untitled_apn">Cence titul</string>
+    <string name="sms_apns_title">Nons dai ponts di acès</string>
+    <string name="apn_settings">APNs</string>
+    <string name="menu_new">Gnûf APN</string>
+    <string name="apn_settings_not_available">Lis impostazions dal Non dal Pont di Acès (APN) no son disponibilis par chest utent</string>
+    <string name="copy_to_clipboard_dialog_title">Copiâ intes notis?</string>
+    <string name="copy_to_clipboard">Copie</string>
+    <string name="incoming_sim_name_text">a <xliff:g id="sim_name">%s</xliff:g></string>
+    <string name="general_settings">Gjenerâls</string>
+    <string name="advanced_settings">Avanzadis</string>
+    <string name="general_settings_activity_title">Impostazions gjenerâls</string>
+    <string name="advanced_settings_activity_title">Impostazions avanzadis</string>
+    <string name="sim_specific_settings">SIM \"<xliff:g id="sim_name">%s</xliff:g>\"</string>
+    <string name="disable_group_mms">Invie messaçs SMS individuâi a ducj i destinataris. Dome tu tu ricevarâs rispuestis</string>
+    <string name="enable_group_mms">Mande un singul MMS a ducj i destinataris</string>
+    <string name="sim_settings_unknown_number">Numar no cognossût</string>
+    <string name="secondary_user_new_message_title">Gnûf messaç</string>
+    <string name="secondary_user_new_message_ticker">Gnûf messaç.</string>
+    <string name="sim_selector_button_content_description">Seletôr SIM</string>
+    <string name="sim_selector_button_content_description_with_selection"><xliff:g id="sim">%1$s</xliff:g> selezionade, seletôr SIM</string>
+    <string name="send_button_long_click_description_no_sim_selector">Modifiche ogjet</string>
+    <string name="send_button_long_click_description_with_sim_selector">Selezione SIM o modifiche ogjet</string>
+    <string name="audio_record_view_content_description">Tocje e ten fracât par regjistrâ l\'audio</string>
+    <string name="widget_new_conversation_content_description">Scomence une gnove conversazion</string>
+    <string name="widget_title_content_description">Messaçs</string>
+    <string name="widget_conversation_list_name">Liste di messaçs</string>
+    <string name="widget_conversation_name">Messaçs</string>
+    <string name="widget_new_message_content_description">Gnûf messaç</string>
+    <string name="widget_conversation_list_content_description">Liste di conversazions</string>
+    <string name="loading_conversations">Daûr a cjariâ lis conversazions</string>
+    <string name="loading_messages">Daûr a cjariâ i messaçs</string>
+    <string name="view_more_conversations">Viôt plui conversazions</string>
+    <string name="view_more_messages">Viôt plui messaçs</string>
+    <string name="conversation_deleted">Conversazion eliminade</string>
+    <string name="tap_to_configure">Conversazion eliminade. Tocje par mostrâ une altre conversazion cun messaçs</string>
+    <string name="update_destination_blocked">Blocât</string>
+    <string name="update_destination_unblocked">Sblocât</string>
+    <string name="db_full">Pôc spazi di archiviazion. E je pussibile la pierdite di cualchi dât.</string>
+    <string name="attachment_chooser_activity_title">Selezione zontis</string>
+    <string name="action_confirm_selection">Conferme selezion</string>
+    <string name="attachment_chooser_selection"><xliff:g id="count">%d</xliff:g> selezionâts</string>
+    <string name="attachment_limit_reached_dialog_message_when_composing">Par plasê gjave une o plui zontis e torne prove.</string>
+    <string name="attachment_limit_reached_dialog_message_when_sending">Tu puedis provâ a mandâ il to messaç, ma nol è sigûr che al vegni spedît fale che tu gjavis une o plui zontis.</string>
+    <string name="video_attachment_limit_exceeded_when_sending">Tu puedis mandâ dome un video par messaç.  Par plasê gjave i videos in plui e torne prove.</string>
+    <string name="attachment_load_failed_dialog_message">Messaçs nol è rivât a cjariâ la zonte.</string>
+    <string name="attachment_limit_reached_send_anyway">Invie di istès</string>
+    <string name="conversation_creation_failure">Impussibil scomençâ la conversazion</string>
+    <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
+    <string name="selected_sim_content_message">SIM selezionade: <xliff:g id="selected_sim">%s</xliff:g></string>
+    <string name="work_directory_display_name">Contats dal profîl di lavôr</string>
+    <string name="disallow_emergency_call">Impussibil fâ achì une clamade vocâl ai servizis di emergjence.</string>
+</resources>
