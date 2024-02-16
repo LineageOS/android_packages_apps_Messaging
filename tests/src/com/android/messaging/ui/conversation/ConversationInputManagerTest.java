@@ -18,8 +18,9 @@ package com.android.messaging.ui.conversation;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.EditText;
+
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeFactory;
