@@ -16,17 +16,16 @@
 
 package com.android.messaging.ui.conversation;
 
-import android.test.suitebuilder.annotation.MediumTest;
-import android.test.suitebuilder.annotation.Suppress;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.test.filters.MediumTest;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.FakeCursor;
 import com.android.messaging.datamodel.data.TestDataFactory;
 import com.android.messaging.ui.ViewTest;
-import com.android.messaging.ui.conversation.ConversationMessageView;
 import com.android.messaging.ui.conversation.ConversationMessageView.ConversationMessageViewHost;
 import com.android.messaging.util.Dates;
 

@@ -19,9 +19,9 @@ package com.android.messaging.ui.conversation;
 import android.app.Activity;
 import android.app.Fragment;
 import android.database.Cursor;
+
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.Adapter;
-import android.test.suitebuilder.annotation.LargeTest;
+import androidx.test.filters.LargeTest;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.R;
@@ -43,7 +43,6 @@ import com.android.messaging.util.ImeUtil;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
 
 /**
  * Unit tests for {@link ConversationListFragment}.

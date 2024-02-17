@@ -16,12 +16,12 @@
 
 package com.android.messaging.ui.conversation;
 
-import android.test.suitebuilder.annotation.SmallTest;
 import android.text.TextUtils;
+
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.ui.contact.ContactPickerFragment;
-import com.android.messaging.ui.conversation.ConversationActivityUiState;
 import com.android.messaging.ui.conversation.ConversationActivityUiState.ConversationActivityUiStateHost;
 
 import org.mockito.Mock;

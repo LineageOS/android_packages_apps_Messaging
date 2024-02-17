@@ -18,11 +18,11 @@ package com.android.messaging.ui.conversationlist;
 
 import android.content.Context;
 import android.database.Cursor;
-import androidx.recyclerview.widget.RecyclerView;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ListView;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.filters.LargeTest;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.R;
@@ -31,13 +31,11 @@ import com.android.messaging.datamodel.data.ConversationListData;
 import com.android.messaging.datamodel.data.TestDataFactory;
 import com.android.messaging.ui.FragmentTestCase;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.ui.conversationlist.ConversationListFragment;
 import com.android.messaging.ui.conversationlist.ConversationListFragment.ConversationListFragmentHost;
 
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-
 
 /**
  * Unit tests for {@link ConversationListFragment}.

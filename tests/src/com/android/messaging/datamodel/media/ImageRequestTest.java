@@ -18,7 +18,8 @@ package com.android.messaging.datamodel.media;
 import android.content.ContentResolver;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.test.suitebuilder.annotation.SmallTest;
+
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeFactory;
