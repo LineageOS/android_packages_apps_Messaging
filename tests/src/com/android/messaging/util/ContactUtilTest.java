@@ -22,8 +22,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.text.TextUtils;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeFactory;

@@ -20,7 +20,8 @@ import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.test.mock.MockContentProvider;
-import android.test.suitebuilder.annotation.SmallTest;
+
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeContext;
