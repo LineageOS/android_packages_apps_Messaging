@@ -13,6 +13,7 @@
 //  limitations under the License.
 
 package {
+    default_team: "trendy_team_messages",
     // See: http://go/android-license-faq
     default_applicable_licenses: [
         "Android-Apache-2.0",
