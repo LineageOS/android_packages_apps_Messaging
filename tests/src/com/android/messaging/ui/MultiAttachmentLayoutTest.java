@@ -19,10 +19,11 @@ package com.android.messaging.ui;
 
 import android.content.Context;
 import android.net.Uri;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.test.filters.MediumTest;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.datamodel.data.MessagePartData;

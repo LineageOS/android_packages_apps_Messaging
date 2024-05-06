@@ -30,7 +30,10 @@ android_test {
     sdk_version: "current",
     test_suites: ["general-tests"],
     certificate: "platform",
-    static_libs: ["mockito-target"],
+    static_libs: [
+        "mockito-target",
+        "androidx.test.rules",
+    ],
     libs: [
         "android.test.mock.stubs",
         "android.test.runner.stubs",

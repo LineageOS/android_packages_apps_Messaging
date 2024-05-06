@@ -21,9 +21,10 @@ import static org.mockito.ArgumentMatchers.isNull;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.test.filters.MediumTest;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.R;
@@ -42,7 +43,6 @@ import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.FakeMediaUtil;
 import com.android.messaging.util.ImeUtil;
 
-import org.mockito.ArgumentMatcher;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;

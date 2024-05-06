@@ -19,7 +19,8 @@ package com.android.messaging.datamodel;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.test.suitebuilder.annotation.SmallTest;
+
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeFactory;

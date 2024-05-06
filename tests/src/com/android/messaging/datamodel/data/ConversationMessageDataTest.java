@@ -15,13 +15,11 @@
  */
 package com.android.messaging.datamodel.data;
 
-import android.test.suitebuilder.annotation.SmallTest;
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeFactory;
 import com.android.messaging.datamodel.FakeCursor;
-import com.android.messaging.datamodel.data.ConversationMessageData;
-import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ConversationMessageData.ConversationMessageViewColumns;
 
 @SmallTest

@@ -19,8 +19,9 @@ package com.android.messaging.datamodel.action;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.test.suitebuilder.annotation.MediumTest;
-import android.test.suitebuilder.annotation.SmallTest;
+
+import androidx.test.filters.MediumTest;
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeFactory;

@@ -20,8 +20,9 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.text.TextUtils;
+
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 import com.android.messaging.FakeContentProvider;
