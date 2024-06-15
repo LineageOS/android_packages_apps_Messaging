@@ -18,18 +18,17 @@ package com.android.messaging.ui.contact;
 
 import android.content.Context;
 import android.database.Cursor;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 import android.widget.ListView;
+
+import androidx.test.filters.LargeTest;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.FakeDataModel;
 import com.android.messaging.datamodel.action.ActionTestHelpers;
 import com.android.messaging.datamodel.action.ActionTestHelpers.StubActionService;
-import com.android.messaging.datamodel.action.ActionTestHelpers.StubActionService.StubActionServiceCallLog;
 import com.android.messaging.datamodel.action.GetOrCreateConversationAction;
 import com.android.messaging.datamodel.data.ContactPickerData;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -37,16 +36,13 @@ import com.android.messaging.datamodel.data.TestDataFactory;
 import com.android.messaging.ui.CustomHeaderViewPagerAdapter;
 import com.android.messaging.ui.FragmentTestCase;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.ui.contact.ContactPickerFragment;
 import com.android.messaging.ui.contact.ContactPickerFragment.ContactPickerFragmentHost;
 
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Unit tests for {@link ContactPickerFragment}.

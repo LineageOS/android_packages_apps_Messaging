@@ -17,8 +17,9 @@
 package com.android.messaging.ui.attachmentchooser;
 
 import android.app.Fragment;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.widget.CheckBox;
+
+import androidx.test.filters.LargeTest;
 
 import com.android.messaging.FakeFactory;
 import com.android.messaging.R;
@@ -28,11 +29,7 @@ import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.TestDataFactory;
 import com.android.messaging.ui.FragmentTestCase;
-import com.android.messaging.ui.TestActivity;
 import com.android.messaging.ui.TestActivity.FragmentEventListener;
-import com.android.messaging.ui.attachmentchooser.AttachmentChooserFragment;
-import com.android.messaging.ui.attachmentchooser.AttachmentGridItemView;
-import com.android.messaging.ui.attachmentchooser.AttachmentGridView;
 import com.android.messaging.ui.attachmentchooser.AttachmentChooserFragment.AttachmentChooserFragmentHost;
 import com.android.messaging.ui.conversationlist.ConversationListFragment;
 
@@ -45,7 +42,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 /**
  * Unit tests for {@link ConversationListFragment}.

@@ -1,4 +1,4 @@
-//  Copyright (C) 2023 The Android Open Source Project
+//  Copyright (C) 2015 The Android Open Source Project
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -29,7 +29,10 @@ android_test {
     sdk_version: "current",
     test_suites: ["general-tests"],
     certificate: "platform",
-    static_libs: ["mockito-target"],
+    static_libs: [
+        "mockito-target",
+        "androidx.test.rules",
+    ],
     libs: [
         "android.test.mock.stubs",
         "android.test.runner.stubs",

@@ -21,9 +21,9 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Process;
-import android.test.suitebuilder.annotation.MediumTest;
 import android.util.Log;
+
+import androidx.test.filters.MediumTest;
 
 import com.android.messaging.Factory;
 import com.android.messaging.FakeContext;

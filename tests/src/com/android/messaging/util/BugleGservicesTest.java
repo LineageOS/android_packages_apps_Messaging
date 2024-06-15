@@ -15,7 +15,7 @@
  */
 package com.android.messaging.util;
 
-import android.test.suitebuilder.annotation.SmallTest;
+import androidx.test.filters.SmallTest;
 
 import com.android.messaging.BugleTestCase;
 
