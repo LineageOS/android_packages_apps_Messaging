@@ -349,6 +349,18 @@ public class UiUtils {
                 phoneUtils.isDefaultSmsApp();
     }
 
+    /**
+     * Called to check if a message or conversation can be deleted - it needs to be the default
+     * sms app
+     * @return true if all conditions are nominal and we're ready to delete a message
+     */
+    public static boolean isReadyForDeleteAction() {
+        final PhoneUtils phoneUtils = PhoneUtils.getDefault();
+
+        // Is the default sms app?
+        return phoneUtils.isDefaultSmsApp();
+    }
+
     /*
      * Removes all html markup from the text and replaces links with the the text and a text version
      * of the href.
