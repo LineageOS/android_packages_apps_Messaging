@@ -819,7 +819,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 return true;
 
             case R.id.action_delete:
-                if (isReadyForAction()) {
+                if (isReadyForDeleteAction()) {
                     new AlertDialog.Builder(getActivity())
                             .setTitle(getResources().getQuantityString(
                                     R.plurals.delete_conversations_confirmation_dialog_title, 1))
@@ -1073,6 +1073,10 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         return UiUtils.isReadyForAction();
     }
 
+    public boolean isReadyForDeleteAction() {
+        return UiUtils.isReadyForDeleteAction();
+    }
+
     /**
      * When there's some condition that prevents an operation, such as sending a message,
      * call warnOfMissingActionConditions to put up a snackbar and allow the user to repair
@@ -1142,7 +1146,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     }
 
     void deleteMessage(final String messageId) {
-        if (isReadyForAction()) {
+        if (isReadyForDeleteAction()) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.delete_message_confirmation_dialog_title)
                     .setMessage(R.string.delete_message_confirmation_dialog_text)
@@ -1178,7 +1182,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     }
 
     public void deleteConversation() {
-        if (isReadyForAction()) {
+        if (isReadyForDeleteAction()) {
             final Context context = getActivity();
             mBinding.getData().deleteConversation(mBinding);
             closeConversation(mConversationId);
