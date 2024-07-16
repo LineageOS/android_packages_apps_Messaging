@@ -16,8 +16,8 @@
 package com.android.messaging.ui.photoviewer;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.rastermill.FrameSequenceDrawable;
 import androidx.loader.content.Loader;
 
 import com.android.ex.photo.PhotoViewCallbacks;
@@ -75,15 +75,15 @@ public class BuglePhotoViewFragment extends PhotoViewFragment {
 
     private void stopGif() {
         final Drawable drawable = getDrawable();
-        if (drawable != null && drawable instanceof FrameSequenceDrawable) {
-            ((FrameSequenceDrawable) drawable).stop();
+        if (drawable != null && drawable instanceof AnimatedImageDrawable) {
+            ((AnimatedImageDrawable) drawable).stop();
         }
     }
 
     private void startGif() {
         final Drawable drawable = getDrawable();
-        if (drawable != null && drawable instanceof FrameSequenceDrawable) {
-            ((FrameSequenceDrawable) drawable).start();
+        if (drawable != null && drawable instanceof AnimatedImageDrawable) {
+            ((AnimatedImageDrawable) drawable).start();
         }
     }
 }
