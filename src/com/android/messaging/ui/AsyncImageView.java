@@ -22,10 +22,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
-import android.support.rastermill.FrameSequenceDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.ImageView;
@@ -194,8 +194,8 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
             mImageResource = resource;
             mImageResource.addRef();
             setImageDrawable(drawable);
-            if (drawable instanceof FrameSequenceDrawable) {
-                ((FrameSequenceDrawable) drawable).start();
+            if (drawable instanceof AnimatedImageDrawable) {
+                ((AnimatedImageDrawable) drawable).start();
             }
 
             if (getVisibility() == VISIBLE) {
@@ -249,9 +249,8 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
 
     private void releaseImageResource() {
         final Drawable drawable = getDrawable();
-        if (drawable instanceof FrameSequenceDrawable) {
-            ((FrameSequenceDrawable) drawable).stop();
-            ((FrameSequenceDrawable) drawable).destroy();
+        if (drawable instanceof AnimatedImageDrawable) {
+            ((AnimatedImageDrawable) drawable).stop();
         }
         if (mImageResource != null) {
             mImageResource.release();
