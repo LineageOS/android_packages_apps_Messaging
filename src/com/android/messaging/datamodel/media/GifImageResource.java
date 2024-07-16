@@ -17,47 +17,47 @@ package com.android.messaging.datamodel.media;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
-import android.support.rastermill.FrameSequence;
-import android.support.rastermill.FrameSequenceDrawable;
 
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class GifImageResource extends ImageResource {
-    private FrameSequence mFrameSequence;
+    private ImageDecoder.Source mImageDecoderSource;
 
-    public GifImageResource(String key, FrameSequence frameSequence) {
+    public GifImageResource(String key, ImageDecoder.Source imageDecoderSource) {
         // GIF does not support exif tags
         super(key, ExifInterface.ORIENTATION_NORMAL);
-        mFrameSequence = frameSequence;
+        mImageDecoderSource = imageDecoderSource;
     }
 
     public static GifImageResource createGifImageResource(String key, InputStream inputStream) {
-        final FrameSequence frameSequence;
+        final byte[] bytes;
         try {
-            frameSequence = FrameSequence.decodeStream(inputStream);
-        } finally {
-            try {
-                inputStream.close();
-            } catch (IOException e) {
-                // Nothing to do if we fail closing the stream
-            }
-        }
-        if (frameSequence == null) {
+            bytes = inputStream.readAllBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
-        return new GifImageResource(key, frameSequence);
+
+        // prepare mImageDecoderSource
+        final ImageDecoder imageDecoder;
+        ImageDecoder.Source source = ImageDecoder.createSource(bytes);
+        if (source == null) {
+            return null;
+        }
+        return new GifImageResource(key, source);
     }
 
     @Override
     public Drawable getDrawable(Resources resources) {
         try {
-            return new FrameSequenceDrawable(mFrameSequence);
+            return (AnimatedImageDrawable) ImageDecoder.decodeDrawable(mImageDecoderSource);
         } catch (final Throwable t) {
             // Malicious gif images can make the platform throw different kind of throwables, such
             // as OutOfMemoryError and NullPointerException. Catch them all.
@@ -85,9 +85,6 @@ public class GifImageResource extends ImageResource {
 
     @Override
     public boolean supportsBitmapReuse() {
-        // FrameSequenceDrawable a.) takes two bitmaps and thus does not fit into the current
-        // bitmap pool architecture b.) will rarely use bitmaps from one FrameSequenceDrawable to
-        // the next that are the same sizes since they are used by attachments.
         return false;
     }
 
@@ -107,12 +104,11 @@ public class GifImageResource extends ImageResource {
     protected void close() {
         acquireLock();
         try {
-            if (mFrameSequence != null) {
-                mFrameSequence = null;
+            if (mImageDecoderSource != null) {
+                mImageDecoderSource = null;
             }
         } finally {
             releaseLock();
         }
     }
-
 }

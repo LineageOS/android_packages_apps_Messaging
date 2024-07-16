@@ -18,7 +18,6 @@ package com.android.messaging.ui.photoviewer;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.rastermill.FrameSequenceDrawable;
 import androidx.loader.content.AsyncTaskLoader;
 
 import com.android.ex.photo.PhotoViewController;
@@ -91,7 +90,6 @@ public class BuglePhotoBitmapLoader extends AsyncTaskLoader<BitmapResult>
         final Drawable drawable = result != null ? result.drawable : null;
         if (isReset()) {
             // An async query came in while the loader is stopped. We don't need the result.
-            releaseDrawable(drawable);
             return;
         }
 
@@ -140,11 +138,6 @@ public class BuglePhotoBitmapLoader extends AsyncTaskLoader<BitmapResult>
     @Override
     public void onCanceled(BitmapResult result) {
         super.onCanceled(result);
-
-        // At this point we can release the resources associated with 'drawable' if needed.
-        if (result != null) {
-            releaseDrawable(result.drawable);
-        }
     }
 
     /**
@@ -160,14 +153,6 @@ public class BuglePhotoBitmapLoader extends AsyncTaskLoader<BitmapResult>
         releaseImageResource();
     }
 
-    private void releaseDrawable(Drawable drawable) {
-        if (drawable != null && drawable instanceof FrameSequenceDrawable
-                && !((FrameSequenceDrawable) drawable).isDestroyed()) {
-            ((FrameSequenceDrawable) drawable).destroy();
-        }
-
-    }
-
     private void setImageResource(final ImageResource resource) {
         if (mImageResource != resource) {
             // Clear out any information for what is currently used
@@ -181,7 +166,6 @@ public class BuglePhotoBitmapLoader extends AsyncTaskLoader<BitmapResult>
     private void releaseImageResource() {
         // If we are getting rid of the imageResource backing the drawable, we must also
         // destroy the drawable before releasing it.
-        releaseDrawable(mDrawable);
         mDrawable = null;
 
         if (mImageResource != null) {
