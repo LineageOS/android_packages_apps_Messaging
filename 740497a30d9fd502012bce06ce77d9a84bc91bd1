@@ -16,6 +16,24 @@
       "message": "It looks like these temporary files never get deleted...? Or am I missing it?\n\nA ByteArrayOutputStream could possibly be used instead. ImageDecoder has createSource methods for byte arrays.",
       "revId": "740497a30d9fd502012bce06ce77d9a84bc91bd1",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "827688f6_274fcfc6",
+        "filename": "src/com/android/messaging/datamodel/media/GifImageResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 31604
+      },
+      "writtenOn": "2024-09-09T19:44:19Z",
+      "side": 1,
+      "message": "(Or just read all to bytes and use that.)",
+      "parentUuid": "5eb5bed6_903ec981",
+      "revId": "740497a30d9fd502012bce06ce77d9a84bc91bd1",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
