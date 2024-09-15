@@ -17,4 +17,5 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
     <string name="swipe_to_delete_conversation_pref_summary">Deslize a la derecha para borrar una conversación</string>
+    <string name="notification_channel_messages_title">Mensajes</string>
 </resources>
