@@ -66,7 +66,7 @@ public class ChangeDefaultSmsAppHelper {
 
         // Is the default sms app?
         } else if (!isDefaultSmsApp) {
-            mChangeSmsAppSettingRunnable = new ChangeSmsAppSettingRunnable(activity, fragment);
+            mChangeSmsAppSettingRunnable = new ChangeSmsAppSettingRunnable(activity);
             promptToChangeDefaultSmsApp(sending, runAfterMadeDefault,
                     composeView, rootView, activity);
         }
@@ -104,22 +104,16 @@ public class ChangeDefaultSmsAppHelper {
 
     private class ChangeSmsAppSettingRunnable implements Runnable {
         private final Activity mActivity;
-        private final Fragment mFragment;
 
-        public ChangeSmsAppSettingRunnable(final Activity activity, final Fragment fragment) {
+        public ChangeSmsAppSettingRunnable(final Activity activity) {
             mActivity = activity;
-            mFragment = fragment;
         }
 
         @Override
         public void run() {
             try {
                 final Intent intent = UIIntents.get().getChangeDefaultSmsAppIntent(mActivity);
-                if (mFragment != null) {
-                    mFragment.startActivityForResult(intent, REQUEST_SET_DEFAULT_SMS_APP);
-                } else {
-                    mActivity.startActivityForResult(intent, REQUEST_SET_DEFAULT_SMS_APP);
-                }
+                mActivity.startActivityForResult(intent, REQUEST_SET_DEFAULT_SMS_APP);
             } catch (final ActivityNotFoundException ex) {
                 // We shouldn't get here, but the monkey on JB MR0 can trigger it.
                 LogUtil.w(LogUtil.BUGLE_TAG, "Couldn't find activity:", ex);
@@ -153,5 +147,3 @@ public class ChangeDefaultSmsAppHelper {
         }
     }
 }
-
-

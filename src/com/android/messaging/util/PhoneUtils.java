@@ -16,6 +16,7 @@
 
 package com.android.messaging.util;
 
+import android.app.role.RoleManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -897,8 +898,9 @@ public abstract class PhoneUtils {
      */
     public boolean isDefaultSmsApp() {
         if (OsUtil.isAtLeastKLP()) {
-            final String configuredApplication = Telephony.Sms.getDefaultSmsPackage(mContext);
-            return  mContext.getPackageName().equals(configuredApplication);
+            RoleManager roleManager = mContext.getSystemService(RoleManager.class);
+            return roleManager.isRoleAvailable(RoleManager.ROLE_SMS)
+                    && roleManager.isRoleHeld(RoleManager.ROLE_SMS);
         }
         return true;
     }
