@@ -68,12 +68,8 @@ class DefaultCarrierConfigValuesLoader implements CarrierConfigValuesLoader {
     }
 
     private void loadLocked(final int subId, final Bundle values) {
-        // For K and earlier, load from resources
         loadFromResources(subId, values);
-        if (Utils.hasMmsApi()) {
-            // For L and later, also load from system MMS service
-            loadFromSystem(subId, values);
-        }
+        loadFromSystem(subId, values);
     }
 
     /**

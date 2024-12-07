@@ -519,27 +519,21 @@ public class ContactUtil {
      * Returns if a given contact id belongs to managed profile.
      */
     public static boolean isEnterpriseContactId(final long contactId) {
-        return OsUtil.isAtLeastL() && ContactsContract.Contacts.isEnterpriseContactId(contactId);
+        return ContactsContract.Contacts.isEnterpriseContactId(contactId);
     }
 
     /**
      * Returns Email lookup uri that will query both primary and corp profile
      */
     private static Uri getEmailContentLookupUri() {
-        if (OsUtil.isAtLeastM()) {
-            return Email.ENTERPRISE_CONTENT_LOOKUP_URI;
-        }
-        return Email.CONTENT_LOOKUP_URI;
+        return Email.ENTERPRISE_CONTENT_LOOKUP_URI;
     }
 
     /**
      * Returns PhoneLookup URI.
      */
     public static Uri getPhoneLookupUri() {
-        if (OsUtil.isAtLeastM()) {
-            return PhoneLookup.ENTERPRISE_CONTENT_FILTER_URI;
-        }
-        return PhoneLookup.CONTENT_FILTER_URI;
+        return PhoneLookup.ENTERPRISE_CONTENT_FILTER_URI;
     }
 
     public static boolean hasReadContactsPermission() {

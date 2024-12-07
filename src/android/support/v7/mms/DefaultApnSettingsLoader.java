@@ -286,7 +286,7 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
      */
     private void loadFromSystem(final int subId, final String apnName, final List<Apn> apns) {
         Uri uri;
-        if (Utils.supportMSim() && subId != MmsManager.DEFAULT_SUB_ID) {
+        if (subId != MmsManager.DEFAULT_SUB_ID) {
             uri = Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "/subId/" + subId);
         } else {
             uri = Telephony.Carriers.CONTENT_URI;

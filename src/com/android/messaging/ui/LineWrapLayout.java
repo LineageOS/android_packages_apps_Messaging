@@ -22,9 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.android.messaging.util.OsUtil;
-import com.android.messaging.util.UiUtils;
-
 import java.util.ArrayList;
 
 /**
@@ -43,8 +40,8 @@ public class LineWrapLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int startPadding = UiUtils.getPaddingStart(this);
-        final int endPadding = UiUtils.getPaddingEnd(this);
+        final int startPadding = getPaddingStart();
+        final int endPadding = getPaddingEnd();
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec) - startPadding - endPadding;
         final boolean isFixedSize = (widthMode == MeasureSpec.EXACTLY);
@@ -96,8 +93,8 @@ public class LineWrapLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        final int startPadding = UiUtils.getPaddingStart(this);
-        final int endPadding = UiUtils.getPaddingEnd(this);
+        final int startPadding = getPaddingStart();
+        final int endPadding = getPaddingEnd();
         int width = getWidth() - startPadding - endPadding;
         int y = getPaddingTop();
         int x = startPadding;
@@ -171,7 +168,7 @@ public class LineWrapLayout extends ViewGroup {
                 }
             }
 
-            if (OsUtil.isAtLeastJB_MR2() && getResources().getConfiguration()
+            if (getResources().getConfiguration()
                     .getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
                 currChild.layout(width - startPositionX - childWidth, startPositionY,
                         width - startPositionX, startPositionY + childHeight);
@@ -214,19 +211,11 @@ public class LineWrapLayout extends ViewGroup {
         }
 
         public int getStartMargin() {
-            if (OsUtil.isAtLeastJB_MR2()) {
-                return getMarginStart();
-            } else {
-                return leftMargin;
-            }
+            return getMarginStart();
         }
 
         public int getEndMargin() {
-            if (OsUtil.isAtLeastJB_MR2()) {
-                return getMarginEnd();
-            } else {
-                return rightMargin;
-            }
+            return getMarginEnd();
         }
     }
 }

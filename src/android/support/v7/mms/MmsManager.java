@@ -175,7 +175,7 @@ public class MmsManager {
      * @return true if forced to use legacy APIs or platform doesn't supports MMS APIs.
      */
     public static boolean shouldUseLegacyMms() {
-        return sForceLegacyMms || !Utils.hasMmsApi();
+        return sForceLegacyMms;
     }
 
     /**
@@ -187,10 +187,6 @@ public class MmsManager {
      * @return a Bundle containing the overrides
      */
     private static Bundle getConfigOverrides(final int subId) {
-        if (!Utils.hasMmsApi()) {
-            // If MMS API is not present, it is not necessary to compute overrides
-            return null;
-        }
         Bundle overrides = null;
         synchronized (sConfigOverridesMap) {
             overrides = sConfigOverridesMap.get(subId);
