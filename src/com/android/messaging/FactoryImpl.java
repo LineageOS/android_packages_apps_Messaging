@@ -197,31 +197,19 @@ class FactoryImpl extends Factory {
 
     @Override
     public PhoneUtils getPhoneUtils(int subId) {
-        if (OsUtil.isAtLeastL_MR1()) {
-            if (subId == ParticipantData.DEFAULT_SELF_SUB_ID) {
-                subId = SmsManager.getDefaultSmsSubscriptionId();
-            }
-            if (subId < 0) {
-                LogUtil.w(LogUtil.BUGLE_TAG, "PhoneUtils.getForLMR1(): invalid subId = " + subId);
-                subId = ParticipantData.DEFAULT_SELF_SUB_ID;
-            }
-            PhoneUtils instance = sPhoneUtilsInstanceCacheLMR1.get(subId);
-            if (instance == null) {
-                instance = new PhoneUtils.PhoneUtilsLMR1(subId);
-                sPhoneUtilsInstanceCacheLMR1.putIfAbsent(subId, instance);
-            }
-            return instance;
-        } else {
-            Assert.isTrue(subId == ParticipantData.DEFAULT_SELF_SUB_ID);
-            if (sPhoneUtilsInstancePreLMR1 == null) {
-                synchronized (PHONEUTILS_INSTANCE_LOCK) {
-                    if (sPhoneUtilsInstancePreLMR1 == null) {
-                        sPhoneUtilsInstancePreLMR1 = new PhoneUtils.PhoneUtilsPreLMR1();
-                    }
-                }
-            }
-            return sPhoneUtilsInstancePreLMR1;
+        if (subId == ParticipantData.DEFAULT_SELF_SUB_ID) {
+            subId = SmsManager.getDefaultSmsSubscriptionId();
         }
+        if (subId < 0) {
+            LogUtil.w(LogUtil.BUGLE_TAG, "PhoneUtils.getForLMR1(): invalid subId = " + subId);
+            subId = ParticipantData.DEFAULT_SELF_SUB_ID;
+        }
+        PhoneUtils instance = sPhoneUtilsInstanceCacheLMR1.get(subId);
+        if (instance == null) {
+            instance = new PhoneUtils.PhoneUtilsLMR1(subId);
+            sPhoneUtilsInstanceCacheLMR1.putIfAbsent(subId, instance);
+        }
+        return instance;
     }
 
     @Override

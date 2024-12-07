@@ -44,8 +44,7 @@ public final class Trace {
     static {
         // Use android.util.Log instead of LogUtil here to avoid pulling in Gservices
         // too early in app startup.
-        if (OsUtil.isAtLeastJB_MR2() &&
-                android.util.Log.isLoggable(TAG, android.util.Log.VERBOSE)) {
+        if (android.util.Log.isLoggable(TAG, android.util.Log.VERBOSE)) {
             sTrace = new TraceJBMR2();
         } else {
             sTrace = new TraceShim();
