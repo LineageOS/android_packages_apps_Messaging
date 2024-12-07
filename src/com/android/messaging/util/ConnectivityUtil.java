@@ -50,7 +50,6 @@ public class ConnectivityUtil {
     }
 
     public ConnectivityUtil(final Context context, final int subId) {
-        Assert.isTrue(OsUtil.isAtLeastN());
         mTelephonyManager =
                 ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE))
                         .createForSubscriptionId(subId);

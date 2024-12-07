@@ -32,7 +32,7 @@
         android:title="@string/sms_enabled_pref_title"
         android:persistent="false">
         <intent
-            android:action="android.settings.WIRELESS_SETTINGS">
+            android:action="android.provider.Telephony.ACTION_CHANGE_DEFAULT">
         </intent>
     </PreferenceScreen>
 

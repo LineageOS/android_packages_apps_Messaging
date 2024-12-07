@@ -34,7 +34,6 @@ import com.android.messaging.mmslib.SqliteWrapper;
 import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 
 import java.net.URI;
@@ -384,7 +383,7 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
      */
     private void loadFromSystem(final int subId, final String apnName, final List<Apn> apns) {
         Uri uri;
-        if (OsUtil.isAtLeastL_MR1() && subId != MmsManager.DEFAULT_SUB_ID) {
+        if (subId != MmsManager.DEFAULT_SUB_ID) {
             uri = Uri.withAppendedPath(Telephony.Carriers.CONTENT_URI, "/subId/" + subId);
         } else {
             uri = Telephony.Carriers.CONTENT_URI;

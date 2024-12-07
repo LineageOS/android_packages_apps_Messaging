@@ -36,7 +36,6 @@ import com.android.messaging.datamodel.data.ConversationMessageData;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.widget.BugleWidgetProvider;
 import com.android.messaging.widget.WidgetConversationProvider;
@@ -448,11 +447,7 @@ public class MessagingContentProvider extends ContentProvider {
         // First dump out the default SMS app package name
         String defaultSmsApp = PhoneUtils.getDefault().getDefaultSmsApp();
         if (TextUtils.isEmpty(defaultSmsApp)) {
-            if (OsUtil.isAtLeastKLP()) {
-                defaultSmsApp = "None";
-            } else {
-                defaultSmsApp = "None (pre-Kitkat)";
-            }
+            defaultSmsApp = "None";
         }
         writer.println("Default SMS app: " + defaultSmsApp);
         // Now dump logs

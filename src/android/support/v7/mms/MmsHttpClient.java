@@ -392,17 +392,13 @@ public class MmsHttpClient {
      * @return the phone number text
      */
     private String getSelfNumber() {
-        if (Utils.supportMSim()) {
-            final SubscriptionManager subscriptionManager = SubscriptionManager.from(mContext);
-            final SubscriptionInfo info = subscriptionManager.getActiveSubscriptionInfo(
-                    SmsManager.getDefaultSmsSubscriptionId());
-            if (info != null) {
-                return info.getNumber();
-            } else {
-                return null;
-            }
+        final SubscriptionManager subscriptionManager = SubscriptionManager.from(mContext);
+        final SubscriptionInfo info = subscriptionManager.getActiveSubscriptionInfo(
+                SmsManager.getDefaultSmsSubscriptionId());
+        if (info != null) {
+            return info.getNumber();
         } else {
-            return mTelephonyManager.getLine1Number();
+            return null;
         }
     }
 
@@ -413,15 +409,11 @@ public class MmsHttpClient {
      */
     private String getSimOrLocaleCountry() {
         String country = null;
-        if (Utils.supportMSim()) {
-            final SubscriptionManager subscriptionManager = SubscriptionManager.from(mContext);
-            final SubscriptionInfo info = subscriptionManager.getActiveSubscriptionInfo(
-                    SmsManager.getDefaultSmsSubscriptionId());
-            if (info != null) {
-                country = info.getCountryIso();
-            }
-        } else {
-            country = mTelephonyManager.getSimCountryIso();
+        final SubscriptionManager subscriptionManager = SubscriptionManager.from(mContext);
+        final SubscriptionInfo info = subscriptionManager.getActiveSubscriptionInfo(
+                SmsManager.getDefaultSmsSubscriptionId());
+        if (info != null) {
+            country = info.getCountryIso();
         }
         if (!TextUtils.isEmpty(country)) {
             return country.toUpperCase();
@@ -439,13 +431,8 @@ public class MmsHttpClient {
      * @return the Base64 encoded NAI string to use as HTTP header
      */
     private String getEncodedNai(final String naiSuffix) {
-        String nai;
-        if (Utils.supportMSim()) {
-            nai = getNaiBySystemApi(
-                    getSlotId(Utils.getEffectiveSubscriptionId(MmsManager.DEFAULT_SUB_ID)));
-        } else {
-            nai = getNaiBySystemProperty();
-        }
+        String nai = getNaiBySystemApi(
+                getSlotId(Utils.getEffectiveSubscriptionId(MmsManager.DEFAULT_SUB_ID)));
         if (!TextUtils.isEmpty(nai)) {
             Log.i(MmsService.TAG, "NAI is not empty");
             if (!TextUtils.isEmpty(naiSuffix)) {
