@@ -37,11 +37,9 @@ import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.mmslib.pdu.CharacterSets;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaMetadataRetrieverWrapper;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.google.common.collect.Lists;
 
@@ -119,12 +117,6 @@ public class DatabaseMessages {
                     };
                 if (!MmsUtils.hasSmsDateSentColumn()) {
                     projection[INDEX_DATE_SENT] = Sms.DATE;
-                }
-                if (!OsUtil.isAtLeastL_MR1()) {
-                    Assert.equals(INDEX_SUB_ID, projection.length - 1);
-                    String[] withoutSubId = new String[projection.length - 1];
-                    System.arraycopy(projection, 0, withoutSubId, 0, withoutSubId.length);
-                    projection = withoutSubId;
                 }
 
                 sProjection = projection;
@@ -306,13 +298,6 @@ public class DatabaseMessages {
                     Mms.RETRIEVE_STATUS,
                     Mms.SUBSCRIPTION_ID,
                 };
-
-                if (!OsUtil.isAtLeastL_MR1()) {
-                    Assert.equals(INDEX_SUB_ID, projection.length - 1);
-                    String[] withoutSubId = new String[projection.length - 1];
-                    System.arraycopy(projection, 0, withoutSubId, 0, withoutSubId.length);
-                    projection = withoutSubId;
-                }
 
                 sProjection = projection;
             }
@@ -722,11 +707,6 @@ public class DatabaseMessages {
          * Load video file of a video part and parse the dimensions and type
          */
         private void loadVideo() {
-            // This is a coarse check, and should not be applied to outgoing messages. However,
-            // currently, this does not cause any problems.
-            if (!VideoThumbnailRequest.shouldShowIncomingVideoThumbnails()) {
-                return;
-            }
             final Uri uri = getDataUri();
             final MediaMetadataRetrieverWrapper retriever = new MediaMetadataRetrieverWrapper();
             try {
