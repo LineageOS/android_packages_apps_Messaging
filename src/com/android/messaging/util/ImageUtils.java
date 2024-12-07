@@ -174,11 +174,7 @@ public class ImageUtils {
      */
     @SuppressWarnings("deprecation")
     public static void setBackgroundDrawableOnView(final View view, final Drawable drawable) {
-        if (OsUtil.isAtLeastJB()) {
-            view.setBackground(drawable);
-        } else {
-            view.setBackgroundDrawable(drawable);
-        }
+        view.setBackground(drawable);
     }
 
     /**
