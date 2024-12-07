@@ -26,7 +26,6 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 
-import com.android.messaging.BugleApplication;
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationParticipantsColumns;
@@ -35,7 +34,6 @@ import com.android.messaging.datamodel.data.ConversationListItemData;
 import com.android.messaging.datamodel.data.ConversationMessageData;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
@@ -242,12 +240,6 @@ public class MessagingContentProvider extends ContentProvider {
 
     public MessagingContentProvider() {
         super();
-    }
-
-    @VisibleForTesting
-    public void setDatabaseForTest(final DatabaseWrapper db) {
-        Assert.isTrue(BugleApplication.isRunningTests());
-        mDatabaseWrapper = db;
     }
 
     private DatabaseWrapper getDatabaseWrapper() {
