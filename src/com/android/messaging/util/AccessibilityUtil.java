@@ -73,8 +73,7 @@ public class AccessibilityUtil {
         }
 
         // Jelly Bean added support for speaking text verbatim
-        final int eventType = OsUtil.isAtLeastJB() ? AccessibilityEvent.TYPE_ANNOUNCEMENT
-                : AccessibilityEvent.TYPE_VIEW_FOCUSED;
+        final int eventType = AccessibilityEvent.TYPE_ANNOUNCEMENT;
 
         // Construct an accessibility event with the minimum recommended
         // attributes. An event without a class name or package may be dropped.
@@ -101,11 +100,7 @@ public class AccessibilityUtil {
      * @return boolean Boolean indicating whether the currently locale is RTL.
      */
     public static boolean isLayoutRtl(final View view) {
-        if (OsUtil.isAtLeastJB_MR1()) {
-            return View.LAYOUT_DIRECTION_RTL == view.getLayoutDirection();
-        } else {
-            return false;
-        }
+        return View.LAYOUT_DIRECTION_RTL == view.getLayoutDirection();
     }
 
     public static String getVocalizedPhoneNumber(final Resources res, final String phoneNumber) {
