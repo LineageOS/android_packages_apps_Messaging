@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2024 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,9 +21,10 @@
         <item name="android:colorEdgeEffect">@color/conversation_edge_effect</item>
     </style>
 
-    <style name="BugleTheme.DialogActivity" parent="@style/Theme.AppCompat.Light.Dialog">
+    <style name="BugleTheme.DialogActivity" parent="@style/Theme.AppCompat.DayNight.Dialog">
         <item name="android:windowNoTitle">false</item>
-        <item name="android:background">@android:color/white</item>
+        <item name="android:background">@color/window_background</item>
+        <item name="android:dialogCornerRadius">28dp</item>
     </style>
 
     <style name="ContactListItemDrawableIndicator">
