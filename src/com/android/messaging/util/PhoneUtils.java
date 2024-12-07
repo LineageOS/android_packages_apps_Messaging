@@ -17,11 +17,11 @@
 package com.android.messaging.util;
 
 import android.app.role.RoleManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.ApplicationInfoFlags;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
@@ -35,7 +35,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
 import androidx.collection.ArrayMap;
-import androidx.core.os.BuildCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -371,21 +370,8 @@ public abstract class PhoneUtils {
         }
 
         @Override
-        @SuppressWarnings("deprecation")
         public boolean isDataRoamingEnabled() {
-            if (BuildCompat.isAtLeastT()) {
-                return mTelephonyManager.isDataRoamingEnabled();
-            }
-            boolean dataRoamingEnabled = false;
-            final ContentResolver cr = mContext.getContentResolver();
-            if (OsUtil.isAtLeastJB_MR1()) {
-                dataRoamingEnabled =
-                        (Settings.Global.getInt(cr, Settings.Global.DATA_ROAMING, 0) != 0);
-            } else {
-                dataRoamingEnabled =
-                        (Settings.System.getInt(cr, Settings.System.DATA_ROAMING, 0) != 0);
-            }
-            return dataRoamingEnabled;
+            return mTelephonyManager.isDataRoamingEnabled();
         }
 
         @Override
@@ -660,12 +646,7 @@ public abstract class PhoneUtils {
     }
 
     public LMr1 toLMr1() {
-        if (OsUtil.isAtLeastL_MR1()) {
-            return (LMr1) this;
-        } else {
-            Assert.fail("PhoneUtils.toLMr1(): invalid OS version");
-            return null;
-        }
+        return (LMr1) this;
     }
 
     /**
@@ -897,12 +878,9 @@ public abstract class PhoneUtils {
      * - On JB (and below) this always returns true, since the setting was added in KLP.
      */
     public boolean isDefaultSmsApp() {
-        if (OsUtil.isAtLeastKLP()) {
-            RoleManager roleManager = mContext.getSystemService(RoleManager.class);
-            return roleManager.isRoleAvailable(RoleManager.ROLE_SMS)
-                    && roleManager.isRoleHeld(RoleManager.ROLE_SMS);
-        }
-        return true;
+        RoleManager roleManager = mContext.getSystemService(RoleManager.class);
+        return roleManager.isRoleAvailable(RoleManager.ROLE_SMS)
+                && roleManager.isRoleHeld(RoleManager.ROLE_SMS);
     }
 
     /**
@@ -911,10 +889,7 @@ public abstract class PhoneUtils {
      * @return the package name of default SMS app
      */
     public String getDefaultSmsApp() {
-        if (OsUtil.isAtLeastKLP()) {
-            return Telephony.Sms.getDefaultSmsPackage(mContext);
-        }
-        return null;
+        return Telephony.Sms.getDefaultSmsPackage(mContext);
     }
 
     /**
@@ -931,15 +906,14 @@ public abstract class PhoneUtils {
      * an error or there is no default app (e.g. JB and below).
      */
     public String getDefaultSmsAppLabel() {
-        if (OsUtil.isAtLeastKLP()) {
-            final String packageName = Telephony.Sms.getDefaultSmsPackage(mContext);
-            final PackageManager pm = mContext.getPackageManager();
-            try {
-                final ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
-                return pm.getApplicationLabel(appInfo).toString();
-            } catch (NameNotFoundException e) {
-                // Fall through and return empty string
-            }
+        final String packageName = Telephony.Sms.getDefaultSmsPackage(mContext);
+        final PackageManager pm = mContext.getPackageManager();
+        try {
+            final ApplicationInfo appInfo = pm.getApplicationInfo(packageName,
+                    ApplicationInfoFlags.of(0));
+            return pm.getApplicationLabel(appInfo).toString();
+        } catch (NameNotFoundException e) {
+            // Fall through and return empty string
         }
         return "";
     }
@@ -949,15 +923,9 @@ public abstract class PhoneUtils {
      *
      * @return true if enabled.
      */
-    @SuppressWarnings("deprecation")
     public boolean isAirplaneModeOn() {
-        if (OsUtil.isAtLeastJB_MR1()) {
-            return Settings.Global.getInt(mContext.getContentResolver(),
-                    Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-        } else {
-            return Settings.System.getInt(mContext.getContentResolver(),
-                    Settings.System.AIRPLANE_MODE_ON, 0) != 0;
-        }
+        return Settings.Global.getInt(mContext.getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
 
     public static String getMccMncString(int[] mccmnc) {
@@ -995,14 +963,10 @@ public abstract class PhoneUtils {
      * @param runnable a {@link SubscriptionRunnable} for performing work on each subscription.
      */
     public static void forEachActiveSubscription(final SubscriptionRunnable runnable) {
-        if (OsUtil.isAtLeastL_MR1()) {
-            final List<SubscriptionInfo> subscriptionList =
-                    getDefault().toLMr1().getActiveSubscriptionInfoList();
-            for (final SubscriptionInfo subscriptionInfo : subscriptionList) {
-                runnable.runForSubscription(subscriptionInfo.getSubscriptionId());
-            }
-        } else {
-            runnable.runForSubscription(ParticipantData.DEFAULT_SELF_SUB_ID);
+        final List<SubscriptionInfo> subscriptionList =
+                getDefault().toLMr1().getActiveSubscriptionInfoList();
+        for (final SubscriptionInfo subscriptionInfo : subscriptionList) {
+            runnable.runForSubscription(subscriptionInfo.getSubscriptionId());
         }
     }
 

@@ -261,56 +261,18 @@ public class UiUtils {
     }
 
     public static void setStatusBarColor(final Activity activity, final int color) {
-        if (OsUtil.isAtLeastL()) {
-            // To achieve the appearance of an 80% opacity blend against a black background,
-            // each color channel is reduced in value by 20%.
-            final int blendedRed = (int) Math.floor(0.8 * Color.red(color));
-            final int blendedGreen = (int) Math.floor(0.8 * Color.green(color));
-            final int blendedBlue = (int) Math.floor(0.8 * Color.blue(color));
+        // To achieve the appearance of an 80% opacity blend against a black background,
+        // each color channel is reduced in value by 20%.
+        final int blendedRed = (int) Math.floor(0.8 * Color.red(color));
+        final int blendedGreen = (int) Math.floor(0.8 * Color.green(color));
+        final int blendedBlue = (int) Math.floor(0.8 * Color.blue(color));
 
-            activity.getWindow().setStatusBarColor(
-                    Color.rgb(blendedRed, blendedGreen, blendedBlue));
-        }
-    }
-
-    public static void lockOrientation(final Activity activity) {
-        final int orientation = activity.getResources().getConfiguration().orientation;
-        final int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-
-        // rotation tracks the rotation of the device from its natural orientation
-        // orientation tracks whether the screen is landscape or portrait.
-        // It is possible to have a rotation of 0 (device in its natural orientation) in portrait
-        // (phone), or in landscape (tablet), so we have to check both values to determine what to
-        // pass to setRequestedOrientation.
-        if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_90) {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            }
-        } else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-            }
-        }
-    }
-
-    public static void unlockOrientation(final Activity activity) {
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-    }
-
-    public static int getPaddingStart(final View view) {
-        return OsUtil.isAtLeastJB_MR1() ? view.getPaddingStart() : view.getPaddingLeft();
-    }
-
-    public static int getPaddingEnd(final View view) {
-        return OsUtil.isAtLeastJB_MR1() ? view.getPaddingEnd() : view.getPaddingRight();
+        activity.getWindow().setStatusBarColor(
+                Color.rgb(blendedRed, blendedGreen, blendedBlue));
     }
 
     public static boolean isRtlMode() {
-        return OsUtil.isAtLeastJB_MR2() && Factory.get().getApplicationContext().getResources()
+        return Factory.get().getApplicationContext().getResources()
                 .getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 

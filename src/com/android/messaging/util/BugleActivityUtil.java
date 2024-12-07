@@ -62,10 +62,6 @@ public class BugleActivityUtil {
      * @return true if the user has SMS permissions, otherwise false.
      */
     private static boolean checkHasSmsPermissionsForUser(Context context, Activity activity) {
-        if (!OsUtil.isAtLeastL()) {
-            // UserManager.DISALLOW_SMS added in L. No multiuser phones before this
-            return true;
-        }
         UserManager userManager = (UserManager) context.getSystemService(Context.USER_SERVICE);
         if (userManager.hasUserRestriction(UserManager.DISALLOW_SMS)) {
             new AlertDialog.Builder(activity)
