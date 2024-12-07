@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +24,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import com.android.messaging.BugleApplication;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationListItemData;
 import com.android.messaging.datamodel.data.MessageData;
@@ -31,7 +31,6 @@ import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.LogUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * TODO: Open Issues:
@@ -584,18 +583,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private DatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, getDatabaseVersion(context), null);
         mApplicationContext = context;
-    }
-
-    /**
-     * Test method that always instantiates a new DatabaseHelper instance. This should
-     * be used ONLY by the tests and never by the real application.
-     * @param context Test context.
-     * @return Brand new DatabaseHelper instance.
-     */
-    @VisibleForTesting
-    static DatabaseHelper getNewInstanceForTest(final Context context) {
-        Assert.isTrue(BugleApplication.isRunningTests());
-        return new DatabaseHelper(context);
     }
 
     /**

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +45,6 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -56,32 +56,13 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     private static final String TAG = LogUtil.BUGLE_TAG;
 
     private UncaughtExceptionHandler sSystemUncaughtExceptionHandler;
-    private static boolean sRunningTests = false;
-
-    @VisibleForTesting
-    protected static void setTestsRunning() {
-        sRunningTests = true;
-    }
-
-    /**
-     * @return true if we're running unit tests.
-     */
-    public static boolean isRunningTests() {
-        return sRunningTests;
-    }
 
     @Override
     public void onCreate() {
         Trace.beginSection("app.onCreate");
         super.onCreate();
 
-        // Note onCreate is called in both test and real application environments
-        if (!sRunningTests) {
-            // Only create the factory if not running tests
-            FactoryImpl.register(getApplicationContext(), this);
-        } else {
-            LogUtil.e(TAG, "BugleApplication.onCreate: FactoryImpl.register skipped for test run");
-        }
+        FactoryImpl.register(getApplicationContext(), this);
 
         sSystemUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
