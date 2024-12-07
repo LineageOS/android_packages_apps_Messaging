@@ -38,6 +38,7 @@
          <item name="android:textColorHighlight">@color/text_highlight_color</item>
          <item name="actionBarStyle">@style/BugleActionBar</item>
          <item name="apnPreferenceStyle">@style/ApnPreference</item>
+         <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -645,5 +646,10 @@
         <item name="android:paddingBottom">@dimen/directory_header_padding_bottom</item>
         <item name="android:textSize">@dimen/directory_header_text_size</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/window_background</item>
+        <item name="dialogCornerRadius">28dp</item>
     </style>
 </resources>
