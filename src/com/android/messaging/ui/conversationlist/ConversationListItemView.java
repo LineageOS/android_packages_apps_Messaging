@@ -53,7 +53,6 @@ import com.android.messaging.ui.SnackBarInteraction;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ImageUtils;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Typefaces;
 import com.android.messaging.util.UiUtils;
@@ -168,9 +167,7 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         mListItemReadTypeface = Typefaces.getRobotoNormal();
         mListItemUnreadTypeface = Typefaces.getRobotoBold();
 
-        if (OsUtil.isAtLeastL()) {
-            setTransitionGroup(true);
-        }
+        setTransitionGroup(true);
     }
 
     @Override

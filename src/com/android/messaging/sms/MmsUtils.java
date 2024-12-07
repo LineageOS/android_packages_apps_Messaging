@@ -76,7 +76,6 @@ import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.ImageUtils.ImageResizer;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaMetadataRetrieverWrapper;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.google.common.base.Joiner;
 
@@ -869,9 +868,7 @@ public class MmsUtils {
         values.put(Telephony.Sms.SEEN, seen ? 1 : 0);
         values.put(Telephony.Sms.SUBJECT, subject);
         values.put(Telephony.Sms.BODY, body);
-        if (OsUtil.isAtLeastL_MR1()) {
-            values.put(Telephony.Sms.SUBSCRIPTION_ID, subId);
-        }
+        values.put(Telephony.Sms.SUBSCRIPTION_ID, subId);
         if (status != Telephony.Sms.STATUS_NONE) {
             values.put(Telephony.Sms.STATUS, status);
         }
@@ -1156,9 +1153,7 @@ public class MmsUtils {
     public static SmsMessage getSmsMessageFromDeliveryReport(final Intent intent) {
         final byte[] pdu = intent.getByteArrayExtra("pdu");
         final String format = intent.getStringExtra("format");
-        return OsUtil.isAtLeastM()
-                ? SmsMessage.createFromPdu(pdu, format)
-                : SmsMessage.createFromPdu(pdu);
+        return SmsMessage.createFromPdu(pdu, format);
     }
 
     /**
@@ -1520,27 +1515,22 @@ public class MmsUtils {
     // For the internal debugger only
     public static void setUseSystemApnTable(final boolean turnOn) {
         if (!turnOn) {
-            // We're not turning on to the system table. Instead, we're using our internal table.
-            final int osVersion = OsUtil.getApiVersion();
-            if (osVersion != android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                // We're turning on local APNs on a device where we wouldn't normally have the
-                // local APN table. Build it here.
+            // We're turning on local APNs on a device where we wouldn't normally have the
+            // local APN table. Build it here.
+            final SQLiteDatabase database = ApnDatabase.getApnDatabase().getWritableDatabase();
 
-                final SQLiteDatabase database = ApnDatabase.getApnDatabase().getWritableDatabase();
-
-                // Do we already have the table?
-                Cursor cursor = null;
-                try {
-                    cursor = database.query(ApnDatabase.APN_TABLE,
-                            ApnDatabase.APN_PROJECTION,
-                            null, null, null, null, null, null);
-                } catch (final Exception e) {
-                    // Apparently there's no table, create it now.
-                    ApnDatabase.forceBuildAndLoadApnTables();
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
+            // Do we already have the table?
+            Cursor cursor = null;
+            try {
+                cursor = database.query(ApnDatabase.APN_TABLE,
+                        ApnDatabase.APN_PROJECTION,
+                        null, null, null, null, null, null);
+            } catch (final Exception e) {
+                // Apparently there's no table, create it now.
+                ApnDatabase.forceBuildAndLoadApnTables();
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
                 }
             }
         }
@@ -1812,14 +1802,6 @@ public class MmsUtils {
             return new StatusPlusUri(
                     MMS_REQUEST_NO_RETRY, MessageData.RAW_TELEPHONY_STATUS_UNDEFINED, null);
         }
-        if (!isMmsDataAvailable(subId)) {
-            LogUtil.e(TAG,
-                    "MmsUtils: failed to download message, no data available");
-            return new StatusPlusUri(MMS_REQUEST_MANUAL_RETRY,
-                    MessageData.RAW_TELEPHONY_STATUS_UNDEFINED,
-                    null,
-                    SmsManager.MMS_ERROR_NO_DATA_NETWORK);
-        }
         int status = MMS_REQUEST_MANUAL_RETRY;
         try {
             RetrieveConf retrieveConf = null;
@@ -1837,14 +1819,10 @@ public class MmsUtils {
                     LogUtil.d(TAG, "MmsUtils: Downloading MMS via MMS lib API; notification "
                             + "message: " + notificationUri);
                 }
-                if (OsUtil.isAtLeastL_MR1()) {
-                    if (subId < 0) {
-                        LogUtil.e(TAG, "MmsUtils: Incoming MMS came from unknown SIM");
-                        throw new MmsFailureException(MMS_REQUEST_NO_RETRY,
-                                "Message from unknown SIM");
-                    }
-                } else {
-                    Assert.isTrue(subId == ParticipantData.DEFAULT_SELF_SUB_ID);
+                if (subId < 0) {
+                    LogUtil.e(TAG, "MmsUtils: Incoming MMS came from unknown SIM");
+                    throw new MmsFailureException(MMS_REQUEST_NO_RETRY,
+                            "Message from unknown SIM");
                 }
                 if (extras == null) {
                     extras = new Bundle();
@@ -1943,10 +1921,6 @@ public class MmsUtils {
                 LogUtil.w(TAG, "MmsUtils: Can't send NotifyResp; transaction id is null");
                 return;
             }
-            if (!isMmsDataAvailable(subId)) {
-                LogUtil.w(TAG, "MmsUtils: Can't send NotifyResp; no data available");
-                return;
-            }
             MmsSender.sendNotifyResponseForMmsDownload(
                     context, subId, transactionId, contentLocation, status);
         } catch (final MmsFailureException e) {
@@ -1971,10 +1945,6 @@ public class MmsUtils {
             }
             if (transactionId == null) {
                 LogUtil.w(TAG, "MmsUtils: Can't send AckInd; transaction id is null");
-                return;
-            }
-            if (!isMmsDataAvailable(subId)) {
-                LogUtil.w(TAG, "MmsUtils: Can't send AckInd; no data available");
                 return;
             }
             MmsSender.sendAcknowledgeForMmsDownload(context, subId, transactionId, contentLocation);
@@ -2021,35 +1991,10 @@ public class MmsUtils {
         return (RetrieveConf) pdu;
     }
 
-    private static boolean isMmsDataAvailable(final int subId) {
-        if (OsUtil.isAtLeastL_MR1()) {
-            // L_MR1 above may support sending mms via wifi
-            return true;
-        }
-        final PhoneUtils phoneUtils = PhoneUtils.get(subId);
-        return !phoneUtils.isAirplaneModeOn() && phoneUtils.isMobileDataEnabled();
-    }
-
-    private static boolean isSmsDataAvailable(final int subId) {
-        if (OsUtil.isAtLeastL_MR1()) {
-            // L_MR1 above may support sending sms via wifi
-            return true;
-        }
-        final PhoneUtils phoneUtils = PhoneUtils.get(subId);
-        return !phoneUtils.isAirplaneModeOn();
-    }
-
     public static StatusPlusUri sendMmsMessage(final Context context, final int subId,
             final Uri messageUri, final Bundle extras) {
         int status = MMS_REQUEST_MANUAL_RETRY;
         int rawStatus = MessageData.RAW_TELEPHONY_STATUS_UNDEFINED;
-        if (!isMmsDataAvailable(subId)) {
-            LogUtil.w(TAG, "MmsUtils: failed to send message, no data available");
-            return new StatusPlusUri(MMS_REQUEST_MANUAL_RETRY,
-                    MessageData.RAW_TELEPHONY_STATUS_UNDEFINED,
-                    messageUri,
-                    SmsManager.MMS_ERROR_NO_DATA_NETWORK);
-        }
         final PduPersister persister = PduPersister.getPduPersister(context);
         try {
             final SendReq sendReq = (SendReq) persister.load(messageUri);
@@ -2460,10 +2405,6 @@ public class MmsUtils {
     public static int sendSmsMessage(final String recipient, final String messageText,
             final Uri requestUri, final int subId,
             final String smsServiceCenter, final boolean requireDeliveryReport) {
-        if (!isSmsDataAvailable(subId)) {
-            LogUtil.w(TAG, "MmsUtils: can't send SMS without radio");
-            return MMS_REQUEST_MANUAL_RETRY;
-        }
         final Context context = Factory.get().getApplicationContext();
         int status = MMS_REQUEST_MANUAL_RETRY;
         try {

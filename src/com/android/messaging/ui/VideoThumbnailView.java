@@ -211,30 +211,19 @@ public class VideoThumbnailView extends FrameLayout {
         mVideoView.start();
     }
 
-    // TODO: The check could be added to MessagePartData itself so that all users of MessagePartData
-    // get the right behavior, instead of requiring all the users to do similar checks.
-    private static boolean shouldUseGenericVideoIcon(final boolean incomingMessage) {
-        return incomingMessage && !VideoThumbnailRequest.shouldShowIncomingVideoThumbnails();
-    }
-
     public void setSource(final MessagePartData part, final boolean incomingMessage) {
         if (part == null) {
             clearSource();
         } else {
             mVideoSource = part.getContentUri();
-            if (shouldUseGenericVideoIcon(incomingMessage)) {
-                mThumbnailImage.setImageResource(R.drawable.generic_video_icon);
-                mVideoWidth = ImageRequest.UNSPECIFIED_SIZE;
-                mVideoHeight = ImageRequest.UNSPECIFIED_SIZE;
-            } else {
-                mThumbnailImage.setImageResourceId(
-                        new MessagePartVideoThumbnailRequestDescriptor(part));
-                if (mVideoView != null) {
-                    mVideoView.setVideoURI(mVideoSource);
-                }
-                mVideoWidth = part.getWidth();
-                mVideoHeight = part.getHeight();
+
+            mThumbnailImage.setImageResourceId(
+                    new MessagePartVideoThumbnailRequestDescriptor(part));
+            if (mVideoView != null) {
+                mVideoView.setVideoURI(mVideoSource);
             }
+            mVideoWidth = part.getWidth();
+            mVideoHeight = part.getHeight();
         }
     }
 
@@ -243,16 +232,10 @@ public class VideoThumbnailView extends FrameLayout {
             clearSource();
         } else {
             mVideoSource = videoSource;
-            if (shouldUseGenericVideoIcon(incomingMessage)) {
-                mThumbnailImage.setImageResource(R.drawable.generic_video_icon);
-                mVideoWidth = ImageRequest.UNSPECIFIED_SIZE;
-                mVideoHeight = ImageRequest.UNSPECIFIED_SIZE;
-            } else {
-                mThumbnailImage.setImageResourceId(
-                        new MessagePartVideoThumbnailRequestDescriptor(videoSource));
-                if (mVideoView != null) {
-                    mVideoView.setVideoURI(videoSource);
-                }
+            mThumbnailImage.setImageResourceId(
+                    new MessagePartVideoThumbnailRequestDescriptor(videoSource));
+            if (mVideoView != null) {
+                mVideoView.setVideoURI(videoSource);
             }
         }
     }

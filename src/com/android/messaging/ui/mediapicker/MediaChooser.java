@@ -34,7 +34,6 @@ import com.android.messaging.datamodel.data.MediaPickerData;
 import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageSubscriptionDataProvider;
 import com.android.messaging.ui.BasePagerViewHolder;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.OsUtil;
 
 abstract class MediaChooser extends BasePagerViewHolder
         implements DraftMessageSubscriptionDataProvider {
@@ -107,8 +106,7 @@ abstract class MediaChooser extends BasePagerViewHolder
     }
 
     protected FragmentManager getFragmentManager() {
-        return OsUtil.isAtLeastJB_MR1() ? mMediaPicker.getChildFragmentManager() :
-                mMediaPicker.getFragmentManager();
+        return mMediaPicker.getChildFragmentManager();
     }
     protected LayoutInflater getLayoutInflater() {
         return LayoutInflater.from(getContext());

@@ -77,7 +77,6 @@ import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.NotificationPlayer;
 import com.android.messaging.util.NotificationsUtil;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PendingIntentConstants;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.ThreadUtil;
@@ -429,7 +428,7 @@ public class BugleNotifications {
         if (state.mParticipantAvatarsUris != null) {
             final Uri avatarUri = state.mParticipantAvatarsUris.get(0);
             final AvatarRequestDescriptor descriptor = new AvatarRequestDescriptor(avatarUri,
-                    sIconWidth, sIconHeight, OsUtil.isAtLeastL());
+                    sIconWidth, sIconHeight, true);
             final MediaRequest<ImageResource> imageRequest = descriptor.buildSyncMediaRequest(
                     context);
 
@@ -676,7 +675,6 @@ public class BugleNotifications {
 
             MediaRequest<ImageResource> imageRequest;
             if (isVideo) {
-                Assert.isTrue(VideoThumbnailRequest.shouldShowIncomingVideoThumbnails());
                 final MessagePartVideoThumbnailRequestDescriptor videoDescriptor =
                         new MessagePartVideoThumbnailRequestDescriptor(attachmentUri);
                 imageRequest = videoDescriptor.buildSyncMediaRequest(context);
