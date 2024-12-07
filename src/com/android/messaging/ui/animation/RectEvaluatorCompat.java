@@ -19,19 +19,13 @@ import android.animation.RectEvaluator;
 import android.animation.TypeEvaluator;
 import android.graphics.Rect;
 
-import com.android.messaging.util.OsUtil;
-
 /**
  * This evaluator can be used to perform type interpolation between <code>Rect</code> values.
  * It's backward compatible to Api Level 11.
  */
 public class RectEvaluatorCompat implements TypeEvaluator<Rect> {
     public static TypeEvaluator<Rect> create() {
-        if (OsUtil.isAtLeastJB_MR2()) {
-            return new RectEvaluator();
-        } else {
-            return new RectEvaluatorCompat();
-        }
+        return new RectEvaluator();
     }
 
     @Override
