@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.android.messaging.util.MediaMetadataRetrieverWrapper;
-import com.android.messaging.util.MediaUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -28,17 +27,12 @@ import java.io.InputStream;
 
 /**
  * Class to request a video thumbnail.
- * Users of this class as responsible for checking {@link #shouldShowIncomingVideoThumbnails}
  */
 public class VideoThumbnailRequest extends ImageRequest<UriImageRequestDescriptor> {
 
     public VideoThumbnailRequest(final Context context,
             final UriImageRequestDescriptor descriptor) {
         super(context, descriptor);
-    }
-
-    public static boolean shouldShowIncomingVideoThumbnails() {
-        return MediaUtil.canAutoAccessIncomingMedia();
     }
 
     @Override

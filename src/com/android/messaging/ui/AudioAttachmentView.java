@@ -79,9 +79,6 @@ public class AudioAttachmentView extends LinearLayout {
     private int mThemeColor;
 
     private boolean mStartPlayAfterPrepare;
-    // should the MediaPlayer be prepared lazily when the user chooses to play the audio (as
-    // opposed to preparing it early, on bind)
-    private boolean mPrepareOnPlayback;
     private boolean mPrepared;
     private boolean mPlaybackFinished; // Was the audio played all the way to the end
     private final int mMode;
@@ -148,12 +145,7 @@ public class AudioAttachmentView extends LinearLayout {
             return;
         }
 
-        if (mPrepareOnPlayback) {
-            // For lazy preparation, the chronometer will only be shown during playback
-            mChronometer.setVisibility(playing ? View.VISIBLE : View.INVISIBLE);
-        } else {
-            mChronometer.setVisibility(View.VISIBLE);
-        }
+        mChronometer.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -180,7 +172,6 @@ public class AudioAttachmentView extends LinearLayout {
 
         mUseIncomingStyle = useIncomingStyle;
         mThemeColor = themeColor;
-        mPrepareOnPlayback = incoming && !MediaUtil.canAutoAccessIncomingMedia();
 
         if (!TextUtils.equals(currentUriString, newUriString)) {
             mDataSourceUri = dataSourceUri;
@@ -216,7 +207,7 @@ public class AudioAttachmentView extends LinearLayout {
     }
 
     /**
-     * Prepare the MediaPlayer, and if mPrepareOnPlayback, start playing the audio
+     * Prepare the MediaPlayer and start playing the audio
      */
     private void setupMediaPlayer() {
         Assert.notNull(mDataSourceUri);
@@ -332,7 +323,7 @@ public class AudioAttachmentView extends LinearLayout {
         updateVisualStyle();
         updateChronometerVisibility(false /* playing */);
 
-        if (mDataSourceUri != null && !mPrepareOnPlayback) {
+        if (mDataSourceUri != null) {
             // Prepare the media player, so we can read the duration of the audio.
             setupMediaPlayer();
         }
