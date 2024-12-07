@@ -67,7 +67,6 @@ import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaUtil;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UiUtils;
@@ -867,18 +866,16 @@ public class ComposeMessageView extends LinearLayout
 
     // Set accessibility traversal order of the components in the send widget.
     private void setSendWidgetAccessibilityTraversalOrder(final int mode) {
-        if (OsUtil.isAtLeastL_MR1()) {
-            mAttachMediaButton.setAccessibilityTraversalBefore(R.id.compose_message_text);
-            switch (mode) {
-                case SEND_WIDGET_MODE_SIM_SELECTOR:
-                    mComposeEditText.setAccessibilityTraversalBefore(R.id.self_send_icon);
-                    break;
-                case SEND_WIDGET_MODE_SEND_BUTTON:
-                    mComposeEditText.setAccessibilityTraversalBefore(R.id.send_message_button);
-                    break;
-                default:
-                    break;
-            }
+        mAttachMediaButton.setAccessibilityTraversalBefore(R.id.compose_message_text);
+        switch (mode) {
+            case SEND_WIDGET_MODE_SIM_SELECTOR:
+                mComposeEditText.setAccessibilityTraversalBefore(R.id.self_send_icon);
+                break;
+            case SEND_WIDGET_MODE_SEND_BUTTON:
+                mComposeEditText.setAccessibilityTraversalBefore(R.id.send_message_button);
+                break;
+            default:
+                break;
         }
     }
 
@@ -979,8 +976,7 @@ public class ComposeMessageView extends LinearLayout
     }
 
     public static boolean shouldShowSimSelector(final ConversationData convData) {
-        return OsUtil.isAtLeastL_MR1() &&
-                convData.getSelfParticipantsCountExcludingDefault(true /* activeOnly */) > 1;
+        return convData.getSelfParticipantsCountExcludingDefault(true /* activeOnly */) > 1;
     }
 
     public void sendMessageIgnoreMessageSizeLimit() {

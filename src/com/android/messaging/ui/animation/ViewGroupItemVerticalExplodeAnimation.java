@@ -15,7 +15,6 @@
  */
 package com.android.messaging.ui.animation;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -34,7 +33,6 @@ import android.widget.FrameLayout;
 
 import com.android.messaging.R;
 import com.android.messaging.util.ImageUtils;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.UiUtils;
 
 /**
@@ -69,20 +67,15 @@ public class ViewGroupItemVerticalExplodeAnimation {
      */
     public static void startAnimationForView(final ViewGroup container, final View viewToAnimate,
             final View animationStagingView, final boolean snapshotView, final int duration) {
-        if (OsUtil.isAtLeastJB_MR2() && (viewToAnimate.getContext() instanceof Activity)) {
+        if ((viewToAnimate.getContext() instanceof Activity)) {
             new ViewExplodeAnimationJellyBeanMR2(viewToAnimate, container, snapshotView, duration)
                 .startAnimation();
-        } else {
-            // Pre JB_MR2, this animation can cause rendering failures which causes the framework
-            // to fall back to software rendering where camera preview isn't supported (b/18264647)
-            // just skip the animation to avoid this case.
         }
     }
 
     /**
      * Implementation class for API level >= 18.
      */
-    @TargetApi(18)
     private static class ViewExplodeAnimationJellyBeanMR2 {
         private final View mViewToAnimate;
         private final ViewGroup mContainer;
