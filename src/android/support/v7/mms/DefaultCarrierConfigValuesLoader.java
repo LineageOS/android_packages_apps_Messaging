@@ -61,18 +61,14 @@ class DefaultCarrierConfigValuesLoader implements CarrierConfigValuesLoader {
             }
         }
         if (didLoad) {
-            Log.i(MmsService.TAG, "Carrier configs loaded: " + values);
+            Log.i(androidx.appcompat.mms.MmsService.TAG, "Carrier configs loaded: " + values);
         }
         return values;
     }
 
     private void loadLocked(final int subId, final Bundle values) {
-        // For K and earlier, load from resources
         loadFromResources(subId, values);
-        if (Utils.hasMmsApi()) {
-            // For L and later, also load from system MMS service
-            loadFromSystem(subId, values);
-        }
+        loadFromSystem(subId, values);
     }
 
     /**
@@ -83,22 +79,22 @@ class DefaultCarrierConfigValuesLoader implements CarrierConfigValuesLoader {
      */
     private static void loadFromSystem(final int subId, final Bundle values) {
         try {
-            final Bundle systemValues = Utils.getSmsManager(subId).getCarrierConfigValues();
+            final Bundle systemValues = androidx.appcompat.mms.Utils.getSmsManager(subId).getCarrierConfigValues();
             if (systemValues != null) {
                 values.putAll(systemValues);
             }
         } catch (final Exception e) {
-            Log.w(MmsService.TAG, "Calling system getCarrierConfigValues exception", e);
+            Log.w(androidx.appcompat.mms.MmsService.TAG, "Calling system getCarrierConfigValues exception", e);
         }
     }
 
     private void loadFromResources(final int subId, final Bundle values) {
         // Get a subscription-dependent context for loading the mms_config.xml
-        final Context subContext = Utils.getSubDepContext(mContext, subId);
+        final Context subContext = androidx.appcompat.mms.Utils.getSubDepContext(mContext, subId);
         XmlResourceParser xml = null;
         try {
             xml = subContext.getResources().getXml(R.xml.mms_config);
-            new CarrierConfigXmlParser(xml, new CarrierConfigXmlParser.KeyValueProcessor() {
+            new androidx.appcompat.mms.CarrierConfigXmlParser(xml, new androidx.appcompat.mms.CarrierConfigXmlParser.KeyValueProcessor() {
                 @Override
                 public void process(String type, String key, String value) {
                     try {

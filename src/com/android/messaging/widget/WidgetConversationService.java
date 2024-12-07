@@ -179,9 +179,7 @@ public class WidgetConversationService extends RemoteViewsService {
                 if (message.hasAttachments()) {
                     final List<MessagePartData> attachments = message.getAttachments();
                     for (MessagePartData part : attachments) {
-                        final boolean videoWithThumbnail = part.isVideo()
-                                && (VideoThumbnailRequest.shouldShowIncomingVideoThumbnails()
-                                || !message.getIsIncoming());
+                        final boolean videoWithThumbnail = part.isVideo();
                         if (part.isImage() || videoWithThumbnail) {
                             final Uri uri = part.getContentUri();
                             remoteViews.setViewVisibility(R.id.attachmentFrame, View.VISIBLE);
@@ -215,19 +213,14 @@ public class WidgetConversationService extends RemoteViewsService {
                         intent);
 
                 // Avatar
-                boolean includeAvatar;
-                if (OsUtil.isAtLeastJB()) {
-                    final Bundle options = mAppWidgetManager.getAppWidgetOptions(mAppWidgetId);
-                    if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                        LogUtil.v(TAG, "getViewAt BugleWidgetProvider.WIDGET_SIZE_KEY: " +
-                                options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY));
-                    }
-
-                    includeAvatar = options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY)
-                            == BugleWidgetProvider.SIZE_LARGE;
-                } else {
-                    includeAvatar = true;
+                final Bundle options = mAppWidgetManager.getAppWidgetOptions(mAppWidgetId);
+                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
+                    LogUtil.v(TAG, "getViewAt BugleWidgetProvider.WIDGET_SIZE_KEY: " +
+                            options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY));
                 }
+
+                boolean includeAvatar = options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY)
+                        == BugleWidgetProvider.SIZE_LARGE;
 
                 // Show the avatar (and shadow) when grande size, otherwise hide it.
                 remoteViews.setViewVisibility(R.id.avatarView, includeAvatar ?

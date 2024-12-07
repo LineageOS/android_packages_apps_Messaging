@@ -519,8 +519,7 @@ public abstract class MessageNotificationState extends NotificationState {
 
             if (messageCount == 1) {
                 final boolean shouldShowImage = ContentType.isImageType(mAttachmentType)
-                        || (ContentType.isVideoType(mAttachmentType)
-                        && VideoThumbnailRequest.shouldShowIncomingVideoThumbnails());
+                        || (ContentType.isVideoType(mAttachmentType));
                 if (mAttachmentUri != null && shouldShowImage) {
                     // Show "Picture" as the content
                     final MessageLineInfo messageLineInfo = (MessageLineInfo) lineInfos.get(0);
