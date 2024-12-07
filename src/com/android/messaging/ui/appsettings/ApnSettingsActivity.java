@@ -49,7 +49,6 @@ import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.BugleApnSettingsLoader;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 
 public class ApnSettingsActivity extends BugleActionBarActivity {
@@ -150,13 +149,8 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
             super.onCreate(icicle);
 
             mDatabase = ApnDatabase.getApnDatabase().getWritableDatabase();
-
-            if (OsUtil.isAtLeastL()) {
-                mUm = (UserManager) getActivity().getSystemService(Context.USER_SERVICE);
-                if (!mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
-                    setHasOptionsMenu(true);
-                }
-            } else {
+            mUm = (UserManager) getActivity().getSystemService(Context.USER_SERVICE);
+            if (!mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
                 setHasOptionsMenu(true);
             }
         }
@@ -172,8 +166,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
                 lv.setEmptyView(empty);
             }
 
-            if (OsUtil.isAtLeastL() &&
-                    mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
+            if (mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
                 mUnavailable = true;
                 setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
                 return;
