@@ -44,8 +44,7 @@ public final class Trace {
     static {
         // Use android.util.Log instead of LogUtil here to avoid pulling in Gservices
         // too early in app startup.
-        if (OsUtil.isAtLeastJB_MR2() &&
-                android.util.Log.isLoggable(TAG, android.util.Log.VERBOSE)) {
+        if (android.util.Log.isLoggable(TAG, android.util.Log.VERBOSE)) {
             sTrace = new TraceJBMR2();
         } else {
             sTrace = new TraceShim();
@@ -87,7 +86,6 @@ public final class Trace {
     /**
      * Internal class that we use if we really did enable tracing.
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private static final class TraceJBMR2 extends AbstractTrace {
         @Override
         void beginSection(String sectionName) {
