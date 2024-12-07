@@ -1012,7 +1012,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     }
 
     private FragmentManager getFragmentManagerToUse() {
-        return OsUtil.isAtLeastJB_MR1() ? getChildFragmentManager() : getFragmentManager();
+        return getChildFragmentManager();
     }
 
     public MediaPicker getMediaPicker() {
@@ -1158,21 +1158,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                         }
                     })
                     .setNegativeButton(android.R.string.cancel, null);
-            if (OsUtil.isAtLeastJB_MR1()) {
-                builder.setOnDismissListener(new OnDismissListener() {
-                    @Override
-                    public void onDismiss(final DialogInterface dialog) {
-                        mHost.dismissActionMode();
-                    }
-                });
-            } else {
-                builder.setOnCancelListener(new OnCancelListener() {
-                    @Override
-                    public void onCancel(final DialogInterface dialog) {
-                        mHost.dismissActionMode();
-                    }
-                });
-            }
+            builder.setOnDismissListener(dialog -> mHost.dismissActionMode());
             builder.create().show();
         } else {
             warnOfMissingActionConditions(false /*sending*/,

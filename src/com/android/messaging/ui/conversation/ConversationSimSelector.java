@@ -26,7 +26,6 @@ import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionLis
 import com.android.messaging.ui.conversation.SimSelectorView.SimSelectorViewListener;
 import com.android.messaging.util.AccessibilityUtil;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.ThreadUtil;
 
 /**
@@ -47,7 +46,6 @@ abstract class ConversationSimSelector extends ConversationInput {
         mSimSelectorView.bind(subscriptionListData);
         mDataReady = subscriptionListData != null && subscriptionListData.hasData();
         if (mPendingShow != null && mDataReady) {
-            Assert.isTrue(OsUtil.isAtLeastL_MR1());
             final boolean show = mPendingShow.first;
             final boolean animate = mPendingShow.second;
             ThreadUtil.getMainThreadHandler().post(new Runnable() {
@@ -88,10 +86,6 @@ abstract class ConversationSimSelector extends ConversationInput {
     }
 
     private boolean showHide(final boolean show, final boolean animate) {
-        if (!OsUtil.isAtLeastL_MR1()) {
-            return false;
-        }
-
         if (mDataReady) {
             mSimSelectorView.showOrHide(show, animate);
             return mSimSelectorView.isOpen() == show;
