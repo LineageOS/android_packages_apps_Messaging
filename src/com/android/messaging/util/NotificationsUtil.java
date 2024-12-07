@@ -37,10 +37,6 @@ public final class NotificationsUtil {
 
     public static void createNotificationChannel(Context context, String id,
             String title, int priority, String groupId) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         NotificationChannel existing = manager.getNotificationChannel(id);
         if (existing != null) {
@@ -56,20 +52,12 @@ public final class NotificationsUtil {
     }
 
     public static void deleteNotificationChannel(Context context, String id) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         manager.deleteNotificationChannel(id);
     }
 
     public static void createNotificationChannelGroup(Context context, String id,
             int titleResId) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         NotificationChannelGroup existing = manager.getNotificationChannelGroup(id);
         if (existing != null) {
@@ -82,19 +70,11 @@ public final class NotificationsUtil {
     }
 
     public static NotificationChannel getNotificationChannel(Context context, String id) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return null;
-        }
-
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         return manager.getNotificationChannel(id);
     }
 
     public static NotificationChannelGroup getNotificationChannelGroup(Context context, String id) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return null;
-        }
-
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         return manager.getNotificationChannelGroup(id);
     }

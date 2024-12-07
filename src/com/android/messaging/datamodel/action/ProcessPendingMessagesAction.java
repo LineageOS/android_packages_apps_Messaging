@@ -39,7 +39,6 @@ import com.android.messaging.util.BuglePrefsKeys;
 import com.android.messaging.util.ConnectivityUtil;
 import com.android.messaging.util.ConnectivityUtil.ConnectivityListener;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 
 import java.util.HashSet;
@@ -356,12 +355,10 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
 
             // Prior to L_MR1, isActiveSubscription is true always
             boolean isActiveSubscription = true;
-            if (OsUtil.isAtLeastL_MR1()) {
-                final ParticipantData messageSelf =
-                        BugleDatabaseOperations.getExistingParticipant(db, selfId);
-                if (messageSelf == null || !messageSelf.isActiveSubscription()) {
-                    isActiveSubscription = false;
-                }
+            final ParticipantData messageSelf =
+                    BugleDatabaseOperations.getExistingParticipant(db, selfId);
+            if (messageSelf == null || !messageSelf.isActiveSubscription()) {
+                isActiveSubscription = false;
             }
             while (cursor.moveToNext()) {
                 final MessageData message = new MessageData();
