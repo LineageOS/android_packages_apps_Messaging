@@ -41,7 +41,6 @@ import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationMessageData;
 import com.android.messaging.ui.ConversationDrawables;
 import com.android.messaging.util.Dates;
-import com.android.messaging.util.OsUtil;
 
 /**
  * Adds a "fast-scroll" bar to the conversation RecyclerView that shows the current position within
@@ -63,10 +62,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
      *         (the feature requires Jellybean MR2 or newer)
      */
     public static ConversationFastScroller addTo(RecyclerView rv, int position) {
-        if (OsUtil.isAtLeastJB_MR2()) {
-            return new ConversationFastScroller(rv, position);
-        }
-        return null;
+        return new ConversationFastScroller(rv, position);
     }
 
     public static final int POSITION_RIGHT_SIDE = 0;
@@ -164,20 +160,12 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     public void refreshConversationThemeColor() {
         mPreviewTextView.setBackground(
                 ConversationDrawables.get().getFastScrollPreviewDrawable(mPosRight));
-        if (OsUtil.isAtLeastL()) {
-            final StateListDrawable drawable = new StateListDrawable();
-            drawable.addState(new int[]{ android.R.attr.state_pressed },
-                    ConversationDrawables.get().getFastScrollThumbDrawable(true /* pressed */));
-            drawable.addState(StateSet.WILD_CARD,
-                    ConversationDrawables.get().getFastScrollThumbDrawable(false /* pressed */));
-            mThumbImageView.setImageDrawable(drawable);
-        } else {
-            // Android pre-L doesn't seem to handle a StateListDrawable containing a tinted
-            // drawable (it's rendered in the filter base color, which is red), so fall back to
-            // just the regular (non-pressed) drawable.
-            mThumbImageView.setImageDrawable(
-                    ConversationDrawables.get().getFastScrollThumbDrawable(false /* pressed */));
-        }
+        final StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{ android.R.attr.state_pressed },
+                ConversationDrawables.get().getFastScrollThumbDrawable(true /* pressed */));
+        drawable.addState(StateSet.WILD_CARD,
+                ConversationDrawables.get().getFastScrollThumbDrawable(false /* pressed */));
+        mThumbImageView.setImageDrawable(drawable);
     }
 
     @Override
