@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +26,6 @@ import com.android.messaging.datamodel.data.ParticipantData;
 
 /**
  * ConnectivityUtil listens to the network service state changes.
- *
- * On N and beyond, This class instance can be created via ConnectivityUtil(context, subId), use
- * ConnectivityUtil(context) for others.
- *
- * Note that TelephonyManager has createForSubscriptionId() for a specific subId from N but listen()
- * does not use the subId on the manager, and uses the default subId on PhoneStateListener. From O,
- * the manager uses its' own subId in listen().
  */
 public class ConnectivityUtil {
     // Assume not connected until informed differently
@@ -45,12 +39,7 @@ public class ConnectivityUtil {
         public void onPhoneStateChanged(int serviceState);
     }
 
-    public ConnectivityUtil(final Context context) {
-        mTelephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-    }
-
     public ConnectivityUtil(final Context context, final int subId) {
-        Assert.isTrue(OsUtil.isAtLeastN());
         mTelephonyManager =
                 ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE))
                         .createForSubscriptionId(subId);

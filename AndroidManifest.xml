@@ -123,11 +123,7 @@
             android:screenOrientation="user"
             android:label="@string/archived_activity_title"
             android:theme="@style/BugleTheme.ArchivedConversationListActivity"
-            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.conversationlist.ConversationListActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity" />
 
         <!-- Displays the contents of a single conversation -->
         <activity
@@ -136,11 +132,7 @@
             android:screenOrientation="user"
             android:windowSoftInputMode="stateHidden|adjustResize"
             android:theme="@style/BugleTheme.ConversationActivity"
-            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.conversationlist.ConversationListActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity" />
 
         <!-- Blocked Participants -->
         <activity
@@ -149,11 +141,7 @@
             android:screenOrientation="user"
             android:label="@string/blocked_contacts_title"
             android:theme="@style/BugleTheme"
-            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.conversationlist.ConversationListActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity" />
 
         <!-- Full-screen photo viewer -->
         <activity
@@ -171,11 +159,7 @@
             android:theme="@style/BugleTheme.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="user"
-            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.conversationlist.ConversationListActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.conversationlist.ConversationListActivity" />
 
         <activity
             android:name=".ui.appsettings.PerSubscriptionSettingsActivity"
@@ -183,11 +167,7 @@
             android:theme="@style/BugleTheme.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="user"
-            android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.appsettings.SettingsActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity" />
 
         <activity
             android:name=".ui.appsettings.ApplicationSettingsActivity"
@@ -197,10 +177,6 @@
             android:screenOrientation="user"
             android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity"
             android:exported="true">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:exported="true"
-                android:value="com.android.messaging.ui.appsettings.SettingsActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -239,11 +215,7 @@
             android:screenOrientation="user"
             android:label="@string/people_and_options_activity_title"
             android:theme="@style/BugleTheme"
-            android:parentActivityName="com.android.messaging.ui.conversation.ConversationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.conversation.ConversationActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.conversation.ConversationActivity" />
 
          <!-- License -->
         <activity android:name=".ui.LicenseActivity"
@@ -280,11 +252,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="user"
             android:label="@string/vcard_detail_activity_title"
-            android:theme="@style/BugleTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.conversation.ConversationActivity" />
-        </activity>
+            android:theme="@style/BugleTheme"
+            android:parentActivityName="com.android.messaging.ui.conversation.ConversationActivity" />
 
         <!-- Attachment chooser -->
         <activity
@@ -293,11 +262,7 @@
             android:screenOrientation="user"
             android:label="@string/attachment_chooser_activity_title"
             android:theme="@style/BugleTheme"
-            android:parentActivityName="com.android.messaging.ui.conversation.ConversationActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.messaging.ui.conversation.ConversationActivity" />
-        </activity>
+            android:parentActivityName="com.android.messaging.ui.conversation.ConversationActivity" />
 
         <activity
             android:name=".ui.debug.DebugMmsConfigActivity"
@@ -335,15 +300,6 @@
 
         <!-- Intents for Notification and Pre-KLP Delivery -->
         <!-- Registered with the highest possible priority (max_int) -->
-        <receiver android:name=".receiver.MmsWapPushReceiver"
-                  android:enabled="false"
-                  android:exported="true"
-                  android:permission="android.permission.BROADCAST_WAP_PUSH">
-            <intent-filter android:priority="2147483647">
-                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
-                <data android:mimeType="application/vnd.wap.mms-message" />
-            </intent-filter>
-        </receiver>
         <receiver android:name=".receiver.SmsReceiver"
                   android:enabled="false"
                   android:exported="true"
@@ -353,26 +309,6 @@
             </intent-filter>
             <intent-filter android:priority="2147483647">
                 <action android:name="android.provider.Telephony.MMS_DOWNLOADED" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Intents for aborting SMS/MMS broadcasts pre-KLP -->
-        <!-- Registered for a priority just ahead of inbox Messaging apps (2) -->
-        <receiver android:name=".receiver.AbortMmsWapPushReceiver"
-                  android:enabled="false"
-                  android:exported="true"
-                  android:permission="android.permission.BROADCAST_WAP_PUSH">
-            <intent-filter android:priority="3">
-                <action android:name="android.provider.Telephony.WAP_PUSH_RECEIVED" />
-                <data android:mimeType="application/vnd.wap.mms-message" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".receiver.AbortSmsReceiver"
-                  android:enabled="false"
-                  android:exported="true"
-                  android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="3">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 

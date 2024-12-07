@@ -72,13 +72,11 @@ class DefaultUserAgentInfoLoader implements UserAgentInfoLoader {
     }
 
     private void loadLocked() {
-        if (Utils.hasUserAgentApi()) {
-            // load the MMS User agent and UaProfUrl from TelephonyManager APIs
-            final TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(
-                    Context.TELEPHONY_SERVICE);
-            mUserAgent = telephonyManager.getMmsUserAgent();
-            mUAProfUrl = telephonyManager.getMmsUAProfUrl();
-        }
+        // load the MMS User agent and UaProfUrl from TelephonyManager APIs
+        final TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(
+                Context.TELEPHONY_SERVICE);
+        mUserAgent = telephonyManager.getMmsUserAgent();
+        mUAProfUrl = telephonyManager.getMmsUAProfUrl();
         if (TextUtils.isEmpty(mUserAgent)) {
             mUserAgent = DEFAULT_USER_AGENT;
         }

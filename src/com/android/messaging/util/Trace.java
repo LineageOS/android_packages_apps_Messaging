@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +17,10 @@
 
 package com.android.messaging.util;
 
-
-import android.annotation.TargetApi;
-import android.os.Build;
-
 /**
  * Helper class for systrace (see http://developer.android.com/tools/help/systrace.html).<p>
  * To enable, set log.tag.Bugle_Trace (defined by {@link #TAG} to VERBOSE before
  * the process starts.<p>
- * Note that this will run only on JBMR2 or later; on earlier platforms or if the log
- * tag isn't set, calls to {@link #beginSection(String)} or {@link #endSection()} are no-ops. <p>
- * Internally, calls dispatch to either a class that actually does work or a class that doesn't.
- * This avoids Dalvik complaining when it loads the class on earlier platforms that the
- * opcodes aren't available, and, according to the Dalvik team, using vtable dispatching for
- * something like this should be faster than if (OsUtil.isAtLeast...()) on each call.
  */
 public final class Trace {
     private static final String TAG = "Bugle_Trace";
@@ -44,8 +35,7 @@ public final class Trace {
     static {
         // Use android.util.Log instead of LogUtil here to avoid pulling in Gservices
         // too early in app startup.
-        if (OsUtil.isAtLeastJB_MR2() &&
-                android.util.Log.isLoggable(TAG, android.util.Log.VERBOSE)) {
+        if (android.util.Log.isLoggable(TAG, android.util.Log.VERBOSE)) {
             sTrace = new TraceJBMR2();
         } else {
             sTrace = new TraceShim();
@@ -87,7 +77,6 @@ public final class Trace {
     /**
      * Internal class that we use if we really did enable tracing.
      */
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private static final class TraceJBMR2 extends AbstractTrace {
         @Override
         void beginSection(String sectionName) {
