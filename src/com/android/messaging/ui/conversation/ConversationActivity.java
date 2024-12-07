@@ -39,7 +39,6 @@ import com.android.messaging.ui.conversationlist.ConversationListActivity;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.UiUtils;
 
 public class ConversationActivity extends BugleActionBarActivity
@@ -348,11 +347,7 @@ public class ConversationActivity extends BugleActionBarActivity
     public void onFinishCurrentConversation() {
         // Simply finish the current activity. The current design is to leave any empty
         // conversations as is.
-        if (OsUtil.isAtLeastL()) {
-            finishAfterTransition();
-        } else {
-            finish();
-        }
+        finishAfterTransition();
     }
 
     @Override
