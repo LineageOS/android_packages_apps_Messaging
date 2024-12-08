@@ -76,7 +76,7 @@ public class OsUtil {
         return null;
     }
 
-    private static Hashtable<String, Integer> sPermissions = new Hashtable<String, Integer>();
+    private static final Hashtable<String, Integer> sPermissions = new Hashtable<String, Integer>();
 
     /**
      * Check if the app has the specified permission. If it does not, the app needs to use
@@ -150,7 +150,7 @@ public class OsUtil {
         return missingArray;
     }
 
-    private static String[] sRequiredPermissions = new String[] {
+    private static final String[] sRequiredPermissions = new String[] {
         // Required to read existing SMS threads
         Manifest.permission.READ_SMS,
         // Required for knowing the phone number, number of SIMs, etc.

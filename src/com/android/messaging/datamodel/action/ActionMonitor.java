@@ -52,8 +52,8 @@ public class ActionMonitor {
          * @param result value returned by {@link Action#executeAction}
          */
         @RunsOnMainThread
-        abstract void onActionExecuted(ActionMonitor monitor, final Action action,
-                final Object data, final Object result);
+        void onActionExecuted(ActionMonitor monitor, final Action action,
+                              final Object data, final Object result);
     }
 
     /**
@@ -67,14 +67,14 @@ public class ActionMonitor {
          *               {@link Action#processBackgroundResponse}
          */
         @RunsOnMainThread
-        abstract void onActionSucceeded(ActionMonitor monitor,
-                final Action action, final Object data, final Object result);
+        void onActionSucceeded(ActionMonitor monitor,
+                               final Action action, final Object data, final Object result);
         /**
          * @param result value returned by {@link Action#processBackgroundFailure}
          */
         @RunsOnMainThread
-        abstract void onActionFailed(ActionMonitor monitor, final Action action,
-                final Object data, final Object result);
+        void onActionFailed(ActionMonitor monitor, final Action action,
+                            final Object data, final Object result);
     }
 
     /**
@@ -291,9 +291,8 @@ public class ActionMonitor {
      *                 else the value returned by {@link Action#processBackgroundResponse}
      *                 or {@link Action#processBackgroundFailure}
      */
-    private final void complete(final Action action,
-            final int expectedOldState, final Object result,
-            final boolean succeeded) {
+    private void complete(final Action action, final int expectedOldState, final Object result,
+                          final boolean succeeded) {
         ActionCompletedListener completedListener = null;
         synchronized (mLock) {
             setState(action, expectedOldState, STATE_COMPLETE);
@@ -419,7 +418,7 @@ public class ActionMonitor {
      * Map of action monitors indexed by actionKey
      */
     @VisibleForTesting
-    static SimpleArrayMap<String, ActionMonitor> sActionMonitors =
+    static final SimpleArrayMap<String, ActionMonitor> sActionMonitors =
             new SimpleArrayMap<String, ActionMonitor>();
 
     /**

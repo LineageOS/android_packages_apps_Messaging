@@ -103,12 +103,12 @@ public class ConversationData extends BindableData {
     }
 
     public interface ConversationDataListener {
-        public void onConversationMessagesCursorUpdated(ConversationData data, Cursor cursor,
+        void onConversationMessagesCursorUpdated(ConversationData data, Cursor cursor,
                 @Nullable ConversationMessageData newestMessage, boolean isSync);
-        public void onConversationMetadataUpdated(ConversationData data);
-        public void closeConversation(String conversationId);
-        public void onConversationParticipantDataLoaded(ConversationData data);
-        public void onSubscriptionListDataLoaded(ConversationData data);
+        void onConversationMetadataUpdated(ConversationData data);
+        void closeConversation(String conversationId);
+        void onConversationParticipantDataLoaded(ConversationData data);
+        void onSubscriptionListDataLoaded(ConversationData data);
     }
 
     private static class ReversedCursor extends CursorWrapper {
