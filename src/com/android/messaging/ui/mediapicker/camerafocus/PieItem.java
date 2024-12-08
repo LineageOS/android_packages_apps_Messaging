@@ -29,12 +29,12 @@ import java.util.List;
  */
 public class PieItem {
 
-    public static interface OnClickListener {
+    public interface OnClickListener {
         void onClick(PieItem item);
     }
 
     private Drawable mDrawable;
-    private int level;
+    private final int level;
     private float mCenter;
     private float start;
     private float sweep;

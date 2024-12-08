@@ -33,8 +33,8 @@ import com.android.messaging.util.Assert;
 public class CustomHeaderViewPager extends LinearLayout {
     public final static int DEFAULT_TAB_STRIP_SIZE = -1;
     private final int mDefaultTabStripSize;
-    private ViewPager mViewPager;
-    private ViewPagerTabs mTabstrip;
+    private final ViewPager mViewPager;
+    private final ViewPagerTabs mTabstrip;
 
     public CustomHeaderViewPager(final Context context, final AttributeSet attrs) {
         super(context, attrs);
