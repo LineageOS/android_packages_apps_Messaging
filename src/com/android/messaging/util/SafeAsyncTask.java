@@ -42,7 +42,7 @@ public abstract class SafeAsyncTask<Params, Progress, Result>
 
     private static final String WAKELOCK_ID = "bugle_safe_async_task_wakelock";
     protected static final int WAKELOCK_OP = 1000;
-    private static WakeLockHelper sWakeLock = new WakeLockHelper(WAKELOCK_ID);
+    private static final WakeLockHelper sWakeLock = new WakeLockHelper(WAKELOCK_ID);
 
     private final long mMaxExecutionTimeMillis;
     private final boolean mCancelExecutionOnTimeout;

@@ -29,7 +29,7 @@ public class CustomVCardEntryConstructor implements VCardInterpreter {
         /**
          * Called when the parsing started.
          */
-        public void onStart();
+        void onStart();
 
         /**
          * The method called when one vCard entry is created. Children come before their parent in
@@ -46,13 +46,13 @@ public class CustomVCardEntryConstructor implements VCardInterpreter {
          * END:VCARD
          * </code>
          */
-        public void onEntryCreated(final CustomVCardEntry entry);
+        void onEntryCreated(final CustomVCardEntry entry);
 
         /**
          * Called when the parsing ended.
          * Able to be use this method for showing performance log, etc.
          */
-        public void onEnd();
+        void onEnd();
     }
 
     /**

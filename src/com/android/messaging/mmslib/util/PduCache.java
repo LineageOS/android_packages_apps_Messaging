@@ -81,7 +81,7 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
         mUpdating = new HashSet<Uri>();
     }
 
-    public static final synchronized PduCache getInstance() {
+    public static synchronized PduCache getInstance() {
         if (sInstance == null) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Constructing new PduCache instance.");

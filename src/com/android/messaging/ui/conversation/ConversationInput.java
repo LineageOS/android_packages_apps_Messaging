@@ -36,7 +36,7 @@ public abstract class ConversationInput {
     }
 
     protected boolean mShowing;
-    protected ConversationInputBase mConversationInputBase;
+    protected final ConversationInputBase mConversationInputBase;
 
     public abstract boolean show(boolean animate);
     public abstract boolean hide(boolean animate);
