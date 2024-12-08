@@ -18,8 +18,6 @@ package com.android.messaging.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +27,10 @@ import android.os.Environment;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -108,10 +110,10 @@ public class DebugUtils {
         public abstract void run();
     }
 
-    public static void showDebugOptions(final Activity host) {
+    public static void showDebugOptions(final FragmentActivity host) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(host);
 
-        final ArrayAdapter<DebugAction> arrayAdapter = new ArrayAdapter<DebugAction>(
+        final ArrayAdapter<DebugAction> arrayAdapter = new ArrayAdapter<>(
                 host, android.R.layout.simple_list_item_1);
 
         arrayAdapter.add(new DebugAction("Dump Database") {
@@ -205,9 +207,9 @@ public class DebugUtils {
      */
     private static class DebugSmsMmsDumpTask extends SafeAsyncTask<Void, Void, String[]> {
         private final String mAction;
-        private final Activity mHost;
+        private final FragmentActivity mHost;
 
-        public DebugSmsMmsDumpTask(final Activity host, final String action) {
+        public DebugSmsMmsDumpTask(final FragmentActivity host, final String action) {
             mHost = host;
             mAction = action;
         }
@@ -217,8 +219,7 @@ public class DebugUtils {
             if (result == null || result.length < 1) {
                 return;
             }
-            final FragmentManager fragmentManager = mHost.getFragmentManager();
-            final FragmentTransaction ft = fragmentManager.beginTransaction();
+            final FragmentManager fragmentManager = mHost.getSupportFragmentManager();
             final DebugSmsMmsFromDumpFileDialogFragment dialog =
                     DebugSmsMmsFromDumpFileDialogFragment.newInstance(result, mAction);
             dialog.show(fragmentManager, ""/*tag*/);
@@ -227,16 +228,11 @@ public class DebugUtils {
         @Override
         protected String[] doInBackgroundTimed(final Void... params) {
             final File dir = DebugUtils.getDebugFilesDir();
-            return dir.list(new FilenameFilter() {
-                @Override
-                public boolean accept(final File dir, final String filename) {
-                    return filename != null
-                            && ((mAction == DebugSmsMmsFromDumpFileDialogFragment.ACTION_EMAIL
-                            && filename.equals(DumpDatabaseAction.DUMP_NAME))
-                            || filename.startsWith(MmsUtils.MMS_DUMP_PREFIX)
-                            || filename.startsWith(MmsUtils.SMS_DUMP_PREFIX));
-                }
-            });
+            return dir.list((dir1, filename) -> filename != null
+                    && ((mAction.equals(DebugSmsMmsFromDumpFileDialogFragment.ACTION_EMAIL)
+                    && filename.equals(DumpDatabaseAction.DUMP_NAME))
+                    || filename.startsWith(MmsUtils.MMS_DUMP_PREFIX)
+                    || filename.startsWith(MmsUtils.SMS_DUMP_PREFIX)));
         }
     }
 

@@ -17,7 +17,6 @@
 package com.android.messaging.ui.appsettings;
 
 import android.content.Context;
-import android.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +25,8 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+
+import androidx.preference.Preference;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -58,9 +59,10 @@ public class ApnPreference extends Preference implements
     private boolean mSelectable = true;
     private int mSubId = ParticipantData.DEFAULT_SELF_SUB_ID;
 
-    @Override
     public View getView(View convertView, ViewGroup parent) {
-        View view = super.getView(convertView, parent);
+//        View view = super.getView(convertView, parent);
+        View view = null;
+        // TODO BadDaemon
 
         View widget = view.findViewById(R.id.apn_radiobutton);
         if ((widget != null) && widget instanceof RadioButton) {

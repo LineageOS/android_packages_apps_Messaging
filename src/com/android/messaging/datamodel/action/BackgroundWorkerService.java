@@ -20,11 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.datamodel.DataModelException;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
@@ -102,25 +102,16 @@ public class BackgroundWorkerService extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(final Intent intent) {
-        if (intent == null) {
-            // Shouldn't happen but sometimes does following another crash.
-            LogUtil.w(TAG, "BackgroundWorkerService.onHandleIntent: Called with null intent");
-            return;
-        }
+    protected void onHandleWork(@NonNull final Intent intent) {
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
 
-        switch(opcode) {
-            case OP_PROCESS_REQUEST: {
-                final Action action = intent.getParcelableExtra(EXTRA_ACTION);
-                final int attempt = intent.getIntExtra(EXTRA_ATTEMPT, -1);
-                doBackgroundWork(action, attempt);
-                break;
-            }
-
-            default:
-                LogUtil.w(TAG, "Unrecognized opcode in BackgroundWorkerService " + opcode);
-                throw new RuntimeException("Unrecognized opcode in BackgroundWorkerService");
+        if (opcode == OP_PROCESS_REQUEST) {
+            final Action action = intent.getParcelableExtra(EXTRA_ACTION);
+            final int attempt = intent.getIntExtra(EXTRA_ATTEMPT, -1);
+            doBackgroundWork(action, attempt);
+        } else {
+            LogUtil.w(TAG, "Unrecognized opcode in BackgroundWorkerService " + opcode);
+            throw new RuntimeException("Unrecognized opcode in BackgroundWorkerService");
         }
     }
 
@@ -143,18 +134,9 @@ public class BackgroundWorkerService extends JobIntentService {
         } catch (final Exception exception) {
             final boolean retry = false;
             LogUtil.e(TAG, "Error in background worker", exception);
-            if (!(exception instanceof DataModelException)) {
-                // DataModelException is expected (sort-of) and handled in handleFailureFromWorker
-                // below, but other exceptions should crash ENG builds
-                Assert.fail("Unexpected error in background worker - abort");
-            }
-            if (retry) {
-                action.markBackgroundWorkQueued();
-                startServiceWithAction(action, attempt + 1);
-            } else {
-                action.markBackgroundCompletionQueued();
-                mHost.handleFailureFromBackgroundWorker(action, exception);
-            }
+            Assert.fail("Unexpected error in background worker - abort");
+            action.markBackgroundCompletionQueued();
+            mHost.handleFailureFromBackgroundWorker(action, exception);
         }
     }
 }

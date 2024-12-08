@@ -30,18 +30,19 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.UserManager;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceScreen;
 import android.provider.Telephony;
-import androidx.core.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -64,7 +65,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         final ApnSettingsFragment fragment = new ApnSettingsFragment();
         fragment.setSubId(getIntent().getIntExtra(UIIntents.UI_INTENT_EXTRA_SUB_ID,
                 ParticipantData.DEFAULT_SELF_SUB_ID));
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, fragment)
                 .commit();
     }
@@ -90,7 +91,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         return null;
     }
 
-    public static class ApnSettingsFragment extends PreferenceFragment implements
+    public static class ApnSettingsFragment extends PreferenceFragmentCompat implements
             Preference.OnPreferenceChangeListener {
         public static final String EXTRA_POSITION = "position";
 
@@ -156,9 +157,8 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         }
 
         @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState,
+                                        @Nullable String rootKey) {
             final ListView lv = (ListView) getView().findViewById(android.R.id.list);
             TextView empty = (TextView) getView().findViewById(android.R.id.empty);
             if (empty != null) {
@@ -296,8 +296,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         }
 
         @Override
-        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-                Preference preference) {
+        public boolean onPreferenceTreeClick(Preference preference) {
             startActivity(
                     UIIntents.get().getApnEditorIntent(getActivity(), preference.getKey(), mSubId));
             return true;
