@@ -16,11 +16,13 @@
 
 package com.android.messaging.datamodel.data;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.android.messaging.datamodel.BoundCursorLoader;
 import com.android.messaging.datamodel.BugleNotifications;
@@ -80,6 +82,7 @@ public class ConversationListData extends BindableData
     // all blocked participants
     private final HashSet<String> mBlockedParticipants = new HashSet<String>();
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         final String bindingId = args.getString(BINDING_ID);
@@ -115,7 +118,7 @@ public class ConversationListData extends BindableData
      * {@inheritDoc}
      */
     @Override
-    public void onLoadFinished(final Loader<Cursor> generic, final Cursor data) {
+    public void onLoadFinished(@NonNull final Loader<Cursor> generic, final Cursor data) {
         final BoundCursorLoader loader = (BoundCursorLoader) generic;
         if (isBound(loader.getBindingId())) {
             switch (loader.getId()) {
@@ -144,7 +147,7 @@ public class ConversationListData extends BindableData
      * {@inheritDoc}
      */
     @Override
-    public void onLoaderReset(final Loader<Cursor> generic) {
+    public void onLoaderReset(@NonNull final Loader<Cursor> generic) {
         final BoundCursorLoader loader = (BoundCursorLoader) generic;
         if (isBound(loader.getBindingId())) {
             switch (loader.getId()) {

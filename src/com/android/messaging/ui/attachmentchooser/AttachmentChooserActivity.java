@@ -16,8 +16,12 @@
 
 package com.android.messaging.ui.attachmentchooser;
 
-import android.app.Fragment;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.BugleActionBarActivity;
@@ -26,17 +30,19 @@ import com.android.messaging.ui.attachmentchooser.AttachmentChooserFragment.Atta
 import com.android.messaging.util.Assert;
 
 public class AttachmentChooserActivity extends BugleActionBarActivity implements
-        AttachmentChooserFragmentHost {
+        AttachmentChooserFragmentHost, FragmentOnAttachListener {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attachment_chooser_activity);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
     }
 
     @Override
-    public void onAttachFragment(final Fragment fragment) {
+    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
+                                 @NonNull Fragment fragment) {
         if (fragment instanceof AttachmentChooserFragment) {
             final String conversationId =
                     getIntent().getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID);
@@ -53,4 +59,5 @@ public class AttachmentChooserActivity extends BugleActionBarActivity implements
         setResult(RESULT_OK);
         finish();
     }
+
 }

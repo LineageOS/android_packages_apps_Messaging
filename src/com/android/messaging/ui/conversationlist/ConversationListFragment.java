@@ -16,17 +16,12 @@
 package com.android.messaging.ui.conversationlist;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewGroupCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,6 +34,14 @@ import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.messaging.R;
 import com.android.messaging.annotation.VisibleForAnimation;
@@ -125,7 +128,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     @Override
     public void onCreate(final Bundle bundle) {
         super.onCreate(bundle);
-        mListBinding.getData().init(getLoaderManager(), mListBinding);
+        mListBinding.getData().init(LoaderManager.getInstance(this), mListBinding);
         mAdapter = new ConversationListAdapter(getActivity(), null, this);
     }
 
@@ -305,7 +308,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     }
 
     @Override
-    public void onPrepareOptionsMenu(final Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull final Menu menu) {
         super.onPrepareOptionsMenu(menu);
         final MenuItem startNewConversationMenuItem =
                 menu.findItem(R.id.action_start_new_conversation);
@@ -313,7 +316,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             // It is recommended for the Floating Action button functionality to be duplicated as a
             // menu
             AccessibilityManager accessibilityManager = (AccessibilityManager)
-                    getActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
+                    requireActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
             startNewConversationMenuItem.setVisible(accessibilityManager
                     .isTouchExplorationEnabled());
         }

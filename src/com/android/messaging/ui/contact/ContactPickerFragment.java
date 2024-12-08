@@ -17,13 +17,9 @@
 package com.android.messaging.ui.contact;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -38,6 +34,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar.OnMenuItemClickListener;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -129,7 +133,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
 
         if (ContactUtil.hasReadContactsPermission()) {
             mBinding.bind(DataModel.get().createContactPickerData(getActivity(), this));
-            mBinding.getData().init(getLoaderManager(), mBinding);
+            mBinding.getData().init(LoaderManager.getInstance(this), mBinding);
         }
     }
 
@@ -148,7 +152,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mRecipientTextView.setContactChipsListener(this);
         mRecipientTextView.setDropdownChipLayouter(new ContactDropdownLayouter(inflater,
                 getActivity(), this));
-        mRecipientTextView.setAdapter(new ContactRecipientAdapter(getActivity(), this));
+        mRecipientTextView.setAdapter(new ContactRecipientAdapter(getActivity()));
         mRecipientTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before,
@@ -174,7 +178,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mCustomHeaderViewPager.setViewHolders(viewHolders);
         mCustomHeaderViewPager.setViewPagerTabHeight(CustomHeaderViewPager.DEFAULT_TAB_STRIP_SIZE);
         mCustomHeaderViewPager.setBackgroundColor(getResources()
-                .getColor(R.color.contact_picker_background));
+                .getColor(R.color.contact_picker_background, requireActivity().getTheme()));
 
         // The view pager defaults to the frequent contacts page.
         mCustomHeaderViewPager.setCurrentItem(0);
@@ -182,12 +186,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_light);
         mToolbar.setNavigationContentDescription(R.string.back);
-        mToolbar.setNavigationOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mHost.onBackButtonPressed();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> mHost.onBackButtonPressed());
 
         mToolbar.inflateMenu(R.menu.compose_menu);
         mToolbar.setOnMenuItemClickListener(this);
@@ -197,15 +196,9 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         return view;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * Called when the host activity has been created. At this point, the host activity should
-     * have set the contact picking mode for us so that we may update our visuals.
-     */
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         Assert.isTrue(mContactPickingMode != MODE_UNDEFINED);
         updateVisualsForContactPickingMode(false /* animate */);
         mHost.invalidateActionBar();
@@ -227,32 +220,29 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
 
     @Override
     public boolean onMenuItemClick(final MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.action_ime_dialpad_toggle:
-                final int baseInputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE;
-                if ((mRecipientTextView.getInputType() & InputType.TYPE_CLASS_PHONE) !=
-                        InputType.TYPE_CLASS_PHONE) {
-                    mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_PHONE);
-                    menuItem.setIcon(R.drawable.ic_ime_light);
-                } else {
-                    mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_TEXT);
-                    menuItem.setIcon(R.drawable.ic_numeric_dialpad);
-                }
-                ImeUtil.get().showImeKeyboard(getActivity(), mRecipientTextView);
-                return true;
-
-            case R.id.action_add_more_participants:
-                mHost.onInitiateAddMoreParticipants();
-                return true;
-
-            case R.id.action_confirm_participants:
-                maybeGetOrCreateConversation();
-                return true;
-
-            case R.id.action_delete_text:
-                Assert.equals(MODE_PICK_INITIAL_CONTACT, mContactPickingMode);
-                mRecipientTextView.setText("");
-                return true;
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.action_ime_dialpad_toggle) {
+            final int baseInputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+            if ((mRecipientTextView.getInputType() & InputType.TYPE_CLASS_PHONE) !=
+                    InputType.TYPE_CLASS_PHONE) {
+                mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_PHONE);
+                menuItem.setIcon(R.drawable.ic_ime_light);
+            } else {
+                mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_TEXT);
+                menuItem.setIcon(R.drawable.ic_numeric_dialpad);
+            }
+            ImeUtil.get().showImeKeyboard(requireActivity(), mRecipientTextView);
+            return true;
+        } else if (itemId == R.id.action_add_more_participants) {
+            mHost.onInitiateAddMoreParticipants();
+            return true;
+        } else if (itemId == R.id.action_confirm_participants) {
+            maybeGetOrCreateConversation();
+            return true;
+        } else if (itemId == R.id.action_delete_text) {
+            Assert.equals(MODE_PICK_INITIAL_CONTACT, mContactPickingMode);
+            mRecipientTextView.setText("");
+            return true;
         }
         return false;
     }
@@ -567,8 +557,9 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         // Hide the action bar for contact picker mode. The custom ToolBar containing chips UI
         // etc. will take the spot of the action bar.
         actionBar.hide();
-        UiUtils.setStatusBarColor(getActivity(),
-                getResources().getColor(R.color.compose_notification_bar_background));
+        UiUtils.setStatusBarColor(requireActivity(),
+                getResources().getColor(R.color.compose_notification_bar_background,
+                        requireActivity().getTheme()));
     }
 
     private GetOrCreateConversationActionMonitor mMonitor;

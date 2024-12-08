@@ -106,9 +106,7 @@ public class BugleCarrierConfigValuesLoader implements CarrierConfigValuesLoader
         try {
             final Bundle systemValues =
                     PhoneUtils.get(subId).getSmsManager().getCarrierConfigValues();
-            if (systemValues != null) {
-                values.putAll(systemValues);
-            }
+            values.putAll(systemValues);
         } catch (final Exception e) {
             LogUtil.w(LogUtil.BUGLE_TAG, "Calling system getCarrierConfigValues exception", e);
         }
@@ -128,13 +126,8 @@ public class BugleCarrierConfigValuesLoader implements CarrierConfigValuesLoader
         try {
             parser = subContext.getResources().getXml(R.xml.mms_config);
             final ApnsXmlProcessor processor = ApnsXmlProcessor.get(parser);
-            processor.setMmsConfigHandler(new ApnsXmlProcessor.MmsConfigHandler() {
-                @Override
-                public void process(final String mccMnc, final String key, final String value,
-                        final String type) {
-                    update(values, type, key, value);
-                }
-            });
+            processor.setMmsConfigHandler((mccMnc, key, value, type) ->
+                    update(values, type, key, value));
             processor.process();
         } catch (final Resources.NotFoundException e) {
             LogUtil.w(LogUtil.BUGLE_TAG, "Can not find mms_config.xml");

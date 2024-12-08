@@ -291,9 +291,9 @@ public class ActionMonitor {
      *                 else the value returned by {@link Action#processBackgroundResponse}
      *                 or {@link Action#processBackgroundFailure}
      */
-    private final void complete(final Action action,
-            final int expectedOldState, final Object result,
-            final boolean succeeded) {
+    private void complete(final Action action,
+                          final int expectedOldState, final Object result,
+                          final boolean succeeded) {
         ActionCompletedListener completedListener = null;
         synchronized (mLock) {
             setState(action, expectedOldState, STATE_COMPLETE);

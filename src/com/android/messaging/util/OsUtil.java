@@ -17,6 +17,7 @@
 package com.android.messaging.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.UserHandle;
@@ -54,9 +55,6 @@ public class OsUtil {
 
     /**
      * Creates a joined string from a Set<String> using the given delimiter.
-     * @param values
-     * @param delimiter
-     * @return
      */
     public static String joinFromSetWithDelimiter(
             final Set<String> values, final String delimiter) {
@@ -76,7 +74,7 @@ public class OsUtil {
         return null;
     }
 
-    private static Hashtable<String, Integer> sPermissions = new Hashtable<String, Integer>();
+    private static final Hashtable<String, Integer> sPermissions = new Hashtable<>();
 
     /**
      * Check if the app has the specified permission. If it does not, the app needs to use
@@ -150,7 +148,7 @@ public class OsUtil {
         return missingArray;
     }
 
-    private static String[] sRequiredPermissions = new String[] {
+    private static final String[] sRequiredPermissions = new String[] {
         // Required to read existing SMS threads
         Manifest.permission.READ_SMS,
         // Required for knowing the phone number, number of SIMs, etc.

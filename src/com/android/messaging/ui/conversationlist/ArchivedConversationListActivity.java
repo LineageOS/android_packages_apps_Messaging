@@ -17,14 +17,21 @@ package com.android.messaging.ui.conversationlist;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.messaging.R;
 import com.android.messaging.util.DebugUtils;
 
-public class ArchivedConversationListActivity extends AbstractConversationListActivity {
+public class ArchivedConversationListActivity extends AbstractConversationListActivity
+        implements FragmentOnAttachListener {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -32,7 +39,8 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
 
         final ConversationListFragment fragment =
                 ConversationListFragment.createArchivedConversationListFragment();
-        getFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
+        getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
         invalidateActionBar();
     }
 
@@ -72,16 +80,15 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch(menuItem.getItemId()) {
-            case R.id.action_debug_options:
-                onActionBarDebug();
-                return true;
-            case android.R.id.home:
-                onActionBarHome();
-                return true;
-            default:
-                return super.onOptionsItemSelected(menuItem);
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.action_debug_options) {
+            onActionBarDebug();
+            return true;
+        } else if (itemId == android.R.id.home) {
+            onActionBarHome();
+            return true;
         }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override
@@ -92,5 +99,14 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
     @Override
     public boolean isSwipeAnimatable() {
         return false;
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
+                                 @NonNull Fragment fragment) {
+        if (fragment instanceof ConversationListFragment) {
+            mConversationListFragment = (ConversationListFragment) fragment;
+            mConversationListFragment.setHost(this);
+        }
     }
 }

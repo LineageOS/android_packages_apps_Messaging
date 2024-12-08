@@ -17,7 +17,6 @@ package com.android.messaging.ui.conversationsettings;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +24,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +32,9 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -47,10 +48,9 @@ import com.android.messaging.datamodel.data.PeopleOptionsItemData;
 import com.android.messaging.datamodel.data.PersonItemData;
 import com.android.messaging.ui.CompositeAdapter;
 import com.android.messaging.ui.PersonItemView;
-import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.conversation.ConversationActivity;
-import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.Assert;
+import com.android.messaging.util.NotificationsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +70,7 @@ public class PeopleAndOptionsFragment extends Fragment
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding.getData().init(getLoaderManager(), mBinding);
+        mBinding.getData().init(LoaderManager.getInstance(this), mBinding);
     }
 
     @Override

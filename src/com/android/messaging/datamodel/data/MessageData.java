@@ -24,6 +24,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
@@ -141,7 +143,7 @@ public class MessageData implements Parcelable {
     public static final int BUGLE_STATUS_INCOMING_DOWNLOAD_FAILED            = 106;
     public static final int BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE   = 107;
 
-    public static final String getStatusDescription(int status) {
+    public static String getStatusDescription(int status) {
         switch (status) {
             case BUGLE_STATUS_UNKNOWN:
                 return "UNKNOWN";
@@ -646,15 +648,7 @@ public class MessageData implements Parcelable {
                 || mProtocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION;
     }
 
-    public static final boolean getIsMmsNotification(final int protocol) {
-        return (protocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION);
-    }
-
-    public final boolean getIsMmsNotification() {
-        return getIsMmsNotification(mProtocol);
-    }
-
-    public static final boolean getIsSms(final int protocol) {
+    public static boolean getIsSms(final int protocol) {
         return protocol == (MessageData.PROTOCOL_SMS);
     }
 
@@ -808,10 +802,6 @@ public class MessageData implements Parcelable {
         }
     }
 
-    public final void setRetryStartTimestamp(final long timestamp) {
-        mRetryStartTimestamp = timestamp;
-    }
-
     public final void setRawTelephonyStatus(final int rawStatus) {
         mRawStatus = rawStatus;
     }
@@ -908,6 +898,7 @@ public class MessageData implements Parcelable {
         }
     };
 
+    @NonNull
     @Override
     public String toString() {
         return toString(mMessageId, mParts);
