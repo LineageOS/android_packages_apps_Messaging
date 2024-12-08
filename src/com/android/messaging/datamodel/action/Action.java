@@ -43,7 +43,7 @@ public abstract class Action implements Parcelable {
     public final String actionKey;
 
     // If derived classes keep their data in actionParameters then parcelable is trivial
-    protected Bundle actionParameters;
+    protected final Bundle actionParameters;
 
     // This does not get written to the parcel
     private final List<Action> mBackgroundActions = new LinkedList<Action>();

@@ -29,8 +29,8 @@ import java.io.RandomAccessFile;
 
 
 public class DrmConvertSession {
-    private DrmManagerClient mDrmClient;
-    private int mConvertSessionId;
+    private final DrmManagerClient mDrmClient;
+    private final int mConvertSessionId;
     private static final String TAG = "DrmConvertSession";
 
     private DrmConvertSession(DrmManagerClient drmClient, int convertSessionId) {

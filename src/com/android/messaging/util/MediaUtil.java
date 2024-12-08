@@ -20,8 +20,8 @@ import android.content.Context;
 import com.android.messaging.Factory;
 
 public abstract class MediaUtil {
-    public static interface OnCompletionListener {
-        public void onCompletion();
+    public interface OnCompletionListener {
+        void onCompletion();
     }
 
     public static MediaUtil get() {

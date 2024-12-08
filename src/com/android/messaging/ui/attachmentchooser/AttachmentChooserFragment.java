@@ -56,6 +56,7 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
     private AttachmentChooserFragmentHost mHost;
 
     @VisibleForTesting
+    final
     Binding<DraftMessageData> mBinding = BindingBase.createBinding(this);
 
     @Override

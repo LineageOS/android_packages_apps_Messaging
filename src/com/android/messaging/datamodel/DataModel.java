@@ -59,12 +59,11 @@ public abstract class DataModel {
         return Factory.get().getDataModel();
     }
 
-    public static final void startActionService(final Action action) {
+    public static void startActionService(final Action action) {
         get().getActionService().startAction(action);
     }
 
-    public static final void scheduleAction(final Action action,
-            final int code, final long delayMs) {
+    public static void scheduleAction(final Action action, final int code, final long delayMs) {
         get().getActionService().scheduleAction(action, code, delayMs);
     }
 
