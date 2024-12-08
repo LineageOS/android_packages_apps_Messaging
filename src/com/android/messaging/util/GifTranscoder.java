@@ -33,8 +33,8 @@ import java.util.concurrent.TimeUnit;
 public class GifTranscoder {
     private static final String TAG = LogUtil.BUGLE_TAG;
 
-    private static int MIN_HEIGHT = 100;
-    private static int MIN_WIDTH = 100;
+    private static final int MIN_HEIGHT = 100;
+    private static final int MIN_WIDTH = 100;
 
     static {
         System.loadLibrary("giftranscode");

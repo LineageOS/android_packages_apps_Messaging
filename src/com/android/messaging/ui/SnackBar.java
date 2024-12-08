@@ -130,7 +130,7 @@ public class SnackBar {
         private Action mAction;
         private Placement mPlacement;
         // The parent view is only used to get a window token and doesn't affect the layout
-        private View mParentView;
+        private final View mParentView;
 
         public Builder(final SnackBarManager snackBarManager, final View parentView) {
             Assert.notNull(snackBarManager);

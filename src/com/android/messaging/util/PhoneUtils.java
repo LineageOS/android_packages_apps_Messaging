@@ -238,21 +238,21 @@ public abstract class PhoneUtils {
          *
          * @return the subscription info of the SIM
          */
-        public abstract SubscriptionInfo getActiveSubscriptionInfo();
+        SubscriptionInfo getActiveSubscriptionInfo();
 
         /**
          * Get the list of active SIMs in system. Only applies to L_MR1 above
          *
          * @return the list of subscription info for all inserted SIMs
          */
-        public abstract List<SubscriptionInfo> getActiveSubscriptionInfoList();
+        List<SubscriptionInfo> getActiveSubscriptionInfoList();
 
         /**
          * Register subscription change listener. Only applies to L_MR1 above
          *
          * @param listener The listener to register
          */
-        public abstract void registerOnSubscriptionsChangedListener(
+        void registerOnSubscriptionsChangedListener(
                 SubscriptionManager.OnSubscriptionsChangedListener listener);
     }
 

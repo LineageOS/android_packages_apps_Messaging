@@ -26,9 +26,9 @@ import java.util.List;
  * extensions).
  */
 public interface MediaRequest<T extends RefCountedMediaResource> {
-    public static final int REQUEST_ENCODE_MEDIA = 1;
-    public static final int REQUEST_DECODE_MEDIA = 2;
-    public static final int REQUEST_LOAD_MEDIA = 3;
+    int REQUEST_ENCODE_MEDIA = 1;
+    int REQUEST_DECODE_MEDIA = 2;
+    int REQUEST_LOAD_MEDIA = 3;
 
     /**
      * Returns a unique key used for storing and looking up the MediaRequest.

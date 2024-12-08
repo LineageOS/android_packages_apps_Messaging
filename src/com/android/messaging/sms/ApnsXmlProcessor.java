@@ -37,11 +37,11 @@ import java.util.Map;
  */
 class ApnsXmlProcessor {
     public interface ApnHandler {
-        public void process(ContentValues apnValues);
+        void process(ContentValues apnValues);
     }
 
     public interface MmsConfigHandler {
-        public void process(String mccMnc, String key, String value, String type);
+        void process(String mccMnc, String key, String value, String type);
     }
 
     private static final String TAG = LogUtil.BUGLE_TAG;
