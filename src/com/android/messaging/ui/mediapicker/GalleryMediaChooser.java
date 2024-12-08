@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,7 +54,7 @@ class GalleryMediaChooser extends MediaChooser implements
     private View mMissingPermissionView;
 
     /** Handles picking a media from the document picker. */
-    private DocumentImagePicker mDocumentImagePicker;
+    private final DocumentImagePicker mDocumentImagePicker;
 
     GalleryMediaChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);

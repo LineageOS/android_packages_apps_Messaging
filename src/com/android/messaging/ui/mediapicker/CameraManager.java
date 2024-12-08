@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -99,8 +100,8 @@ class CameraManager implements FocusOverlayManager.Listener {
      * Callback when taking image or video
      */
     interface MediaCallback {
-        static final int MEDIA_CAMERA_CHANGED = 1;
-        static final int MEDIA_NO_DATA = 2;
+        int MEDIA_CAMERA_CHANGED = 1;
+        int MEDIA_NO_DATA = 2;
 
         void onMediaReady(Uri uriToMedia, String contentType, int width, int height);
         void onMediaFailed(Exception exception);

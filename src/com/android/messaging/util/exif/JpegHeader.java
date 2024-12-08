@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +33,7 @@ class JpegHeader {
     public static final short JPG = (short) 0xFFC8;
     public static final short DAC = (short) 0xFFCC;
 
-    public static final boolean isSofMarker(short marker) {
+    public static boolean isSofMarker(short marker) {
         return marker >= SOF0 && marker <= SOF15 && marker != DHT && marker != JPG
                 && marker != DAC;
     }

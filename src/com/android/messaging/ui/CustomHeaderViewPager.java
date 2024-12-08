@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +34,8 @@ import com.android.messaging.util.Assert;
 public class CustomHeaderViewPager extends LinearLayout {
     public final static int DEFAULT_TAB_STRIP_SIZE = -1;
     private final int mDefaultTabStripSize;
-    private ViewPager mViewPager;
-    private ViewPagerTabs mTabstrip;
+    private final ViewPager mViewPager;
+    private final ViewPagerTabs mTabstrip;
 
     public CustomHeaderViewPager(final Context context, final AttributeSet attrs) {
         super(context, attrs);

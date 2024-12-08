@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +66,7 @@ public class DatabaseWrapper {
     }
 
     // track transaction on a per thread basis
-    private static ThreadLocal<Stack<TransactionData>> sTransactionDepth =
+    private static final ThreadLocal<Stack<TransactionData>> sTransactionDepth =
             new ThreadLocal<Stack<TransactionData>>() {
         @Override
         public Stack<TransactionData> initialValue() {
@@ -73,7 +74,7 @@ public class DatabaseWrapper {
         }
     };
 
-    private static String[] sFormatStrings = new String[] {
+    private static final String[] sFormatStrings = new String[] {
         "took %d ms to %s",
         "   took %d ms to %s",
         "      took %d ms to %s",

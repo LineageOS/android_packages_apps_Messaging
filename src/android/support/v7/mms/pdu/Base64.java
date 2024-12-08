@@ -35,7 +35,7 @@ public class Base64 {
     static final int BASELENGTH = 255;
 
     // Create arrays to hold the base64 characters
-    private static byte[] base64Alphabet = new byte[BASELENGTH];
+    private static final byte[] base64Alphabet = new byte[BASELENGTH];
 
     // Populating the character arrays
     static {
