@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,7 +72,7 @@ public class NotificationPlayer implements OnCompletionListener {
      * be created with a looper running so its event handler is not null.
      */
     private final class CreationAndCompletionThread extends Thread {
-        public Command mCmd;
+        public final Command mCmd;
         public CreationAndCompletionThread(final Command cmd) {
             super();
             mCmd = cmd;
@@ -235,7 +236,7 @@ public class NotificationPlayer implements OnCompletionListener {
         }
     }
 
-    private String mTag;
+    private final String mTag;
     private CmdThread mThread;
     private CreationAndCompletionThread mCompletionThread;
     private final Object mCompletionHandlingLock = new Object();

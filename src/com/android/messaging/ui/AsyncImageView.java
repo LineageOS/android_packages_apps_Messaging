@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +68,7 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
     public final Binding<BindableMediaRequest<ImageResource>> mImageRequestBinding;
 
     /** True if we want the image to fade in when it loads */
-    private boolean mFadeIn;
+    private final boolean mFadeIn;
 
     /** True if we want the image to reveal (scale) when it loads. When set to true, this
      * will take precedence over {@link #mFadeIn} */

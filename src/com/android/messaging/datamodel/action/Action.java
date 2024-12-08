@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +44,7 @@ public abstract class Action implements Parcelable {
     public final String actionKey;
 
     // If derived classes keep their data in actionParameters then parcelable is trivial
-    protected Bundle actionParameters;
+    protected final Bundle actionParameters;
 
     // This does not get written to the parcel
     private final List<Action> mBackgroundActions = new LinkedList<Action>();

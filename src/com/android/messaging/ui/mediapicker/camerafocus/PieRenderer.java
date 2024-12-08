@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,14 +47,14 @@ public class PieRenderer extends OverlayRenderer
     // These states are used to make sure the animation is run for at least some
     // time.
     private volatile int mState;
-    private ScaleAnimation mAnimation = new ScaleAnimation();
+    private final ScaleAnimation mAnimation = new ScaleAnimation();
     private static final int STATE_IDLE = 0;
     private static final int STATE_FOCUSING = 1;
     private static final int STATE_FINISHING = 2;
     private static final int STATE_PIE = 8;
 
-    private Runnable mDisappear = new Disappear();
-    private Animation.AnimationListener mEndAction = new EndAction();
+    private final Runnable mDisappear = new Disappear();
+    private final Animation.AnimationListener mEndAction = new EndAction();
     private static final int SCALING_UP_TIME = 600;
     private static final int SCALING_DOWN_TIME = 100;
     private static final int DISAPPEAR_TIMEOUT = 200;
@@ -114,7 +115,7 @@ public class PieRenderer extends OverlayRenderer
     private LinearAnimation mFadeIn;
     private volatile boolean mFocusCancelled;
 
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             switch(msg.what) {
                 case MSG_OPEN:
@@ -133,9 +134,9 @@ public class PieRenderer extends OverlayRenderer
 
     private PieListener mListener;
 
-    public static interface PieListener {
-        public void onPieOpened(int centerX, int centerY);
-        public void onPieClosed();
+    public interface PieListener {
+        void onPieOpened(int centerX, int centerY);
+        void onPieClosed();
     }
 
     public void setPieListener(PieListener pl) {
@@ -801,8 +802,8 @@ public class PieRenderer extends OverlayRenderer
 
 
     private class LinearAnimation extends Animation {
-        private float mFrom;
-        private float mTo;
+        private final float mFrom;
+        private final float mTo;
         private float mValue;
 
         public LinearAnimation(float from, float to) {

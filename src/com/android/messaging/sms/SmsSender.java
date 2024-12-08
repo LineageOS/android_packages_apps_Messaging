@@ -60,7 +60,7 @@ public class SmsSender {
     /*
      * A map for pending sms messages. The key is the random request UUID.
      */
-    private static ConcurrentHashMap<Uri, SendResult> sPendingMessageMap =
+    private static final ConcurrentHashMap<Uri, SendResult> sPendingMessageMap =
             new ConcurrentHashMap<Uri, SendResult>();
 
     private static final Random RANDOM = new Random();

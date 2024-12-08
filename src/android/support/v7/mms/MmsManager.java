@@ -37,7 +37,7 @@ public class MmsManager {
     private static volatile boolean sForceLegacyMms = false;
 
     // Cached computed overrides for carrier configuration values
-    private static SparseArray<Bundle> sConfigOverridesMap = new SparseArray<>();
+    private static final SparseArray<Bundle> sConfigOverridesMap = new SparseArray<>();
 
     /**
      * Set the flag about whether to force to use legacy system APIs instead of system MMS API

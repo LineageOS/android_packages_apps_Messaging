@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +29,10 @@ import com.android.messaging.util.Assert;
 public class UpdateDestinationBlockedAction extends Action {
     public interface UpdateDestinationBlockedActionListener {
         @Assert.RunsOnMainThread
-        abstract void onUpdateDestinationBlockedAction(final UpdateDestinationBlockedAction action,
-                                                       final boolean success,
-                                                       final boolean block,
-                                                       final String destination);
+        void onUpdateDestinationBlockedAction(final UpdateDestinationBlockedAction action,
+                                              final boolean success,
+                                              final boolean block,
+                                              final String destination);
     }
 
     public static class UpdateDestinationBlockedActionMonitor extends ActionMonitor
