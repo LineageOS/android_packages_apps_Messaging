@@ -22,8 +22,8 @@ package android.support.v7.mms;
  */
 public interface UserAgentInfoLoader {
     // Carrier configuration keys for passing as config overrides into system MMS service
-    public static final String CONFIG_USER_AGENT = "userAgent";
-    public static final String CONFIG_UA_PROF_URL = "uaProfUrl";
+    String CONFIG_USER_AGENT = "userAgent";
+    String CONFIG_UA_PROF_URL = "uaProfUrl";
 
     /**
      * Get UserAgent value

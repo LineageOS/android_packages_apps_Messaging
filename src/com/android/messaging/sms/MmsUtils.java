@@ -1779,8 +1779,8 @@ public class MmsUtils {
     }
 
     public static class SendReqResp {
-        public SendReq mSendReq;
-        public SendConf mSendConf;
+        public final SendReq mSendReq;
+        public final SendConf mSendConf;
 
         public SendReqResp(final SendReq sendReq, final SendConf sendConf) {
             mSendReq = sendReq;

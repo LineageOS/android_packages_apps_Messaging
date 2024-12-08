@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008 Esmertec AG.
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +82,7 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
         mUpdating = new HashSet<Uri>();
     }
 
-    public static final synchronized PduCache getInstance() {
+    public static synchronized PduCache getInstance() {
         if (sInstance == null) {
             if (LOCAL_LOGV) {
                 Log.v(TAG, "Constructing new PduCache instance.");

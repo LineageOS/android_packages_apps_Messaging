@@ -239,7 +239,7 @@ public class MmsService extends Service {
     // Request execution thread pools. One thread pool for sending and one for downloading.
     // The size of the thread pool controls the parallelism of request execution.
     // See {@link setThreadPoolSize}
-    private ExecutorService[] mExecutors = new ExecutorService[2];
+    private final ExecutorService[] mExecutors = new ExecutorService[2];
 
     // Active request count
     private int mActiveRequestCount;

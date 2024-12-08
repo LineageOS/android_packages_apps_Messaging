@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +30,8 @@ import java.io.RandomAccessFile;
 
 
 public class DrmConvertSession {
-    private DrmManagerClient mDrmClient;
-    private int mConvertSessionId;
+    private final DrmManagerClient mDrmClient;
+    private final int mConvertSessionId;
     private static final String TAG = "DrmConvertSession";
 
     private DrmConvertSession(DrmManagerClient drmClient, int convertSessionId) {

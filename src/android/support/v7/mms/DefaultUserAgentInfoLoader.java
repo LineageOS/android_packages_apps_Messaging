@@ -31,7 +31,7 @@ class DefaultUserAgentInfoLoader implements UserAgentInfoLoader {
     private static final String DEFAULT_UA_PROF_URL =
             "http://www.gstatic.com/android/sms/mms_ua_profile.xml";
 
-    private Context mContext;
+    private final Context mContext;
     private boolean mLoaded;
 
     private String mUserAgent;

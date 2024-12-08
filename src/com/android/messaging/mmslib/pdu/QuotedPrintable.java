@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007 Esmertec AG.
  * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@ package com.android.messaging.mmslib.pdu;
 import java.io.ByteArrayOutputStream;
 
 public class QuotedPrintable {
-    private static byte ESCAPE_CHAR = '=';
+    private static final byte ESCAPE_CHAR = '=';
 
     /**
      * Decodes an array quoted-printable characters into an array of original bytes.
@@ -36,7 +37,7 @@ public class QuotedPrintable {
      * @return array of original bytes,
      *         null if quoted-printable decoding is unsuccessful.
      */
-    public static final byte[] decodeQuotedPrintable(byte[] bytes) {
+    public static byte[] decodeQuotedPrintable(byte[] bytes) {
         if (bytes == null) {
             return null;
         }

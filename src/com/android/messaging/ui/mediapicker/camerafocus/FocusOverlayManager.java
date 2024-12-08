@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +77,7 @@ public class FocusOverlayManager {
     private boolean mMeteringAreaSupported;
     private boolean mLockAeAwbNeeded;
     private boolean mAeAwbLock;
-    private Matrix mMatrix;
+    private final Matrix mMatrix;
 
     private PieRenderer mPieRenderer;
 
@@ -89,14 +90,14 @@ public class FocusOverlayManager {
     private String mFocusMode;
     private String mOverrideFocusMode;
     private Parameters mParameters;
-    private Handler mHandler;
-    Listener mListener;
+    private final Handler mHandler;
+    private final Listener mListener;
 
     public interface Listener {
-        public void autoFocus();
-        public void cancelAutoFocus();
-        public boolean capture();
-        public void setFocusParameters();
+        void autoFocus();
+        void cancelAutoFocus();
+        boolean capture();
+        void setFocusParameters();
     }
 
     private class MainHandler extends Handler {

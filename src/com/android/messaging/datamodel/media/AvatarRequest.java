@@ -45,7 +45,7 @@ import java.util.List;
 public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
     private static final float SCALING_FACTOR = 1.33f;
 
-    private TypedArray mColors;
+    private final TypedArray mColors;
 
     public AvatarRequest(final Context context,
             final AvatarRequestDescriptor descriptor) {

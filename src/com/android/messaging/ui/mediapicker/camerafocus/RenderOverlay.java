@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,20 +31,20 @@ public class RenderOverlay extends FrameLayout {
 
     interface Renderer {
 
-        public boolean handlesTouch();
-        public boolean onTouchEvent(MotionEvent evt);
-        public void setOverlay(RenderOverlay overlay);
-        public void layout(int left, int top, int right, int bottom);
-        public void draw(Canvas canvas);
+        boolean handlesTouch();
+        boolean onTouchEvent(MotionEvent evt);
+        void setOverlay(RenderOverlay overlay);
+        void layout(int left, int top, int right, int bottom);
+        void draw(Canvas canvas);
 
     }
 
-    private RenderView mRenderView;
-    private List<Renderer> mClients;
+    private final RenderView mRenderView;
+    private final List<Renderer> mClients;
 
     // reverse list of touch clients
-    private List<Renderer> mTouchClients;
-    private int[] mPosition = new int[2];
+    private final List<Renderer> mTouchClients;
+    private final int[] mPosition = new int[2];
 
     public RenderOverlay(Context context, AttributeSet attrs) {
         super(context, attrs);

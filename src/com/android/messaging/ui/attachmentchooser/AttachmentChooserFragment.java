@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +57,7 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
     private AttachmentChooserFragmentHost mHost;
 
     @VisibleForTesting
-    Binding<DraftMessageData> mBinding = BindingBase.createBinding(this);
+    final Binding<DraftMessageData> mBinding = BindingBase.createBinding(this);
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,

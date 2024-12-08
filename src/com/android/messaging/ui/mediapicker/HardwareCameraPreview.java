@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +37,7 @@ import java.io.IOException;
  * implementations of the shared methods are delegated to CameraPreview
  */
 public class HardwareCameraPreview extends TextureView implements CameraPreview.CameraPreviewHost {
-    private CameraPreview mPreview;
+    private final CameraPreview mPreview;
 
     public HardwareCameraPreview(final Context context, final AttributeSet attrs) {
         super(context, attrs);

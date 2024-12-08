@@ -21,7 +21,7 @@ package android.support.v7.mms.pdu;
 import java.io.ByteArrayOutputStream;
 
 public class QuotedPrintable {
-    private static byte ESCAPE_CHAR = '=';
+    private static final byte ESCAPE_CHAR = '=';
 
     /**
      * Decodes an array quoted-printable characters into an array of original bytes.
@@ -37,7 +37,7 @@ public class QuotedPrintable {
      * @return array of original bytes,
      *         null if quoted-printable decoding is unsuccessful.
      */
-    public static final byte[] decodeQuotedPrintable(byte[] bytes) {
+    public static byte[] decodeQuotedPrintable(byte[] bytes) {
         if (bytes == null) {
             return null;
         }
