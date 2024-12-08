@@ -41,9 +41,6 @@ import com.android.messaging.util.ConnectivityUtil.ConnectivityListener;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Action used to lookup any messages in the pending send/download state and either fail them or
  * retry their action based on subscriptions. This action only initiates one retry at a time for

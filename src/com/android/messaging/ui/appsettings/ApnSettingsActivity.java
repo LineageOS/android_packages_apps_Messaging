@@ -30,18 +30,22 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.UserManager;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceGroup;
-import android.preference.PreferenceScreen;
 import android.provider.Telephony;
-import androidx.core.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ListView;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroup;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -64,7 +68,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         final ApnSettingsFragment fragment = new ApnSettingsFragment();
         fragment.setSubId(getIntent().getIntExtra(UIIntents.UI_INTENT_EXTRA_SUB_ID,
                 ParticipantData.DEFAULT_SELF_SUB_ID));
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content, fragment)
                 .commit();
     }
@@ -90,7 +94,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         return null;
     }
 
-    public static class ApnSettingsFragment extends PreferenceFragment implements
+    public static class ApnSettingsFragment extends PreferenceFragmentCompat implements
             Preference.OnPreferenceChangeListener {
         public static final String EXTRA_POSITION = "position";
 
@@ -140,6 +144,8 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
 
         private SQLiteDatabase mDatabase;
 
+        private View mEmptyView;
+
         public void setSubId(final int subId) {
             mSubId = subId;
         }
@@ -149,32 +155,34 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
             super.onCreate(icicle);
 
             mDatabase = ApnDatabase.getApnDatabase().getWritableDatabase();
-            mUm = (UserManager) getActivity().getSystemService(Context.USER_SERVICE);
-            if (!mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
-                setHasOptionsMenu(true);
+        }
+
+        @NonNull
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                                 @Nullable Bundle savedInstanceState) {
+            View view = super.onCreateView(inflater, container, savedInstanceState);
+            TextView empty = (TextView) view.findViewById(android.R.id.empty);
+            if (empty != null) {
+                empty.setText(R.string.apn_settings_not_available);
+                mEmptyView = empty;
             }
+
+            return view;
         }
 
         @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-
-            final ListView lv = (ListView) getView().findViewById(android.R.id.list);
-            TextView empty = (TextView) getView().findViewById(android.R.id.empty);
-            if (empty != null) {
-                empty.setText(R.string.apn_settings_not_available);
-                lv.setEmptyView(empty);
-            }
-
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState,
+                                        @Nullable String rootKey) {
+            mUm = (UserManager) requireActivity().getSystemService(Context.USER_SERVICE);
             if (mUm.hasUserRestriction(UserManager.DISALLOW_CONFIG_MOBILE_NETWORKS)) {
                 mUnavailable = true;
                 setPreferenceScreen(getPreferenceManager().createPreferenceScreen(getActivity()));
                 return;
             }
 
+            setHasOptionsMenu(true);
             addPreferencesFromResource(R.xml.apn_settings);
-
-            lv.setItemsCanFocus(true);
         }
 
         @Override
@@ -254,6 +262,11 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
                                     apnList.addPreference(pref);
                                 }
                             }
+                            if (mEmptyView != null) {
+                                mEmptyView.setVisibility(apnList.getPreferenceCount() == 0
+                                        ? View.VISIBLE
+                                        : View.GONE);
+                            }
                         } finally {
                             cursor.close();
                         }
@@ -296,8 +309,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
         }
 
         @Override
-        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-                Preference preference) {
+        public boolean onPreferenceTreeClick(Preference preference) {
             startActivity(
                     UIIntents.get().getApnEditorIntent(getActivity(), preference.getKey(), mSubId));
             return true;

@@ -1482,7 +1482,7 @@ public class PduPersister {
         values.put(Mms.TEXT_ONLY, textOnly ? 1 : 0);
         values.put(Mms.SUBSCRIPTION_ID, subId);
 
-        Uri res = null;
+        Uri res;
         if (existingUri) {
             res = uri;
             SqliteWrapper.update(mContext, mContentResolver, res, values, null, null);

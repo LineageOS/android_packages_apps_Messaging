@@ -23,10 +23,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import android.util.StateSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -36,6 +32,11 @@ import android.view.View.OnLayoutChangeListener;
 import android.view.ViewGroupOverlay;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationMessageData;

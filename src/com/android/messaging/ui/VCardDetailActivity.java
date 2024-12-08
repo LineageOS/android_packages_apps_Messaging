@@ -15,10 +15,12 @@
  */
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
@@ -36,7 +38,7 @@ public class VCardDetailActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public void onAttachFragment(final Fragment fragment) {
+    public void onAttachFragment(@NonNull final Fragment fragment) {
         if (fragment instanceof VCardDetailFragment) {
             final Uri vCardUri =
                     getIntent().getParcelableExtra(UIIntents.UI_INTENT_EXTRA_VCARD_URI);

@@ -16,12 +16,14 @@
 
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.messaging.R;
 import com.android.messaging.util.LogUtil;
@@ -35,7 +37,7 @@ public class TestActivity extends FragmentActivity {
     private FragmentEventListener mFragmentEventListener;
 
     public interface FragmentEventListener {
-        public void onAttachFragment(Fragment fragment);
+        void onAttachFragment(Fragment fragment);
     }
 
     @Override
@@ -62,11 +64,11 @@ public class TestActivity extends FragmentActivity {
     @VisibleForTesting
     public void setFragment(final Fragment fragment) {
         LogUtil.i(LogUtil.BUGLE_TAG, "TestActivity.setFragment");
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.test_content, fragment)
                 .commit();
-        getFragmentManager().executePendingTransactions();
+        getSupportFragmentManager().executePendingTransactions();
     }
 
     @VisibleForTesting
@@ -76,7 +78,7 @@ public class TestActivity extends FragmentActivity {
     }
 
     @Override
-    public void onAttachFragment(final Fragment fragment) {
+    public void onAttachFragment(@NonNull final Fragment fragment) {
         if (mFragmentEventListener != null) {
             mFragmentEventListener.onAttachFragment(fragment);
         }
