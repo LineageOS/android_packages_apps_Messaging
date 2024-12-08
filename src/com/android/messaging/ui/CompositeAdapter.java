@@ -30,9 +30,9 @@ public class CompositeAdapter extends BaseAdapter {
     private static final int INITIAL_CAPACITY = 2;
 
     public static class Partition {
-        boolean mShowIfEmpty;
-        boolean mHasHeader;
-        BaseAdapter mAdapter;
+        final boolean mShowIfEmpty;
+        final boolean mHasHeader;
+        final BaseAdapter mAdapter;
 
         public Partition(final boolean showIfEmpty, final boolean hasHeader,
                 final BaseAdapter adapter) {

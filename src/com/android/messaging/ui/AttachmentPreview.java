@@ -53,7 +53,7 @@ public class AttachmentPreview extends ScrollView implements OnAttachmentClickLi
     private int mAnimatedHeight = -1;
     private Animator mCloseGapAnimator;
     private boolean mPendingFirstUpdate;
-    private Handler mHandler;
+    private final Handler mHandler;
     private Runnable mHideRunnable;
     private boolean mPendingHideCanceled;
 

@@ -20,10 +20,10 @@ package com.android.messaging.util;
 import android.webkit.MimeTypeMap;
 
 public final class ContentType {
-    public static String THREE_GPP_EXTENSION = "3gp";
-    public static String VIDEO_MP4_EXTENSION = "mp4";
+    public static final String THREE_GPP_EXTENSION = "3gp";
+    public static final String VIDEO_MP4_EXTENSION = "mp4";
     // Default extension used when we don't know one.
-    public static String DEFAULT_EXTENSION = "dat";
+    public static final String DEFAULT_EXTENSION = "dat";
 
     public static final int TYPE_IMAGE = 0;
     public static final int TYPE_VIDEO = 1;
