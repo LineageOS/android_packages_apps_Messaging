@@ -24,17 +24,14 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.text.util.Rfc822Token;
@@ -47,7 +44,6 @@ import com.android.messaging.datamodel.action.DownloadMmsAction;
 import com.android.messaging.datamodel.action.SendMessageAction;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
-import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.mmslib.InvalidHeaderValueException;
 import com.android.messaging.mmslib.MmsException;
 import com.android.messaging.mmslib.SqliteWrapper;
@@ -1510,36 +1506,6 @@ public class MmsUtils {
             }
         }
         return sUseSystemApn;
-    }
-
-    // For the internal debugger only
-    public static void setUseSystemApnTable(final boolean turnOn) {
-        if (!turnOn) {
-            // We're not turning on to the system table. Instead, we're using our internal table.
-            final int osVersion = OsUtil.getApiVersion();
-            if (osVersion != android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                // We're turning on local APNs on a device where we wouldn't normally have the
-                // local APN table. Build it here.
-
-                final SQLiteDatabase database = ApnDatabase.getApnDatabase().getWritableDatabase();
-
-                // Do we already have the table?
-                Cursor cursor = null;
-                try {
-                    cursor = database.query(ApnDatabase.APN_TABLE,
-                            ApnDatabase.APN_PROJECTION,
-                            null, null, null, null, null, null);
-                } catch (final Exception e) {
-                    // Apparently there's no table, create it now.
-                    ApnDatabase.forceBuildAndLoadApnTables();
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
-                }
-            }
-        }
-        sUseSystemApn = turnOn;
     }
 
     /**

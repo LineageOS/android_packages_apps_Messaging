@@ -25,15 +25,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.provider.Telephony;
-import androidx.core.app.NavUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
+import androidx.preference.EditTextPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -58,7 +60,7 @@ public class ApnEditorActivity extends BugleActionBarActivity {
         mApnEditorFragment = new ApnEditorFragment();
         mApnEditorFragment.setSubId(getIntent().getIntExtra(UIIntents.UI_INTENT_EXTRA_SUB_ID,
                 ParticipantData.DEFAULT_SELF_SUB_ID));
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager().beginTransaction()
             .replace(android.R.id.content, mApnEditorFragment)
             .commit();
     }
@@ -114,7 +116,7 @@ public class ApnEditorActivity extends BugleActionBarActivity {
         }
     }
 
-    public static class ApnEditorFragment extends PreferenceFragment implements
+    public static class ApnEditorFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
         private static final String SAVED_POS = "pos";
@@ -175,9 +177,8 @@ public class ApnEditorActivity extends BugleActionBarActivity {
         }
 
         @Override
-        public void onActivityCreated(Bundle savedInstanceState) {
-            super.onActivityCreated(savedInstanceState);
-
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState,
+                                        @Nullable String rootKey) {
             addPreferencesFromResource(R.xml.apn_editor);
 
             setHasOptionsMenu(true);

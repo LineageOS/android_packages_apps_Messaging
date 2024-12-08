@@ -20,7 +20,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -37,6 +36,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBar;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
