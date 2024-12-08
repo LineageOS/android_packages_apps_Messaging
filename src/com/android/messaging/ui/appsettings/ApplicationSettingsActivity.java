@@ -23,7 +23,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
+import android.preference.SwitchPreferenceCompat;
 import android.provider.Settings;
 import androidx.core.app.NavUtils;
 import android.text.TextUtils;
@@ -89,7 +89,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         private Preference mSmsEnabledPreference;
         private boolean mIsSmsPreferenceClicked;
         private String mSwipeRightToDeleteConversationkey;
-        private SwitchPreference mSwipeRightToDeleteConversationPreference;
+        private SwitchPreferenceCompat mSwipeRightToDeleteConversationPreference;
 
         public ApplicationSettingsFragment() {
             // Required empty constructor
@@ -112,7 +112,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSwipeRightToDeleteConversationkey = getString(
                     R.string.swipe_right_deletes_conversation_key);
             mSwipeRightToDeleteConversationPreference =
-                    (SwitchPreference) findPreference(mSwipeRightToDeleteConversationkey);
+                    (SwitchPreferenceCompat) findPreference(mSwipeRightToDeleteConversationkey);
             mIsSmsPreferenceClicked = false;
 
             if (!DebugUtils.isDebugEnabled()) {
