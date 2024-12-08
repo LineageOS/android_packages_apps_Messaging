@@ -46,7 +46,7 @@ public interface SnackBarInteraction {
      * {@link SnackBar} is always shown with {@link Gravity#BOTTOM} and that the provided View will
      * always need to be translated up to make room for the SnackBar.
      */
-    public static class BasicSnackBarInteraction implements SnackBarInteraction {
+    class BasicSnackBarInteraction implements SnackBarInteraction {
         private final View mView;
 
         public BasicSnackBarInteraction(final View view) {

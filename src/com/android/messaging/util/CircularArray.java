@@ -25,7 +25,7 @@ package com.android.messaging.util;
 public class CircularArray<E> {
     private int mNextWriter;
     private boolean mHasWrapped;
-    private int mMaxCount;
+    private final int mMaxCount;
     Object mList[];
 
     /**
