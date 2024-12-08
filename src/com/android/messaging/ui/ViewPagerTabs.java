@@ -49,7 +49,7 @@ import com.android.messaging.R;
 public class ViewPagerTabs extends HorizontalScrollView implements ViewPager.OnPageChangeListener {
 
     ViewPager mPager;
-    private ViewPagerTabStrip mTabStrip;
+    private final ViewPagerTabStrip mTabStrip;
 
     /**
      * Linearlayout that will contain the TextViews serving as tabs. This is the only child
@@ -60,7 +60,7 @@ public class ViewPagerTabs extends HorizontalScrollView implements ViewPager.OnP
     final int mTextSize;
     final boolean mTextAllCaps;
     int mPrevSelected = -1;
-    int mSidePadding;
+    final int mSidePadding;
 
     private static final int TAB_SIDE_PADDING_IN_DPS = 10;
 

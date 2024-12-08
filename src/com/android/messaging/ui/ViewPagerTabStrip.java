@@ -27,7 +27,7 @@ import android.widget.LinearLayout;
 import com.android.messaging.R;
 
 public class ViewPagerTabStrip extends LinearLayout {
-    private int mSelectedUnderlineThickness;
+    private final int mSelectedUnderlineThickness;
     private final Paint mSelectedUnderlinePaint;
 
     private int mIndexForSelection;

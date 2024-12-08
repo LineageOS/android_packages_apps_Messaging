@@ -36,7 +36,7 @@ import com.android.messaging.util.Assert;
 public class BlockedParticipantsData extends BindableData implements
         LoaderManager.LoaderCallbacks<Cursor> {
     public interface BlockedParticipantsDataListener {
-        public void onBlockedParticipantsCursorUpdated(final Cursor cursor);
+        void onBlockedParticipantsCursorUpdated(final Cursor cursor);
     }
     private static final String BINDING_ID = "bindingId";
     private static final int BLOCKED_PARTICIPANTS_LOADER = 1;
