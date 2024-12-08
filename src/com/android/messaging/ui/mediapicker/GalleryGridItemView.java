@@ -55,6 +55,7 @@ public class GalleryGridItemView extends FrameLayout {
     }
 
     @VisibleForTesting
+    final
     GalleryGridItemData mData;
     private AsyncImageView mImageView;
     private CheckBox mCheckBox;

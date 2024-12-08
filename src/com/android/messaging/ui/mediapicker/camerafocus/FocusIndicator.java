@@ -17,8 +17,8 @@
 package com.android.messaging.ui.mediapicker.camerafocus;
 
 public interface FocusIndicator {
-    public void showStart();
-    public void showSuccess(boolean timeout);
-    public void showFail(boolean timeout);
-    public void clear();
+    void showStart();
+    void showSuccess(boolean timeout);
+    void showFail(boolean timeout);
+    void clear();
 }

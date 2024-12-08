@@ -28,10 +28,10 @@ import com.android.messaging.util.Assert;
 public class UpdateDestinationBlockedAction extends Action {
     public interface UpdateDestinationBlockedActionListener {
         @Assert.RunsOnMainThread
-        abstract void onUpdateDestinationBlockedAction(final UpdateDestinationBlockedAction action,
-                                                       final boolean success,
-                                                       final boolean block,
-                                                       final String destination);
+        void onUpdateDestinationBlockedAction(final UpdateDestinationBlockedAction action,
+                                              final boolean success,
+                                              final boolean block,
+                                              final String destination);
     }
 
     public static class UpdateDestinationBlockedActionMonitor extends ActionMonitor

@@ -51,8 +51,8 @@ public class ConversationListData extends BindableData
             "(" + ConversationListViewColumns.ARCHIVE_STATUS + " = 0)";
 
     public interface ConversationListDataListener {
-        public void onConversationListCursorUpdated(ConversationListData data, Cursor cursor);
-        public void setBlockedParticipantsAvailable(boolean blockedAvailable);
+        void onConversationListCursorUpdated(ConversationListData data, Cursor cursor);
+        void setBlockedParticipantsAvailable(boolean blockedAvailable);
     }
 
     private ConversationListDataListener mListener;
