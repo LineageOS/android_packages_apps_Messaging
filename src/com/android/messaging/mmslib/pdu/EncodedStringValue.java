@@ -22,6 +22,7 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 /**
@@ -158,11 +159,7 @@ public class EncodedStringValue implements Cloneable {
                 if (LOCAL_LOGV) {
                     Log.v(TAG, e.getMessage(), e);
                 }
-                try {
-                    return new String(mData, CharacterSets.MIMENAME_ISO_8859_1);
-                } catch (UnsupportedEncodingException exception) {
-                    return new String(mData); // system default encoding.
-                }
+                return new String(mData, StandardCharsets.ISO_8859_1);
             }
         }
     }

@@ -16,11 +16,13 @@
 
 package com.android.messaging.datamodel.data;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.android.messaging.datamodel.BoundCursorLoader;
 import com.android.messaging.datamodel.FrequentContactsCursorBuilder;
@@ -61,6 +63,7 @@ public class ContactPickerData extends BindableData implements
     private static final int FREQUENT_CONTACTS_LOADER = 2;
     private static final int PARTICIPANT_LOADER = 3;
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         final String bindingId = args.getString(BINDING_ID);
@@ -91,7 +94,7 @@ public class ContactPickerData extends BindableData implements
      * {@inheritDoc}
      */
     @Override
-    public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+    public void onLoadFinished(@NonNull final Loader<Cursor> loader, final Cursor data) {
         final BoundCursorLoader cursorLoader = (BoundCursorLoader) loader;
         if (isBound(cursorLoader.getBindingId())) {
             switch (loader.getId()) {

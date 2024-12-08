@@ -78,12 +78,10 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public Bitmap loadBitmapInternal() throws IOException {
+    public Bitmap loadBitmapInternal() {
         Assert.isNotMainThread();
 
-        InputStream inputStream = null;
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
         try {
@@ -97,20 +95,17 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
         } catch (MalformedURLException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "MalformedUrl for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
         } catch (final OutOfMemoryError e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "OutOfMemoryError for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
             Factory.get().reclaimMemory();
         } catch (IOException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "IOException trying to get inputStream for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
         } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
             if (connection != null) {
                 connection.disconnect();
             }

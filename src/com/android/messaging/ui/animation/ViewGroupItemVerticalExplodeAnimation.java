@@ -25,12 +25,13 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import androidx.core.view.ViewCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
 import android.view.ViewOverlay;
 import android.widget.FrameLayout;
+
+import androidx.core.view.ViewCompat;
 
 import com.android.messaging.R;
 import com.android.messaging.util.ImageUtils;
@@ -169,17 +170,14 @@ public class ViewGroupItemVerticalExplodeAnimation {
                 expandLayer.animate().scaleY(scale)
                     .setDuration(mDuration)
                     .setInterpolator(UiUtils.EASE_IN_INTERPOLATOR)
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Clean up the views added to overlay on animation finish.
-                            overlay.remove(shadowContainerLayer);
-                            mViewToAnimate.setBackground(oldBackground);
-                            if (mViewBitmap != null) {
-                                mViewBitmap.recycle();
-                            }
+                    .withEndAction(() -> {
+                        // Clean up the views added to overlay on animation finish.
+                        overlay.remove(shadowContainerLayer);
+                        mViewToAnimate.setBackground(oldBackground);
+                        if (mViewBitmap != null) {
+                            mViewBitmap.recycle();
                         }
-                });
+                    });
             }
         }
     }
@@ -194,9 +192,9 @@ public class ViewGroupItemVerticalExplodeAnimation {
         // Strip the view of its background when taking a snapshot so that things like touch
         // feedback don't get accidentally snapshotted.
         final Drawable viewBackground = view.getBackground();
-        ImageUtils.setBackgroundDrawableOnView(view, null);
+        view.setBackground(null);
         view.draw(new Canvas(viewBitmap));
-        ImageUtils.setBackgroundDrawableOnView(view, viewBackground);
+        view.setBackground(viewBackground);
         return viewBitmap;
     }
 }

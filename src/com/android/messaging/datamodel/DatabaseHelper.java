@@ -34,18 +34,12 @@ import com.android.messaging.util.LogUtil;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
- * TODO: Open Issues:
- * - Should we be storing the draft messages in the regular messages table or should we have a
- *   separate table for drafts to keep the normal messages query as simple as possible?
- */
-
-/**
  * Allows access to the SQL database.  This is package private.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "bugle_db";
 
-    private static final int getDatabaseVersion(final Context context) {
+    private static int getDatabaseVersion(final Context context) {
         return Integer.parseInt(context.getResources().getString(R.string.database_version));
     }
 

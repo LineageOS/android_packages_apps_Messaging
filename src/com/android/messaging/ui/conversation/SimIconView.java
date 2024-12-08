@@ -17,15 +17,12 @@ package com.android.messaging.ui.conversation;
 
 import android.content.Context;
 import android.graphics.Outline;
-import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 
 import com.android.messaging.ui.ContactIconView;
-import com.android.messaging.util.Assert;
-import com.android.messaging.util.AvatarUriUtil;
 
 /**
  * Shows SIM avatar icon in the SIM switcher / Self-send button.

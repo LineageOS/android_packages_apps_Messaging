@@ -63,7 +63,6 @@
     <bool name="use_local_apn_pref_default" translatable="false">false</bool>
 
     <integer name="mediapicker_transition_duration">600</integer><!-- ms -->
-    <integer name="asyncimage_transition_duration">300</integer><!-- ms -->
     <integer name="compose_transition_duration">300</integer><!-- ms -->
     <integer name="camera_shutter_duration">200</integer><!-- ms -->
     <fraction name="camera_shutter_max_alpha">70%</fraction>

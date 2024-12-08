@@ -18,7 +18,7 @@
     package="com.android.messaging"
     android:installLocation="internalOnly">
 
-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="29" />
+    <uses-sdk android:minSdkVersion="33" android:targetSdkVersion="33" />
 
     <!-- Application holds CPU wakelock while working in background -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -55,6 +55,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.screen.portrait" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
     <queries>
         <intent>
@@ -194,7 +195,8 @@
             android:theme="@style/BugleTheme.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="user"
-            android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity">
+            android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:exported="true"
@@ -295,15 +297,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.messaging.ui.conversation.ConversationActivity" />
-        </activity>
-
-        <!-- Test activity that we use to host fragments/views. Unfortunately, apparently necessary
-             because Android framework test cases want activity to be in the instrumented package.
-             See http://developer.android.com/reference/android/test/ActivityInstrumentationTestCase2.html
-        -->
-        <activity
-            android:name=".ui.TestActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden">
         </activity>
 
         <activity
@@ -413,10 +406,6 @@
                   android:excludeFromRecents="true">
         </activity>
 
-        <activity android:name=".ui.SmsStorageLowWarningActivity"
-                  android:theme="@style/Translucent"
-                  android:configChanges="orientation|screenSize|keyboardHidden" />
-
         <activity android:name=".ui.appsettings.ApnSettingsActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:screenOrientation="user"
@@ -428,16 +417,6 @@
                   android:screenOrientation="user"
                   android:theme="@style/BugleTheme"
                   android:parentActivityName="com.android.messaging.ui.appsettings.ApnSettingsActivity"/>
-
-        <receiver android:name=".receiver.StorageStatusReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
-            </intent-filter>
-        </receiver>
 
         <receiver android:name=".receiver.BootAndPackageReplacedReceiver"
             android:exported="true">
