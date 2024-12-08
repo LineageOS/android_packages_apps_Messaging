@@ -67,7 +67,7 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
     public final Binding<BindableMediaRequest<ImageResource>> mImageRequestBinding;
 
     /** True if we want the image to fade in when it loads */
-    private boolean mFadeIn;
+    private final boolean mFadeIn;
 
     /** True if we want the image to reveal (scale) when it loads. When set to true, this
      * will take precedence over {@link #mFadeIn} */

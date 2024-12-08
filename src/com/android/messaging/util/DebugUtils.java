@@ -95,7 +95,7 @@ public class DebugUtils {
     }
 
     public abstract static class DebugAction {
-        String mTitle;
+        final String mTitle;
         public DebugAction(final String title) {
             mTitle = title;
         }

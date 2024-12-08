@@ -306,19 +306,19 @@ class SyncCursorPair {
          *
          * @return The next element (which becomes the current)
          */
-        public DatabaseMessage next();
+        DatabaseMessage next();
         /**
          * Close the cursor
          */
-        public void close();
+        void close();
         /**
          * Get the position
          */
-        public int getPosition();
+        int getPosition();
         /**
          * Get the count
          */
-        public int getCount();
+        int getCount();
     }
 
     private static final String ORDER_BY_DATE_DESC = "date DESC";

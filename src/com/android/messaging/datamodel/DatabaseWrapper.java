@@ -65,7 +65,7 @@ public class DatabaseWrapper {
     }
 
     // track transaction on a per thread basis
-    private static ThreadLocal<Stack<TransactionData>> sTransactionDepth =
+    private static final ThreadLocal<Stack<TransactionData>> sTransactionDepth =
             new ThreadLocal<Stack<TransactionData>>() {
         @Override
         public Stack<TransactionData> initialValue() {
@@ -73,7 +73,7 @@ public class DatabaseWrapper {
         }
     };
 
-    private static String[] sFormatStrings = new String[] {
+    private static final String[] sFormatStrings = new String[] {
         "took %d ms to %s",
         "   took %d ms to %s",
         "      took %d ms to %s",

@@ -51,14 +51,14 @@ public class DownloadMmsAction extends Action implements Parcelable {
      */
     public interface DownloadMmsActionListener {
         @RunsOnMainThread
-        abstract void onDownloadMessageStarting(final ActionMonitor monitor,
-                final Object data, final MessageData message);
+        void onDownloadMessageStarting(final ActionMonitor monitor,
+                                       final Object data, final MessageData message);
         @RunsOnMainThread
-        abstract void onDownloadMessageSucceeded(final ActionMonitor monitor,
-                final Object data, final MessageData message);
+        void onDownloadMessageSucceeded(final ActionMonitor monitor,
+                                        final Object data, final MessageData message);
         @RunsOnMainThread
-        abstract void onDownloadMessageFailed(final ActionMonitor monitor,
-                final Object data, final MessageData message);
+        void onDownloadMessageFailed(final ActionMonitor monitor,
+                                     final Object data, final MessageData message);
     }
 
     /**

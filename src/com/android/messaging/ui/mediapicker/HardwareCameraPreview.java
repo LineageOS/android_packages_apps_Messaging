@@ -36,7 +36,7 @@ import java.io.IOException;
  * implementations of the shared methods are delegated to CameraPreview
  */
 public class HardwareCameraPreview extends TextureView implements CameraPreview.CameraPreviewHost {
-    private CameraPreview mPreview;
+    private final CameraPreview mPreview;
 
     public HardwareCameraPreview(final Context context, final AttributeSet attrs) {
         super(context, attrs);

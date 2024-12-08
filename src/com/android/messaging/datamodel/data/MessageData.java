@@ -141,7 +141,7 @@ public class MessageData implements Parcelable {
     public static final int BUGLE_STATUS_INCOMING_DOWNLOAD_FAILED            = 106;
     public static final int BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE   = 107;
 
-    public static final String getStatusDescription(int status) {
+    public static String getStatusDescription(int status) {
         switch (status) {
             case BUGLE_STATUS_UNKNOWN:
                 return "UNKNOWN";
@@ -646,7 +646,7 @@ public class MessageData implements Parcelable {
                 || mProtocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION;
     }
 
-    public static final boolean getIsMmsNotification(final int protocol) {
+    public static boolean getIsMmsNotification(final int protocol) {
         return (protocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION);
     }
 
@@ -654,7 +654,7 @@ public class MessageData implements Parcelable {
         return getIsMmsNotification(mProtocol);
     }
 
-    public static final boolean getIsSms(final int protocol) {
+    public static boolean getIsSms(final int protocol) {
         return protocol == (MessageData.PROTOCOL_SMS);
     }
 
