@@ -77,15 +77,15 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     private boolean mForwardMessageMode;
 
     public interface ConversationListFragmentHost {
-        public void onConversationClick(final ConversationListData listData,
+        void onConversationClick(final ConversationListData listData,
                                         final ConversationListItemData conversationListItemData,
                                         final boolean isLongClick,
                                         final ConversationListItemView conversationView);
-        public void onCreateConversationClick();
-        public boolean isConversationSelected(final String conversationId);
-        public boolean isSwipeAnimatable();
-        public boolean isSelectionMode();
-        public boolean hasWindowFocus();
+        void onCreateConversationClick();
+        boolean isConversationSelected(final String conversationId);
+        boolean isSwipeAnimatable();
+        boolean isSelectionMode();
+        boolean hasWindowFocus();
     }
 
     private ConversationListFragmentHost mHost;

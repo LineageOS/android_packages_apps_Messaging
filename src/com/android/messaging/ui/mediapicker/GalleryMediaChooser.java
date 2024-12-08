@@ -53,7 +53,7 @@ class GalleryMediaChooser extends MediaChooser implements
     private View mMissingPermissionView;
 
     /** Handles picking a media from the document picker. */
-    private DocumentImagePicker mDocumentImagePicker;
+    private final DocumentImagePicker mDocumentImagePicker;
 
     GalleryMediaChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);

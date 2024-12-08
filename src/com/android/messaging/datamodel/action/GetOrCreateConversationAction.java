@@ -43,12 +43,12 @@ public class GetOrCreateConversationAction extends Action implements Parcelable 
      */
     public interface GetOrCreateConversationActionListener {
         @RunsOnMainThread
-        abstract void onGetOrCreateConversationSucceeded(final ActionMonitor monitor,
-                final Object data, final String conversationId);
+        void onGetOrCreateConversationSucceeded(final ActionMonitor monitor,
+                                                final Object data, final String conversationId);
 
         @RunsOnMainThread
-        abstract void onGetOrCreateConversationFailed(final ActionMonitor monitor,
-                final Object data);
+        void onGetOrCreateConversationFailed(final ActionMonitor monitor,
+                                             final Object data);
     }
 
     public static GetOrCreateConversationActionMonitor getOrCreateConversation(

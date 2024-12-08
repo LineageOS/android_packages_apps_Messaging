@@ -35,7 +35,7 @@ public class TestActivity extends FragmentActivity {
     private FragmentEventListener mFragmentEventListener;
 
     public interface FragmentEventListener {
-        public void onAttachFragment(Fragment fragment);
+        void onAttachFragment(Fragment fragment);
     }
 
     @Override

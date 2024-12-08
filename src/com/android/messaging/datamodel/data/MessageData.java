@@ -141,7 +141,7 @@ public class MessageData implements Parcelable {
     public static final int BUGLE_STATUS_INCOMING_DOWNLOAD_FAILED            = 106;
     public static final int BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE   = 107;
 
-    public static final String getStatusDescription(int status) {
+    public static String getStatusDescription(int status) {
         switch (status) {
             case BUGLE_STATUS_UNKNOWN:
                 return "UNKNOWN";

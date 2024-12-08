@@ -47,8 +47,8 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
     public static final String HIDE_NEW_CONVERSATION_BUTTON_KEY = "hide_conv_button_key";
 
     public interface HostInterface {
-        public void onConversationClick(final ConversationListItemData conversationListItemData);
-        public void onCreateConversationClick();
+        void onConversationClick(final ConversationListItemData conversationListItemData);
+        void onCreateConversationClick();
     }
 
     private final Binding<ConversationListData> mListBinding = BindingBase.createBinding(this);

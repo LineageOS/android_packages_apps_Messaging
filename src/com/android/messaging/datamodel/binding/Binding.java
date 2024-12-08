@@ -19,7 +19,7 @@ package com.android.messaging.datamodel.binding;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Binding<T extends BindableData> extends BindingBase<T> {
-    private static AtomicLong sBindingIdx = new AtomicLong(System.currentTimeMillis() * 1000);
+    private static final AtomicLong sBindingIdx = new AtomicLong(System.currentTimeMillis() * 1000);
 
     private String mBindingId;
     private T mData;
