@@ -78,6 +78,7 @@ android_app {
         "com.android.vcard",
         "guava",
         "libphonenumber",
+        "com.google.android.material_material",
     ],
 
     aaptflags: [
