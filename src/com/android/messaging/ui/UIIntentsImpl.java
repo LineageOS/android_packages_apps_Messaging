@@ -469,14 +469,6 @@ public class UIIntentsImpl extends UIIntents {
     }
 
     @Override
-    public Intent getWirelessAlertsIntent() {
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setComponent(new ComponentName(CMAS_COMPONENT, CELL_BROADCAST_LIST_ACTIVITY));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return intent;
-    }
-
-    @Override
     public Intent getApnEditorIntent(final Context context, final String rowId, final int subId) {
         final Intent intent = new Intent(context, ApnEditorActivity.class);
         intent.putExtra(UI_INTENT_EXTRA_APN_ROW_ID, rowId);
