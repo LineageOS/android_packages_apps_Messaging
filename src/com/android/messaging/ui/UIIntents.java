@@ -265,11 +265,6 @@ public abstract class UIIntents {
     public abstract Intent getViewUrlIntent(final String url);
 
     /**
-     * Get an intent to launch the wireless alert viewer.
-     */
-    public abstract Intent getWirelessAlertsIntent();
-
-    /**
      * Get an intent to launch the dialog for changing the default SMS App.
      */
     public abstract Intent getChangeDefaultSmsAppIntent(final Activity activity);
