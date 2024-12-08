@@ -620,7 +620,7 @@ public class ConversationMessageData {
 
     // Data definitions
 
-    public static final String getConversationMessagesQuerySql() {
+    public static String getConversationMessagesQuerySql() {
         return CONVERSATION_MESSAGES_QUERY_SQL
                 + " AND "
                 // Inject the conversation id
@@ -628,7 +628,7 @@ public class ConversationMessageData {
                 + CONVERSATION_MESSAGES_QUERY_SQL_GROUP_BY;
     }
 
-    static final String getConversationMessageIdsQuerySql() {
+    static String getConversationMessageIdsQuerySql() {
         return CONVERSATION_MESSAGES_IDS_QUERY_SQL
                 + " AND "
                 // Inject the conversation id
@@ -636,7 +636,7 @@ public class ConversationMessageData {
                 + CONVERSATION_MESSAGES_QUERY_SQL_GROUP_BY;
     }
 
-    public static final String getNotificationQuerySql() {
+    public static String getNotificationQuerySql() {
         return CONVERSATION_MESSAGES_QUERY_SQL
                 + " AND "
                 + "(" + DatabaseHelper.MessageColumns.STATUS + " in ("
@@ -648,7 +648,7 @@ public class ConversationMessageData {
                 + NOTIFICATION_QUERY_SQL_GROUP_BY;
     }
 
-    public static final String getWearableQuerySql() {
+    public static String getWearableQuerySql() {
         return CONVERSATION_MESSAGES_QUERY_SQL
                 + " AND "
                 + DatabaseHelper.MESSAGES_TABLE + "." + MessageColumns.CONVERSATION_ID + "=?"
