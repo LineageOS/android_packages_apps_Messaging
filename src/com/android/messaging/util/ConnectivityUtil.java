@@ -42,7 +42,7 @@ public class ConnectivityUtil {
     private ConnectivityListener mListener;
 
     public interface ConnectivityListener {
-        public void onPhoneStateChanged(int serviceState);
+        void onPhoneStateChanged(int serviceState);
     }
 
     public ConnectivityUtil(final Context context) {

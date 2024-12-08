@@ -72,7 +72,7 @@ public class WidgetConversationService extends RemoteViewsService {
      */
     private static class WidgetConversationFactory extends BaseWidgetFactory {
         private ImageResource mImageResource;
-        private String mConversationId;
+        private final String mConversationId;
 
         public WidgetConversationFactory(Context context, Intent intent) {
             super(context, intent);
