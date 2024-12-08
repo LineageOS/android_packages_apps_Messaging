@@ -54,10 +54,6 @@
             android:summary="@string/delivery_reports_pref_summary"
             android:defaultValue="@bool/delivery_reports_pref_default" />
 
-        <Preference
-            android:key="@string/wireless_alerts_key"
-            android:title="@string/wireless_alerts_title"/>
-
         <PreferenceScreen
             android:key="@string/sms_apns_key"
             android:title="@string/sms_apns_title" />

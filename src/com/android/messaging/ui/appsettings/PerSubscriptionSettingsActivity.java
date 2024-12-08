@@ -138,27 +138,6 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
                         getString(R.string.delivery_reports_pref_key));
                 advancedCategory.removePreference(deliveryReportsPref);
             }
-            final Preference wirelessAlertPref = findPreference(getString(
-                    R.string.wireless_alerts_key));
-            if (!isCellBroadcastAppLinkEnabled()) {
-                advancedCategory.removePreference(wirelessAlertPref);
-            } else {
-                wirelessAlertPref.setOnPreferenceClickListener(
-                        new Preference.OnPreferenceClickListener() {
-                            @Override
-                            public boolean onPreferenceClick(final Preference preference) {
-                                try {
-                                    startActivity(UIIntents.get().getWirelessAlertsIntent());
-                                } catch (final ActivityNotFoundException e) {
-                                    // Handle so we shouldn't crash if the wireless alerts
-                                    // implementation is broken.
-                                    LogUtil.e(LogUtil.BUGLE_TAG,
-                                            "Failed to launch wireless alerts activity", e);
-                                }
-                                return true;
-                            }
-                        });
-            }
 
             // Access Point Names (APNs)
             final PreferenceScreen apnsScreen =
@@ -194,20 +173,6 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
             if (advancedCategory.getPreferenceCount() == 0) {
                 getPreferenceScreen().removePreference(advancedCategory);
             }
-        }
-
-        private boolean isCellBroadcastAppLinkEnabled() {
-            if (!MmsConfig.get(mSubId).getShowCellBroadcast()) {
-                return false;
-            }
-            try {
-                final PackageManager pm = getActivity().getPackageManager();
-                return pm.getApplicationEnabledSetting(UIIntents.CMAS_COMPONENT)
-                        != PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-            } catch (final IllegalArgumentException ignored) {
-                // CMAS app not installed.
-            }
-            return false;
         }
 
         private void updateGroupMmsPrefSummary() {
