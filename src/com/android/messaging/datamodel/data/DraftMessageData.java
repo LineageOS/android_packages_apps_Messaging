@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,16 +71,16 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
     }
 
     // Flags sent to onDraftChanged to help the receiver limit the amount of work done
-    public static int ATTACHMENTS_CHANGED  =     0x0001;
-    public static int MESSAGE_TEXT_CHANGED =     0x0002;
-    public static int MESSAGE_SUBJECT_CHANGED =  0x0004;
+    public static final int ATTACHMENTS_CHANGED  =     0x0001;
+    public static final int MESSAGE_TEXT_CHANGED =     0x0002;
+    public static final int MESSAGE_SUBJECT_CHANGED =  0x0004;
     // Whether the self participant data has been loaded
-    public static int SELF_CHANGED =             0x0008;
-    public static int ALL_CHANGED =              0x00FF;
+    public static final int SELF_CHANGED =             0x0008;
+    public static final int ALL_CHANGED =              0x00FF;
     // ALL_CHANGED intentionally doesn't include WIDGET_CHANGED. ConversationFragment needs to
     // be notified if the draft it is looking at is changed externally (by a desktop widget) so it
     // can reload the draft.
-    public static int WIDGET_CHANGED  =          0x0100;
+    public static final int WIDGET_CHANGED  =          0x0100;
 
     private final String mConversationId;
     private ReadDraftDataActionMonitor mMonitor;
@@ -91,7 +92,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
     private String mMessageText;
     private String mMessageSubject;
     private String mSelfId;
-    private MessageTextStats mMessageTextStats;
+    private final MessageTextStats mMessageTextStats;
     private boolean mSending;
 
     /** Keeps track of completed attachments in the message draft. This data is persisted to db */

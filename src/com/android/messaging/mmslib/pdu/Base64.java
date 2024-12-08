@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007 Esmertec AG.
  * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +35,7 @@ public class Base64 {
     static final int BASELENGTH = 255;
 
     // Create arrays to hold the base64 characters
-    private static byte[] base64Alphabet = new byte[BASELENGTH];
+    private static final byte[] base64Alphabet = new byte[BASELENGTH];
 
     // Populating the character arrays
     static {

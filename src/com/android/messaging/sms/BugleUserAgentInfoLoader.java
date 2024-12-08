@@ -33,7 +33,7 @@ import com.android.messaging.util.VersionUtil;
 public class BugleUserAgentInfoLoader implements UserAgentInfoLoader {
     private static final String DEFAULT_USER_AGENT_PREFIX = "Bugle/";
 
-    private Context mContext;
+    private final Context mContext;
     private boolean mLoaded;
 
     private String mUserAgent;

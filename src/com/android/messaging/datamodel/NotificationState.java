@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,14 +47,14 @@ public abstract class NotificationState {
     private static final int NUM_REQUEST_CODES_NEEDED = 2;
 
     public interface FailedMessageQuery {
-        static final String FAILED_MESSAGES_WHERE_CLAUSE =
+        String FAILED_MESSAGES_WHERE_CLAUSE =
                 "((" + MessageColumns.STATUS + " = " +
                 MessageData.BUGLE_STATUS_OUTGOING_FAILED + " OR " +
                 MessageColumns.STATUS + " = " +
                 MessageData.BUGLE_STATUS_INCOMING_DOWNLOAD_FAILED + ") AND " +
                 DatabaseHelper.MessageColumns.SEEN + " = 0)";
 
-        static final String FAILED_ORDER_BY = DatabaseHelper.MessageColumns.CONVERSATION_ID + ", " +
+        String FAILED_ORDER_BY = DatabaseHelper.MessageColumns.CONVERSATION_ID + ", " +
                 DatabaseHelper.MessageColumns.SENT_TIMESTAMP + " asc";
     }
 

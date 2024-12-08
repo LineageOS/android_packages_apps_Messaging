@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,9 @@ import android.os.Looper;
 import java.util.Arrays;
 
 public final class Assert {
-    public static @interface RunsOnMainThread {}
-    public static @interface DoesNotRunOnMainThread {}
-    public static @interface RunsOnAnyThread {}
+    public @interface RunsOnMainThread {}
+    public @interface DoesNotRunOnMainThread {}
+    public @interface RunsOnAnyThread {}
 
     private static final String TEST_THREAD_SUBSTRING = "test";
 

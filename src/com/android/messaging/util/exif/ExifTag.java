@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -67,7 +68,7 @@ public class ExifTag {
      */
     public static final short TYPE_RATIONAL = 10;
 
-    private static Charset US_ASCII = Charset.forName("US-ASCII");
+    private static final Charset US_ASCII = Charset.forName("US-ASCII");
     private static final int TYPE_TO_SIZE_MAP[] = new int[11];
     private static final int UNSIGNED_SHORT_MAX = 65535;
     private static final long UNSIGNED_LONG_MAX = 4294967295L;

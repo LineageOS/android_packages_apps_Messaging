@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +37,7 @@ import com.android.messaging.util.Assert;
 public class BlockedParticipantsData extends BindableData implements
         LoaderManager.LoaderCallbacks<Cursor> {
     public interface BlockedParticipantsDataListener {
-        public void onBlockedParticipantsCursorUpdated(final Cursor cursor);
+        void onBlockedParticipantsCursorUpdated(final Cursor cursor);
     }
     private static final String BINDING_ID = "bindingId";
     private static final int BLOCKED_PARTICIPANTS_LOADER = 1;

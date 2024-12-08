@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,11 +147,11 @@ public abstract class MessageNotificationState extends NotificationState {
      */
     static class MessageLineInfo extends NotificationLineInfo {
         final CharSequence mText;
-        Uri mAttachmentUri;
-        String mAttachmentType;
+        final Uri mAttachmentUri;
+        final String mAttachmentType;
         final String mAuthorFullName;
         final String mAuthorFirstName;
-        boolean mIsManualDownloadNeeded;
+        final boolean mIsManualDownloadNeeded;
         final String mMessageId;
 
         MessageLineInfo(final boolean isGroup, final String authorFullName,
@@ -792,7 +793,7 @@ public abstract class MessageNotificationState extends NotificationState {
      * with notifications for other conversations on a wearable device.
      */
     public static class BundledMessageNotificationState extends MultiMessageNotificationState {
-        public int mGroupOrder;
+        public final int mGroupOrder;
         public BundledMessageNotificationState(final ConversationInfoList convList,
                 final int groupOrder) {
             super(convList);
