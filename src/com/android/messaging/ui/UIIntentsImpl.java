@@ -75,8 +75,6 @@ import com.android.messaging.util.UriUtil;
  * A central repository of Intents used to start activities.
  */
 public class UIIntentsImpl extends UIIntents {
-    private static final String CELL_BROADCAST_LIST_ACTIVITY =
-            "com.android.cellbroadcastreceiver.CellBroadcastListActivity";
     private static final String CALL_TARGET_CLICK_KEY = "touchPoint";
     private static final String CALL_TARGET_CLICK_EXTRA_KEY =
             "android.telecom.extra.OUTGOING_CALL_EXTRAS";
@@ -468,14 +466,6 @@ public class UIIntentsImpl extends UIIntents {
     public PendingIntent getPendingIntentForSecondaryUserNewMessageNotification(
             final Context context) {
         return getPendingIntentForConversationListActivity(context);
-    }
-
-    @Override
-    public Intent getWirelessAlertsIntent() {
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setComponent(new ComponentName(CMAS_COMPONENT, CELL_BROADCAST_LIST_ACTIVITY));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return intent;
     }
 
     @Override

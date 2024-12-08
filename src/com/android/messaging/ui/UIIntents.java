@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -263,11 +264,6 @@ public abstract class UIIntents {
      * @param url display the data in the url to users
      */
     public abstract Intent getViewUrlIntent(final String url);
-
-    /**
-     * Get an intent to launch the wireless alert viewer.
-     */
-    public abstract Intent getWirelessAlertsIntent();
 
     /**
      * Get an intent to launch the dialog for changing the default SMS App.
