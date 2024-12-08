@@ -310,7 +310,7 @@ public class ParticipantRefresh {
             + ParticipantData.OTHER_THAN_SELF_SUB_ID
             + " )";
 
-    private static final Set<Integer> getExistingSubIds() {
+    private static Set<Integer> getExistingSubIds() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
         final HashSet<Integer> existingSubIds = new HashSet<Integer>();
 

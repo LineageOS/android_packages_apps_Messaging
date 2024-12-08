@@ -376,8 +376,8 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
             }
         }
 
-        private class RestoreApnProcessHandler extends Handler {
-            private Handler mCachedRestoreApnUiHandler;
+        private static class RestoreApnProcessHandler extends Handler {
+            private final Handler mCachedRestoreApnUiHandler;
 
             public RestoreApnProcessHandler(Looper looper, Handler restoreApnUiHandler) {
                 super(looper);

@@ -261,11 +261,11 @@ public class ConversationListItemData {
     /**
      * Get the name of the view for this data item
      */
-    public static final String getConversationListView() {
+    public static String getConversationListView() {
         return CONVERSATION_LIST_VIEW;
     }
 
-    public static final String getConversationListViewSql() {
+    public static String getConversationListViewSql() {
         return CONVERSATION_LIST_VIEW_SQL;
     }
 

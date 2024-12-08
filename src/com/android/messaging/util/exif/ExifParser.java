@@ -877,8 +877,8 @@ public class ExifParser {
     }
 
     private static class ImageEvent {
-        int stripIndex;
-        int type;
+        final int stripIndex;
+        final int type;
 
         ImageEvent(int type) {
             this.stripIndex = 0;
@@ -892,8 +892,8 @@ public class ExifParser {
     }
 
     private static class IfdEvent {
-        int ifd;
-        boolean isRequested;
+        final int ifd;
+        final boolean isRequested;
 
         IfdEvent(int ifd, boolean isInterestedIfd) {
             this.ifd = ifd;
@@ -902,8 +902,8 @@ public class ExifParser {
     }
 
     private static class ExifTagEvent {
-        ExifTag tag;
-        boolean isRequested;
+        final ExifTag tag;
+        final boolean isRequested;
 
         ExifTagEvent(ExifTag tag, boolean isRequireByUser) {
             this.tag = tag;

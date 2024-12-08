@@ -37,11 +37,11 @@ public class ReadDraftDataAction extends Action implements Parcelable {
      */
     public interface ReadDraftDataActionListener {
         @RunsOnMainThread
-        abstract void onReadDraftDataSucceeded(final ReadDraftDataAction action,
-                final Object data, final MessageData message,
-                final ConversationListItemData conversation);
+        void onReadDraftDataSucceeded(final ReadDraftDataAction action,
+                                      final Object data, final MessageData message,
+                                      final ConversationListItemData conversation);
         @RunsOnMainThread
-        abstract void onReadDraftDataFailed(final ReadDraftDataAction action, final Object data);
+        void onReadDraftDataFailed(final ReadDraftDataAction action, final Object data);
     }
 
     /**

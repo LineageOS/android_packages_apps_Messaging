@@ -20,9 +20,9 @@ import android.os.Looper;
 import java.util.Arrays;
 
 public final class Assert {
-    public static @interface RunsOnMainThread {}
-    public static @interface DoesNotRunOnMainThread {}
-    public static @interface RunsOnAnyThread {}
+    public @interface RunsOnMainThread {}
+    public @interface DoesNotRunOnMainThread {}
+    public @interface RunsOnAnyThread {}
 
     private static final String TEST_THREAD_SUBSTRING = "test";
 
