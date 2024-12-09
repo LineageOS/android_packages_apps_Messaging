@@ -33,9 +33,6 @@ public class ConversationDrawables {
 
     // Cache the color filtered bubble drawables so that we don't need to create a
     // new one for each ConversationMessageView.
-    private Drawable mIncomingBubbleDrawable;
-    private Drawable mOutgoingBubbleDrawable;
-    private Drawable mIncomingErrorBubbleDrawable;
     private Drawable mIncomingBubbleNoArrowDrawable;
     private Drawable mOutgoingBubbleNoArrowDrawable;
     private Drawable mAudioPlayButtonDrawable;
@@ -75,15 +72,12 @@ public class ConversationDrawables {
     public void updateDrawables() {
         final Resources resources = mContext.getResources();
 
-        mIncomingBubbleDrawable = resources.getDrawable(R.drawable.msg_bubble_incoming);
         mIncomingBubbleNoArrowDrawable =
                 resources.getDrawable(R.drawable.message_bubble_incoming_no_arrow);
-        mIncomingErrorBubbleDrawable = resources.getDrawable(R.drawable.msg_bubble_error);
-        mOutgoingBubbleDrawable =  resources.getDrawable(R.drawable.msg_bubble_outgoing);
         mOutgoingBubbleNoArrowDrawable =
                 resources.getDrawable(R.drawable.message_bubble_outgoing_no_arrow);
-        mAudioPlayButtonDrawable = resources.getDrawable(R.drawable.ic_audio_play);
-        mAudioPauseButtonDrawable = resources.getDrawable(R.drawable.ic_audio_pause);
+        mAudioPlayButtonDrawable = resources.getDrawable(R.drawable.ic_play_light);
+        mAudioPauseButtonDrawable = resources.getDrawable(R.drawable.ic_pause_light);
         mIncomingAudioProgressBackgroundDrawable =
                 resources.getDrawable(R.drawable.audio_progress_bar_background_incoming);
         mOutgoingAudioProgressBackgroundDrawable =
@@ -108,16 +102,9 @@ public class ConversationDrawables {
     }
 
     public Drawable getBubbleDrawable(final boolean selected, final boolean incoming,
-            final boolean needArrow, final boolean isError, final String identifier) {
+                                      final boolean isError, final String identifier) {
         final Drawable protoDrawable;
-        if (needArrow) {
-            if (incoming) {
-                protoDrawable = isError && !selected ?
-                        mIncomingErrorBubbleDrawable : mIncomingBubbleDrawable;
-            } else {
-                protoDrawable = mOutgoingBubbleDrawable;
-            }
-        } else if (incoming) {
+        if (incoming) {
             protoDrawable = mIncomingBubbleNoArrowDrawable;
         } else {
             protoDrawable = mOutgoingBubbleNoArrowDrawable;
