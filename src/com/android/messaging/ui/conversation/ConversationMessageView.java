@@ -283,14 +283,6 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     }
 
     /**
-     * Returns whether we need to show message bubble arrow. We don't show arrow if the message
-     * contains media attachments or if shouldShowSimplifiedVisualStyle() is true.
-     */
-    private boolean shouldShowMessageBubbleArrow() {
-        return false;
-    }
-
-    /**
      * Returns whether we need to show a message bubble for text content.
      */
     private boolean shouldShowMessageTextBubble() {
@@ -665,7 +657,6 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         final ConversationDrawables drawableProvider = ConversationDrawables.get();
         final boolean incoming = mData.getIsIncoming();
         final boolean outgoing = !incoming;
-        final boolean showArrow =  shouldShowMessageBubbleArrow();
 
         final int messageTopPaddingClustered =
                 res.getDimensionPixelSize(R.dimen.message_padding_same_author);
@@ -699,7 +690,6 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 textBackground = drawableProvider.getBubbleDrawable(
                         isSelected(),
                         incoming,
-                        false /* needArrow */,
                         mData.hasIncomingErrorStatus(),
                         mData.getSenderContactLookupKey());
                 textMinHeight = messageTextMinHeightDefault;
@@ -723,12 +713,11 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             }
         } else {
             // Text only
-            contentLeftPadding = (!showArrow && incoming) ? arrowWidth : 0;
-            contentRightPadding = (!showArrow && outgoing) ? arrowWidth : 0;
+            contentLeftPadding = incoming ? arrowWidth : 0;
+            contentRightPadding = outgoing ? arrowWidth : 0;
             textBackground = drawableProvider.getBubbleDrawable(
                     isSelected(),
                     incoming,
-                    shouldShowMessageBubbleArrow(),
                     mData.hasIncomingErrorStatus(),
                     mData.getSenderContactLookupKey());
             textMinHeight = messageTextMinHeightDefault;
@@ -736,16 +725,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             textTopPadding = textTopPaddingDefault;
             textBottomPadding = textBottomPaddingDefault;
             mMessageTextView.setTextIsSelectable(isSelected());
-            if (showArrow && incoming) {
-                textLeftPadding = messageTextLeftRightPadding + arrowWidth;
-            } else {
-                textLeftPadding = messageTextLeftRightPadding;
-            }
-            if (showArrow && outgoing) {
-                textRightPadding = messageTextLeftRightPadding + arrowWidth;
-            } else {
-                textRightPadding = messageTextLeftRightPadding;
-            }
+            textLeftPadding = messageTextLeftRightPadding;
+            textRightPadding = messageTextLeftRightPadding;
         }
 
         // These values do not depend on whether the message includes attachments
@@ -1121,8 +1102,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             final AudioAttachmentView audioView = (AudioAttachmentView) view;
             audioView.bindMessagePartData(attachment, mData.getIsIncoming(), isSelected());
             audioView.setBackground(ConversationDrawables.get().getBubbleDrawable(
-                    isSelected(), mData.getIsIncoming(), false /* needArrow */,
-                    mData.hasIncomingErrorStatus(), mData.getSenderContactLookupKey()));
+                    isSelected(), mData.getIsIncoming(), mData.hasIncomingErrorStatus(),
+                    mData.getSenderContactLookupKey()));
         }
 
         @Override
@@ -1138,8 +1119,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             personView.bind(DataModel.get().createVCardContactItemData(getContext(),
                     attachment));
             personView.setBackground(ConversationDrawables.get().getBubbleDrawable(
-                    isSelected(), mData.getIsIncoming(), false /* needArrow */,
-                    mData.hasIncomingErrorStatus(), mData.getSenderContactLookupKey()));
+                    isSelected(), mData.getIsIncoming(), mData.hasIncomingErrorStatus(),
+                    mData.getSenderContactLookupKey()));
             final int nameTextColorRes;
             final int detailsTextColorRes;
             if (isSelected()) {
