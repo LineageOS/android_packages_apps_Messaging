@@ -181,7 +181,7 @@ public class GalleryGridItemView extends FrameLayout {
                 mImageView.setImageResourceId(mData.getImageRequestDescriptor());
                 mImageView.setVisibility(VISIBLE);
                 if (ContentType.isVideoType(mData.getContentType())) {
-                    mIcon.setImageResource(R.drawable.ic_video_play_light);
+                    mIcon.setImageResource(R.drawable.ic_play_light);
                     mIcon.clearColorFilter();
                     mIcon.setVisibility(VISIBLE);
                 } else {

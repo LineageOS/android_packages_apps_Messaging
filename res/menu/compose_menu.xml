@@ -43,7 +43,7 @@
 
     <item
         android:id="@+id/action_confirm_participants"
-        android:icon="@drawable/ic_checkmark_small_light"
+        android:icon="@drawable/ic_checkmark_light"
         android:orderInCategory="120"
         android:title="@string/confrim_participants_button_content_description"
         appcompat:showAsAction="always"/>

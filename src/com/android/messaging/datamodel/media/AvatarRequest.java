@@ -20,15 +20,15 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.text.TextUtils;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
@@ -42,8 +42,8 @@ import java.io.InputStream;
 import java.util.List;
 
 public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
-    private static Bitmap sDefaultPersonBitmap;
-    private static Bitmap sDefaultPersonBitmapLarge;
+    private static final float SCALING_FACTOR = 1.33f;
+
     private TypedArray mColors;
 
     public AvatarRequest(final Context context,
@@ -122,37 +122,14 @@ public class AvatarRequest extends UriImageRequest<AvatarRequestDescriptor> {
         final Bitmap bitmap = getBitmapPool().createOrReuseBitmap(width, height,
                 getBackgroundColor(AvatarUriUtil.getIdentifier(mDescriptor.uri)));
         final Canvas canvas = new Canvas(bitmap);
+        final VectorDrawable defaultPerson = (VectorDrawable) ResourcesCompat.getDrawable(
+                mContext.getResources(), R.drawable.ic_person_light, mContext.getTheme());
+        float dstWidth = Math.min(defaultPerson.getIntrinsicWidth() * SCALING_FACTOR, width);
+        float dstHeight = Math.min(defaultPerson.getIntrinsicHeight() * SCALING_FACTOR, height);
 
-        if (sDefaultPersonBitmap == null) {
-            final BitmapDrawable defaultPerson = (BitmapDrawable) mContext.getResources()
-                    .getDrawable(R.drawable.ic_person_light);
-            sDefaultPersonBitmap = defaultPerson.getBitmap();
-        }
-        if (sDefaultPersonBitmapLarge == null) {
-            final BitmapDrawable largeDefaultPerson = (BitmapDrawable) mContext.getResources()
-                    .getDrawable(R.drawable.ic_person_light_large);
-            sDefaultPersonBitmapLarge = largeDefaultPerson.getBitmap();
-        }
-
-        Bitmap defaultPerson = null;
-        if (mDescriptor.isWearBackground) {
-            final BitmapDrawable wearDefaultPerson = (BitmapDrawable) mContext.getResources()
-                    .getDrawable(R.drawable.ic_person_wear);
-            defaultPerson = wearDefaultPerson.getBitmap();
-        } else {
-            final boolean isLargeDefault = (width > sDefaultPersonBitmap.getWidth()) ||
-                    (height > sDefaultPersonBitmap.getHeight());
-            defaultPerson =
-                    isLargeDefault ? sDefaultPersonBitmapLarge : sDefaultPersonBitmap;
-        }
-
-        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        final Matrix matrix = new Matrix();
-        final RectF source = new RectF(0, 0, defaultPerson.getWidth(), defaultPerson.getHeight());
-        final RectF dest = new RectF(0, 0, width, height);
-        matrix.setRectToRect(source, dest, Matrix.ScaleToFit.FILL);
-
-        canvas.drawBitmap(defaultPerson, matrix, paint);
+        canvas.translate((width - dstWidth) / 2, (height - dstHeight) / 2);
+        defaultPerson.setBounds(0, 0, (int)dstWidth, (int)dstHeight);
+        defaultPerson.draw(canvas);
 
         return bitmap;
     }
