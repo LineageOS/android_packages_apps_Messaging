@@ -143,7 +143,7 @@ abstract class MediaChooser extends BasePagerViewHolder
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.show();
             // Use X instead of <- in the action bar
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_remove_small_light);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_cancel_small_light);
             actionBar.setTitle(actionBarTitleResId);
         }
     }
