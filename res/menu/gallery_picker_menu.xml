@@ -27,7 +27,7 @@
 
     <item
         android:id="@+id/action_confirm_multiselect"
-        android:icon="@drawable/ic_checkmark_small_light"
+        android:icon="@drawable/ic_checkmark_light"
         android:orderInCategory="101"
         android:title="@string/action_confirm_multiselect"
         appcompat:showAsAction="always"/>
