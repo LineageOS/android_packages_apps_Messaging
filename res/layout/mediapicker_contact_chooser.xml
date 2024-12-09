@@ -41,7 +41,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="center"
-            android:src="@drawable/ic_person_light_large"
+            android:src="@drawable/ic_person_light"
+            android:scaleX="1.33"
+            android:scaleY="1.33"
             android:tint="@color/primary_color"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
