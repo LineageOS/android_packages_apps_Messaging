@@ -20,7 +20,7 @@
     xmlns:tools="http://schemas.android.com/tools" >
     <item
         android:id="@+id/action_confirm_selection"
-        android:icon="@drawable/ic_checkmark_small_light"
+        android:icon="@drawable/ic_checkmark_light"
         android:orderInCategory="100"
         android:title="@string/action_confirm_selection"
         appcompat:showAsAction="always"/>
