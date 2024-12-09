@@ -443,7 +443,7 @@ class CameraMediaChooser extends MediaChooser implements
         mVideoCounter.setVisibility(isRecording ? View.VISIBLE : View.GONE);
 
         mSwapModeButton.setImageResource(videoMode ?
-                R.drawable.ic_mp_camera_small_light :
+                R.drawable.ic_camera_light :
                 R.drawable.ic_mp_video_small_light);
         mSwapModeButton.setContentDescription(context.getString(videoMode ?
                 R.string.camera_switch_to_still_mode : R.string.camera_switch_to_video_mode));
@@ -451,15 +451,15 @@ class CameraMediaChooser extends MediaChooser implements
         mSwapModeButton.setEnabled(isCameraAvailable);
 
         if (isRecording) {
-            mCaptureButton.setImageResource(R.drawable.ic_mp_capture_stop_large_light);
+            mCaptureButton.setImageResource(R.drawable.ic_mp_capture_stop_light);
             mCaptureButton.setContentDescription(context.getString(
                     R.string.camera_stop_recording));
         } else if (videoMode) {
-            mCaptureButton.setImageResource(R.drawable.ic_mp_video_large_light);
+            mCaptureButton.setImageResource(R.drawable.ic_mp_video_small_light);
             mCaptureButton.setContentDescription(context.getString(
                     R.string.camera_start_recording));
         } else {
-            mCaptureButton.setImageResource(R.drawable.ic_checkmark_large_light);
+            mCaptureButton.setImageResource(R.drawable.ic_checkmark_light);
             mCaptureButton.setContentDescription(context.getString(
                     R.string.camera_take_picture));
         }
