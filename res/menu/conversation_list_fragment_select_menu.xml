@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2024 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,13 +21,13 @@
 
     <item
         android:id="@+id/action_archive"
-        android:icon="@drawable/ic_file_download_light"
+        android:icon="@drawable/ic_archive_small_dark"
         android:orderInCategory="50"
         android:title="@string/action_archive"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/action_unarchive"
-        android:icon="@drawable/ic_wear_reply"
+        android:icon="@drawable/ic_archive_undo_small_dark"
         android:orderInCategory="50"
         android:title="@string/action_unarchive"
         appcompat:showAsAction="collapseActionView|always"/>
