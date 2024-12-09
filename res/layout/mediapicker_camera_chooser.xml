@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2024 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -90,7 +91,9 @@
                 android:minWidth="96dp"
                 android:minHeight="96dp"
                 android:background="@drawable/transparent_button_background"
-                android:src="@drawable/ic_checkmark_large_light"
+                android:src="@drawable/ic_mp_video_small_light"
+                android:scaleX="2.5"
+                android:scaleY="2.5"
                 android:contentDescription="@string/camera_take_picture"/>
 
             <FrameLayout
@@ -126,7 +129,7 @@
                     android:minWidth="48dp"
                     android:minHeight="48dp"
                     android:background="@drawable/transparent_button_background"
-                    android:src="@drawable/ic_remove_small_light"
+                    android:src="@drawable/ic_cancel_small_light"
                     android:visibility="gone"
                     android:contentDescription="@string/camera_cancel_recording" />
 

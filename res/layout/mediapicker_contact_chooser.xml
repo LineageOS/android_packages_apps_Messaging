@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2020 The Android Open Source Project
+    Copyright (C) 2024 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -41,7 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:scaleType="center"
-            android:src="@drawable/ic_person_light_large"
+            android:src="@drawable/ic_person_light"
+            android:scaleX="1.33"
+            android:scaleY="1.33"
             android:tint="@color/primary_color"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
