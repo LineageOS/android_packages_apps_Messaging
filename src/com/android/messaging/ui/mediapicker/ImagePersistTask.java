@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -78,7 +79,7 @@ public class ImagePersistTask extends SafeAsyncTask<Void, Void, Void> {
             outputStream =
                     mContext.getContentResolver().openOutputStream(mOutputUri);
             if (mHeightPercent != 1.0f) {
-                int orientation = android.media.ExifInterface.ORIENTATION_UNDEFINED;
+                int orientation = androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED;
                 final ExifInterface exifInterface = new ExifInterface();
                 try {
                     exifInterface.readExif(mBytes);

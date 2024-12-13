@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -254,7 +255,7 @@ public class ImageUtils {
         } catch (FileNotFoundException e) {
             LogUtil.e(TAG, "getOrientation couldn't open: " + uri, e);
         }
-        return android.media.ExifInterface.ORIENTATION_UNDEFINED;
+        return androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED;
     }
 
     /**
@@ -262,7 +263,7 @@ public class ImageUtils {
      * @return The exif orientation value for the image in the specified stream
      */
     public static int getOrientation(final InputStream inputStream) {
-        int orientation = android.media.ExifInterface.ORIENTATION_UNDEFINED;
+        int orientation = androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED;
         if (inputStream != null) {
             try {
                 final ExifInterface exifInterface = new ExifInterface();

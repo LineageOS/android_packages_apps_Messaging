@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +19,8 @@ package com.android.messaging.datamodel.media;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import com.android.messaging.datamodel.media.PoolableImageCache.ReusableImageResourcePool;
 import com.android.messaging.util.ImageUtils;
