@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
 import com.android.messaging.Factory;
@@ -102,7 +103,7 @@ public class BackgroundWorkerService extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(final Intent intent) {
+    protected void onHandleWork(@NonNull final Intent intent) {
         if (intent == null) {
             // Shouldn't happen but sometimes does following another crash.
             LogUtil.w(TAG, "BackgroundWorkerService.onHandleIntent: Called with null intent");
