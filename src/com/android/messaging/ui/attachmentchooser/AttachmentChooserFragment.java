@@ -21,6 +21,8 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -165,8 +167,10 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
             notifyDataSetChanged();
         }
 
+        @NonNull
         @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
+        public View getView(final int position, final View convertView,
+                            @NonNull final ViewGroup parent) {
             AttachmentGridItemView itemView;
             final MessagePartData item = getItem(position);
             if (convertView != null && convertView instanceof AttachmentGridItemView) {

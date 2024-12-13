@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
 import com.android.messaging.Factory;
@@ -238,7 +239,7 @@ public class ActionServiceImpl extends JobIntentService {
      * {@inheritDoc}
      */
     @Override
-    protected void onHandleWork(final Intent intent) {
+    protected void onHandleWork(@NonNull final Intent intent) {
         if (intent == null) {
             // Shouldn't happen but sometimes does following another crash.
             LogUtil.w(TAG, "ActionService.onHandleIntent: Called with null intent");

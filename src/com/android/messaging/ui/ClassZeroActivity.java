@@ -32,6 +32,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.action.ReceiveSmsMessageAction;
 import com.android.messaging.datamodel.BugleNotifications;
@@ -169,7 +171,7 @@ public class ClassZeroActivity extends Activity {
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(TIMER_FIRE, mTimerSet);
         if (VERBOSE) {

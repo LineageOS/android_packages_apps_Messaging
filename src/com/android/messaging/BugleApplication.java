@@ -29,6 +29,8 @@ import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.receiver.SmsReceiver;
 import com.android.messaging.sms.ApnDatabase;
@@ -69,7 +71,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     }
 
     @Override
-    public void onConfigurationChanged(final Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // Update conversation drawables when changing writing systems
@@ -160,7 +162,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     }
 
     @Override
-    public void uncaughtException(final Thread thread, final Throwable ex) {
+    public void uncaughtException(@NonNull final Thread thread, @NonNull final Throwable ex) {
         final boolean background = getMainLooper().getThread() != thread;
         if (background) {
             LogUtil.e(TAG, "Uncaught exception in background thread " + thread, ex);

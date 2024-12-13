@@ -25,6 +25,8 @@ import android.util.AttributeSet;
 import android.view.TextureView;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 /**
@@ -44,23 +46,25 @@ public class HardwareCameraPreview extends TextureView implements CameraPreview.
         mPreview = new CameraPreview(this);
         setSurfaceTextureListener(new SurfaceTextureListener() {
             @Override
-            public void onSurfaceTextureAvailable(final SurfaceTexture surfaceTexture, final int i, final int i2) {
+            public void onSurfaceTextureAvailable(@NonNull final SurfaceTexture surfaceTexture,
+                                                  final int i, final int i2) {
                 CameraManager.get().setSurface(mPreview);
             }
 
             @Override
-            public void onSurfaceTextureSizeChanged(final SurfaceTexture surfaceTexture, final int i, final int i2) {
+            public void onSurfaceTextureSizeChanged(@NonNull final SurfaceTexture surfaceTexture,
+                                                    final int i, final int i2) {
                 CameraManager.get().setSurface(mPreview);
             }
 
             @Override
-            public boolean onSurfaceTextureDestroyed(final SurfaceTexture surfaceTexture) {
+            public boolean onSurfaceTextureDestroyed(@NonNull final SurfaceTexture surfaceTexture) {
                 CameraManager.get().setSurface(null);
                 return true;
             }
 
             @Override
-            public void onSurfaceTextureUpdated(final SurfaceTexture surfaceTexture) {
+            public void onSurfaceTextureUpdated(@NonNull final SurfaceTexture surfaceTexture) {
                 CameraManager.get().setSurface(mPreview);
             }
         });

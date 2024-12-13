@@ -31,6 +31,8 @@ import android.telephony.SmsMessage;
 import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.SyncManager;
@@ -101,6 +103,7 @@ public class DebugUtils {
             mTitle = title;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return mTitle;

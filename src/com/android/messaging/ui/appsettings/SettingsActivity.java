@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +20,8 @@ package com.android.messaging.ui.appsettings;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -71,7 +74,7 @@ public class SettingsActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             NavUtils.navigateUpFromSameTask(this);
@@ -128,9 +131,10 @@ public class SettingsActivity extends BugleActionBarActivity {
                 notifyDataSetChanged();
             }
 
+            @NonNull
             @Override
             public View getView(final int position, final View convertView,
-                    final ViewGroup parent) {
+                                @NonNull final ViewGroup parent) {
                 View itemView;
                 if (convertView != null) {
                     itemView = convertView;

@@ -25,6 +25,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
@@ -909,6 +911,7 @@ public class MessageData implements Parcelable {
         }
     };
 
+    @NonNull
     @Override
     public String toString() {
         return toString(mMessageId, mParts);
