@@ -181,7 +181,7 @@ public class MessageData implements Parcelable {
             case BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE:
                 return "INCOMING_EXPIRED_OR_NOT_AVAILABLE";
             default:
-                return String.valueOf(status) + " (check MessageData)";
+                return status + " (check MessageData)";
         }
     }
 

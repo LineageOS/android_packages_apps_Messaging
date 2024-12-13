@@ -231,7 +231,7 @@ public class DatabaseWrapper {
                     sb.setLength(sb.length() - 1);
                 }
                 LogUtil.v(TAG, "for query " + sql + "\nplan is: "
-                        + sb.toString());
+                        + sb);
             }
         } catch (final Exception e) {
             LogUtil.w(TAG, "Query plan failed ", e);

@@ -66,11 +66,11 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
         } catch (MalformedURLException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "MalformedUrl for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
         } catch (IOException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "IOException trying to get inputStream for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
         } finally {
             if (connection != null) {
                 connection.disconnect();
@@ -98,16 +98,16 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
         } catch (MalformedURLException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "MalformedUrl for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
         } catch (final OutOfMemoryError e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "OutOfMemoryError for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
             Factory.get().reclaimMemory();
         } catch (IOException e) {
             LogUtil.e(LogUtil.BUGLE_TAG,
                     "IOException trying to get inputStream for image with url: "
-                            + mDescriptor.uri.toString(), e);
+                            + mDescriptor.uri, e);
         } finally {
             if (inputStream != null) {
                 inputStream.close();

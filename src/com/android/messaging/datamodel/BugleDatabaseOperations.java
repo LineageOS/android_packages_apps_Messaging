@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1891,7 +1892,7 @@ public class BugleDatabaseOperations {
             }
         }
 
-        final String whereClause = rowKey + "=?" + " AND (" + sb.toString() + ")";
+        final String whereClause = rowKey + "=?" + " AND (" + sb + ")";
         final String [] whereValuesArray = whereValues.toArray(new String[whereValues.size()]);
         final int count = db.update(table, values, whereClause, whereValuesArray);
         if (count > 1) {

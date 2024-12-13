@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -876,7 +877,7 @@ public class PduPersister {
                     final ContentValues cv = new ContentValues();
                     cv.put(Mms.Part.TEXT, new EncodedStringValue(charset, data).getString());
                     if (mContentResolver.update(uri, cv, null, null) != 1) {
-                        throw new MmsException("unable to update " + uri.toString());
+                        throw new MmsException("unable to update " + uri);
                     }
                 }
             } else {
