@@ -25,6 +25,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
@@ -521,6 +523,7 @@ public class MessagePartData implements Parcelable {
         }
     }
 
+    @NonNull
     @Override
     public String toString() {
         if (isText()) {

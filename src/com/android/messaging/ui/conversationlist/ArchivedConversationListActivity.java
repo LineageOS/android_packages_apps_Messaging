@@ -17,6 +17,8 @@ package com.android.messaging.ui.conversationlist;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,7 +73,7 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
         switch(menuItem.getItemId()) {
             case R.id.action_debug_options:
                 onActionBarDebug();

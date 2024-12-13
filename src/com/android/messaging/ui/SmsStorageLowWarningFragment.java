@@ -33,6 +33,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.action.HandleLowStorageAction;
 import com.android.messaging.sms.SmsReleaseStorage;
@@ -127,8 +129,10 @@ public class SmsStorageLowWarningFragment extends Fragment {
                 super(context, R.layout.sms_free_storage_action_item_view, actions);
             }
 
+            @NonNull
             @Override
-            public View getView(final int position, final View view, final ViewGroup parent) {
+            public View getView(final int position, final View view,
+                                @NonNull final ViewGroup parent) {
                 TextView actionItemView;
                 if (view == null || !(view instanceof TextView)) {
                     final LayoutInflater inflater = LayoutInflater.from(getContext());

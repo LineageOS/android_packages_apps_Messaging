@@ -29,6 +29,8 @@ import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.provider.Telephony;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -64,7 +66,7 @@ public class ApnEditorActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
