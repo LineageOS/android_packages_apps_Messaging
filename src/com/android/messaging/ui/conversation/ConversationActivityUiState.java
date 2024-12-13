@@ -18,6 +18,8 @@ package com.android.messaging.ui.conversation;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.ui.contact.ContactPickerFragment;
 import com.android.messaging.util.Assert;
 import com.google.common.annotations.VisibleForTesting;
@@ -285,6 +287,7 @@ public class ConversationActivityUiState implements Parcelable, Cloneable {
         }
     };
 
+    @NonNull
     @Override
     protected ConversationActivityUiState clone() {
         try {

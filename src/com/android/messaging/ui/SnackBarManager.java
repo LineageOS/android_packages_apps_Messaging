@@ -35,6 +35,8 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.ui.SnackBar.Placement;
@@ -89,7 +91,7 @@ public class SnackBarManager {
     private final OnAttachStateChangeListener mAttachStateChangeListener =
             new OnAttachStateChangeListener() {
                 @Override
-                public void onViewDetachedFromWindow(View v) {
+                public void onViewDetachedFromWindow(@NonNull View v) {
                     // Dismiss the PopupWindow and clear SnackBarManager state.
                     mHideHandler.removeCallbacks(mDismissRunnable);
                     mPopupWindow.dismiss();
@@ -100,7 +102,7 @@ public class SnackBarManager {
                 }
 
                 @Override
-                public void onViewAttachedToWindow(View v) {}
+                public void onViewAttachedToWindow(@NonNull View v) {}
             };
 
     private final int mTranslationDurationMs;
