@@ -33,6 +33,7 @@ import android.support.v7.mms.MmsManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 
 import com.android.messaging.Factory;
@@ -70,7 +71,7 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             NavUtils.navigateUpFromSameTask(this);

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,8 @@ import android.animation.ObjectAnimator;
 import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.content.res.Resources;
+
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener;
@@ -81,7 +84,8 @@ public class ConversationListSwipeHelper implements OnItemTouchListener {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(final RecyclerView recyclerView, final MotionEvent event) {
+    public boolean onInterceptTouchEvent(@NonNull final RecyclerView recyclerView,
+                                         final MotionEvent event) {
         if (event.getPointerCount() > 1) {
             // Ignore subsequent pointers.
             return false;
@@ -169,7 +173,8 @@ public class ConversationListSwipeHelper implements OnItemTouchListener {
     }
 
     @Override
-    public void onTouchEvent(final RecyclerView recyclerView, final MotionEvent event) {
+    public void onTouchEvent(@NonNull final RecyclerView recyclerView,
+                             @NonNull final MotionEvent event) {
         // We should only be here if we intercepted the touch due to swipe.
         Assert.isTrue(mIsSwiping);
 

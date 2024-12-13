@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +24,8 @@ import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+
+import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 import android.text.TextUtils;
 
@@ -114,8 +117,8 @@ public class MediaScratchFileProvider extends FileProvider {
     }
 
     @Override
-    public Cursor query(final Uri uri, final String[] projection, final String selection,
-            final String[] selectionArgs, final String sortOrder) {
+    public Cursor query(@NonNull final Uri uri, final String[] projection, final String selection,
+                        final String[] selectionArgs, final String sortOrder) {
         if (projection != null && projection.length > 0 &&
                 TextUtils.equals(projection[0], OpenableColumns.DISPLAY_NAME) &&
                 isMediaScratchSpaceUri(uri)) {
