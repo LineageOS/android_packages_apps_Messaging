@@ -296,7 +296,7 @@ public class MessageDetailsDialog {
         if (recipients != null) {
             details.append('\n');
             details.append("Thread recipients: ");
-            details.append(recipients.toString());
+            details.append(recipients);
 
             if (mms != null) {
                 final String from = MmsUtils.getMmsSender(recipients, mms.getUri());
