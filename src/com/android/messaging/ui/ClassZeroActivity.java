@@ -162,8 +162,7 @@ public class ClassZeroActivity extends Activity {
         } else {
             mHandler.sendEmptyMessageAtTime(ON_AUTO_SAVE, mTimerSet);
             if (VERBOSE) {
-                Log.d(TAG, "onRestart time = " + Long.toString(mTimerSet) + " "
-                        + this.toString());
+                Log.d(TAG, "onRestart time = " + mTimerSet + " " + this);
             }
         }
     }
@@ -173,8 +172,7 @@ public class ClassZeroActivity extends Activity {
         super.onSaveInstanceState(outState);
         outState.putLong(TIMER_FIRE, mTimerSet);
         if (VERBOSE) {
-            Log.d(TAG, "onSaveInstanceState time = " + Long.toString(mTimerSet)
-                    + " " + this.toString());
+            Log.d(TAG, "onSaveInstanceState time = " + mTimerSet + " " + this);
         }
     }
 
@@ -183,8 +181,7 @@ public class ClassZeroActivity extends Activity {
         super.onStop();
         mHandler.removeMessages(ON_AUTO_SAVE);
         if (VERBOSE) {
-            Log.d(TAG, "onStop time = " + Long.toString(mTimerSet)
-                    + " " + this.toString());
+            Log.d(TAG, "onStop time = " + mTimerSet + " " + this);
         }
     }
 
