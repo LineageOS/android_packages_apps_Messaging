@@ -39,7 +39,7 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
 
     public NetworkUriImageRequest(Context context, D descriptor) {
         super(context, descriptor);
-        mOrientation = android.media.ExifInterface.ORIENTATION_UNDEFINED;
+        mOrientation = androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED;
     }
 
     @Override
