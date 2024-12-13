@@ -70,15 +70,14 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
      */
     private static final int ENTRY_TYPE_DIRECTORY = RecipientEntry.ENTRY_TYPE_SIZE;
 
-    public ContactRecipientAdapter(final Context context,
-            final ContactListItemView.HostInterface clivHost) {
-        this(context, Integer.MAX_VALUE, QUERY_TYPE_PHONE, clivHost);
+    public ContactRecipientAdapter(final Context context) {
+        this(context, Integer.MAX_VALUE, QUERY_TYPE_PHONE);
     }
 
     public ContactRecipientAdapter(final Context context, final int preferredMaxResultCount,
-            final int queryMode, final ContactListItemView.HostInterface clivHost) {
+            final int queryMode) {
         super(context, preferredMaxResultCount, queryMode);
-        setPhotoManager(new ContactRecipientPhotoManager(context, clivHost));
+        setPhotoManager(new ContactRecipientPhotoManager(context));
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -251,7 +250,6 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
              * Compare two RecipientEntry's, first by locale-aware display name comparison, then by
              * contact id comparison, finally by first-level-ness comparison.
              */
-            @Override
             public int compare(RecipientEntry lhs, RecipientEntry rhs) {
                 // Send-to-destinations always appear before everything else.
                 final boolean sendToLhs = ContactRecipientEntryUtils

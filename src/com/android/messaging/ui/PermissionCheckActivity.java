@@ -102,7 +102,7 @@ public class PermissionCheckActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(
-            final int requestCode, final String permissions[], final int[] grantResults) {
+            final int requestCode, final String[] permissions, final int[] grantResults) {
         if (requestCode == REQUIRED_PERMISSIONS_REQUEST_CODE) {
             // We do not use grantResults as some of the granted permissions might have been
             // revoked while the permissions dialog box was being shown for the missing permissions.

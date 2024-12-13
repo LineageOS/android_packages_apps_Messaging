@@ -216,10 +216,6 @@ public class AvatarUriUtil {
         return builder.build();
     }
 
-    public static Uri getBlankSimIndicatorUri(final boolean incoming) {
-        return incoming ? BLANK_SIM_INDICATOR_INCOMING_URI : BLANK_SIM_INDICATOR_OUTGOING_URI;
-    }
-
     /**
      * Creates an avatar uri from the given local resource Uri, followed by a fallback Uri in case
      * the local resource one could not be loaded.

@@ -21,10 +21,11 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.FilterQueryProvider;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Copy of CursorAdapter suited for RecyclerView.
@@ -82,7 +83,8 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
      * @deprecated This option is discouraged, as it results in Cursor queries
      * being performed on the application's UI thread and thus can cause poor
      * responsiveness or even Application Not Responding errors.  As an alternative,
-     * use {@link android.app.LoaderManager} with a {@link android.content.CursorLoader}.
+     * use {@link androidx.loader.app.LoaderManager} with a
+     * {@link androidx.loader.content.CursorLoader}.
      */
     @Deprecated
     public static final int FLAG_AUTO_REQUERY = 0x01;

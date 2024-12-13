@@ -40,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.Proxy;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -348,9 +349,9 @@ public class MmsHttpClient {
                 CarrierConfigValuesLoader.CONFIG_HTTP_PARAMS);
         if (!TextUtils.isEmpty(extraHttpParams)) {
             // Parse the parameter list
-            String paramList[] = extraHttpParams.split("\\|");
+            String[] paramList = extraHttpParams.split("\\|");
             for (String paramPair : paramList) {
-                String splitPair[] = paramPair.split(":", 2);
+                String[] splitPair = paramPair.split(":", 2);
                 if (splitPair.length == 2) {
                     final String name = splitPair[0].trim();
                     final String value = resolveMacro(splitPair[1].trim(), mmsConfig);
@@ -438,16 +439,8 @@ public class MmsHttpClient {
                 nai = nai + naiSuffix;
             }
             byte[] encoded = null;
-            try {
-                encoded = Base64.encode(nai.getBytes("UTF-8"), Base64.NO_WRAP);
-            } catch (UnsupportedEncodingException e) {
-                encoded = Base64.encode(nai.getBytes(), Base64.NO_WRAP);
-            }
-            try {
-                return new String(encoded, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                return new String(encoded);
-            }
+            encoded = Base64.encode(nai.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
+            return new String(encoded, StandardCharsets.UTF_8);
         }
         return null;
     }

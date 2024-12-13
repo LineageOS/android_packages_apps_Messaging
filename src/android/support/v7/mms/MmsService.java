@@ -51,10 +51,6 @@ public class MmsService extends Service {
      */
     private static volatile int sThreadPoolSize = DEFAULT_THREAD_POOL_SIZE;
 
-    /**
-     * Optional wake lock to use
-     */
-    private static volatile boolean sUseWakeLock = true;
     private static volatile PowerManager.WakeLock sWakeLock = null;
     private static final Object sWakeLockLock = new Object();
 
@@ -72,25 +68,6 @@ public class MmsService extends Service {
      * UserAgent and UA Prof URL loader
      */
     private static volatile UserAgentInfoLoader sUserAgentInfoLoader = null;
-
-    /**
-     * Set the size of thread pool for request execution.
-     * Default is DEFAULT_THREAD_POOL_SIZE
-     *
-     * @param size thread pool size
-     */
-    static void setThreadPoolSize(final int size) {
-        sThreadPoolSize = size;
-    }
-
-    /**
-     * Set whether to use wake lock
-     *
-     * @param useWakeLock true to use wake lock, false otherwise
-     */
-    static void setUseWakeLock(final boolean useWakeLock) {
-        sUseWakeLock = useWakeLock;
-    }
 
     /**
      * Set the optional carrier config values
@@ -250,34 +227,7 @@ public class MmsService extends Service {
     // Handler for scheduling service stop
     private final Handler mHandler = new Handler();
     // Service stop task
-    private final Runnable mServiceStopRunnable = new Runnable() {
-        @Override
-        public void run() {
-            tryStopService();
-        }
-    };
-
-    /**
-     * Start the service with a request
-     *
-     * @param context the Context to use
-     * @param request the request to start
-     */
-    public static void startRequest(final Context context, final MmsRequest request) {
-        final boolean useWakeLock = sUseWakeLock;
-        request.setUseWakeLock(useWakeLock);
-        final Intent intent = new Intent(context, MmsService.class);
-        intent.putExtra(EXTRA_REQUEST, request);
-        intent.putExtra(EXTRA_MYPID, getMyPid());
-        if (useWakeLock) {
-            acquireWakeLock(context);
-        }
-        if (context.startService(intent) == null) {
-            if (useWakeLock) {
-                releaseWakeLock();
-            }
-        }
-    }
+    private final Runnable mServiceStopRunnable = this::tryStopService;
 
     @Override
     public void onCreate() {
@@ -324,24 +274,19 @@ public class MmsService extends Service {
                 final MmsRequest request = intent.getParcelableExtra(EXTRA_REQUEST);
                 if (request != null) {
                     try {
-                        retainService(request, new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    request.execute(
-                                            MmsService.this,
-                                            mNetworkManager,
-                                            getApnSettingsLoader(),
-                                            getCarrierConfigValuesLoader(),
-                                            getUserAgentInfoLoader());
-                                } catch (Exception e) {
-                                    Log.w(TAG, "Unexpected execution failure", e);
-                                } finally {
-                                    if (request.getUseWakeLock()) {
-                                        releaseWakeLock();
-                                    }
-                                    releaseService();
-                                }
+                        retainService(request, () -> {
+                            try {
+                                request.execute(
+                                        MmsService.this,
+                                        mNetworkManager,
+                                        getApnSettingsLoader(),
+                                        getCarrierConfigValuesLoader(),
+                                        getUserAgentInfoLoader());
+                            } catch (Exception e) {
+                                Log.w(TAG, "Unexpected execution failure", e);
+                            } finally {
+                                releaseWakeLock();
+                                releaseService();
                             }
                         });
                         scheduled = true;
@@ -351,9 +296,7 @@ public class MmsService extends Service {
                         Log.w(TAG, "Executing request failed " + e);
                         request.returnResult(this, SmsManager.MMS_ERROR_UNSPECIFIED,
                                 null/*response*/, 0/*httpStatusCode*/);
-                        if (request.getUseWakeLock()) {
-                            releaseWakeLock();
-                        }
+                        releaseWakeLock();
                     }
                 } else {
                     Log.w(TAG, "Empty request");

@@ -17,6 +17,7 @@
 package com.android.messaging.util.exif;
 
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -67,8 +68,8 @@ public class ExifTag {
      */
     public static final short TYPE_RATIONAL = 10;
 
-    private static final Charset US_ASCII = Charset.forName("US-ASCII");
-    private static final int TYPE_TO_SIZE_MAP[] = new int[11];
+    private static final Charset US_ASCII = StandardCharsets.US_ASCII;
+    private static final int[] TYPE_TO_SIZE_MAP = new int[11];
     private static final int UNSIGNED_SHORT_MAX = 65535;
     private static final long UNSIGNED_LONG_MAX = 4294967295L;
     private static final long LONG_MAX = Integer.MAX_VALUE;

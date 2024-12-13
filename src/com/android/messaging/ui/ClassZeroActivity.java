@@ -24,6 +24,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.provider.Telephony.Sms;
@@ -64,7 +65,7 @@ public class ClassZeroActivity extends Activity {
 
     private ArrayList<ContentValues> mMessageQueue = null;
 
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(final Message msg) {
             // Do not handle an invalid message.
@@ -185,21 +186,15 @@ public class ClassZeroActivity extends Activity {
         }
     }
 
-    private final OnClickListener mCancelListener = new OnClickListener() {
-        @Override
-        public void onClick(final DialogInterface dialog, final int whichButton) {
-            dialog.dismiss();
-            processNextMessage();
-        }
+    private final OnClickListener mCancelListener = (dialog, whichButton) -> {
+        dialog.dismiss();
+        processNextMessage();
     };
 
-    private final OnClickListener mSaveListener = new OnClickListener() {
-        @Override
-        public void onClick(final DialogInterface dialog, final int whichButton) {
-            mRead = true;
-            saveMessage();
-            dialog.dismiss();
-            processNextMessage();
-        }
+    private final OnClickListener mSaveListener = (dialog, whichButton) -> {
+        mRead = true;
+        saveMessage();
+        dialog.dismiss();
+        processNextMessage();
     };
 }

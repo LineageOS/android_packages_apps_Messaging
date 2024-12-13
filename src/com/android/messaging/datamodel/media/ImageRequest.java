@@ -226,7 +226,7 @@ public abstract class ImageRequest<D extends ImageRequestDescriptor>
             final int backgroundColor = mDescriptor.circleBackgroundColor;
             final int strokeColor = mDescriptor.circleStrokeColor;
             ImageUtils.drawBitmapWithCircleOnCanvas(sourceBitmap, new Canvas(targetBitmap), source,
-                    dest, null, backgroundColor == 0 ? false : true /* fillBackground */,
+                    dest, null, backgroundColor != 0 /* fillBackground */,
                             backgroundColor, strokeColor);
             return new DecodedImageResource(getKey(), targetBitmap,
                     loadedResource.getOrientation());

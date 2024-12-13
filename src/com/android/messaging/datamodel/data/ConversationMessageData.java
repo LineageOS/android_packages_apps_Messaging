@@ -279,7 +279,7 @@ public class ConversationMessageData {
             final String rawTexts,
             final int partsCount,
             final String messageId) {
-        final List<MessagePartData> parts = new LinkedList<MessagePartData>();
+        final List<MessagePartData> parts = new LinkedList<>();
         if (partsCount == 1) {
             parts.add(makePartData(
                     rawIds,
@@ -475,10 +475,6 @@ public class ConversationMessageData {
 
     public final boolean getIsSms() {
         return mProtocol == (MessageData.PROTOCOL_SMS);
-    }
-
-    final int getProtocol() {
-        return mProtocol;
     }
 
     public final int getStatus() {
