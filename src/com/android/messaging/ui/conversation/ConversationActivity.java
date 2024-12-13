@@ -22,6 +22,8 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -119,7 +121,7 @@ public class ConversationActivity extends BugleActionBarActivity
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
+    protected void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         // After onSaveInstanceState() is called, future changes to mUiState won't update the UI
         // anymore, because fragment transactions are not allowed past this point.
@@ -187,7 +189,7 @@ public class ConversationActivity extends BugleActionBarActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem menuItem) {
         if (super.onOptionsItemSelected(menuItem)) {
             return true;
         }

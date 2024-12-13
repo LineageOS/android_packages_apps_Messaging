@@ -16,6 +16,8 @@
 
 package com.android.messaging.util;
 
+import androidx.annotation.NonNull;
+
 import com.google.common.base.CharMatcher;
 
 /**
@@ -104,6 +106,7 @@ public final class EmailAddress {
         return isValidInternal();
     }
 
+    @NonNull
     @Override
     public String toString() {
         return user + "@" + host;

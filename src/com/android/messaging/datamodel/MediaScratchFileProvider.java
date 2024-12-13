@@ -23,6 +23,8 @@ import android.database.MatrixCursor;
 import android.database.MatrixCursor.RowBuilder;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+
+import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 import android.text.TextUtils;
 
@@ -114,8 +116,8 @@ public class MediaScratchFileProvider extends FileProvider {
     }
 
     @Override
-    public Cursor query(final Uri uri, final String[] projection, final String selection,
-            final String[] selectionArgs, final String sortOrder) {
+    public Cursor query(@NonNull final Uri uri, final String[] projection, final String selection,
+                        final String[] selectionArgs, final String sortOrder) {
         if (projection != null && projection.length > 0 &&
                 TextUtils.equals(projection[0], OpenableColumns.DISPLAY_NAME) &&
                 isMediaScratchSpaceUri(uri)) {

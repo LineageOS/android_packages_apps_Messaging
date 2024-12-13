@@ -16,6 +16,8 @@
 
 package com.android.messaging.util.exif;
 
+import androidx.annotation.NonNull;
+
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -998,6 +1000,7 @@ public class ExifTag {
         return false;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return String.format("tag id: %04X\n", mTagId) + "ifd id: " + mIfd + "\ntype: "

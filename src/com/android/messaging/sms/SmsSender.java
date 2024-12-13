@@ -26,6 +26,8 @@ import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.receiver.SendStatusReceiver;
@@ -124,6 +126,7 @@ public class SmsSender {
             }
         }
 
+        @NonNull
         @Override
         public String toString() {
             final StringBuilder sb = new StringBuilder();
