@@ -233,7 +233,7 @@ public class MmsHttpClient {
                     }
                 }
             }
-            Log.v(MmsService.TAG, "HTTP: headers\n" + sb.toString());
+            Log.v(MmsService.TAG, "HTTP: headers\n" + sb);
         }
     }
 
