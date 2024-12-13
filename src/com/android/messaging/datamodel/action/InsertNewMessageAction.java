@@ -23,6 +23,8 @@ import android.os.Parcelable;
 import android.provider.Telephony;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
@@ -473,7 +475,7 @@ public class InsertNewMessageAction extends Action implements Parcelable {
     };
 
     @Override
-    public void writeToParcel(final Parcel parcel, final int flags) {
+    public void writeToParcel(@NonNull final Parcel parcel, final int flags) {
         writeActionToParcel(parcel, flags);
     }
 }

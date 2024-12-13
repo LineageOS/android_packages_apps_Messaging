@@ -88,7 +88,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     }
 
     @Override
-    public void onConfigurationChanged(final Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // Update conversation drawables when changing writing systems
@@ -179,7 +179,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     }
 
     @Override
-    public void uncaughtException(final Thread thread, final Throwable ex) {
+    public void uncaughtException(@NonNull final Thread thread, @NonNull final Throwable ex) {
         final boolean background = getMainLooper().getThread() != thread;
         if (background) {
             LogUtil.e(TAG, "Uncaught exception in background thread " + thread, ex);
