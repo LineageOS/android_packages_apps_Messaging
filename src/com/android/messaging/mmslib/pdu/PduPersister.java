@@ -876,7 +876,7 @@ public class PduPersister {
                     final ContentValues cv = new ContentValues();
                     cv.put(Mms.Part.TEXT, new EncodedStringValue(charset, data).getString());
                     if (mContentResolver.update(uri, cv, null, null) != 1) {
-                        throw new MmsException("unable to update " + uri.toString());
+                        throw new MmsException("unable to update " + uri);
                     }
                 }
             } else {
