@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +23,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import androidx.annotation.NonNull;
 
 import com.android.messaging.R;
 import com.android.messaging.annotation.VisibleForAnimation;
@@ -104,11 +107,11 @@ public class ConversationMessageBubbleView extends LinearLayout {
         mAnimator.setDuration(UiUtils.MEDIAPICKER_TRANSITION_DURATION);
         mAnimator.addListener(new AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animator) {
+            public void onAnimationStart(@NonNull Animator animator) {
             }
 
             @Override
-            public void onAnimationEnd(Animator animator) {
+            public void onAnimationEnd(@NonNull Animator animator) {
                 mAnimator = null;
                 mMorphedWidth = 0;
                 // Allow the bubble to resize if, for example, the status text changed during
@@ -120,11 +123,11 @@ public class ConversationMessageBubbleView extends LinearLayout {
             }
 
             @Override
-            public void onAnimationCancel(Animator animator) {
+            public void onAnimationCancel(@NonNull Animator animator) {
             }
 
             @Override
-            public void onAnimationRepeat(Animator animator) {
+            public void onAnimationRepeat(@NonNull Animator animator) {
             }
         });
         mAnimator.start();

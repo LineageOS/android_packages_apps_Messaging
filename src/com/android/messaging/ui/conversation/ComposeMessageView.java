@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,8 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
@@ -284,7 +287,8 @@ public class ComposeMessageView extends LinearLayout
         });
         mSendButton.setAccessibilityDelegate(new AccessibilityDelegate() {
             @Override
-            public void onPopulateAccessibilityEvent(View host, AccessibilityEvent event) {
+            public void onPopulateAccessibilityEvent(@NonNull View host,
+                                                     @NonNull AccessibilityEvent event) {
                 super.onPopulateAccessibilityEvent(host, event);
                 // When the send button is long clicked, we want TalkBack to announce the real
                 // action (select SIM or edit subject), as opposed to "long press send button."

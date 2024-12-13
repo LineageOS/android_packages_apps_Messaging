@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,8 @@ package com.android.messaging.ui.conversation;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 
 import com.android.messaging.ui.contact.ContactPickerFragment;
 import com.android.messaging.util.Assert;
@@ -285,6 +288,7 @@ public class ConversationActivityUiState implements Parcelable, Cloneable {
         }
     };
 
+    @NonNull
     @Override
     protected ConversationActivityUiState clone() {
         try {

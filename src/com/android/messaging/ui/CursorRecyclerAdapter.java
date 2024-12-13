@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,8 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.ViewGroup;
@@ -185,13 +188,14 @@ public abstract class CursorRecyclerAdapter<VH extends RecyclerView.ViewHolder>
         }
     }
 
+    @NonNull
     @Override
-    public VH onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public VH onCreateViewHolder(@NonNull final ViewGroup parent, final int viewType) {
         return createViewHolder(mContext, parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(final VH holder, final int position) {
+    public void onBindViewHolder(@NonNull final VH holder, final int position) {
         if (!mDataValid) {
             throw new IllegalStateException("this should only be called when the cursor is valid");
         }

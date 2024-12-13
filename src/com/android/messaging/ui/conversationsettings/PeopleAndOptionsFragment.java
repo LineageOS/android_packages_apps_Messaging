@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +35,8 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -246,8 +249,10 @@ public class PeopleAndOptionsFragment extends Fragment
             notifyDataSetChanged();
         }
 
+        @NonNull
         @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
+        public View getView(final int position, final View convertView,
+                            @NonNull final ViewGroup parent) {
             PersonItemView itemView;
             final ParticipantData item = getItem(position);
             if (convertView != null && convertView instanceof PersonItemView) {
