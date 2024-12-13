@@ -61,6 +61,7 @@ android_app {
         "androidx.appcompat_appcompat",
         "androidx.collection_collection",
         "androidx.core_core",
+        "androidx.exifinterface_exifinterface",
         "androidx.fragment_fragment",
         "androidx.media_media",
         "androidx.legacy_legacy-support-core-utils",
