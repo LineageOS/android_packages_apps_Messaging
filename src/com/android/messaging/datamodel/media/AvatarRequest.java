@@ -24,11 +24,11 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.VectorDrawable;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.text.TextUtils;
 
 import androidx.core.content.res.ResourcesCompat;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
