@@ -95,9 +95,9 @@ public abstract class ImageRequestDescriptor extends MediaRequestDescriptor<Imag
         return new StringBuilder()
                 .append(desiredWidth).append(KEY_PART_DELIMITER)
                 .append(desiredHeight).append(KEY_PART_DELIMITER)
-                .append(String.valueOf(cropToCircle)).append(KEY_PART_DELIMITER)
-                .append(String.valueOf(circleBackgroundColor)).append(KEY_PART_DELIMITER)
-                .append(String.valueOf(isStatic)).toString();
+                .append(cropToCircle).append(KEY_PART_DELIMITER)
+                .append(circleBackgroundColor).append(KEY_PART_DELIMITER)
+                .append(isStatic).toString();
     }
 
     public boolean isStatic() {
