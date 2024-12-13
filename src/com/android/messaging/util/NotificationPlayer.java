@@ -26,6 +26,8 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 
 import java.util.LinkedList;
@@ -54,6 +56,7 @@ public class NotificationPlayer implements OnCompletionListener {
         long requestTime;
         boolean releaseFocus;
 
+        @NonNull
         @Override
         public String toString() {
             return "{ code=" + code + " looping=" + looping + " stream=" + stream

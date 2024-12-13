@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 
 import com.android.messaging.Factory;
@@ -102,12 +104,7 @@ public class BackgroundWorkerService extends JobIntentService {
     }
 
     @Override
-    protected void onHandleWork(final Intent intent) {
-        if (intent == null) {
-            // Shouldn't happen but sometimes does following another crash.
-            LogUtil.w(TAG, "BackgroundWorkerService.onHandleIntent: Called with null intent");
-            return;
-        }
+    protected void onHandleWork(@NonNull final Intent intent) {
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
 
         switch(opcode) {

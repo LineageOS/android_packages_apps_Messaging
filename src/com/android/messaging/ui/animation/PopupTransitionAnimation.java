@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2015 The Android Open Source Project     
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +28,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.PopupWindow;
+
+import androidx.annotation.NonNull;
 
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.ThreadUtil;
@@ -253,7 +256,7 @@ public class PopupTransitionAnimation extends Animation {
     private void initPopupWindow() {
         mPopupRoot = new View(mViewToAnimate.getContext()) {
             @Override
-            protected void onDraw(final Canvas canvas) {
+            protected void onDraw(@NonNull final Canvas canvas) {
                 canvas.save();
                 canvas.clipRect(getLeft(), mActionBarRect.bottom - mPopupRect.top, getRight(),
                         getBottom());

@@ -36,6 +36,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.Telephony;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -71,7 +73,7 @@ public class ApnSettingsActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             NavUtils.navigateUpFromSameTask(this);
