@@ -19,6 +19,8 @@ package android.support.v7.mms.pdu;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -186,6 +188,7 @@ public class EncodedStringValue implements Cloneable {
      * (non-Javadoc)
      * @see java.lang.Object#clone()
      */
+    @NonNull
     @Override
     public Object clone() throws CloneNotSupportedException {
         int len = mData.length;

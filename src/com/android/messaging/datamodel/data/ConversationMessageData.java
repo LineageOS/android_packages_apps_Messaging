@@ -22,6 +22,8 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
@@ -613,6 +615,7 @@ public class ConversationMessageData {
         return mCanClusterWithNextMessage;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return MessageData.toString(mMessageId, mParts);

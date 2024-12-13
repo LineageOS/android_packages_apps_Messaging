@@ -28,6 +28,8 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.PopupWindow;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
@@ -253,7 +255,7 @@ public class PopupTransitionAnimation extends Animation {
     private void initPopupWindow() {
         mPopupRoot = new View(mViewToAnimate.getContext()) {
             @Override
-            protected void onDraw(final Canvas canvas) {
+            protected void onDraw(@NonNull final Canvas canvas) {
                 canvas.save();
                 canvas.clipRect(getLeft(), mActionBarRect.bottom - mPopupRect.top, getRight(),
                         getBottom());
