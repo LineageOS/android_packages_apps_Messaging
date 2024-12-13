@@ -26,8 +26,9 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.ExifInterface;
 import android.text.TextUtils;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
