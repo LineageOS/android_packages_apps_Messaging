@@ -48,6 +48,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,8 +157,8 @@ public class DatabaseMessages {
             mType = cursor.getInt(INDEX_TYPE);
             mThreadId = cursor.getLong(INDEX_THREAD_ID);
             mStatus = cursor.getInt(INDEX_STATUS);
-            mRead = cursor.getInt(INDEX_READ) == 0 ? false : true;
-            mSeen = cursor.getInt(INDEX_SEEN) == 0 ? false : true;
+            mRead = cursor.getInt(INDEX_READ) != 0;
+            mSeen = cursor.getInt(INDEX_SEEN) != 0;
             mUri = ContentUris.withAppendedId(Sms.CONTENT_URI, mRowId).toString();
             mSubId = PhoneUtils.getDefault().getSubIdFromTelephony(cursor, INDEX_SUB_ID);
         }
@@ -358,8 +359,8 @@ public class DatabaseMessages {
             mThreadId = cursor.getLong(INDEX_THREAD_ID);
             mPriority = cursor.getInt(INDEX_PRIORITY);
             mStatus = cursor.getInt(INDEX_STATUS);
-            mRead = cursor.getInt(INDEX_READ) == 0 ? false : true;
-            mSeen = cursor.getInt(INDEX_SEEN) == 0 ? false : true;
+            mRead = cursor.getInt(INDEX_READ) != 0;
+            mSeen = cursor.getInt(INDEX_SEEN) != 0;
             mContentLocation = cursor.getString(INDEX_CONTENT_LOCATION);
             mTransactionId = cursor.getString(INDEX_TRANSACTION_ID);
             mMmsMessageType = cursor.getInt(INDEX_MESSAGE_TYPE);
@@ -959,11 +960,7 @@ public class DatabaseMessages {
                 final String name = CharacterSets.getMimeName(charset);
                 return new String(data, name);
             } catch (final UnsupportedEncodingException e) {
-                try {
-                    return new String(data, CharacterSets.MIMENAME_ISO_8859_1);
-                } catch (final UnsupportedEncodingException exception) {
-                    return new String(data); // system default encoding.
-                }
+                return new String(data, StandardCharsets.ISO_8859_1);
             }
         }
     }

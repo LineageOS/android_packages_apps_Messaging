@@ -226,13 +226,6 @@ public final class BugleGservicesKeys {
     public static final boolean ASSERTS_FATAL_DEFAULT = false;
 
     /**
-     * Whether to use API for sending/downloading MMS (if present, true for L).
-     * Default is {@value #USE_MMS_API_IF_PRESENT_DEFAULT}.
-     */
-    public static final String USE_MMS_API_IF_PRESENT = "bugle_use_mms_api";
-    public static final boolean USE_MMS_API_IF_PRESENT_DEFAULT = true;
-
-    /**
      * Whether to always auto-complete email addresses for sending MMS. By default, Bugle starts
      * to auto-complete after the user has typed the "@" character.
      * Default is (@value ALWAYS_AUTOCOMPLETE_EMAIL_ADDRESS_DEFAULT}.

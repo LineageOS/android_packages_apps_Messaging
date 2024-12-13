@@ -16,19 +16,20 @@
 
 package com.android.messaging.ui.appsettings;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
-import android.preference.SwitchPreferenceCompat;
 import android.provider.Settings;
-import androidx.core.app.NavUtils;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.NavUtils;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.BugleActionBarActivity;
@@ -50,7 +51,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             getSupportActionBar().setTitle(getString(R.string.settings_activity_title));
         }
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(android.R.id.content, new ApplicationSettingsFragment());
         ft.commit();
     }
@@ -66,11 +67,11 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-        case android.R.id.home:
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
             return true;
-        case R.id.action_license:
+        } else if (itemId == R.id.action_license) {
             final Intent intent = new Intent(this, LicenseActivity.class);
             startActivity(intent);
             return true;
@@ -78,41 +79,30 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class ApplicationSettingsFragment extends PreferenceFragment {
+    public static class ApplicationSettingsFragment extends PreferenceFragmentCompat {
 
         private String mNotificationsPreferenceKey;
-        private Preference mNotificationsPreference;
         private String mSmsDisabledPrefKey;
         private Preference mSmsDisabledPreference;
         private String mSmsEnabledPrefKey;
         private Preference mSmsEnabledPreference;
-        private boolean mIsSmsPreferenceClicked;
-        private String mSwipeRightToDeleteConversationkey;
-        private SwitchPreferenceCompat mSwipeRightToDeleteConversationPreference;
 
         public ApplicationSettingsFragment() {
             // Required empty constructor
         }
 
         @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState,
+                                        @Nullable String rootKey) {
             getPreferenceManager().setSharedPreferencesName(BuglePrefs.SHARED_PREFERENCES_NAME);
             addPreferencesFromResource(R.xml.preferences_application);
 
             mNotificationsPreferenceKey =
                     getString(R.string.notifications_pref_key);
-            mNotificationsPreference = findPreference(mNotificationsPreferenceKey);
             mSmsDisabledPrefKey = getString(R.string.sms_disabled_pref_key);
             mSmsDisabledPreference = findPreference(mSmsDisabledPrefKey);
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
-            mSwipeRightToDeleteConversationkey = getString(
-                    R.string.swipe_right_deletes_conversation_key);
-            mSwipeRightToDeleteConversationPreference =
-                    (SwitchPreferenceCompat) findPreference(mSwipeRightToDeleteConversationkey);
-            mIsSmsPreferenceClicked = false;
 
             if (!DebugUtils.isDebugEnabled()) {
                 final Preference debugCategory = findPreference(getString(
@@ -135,18 +125,13 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         }
 
         @Override
-        public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-                Preference preference) {
+        public boolean onPreferenceTreeClick(@NonNull Preference preference) {
             if (preference.getKey() == mNotificationsPreferenceKey) {
                 Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                 intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
                 startActivity(intent);
             }
-            if (preference.getKey() ==  mSmsDisabledPrefKey ||
-                    preference.getKey() == mSmsEnabledPrefKey) {
-                mIsSmsPreferenceClicked = true;
-            }
-            return super.onPreferenceTreeClick(preferenceScreen, preference);
+            return super.onPreferenceTreeClick(preference);
         }
 
         private void updateSmsEnabledPreferences() {
@@ -159,7 +144,6 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
                 getPreferenceScreen().removePreference(mSmsEnabledPreference);
                 mSmsDisabledPreference.setSummary(defaultSmsAppLabel);
             }
-            mIsSmsPreferenceClicked = false;
         }
 
         @Override

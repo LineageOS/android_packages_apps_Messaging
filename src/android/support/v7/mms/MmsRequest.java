@@ -25,13 +25,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.telephony.SmsManager;
+import android.text.TextUtils;
+import android.util.Log;
+
 import androidx.appcompat.mms.pdu.GenericPdu;
 import androidx.appcompat.mms.pdu.PduHeaders;
 import androidx.appcompat.mms.pdu.PduParser;
 import androidx.appcompat.mms.pdu.SendConf;
-import android.telephony.SmsManager;
-import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.reflect.Method;
 import java.net.Inet4Address;
@@ -106,14 +107,6 @@ abstract class MmsRequest implements Parcelable {
         mPduUri = pduUri;
         mPendingIntent = pendingIntent;
         mUseWakeLock = true;
-    }
-
-    void setUseWakeLock(final boolean useWakeLock) {
-        mUseWakeLock = useWakeLock;
-    }
-
-    boolean getUseWakeLock() {
-        return mUseWakeLock;
     }
 
     /**

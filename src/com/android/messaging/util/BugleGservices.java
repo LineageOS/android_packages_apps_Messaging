@@ -31,8 +31,6 @@ public abstract class BugleGservices {
         return Factory.get().getBugleGservices();
     }
 
-    public abstract void registerForChanges(final Runnable r);
-
     /**
      * @param key The key to look up in GServices
      * @param defaultValue The default value if value in GServices is null or if

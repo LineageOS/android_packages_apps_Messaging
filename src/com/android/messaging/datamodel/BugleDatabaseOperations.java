@@ -23,9 +23,10 @@ import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
+
 import androidx.collection.ArrayMap;
 import androidx.collection.SimpleArrayMap;
-import android.text.TextUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
@@ -54,6 +55,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import javax.annotation.Nullable;
 
 
@@ -66,7 +68,7 @@ public class BugleDatabaseOperations {
 
     // Global cache of phone numbers -> participant id mapping since this call is expensive.
     private static final ArrayMap<String, String> sNormalizedPhoneNumberToParticipantIdCache =
-            new ArrayMap<String, String>();
+            new ArrayMap<>();
 
     /**
      * Convert list of recipient strings (email/phone number) into list of ConversationParticipants
@@ -77,8 +79,7 @@ public class BugleDatabaseOperations {
     static ArrayList<ParticipantData> getConversationParticipantsFromRecipients(
             final List<String> recipients, final int refSubId) {
         // Generate a list of partially formed participants
-        final ArrayList<ParticipantData> participants = new
-                ArrayList<ParticipantData>();
+        final ArrayList<ParticipantData> participants = new ArrayList<>();
 
         if (recipients != null) {
             for (final String recipient : recipients) {
