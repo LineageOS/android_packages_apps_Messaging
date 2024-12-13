@@ -24,6 +24,8 @@ import android.os.Parcelable;
 import android.provider.Telephony.Threads;
 import android.provider.Telephony.ThreadsColumns;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.Factory;
 import com.android.messaging.mmslib.SqliteWrapper;
 import com.android.messaging.util.DebugUtils;
@@ -147,7 +149,7 @@ public class LogTelephonyDatabaseAction extends Action implements Parcelable {
     };
 
     @Override
-    public void writeToParcel(final Parcel parcel, final int flags) {
+    public void writeToParcel(@NonNull final Parcel parcel, final int flags) {
         writeActionToParcel(parcel, flags);
     }
 }

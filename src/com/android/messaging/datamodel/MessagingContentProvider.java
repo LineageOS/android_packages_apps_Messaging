@@ -26,6 +26,8 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.BugleApplication;
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
@@ -257,8 +259,8 @@ public class MessagingContentProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(final Uri uri, final String[] projection, String selection,
-            final String[] selectionArgs, String sortOrder) {
+    public Cursor query(@NonNull final Uri uri, final String[] projection, String selection,
+                        final String[] selectionArgs, String sortOrder) {
 
         // Processes other than self are allowed to temporarily access the media
         // scratch space; we grant uri read access on a case-by-case basis. Dialer app and
@@ -383,7 +385,7 @@ public class MessagingContentProvider extends ContentProvider {
     }
 
     @Override
-    public String getType(final Uri uri) {
+    public String getType(@NonNull final Uri uri) {
         final StringBuilder sb = new
                 StringBuilder("vnd.android.cursor.dir/vnd.android.messaging.");
 
@@ -404,24 +406,24 @@ public class MessagingContentProvider extends ContentProvider {
     }
 
     @Override
-    public ParcelFileDescriptor openFile(final Uri uri, final String fileMode)
+    public ParcelFileDescriptor openFile(@NonNull final Uri uri, @NonNull final String fileMode)
             throws FileNotFoundException {
         throw new IllegalArgumentException("openFile not supported: " + uri);
     }
 
     @Override
-    public Uri insert(final Uri uri, final ContentValues values) {
+    public Uri insert(@NonNull final Uri uri, final ContentValues values) {
         throw new IllegalStateException("Insert not supported " + uri);
     }
 
     @Override
-    public int delete(final Uri uri, final String selection, final String[] selectionArgs) {
+    public int delete(@NonNull final Uri uri, final String selection, final String[] selectionArgs) {
         throw new IllegalArgumentException("Delete not supported: " + uri);
     }
 
     @Override
-    public int update(final Uri uri, final ContentValues values, final String selection,
-            final String[] selectionArgs) {
+    public int update(@NonNull final Uri uri, final ContentValues values, final String selection,
+                      final String[] selectionArgs) {
         throw new IllegalArgumentException("Update not supported: " + uri);
     }
 
