@@ -45,15 +45,11 @@
     <dimen name="message_padding_default">18dp</dimen>
     <dimen name="message_padding_same_author">2dp</dimen>
     <dimen name="message_metadata_top_padding">4dp</dimen>
-    <dimen name="message_audio_attachment_padding">12dp</dimen>
 
     <dimen name="mediapicker_default_chooser_height">215dp</dimen>
-    <dimen name="compose_message_contacts_container_margin">4dp</dimen>
     <dimen name="compose_message_contacts_height">42dp</dimen>
     <dimen name="compose_message_chip_height">36dp</dimen>
     <dimen name="compose_message_chip_padding">3dp</dimen>
-    <dimen name="compose_message_fields_horizontal_margin">16dp</dimen>
-    <dimen name="compose_message_font_size">16sp</dimen>
     <dimen name="compose_message_attachment_padding_sides">0dp</dimen>
     <dimen name="compose_message_attachment_padding_topBottom">10dp</dimen>
     <dimen name="compose_message_chips_view_max_height">133dp</dimen>
@@ -95,7 +91,6 @@
 
     <item name="letter_to_tile_ratio" type="dimen">67%</item>
     <item name="sim_identifier_to_tile_ratio" type="dimen">28%</item>
-    <item name="small_sim_identifier_to_tile_ratio" type="dimen">75%</item>
 
     <dimen name="audio_picker_text_size">16sp</dimen>
     <dimen name="audio_attachment_text_size">14sp</dimen>
@@ -106,8 +101,6 @@
     <!-- Videos in the message list view should at least be this big in the smallest dimension -->
     <dimen name="video_message_min_size">320dp</dimen>
     <dimen name="attachment_rounded_corner_radius">3dp</dimen>
-    <dimen name="progress_indicator_default_stroke_width">2dp</dimen>
-    <dimen name="progress_indicator_default_radius">12dp</dimen>
     <dimen name="participant_list_text_size">18sp</dimen>
     <dimen name="people_and_options_header_text_size">16sp</dimen>
     <dimen name="image_attachment_fallback_width">240dp</dimen>
@@ -131,11 +124,6 @@
 
     <dimen name="snack_bar_left_right_margin">24dp</dimen>
     <dimen name="snack_bar_top_bottom_margin">18dp</dimen>
-
-    <dimen name="version_dialog_large_padding">24dp</dimen>
-    <dimen name="version_dialog_bottom_padding">20dp</dimen>
-    <dimen name="version_dialog_info_left_padding">14dp</dimen>
-    <dimen name="version_dialog_copyright_top_margin">20dp</dimen>
 
     <dimen name="explode_animation_highlight_elevation">6dp</dimen>
 
@@ -165,13 +153,9 @@
 
     <!-- Widget -->
     <dimen name="widget_margin">8dp</dimen>
-    <dimen name="widget_subtitle_margin">0dp</dimen>
-    <dimen name="widget_avatar_padding">2dp</dimen>
     <dimen name="widget_header_height">48dp</dimen>
     <dimen name="widget_header_new_conv_button_width">48dp</dimen>
     <dimen name="widget_conversation_title_size">18sp</dimen>
-    <dimen name="widget_compose_top_padding">12dp</dimen>
-    <dimen name="widget_compose_top_padding_compressed">16dp</dimen>
 
     <dimen name="attachment_grid_image_cell_size">110dp</dimen>
     <dimen name="attachment_grid_checkbox_area_increase">15dp</dimen>

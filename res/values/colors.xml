@@ -53,8 +53,6 @@
     <color name="message_action_timestamp_text">#ffffffff</color>
 
     <color name="background_item_transparent">@android:color/transparent</color>
-    <color name="background_item_activated">#670099cc</color>
-    <color name="background_item_selected">#cc0099cc</color>
     <color name="background_item_pressed">#6733b5e5</color>
 
     <color name="subject_editor_bubble">#ffffffff</color>
@@ -75,10 +73,6 @@
     <!-- Base color used for color filtering. -->
     <color name="color_filter_base_color">#ff0000</color>
 
-    <!-- Activity background color -->
-    <drawable name="class_zero_background">#7f040000</drawable>
-
-    <color name="contact_avatar_default_background">#d2d2d2</color>
     <color name="contact_avatar_pressed_color">#40000000</color>
     <color name="contact_list_text_primary">#4d4d4d</color>
     <color name="contact_list_text_secondary">#999999</color>
@@ -94,8 +88,6 @@
     <color name="chips_dropdown_background_pressed">#ededed</color>
     <color name="chips_background_color">#33000000</color>
     <color name="chips_text_color">@android:color/white</color>
-
-    <color name="camera_button_container_background">#80000000</color>
 
     <color name="translucent_white">#80ffffff</color>
 
@@ -142,7 +134,6 @@
     <color name="people_and_options_list_divider">#cccccc</color>
 
     <color name="fab_color">@color/lineage_accent</color>
-    <color name="fab_pressed_color">@*android:color/primary_device_default_light</color>
     <color name="fab_ripple">#40ffffff</color>
 
     <color name="message_body_size_text_color">#555555</color>
@@ -157,19 +148,13 @@
     <color name="sim_selector_text_secondary">#999999</color>
     <color name="sim_selector_background_end">#cceeeeee</color>
     <color name="sim_selector_background_start">#ffeeeeee</color>
-    <color name="sim_indicator_color_light">#ffffff</color>
-    <color name="sim_indicator_color_dark">#323232</color>
 
     <color name="text_highlight_color">@android:color/system_accent1_100</color>
     <color name="search_view_text_cursor">#b0dddddd</color>
 
-    <color name="button_bar_action_button_text_color">#03a9f4</color>
-    <color name="button_bar_cancel_button_text_color">#4d4d4d</color>
-
     <color name="settings_list_text_primary">#4d4d4d</color>
     <color name="settings_list_text_secondary">#6d6d6d</color>
     <color name="group_mms_setting_text_color">#333333</color>
-    <color name="settings_item_title_text_primary">#000000</color>
 
     <color name="contact_picker_button_text_color">@color/primary_color</color>
 
@@ -186,6 +171,4 @@
     <color name="fastscroll_track_color">#1e000000</color>
     <color name="fastscroll_thumb_color">#42000000</color>
     <color name="fastscroll_preview_text_color">#ffffff</color>
-
-    <color name="google_gray">#F1F1F1</color>
 </resources>
