@@ -108,7 +108,7 @@ public class WidgetConversationService extends RemoteViewsService {
             }
             final Uri uri = MessagingContentProvider.buildConversationMessagesUri(mConversationId);
             if (uri != null) {
-                LogUtil.w(TAG, "doQuery uri: " + uri.toString());
+                LogUtil.w(TAG, "doQuery uri: " + uri);
             }
             return mContext.getContentResolver().query(uri,
                     ConversationMessageData.getProjection(),

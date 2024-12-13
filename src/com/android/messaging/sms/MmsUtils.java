@@ -137,7 +137,7 @@ public class MmsUtils {
             case MMS_REQUEST_NO_RETRY:
                 return "NO_RETRY";
             default:
-                return String.valueOf(status) + " (check MmsUtils)";
+                return status + " (check MmsUtils)";
         }
     }
 

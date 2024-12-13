@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -291,7 +292,7 @@ class ExifOutputStream extends FilterOutputStream {
             dataOutputStream.writeShort(tag.getDataType());
             dataOutputStream.writeInt(tag.getComponentCount());
             if (DEBUG) {
-                Log.v(TAG, "\n" + tag.toString());
+                Log.v(TAG, "\n" + tag);
             }
             if (tag.getDataSize() > 4) {
                 dataOutputStream.writeInt(tag.getOffset());

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -72,7 +73,7 @@ public class UriImageRequestDescriptor extends ImageRequestDescriptor {
             if (key != null) {
                 return new StringBuilder()
                     .append(uri).append(KEY_PART_DELIMITER)
-                    .append(String.valueOf(allowCompression)).append(KEY_PART_DELIMITER)
+                    .append(allowCompression).append(KEY_PART_DELIMITER)
                     .append(key).toString();
             }
         }
