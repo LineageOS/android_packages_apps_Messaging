@@ -1891,7 +1891,7 @@ public class BugleDatabaseOperations {
             }
         }
 
-        final String whereClause = rowKey + "=?" + " AND (" + sb.toString() + ")";
+        final String whereClause = rowKey + "=?" + " AND (" + sb + ")";
         final String [] whereValuesArray = whereValues.toArray(new String[whereValues.size()]);
         final int count = db.update(table, values, whereClause, whereValuesArray);
         if (count > 1) {
