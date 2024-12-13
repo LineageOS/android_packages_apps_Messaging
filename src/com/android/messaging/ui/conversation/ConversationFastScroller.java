@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +24,8 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
@@ -169,7 +172,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     }
 
     @Override
-    public void onScrollStateChanged(final RecyclerView view, final int newState) {
+    public void onScrollStateChanged(@NonNull final RecyclerView view, final int newState) {
         if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
             // Only show the scrollbar once the user starts scrolling
             if (!mVisible && isEnabled()) {
@@ -257,7 +260,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     }
 
     @Override
-    public void onScrolled(final RecyclerView view, final int dx, final int dy) {
+    public void onScrolled(@NonNull final RecyclerView view, final int dx, final int dy) {
         updateScrollPos();
     }
 
@@ -315,7 +318,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     }
 
     @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+    public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         if (!mVisible) {
             return false;
         }
@@ -357,7 +360,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     }
 
     @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+    public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
         if (!mDragging) {
             return;
         }

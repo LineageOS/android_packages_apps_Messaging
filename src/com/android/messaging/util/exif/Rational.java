@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +16,8 @@
  */
 
 package com.android.messaging.util.exif;
+
+import androidx.annotation.NonNull;
 
 /**
  * The rational data type of EXIF tag. Contains a pair of longs representing the
@@ -81,6 +84,7 @@ public class Rational {
         return false;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return mNumerator + "/" + mDenominator;

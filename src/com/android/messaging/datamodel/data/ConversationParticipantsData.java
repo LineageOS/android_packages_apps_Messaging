@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,8 @@
 package com.android.messaging.datamodel.data;
 
 import android.database.Cursor;
+
+import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 
 import com.android.messaging.util.Assert;
@@ -97,6 +100,7 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
         return !mConversationParticipantsMap.isEmpty();
     }
 
+    @NonNull
     @Override
     public Iterator<ParticipantData> iterator() {
         return new Iterator<ParticipantData>() {

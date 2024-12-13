@@ -24,6 +24,8 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -195,7 +197,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             int mCurrentState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
             @Override
-            public void onScrolled(final RecyclerView recyclerView, final int dx, final int dy) {
+            public void onScrolled(@NonNull final RecyclerView recyclerView, final int dx,
+                                   final int dy) {
                 if (mCurrentState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
                         || mCurrentState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
                     ImeUtil.get().hideImeKeyboard(getActivity(), mRecyclerView);
@@ -209,7 +212,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             }
 
             @Override
-            public void onScrollStateChanged(final RecyclerView recyclerView, final int newState) {
+            public void onScrollStateChanged(@NonNull final RecyclerView recyclerView,
+                                             final int newState) {
                 mCurrentState = newState;
             }
         });
@@ -326,7 +330,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     }
 
     @Override
-    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull final Menu menu,
+                                    @NonNull final MenuInflater inflater) {
         if (!isAdded()) {
             // Guard against being called before we're added to the activity
             return;

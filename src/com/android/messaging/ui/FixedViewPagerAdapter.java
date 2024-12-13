@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +18,8 @@ package com.android.messaging.ui;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +42,9 @@ public class FixedViewPagerAdapter<T extends PagerViewHolder> extends PagerAdapt
         mViewHolders = viewHolders;
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(final ViewGroup container, final int position) {
+    public Object instantiateItem(@NonNull final ViewGroup container, final int position) {
         final PagerViewHolder viewHolder = getViewHolder(position);
         final View view = viewHolder.getView(container);
         if (view == null) {
@@ -52,7 +56,8 @@ public class FixedViewPagerAdapter<T extends PagerViewHolder> extends PagerAdapt
     }
 
     @Override
-    public void destroyItem(final ViewGroup container, final int position, final Object object) {
+    public void destroyItem(@NonNull final ViewGroup container, final int position,
+                            @NonNull final Object object) {
         final PagerViewHolder viewHolder = getViewHolder(position);
         final View destroyedView = viewHolder.destroyView();
         if (destroyedView != null) {
@@ -66,7 +71,7 @@ public class FixedViewPagerAdapter<T extends PagerViewHolder> extends PagerAdapt
     }
 
     @Override
-    public boolean isViewFromObject(final View view, final Object object) {
+    public boolean isViewFromObject(final View view, @NonNull final Object object) {
         return view.getTag() == object;
     }
 
