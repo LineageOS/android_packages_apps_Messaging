@@ -36,7 +36,7 @@ public class BugleSubscriptionPrefs extends BuglePrefsImpl {
 
     @Override
     public String getSharedPreferencesName() {
-        return SHARED_PREFERENCES_PER_SUBSCRIPTION_PREFIX + String.valueOf(mSubId);
+        return SHARED_PREFERENCES_PER_SUBSCRIPTION_PREFIX + mSubId;
     }
 
     @Override
