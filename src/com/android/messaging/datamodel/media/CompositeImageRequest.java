@@ -21,7 +21,8 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.media.ExifInterface;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ImageUtils;

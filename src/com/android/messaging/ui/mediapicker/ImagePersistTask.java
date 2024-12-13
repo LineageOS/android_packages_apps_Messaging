@@ -78,7 +78,7 @@ public class ImagePersistTask extends SafeAsyncTask<Void, Void, Void> {
             outputStream =
                     mContext.getContentResolver().openOutputStream(mOutputUri);
             if (mHeightPercent != 1.0f) {
-                int orientation = android.media.ExifInterface.ORIENTATION_UNDEFINED;
+                int orientation = androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED;
                 final ExifInterface exifInterface = new ExifInterface();
                 try {
                     exifInterface.readExif(mBytes);
