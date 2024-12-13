@@ -208,7 +208,7 @@ public final class Assert {
             if (caller != null) {
                 // This log message can be de-obfuscated by the Proguard retrace tool, just like a
                 // full stack trace from a crash.
-                LogUtil.e(LogUtil.BUGLE_TAG, "\tat " + caller.toString());
+                LogUtil.e(LogUtil.BUGLE_TAG, "\tat " + caller);
             }
         }
     }

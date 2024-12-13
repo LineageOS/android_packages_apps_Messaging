@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +37,7 @@ public class BugleSubscriptionPrefs extends BuglePrefsImpl {
 
     @Override
     public String getSharedPreferencesName() {
-        return SHARED_PREFERENCES_PER_SUBSCRIPTION_PREFIX + String.valueOf(mSubId);
+        return SHARED_PREFERENCES_PER_SUBSCRIPTION_PREFIX + mSubId;
     }
 
     @Override

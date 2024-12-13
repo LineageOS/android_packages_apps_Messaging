@@ -250,7 +250,7 @@ public class DebugUtils {
     public static void dumpSms(final long id, final android.telephony.SmsMessage[] messages,
             final String format) {
         try {
-            final String dumpFileName = MmsUtils.SMS_DUMP_PREFIX + Long.toString(id);
+            final String dumpFileName = MmsUtils.SMS_DUMP_PREFIX + id;
             final File dumpFile = DebugUtils.getDebugFile(dumpFileName, true);
             if (dumpFile != null) {
                 final FileOutputStream fos = new FileOutputStream(dumpFile);

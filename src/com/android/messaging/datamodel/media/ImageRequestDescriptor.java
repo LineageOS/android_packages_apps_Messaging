@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,9 +96,9 @@ public abstract class ImageRequestDescriptor extends MediaRequestDescriptor<Imag
         return new StringBuilder()
                 .append(desiredWidth).append(KEY_PART_DELIMITER)
                 .append(desiredHeight).append(KEY_PART_DELIMITER)
-                .append(String.valueOf(cropToCircle)).append(KEY_PART_DELIMITER)
-                .append(String.valueOf(circleBackgroundColor)).append(KEY_PART_DELIMITER)
-                .append(String.valueOf(isStatic)).toString();
+                .append(cropToCircle).append(KEY_PART_DELIMITER)
+                .append(circleBackgroundColor).append(KEY_PART_DELIMITER)
+                .append(isStatic).toString();
     }
 
     public boolean isStatic() {
