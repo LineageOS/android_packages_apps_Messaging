@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"​ການ​ຕັ້ງ​ຄ່າ"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"​ສົ່ງ​ຂໍ້​ຄວາມ"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"ເພີ່ມໄຟລ໌ແນບ"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"​ຊ່ວຍ​ເຫຼືອ"</string>
-    <string name="welcome" msgid="2857560951820802321">"ຍິນດີຕ້ອນຮັບ"</string>
-    <string name="skip" msgid="7238879696319945853">"ຂ້າມ"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"ຕໍ່ໄປ &gt;"</string>
     <string name="next" msgid="4496962051601713843">"ຕໍ່​ໄປ"</string>
     <string name="exit" msgid="1905187380359981199">"ອອກ"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ຂໍ້ຄວາມຄລາສ 0"</string>
     <string name="save" msgid="5081141452059463572">"ບັນທຶກ"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"ອຸ​ປະ​ກອນ​ມີ​ພື້ນ​ທີ່​​ເກັບ​ຂໍ້​ມູນ​ໜ້ອຍ. ກາ​ນສົ່ງຂໍ້​ຄວາມ​ຈະ​ລຶບ​ຂໍ້​ຄວາມ​ເກົ່າ​ໂດຍ​ອັດ​ຕະ​ໂນ​ມັດ ເພື່ອ​ເຮັດ​ໃຫ້​ມີ​ພື້ນ​ທີ່​ຫວ່າງ​ເພີ່ມ​ຂຶ້ນ."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"ພື້ນທີ່​ຈັດ​ເກັບ​ຂໍ້ມູນ​ກຳລັງ​ຈະ​ເຕັມ"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"ການສົ່ງຂໍ້​ຄວາມ​ອາດ​ຈະ​ບໍ່​ສົ່ງ ຫຼື ຮັບ​ຂໍ້​ຄວາມ​ຈົນ​ກ່​ວາ​ມີ​ພື້ນ​ທີ່​ເພີ່ມ​ເຕີມ​ຢູ່​ໃນ​ອຸ​ປະ​ກອນ​ຂອງ​ທ່ານ."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"ພື້ນ​ທີ່​ເກັບ​ຂໍ້ຄວາມ​ໜ້ອຍ​ລົງ. ທ່ານ​ອາດ​ຈະ​ຕ້ອງ​ລຶບ​ຂໍ້​ຄວາມ​ເກົ່າ​ອອກ​ກ່ອນ."</string>

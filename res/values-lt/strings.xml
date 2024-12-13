@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"Nustatymai"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Siųsti pranešimą"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"Pridėti priedą"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"Pagalba"</string>
-    <string name="welcome" msgid="2857560951820802321">"Sveiki!"</string>
-    <string name="skip" msgid="7238879696319945853">"Praleisti"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"Kitas &gt;"</string>
     <string name="next" msgid="4496962051601713843">"Kitas"</string>
     <string name="exit" msgid="1905187380359981199">"Išeiti"</string>
@@ -88,7 +85,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0 klasės pranešimas"</string>
     <string name="save" msgid="5081141452059463572">"Išsaugoti"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"Mažai vietos įrenginyje. Susirašinėjimo programa automatiškai ištrins senesnius pranešimus, kad atlaisvintų vietos."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"Mažėja laisvos saugyklos vietos saugykloje"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"Galbūt Susirašinėjimo programa negalės siųsti ar gauti pranešimų, kol įrenginyje nebus daugiau laisvos vietos."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Mažai laisvos SMS saugyklos vietos. Gali reikėti ištrinti pranešimus."</string>

@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"ការកំណត់"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"ផ្ញើ​សារ"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"បន្ថែម​ឯកសារ​ភ្ជាប់"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"ជំនួយ"</string>
-    <string name="welcome" msgid="2857560951820802321">"សូមស្វាគមន៍"</string>
-    <string name="skip" msgid="7238879696319945853">"រំលង"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"បន្ទាប់ &gt;"</string>
     <string name="next" msgid="4496962051601713843">"បន្ទាប់"</string>
     <string name="exit" msgid="1905187380359981199">"ចេញ"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"សារ​ថ្នាក់ ០"</string>
     <string name="save" msgid="5081141452059463572">"រក្សាទុក"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"ឧបករណ៍នៅសល់ទំហំផ្ទុកតិច។ ការផ្ញើសារនឹងលុបសារចាស់ៗដើម្បីធ្វើឲ្យមានទំហំផ្ទុកទំនេរ។"</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"អស់​ទំហំ​ផ្ទុក"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"ការផ្ញើសារអាចនឹងមិនផ្ញើ ឬទទួលសារទេ រហូតដល់មានទំហំផ្ទុកបន្ថែមទៀតនៅលើឧបករណ៍របស់អ្នក។"</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"ជិត​អស់​ទំហំ​ផ្ទុក​សារ SMS ។ អ្នក​អាច​​​លុប​សារ​មួយ​ចំនួន។"</string>

@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"პარამეტრები"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"წერილის გაგზავნა"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"დანართის დამატება"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"დახმარება"</string>
-    <string name="welcome" msgid="2857560951820802321">"მოგესალმებით"</string>
-    <string name="skip" msgid="7238879696319945853">"გამოტოვება"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"შემდეგი &gt;"</string>
     <string name="next" msgid="4496962051601713843">"შემდეგი"</string>
     <string name="exit" msgid="1905187380359981199">"გასვლა"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Class 0 შეტყობინება"</string>
     <string name="save" msgid="5081141452059463572">"შენახვა"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"მოწყობილობის მეხსიერებაში თავისუფალი სივრცე ცოტაა. შეტყობინებები ავტომატურად წაშლის ძველ შეტყობინებებს მეხსიერების გასათავისუფლებლად."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"თავისუფალი ადგილი იწურება"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"შეტყობინებებმა შესაძლოა ვერ მოახერხოს შეტყობინებების გაგზავნა ან მიღება მანამ, სანამ თქვენს მოწყობილობაზე ხელმისაწვდომი არ გახდება მეტი სივრცე."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS სივრცე იწურება. შესაძლოა, მოგიწიოთ ძველი შეტყობინებების წაშლა"</string>

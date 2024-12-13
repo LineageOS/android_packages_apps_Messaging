@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"设置"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"发送信息"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"添加附件"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"帮助"</string>
-    <string name="welcome" msgid="2857560951820802321">"欢迎使用"</string>
-    <string name="skip" msgid="7238879696319945853">"跳过"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"下一步 &gt;"</string>
     <string name="next" msgid="4496962051601713843">"下一步"</string>
     <string name="exit" msgid="1905187380359981199">"退出"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0级信息"</string>
     <string name="save" msgid="5081141452059463572">"保存"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"设备存储空间不足。“短信”将自动删除较早的信息，以便腾出存储空间。"</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"存储空间不足"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"除非您的设备上腾出更多可用空间，否则“短信”可能无法收发信息。"</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"短信存储空间不足，建议您删除部分信息。"</string>

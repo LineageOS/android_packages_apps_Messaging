@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"அமைப்பு"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"செய்தி அனுப்பு"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"இணைப்பைச் சேர்"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"உதவி"</string>
-    <string name="welcome" msgid="2857560951820802321">"நல்வரவு"</string>
-    <string name="skip" msgid="7238879696319945853">"தவிர்"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"அடுத்து &gt;"</string>
     <string name="next" msgid="4496962051601713843">"அடுத்து"</string>
     <string name="exit" msgid="1905187380359981199">"வெளியேறு"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"கிளாஸ் 0 செய்தி"</string>
     <string name="save" msgid="5081141452059463572">"சேமி"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"சாதனத்தில் இடம் குறைவாக உள்ளது. இடத்தைக் காலியாக்க, செய்தியிடலானது பழைய உரைச் செய்திகளை தானாகவே நீக்கும்."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"சேமிப்பிடம் குறைகிறது"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"உங்கள் சாதனத்தில் கூடுதல் இடம் கிடைக்கும் வரை செய்தியிடல் செய்திகளை அனுப்பாமல் அல்லது பெறாமல் இருக்கக் கூடும்."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS சேமிப்பகம் குறைவாக உள்ளது. நீங்கள் செய்திகளை நீக்க வேண்டியிருக்கலாம்."</string>

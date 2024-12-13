@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"सेटिंग"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"संदेश भेजें"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"कोई अटैचमेंट जोड़ें"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"सहायता"</string>
-    <string name="welcome" msgid="2857560951820802321">"स्वागत है"</string>
-    <string name="skip" msgid="7238879696319945853">"अभी नहीं"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"अगला &gt;"</string>
     <string name="next" msgid="4496962051601713843">"अगला"</string>
     <string name="exit" msgid="1905187380359981199">"बाहर निकलें"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"वर्ग 0 संदेश"</string>
     <string name="save" msgid="5081141452059463572">"जोड़ें"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"डिवाइस में स्थान कम है. स्थान खाली करने के लिए संदेश सेवा पुराने संदेशों को अपने आप हटा देगी."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"मेमोरी स्‍थान समाप्‍त हो रहा है"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"हो सकता है कि आपके डिवाइस पर अधिक स्‍थान उपलब्‍ध होने तक संदेश सेवा संदेशों को ना भेजे या प्राप्‍त ना करे."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"कम SMS मेमोरी. आपको संदेशों को हटाने की आवश्‍यकता हो सकती है."</string>

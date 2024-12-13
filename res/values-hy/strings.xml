@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"Կարգավորումներ"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Ուղարկել հաղորդագրություն"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"Ավելացնել կցորդ"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"Օգնություն"</string>
-    <string name="welcome" msgid="2857560951820802321">"Բարի գալուստ"</string>
-    <string name="skip" msgid="7238879696319945853">"Բաց թողնել"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"Հաջորդը &gt;"</string>
     <string name="next" msgid="4496962051601713843">"Հաջորդը"</string>
     <string name="exit" msgid="1905187380359981199">"Ելք"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Class 0 հաղորդագրություն"</string>
     <string name="save" msgid="5081141452059463572">"Պահել"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"Սարքի վրա բավարար ազատ տարածք չկա: Հաղորդակցում հավելվածը ինքնաշխատորեն կջնջի հին հաղորդագրությունները, որպեսզի տեղ ազատի:"</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"Պահոցային տարածքը սպառվում է"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"Հաղորդակցումը չի կարող ուղարկել կամ ստանալ հաղորդագրություններ, քանի դեռ սարքում բավարար տարածք չկա:"</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS պահոցի ծավալը փոքր է: Հնարավոր է՝ հաղորդագրություններ ջնջելու կարիք լինի:"</string>

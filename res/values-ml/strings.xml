@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"ക്രമീകരണങ്ങൾ"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"സന്ദേശം അയയ്ക്കൂ"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"ഒരു അറ്റാച്ചുമെന്റ് ചേർക്കുക"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"സഹായം"</string>
-    <string name="welcome" msgid="2857560951820802321">"സ്വാഗതം"</string>
-    <string name="skip" msgid="7238879696319945853">"ഒഴിവാക്കുക"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"അടുത്തത് &gt;"</string>
     <string name="next" msgid="4496962051601713843">"അടുത്തത്"</string>
     <string name="exit" msgid="1905187380359981199">"പുറത്തുകടക്കുക"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ക്ലാസ് 0 സന്ദേശം"</string>
     <string name="save" msgid="5081141452059463572">"സംരക്ഷിക്കുക"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"ഉപകരണത്തിൽ ഇടം കുറവാണ്. ഇടം സ്വതന്ത്രമാക്കുന്നതിന് പഴയ സന്ദേശങ്ങളെ സന്ദേശമയയ്ക്കൽ സ്വയമേവ ഇല്ലാതാക്കും."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"സംഭരണയിടം കഴിഞ്ഞു"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"നിങ്ങളുടെ ഉപകരണത്തിൽ കൂടുതൽ ഇടം ലഭ്യമാകുന്നത് വരെ സന്ദേശമയയ്ക്കലിന് സന്ദേശങ്ങൾ അയയ്ക്കാനോ സ്വീകരിക്കാനോ ആയേക്കില്ല."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS സ്റ്റോറേജ്  കുറവാണ്. നിങ്ങൾക്ക് സന്ദേശങ്ങൾ ഇല്ലാതാക്കേണ്ടതായി വരാം."</string>

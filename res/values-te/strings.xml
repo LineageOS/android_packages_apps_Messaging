@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"సెట్టింగ్‌లు"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"సందేశం పంపు"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"జోడింపును జోడించండి"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"సహాయం"</string>
-    <string name="welcome" msgid="2857560951820802321">"స్వాగతం"</string>
-    <string name="skip" msgid="7238879696319945853">"దాటవేయి"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"తదుపరి &gt;"</string>
     <string name="next" msgid="4496962051601713843">"తదుపరి"</string>
     <string name="exit" msgid="1905187380359981199">"నిష్క్రమించండి"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"తరగతి 0 సందేశం"</string>
     <string name="save" msgid="5081141452059463572">"సేవ్ చేయి"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"పరికరంలో ఖాళీ స్థలం తక్కువగా ఉంది. స్థలం ఖాళీ చేయడానికి సందేశ సేవ స్వయంచాలకంగా పాత సందేశాలను తొలగిస్తుంది."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"నిల్వ స్థలం అయిపోతోంది"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"మీ పరికరంలో మరింత ఖాళీ స్థలం లభించే వరకు సందేశ సేవ సందేశాలను పంపలేకపోవచ్చు లేదా స్వీకరించలేకపోవచ్చు."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS నిల్వ తక్కువగా ఉంది. మీరు సందేశాలను తొలగించాల్సి రావచ్చు."</string>

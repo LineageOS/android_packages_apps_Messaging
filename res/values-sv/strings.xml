@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"Inställningar"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Skicka meddelande"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"Lägg till en bilaga"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"Hjälp"</string>
-    <string name="welcome" msgid="2857560951820802321">"Välkommen"</string>
-    <string name="skip" msgid="7238879696319945853">"Hoppa över"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"Nästa &gt;"</string>
     <string name="next" msgid="4496962051601713843">"Nästa"</string>
     <string name="exit" msgid="1905187380359981199">"Stäng"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Meddelande, klass 0"</string>
     <string name="save" msgid="5081141452059463572">"Spara"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"Det finns ont om utrymme på enheten. Om du skickar och tar emot sms kommer äldre sms att raderas för att göra plats."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"Lagringsutrymmet börjar ta slut"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"Du kan behöva frigöra utrymme på enheten för att kunna skicka eller ta emot sms med Meddelanden."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Lagringsutrymmet för sms är fullt. Du kan behöva ta bort sms."</string>

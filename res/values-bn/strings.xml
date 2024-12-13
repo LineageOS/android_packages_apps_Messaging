@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"সেটিংস"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"বার্তা পাঠান"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"একটি সংযুক্তি যোগ করুন"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"সহায়তা"</string>
-    <string name="welcome" msgid="2857560951820802321">"স্বাগতম"</string>
-    <string name="skip" msgid="7238879696319945853">"এড়িয়ে যান"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"পরবর্তী &gt;"</string>
     <string name="next" msgid="4496962051601713843">"পরবর্তী"</string>
     <string name="exit" msgid="1905187380359981199">"প্রস্থান করুন"</string>
@@ -76,7 +73,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ক্লাস ০ বার্তা"</string>
     <string name="save" msgid="5081141452059463572">"সংরক্ষণ করুন"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"ডিভাইসে কম জায়গা আছে। বার্তাপ্রেরণ জায়গা খালি করতে স্বয়ংক্রিয়ভাবে পুরানো পাঠ্য বার্তাগুলি মুছে ফেলবে।"</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"সঞ্চয়স্থান পূর্ণ হতে চলেছে"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"আপনার ফোনে অরো বেশি সঞ্চয়স্থান উপলব্ধ না থাকলে, বার্তাপ্রেরণ বার্তাগুলি পাঠাতে বা গ্রহণ করতে নাও পারে৷"</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS সংগ্রহস্থল বেশি নেই৷ আপনাকে বার্তা মুছতে হতে পারে৷"</string>

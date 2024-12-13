@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"Setări"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Trimiteți mesajul"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"Adăugați un atașament"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"Ajutor"</string>
-    <string name="welcome" msgid="2857560951820802321">"Bun venit"</string>
-    <string name="skip" msgid="7238879696319945853">"Omiteți"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"Înainte &gt;"</string>
     <string name="next" msgid="4496962051601713843">"Înainte"</string>
     <string name="exit" msgid="1905187380359981199">"Ieșiți"</string>
@@ -82,7 +79,6 @@
     </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Mesaje clasa 0"</string>
     <string name="save" msgid="5081141452059463572">"Salvați"</string>
-    <string name="sms_storage_low_auto_delete_enabled_dialog_text" msgid="8836401937872068406">"Spațiul de stocare pe dispozitiv este redus. Mesageria va șterge automat mesaje mai vechi pentru a elibera spațiul."</string>
     <string name="sms_storage_low_title" msgid="7985379565293259177">"Spațiu de stocare limitat"</string>
     <string name="sms_storage_low_text" msgid="7036247475855447830">"Este posibil ca aplicația Mesagerie să nu trimită și să nu primească mesaje până când nu este disponibil mai mult spațiu pe dispozitiv."</string>
     <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Spațiu de stocare scăzut pentru SMS-uri. Poate fi necesar să ștergeți unele mesaje."</string>
