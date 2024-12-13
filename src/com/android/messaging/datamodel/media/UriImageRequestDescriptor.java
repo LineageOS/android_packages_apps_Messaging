@@ -72,7 +72,7 @@ public class UriImageRequestDescriptor extends ImageRequestDescriptor {
             if (key != null) {
                 return new StringBuilder()
                     .append(uri).append(KEY_PART_DELIMITER)
-                    .append(String.valueOf(allowCompression)).append(KEY_PART_DELIMITER)
+                    .append(allowCompression).append(KEY_PART_DELIMITER)
                     .append(key).toString();
             }
         }
