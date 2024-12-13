@@ -18,6 +18,8 @@ package com.android.messaging.ui;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.ActionMode;
@@ -194,7 +196,7 @@ public class BugleActionBarActivity extends AppCompatActivity implements ImeUtil
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem menuItem) {
         if (mActionMode != null &&
                 mActionMode.getCallback().onActionItemClicked(mActionMode, menuItem)) {
             return true;
