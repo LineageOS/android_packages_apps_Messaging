@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"Configuración"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Enviar mensaxe"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"Engadir un anexo"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"Axuda"</string>
-    <string name="welcome" msgid="2857560951820802321">"Dámosche a benvida"</string>
-    <string name="skip" msgid="7238879696319945853">"Omitir"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"Seguinte &gt;"</string>
     <string name="next" msgid="4496962051601713843">"Seguinte"</string>
     <string name="exit" msgid="1905187380359981199">"Saír"</string>

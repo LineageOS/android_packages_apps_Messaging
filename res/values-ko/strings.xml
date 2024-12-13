@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"설정"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"메시지 보내기"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"첨부파일 추가"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"도움말"</string>
-    <string name="welcome" msgid="2857560951820802321">"환영합니다."</string>
-    <string name="skip" msgid="7238879696319945853">"건너뛰기"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"다음 &gt;"</string>
     <string name="next" msgid="4496962051601713843">"다음"</string>
     <string name="exit" msgid="1905187380359981199">"종료"</string>

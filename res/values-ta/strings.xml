@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"அமைப்பு"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"செய்தி அனுப்பு"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"இணைப்பைச் சேர்"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"உதவி"</string>
-    <string name="welcome" msgid="2857560951820802321">"நல்வரவு"</string>
-    <string name="skip" msgid="7238879696319945853">"தவிர்"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"அடுத்து &gt;"</string>
     <string name="next" msgid="4496962051601713843">"அடுத்து"</string>
     <string name="exit" msgid="1905187380359981199">"வெளியேறு"</string>

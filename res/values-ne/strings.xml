@@ -23,9 +23,6 @@
     <string name="action_settings" msgid="1329008122345201684">"सेटिङ्हरू"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"सन्देश पठाउनुहोस्"</string>
     <string name="attachMediaButtonContentDescription" msgid="2758624209216276682">"एक अनुलग्नक थप गर्नुहोस्"</string>
-    <string name="help_and_feedback_activity_label" msgid="8070710971014835182">"मद्दत"</string>
-    <string name="welcome" msgid="2857560951820802321">"स्वागतम"</string>
-    <string name="skip" msgid="7238879696319945853">"छोड्नुहोस्"</string>
     <string name="next_with_arrow" msgid="2840729397885031655">"अर्को &gt;"</string>
     <string name="next" msgid="4496962051601713843">"अर्को"</string>
     <string name="exit" msgid="1905187380359981199">"बाहिर"</string>
