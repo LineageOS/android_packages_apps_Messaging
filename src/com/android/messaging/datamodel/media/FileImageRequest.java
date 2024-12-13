@@ -18,7 +18,8 @@ package com.android.messaging.datamodel.media;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
+
+import androidx.exifinterface.media.ExifInterface;
 
 import com.android.messaging.datamodel.media.PoolableImageCache.ReusableImageResourcePool;
 import com.android.messaging.util.ImageUtils;
