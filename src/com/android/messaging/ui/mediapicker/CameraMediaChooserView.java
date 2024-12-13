@@ -24,6 +24,9 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.ui.PersistentInstanceState;
 import com.android.messaging.util.ThreadUtil;
@@ -72,7 +75,7 @@ public class CameraMediaChooserView extends FrameLayout implements PersistentIns
     }
 
     @Override
-    protected void onDraw(final Canvas canvas) {
+    protected void onDraw(@NonNull final Canvas canvas) {
         super.onDraw(canvas);
         // If the canvas isn't hardware accelerated, we have to replace the HardwareCameraPreview
         // with a SoftwareCameraPreview which supports software rendering

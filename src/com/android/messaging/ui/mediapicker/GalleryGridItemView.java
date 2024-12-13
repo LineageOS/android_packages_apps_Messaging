@@ -30,6 +30,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.data.GalleryGridItemData;
@@ -106,7 +108,7 @@ public class GalleryGridItemView extends FrameLayout {
                 final Rect region = new Rect(0, 0, getWidth(), getHeight());
                 setTouchDelegate(new TouchDelegate(region, mCheckBox) {
                     @Override
-                    public boolean onTouchEvent(MotionEvent event) {
+                    public boolean onTouchEvent(@NonNull MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 setPressed(true);
