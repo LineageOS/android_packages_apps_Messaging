@@ -22,6 +22,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.ActionBar;
@@ -708,8 +710,9 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     protected static final int READ_CONTACT_PERMISSION_REQUEST_CODE = 5;
 
     @Override
-    public void onRequestPermissionsResult(
-            final int requestCode, final String permissions[], final int[] grantResults) {
+    public void onRequestPermissionsResult(final int requestCode,
+                                           @NonNull final String permissions[],
+                                           @NonNull final int[] grantResults) {
         if (mSelectedChooser != null) {
             mSelectedChooser.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
