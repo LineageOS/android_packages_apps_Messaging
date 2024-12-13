@@ -35,6 +35,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.binding.Binding;
@@ -246,8 +248,10 @@ public class PeopleAndOptionsFragment extends Fragment
             notifyDataSetChanged();
         }
 
+        @NonNull
         @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
+        public View getView(final int position, final View convertView,
+                            @NonNull final ViewGroup parent) {
             PersonItemView itemView;
             final ParticipantData item = getItem(position);
             if (convertView != null && convertView instanceof PersonItemView) {

@@ -18,6 +18,8 @@ package com.android.messaging.ui.conversationlist;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,7 +85,7 @@ public class ConversationListActivity extends AbstractConversationListActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem menuItem) {
         switch(menuItem.getItemId()) {
             case R.id.action_start_new_conversation:
                 onActionBarStartNewConversation();

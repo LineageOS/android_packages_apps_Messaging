@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -106,7 +108,7 @@ public abstract class FileProvider extends ContentProvider {
     }
 
     @Override
-    public ParcelFileDescriptor openFile(final Uri uri, final String fileMode)
+    public ParcelFileDescriptor openFile(final Uri uri, @NonNull final String fileMode)
             throws FileNotFoundException {
         final String fileId = uri.getPath();
         if (isValidFileId(fileId)) {
@@ -124,27 +126,27 @@ public abstract class FileProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(final Uri uri, final String[] projection, final String selection,
-            final String[] selectionArgs, final String sortOrder) {
+    public Cursor query(@NonNull final Uri uri, final String[] projection, final String selection,
+                        final String[] selectionArgs, final String sortOrder) {
         // Don't support queries.
         return null;
     }
 
     @Override
-    public Uri insert(final Uri uri, final ContentValues values) {
+    public Uri insert(@NonNull final Uri uri, final ContentValues values) {
         // Don't support inserts.
         return null;
     }
 
     @Override
-    public int update(final Uri uri, final ContentValues values, final String selection,
-            final String[] selectionArgs) {
+    public int update(@NonNull final Uri uri, final ContentValues values, final String selection,
+                      final String[] selectionArgs) {
         // Don't support updates.
         return 0;
     }
 
     @Override
-    public String getType(final Uri uri) {
+    public String getType(@NonNull final Uri uri) {
         // No need for mime types.
         return null;
     }

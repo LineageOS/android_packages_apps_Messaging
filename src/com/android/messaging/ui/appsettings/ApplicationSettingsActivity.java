@@ -25,6 +25,8 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
 import android.provider.Settings;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.NavUtils;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -65,7 +67,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
         case android.R.id.home:
             NavUtils.navigateUpFromSameTask(this);

@@ -29,6 +29,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.util.LogUtil;
 
@@ -114,7 +116,7 @@ public class SoundLevels extends View {
     }
 
     @Override
-    protected void onDraw(final Canvas canvas) {
+    protected void onDraw(@NonNull final Canvas canvas) {
         if (!mIsEnabled) {
             return;
         }

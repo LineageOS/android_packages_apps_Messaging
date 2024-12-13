@@ -19,6 +19,8 @@ package com.android.messaging.ui;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 
 /**
@@ -35,7 +37,7 @@ public class BlockedParticipantsActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Treat the home press as back press so that when we go back to
