@@ -23,6 +23,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -159,7 +161,7 @@ public class RenderOverlay extends FrameLayout {
         }
 
         @Override
-        public void draw(Canvas canvas) {
+        public void draw(@NonNull Canvas canvas) {
             super.draw(canvas);
             if (mClients == null) {
                 return;
