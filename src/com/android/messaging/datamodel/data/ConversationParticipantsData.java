@@ -17,6 +17,8 @@
 package com.android.messaging.datamodel.data;
 
 import android.database.Cursor;
+
+import androidx.annotation.NonNull;
 import androidx.collection.SimpleArrayMap;
 
 import com.android.messaging.util.Assert;
@@ -97,6 +99,7 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
         return !mConversationParticipantsMap.isEmpty();
     }
 
+    @NonNull
     @Override
     public Iterator<ParticipantData> iterator() {
         return new Iterator<ParticipantData>() {

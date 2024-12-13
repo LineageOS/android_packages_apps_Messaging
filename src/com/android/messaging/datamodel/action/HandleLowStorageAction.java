@@ -19,6 +19,8 @@ package com.android.messaging.datamodel.action;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.sms.SmsReleaseStorage;
 import com.android.messaging.util.Assert;
 
@@ -88,7 +90,7 @@ public class HandleLowStorageAction extends Action implements Parcelable {
     };
 
     @Override
-    public void writeToParcel(final Parcel parcel, final int flags) {
+    public void writeToParcel(@NonNull final Parcel parcel, final int flags) {
         writeActionToParcel(parcel, flags);
     }
 }

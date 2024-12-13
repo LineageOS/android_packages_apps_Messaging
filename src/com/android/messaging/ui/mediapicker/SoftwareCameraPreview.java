@@ -23,6 +23,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.io.IOException;
 
 /**
@@ -41,18 +43,18 @@ public class SoftwareCameraPreview extends SurfaceView implements CameraPreview.
         mPreview = new CameraPreview(this);
         getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void surfaceCreated(final SurfaceHolder surfaceHolder) {
+            public void surfaceCreated(@NonNull final SurfaceHolder surfaceHolder) {
                 CameraManager.get().setSurface(mPreview);
             }
 
             @Override
-            public void surfaceChanged(final SurfaceHolder surfaceHolder, final int format, final int width,
-                                       final int height) {
+            public void surfaceChanged(@NonNull final SurfaceHolder surfaceHolder, final int format,
+                                       final int width, final int height) {
                 CameraManager.get().setSurface(mPreview);
             }
 
             @Override
-            public void surfaceDestroyed(final SurfaceHolder surfaceHolder) {
+            public void surfaceDestroyed(@NonNull final SurfaceHolder surfaceHolder) {
                 CameraManager.get().setSurface(null);
             }
         });
@@ -60,7 +62,7 @@ public class SoftwareCameraPreview extends SurfaceView implements CameraPreview.
 
 
     @Override
-    protected void onVisibilityChanged(final View changedView, final int visibility) {
+    protected void onVisibilityChanged(@NonNull final View changedView, final int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         mPreview.onVisibilityChanged(visibility);
     }

@@ -26,6 +26,8 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.SubscriptionListData;
 import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionListEntry;
@@ -140,8 +142,10 @@ public class SimSelectorView extends FrameLayout implements SimSelectorItemView.
             notifyDataSetChanged();
         }
 
+        @NonNull
         @Override
-        public View getView(final int position, final View convertView, final ViewGroup parent) {
+        public View getView(final int position, final View convertView,
+                            @NonNull final ViewGroup parent) {
             SimSelectorItemView itemView;
             if (convertView != null && convertView instanceof SimSelectorItemView) {
                 itemView = (SimSelectorItemView) convertView;
