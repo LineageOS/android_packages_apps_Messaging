@@ -71,45 +71,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> من الأيام</item>
       <item quantity="one">يوم واحد (<xliff:g id="COUNT_0">%d</xliff:g>)</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="zero"><xliff:g id="COUNT">%d</xliff:g> أسبوع</item>
-      <item quantity="two">أسبوعان (<xliff:g id="COUNT">%d</xliff:g>)</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> أسابيع</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> أسبوعًا</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> من الأسابيع</item>
-      <item quantity="one">أسبوع</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="zero"><xliff:g id="COUNT">%d</xliff:g> شهر</item>
-      <item quantity="two">شهران (<xliff:g id="COUNT">%d</xliff:g>)</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> أشهر</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> شهرًا</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> من الأشهر</item>
-      <item quantity="one">شهر</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="zero"><xliff:g id="COUNT">%d</xliff:g> عام</item>
-      <item quantity="two">عامان (<xliff:g id="COUNT">%d</xliff:g>)</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> أعوام</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> عامًا</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> من الأعوام</item>
-      <item quantity="one">عام</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"رسالة من الفئة 0"</string>
     <string name="save" msgid="5081141452059463572">"حفظ"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"مساحة التخزين منخفضة"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"ربما لا يرسل تطبيق المراسلة رسائل أو يتلقاها ما لم تتوفر المزيد من المساحة على جهازك."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"‏سعة تخزين الرسائل القصيرة SMS منخفضة. ربما تحتاج إلى حذف بعض الرسائل."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"تأكيد رقم الهاتف"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"ستضمن هذه الخطوة - التي يتم تنفيذها مرة واحدة فقط - تسليم تطبيق المراسلة لرسائلك الجماعية بشكل صحيح."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"رقم الهاتف"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"حذف جميع الرسائل التي تتضمن وسائط"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"حذف الرسائل الأقدم من <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"حذف الرسائل الأقدم من <xliff:g id="DURATION">%s</xliff:g> تلقائيًا"</string>
-    <string name="ignore" msgid="7063392681130898793">"تجاهل"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"هل تريد حذف كل الرسائل التي تتضمن ملفات وسائط؟"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"هل تريد حذف الرسائل الأقدم من <xliff:g id="DURATION">%s</xliff:g>؟"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"هل تريد حذف الرسائل الأقدم من <xliff:g id="DURATION">%s</xliff:g> وتشغيل الحذف التلقائي؟"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"قال <xliff:g id="SENDER">%s</xliff:g>"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"أنت قلت"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"رسالة من <xliff:g id="SENDER">%s</xliff:g>:"</string>

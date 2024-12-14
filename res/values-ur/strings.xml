@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> دن</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> دن</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ہفتے</item>
-      <item quantity="one">ایک ہفتہ</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> مہینے</item>
-      <item quantity="one">ایک ماہ</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> سال</item>
-      <item quantity="one">ایک سال</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"کلاس 0 پیغام"</string>
     <string name="save" msgid="5081141452059463572">"محفوظ کریں"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"اسٹوریج کی جگہ ختم ہو رہی ہے"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"جب تک آپ کے آلہ پر مزید جگہ دستیاب نہ ہو، ممکن ہے اس وقت تک پیغام رسانی نہ پیغامات بھیجے یا نہ موصول کرے۔"</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"‏SMS کا کم اسٹوریج۔ آپ کو کچھ پیغامات کو حذف کرنے کی ضرورت پڑ سکتی ہے۔"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"اپنے فون نمبر کی توثیق کریں"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"یہ یک وقتی مرحلہ اس بات کو یقینی بنائے گا کہ پیغام رسانی آپ کے گروپ پیغامات کو مناسب طریقے سے ڈیلیور کرے گی۔"</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"فون نمبر"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"میڈیا والے سبھی پیغامات کو حذف کریں"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> سے پرانے پیغامات کو حذف کر دیں"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> سے پہلے کے پیغامات کو خودکار طور پر حذف کریں"</string>
-    <string name="ignore" msgid="7063392681130898793">"نظر انداز کریں"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"میڈیا کے ساتھ سبھی پیغامات کو حذف کریں؟"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> سے پہلے کے پیغامات کو حذف کریں؟"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> سے پہلے کے پیغامات کو حذف کریں اور خودکار طور پر حذف کرنے کو آن کریں؟"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> نے کہا"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"آپ نے کہا"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"پیغام منجانب <xliff:g id="SENDER">%s</xliff:g>"</string>

@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> дни</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> ден</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> седмици</item>
-      <item quantity="one">една седмица</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> месеца</item>
-      <item quantity="one">един месец</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> години</item>
-      <item quantity="one">една година</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Съобщения от клас 0"</string>
     <string name="save" msgid="5081141452059463572">"Запазване"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Мястото в хранилището е на изчерпване"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Възможно е Съобщения да не изпраща, нито да получава съобщения, докато на устройството не се освободи повече място."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Мястото в хранилището за SMS намалява. Може да се наложи да изтриете съобщения."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Потвърждаване на телефонния ви номер"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Тази еднократна стъпка ще гарантира, че Съобщения ще доставя правилно груповите ви съобщения."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Телефонен номер"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Изтриване на всички съобщения с мултимедия"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Изтриване на съобщенията, по-стари от <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Автоматично изтриване на съобщенията, по-стари от <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Пренебрегване"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Да се изтрият ли всички съобщения с медийни файлове?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Да се изтрият ли съобщенията, по-стари от <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Да се изтрият ли съобщенията, по-стари от <xliff:g id="DURATION">%s</xliff:g>, и да се включи ли функцията за автоматично изтриване?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> каза"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Казахте"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Съобщение от <xliff:g id="SENDER">%s</xliff:g>"</string>

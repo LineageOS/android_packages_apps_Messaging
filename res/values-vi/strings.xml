@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> ngày</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> ngày</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> tuần</item>
-      <item quantity="one">một tuần</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> tháng</item>
-      <item quantity="one">một tháng</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> năm</item>
-      <item quantity="one">một năm</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Thông báo hạng 0"</string>
     <string name="save" msgid="5081141452059463572">"Lưu"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Sắp hết dung lượng lưu trữ"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Nhắn tin không thể gửi hoặc nhận tin nhắn cho tới khi có thêm bộ nhớ trên thiết bị của bạn."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Sắp hết dung lượng SMS. Bạn có thể cần xóa tin nhắn."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Xác nhận số điện thoại của bạn"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Bước thực hiện một lần này sẽ đảm bảo ứng dụng Nhắn tin gửi tin nhắn nhóm của bạn đúng cách."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Số điện thoại"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Xóa tất cả tin nhắn có phương tiện"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Xóa tin nhắn cũ hơn <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Tự động xóa tin nhắn cũ hơn <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Bỏ qua"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Xóa tất cả tin nhắn có phương tiện?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Xóa tin nhắn cũ hơn <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Xóa tin nhắn cũ hơn <xliff:g id="DURATION">%s</xliff:g> và bật tự động xóa?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> đã nói"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Bạn đã nói"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Tin nhắn từ <xliff:g id="SENDER">%s</xliff:g>:"</string>

@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> dagar</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> dag</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> veckor</item>
-      <item quantity="one">en vecka</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> månader</item>
-      <item quantity="one">en månad</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> år</item>
-      <item quantity="one">ett år</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Meddelande, klass 0"</string>
     <string name="save" msgid="5081141452059463572">"Spara"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Lagringsutrymmet börjar ta slut"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Du kan behöva frigöra utrymme på enheten för att kunna skicka eller ta emot sms med Meddelanden."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Lagringsutrymmet för sms är fullt. Du kan behöva ta bort sms."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Bekräfta ditt telefonnummer"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Genom detta engångssteg säkerställer du att dina gruppmeddelanden levereras som de ska med Meddelanden."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefonnummer"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Ta bort alla meddelanden med mediefiler"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Ta bort meddelanden som är äldre än <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Ta automatiskt bort meddelanden som är äldre än <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignorera"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Vill du ta bort alla meddelanden med media?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Vill du ta bort meddelanden som är äldre än <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Vill du ta bort meddelanden som är äldre än <xliff:g id="DURATION">%s</xliff:g> och aktivera automatisk borttagning?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> sade"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Du sade"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Meddelande från <xliff:g id="SENDER">%s</xliff:g>"</string>

@@ -59,33 +59,11 @@
       <item quantity="one"><xliff:g id="COUNT_1">%d</xliff:g> ਦਿਨ</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> ਦਿਨ</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ਹਫ਼ਤੇ</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ਹਫ਼ਤੇ</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ਮਹੀਨੇ</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ਮਹੀਨੇ</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ਸਾਲ</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ਸਾਲ</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ਕਲਾਸ 0 ਸੁਨੇਹਾ"</string>
     <string name="save" msgid="5081141452059463572">"ਸੁਰੱਖਿਅਤ ਕਰੋ"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"ਸਟੋਰੇਜ ਸਪੇਸ ਖ਼ਤਮ ਹੋ ਰਿਹਾ ਹੈ"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Messaging ਸੁਨੇਹੇ ਭੇਜ ਜਾਂ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕਰ ਸਕਦਾ ਜਦੋਂ ਤੱਕ ਕਿ ਤੁਹਾਡੀ ਡਿਵਾਈਸ ਤੇ ਹੋਰ ਸਪੇਸ ਉਪਲਬਧ ਨਾ ਹੋਵੇ।"</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"ਘੱਟ SMS ਸਟੋਰੇਜ। ਤੁਹਾਨੂੰ ਸੁਨੇਹੇ ਮਿਟਾਉਣ ਦੀ ਲੋੜ ਪੈ ਸਕਦੀ ਹੈ।"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"ਆਪਣੇ ਫੋਨ ਨੰਬਰ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"ਇਹ ਵਨ-ਟਾਈਮ ਸਟੈਪ ਯਕੀਨੀ ਬਣਾਏਗਾ ਕਿ Messaging ਤੁਹਾਡੇ ਸਮੂਹ ਦੇ ਸੁਨੇਹੇ ਸਹੀ ਢੰਗ ਨਾਲ ਡਿਲੀਵਰ ਕਰੇਗਾ।"</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ਫੋਨ ਨੰਬਰ"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"ਮੀਡੀਆ ਵਾਲੇ ਸਾਰੇ ਸੁਨੇਹੇ ਮਿਟਾਓ"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> ਤੋਂ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਮਿਟਾਓ"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> ਤੋਂ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਆਟੋ-ਮਿਟਾਓ"</string>
-    <string name="ignore" msgid="7063392681130898793">"ਅਣਡਿੱਠ ਕਰੋ"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"ਕੀ ਮੀਡੀਆ ਵਾਲੇ ਸਾਰੇ ਸੁਨੇਹੇ ਮਿਟਾਉਣੇ ਹਨ?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"ਕੀ <xliff:g id="DURATION">%s</xliff:g> ਤੋਂ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਮਿਟਾਉਣੇ ਹਨ?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"ਕੀ <xliff:g id="DURATION">%s</xliff:g> ਤੋਂ ਪੁਰਾਣੇ ਸੁਨੇਹੇ ਮਿਟਾਉਣੇ ਹਨ ਅਤੇ ਆਟੋ-ਮਿਟਾਓ ਨੂੰ ਚਾਲੂ ਕਰਨਾ ਹੈ?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> ਨੇ ਕਿਹਾ"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"ਤੁਸੀਂ ਕਿਹਾ"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> ਦਾ ਸੁਨੇਹਾ"</string>

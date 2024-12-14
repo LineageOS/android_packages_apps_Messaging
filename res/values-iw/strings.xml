@@ -65,39 +65,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> ימים</item>
       <item quantity="one">יום <xliff:g id="COUNT_0">%d</xliff:g></item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="two"> שבועות</item>
-      <item quantity="many"> שבועות<xliff:g id="COUNT">%d</xliff:g></item>
-      <item quantity="other"> שבועות</item>
-      <item quantity="one">שבוע</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="two"><xliff:g id="COUNT">%d</xliff:g> חודשים</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> חודשים</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> חודשים</item>
-      <item quantity="one">חודש</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="two"> שנים</item>
-      <item quantity="many"> שנים<xliff:g id="COUNT">%d</xliff:g></item>
-      <item quantity="other"> שנים</item>
-      <item quantity="one">שנה</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"הודעה ברמה 0"</string>
     <string name="save" msgid="5081141452059463572">"שמור"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"שטח האחסון אוזל"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"לא תוכל לשלוח או לקבל הודעות ב\'העברת הודעות\' עד שתפנה שטח במכשיר."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"‏אין מספיק שטח אחסון להודעות SMS. ייתכן שתצטרך למחוק הודעות."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"אשר את מספר הטלפון שלך"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"שלב חד-פעמי זה יבטיח שהאפליקציה \'העברת הודעות\' תעביר כראוי את ההודעות הקבוצתיות שלך."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"מספר טלפון"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"מחק את כל ההודעות עם מדיה"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"מחק הודעות בנות יותר מ-<xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"מחק אוטומטית הודעות שגילן עולה על <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"התעלם"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"למחוק את כל ההודעות עם המדיה?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"למחוק הודעות שגילן עולה על <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"למחוק הודעות שגילן עולה על <xliff:g id="DURATION">%s</xliff:g> ולהפעיל מחיקה אוטומטית?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> אמר"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"אמרת"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"הודעה מאת <xliff:g id="SENDER">%s</xliff:g>"</string>

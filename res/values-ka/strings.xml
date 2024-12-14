@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> დღის</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> დღის</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> კვირის</item>
-      <item quantity="one">კვირის</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> თვის</item>
-      <item quantity="one">თვის</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> წლის</item>
-      <item quantity="one">წლის</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Class 0 შეტყობინება"</string>
     <string name="save" msgid="5081141452059463572">"შენახვა"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"თავისუფალი ადგილი იწურება"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"შეტყობინებებმა შესაძლოა ვერ მოახერხოს შეტყობინებების გაგზავნა ან მიღება მანამ, სანამ თქვენს მოწყობილობაზე ხელმისაწვდომი არ გახდება მეტი სივრცე."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS სივრცე იწურება. შესაძლოა, მოგიწიოთ ძველი შეტყობინებების წაშლა"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"დაადასტურეთ თქვენი ტელეფონის ნომერი"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"ეს ერთჯერადი ნაბიჯი უზრუნველყოფს, რომ შეტყობინებებმა სწორად მოგაწოდოთ ჯგუფური შეტყობინებები."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ტელეფონის ნომერი"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"ყველა შეტყობინების წაშლა, რომელსაც მედია აქვს"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g>-ზე ძველი შეტყობინებების წაშლა"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g>-ზე ძველი შეტყობინებების ავტომატური წაშლა"</string>
-    <string name="ignore" msgid="7063392681130898793">"იგნორირება"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"წაიშალოს ყველა შეტყობინება, რომელსაც მედია აქვს?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"წაიშალოს <xliff:g id="DURATION">%s</xliff:g>-ზე ძველი შეტყობინებები?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"გსურთ <xliff:g id="DURATION">%s</xliff:g>-ზე უფრო ძველი შეტყობინებების წაშლა და ავტომატური წაშლის ჩართვა?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> თქვა"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"თქვენ სთქვით,"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"შეტყობინება <xliff:g id="SENDER">%s</xliff:g> -საგან"</string>

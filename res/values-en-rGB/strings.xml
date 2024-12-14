@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> days</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> day</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> weeks</item>
-      <item quantity="one">a week</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> months</item>
-      <item quantity="one">a month</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> years</item>
-      <item quantity="one">a year</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Class 0 message"</string>
     <string name="save" msgid="5081141452059463572">"Save"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Storage space running out"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Messaging might not send or receive messages until more space is available on your device."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Low SMS storage. You may need to delete messages."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Confirm your phone number"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"This one-off step will ensure Messaging will deliver your group messages properly."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Phone number"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Delete all messages with media"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Delete messages older than <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Auto-delete messages older than <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignore"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Delete all messages with media?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Delete messages older than <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Delete messages older than <xliff:g id="DURATION">%s</xliff:g> and turn on auto-delete?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> said"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"You said"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Message from <xliff:g id="SENDER">%s</xliff:g>"</string>

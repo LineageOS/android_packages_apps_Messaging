@@ -59,33 +59,11 @@
       <item quantity="one">දින <xliff:g id="COUNT_1">%d</xliff:g></item>
       <item quantity="other">දින <xliff:g id="COUNT_1">%d</xliff:g></item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one">සති <xliff:g id="COUNT">%d</xliff:g></item>
-      <item quantity="other">සති <xliff:g id="COUNT">%d</xliff:g></item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one">මාස <xliff:g id="COUNT">%d</xliff:g></item>
-      <item quantity="other">මාස <xliff:g id="COUNT">%d</xliff:g></item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one">අවුරුදු <xliff:g id="COUNT">%d</xliff:g></item>
-      <item quantity="other">අවුරුදු <xliff:g id="COUNT">%d</xliff:g></item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0 පන්තියේ පණිවිඩය"</string>
     <string name="save" msgid="5081141452059463572">"සුරකින්න"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"ආචයනය ඉඩ ප්‍රමාණය අඩු වී ඇත"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"පණිවිඩ යැවීම ඔබේ උපාංගය මත වැඩි ඉඩක් ලබාගත හැකිවන තෙක් පණිවිඩ නොයැවිය හැකිය නැතහොත් ලබා නොගත හැකිය."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"අඩු SMS ආචයනය. ඇතැම් විට ඔබට පණිවිඩ මැකීමට සිදුවේ."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"ඔබගේ දුරකථන අංකය තහවුරු කරන්න"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"පණිවිඩ යැවීම ඔබේ සමූහ පණිවිඩ නිසි ලෙස බෙදා හරිනු ඇති බවට මෙම එක්-වරක් පියවර තහවුරු කරනු අැත."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"දුරකථන අංකය"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"මාධ්‍ය සමඟ ඇති සියලුම පණිවිඩ මකන්න"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> වඩා පැරණි පණිවිඩ මකන්න"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> වඩා පැරණි පණිවිඩ ස්වයංක්‍රීයව මකන්න"</string>
-    <string name="ignore" msgid="7063392681130898793">"නොසලකා හරින්න"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"මාධ්‍ය සමඟ ඇති සියලුම පණිවිඩ මකන්නද?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> වඩා පැරණි පණිවිඩ මකන්නද?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> වඩා පැරණි පණිවිඩ ස්වයංක්‍රීයව මැකීම සක්‍රිය කරන්නද?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> පැවසුවා"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"ඔබ පැවසුවා"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> වෙතින් පණිවිඩය:"</string>

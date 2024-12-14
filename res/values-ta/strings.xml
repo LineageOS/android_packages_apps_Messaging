@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> நாட்கள்</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> நாள்</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> வாரங்கள்</item>
-      <item quantity="one">ஒரு வாரம்</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> மாதங்கள்</item>
-      <item quantity="one">ஒரு மாதம்</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ஆண்டுகள்</item>
-      <item quantity="one">ஒரு ஆண்டு</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"கிளாஸ் 0 செய்தி"</string>
     <string name="save" msgid="5081141452059463572">"சேமி"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"சேமிப்பிடம் குறைகிறது"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"உங்கள் சாதனத்தில் கூடுதல் இடம் கிடைக்கும் வரை செய்தியிடல் செய்திகளை அனுப்பாமல் அல்லது பெறாமல் இருக்கக் கூடும்."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS சேமிப்பகம் குறைவாக உள்ளது. நீங்கள் செய்திகளை நீக்க வேண்டியிருக்கலாம்."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"உங்கள் ஃபோன் எண்ணை உறுதிசெய்யவும்"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"இந்த ஒரு முறை செயல்பாடானது, செய்தியிடல் உங்கள் குழுச் செய்திகளைச் சரியாக வழங்குவதை உறுதிப்படுத்தும்."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ஃபோன் எண்"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"மீடியாவுடனான செய்திகளை நீக்கு"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> க்கு முந்தைய செய்திகளை நீக்கு"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> காலத்திற்கு முந்தைய செய்திகளைத் தானாகவே நீக்கு"</string>
-    <string name="ignore" msgid="7063392681130898793">"புறக்கணி"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"மீடியாவுடனான எல்லா செய்திகளையும் நீக்க வேண்டுமா?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> காலத்திற்கு முந்தைய செய்திகளை நீக்க வேண்டுமா?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> காலத்திற்கு முந்தைய செய்திகளை நீக்கி, தானாக நீக்கும் அம்சத்தை இயக்கவா?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> கூறியது"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"நீங்கள் கூறியது"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> இடமிருந்து செய்தி"</string>

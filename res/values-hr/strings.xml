@@ -62,36 +62,11 @@
       <item quantity="few"><xliff:g id="COUNT_1">%d</xliff:g> dana</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> dana</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> tjedan</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> tjedna</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> tjedana</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> mjesec</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> mjeseca</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> mjeseci</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> godina</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> godine</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> godina</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Poruka klase 0"</string>
     <string name="save" msgid="5081141452059463572">"Spremi"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Ponestaje prostora za pohranu"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Slanje poruka možda neće slati ili primati poruke dok se na uređaju ne oslobodi više prostora."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Nema dovoljno prostora za pohranu SMS-a. Možda ćete morati izbrisati poruke."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Potvrđivanje telefonskog broja"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Taj jednokratni korak omogućit će Slanju poruka pravilnu isporuku vaših grupnih poruka."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefonski broj"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Izbriši sve poruke s medijskim sadržajima"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Izbriši poruke starije od <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Automatski izbriši poruke starije od <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Zanemari"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Izbrisati sve poruke s medijskim sadržajima?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Izbrisati poruke starije od <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Izbrisati poruke starije od <xliff:g id="DURATION">%s</xliff:g> i uključiti automatsko brisanje?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> kaže"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Rekli ste"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Poruka pošiljatelja <xliff:g id="SENDER">%s</xliff:g>"</string>

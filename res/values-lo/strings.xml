@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> ວັນ</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> ວັນ</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ອາ​ທິດ</item>
-      <item quantity="one">ໜຶ່ງອາ​ທິດ</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ເດືອນ</item>
-      <item quantity="one">ໜຶ່ງ​ເດືອນ</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ປີ</item>
-      <item quantity="one">ໜຶ່ງ​ປີ</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ຂໍ້ຄວາມຄລາສ 0"</string>
     <string name="save" msgid="5081141452059463572">"ບັນທຶກ"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"ພື້ນທີ່​ຈັດ​ເກັບ​ຂໍ້ມູນ​ກຳລັງ​ຈະ​ເຕັມ"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"ການສົ່ງຂໍ້​ຄວາມ​ອາດ​ຈະ​ບໍ່​ສົ່ງ ຫຼື ຮັບ​ຂໍ້​ຄວາມ​ຈົນ​ກ່​ວາ​ມີ​ພື້ນ​ທີ່​ເພີ່ມ​ເຕີມ​ຢູ່​ໃນ​ອຸ​ປະ​ກອນ​ຂອງ​ທ່ານ."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"ພື້ນ​ທີ່​ເກັບ​ຂໍ້ຄວາມ​ໜ້ອຍ​ລົງ. ທ່ານ​ອາດ​ຈະ​ຕ້ອງ​ລຶບ​ຂໍ້​ຄວາມ​ເກົ່າ​ອອກ​ກ່ອນ."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"ຢືນຢັນເບີໂທລະສັບຂອງທ່ານ"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"ຂັ້ນ​ຕອນ​ໃຊ້​ເທື່ອ​ດຽວ​ນີ້​ຈະ​ຮັບ​ປະ​ກັນ​ໃຫ້ຂໍ້​ຄວາມສົ່ງ​ຂໍ້​ຄວາມ​ກຸ່ມ​ຂອງ​ທ່ານ​ໄດ້​ຢ່າງ​ຖືກ​ຕ້ອງ."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ເບີໂທລະສັບ"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"ລຶບ​ຂໍ້ຄວາມ​ທັງໝົດ​ພ້ອມ​ທັງ​ມີເດຍ​ຕ່າງໆ"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"ລຶບ​ຂໍ້​ຄວາມ​ທີ່​ເກົ່າ​ກວ່າ <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"ລຶບ​ຂໍ້​ຄວາມ​ເກົ່າ​ກວ່າ <xliff:g id="DURATION">%s</xliff:g> ໂດຍ​ອັດ​ຕະ​ໂນ​ມັດ"</string>
-    <string name="ignore" msgid="7063392681130898793">"ບໍ່ສົນໃຈ"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"ລຶບ​ຂໍ້ຄວາມ​ທັງ​ໝົດ​ພ້ອມ​ທັງ​ມີເດຍ​ຕ່າງໆຫຼື​ບໍ່?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"ລຶບ​ຂໍ້ຄວາມ​ທີ່ເກົ່າກວ່າ <xliff:g id="DURATION">%s</xliff:g> ຫຼື​ບໍ່?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"​ລຶບ​ຂໍ້​ຄວາມ​ເກົ່າ​ກວ່າ <xliff:g id="DURATION">%s</xliff:g> ​ແລະ ເປີດ​ການ​ລຶບ​ໂດຍ​ອັດ​ຕະ​ໂນ​ມັດຫຼື​ບໍ່?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> ໄດ້ເວົ້າ"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"ທ່ານໄດ້​ເວົ້າ"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"ຂໍ້ຄວາມຈາກ <xliff:g id="SENDER">%s</xliff:g>"</string>

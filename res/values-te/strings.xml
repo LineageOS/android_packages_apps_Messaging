@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> రోజులు</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> రోజు</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> వారాలు</item>
-      <item quantity="one">ఒక వారం</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> నెలలు</item>
-      <item quantity="one">ఒక నెల</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> సంవత్సరాలు</item>
-      <item quantity="one">ఒక సంవత్సరం</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"తరగతి 0 సందేశం"</string>
     <string name="save" msgid="5081141452059463572">"సేవ్ చేయి"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"నిల్వ స్థలం అయిపోతోంది"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"మీ పరికరంలో మరింత ఖాళీ స్థలం లభించే వరకు సందేశ సేవ సందేశాలను పంపలేకపోవచ్చు లేదా స్వీకరించలేకపోవచ్చు."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS నిల్వ తక్కువగా ఉంది. మీరు సందేశాలను తొలగించాల్సి రావచ్చు."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"మీ ఫోన్ నంబర్‌ను నిర్ధారించండి"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"ఈ ఒక పర్యాయ దశ సందేశ సేవ మీ సమూహ సందేశాలను సరిగ్గా బట్వాడా చేస్తుందని నిర్ధారిస్తుంది."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ఫోన్ నంబర్"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"మీడియాలోని అన్ని సందేశాలను తొలగించండి"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> కంటే మునుపు ఉన్న సందేశాలను తొలగించండి"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> కంటే పాత సందేశాలను స్వయంచాలకంగా తొలగించు"</string>
-    <string name="ignore" msgid="7063392681130898793">"విస్మరించు"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"మీడియా ఉన్న అన్ని సందేశాలను తొలగించాలా?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> కంటే పాత సందేశాలను తొలగించాలా?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> కంటే పాత సందేశాలను తొలగించి, స్వయంచాలక తొలగింపుని ఆన్ చేయాలా?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> చెప్పారు"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"మీరు చెప్పారు"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> నుండి సందేశం"</string>

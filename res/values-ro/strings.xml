@@ -62,36 +62,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> de zile</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> zi</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> săptămâni</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> de săptămâni</item>
-      <item quantity="one">o săptămână</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> luni</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> de luni</item>
-      <item quantity="one">o lună</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> ani</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> de ani</item>
-      <item quantity="one">un an</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Mesaje clasa 0"</string>
     <string name="save" msgid="5081141452059463572">"Salvați"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Spațiu de stocare limitat"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Este posibil ca aplicația Mesagerie să nu trimită și să nu primească mesaje până când nu este disponibil mai mult spațiu pe dispozitiv."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Spațiu de stocare scăzut pentru SMS-uri. Poate fi necesar să ștergeți unele mesaje."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Confirmați numărul de telefon"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Prin acest pas efectuat o singură dată vă asigurați că Mesageria va livra în mod corespunzător mesajele de grup."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Număr de telefon"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Ștergeți toate mesajele multimedia"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Ștergeți mesajele mai vechi de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Ștergeți automat mesajele mai vechi de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignorați"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Ștergeți toate mesajele multimedia?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Ștergeți mesajele mai vechi de <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Ștergeți mesajele mai vechi de <xliff:g id="DURATION">%s</xliff:g> și activați ștergerea automată?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> a spus"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Ați spus"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Mesaj de la <xliff:g id="SENDER">%s</xliff:g>"</string>

@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> napja</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> napja</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> hét</item>
-      <item quantity="one">egy hét</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> hónap</item>
-      <item quantity="one">egy hónap</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> év</item>
-      <item quantity="one">egy év</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0. osztályú üzenet"</string>
     <string name="save" msgid="5081141452059463572">"Mentés"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Kevés a szabad terület"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"A Messaging nem küldhet vagy fogadhat üzenetet, amíg nem áll rendelkezésre több hely az eszközön."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Kevés a tárhely az SMS-eknek. Lehet, hogy üzeneteket kell törölnie."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Telefonszám megerősítése"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Ez az egyszeri lépés biztosítja, hogy a Messaging megfelelően továbbítsa a csoportos üzeneteket."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefonszám"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Az összes médiatartalommal bíró üzenet törlése"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"A(z) <xliff:g id="DURATION">%s</xliff:g> időtartamnál régebbi üzenetek törlése"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"A(z) <xliff:g id="DURATION">%s</xliff:g> időtartamnál régebbi üzenetek automatikus törlése"</string>
-    <string name="ignore" msgid="7063392681130898793">"Mellőzés"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Törli az összes, médiát tartalmazó üzenetet?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Törli a(z) <xliff:g id="DURATION">%s</xliff:g> időtartamnál régebbi üzeneteket?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Törli a(z) <xliff:g id="DURATION">%s</xliff:g> időtartamnál régebbi üzeneteket, és bekapcsolja az automatikus törlést?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> a következőt mondta:"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Ön a következőt mondta"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> üzenete:"</string>

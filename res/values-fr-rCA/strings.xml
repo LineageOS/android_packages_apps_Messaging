@@ -59,33 +59,11 @@
       <item quantity="one"><xliff:g id="COUNT_1">%d</xliff:g> jour</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> jours</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> semaine</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> semaines</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> mois</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> mois</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> an</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ans</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Message de catégorie 0"</string>
     <string name="save" msgid="5081141452059463572">"Enregistrer"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"L\'espace de stockage est presque plein"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Il est possible que vous ne puissiez pas envoyer ni recevoir de messages dans l\'application Messagerie jusqu\'à ce que votre appareil ait plus d\'espace libre."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Stockage limité pour les textos. Vous devrez peut-être supprimer des messages."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Confirmez votre numéro de téléphone"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Cette étape unique permet de garantir que vos messages de groupe sont correctement envoyés dans Messagerie."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Numéro de téléphone"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Supprimer tous les messages avec du contenu multimédia"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Supprimer les messages datant de plus de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Suppression automatique des messages de plus de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignorer"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Supprimer tous les messages avec contenu multimédia?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Supprimer les messages datant de plus de <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Supprimer les messages de plus de <xliff:g id="DURATION">%s</xliff:g> et activer la suppression automatique?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> a dit"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Vous avez dit"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Message de <xliff:g id="SENDER">%s</xliff:g>"</string>

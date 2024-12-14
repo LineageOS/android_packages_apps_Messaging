@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> días</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> día</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> semanas</item>
-      <item quantity="one">una semana</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> meses</item>
-      <item quantity="one">un mes</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> años</item>
-      <item quantity="one">un año</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Mensaje clase 0"</string>
     <string name="save" msgid="5081141452059463572">"Guardar"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Queda poco espacio de almacenamiento"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Es posible que Centro de Mensajes no envíe ni reciba mensajes hasta que se libere más espacio en el dispositivo."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Como queda poco espacio para SMS, tal vez debas eliminar mensajes."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Confirmar tu número de teléfono"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Este paso, que se realiza por única vez, asegurará que Centro de Mensajes envíe los mensajes grupales de forma correcta."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Número de teléfono"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Eliminar todos los mensajes con contenido multimedia"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Eliminar mensajes de más de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Eliminar automáticamente mensajes de más de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignorar"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"¿Eliminar todos los mensajes con contenido multimedia?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"¿Eliminar mensajes de más de <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"¿Eliminar mensajes de más de <xliff:g id="DURATION">%s</xliff:g> y activar la eliminación automática?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> dijo"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Tú dijiste"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Mensaje de <xliff:g id="SENDER">%s</xliff:g>"</string>

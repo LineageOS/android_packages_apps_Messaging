@@ -65,39 +65,11 @@
       <item quantity="many"><xliff:g id="COUNT_1">%d</xliff:g> дней</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> дня</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> неделя</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> недели</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> недель</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> недели</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> месяц</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> месяца</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> месяцев</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> месяца</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> год</item>
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> года</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> лет</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> года</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Сообщение класса 0"</string>
     <string name="save" msgid="5081141452059463572">"Сохранить"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Недостаточно памяти"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Недостаточно свободного места, чтобы отправлять и получать сообщения в SMS/MMS."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Для хранения SMS осталось мало места. Удалите старые сообщения."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Подтверждение номера телефона"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Номер требуется для отправки групповых сообщений в SMS/MMS. Его нужно ввести только один раз."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Номер телефона"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Удалить сообщения с медиафайлами"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Удалить сообщения старше <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Автоматически удалять сообщения старше <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Игнорировать"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Удалить сообщения с медиафайлами?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Удалить сообщения старше <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Удалить сообщения старше <xliff:g id="DURATION">%s</xliff:g> и включить автоматическое удаление?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> пишет:"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Вы сказали:"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Сообщение от пользователя <xliff:g id="SENDER">%s</xliff:g>"</string>

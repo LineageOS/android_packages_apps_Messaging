@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> päivää</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> päivä</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> viikkoa</item>
-      <item quantity="one">viikko</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> kuukautta</item>
-      <item quantity="one">kuukausi</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> vuotta</item>
-      <item quantity="one">vuosi</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Luokan 0 viesti"</string>
     <string name="save" msgid="5081141452059463572">"Tallenna"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Tallennustila vähissä"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Viestit ei ehkä lähetä tai vastaanota viestejä ennen kuin laitteessa on enemmän vapaata tilaa."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Tekstiviestien tallennustila on vähissä. Harkitse viestien poistamista."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Vahvista puhelinnumerosi"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Tekemällä tämän kertaluontoisen vaiheen varmistat, että Viestit toimittaa ryhmäviestisi oikein."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Puhelinnumero"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Poista kaikki mediaa sisältävät viestit"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Poista viestit, joiden ikä on yli <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Poista automaattisesti viestit, jotka ovat vanhempia kuin <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ohita"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Poistetaanko kaikki mediaa sisältävät viestit?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Poistetaanko viestit, jotka ovat vanhempia kuin <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Poistetaanko viestit, jotka ovat vanhempia kuin <xliff:g id="DURATION">%s</xliff:g>, ja otetaanko automaattinen poisto käyttöön?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> sanoi"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Sinä sanoit"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Viesti käyttäjältä <xliff:g id="SENDER">%s</xliff:g>"</string>

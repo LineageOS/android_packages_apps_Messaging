@@ -65,39 +65,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> dnů</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> den</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> týdny</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> týdne</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> týdnů</item>
-      <item quantity="one">jeden týden</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> měsíce</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> měsíce</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> měsíců</item>
-      <item quantity="one">jeden měsíc</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> roky</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> roku</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> let</item>
-      <item quantity="one">jeden rok</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Zpráva třídy 0"</string>
     <string name="save" msgid="5081141452059463572">"Uložit"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"V úložišti je málo místa"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Aplikace SMS a MMS nebude moci posílat ani přijímat zprávy, dokud v zařízení nebude k dispozici více místa."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Dochází volné místo na zprávy SMS. Možná bude potřeba nějaké zprávy vymazat."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Ověřit telefonní číslo"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Tento jednorázový krok zajistí, že aplikace SMS a MMS správně doručí vaše skupinové zprávy."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefonní číslo"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Smazat všechny zprávy s médii"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Smazat zprávy starší než <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Automaticky smazat zprávy starší než <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignorovat"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Vymazat všechny zprávy s médii?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Smazat zprávy starší než <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Chcete smazat zprávy starší než <xliff:g id="DURATION">%s</xliff:g> a zapnout automatické mazání?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> říká"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Řekli jste"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Zpráva od uživatele <xliff:g id="SENDER">%s</xliff:g>"</string>

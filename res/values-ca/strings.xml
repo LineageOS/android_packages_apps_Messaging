@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> dies</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> dia</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> setmanes</item>
-      <item quantity="one">una setmana</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> mesos</item>
-      <item quantity="one">un mes</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> anys</item>
-      <item quantity="one">un any</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Missatge de classe 0"</string>
     <string name="save" msgid="5081141452059463572">"Desa"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"L\'espai d\'emmagatzematge s\'està esgotant"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Pot ser que Missatges no enviï ni rebi missatges fins que no tinguis més espai disponible al dispositiu."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Poc emmagatzematge per a SMS. És possible que et calgui suprimir missatges."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Confirma el teu número de telèfon"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Aquest pas únic garanteix que els missatges de grup s\'enviïn correctament amb Missatges."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Número de telèfon"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Suprimeix tots els missatges amb fitxers multimèdia"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Suprimeix els missatges de més de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Suprimeix automàticament els missatges de més de <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignora"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Confirmes que vols suprimir tots els missatges amb fitxers multimèdia?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Confirmes que vols suprimir els missatges de més de <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Confirmes que vols suprimir els missatges de més de <xliff:g id="DURATION">%s</xliff:g> i activar la funció per suprimir-los automàticament?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> ha dit:"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Has dit:"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Missatge de: <xliff:g id="SENDER">%s</xliff:g>"</string>

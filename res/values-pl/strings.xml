@@ -65,39 +65,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> dnia</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> dzień</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> tygodnie</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> tygodni</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> tygodnia</item>
-      <item quantity="one">tydzień</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> miesiące</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> miesięcy</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> miesiąca</item>
-      <item quantity="one">miesiąc</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="few"><xliff:g id="COUNT">%d</xliff:g> lata</item>
-      <item quantity="many"><xliff:g id="COUNT">%d</xliff:g> lat</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> roku</item>
-      <item quantity="one">rok</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Wiadomość klasy 0"</string>
     <string name="save" msgid="5081141452059463572">"Zapisz"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Kończy się miejsce"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Aplikacja SMS/MMS może nie wysyłać i nie odbierać wiadomości do momentu zwolnienia miejsca na urządzeniu."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Mało miejsca na SMS-y. Może usuniesz niektóre wiadomości?"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Potwierdź swój numer telefonu"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Dzięki tej jednorazowej czynności aplikacja SMS/MMS będzie poprawnie dostarczać Twoje wiadomości grupowe."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Numer telefonu"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Usuń wszystkie MMS-y"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Usuń wiadomości starsze niż <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Automatycznie usuwaj wiadomości starsze niż <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignoruj"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Usunąć wszystkie MMS-y?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Usunąć wiadomości starsze niż <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Usunąć wiadomości starsze niż <xliff:g id="DURATION">%s</xliff:g> i włączyć automatyczne usuwanie?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> pisze"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Treść Twojej wiadomości"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Wiadomość od użytkownika <xliff:g id="SENDER">%s</xliff:g>"</string>

@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> दिन</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> दिन</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> हप्ता</item>
-      <item quantity="one"> एक हप्ता</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> महिना</item>
-      <item quantity="one"> एक महिना</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> वर्ष</item>
-      <item quantity="one"> एक वर्ष</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"वर्ग ० सन्देश"</string>
     <string name="save" msgid="5081141452059463572">"सुरक्षित गर्नुहोस्"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"भण्डारण ठाउँ सकिँदै छ"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"तपाईँको यन्त्रमा थप ठाउँ उपलब्ध नभएसम्म सन्देश प्रवाहले सन्देश पठाउन वा प्राप्त नगर्न सक्छ।"</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS भण्डारणमा कमी। तपाईँले सन्देशहरु हटाउनु पर्नेहुन्छ।"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"आफ्नो फोन नम्बर पुष्टि गर्नुहोस्"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"यो एक पटके चरणले सन्देश प्रवाहले तपाईँको समूह सन्देशहरू उचित रूपमा डेलिभर गर्ने छ भन्ने सुनिश्चित गर्ने छ।"</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"फोन नम्बर"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"मीडियाको साथमा सबै सन्देशहरु मेटाउनुहोस्"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> भन्दा पुराना सन्देशहरुलाई मेट्नुहोस्"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> भन्दा पुरानो सन्देशहरू स्वत: मेट्नुहोस्"</string>
-    <string name="ignore" msgid="7063392681130898793">"बेवास्ता गर्नुहोस्"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"मिडिया भएको सन्देशहरू मेट्ने?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> भन्दा पुरानो सन्देशहरू मेट्ने?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> भन्दा पुरानो सन्देशहरू मेटाउनुहुन्छ र स्वचालित-मेट्ने सक्षम गर्नुहुन्छ?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> ले भन्नुभयो"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"तपाईंले भन्नुभयो"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g>  बाट सन्देश"</string>

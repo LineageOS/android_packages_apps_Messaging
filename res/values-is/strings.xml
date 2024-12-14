@@ -59,33 +59,11 @@
       <item quantity="one"><xliff:g id="COUNT_1">%d</xliff:g> dagur</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> dagar</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> vika</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> vikur</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> mánuður</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> mánuðir</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ár</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ár</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Einnota skilaboð"</string>
     <string name="save" msgid="5081141452059463572">"Vista"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Geymslurýmið er senn á þrotum"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Ekki er víst að Skilaboð geti sent eða tekið á móti skilaboðum fyrr en meira pláss er til staðar í tækinu."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS-geymsla að fyllast. Þú gætir þurft að eyða skilaboðum."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Staðfestu símanúmerið þitt"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Þetta þarf að gera í eitt skipti til að tryggja að Skilaboð komi hópskilaboðunum þínum til skila á réttan hátt."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Símanúmer"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Eyða öllum skilaboðum með margmiðlunarefni"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Eyða skilaboðum sem eru eldri en <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Eyða sjálfkrafa skilaboðum sem eru eldri en <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Hunsa"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Eyða öllum skilaboðum með margmiðlunarefni?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Eyða skilaboðum sem eru eldri en <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Eyða skilaboðum sem eru eldri en <xliff:g id="DURATION">%s</xliff:g> og kveikja á sjálfvirkri eyðingu?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> sagði"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Þú sagðir"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Skilaboð sem <xliff:g id="SENDER">%1$s</xliff:g> sendi"</string>

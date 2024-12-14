@@ -59,33 +59,11 @@
       <item quantity="one"><xliff:g id="COUNT_1">%d</xliff:g> araw</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> na araw</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> linggo</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> na linggo</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> buwan</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> na buwan</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> taon</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> na taon</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Class 0 na mensahe"</string>
     <string name="save" msgid="5081141452059463572">"I-save"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Nauubos na ang espasyo ng storage"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Maaaring hindi makatanggap o makapagpadala ng mga mensahe ang Pagmemensahe hanggang sa maging available ang higit pang espasyo sa iyong device."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Kaunti na ang storage ng SMS. Maaaring kailanganin mong magtanggal ng mga mensahe."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Kumpirmahin ang numero ng iyong telepono"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Titiyakin ng isang beses na hakbang na ito na maihahatid nang maayos ng Pagmemensahe ang iyong mga mensahe sa pangkat."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Numero ng telepono"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Tanggalin ang lahat ng mensahe na may media"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Tangglain ang mga mensaheng lampas na ng <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Awtomatikong i-delete ang mga mensaheng mas luma sa <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Huwag Pansinin"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"I-delete ang lahat ng mensaheng may media?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"I-delete ang mga mensaheng mas luma sa <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Awtomatikong i-delete ang mga mensaheng mas luma sa <xliff:g id="DURATION">%s</xliff:g> at i-on ang awtomatikong pag-delete?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"Sinabi ni <xliff:g id="SENDER">%s</xliff:g>"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Sinabi mo"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Mensahe mula kay <xliff:g id="SENDER">%s</xliff:g>"</string>

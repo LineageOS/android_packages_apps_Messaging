@@ -59,33 +59,11 @@
       <item quantity="one"><xliff:g id="COUNT_1">%d</xliff:g> օր</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> օր</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> շաբաթ</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> շաբաթ</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ամիս</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ամիս</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> տարի</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> տարի</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Class 0 հաղորդագրություն"</string>
     <string name="save" msgid="5081141452059463572">"Պահել"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Պահոցային տարածքը սպառվում է"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Հաղորդակցումը չի կարող ուղարկել կամ ստանալ հաղորդագրություններ, քանի դեռ սարքում բավարար տարածք չկա:"</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS պահոցի ծավալը փոքր է: Հնարավոր է՝ հաղորդագրություններ ջնջելու կարիք լինի:"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Հաստատեք ձեր հեռախոսահամարը"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Սա մեկանգամյա քայլ է, որի շնորհիվ Հաղորդակցումը անսխալ կուղարկի ձեր խմբային հաղորդագրությունները:"</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Հեռախոսահամար"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Ջնջել մեդիաֆայլեր պարունակող բոլոր հաղորդագրությունները"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Ջնջել <xliff:g id="DURATION">%s</xliff:g>-ից հին հաղորդագրությունները"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Ավտոմատ ջնջել <xliff:g id="DURATION">%s</xliff:g>-ից հին հաղորդագրությունները"</string>
-    <string name="ignore" msgid="7063392681130898793">"Անտեսել"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Ջնջե՞լ մեդիա պարունակող բոլոր հաղորդագրությունները:"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Ջնջե՞լ <xliff:g id="DURATION">%s</xliff:g>-ից հին հաղորդագրությունները:"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Ջնջե՞լ <xliff:g id="DURATION">%s</xliff:g>-ից հին հաղորդագրությունները և միացնել ավտոմատ հեռացումը:"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g>-ը ասել է"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Դուք ասել եք"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Հաղորդագրություն <xliff:g id="SENDER">%s</xliff:g>-ից"</string>

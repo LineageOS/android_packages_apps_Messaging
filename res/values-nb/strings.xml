@@ -59,33 +59,11 @@
       <item quantity="other"> dager</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> dag</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> uker</item>
-      <item quantity="one">én uke</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> måneder</item>
-      <item quantity="one">én måned</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> år</item>
-      <item quantity="one">ett år</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"Klasse 0-melding"</string>
     <string name="save" msgid="5081141452059463572">"Lagre"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Lite ledig lagringsplass"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Du kan kanskje ikke sende eller motta SMS i Meldinger før mer plass er tilgjengelig på enheten din."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"Du har lite lagringsplass for SMS. Du må slette andre meldinger."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Bekreft telefonnummeret ditt"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Dette engangstrinnet sikrer at Meldinger leverer gruppemeldingene dine på riktig måte."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefonnummer"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Slett alle meldinger med medier"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Slett meldinger som er eldre enn <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Slett meldinger som er eldre enn <xliff:g id="DURATION">%s</xliff:g> automatisk"</string>
-    <string name="ignore" msgid="7063392681130898793">"Ignorer"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Vil du slette alle meldinger med media?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Vil du slette meldinger som er eldre enn <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Vil du slette meldinger som er eldre enn <xliff:g id="DURATION">%s</xliff:g> og slå av automatisk sletting?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> sa"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Du sa"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Melding fra <xliff:g id="SENDER">%s</xliff:g>:"</string>

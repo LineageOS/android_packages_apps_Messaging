@@ -59,33 +59,11 @@
       <item quantity="one"><xliff:g id="COUNT_1">%d</xliff:g> ದಿನಗಳು</item>
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> ದಿನಗಳು</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ವಾರಗಳು</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ವಾರಗಳು</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ತಿಂಗಳು</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ತಿಂಗಳು</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="one"><xliff:g id="COUNT">%d</xliff:g> ವರ್ಷಗಳು</item>
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ವರ್ಷಗಳು</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ವರ್ಗ 0 ಸಂದೇಶ"</string>
     <string name="save" msgid="5081141452059463572">"ಉಳಿಸು"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"ಸಂಗ್ರಹಣೆ ಸ್ಥಳವು ತುಂಬಿದೆ"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"ನಿಮ್ಮ ಸಾಧನದಲ್ಲಿ ಹೆಚ್ಚು ಸ್ಥಳಾವಕಾಶ ಲಭ್ಯವಿರುವವರೆಗೆ ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯು ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸದಿರಬಹುದು ಅಥವಾ ಸ್ವೀಕರಿಸದಿರಬಹುದು."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"ಕಡಿಮೆ SMS ಸಂಗ್ರಹಣೆ. ನೀವು ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಬೇಕಾಗಬಹುದು."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆಯನ್ನು ಖಚಿತಪಡಿಸಿ"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"ಈ ಒಂದು-ಬಾರಿ ಹಂತವು ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯು ನಿಮ್ಮ ಗುಂಪು ಸಂದೇಶಗಳನ್ನು ಸರಿಯಾಗಿ ಕಳುಹಿಸುತ್ತದೆ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸುತ್ತದೆ."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ಫೋನ್ ಸಂಖ್ಯೆ"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"ಮೀಡಿಯಾದ ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> ಗಿಂತಲೂ ಹಳೆಯದಾದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> ಗಿಂತಲೂ ಹಳೆಯದಾದ ಸಂದೇಶಗಳನ್ನು ಸ್ವಯಂ-ಅಳಿಸಿ"</string>
-    <string name="ignore" msgid="7063392681130898793">"ನಿರ್ಲಕ್ಷಿಸು"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"ಮಾಧ್ಯಮದ ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸುವುದೇ?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> ಗಿಂತಲೂ ಹಳೆಯದಾದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸುವುದೇ?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> ಗಿಂತಲೂ ಹಳೆಯದಾದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ ಹಾಗೂ ಸ್ವಯಂ-ಅಳಿಸು ಆನ್‌ ಮಾಡಿ?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> ಹೇಳಿದ್ದಾರೆ"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"ನೀವು ಹೇಳಿದ್ದೀರಿ"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> ಅವರಿಂದ ಸಂದೇಶ"</string>

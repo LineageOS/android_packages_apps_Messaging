@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> ദിവസം</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> ദിവസം</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ആഴ്‌ച</item>
-      <item quantity="one">ഒരു ആഴ്‌ച</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> മാസം</item>
-      <item quantity="one">ഒരു മാസം</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> വർഷം</item>
-      <item quantity="one">ഒരു വർഷം</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"ക്ലാസ് 0 സന്ദേശം"</string>
     <string name="save" msgid="5081141452059463572">"സംരക്ഷിക്കുക"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"സംഭരണയിടം കഴിഞ്ഞു"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"നിങ്ങളുടെ ഉപകരണത്തിൽ കൂടുതൽ ഇടം ലഭ്യമാകുന്നത് വരെ സന്ദേശമയയ്ക്കലിന് സന്ദേശങ്ങൾ അയയ്ക്കാനോ സ്വീകരിക്കാനോ ആയേക്കില്ല."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS സ്റ്റോറേജ്  കുറവാണ്. നിങ്ങൾക്ക് സന്ദേശങ്ങൾ ഇല്ലാതാക്കേണ്ടതായി വരാം."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"നിങ്ങളുടെ ഫോൺ നമ്പർ സ്ഥിരീകരിക്കുക"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"സന്ദേശമയയ്ക്കൽ നിങ്ങളുടെ ഗ്രൂപ്പ് സന്ദേശങ്ങൾ ശരിയായി വിതരണം ചെയ്യുമെന്ന് ഈ ഒറ്റത്തവണയുള്ള ഘട്ടം ഉറപ്പാക്കും."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"ഫോണ്‍‌ നമ്പര്‍‌"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"മീഡിയയുള്ള എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കുക"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> എന്നതിലും പഴയ സന്ദേശങ്ങൾ ഇല്ലാതാക്കുക"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> മുമ്പുള്ള സന്ദേശങ്ങൾ യാന്ത്രികമായി ഇല്ലാതാക്കുക"</string>
-    <string name="ignore" msgid="7063392681130898793">"നിരസിക്കുക"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"മീഡിയയുള്ള എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കണോ?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> മുമ്പുള്ള സന്ദേശങ്ങൾ ഇല്ലാതാക്കണോ?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> മുമ്പുള്ള സന്ദേശങ്ങൾ ഇല്ലാതാക്കുകയും യാന്ത്രിക ഇല്ലാതാക്കൽ ഓണാക്കുകയും ചെയ്യണോ?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g>, പറഞ്ഞു"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"നിങ്ങൾ പറഞ്ഞു"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> എന്നയാളില്‍ നിന്നുള്ള സന്ദേശം"</string>

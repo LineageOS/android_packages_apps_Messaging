@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> päeva</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> päev</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> nädalat</item>
-      <item quantity="one">nädal</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> kuud</item>
-      <item quantity="one">kuu</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> aastat</item>
-      <item quantity="one">aasta</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0-klassi sõnum"</string>
     <string name="save" msgid="5081141452059463572">"Salvesta"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Talletusruum hakkab täis saama"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Sõnumside ei pruugi sõnumeid saata ega vastu võtta seni, kuni seadmes on rohkem vaba ruumi."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS-ide jaoks on vähe salvestusruumi. Peate võib-olla mõned sõnumid kustutama."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Kinnitage oma telefoninumber"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"See ühekordne toiming tagab, et rakendus Sõnumside edastab teie grupisõnumid õigesti."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefoninumber"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Kustuta kõik meediumifaile sisaldavad sõnumid"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Kustuta sõnumid, mis on vanemad kui <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Kustuta automaatselt sõnumid, mis on vanemad kui <xliff:g id="DURATION">%s</xliff:g>"</string>
-    <string name="ignore" msgid="7063392681130898793">"Eira"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Kas kustutada kõik meediaga sõnumid?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"Kas kustutada sõnumid, mis on vanemad kui <xliff:g id="DURATION">%s</xliff:g>?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"Kas kustutada automaatselt sõnumid, mis on vanemad kui <xliff:g id="DURATION">%s</xliff:g>, ja lülitada sisse automaatne kustutamine?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> ütles:"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Ütlesite:"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"Sõnum saatjalt <xliff:g id="SENDER">%s</xliff:g>"</string>

@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> күн</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> күн</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> апта</item>
-      <item quantity="one">бир апта</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> ай</item>
-      <item quantity="one">бир ай</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> жыл</item>
-      <item quantity="one">бир жыл</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0 классындагы билдирүү"</string>
     <string name="save" msgid="5081141452059463572">"Сактоо"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Сактагычта орун калбай баратат"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Түзмөгүңүздө көбүрөөк бош орун болмоюнча, SMS/MMS билдирүүлөрдү жөнөтүп же ала албашы мүмкүн."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS үчүн орун жетишпейт. Билдирүүлөрдү жок кылышыңыз керек окшойт."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Телефон номериңизди ырастаңыз"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Номер топтошкон SMS/MMS билдирүүлөрүн жөнөтүү үчүн талап кылынат. Аны бир гана жолу киргизүү керек."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Телефон номери"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Медиа файл камтылган бардык билдирүүлөрдү жок кылуу"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"<xliff:g id="DURATION">%s</xliff:g> ашкан билдирүүлөрдү жок кылуу"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"<xliff:g id="DURATION">%s</xliff:g> мурунку билдирүүлөр автоматтык түрдө жок кылынсын"</string>
-    <string name="ignore" msgid="7063392681130898793">"Көңүл бурбоо"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Медиа менен бардык файлдар жок кылынсынбы?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> мурунку файлдар жок кылынсынбы?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> мурунку билдирүүлөр жок кылынып, авто жок кылуу күйгүзүлсүнбү?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> айтты"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Сиз айттыңыз"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> дегенден билдирүү"</string>

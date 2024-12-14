@@ -59,33 +59,11 @@
       <item quantity="other"><xliff:g id="COUNT_1">%d</xliff:g> egun</item>
       <item quantity="one"><xliff:g id="COUNT_0">%d</xliff:g> egun</item>
     </plurals>
-    <plurals name="week_count" formatted="false" msgid="1301973226125551953">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> aste</item>
-      <item quantity="one">Astebete</item>
-    </plurals>
-    <plurals name="month_count" formatted="false" msgid="4858515363324110232">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> hilabete</item>
-      <item quantity="one">Hilabete</item>
-    </plurals>
-    <plurals name="year_count" formatted="false" msgid="4522546496183798317">
-      <item quantity="other"><xliff:g id="COUNT">%d</xliff:g> urte</item>
-      <item quantity="one">Urtebete</item>
-    </plurals>
     <string name="class_0_message_activity" msgid="4603850264073169854">"0 klaseko mezua"</string>
     <string name="save" msgid="5081141452059463572">"Gorde"</string>
-    <string name="sms_storage_low_title" msgid="7985379565293259177">"Memoria betetzen ari da"</string>
-    <string name="sms_storage_low_text" msgid="7036247475855447830">"Gailuan toki gehiago izan arte, baliteke Mezuak aplikazioak mezurik ez bidaltzea edo jasotzea."</string>
-    <string name="sms_storage_low_notification_ticker" msgid="2393739822170029830">"SMS mezuetarako memoria gutxi dago. Baliteke mezuak ezabatu behar izatea."</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Berretsi telefono-zenbakia"</string>
     <string name="enter_phone_number_text" msgid="4539767473801195966">"Behin bakarrik egin beharreko urrats honi esker, Mezuak aplikazioak taldeko mezuak behar bezala bidaliko dituela ziurtatuko duzu."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefono-zenbakia"</string>
-    <string name="delete_all_media" msgid="5549693176734564386">"Ezabatu multimedia-elementuak dituzten mezu guztiak"</string>
-    <string name="delete_oldest_messages" msgid="9204277306804390707">"Ezabatu <xliff:g id="DURATION">%s</xliff:g> baino zaharragoak diren mezuak"</string>
-    <string name="auto_delete_oldest_messages" msgid="7766679943833404968">"Ezabatu automatikoki <xliff:g id="DURATION">%s</xliff:g> baino zaharragoak diren mezuak"</string>
-    <string name="ignore" msgid="7063392681130898793">"Egin ez ikusi"</string>
-    <string name="delete_all_media_confirmation" msgid="4601960420953525559">"Multimedia-elementuak dauzkaten mezu guztiak ezabatu nahi dituzu?"</string>
-    <string name="delete_oldest_messages_confirmation" msgid="6172297718425265784">"<xliff:g id="DURATION">%s</xliff:g> baino zaharragoak diren mezuak ezabatu nahi dituzu?"</string>
-    <string name="auto_delete_oldest_messages_confirmation" msgid="9071499976729145269">"<xliff:g id="DURATION">%s</xliff:g> baino zaharragoak diren mezuak ezabatu eta ezabaketa automatikoa aktibatu nahi duzu?"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> erabiltzaileak esan du"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Zuk esan duzu"</string>
     <string name="incoming_sender_content_description" msgid="7512757244515303701">"<xliff:g id="SENDER">%s</xliff:g> erabiltzailearen mezua:"</string>
