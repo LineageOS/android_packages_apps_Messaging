@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,12 +59,7 @@ public class LogUtil {
 
  // This is called from FactoryImpl once the Gservices class is initialized.
     public static void initializeGservices (final BugleGservices gservices) {
-        gservices.registerForChanges(new Runnable() {
-            @Override
-            public void run() {
-                refreshGservices(gservices);
-            }
-        });
+        gservices.registerForChanges(() -> refreshGservices(gservices));
         refreshGservices(gservices);
     }
 

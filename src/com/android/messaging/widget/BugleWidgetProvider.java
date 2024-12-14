@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2015 The Android Open Source Project         
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,12 +43,7 @@ public class BugleWidgetProvider extends BaseWidgetProvider {
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
         if (OsUtil.hasRequiredPermissions()) {
-            SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                @Override
-                public void run() {
-                    rebuildWidget(context, appWidgetId);
-                }
-            });
+            SafeAsyncTask.executeOnThreadPool(() -> rebuildWidget(context, appWidgetId));
         } else {
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                     UiUtils.getWidgetMissingPermissionView(context));

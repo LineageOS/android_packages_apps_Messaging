@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,13 +118,10 @@ class FactoryImpl extends Factory {
 
         mApplication.initializeSync(this);
 
-        final Thread asyncInitialization = new Thread() {
-            @Override
-            public void run() {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-                mApplication.initializeAsync(FactoryImpl.this);
-            }
-        };
+        final Thread asyncInitialization = new Thread(() -> {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+            mApplication.initializeAsync(FactoryImpl.this);
+        });
         asyncInitialization.start();
     }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,13 +72,9 @@ public class VCardResourceEntry {
     void close() {
         // If the avatar image was temporarily saved in the scratch folder, remove that.
         if (MediaScratchFileProvider.isMediaScratchSpaceUri(mAvatarUri)) {
-            SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                @Override
-                public void run() {
+            SafeAsyncTask.executeOnThreadPool(() ->
                     Factory.get().getApplicationContext().getContentResolver().delete(
-                            mAvatarUri, null, null);
-                }
-            });
+                            mAvatarUri, null, null));
         }
     }
 

@@ -17,7 +17,6 @@
 
 package android.support.v7.mms;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -403,28 +402,25 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
         XmlResourceParser xml = null;
         try {
             xml = mContext.getResources().getXml(R.xml.apns);
-            new ApnsXmlParser(xml, new ApnsXmlParser.ApnProcessor() {
-                @Override
-                public void process(ContentValues apnValues) {
-                    final String mcc = trimWithNullCheck(apnValues.getAsString(APN_MCC));
-                    final String mnc = trimWithNullCheck(apnValues.getAsString(APN_MNC));
-                    final String apn = trimWithNullCheck(apnValues.getAsString(APN_APN));
-                    try {
-                        if (mccMnc[0] == Integer.parseInt(mcc) &&
-                                mccMnc[1] == Integer.parseInt(mnc) &&
-                                (TextUtils.isEmpty(apnName) || apnName.equalsIgnoreCase(apn))) {
-                            final String type = apnValues.getAsString(APN_TYPE);
-                            final String mmsc = apnValues.getAsString(APN_MMSC);
-                            final String mmsproxy = apnValues.getAsString(APN_MMSPROXY);
-                            final String mmsport = apnValues.getAsString(APN_MMSPORT);
-                            final Apn newApn = MemoryApn.from(apns, type, mmsc, mmsproxy, mmsport);
-                            if (newApn != null) {
-                                apns.add(newApn);
-                            }
+            new ApnsXmlParser(xml, apnValues -> {
+                final String mcc = trimWithNullCheck(apnValues.getAsString(APN_MCC));
+                final String mnc = trimWithNullCheck(apnValues.getAsString(APN_MNC));
+                final String apn = trimWithNullCheck(apnValues.getAsString(APN_APN));
+                try {
+                    if (mccMnc[0] == Integer.parseInt(mcc) &&
+                            mccMnc[1] == Integer.parseInt(mnc) &&
+                            (TextUtils.isEmpty(apnName) || apnName.equalsIgnoreCase(apn))) {
+                        final String type = apnValues.getAsString(APN_TYPE);
+                        final String mmsc = apnValues.getAsString(APN_MMSC);
+                        final String mmsproxy = apnValues.getAsString(APN_MMSPROXY);
+                        final String mmsport = apnValues.getAsString(APN_MMSPORT);
+                        final Apn newApn = MemoryApn.from(apns, type, mmsc, mmsproxy, mmsport);
+                        if (newApn != null) {
+                            apns.add(newApn);
                         }
-                    } catch (final NumberFormatException e) {
-                        // Ignore
                     }
+                } catch (final NumberFormatException e) {
+                    // Ignore
                 }
             }).parse();
         } catch (final Resources.NotFoundException e) {

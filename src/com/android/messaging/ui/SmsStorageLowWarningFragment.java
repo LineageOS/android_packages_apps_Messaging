@@ -28,7 +28,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -108,12 +107,7 @@ public class SmsStorageLowWarningFragment extends Fragment {
 
             builder.setTitle(R.string.sms_storage_low_title)
                     .setView(dialogLayout)
-                    .setNegativeButton(R.string.ignore, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
+                    .setNegativeButton(R.string.ignore, (dialog, id) -> dialog.cancel());
 
             final Dialog dialog = builder.create();
             dialog.setCanceledOnTouchOutside(false);
@@ -145,12 +139,9 @@ public class SmsStorageLowWarningFragment extends Fragment {
 
                 final String action = getItem(position);
                 actionItemView.setText(action);
-                actionItemView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View view) {
-                        dismiss();
-                        ((SmsStorageLowWarningFragment) getTargetFragment()).confirm(position);
-                    }
+                actionItemView.setOnClickListener(view1 -> {
+                    dismiss();
+                    ((SmsStorageLowWarningFragment) getTargetFragment()).confirm(position);
                 });
                 return actionItemView;
             }
@@ -191,25 +182,15 @@ public class SmsStorageLowWarningFragment extends Fragment {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle(R.string.sms_storage_low_title)
                     .setMessage(getConfirmDialogMessage(actionIndex))
-                    .setNegativeButton(android.R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog,
-                                        final int button) {
-                                    dismiss();
-                                    ((SmsStorageLowWarningFragment) getTargetFragment()).cancel();
-                                }
+                    .setNegativeButton(android.R.string.cancel, (dialog, button) -> {
+                        dismiss();
+                        ((SmsStorageLowWarningFragment) getTargetFragment()).cancel();
                     })
-                    .setPositiveButton(android.R.string.ok,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog,
-                                        final int button) {
-                                    dismiss();
-                                    handleAction(actionIndex);
-                                    getActivity().finish();
-                                    SmsStorageStatusManager.cancelStorageLowNotification();
-                                }
+                    .setPositiveButton(android.R.string.ok, (dialog, button) -> {
+                        dismiss();
+                        handleAction(actionIndex);
+                        getActivity().finish();
+                        SmsStorageStatusManager.cancelStorageLowNotification();
                     });
             return builder.create();
         }

@@ -83,23 +83,20 @@ public class CameraMediaChooserView extends FrameLayout implements PersistentIns
         if (!canvas.isHardwareAccelerated() && !mIsSoftwareFallbackActive) {
             mIsSoftwareFallbackActive = true;
             // Post modifying the tree since we can't modify the view tree during a draw pass
-            ThreadUtil.getMainThreadHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    final HardwareCameraPreview cameraPreview =
-                            (HardwareCameraPreview) findViewById(R.id.camera_preview);
-                    if (cameraPreview == null) {
-                        return;
-                    }
-                    final ViewGroup parent = ((ViewGroup) cameraPreview.getParent());
-                    final int index = parent.indexOfChild(cameraPreview);
-                    final SoftwareCameraPreview softwareCameraPreview =
-                            new SoftwareCameraPreview(getContext());
-                    // Be sure to remove the hardware view before adding the software view to
-                    // prevent having 2 camera previews active at the same time
-                    parent.removeView(cameraPreview);
-                    parent.addView(softwareCameraPreview, index);
+            ThreadUtil.getMainThreadHandler().post(() -> {
+                final HardwareCameraPreview cameraPreview =
+                        (HardwareCameraPreview) findViewById(R.id.camera_preview);
+                if (cameraPreview == null) {
+                    return;
                 }
+                final ViewGroup parent = ((ViewGroup) cameraPreview.getParent());
+                final int index = parent.indexOfChild(cameraPreview);
+                final SoftwareCameraPreview softwareCameraPreview =
+                        new SoftwareCameraPreview(getContext());
+                // Be sure to remove the hardware view before adding the software view to
+                // prevent having 2 camera previews active at the same time
+                parent.removeView(cameraPreview);
+                parent.addView(softwareCameraPreview, index);
             });
         }
     }

@@ -112,12 +112,8 @@ public class PopupTransitionAnimation extends Animation {
     }
 
     private final StringBuilder mEvents = new StringBuilder();
-    private final Runnable mCleanupRunnable = new Runnable() {
-        @Override
-        public void run() {
+    private final Runnable mCleanupRunnable = () ->
             LogUtil.w(LogUtil.BUGLE_TAG, "PopupTransitionAnimation: " + mEvents);
-        }
-    };
 
     /**
      * Ensures the animation is ready before starting the animation.
@@ -210,17 +206,14 @@ public class PopupTransitionAnimation extends Animation {
         mViewToAnimate.setVisibility(View.VISIBLE);
         // Delay dismissing the popup window to let mViewToAnimate draw under it and reduce the
         // flash
-        ThreadUtil.getMainThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    mPopupWindow.dismiss();
-                } catch (IllegalArgumentException e) {
-                    // PopupWindow.dismiss() will fire an IllegalArgumentException if the activity
-                    // has already ended while we were animating
-                }
-                ThreadUtil.getMainThreadHandler().removeCallbacks(mCleanupRunnable);
+        ThreadUtil.getMainThreadHandler().post(() -> {
+            try {
+                mPopupWindow.dismiss();
+            } catch (IllegalArgumentException e) {
+                // PopupWindow.dismiss() will fire an IllegalArgumentException if the activity
+                // has already ended while we were animating
             }
+            ThreadUtil.getMainThreadHandler().removeCallbacks(mCleanupRunnable);
         });
     }
 

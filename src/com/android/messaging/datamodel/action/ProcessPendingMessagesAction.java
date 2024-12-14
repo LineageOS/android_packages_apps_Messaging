@@ -61,18 +61,15 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
     private static final String KEY_SUB_ID = "sub_id";
 
     public static void processFirstPendingMessage() {
-        PhoneUtils.forEachActiveSubscription(new PhoneUtils.SubscriptionRunnable() {
-            @Override
-            public void runForSubscription(final int subId) {
-                // Clear any pending alarms or connectivity events
-                unregister(subId);
-                // Clear retry count
-                setRetry(0, subId);
-                // Start action
-                final ProcessPendingMessagesAction action = new ProcessPendingMessagesAction();
-                action.actionParameters.putInt(KEY_SUB_ID, subId);
-                action.start();
-            }
+        PhoneUtils.forEachActiveSubscription(subId -> {
+            // Clear any pending alarms or connectivity events
+            unregister(subId);
+            // Clear retry count
+            setRetry(0, subId);
+            // Start action
+            final ProcessPendingMessagesAction action = new ProcessPendingMessagesAction();
+            action.actionParameters.putInt(KEY_SUB_ID, subId);
+            action.start();
         });
     }
 
@@ -114,23 +111,20 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
         }
         if (getHavePendingMessages(subId) || scheduleAlarm) {
             // Still have a pending message that needs to be queued for processing
-            final ConnectivityListener listener = new ConnectivityListener() {
-                @Override
-                public void onPhoneStateChanged(final int serviceState) {
-                    if (serviceState == ServiceState.STATE_IN_SERVICE) {
-                        LogUtil.i(TAG, "ProcessPendingMessagesAction: Now connected for subId "
-                                + subId + ", starting action");
+            final ConnectivityListener listener = serviceState -> {
+                if (serviceState == ServiceState.STATE_IN_SERVICE) {
+                    LogUtil.i(TAG, "ProcessPendingMessagesAction: Now connected for subId "
+                            + subId + ", starting action");
 
-                        // Clear any pending alarms or connectivity events but leave attempt count
-                        // alone
-                        unregister(subId);
+                    // Clear any pending alarms or connectivity events but leave attempt count
+                    // alone
+                    unregister(subId);
 
-                        // Start action
-                        final ProcessPendingMessagesAction action =
-                                new ProcessPendingMessagesAction();
-                        action.actionParameters.putInt(KEY_SUB_ID, subId);
-                        action.start();
-                    }
+                    // Start action
+                    final ProcessPendingMessagesAction action =
+                            new ProcessPendingMessagesAction();
+                    action.actionParameters.putInt(KEY_SUB_ID, subId);
+                    action.start();
                 }
             };
             // Read and increment attempt number from shared prefs

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +25,6 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -92,120 +92,98 @@ class CameraMediaChooser extends MediaChooser implements
                 false /* attachToRoot */);
         mCameraPreviewHost = (CameraPreview.CameraPreviewHost) view.findViewById(
                 R.id.camera_preview);
-        mCameraPreviewHost.getView().setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(final View view, final MotionEvent motionEvent) {
-                if (CameraManager.get().isVideoMode()) {
-                    // Prevent the swipe down in video mode because video is always captured in
-                    // full screen
-                    return true;
-                }
-
-                return false;
+        mCameraPreviewHost.getView().setOnTouchListener((view1, motionEvent) -> {
+            if (CameraManager.get().isVideoMode()) {
+                // Prevent the swipe down in video mode because video is always captured in
+                // full screen
+                return true;
             }
+
+            return false;
         });
 
         final View shutterVisual = view.findViewById(R.id.camera_shutter_visual);
 
         mFullScreenButton = (ImageButton) view.findViewById(R.id.camera_fullScreen_button);
-        mFullScreenButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                mMediaPicker.setFullScreen(true);
-            }
-        });
+        mFullScreenButton.setOnClickListener(view12 -> mMediaPicker.setFullScreen(true));
 
         mSwapCameraButton = (ImageButton) view.findViewById(R.id.camera_swapCamera_button);
-        mSwapCameraButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                CameraManager.get().swapCamera();
-            }
-        });
+        mSwapCameraButton.setOnClickListener(view13 -> CameraManager.get().swapCamera());
 
         mCaptureButton = (ImageButton) view.findViewById(R.id.camera_capture_button);
-        mCaptureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                final float heightPercent = Math.min(mMediaPicker.getViewPager().getHeight() /
-                        (float) mCameraPreviewHost.getView().getHeight(), 1);
+        mCaptureButton.setOnClickListener(v -> {
+            final float heightPercent = Math.min(mMediaPicker.getViewPager().getHeight() /
+                    (float) mCameraPreviewHost.getView().getHeight(), 1);
 
-                if (CameraManager.get().isRecording()) {
-                    CameraManager.get().stopVideo();
-                } else {
-                    final CameraManager.MediaCallback callback = new CameraManager.MediaCallback() {
-                        @Override
-                        public void onMediaReady(
-                                final Uri uriToVideo, final String contentType,
-                                final int width, final int height) {
-                            mVideoCounter.stop();
-                            if (mVideoCancelled || uriToVideo == null) {
-                                mVideoCancelled = false;
-                            } else {
-                                final Rect startRect = new Rect();
-                                // It's possible to throw out the chooser while taking the
-                                // picture/video.  In that case, still use the attachment, just
-                                // skip the startRect
-                                if (mView != null) {
-                                    mView.getGlobalVisibleRect(startRect);
-                                }
-                                mMediaPicker.dispatchItemsSelected(
-                                        new MediaPickerMessagePartData(startRect, contentType,
-                                                uriToVideo, width, height),
-                                        true /* dismissMediaPicker */);
+            if (CameraManager.get().isRecording()) {
+                CameraManager.get().stopVideo();
+            } else {
+                final MediaCallback callback = new MediaCallback() {
+                    @Override
+                    public void onMediaReady(
+                            final Uri uriToVideo, final String contentType,
+                            final int width, final int height) {
+                        mVideoCounter.stop();
+                        if (mVideoCancelled || uriToVideo == null) {
+                            mVideoCancelled = false;
+                        } else {
+                            final Rect startRect = new Rect();
+                            // It's possible to throw out the chooser while taking the
+                            // picture/video.  In that case, still use the attachment, just
+                            // skip the startRect
+                            if (mView != null) {
+                                mView.getGlobalVisibleRect(startRect);
                             }
-                            updateViewState();
+                            mMediaPicker.dispatchItemsSelected(
+                                    new MediaPickerMessagePartData(startRect, contentType,
+                                            uriToVideo, width, height),
+                                    true /* dismissMediaPicker */);
                         }
-
-                        @Override
-                        public void onMediaFailed(final Exception exception) {
-                            UiUtils.showToastAtBottom(R.string.camera_media_failure);
-                            updateViewState();
-                        }
-
-                        @Override
-                        public void onMediaInfo(final int what) {
-                            if (what == MediaCallback.MEDIA_NO_DATA) {
-                                UiUtils.showToastAtBottom(R.string.camera_media_failure);
-                            }
-                            updateViewState();
-                        }
-                    };
-                    if (CameraManager.get().isVideoMode()) {
-                        CameraManager.get().startVideo(callback);
-                        mVideoCounter.setBase(SystemClock.elapsedRealtime());
-                        mVideoCounter.start();
-                        updateViewState();
-                    } else {
-                        showShutterEffect(shutterVisual);
-                        CameraManager.get().takePicture(heightPercent, callback);
                         updateViewState();
                     }
+
+                    @Override
+                    public void onMediaFailed(final Exception exception) {
+                        UiUtils.showToastAtBottom(R.string.camera_media_failure);
+                        updateViewState();
+                    }
+
+                    @Override
+                    public void onMediaInfo(final int what) {
+                        if (what == MediaCallback.MEDIA_NO_DATA) {
+                            UiUtils.showToastAtBottom(R.string.camera_media_failure);
+                        }
+                        updateViewState();
+                    }
+                };
+                if (CameraManager.get().isVideoMode()) {
+                    CameraManager.get().startVideo(callback);
+                    mVideoCounter.setBase(SystemClock.elapsedRealtime());
+                    mVideoCounter.start();
+                    updateViewState();
+                } else {
+                    showShutterEffect(shutterVisual);
+                    CameraManager.get().takePicture(heightPercent, callback);
+                    updateViewState();
                 }
             }
         });
 
         mSwapModeButton = (ImageButton) view.findViewById(R.id.camera_swap_mode_button);
-        mSwapModeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final boolean isSwitchingToVideo = !CameraManager.get().isVideoMode();
-                if (isSwitchingToVideo && !OsUtil.hasRecordAudioPermission()) {
-                    requestRecordAudioPermission();
-                } else {
-                    onSwapMode();
-                }
+        mSwapModeButton.setOnClickListener(view14 -> {
+            final boolean isSwitchingToVideo = !CameraManager.get().isVideoMode();
+            if (isSwitchingToVideo && !OsUtil.hasRecordAudioPermission()) {
+                requestRecordAudioPermission();
+            } else {
+                onSwapMode();
             }
         });
 
         mCancelVideoButton = (ImageButton) view.findViewById(R.id.camera_cancel_button);
-        mCancelVideoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                mVideoCancelled = true;
-                CameraManager.get().stopVideo();
-                mMediaPicker.dismiss(true);
-            }
+        mCancelVideoButton.setOnClickListener(view15 -> {
+            mVideoCancelled = true;
+            CameraManager.get().stopVideo();
+            mMediaPicker.dismiss(true);
         });
 
         mVideoCounter = (Chronometer) view.findViewById(R.id.camera_video_counter);

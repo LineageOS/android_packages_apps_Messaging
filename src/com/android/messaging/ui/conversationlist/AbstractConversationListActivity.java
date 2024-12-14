@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -118,14 +118,11 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
             UiUtils.showSnackBarWithCustomAction(this,
                     getWindow().getDecorView().getRootView(),
                     getString(R.string.requires_default_sms_app),
-                    SnackBar.Action.createCustomAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                final Intent intent =
-                                        UIIntents.get().getChangeDefaultSmsAppIntent(activity);
-                                startActivityForResult(intent, REQUEST_SET_DEFAULT_SMS_APP);
-                            }
-                        },
+                    SnackBar.Action.createCustomAction(() -> {
+                        final Intent intent =
+                                UIIntents.get().getChangeDefaultSmsAppIntent(activity);
+                        startActivityForResult(intent, REQUEST_SET_DEFAULT_SMS_APP);
+                    },
                         getString(R.string.requires_default_sms_change_button)),
                     null /* interactions */,
                     null /* placement */);
@@ -137,18 +134,14 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
                         R.plurals.delete_conversations_confirmation_dialog_title,
                         conversations.size()))
                 .setPositiveButton(R.string.delete_conversation_confirmation_button,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog,
-                                    final int button) {
-                                for (final SelectedConversation conversation : conversations) {
-                                    DeleteConversationAction.deleteConversation(
-                                            conversation.conversationId,
-                                            conversation.timestamp);
-                                }
-                                exitMultiSelectState();
+                        (dialog, button) -> {
+                            for (final SelectedConversation conversation : conversations) {
+                                DeleteConversationAction.deleteConversation(
+                                        conversation.conversationId,
+                                        conversation.timestamp);
                             }
-                })
+                            exitMultiSelectState();
+                        })
                 .setNegativeButton(R.string.delete_conversation_decline_button, null)
                 .show();
     }
@@ -167,15 +160,12 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
             }
         }
 
-        final Runnable undoRunnable = new Runnable() {
-            @Override
-            public void run() {
-                for (final String conversationId : conversationIds) {
-                    if (isToArchive) {
-                        UpdateConversationArchiveStatusAction.unarchiveConversation(conversationId);
-                    } else {
-                        UpdateConversationArchiveStatusAction.archiveConversation(conversationId);
-                    }
+        final Runnable undoRunnable = () -> {
+            for (final String conversationId : conversationIds) {
+                if (isToArchive) {
+                    UpdateConversationArchiveStatusAction.unarchiveConversation(conversationId);
+                } else {
+                    UpdateConversationArchiveStatusAction.archiveConversation(conversationId);
                 }
             }
         };
@@ -211,36 +201,29 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
                         conversation.otherParticipantNormalizedDestination))
                 .setMessage(res.getString(R.string.block_confirmation_message))
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(final DialogInterface arg0, final int arg1) {
-                        final Context context = AbstractConversationListActivity.this;
-                        final View listView = findViewById(android.R.id.list);
-                        final List<SnackBarInteraction> interactions =
-                                mConversationListFragment.getSnackBarInteractions();
-                        final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
-                                undoListener =
-                                        new UpdateDestinationBlockedActionSnackBar(
-                                                context, listView, null /* undoRunnable */,
-                                                interactions);
-                        final Runnable undoRunnable = new Runnable() {
-                            @Override
-                            public void run() {
-                                UpdateDestinationBlockedAction.updateDestinationBlocked(
-                                        conversation.otherParticipantNormalizedDestination, false,
-                                        conversation.conversationId,
-                                        undoListener);
-                            }
-                        };
-                        final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
-                              listener = new UpdateDestinationBlockedActionSnackBar(
-                                      context, listView, undoRunnable, interactions);
-                        UpdateDestinationBlockedAction.updateDestinationBlocked(
-                                conversation.otherParticipantNormalizedDestination, true,
-                                conversation.conversationId,
-                                listener);
-                        exitMultiSelectState();
-                    }
+                .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
+                    final Context context = AbstractConversationListActivity.this;
+                    final View listView = findViewById(android.R.id.list);
+                    final List<SnackBarInteraction> interactions =
+                            mConversationListFragment.getSnackBarInteractions();
+                    final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
+                            undoListener =
+                                    new UpdateDestinationBlockedActionSnackBar(
+                                            context, listView, null /* undoRunnable */,
+                                            interactions);
+                    final Runnable undoRunnable = () ->
+                            UpdateDestinationBlockedAction.updateDestinationBlocked(
+                                    conversation.otherParticipantNormalizedDestination, false,
+                                    conversation.conversationId,
+                                    undoListener);
+                    final UpdateDestinationBlockedAction.UpdateDestinationBlockedActionListener
+                          listener = new UpdateDestinationBlockedActionSnackBar(
+                                  context, listView, undoRunnable, interactions);
+                    UpdateDestinationBlockedAction.updateDestinationBlocked(
+                            conversation.otherParticipantNormalizedDestination, true,
+                            conversation.conversationId,
+                            listener);
+                    exitMultiSelectState();
                 })
                 .create()
                 .show();

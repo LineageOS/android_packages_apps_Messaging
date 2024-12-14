@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -292,13 +291,10 @@ public class SnackBar {
         } else {
             mActionTextView.setVisibility(View.VISIBLE);
             mActionTextView.setText(mAction.getActionLabel());
-            mActionTextView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    mAction.getActionRunnable().run();
-                    if (mListener != null) {
-                        mListener.onActionClick();
-                    }
+            mActionTextView.setOnClickListener(v -> {
+                mAction.getActionRunnable().run();
+                if (mListener != null) {
+                    mListener.onActionClick();
                 }
             });
         }
