@@ -371,10 +371,6 @@
                   android:excludeFromRecents="true">
         </activity>
 
-        <activity android:name=".ui.SmsStorageLowWarningActivity"
-                  android:theme="@style/Translucent"
-                  android:configChanges="orientation|screenSize|keyboardHidden" />
-
         <activity android:name=".ui.appsettings.ApnSettingsActivity"
                   android:configChanges="orientation|screenSize|keyboardHidden"
                   android:screenOrientation="user"
@@ -386,16 +382,6 @@
                   android:screenOrientation="user"
                   android:theme="@style/BugleTheme"
                   android:parentActivityName="com.android.messaging.ui.appsettings.ApnSettingsActivity"/>
-
-        <receiver android:name=".receiver.StorageStatusReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
-            </intent-filter>
-        </receiver>
 
         <receiver android:name=".receiver.BootAndPackageReplacedReceiver"
             android:exported="true">
