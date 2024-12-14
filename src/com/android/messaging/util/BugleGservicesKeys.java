@@ -120,20 +120,6 @@ public final class BugleGservicesKeys {
     public static final long SMS_FULL_SYNC_BACKOFF_TIME_MILLIS_DEFAULT = 60 * 60 * 1000;
 
     /**
-     * Time duration to retain the most recent SMS messages for SMS storage purging
-     *
-     * Format:
-     *   <number>(w|m|y)
-     * Examples:
-     *   "1y" -- a year
-     *   "2w" -- two weeks
-     *   "6m" -- six months
-     */
-    public static final String SMS_STORAGE_PURGING_MESSAGE_RETAINING_DURATION =
-            "bugle_sms_storage_purging_message_retaining_duration";
-    public static final String SMS_STORAGE_PURGING_MESSAGE_RETAINING_DURATION_DEFAULT = "1m";
-
-    /**
      * MMS UA profile url.
      *
      * This is used on all Android devices running Hangout, so cannot just host the profile of the
