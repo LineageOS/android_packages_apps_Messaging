@@ -59,7 +59,6 @@ class FactoryImpl extends Factory {
     private MediaResourceManager mMediaResourceManager;
     private MediaCacheManager mMediaCacheManager;
     private ContactContentObserver mContactContentObserver;
-    private PhoneUtils mPhoneUtils;
     private MediaUtil mMediaUtil;
     private SparseArray<BugleSubscriptionPrefs> mSubscriptionPrefs;
     private BugleCarrierConfigValuesLoader mCarrierConfigValuesLoader;
@@ -95,7 +94,7 @@ class FactoryImpl extends Factory {
         factory.mUIIntents = new UIIntentsImpl();
         factory.mContactContentObserver = new ContactContentObserver();
         factory.mMediaUtil = new MediaUtilImpl();
-        factory.mSubscriptionPrefs = new SparseArray<BugleSubscriptionPrefs>();
+        factory.mSubscriptionPrefs = new SparseArray<>();
         factory.mCarrierConfigValuesLoader = new BugleCarrierConfigValuesLoader(applicationContext);
 
         Assert.initializeGservices(factory.mBugleGservices);
@@ -117,13 +116,10 @@ class FactoryImpl extends Factory {
 
         mApplication.initializeSync(this);
 
-        final Thread asyncInitialization = new Thread() {
-            @Override
-            public void run() {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-                mApplication.initializeAsync(FactoryImpl.this);
-            }
-        };
+        final Thread asyncInitialization = new Thread(() -> {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+            mApplication.initializeAsync(FactoryImpl.this);
+        });
         asyncInitialization.start();
     }
 

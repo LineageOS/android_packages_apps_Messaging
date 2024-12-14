@@ -21,9 +21,8 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import androidx.core.text.BidiFormatter;
-import androidx.core.text.TextDirectionHeuristicsCompat;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -35,6 +34,10 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.text.BidiFormatter;
+import androidx.core.text.TextDirectionHeuristicsCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -57,6 +60,7 @@ import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Typefaces;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
+
 import org.lineageos.messaging.util.PrefsUtils;
 
 import java.util.List;
@@ -74,8 +78,6 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
     private Typeface mListItemUnreadTypeface;
     private static String sPlusOneString;
     private static String sPlusNString;
-
-    private static final int SWIPE_DIRECTION_RIGHT = 2;
 
     public interface HostInterface {
         boolean isConversationSelected(final String conversationId);
@@ -161,8 +163,9 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         mSnippetTextView.addOnLayoutChangeListener(this);
 
         final Resources resources = getContext().getResources();
-        mListItemReadColor = resources.getColor(R.color.conversation_list_item_read);
-        mListItemUnreadColor = resources.getColor(R.color.conversation_list_item_unread);
+        final Resources.Theme theme = getContext().getTheme();
+        mListItemReadColor = resources.getColor(R.color.conversation_list_item_read, theme);
+        mListItemUnreadColor = resources.getColor(R.color.conversation_list_item_unread, theme);
 
         mListItemReadTypeface = Typefaces.getRobotoNormal();
         mListItemUnreadTypeface = Typefaces.getRobotoBold();
@@ -402,7 +405,8 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         final boolean isDefaultSmsApp = PhoneUtils.getDefault().isDefaultSmsApp();
         // don't show the error state unless we're the default sms app
         if (mData.getIsFailedStatus() && isDefaultSmsApp) {
-            mTimestampTextView.setTextColor(resources.getColor(R.color.conversation_list_error));
+            mTimestampTextView.setTextColor(resources.getColor(R.color.conversation_list_error,
+                    getContext().getTheme()));
             mTimestampTextView.setTypeface(mListItemReadTypeface, typefaceStyle);
             int failureMessageId = R.string.message_status_download_failed;
             if (mData.getIsMessageTypeOutgoing()) {
@@ -498,16 +502,15 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         mAudioAttachmentView.setOnLongClickListener(this);
         mAudioAttachmentView.setVisibility(audioPreviewVisiblity);
 
+        Drawable archiveDrawable = ResourcesCompat.getDrawable(
+                getResources(), R.drawable.ic_archive_small_dark, getContext().getTheme());
         if (PrefsUtils.isSwipeRightToDeleteEnabled()) {
-            mCrossSwipeArchiveLeftImageView.setImageDrawable(getResources()
-                    .getDrawable(R.drawable.ic_delete_small_dark));
-            mCrossSwipeArchiveRightImageView.setImageDrawable(getResources()
-                    .getDrawable(R.drawable.ic_archive_small_dark));
+            mCrossSwipeArchiveLeftImageView.setImageDrawable(ResourcesCompat.getDrawable(
+                    getResources(), R.drawable.ic_delete_small_dark, getContext().getTheme()));
+            mCrossSwipeArchiveRightImageView.setImageDrawable(archiveDrawable);
         } else {
-            mCrossSwipeArchiveLeftImageView.setImageDrawable(getResources()
-                    .getDrawable(R.drawable.ic_archive_small_dark));
-            mCrossSwipeArchiveRightImageView.setImageDrawable(getResources()
-                    .getDrawable(R.drawable.ic_archive_small_dark));
+            mCrossSwipeArchiveLeftImageView.setImageDrawable(archiveDrawable);
+            mCrossSwipeArchiveRightImageView.setImageDrawable(archiveDrawable);
         }
     }
 

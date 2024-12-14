@@ -25,10 +25,6 @@ public class BugleGservicesImpl extends BugleGservices {
     public BugleGservicesImpl(final Context context) {
     }
 
-    @Override
-    public void registerForChanges(final Runnable r) {
-    }
-
     /**
      * Asserts that the key has the expected prefix.
      */
