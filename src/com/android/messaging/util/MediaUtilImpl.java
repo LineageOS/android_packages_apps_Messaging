@@ -42,15 +42,12 @@ public class MediaUtilImpl extends MediaUtil {
                     afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
             afd.close();
             mediaPlayer.prepare();
-            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(final MediaPlayer mp) {
-                    if (completionListener != null) {
-                        completionListener.onCompletion();
-                    }
-                    mp.stop();
-                    mp.release();
+            mediaPlayer.setOnCompletionListener(mp -> {
+                if (completionListener != null) {
+                    completionListener.onCompletion();
                 }
+                mp.stop();
+                mp.release();
             });
             mediaPlayer.seekTo(0);
             mediaPlayer.start();

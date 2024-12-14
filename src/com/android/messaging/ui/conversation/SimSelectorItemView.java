@@ -18,7 +18,6 @@ package com.android.messaging.ui.conversation;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -49,12 +48,7 @@ public class SimSelectorItemView extends LinearLayout {
         mNameTextView = (TextView) findViewById(R.id.name);
         mDetailsTextView = (TextView) findViewById(R.id.details);
         mSimIconView = (SimIconView) findViewById(R.id.sim_icon);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mHost.onSimItemClicked(mData);
-            }
-        });
+        setOnClickListener(v -> mHost.onSimItemClicked(mData));
     }
 
     public void bind(final SubscriptionListEntry simEntry) {

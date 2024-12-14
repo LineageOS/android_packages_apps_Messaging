@@ -48,13 +48,10 @@ abstract class ConversationSimSelector extends ConversationInput {
         if (mPendingShow != null && mDataReady) {
             final boolean show = mPendingShow.first;
             final boolean animate = mPendingShow.second;
-            ThreadUtil.getMainThreadHandler().post(new Runnable() {
-                @Override
-                public void run() {
-                    // This will No-Op if we are no longer attached to the host.
-                    mConversationInputBase.showHideInternal(ConversationSimSelector.this,
-                            show, animate);
-                }
+            ThreadUtil.getMainThreadHandler().post(() -> {
+                // This will No-Op if we are no longer attached to the host.
+                mConversationInputBase.showHideInternal(ConversationSimSelector.this,
+                        show, animate);
             });
             mPendingShow = null;
         }
