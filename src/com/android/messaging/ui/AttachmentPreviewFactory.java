@@ -23,8 +23,6 @@ import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.ImageView;
@@ -93,22 +91,16 @@ public class AttachmentPreviewFactory {
         }
 
         if (attachmentView != null && clickListener != null) {
-            attachmentView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View view) {
-                        final Rect bounds = UiUtils.getMeasuredBoundsOnScreen(view);
-                        clickListener.onAttachmentClick(attachmentData, bounds,
-                                false /* longPress */);
-                    }
-                });
-            attachmentView.setOnLongClickListener(new OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(final View view) {
-                        final Rect bounds = UiUtils.getMeasuredBoundsOnScreen(view);
-                        return clickListener.onAttachmentClick(attachmentData, bounds,
-                                true /* longPress */);
-                    }
-                });
+            attachmentView.setOnClickListener(view -> {
+                final Rect bounds = UiUtils.getMeasuredBoundsOnScreen(view);
+                clickListener.onAttachmentClick(attachmentData, bounds,
+                        false /* longPress */);
+            });
+            attachmentView.setOnLongClickListener(view -> {
+                final Rect bounds = UiUtils.getMeasuredBoundsOnScreen(view);
+                return clickListener.onAttachmentClick(attachmentData, bounds,
+                        true /* longPress */);
+            });
         }
         return attachmentView;
     }

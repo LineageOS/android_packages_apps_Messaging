@@ -70,18 +70,8 @@ public class GroupMmsSettingDialog {
                 rootView.findViewById(R.id.disable_group_mms_button);
         final RadioButton enableButton = (RadioButton)
                 rootView.findViewById(R.id.enable_group_mms_button);
-        disableButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeGroupMmsSettings(false);
-            }
-        });
-        enableButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeGroupMmsSettings(true);
-            }
-        });
+        disableButton.setOnClickListener(view -> changeGroupMmsSettings(false));
+        enableButton.setOnClickListener(view -> changeGroupMmsSettings(true));
         final boolean mmsEnabled = BuglePrefs.getSubscriptionPrefs(mSubId).getBoolean(
                 mContext.getString(R.string.group_mms_pref_key),
                 mContext.getResources().getBoolean(R.bool.group_mms_pref_default));

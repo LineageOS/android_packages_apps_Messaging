@@ -91,13 +91,10 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
 
         final Bundle arguments = getArguments();
         if (arguments == null || !arguments.getBoolean(HIDE_NEW_CONVERSATION_BUTTON_KEY)) {
-            dialogBuilder.setPositiveButton(R.string.share_new_message, new OnClickListener() {
-                        @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                            mDismissed = true;
-                            mHost.onCreateConversationClick();
-                    }
-                });
+            dialogBuilder.setPositiveButton(R.string.share_new_message, (dialog, which) -> {
+                mDismissed = true;
+                mHost.onCreateConversationClick();
+        });
         }
         return dialogBuilder.setNegativeButton(R.string.share_cancel, null)
                 .create();

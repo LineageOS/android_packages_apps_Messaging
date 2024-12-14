@@ -84,7 +84,7 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
     // setting is null (no placeholder).
     private final Drawable mPlaceholderDrawable;
     protected ImageResource mImageResource;
-    private final Runnable mDisposeRunnable = new Runnable() {
+    private final Runnable mDisposeRunnable = () -> new Runnable() {
         @Override
         public void run() {
             if (mImageRequestBinding.isBound()) {

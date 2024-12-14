@@ -291,13 +291,10 @@ public class SnackBar {
         } else {
             mActionTextView.setVisibility(View.VISIBLE);
             mActionTextView.setText(mAction.getActionLabel());
-            mActionTextView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    mAction.getActionRunnable().run();
-                    if (mListener != null) {
-                        mListener.onActionClick();
-                    }
+            mActionTextView.setOnClickListener(v -> {
+                mAction.getActionRunnable().run();
+                if (mListener != null) {
+                    mListener.onActionClick();
                 }
             });
         }
