@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,20 +119,6 @@ public final class BugleGservicesKeys {
     public static final String SMS_FULL_SYNC_BACKOFF_TIME_MILLIS =
             "bugle_sms_full_sync_backoff_time";
     public static final long SMS_FULL_SYNC_BACKOFF_TIME_MILLIS_DEFAULT = 60 * 60 * 1000;
-
-    /**
-     * Time duration to retain the most recent SMS messages for SMS storage purging
-     *
-     * Format:
-     *   <number>(w|m|y)
-     * Examples:
-     *   "1y" -- a year
-     *   "2w" -- two weeks
-     *   "6m" -- six months
-     */
-    public static final String SMS_STORAGE_PURGING_MESSAGE_RETAINING_DURATION =
-            "bugle_sms_storage_purging_message_retaining_duration";
-    public static final String SMS_STORAGE_PURGING_MESSAGE_RETAINING_DURATION_DEFAULT = "1m";
 
     /**
      * MMS UA profile url.
