@@ -63,12 +63,7 @@ public class SimSelectorView extends FrameLayout implements SimSelectorItemView.
         mSimListView.setAdapter(mAdapter);
 
         // Clicking anywhere outside the switcher list should dismiss.
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showOrHide(false, true);
-            }
-        });
+        setOnClickListener(v -> showOrHide(false, true));
     }
 
     public void bind(final SubscriptionListData data) {

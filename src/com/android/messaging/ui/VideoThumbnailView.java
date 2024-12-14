@@ -125,28 +125,22 @@ public class VideoThumbnailView extends FrameLayout {
         if (loop) {
             mPlayButton.setVisibility(View.GONE);
         } else {
-            mPlayButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    if (mVideoSource == null) {
-                        return;
-                    }
+            mPlayButton.setOnClickListener(view -> {
+                if (mVideoSource == null) {
+                    return;
+                }
 
-                    if (mMode == MODE_PLAYABLE_VIDEO) {
-                        mVideoView.seekTo(0);
-                        start();
-                    } else {
-                        UIIntents.get().launchFullScreenVideoViewer(getContext(), mVideoSource);
-                    }
+                if (mMode == MODE_PLAYABLE_VIDEO) {
+                    mVideoView.seekTo(0);
+                    start();
+                } else {
+                    UIIntents.get().launchFullScreenVideoViewer(getContext(), mVideoSource);
                 }
             });
-            mPlayButton.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(final View view) {
-                    // Button prevents long click from propagating up, do it manually
-                    VideoThumbnailView.this.performLongClick();
-                    return true;
-                }
+            mPlayButton.setOnLongClickListener(view -> {
+                // Button prevents long click from propagating up, do it manually
+                VideoThumbnailView.this.performLongClick();
+                return true;
             });
         }
 

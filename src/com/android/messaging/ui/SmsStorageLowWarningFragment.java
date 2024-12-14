@@ -144,12 +144,9 @@ public class SmsStorageLowWarningFragment extends Fragment {
 
                 final String action = getItem(position);
                 actionItemView.setText(action);
-                actionItemView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(final View view) {
-                        dismiss();
-                        ((SmsStorageLowWarningFragment) getTargetFragment()).confirm(position);
-                    }
+                actionItemView.setOnClickListener(view1 -> {
+                    dismiss();
+                    ((SmsStorageLowWarningFragment) getTargetFragment()).confirm(position);
                 });
                 return actionItemView;
             }

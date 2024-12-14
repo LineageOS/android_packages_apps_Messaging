@@ -1085,12 +1085,7 @@ public class BugleNotifications {
                 OBSERVABLE_CONVERSATION_NOTIFICATION_VOLUME);
 
         // Stop the sound after five seconds to handle continuous ringtones
-        ThreadUtil.getMainThreadHandler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                player.stop();
-            }
-        }, 5000);
+        ThreadUtil.getMainThreadHandler().postDelayed(player::stop, 5000);
     }
 
     public static boolean isWearCompanionAppInstalled() {
