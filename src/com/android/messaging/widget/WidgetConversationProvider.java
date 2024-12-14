@@ -148,12 +148,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
                 // widget dependent on ConversationListItemData. However, we have to update
                 // the widget regardless, even with those missing pieces. Here we update the
                 // widget again in the background.
-                SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                    @Override
-                    public void run() {
-                        rebuildWidget(context, appWidgetId);
-                    }
-                });
+                SafeAsyncTask.executeOnThreadPool(() -> rebuildWidget(context, appWidgetId));
             }
         }
 

@@ -106,13 +106,7 @@ public class SoundLevels extends View {
         // which might improve things further.
         mSpeechLevelsAnimator = new TimeAnimator();
         mSpeechLevelsAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-        mSpeechLevelsAnimator.setTimeListener(new TimeListener() {
-            @Override
-            public void onTimeUpdate(final TimeAnimator animation, final long totalTime,
-                    final long deltaTime) {
-                invalidate();
-            }
-        });
+        mSpeechLevelsAnimator.setTimeListener((animation, totalTime, deltaTime) -> invalidate());
     }
 
     @Override
