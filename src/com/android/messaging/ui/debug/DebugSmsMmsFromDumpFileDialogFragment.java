@@ -28,7 +28,6 @@ import android.os.Environment;
 import android.telephony.SmsMessage;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -112,15 +111,12 @@ public class DebugSmsMmsFromDumpFileDialogFragment extends DialogFragment {
 
             final String file = getItem(position);
             actionItemView.setText(file);
-            actionItemView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    dismiss();
-                    if (ACTION_LOAD.equals(mAction)) {
-                        receiveFromDumpFile(file);
-                    } else if (ACTION_EMAIL.equals(mAction)) {
-                        emailDumpFile(file);
-                    }
+            actionItemView.setOnClickListener(view1 -> {
+                dismiss();
+                if (ACTION_LOAD.equals(mAction)) {
+                    receiveFromDumpFile(file);
+                } else if (ACTION_EMAIL.equals(mAction)) {
+                    emailDumpFile(file);
                 }
             });
             return actionItemView;
