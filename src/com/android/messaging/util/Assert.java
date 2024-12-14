@@ -17,8 +17,6 @@ package com.android.messaging.util;
 
 import android.os.Looper;
 
-import java.util.Arrays;
-
 public final class Assert {
     public @interface RunsOnMainThread {}
     public @interface DoesNotRunOnMainThread {}
@@ -56,19 +54,7 @@ public final class Assert {
 
     // This is called from FactoryImpl once the Gservices class is initialized.
     public static void initializeGservices (final BugleGservices gservices) {
-        gservices.registerForChanges(() -> refreshGservices(gservices));
         refreshGservices(gservices);
-    }
-
-    /**
-     * Halt execution if this is not an eng build.
-     * <p>Intended for use in code paths that should be run only for tests and never on
-     * a real build.
-     * <p>Note that this will crash on a user build even though asserts don't normally
-     * crash on a user build.
-     */
-    public static void isEngBuild() {
-        isTrueReleaseCheck(sIsEngBuild);
     }
 
     /**
@@ -89,15 +75,6 @@ public final class Assert {
         }
     }
 
-    /**
-     * Halt execution even in release builds if this isn't the case.
-     */
-    public static void isTrueReleaseCheck(final boolean condition) {
-        if (!condition) {
-            fail("Expected condition to be true", true);
-        }
-    }
-
     public static void equals(final int expected, final int actual) {
         if (expected != actual) {
             fail("Expected " + expected + " but got " + actual, false);
@@ -115,15 +92,6 @@ public final class Assert {
                 && (expected == null || actual == null || !expected.equals(actual))) {
             fail("Expected " + expected + " but got " + actual, false);
         }
-    }
-
-    public static void oneOf(final int actual, final int ...expected) {
-        for (int value : expected) {
-            if (actual == value) {
-                return;
-            }
-        }
-        fail("Expected value to be one of " + Arrays.toString(expected) + " but was " + actual);
     }
 
     public static void inRange(

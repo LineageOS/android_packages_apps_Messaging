@@ -26,7 +26,7 @@ public class CircularArray<E> {
     private int mNextWriter;
     private boolean mHasWrapped;
     private final int mMaxCount;
-    Object mList[];
+    Object[] mList;
 
     /**
      * Constructor for CircularArray.

@@ -40,7 +40,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.sms.MmsSmsUtils;
-
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -405,7 +404,8 @@ public abstract class PhoneUtils {
 
         public PhoneUtilsLMR1(final int subId) {
             super(subId);
-            mSubscriptionManager = SubscriptionManager.from(Factory.get().getApplicationContext());
+            mSubscriptionManager =
+                    Factory.get().getApplicationContext().getSystemService(SubscriptionManager.class);
         }
 
         @Override

@@ -34,12 +34,6 @@ import com.android.messaging.util.LogUtil;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
- * TODO: Open Issues:
- * - Should we be storing the draft messages in the regular messages table or should we have a
- *   separate table for drafts to keep the normal messages query as simple as possible?
- */
-
-/**
  * Allows access to the SQL database.  This is package private.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -584,18 +578,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private DatabaseHelper(final Context context) {
         super(context, DATABASE_NAME, null, getDatabaseVersion(context), null);
         mApplicationContext = context;
-    }
-
-    /**
-     * Test method that always instantiates a new DatabaseHelper instance. This should
-     * be used ONLY by the tests and never by the real application.
-     * @param context Test context.
-     * @return Brand new DatabaseHelper instance.
-     */
-    @VisibleForTesting
-    static DatabaseHelper getNewInstanceForTest(final Context context) {
-        Assert.isTrue(BugleApplication.isRunningTests());
-        return new DatabaseHelper(context);
     }
 
     /**

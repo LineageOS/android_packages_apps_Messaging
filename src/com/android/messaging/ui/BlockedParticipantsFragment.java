@@ -15,23 +15,25 @@
  */
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.cursoradapter.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+
 import com.android.messaging.R;
+import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.binding.Binding;
 import com.android.messaging.datamodel.binding.BindingBase;
 import com.android.messaging.datamodel.data.BlockedParticipantsData;
 import com.android.messaging.datamodel.data.BlockedParticipantsData.BlockedParticipantsDataListener;
-import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.util.Assert;
 
 /**
@@ -58,7 +60,7 @@ public class BlockedParticipantsFragment extends Fragment
         mAdapter = new BlockedParticipantListAdapter(getActivity(), null);
         mListView.setAdapter(mAdapter);
         mBinding.bind(DataModel.get().createBlockedParticipantsData(getActivity(), this));
-        mBinding.getData().init(getLoaderManager(), mBinding);
+        mBinding.getData().init(LoaderManager.getInstance(this), mBinding);
         return view;
     }
 

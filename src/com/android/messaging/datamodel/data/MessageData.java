@@ -648,15 +648,7 @@ public class MessageData implements Parcelable {
                 || mProtocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION;
     }
 
-    public static final boolean getIsMmsNotification(final int protocol) {
-        return (protocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION);
-    }
-
-    public final boolean getIsMmsNotification() {
-        return getIsMmsNotification(mProtocol);
-    }
-
-    public static final boolean getIsSms(final int protocol) {
+    public static boolean getIsSms(final int protocol) {
         return protocol == (MessageData.PROTOCOL_SMS);
     }
 
@@ -808,10 +800,6 @@ public class MessageData implements Parcelable {
         for (final MessagePartData part : getParts()) {
             part.decodeAndSaveSizeIfImage(false /* saveToStorage */);
         }
-    }
-
-    public final void setRetryStartTimestamp(final long timestamp) {
-        mRetryStartTimestamp = timestamp;
     }
 
     public final void setRawTelephonyStatus(final int rawStatus) {

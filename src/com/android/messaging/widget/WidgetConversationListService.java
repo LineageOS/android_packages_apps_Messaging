@@ -170,7 +170,8 @@ public class WidgetConversationListService extends RemoteViewsService {
                         builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, text.length(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         builder.setSpan(new ForegroundColorSpan(
-                                    resources.getColor(R.color.widget_text_color)),
+                                    resources.getColor(R.color.widget_text_color,
+                                            mContext.getTheme())),
                                 0, text.length(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         remoteViews.setTextViewText(R.id.errorText, builder);

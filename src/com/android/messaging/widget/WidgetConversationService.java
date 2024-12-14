@@ -43,7 +43,6 @@ import com.android.messaging.datamodel.media.MediaResourceManager;
 import com.android.messaging.datamodel.media.MessagePartImageRequestDescriptor;
 import com.android.messaging.datamodel.media.MessagePartVideoThumbnailRequestDescriptor;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.AvatarUriUtil;
@@ -388,7 +387,8 @@ public class WidgetConversationService extends RemoteViewsService {
                 final Spannable colorStr = new SpannableString(statusText);
                 if (showInRed) {
                     colorStr.setSpan(new ForegroundColorSpan(
-                            mContext.getResources().getColor(R.color.timestamp_text_failed)),
+                            mContext.getResources().getColor(R.color.timestamp_text_failed,
+                                    mContext.getTheme())),
                             0, statusText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 remoteViews.setTextViewText(R.id.date, colorStr);

@@ -64,6 +64,7 @@ public class ContactListItemView extends LinearLayout implements OnClickListener
 
     @Override
     protected void onFinishInflate () {
+        super.onFinishInflate();
         mContactNameTextView = (TextView) findViewById(R.id.contact_name);
         mContactDetailsTextView = (TextView) findViewById(R.id.contact_details);
         mContactDetailTypeTextView = (TextView) findViewById(R.id.contact_detail_type);

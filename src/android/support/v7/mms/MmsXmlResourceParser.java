@@ -29,9 +29,6 @@ import java.io.IOException;
 abstract class MmsXmlResourceParser {
     /**
      * Parse the content
-     *
-     * @throws IOException
-     * @throws XmlPullParserException
      */
     protected abstract void parseRecord() throws IOException, XmlPullParserException;
 

@@ -16,13 +16,11 @@
 package com.android.messaging.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.role.RoleManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
-import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -33,11 +31,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
 import android.provider.MediaStore;
-import android.provider.Telephony;
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
+import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import android.text.TextUtils;
 
 import com.android.ex.photo.Intents.PhotoViewIntentBuilder;
 import com.android.messaging.R;
@@ -49,8 +48,6 @@ import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.receiver.NotificationReceiver;
 import com.android.messaging.sms.MmsSmsUtils;
-import com.android.messaging.ui.appsettings.ApnEditorActivity;
-import com.android.messaging.ui.appsettings.ApnSettingsActivity;
 import com.android.messaging.ui.appsettings.ApplicationSettingsActivity;
 import com.android.messaging.ui.appsettings.PerSubscriptionSettingsActivity;
 import com.android.messaging.ui.appsettings.SettingsActivity;
@@ -151,13 +148,6 @@ public class UIIntentsImpl extends UIIntents {
     public void launchConversationListActivity(final Context context) {
         final Intent intent = getConversationListActivityIntent(context);
         context.startActivity(intent);
-    }
-
-    /**
-     * Get an intent which shows the low storage warning activity.
-     */
-    private Intent getSmsStorageLowWarningActivityIntent(final Context context) {
-        return new Intent(context, SmsStorageLowWarningActivity.class);
     }
 
     @Override
@@ -395,9 +385,8 @@ public class UIIntentsImpl extends UIIntents {
     @Override
     public Intent getIntentForConversationActivity(final Context context,
             final String conversationId, final MessageData draft) {
-        final Intent intent = getConversationActivityIntent(context, conversationId, draft,
+        return getConversationActivityIntent(context, conversationId, draft,
                 false /* withCustomTransition */);
-        return intent;
     }
 
     @Override
@@ -428,7 +417,7 @@ public class UIIntentsImpl extends UIIntents {
         }
         return PendingIntent.getBroadcast(context,
                 requestCode, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     /**
@@ -445,42 +434,14 @@ public class UIIntentsImpl extends UIIntents {
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         // Adds the back stack for the Intent (plus the Intent itself)
         stackBuilder.addNextIntentWithParentStack(intent);
-        final PendingIntent resultPendingIntent =
-            stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT);
-        return resultPendingIntent;
-    }
-
-    @Override
-    public PendingIntent getPendingIntentForLowStorageNotifications(final Context context) {
-        final TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
-        final Intent conversationListIntent = getConversationListActivityIntent(context);
-        taskStackBuilder.addNextIntent(conversationListIntent);
-        taskStackBuilder.addNextIntentWithParentStack(
-                getSmsStorageLowWarningActivityIntent(context));
-
-        return taskStackBuilder.getPendingIntent(
-                0, PendingIntent.FLAG_UPDATE_CURRENT);
+        return stackBuilder.getPendingIntent(requestCode,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     @Override
     public PendingIntent getPendingIntentForSecondaryUserNewMessageNotification(
             final Context context) {
         return getPendingIntentForConversationListActivity(context);
-    }
-
-    @Override
-    public Intent getApnEditorIntent(final Context context, final String rowId, final int subId) {
-        final Intent intent = new Intent(context, ApnEditorActivity.class);
-        intent.putExtra(UI_INTENT_EXTRA_APN_ROW_ID, rowId);
-        intent.putExtra(UI_INTENT_EXTRA_SUB_ID, subId);
-        return intent;
-    }
-
-    @Override
-    public Intent getApnSettingsIntent(final Context context, final int subId) {
-        final Intent intent = new Intent(context, ApnSettingsActivity.class)
-                .putExtra(UI_INTENT_EXTRA_SUB_ID, subId);
-        return intent;
     }
 
     @Override
