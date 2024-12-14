@@ -18,7 +18,6 @@ package com.android.messaging.ui.debug;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
@@ -115,14 +114,11 @@ public class DebugMmsConfigItemView extends LinearLayout implements OnClickListe
                 .setPositiveButton(android.R.string.ok, this)
                 .setNegativeButton(android.R.string.cancel, null)
                 .create();
-        dialog.setOnShowListener(new OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog) {
-                mEditText.requestFocus();
-                mEditText.selectAll();
-                ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE))
-                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-            }
+        dialog.setOnShowListener(dialog1 -> {
+            mEditText.requestFocus();
+            mEditText.selectAll();
+            ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
         });
         dialog.show();
     }

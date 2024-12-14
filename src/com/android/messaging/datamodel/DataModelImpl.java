@@ -235,17 +235,14 @@ public class DataModelImpl extends DataModel {
     }
 
     private void createConnectivityUtilForEachActiveSubscription() {
-        PhoneUtils.forEachActiveSubscription(new PhoneUtils.SubscriptionRunnable() {
-            @Override
-            public void runForSubscription(int subId) {
-                // Create the ConnectivityUtil instance for given subId if absent.
-                if (subId <= ParticipantData.DEFAULT_SELF_SUB_ID) {
-                    subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
-                }
-                if (!sConnectivityUtilInstanceCacheN.containsKey(subId)) {
-                    sConnectivityUtilInstanceCacheN.put(
-                            subId, new ConnectivityUtil(mContext, subId));
-                }
+        PhoneUtils.forEachActiveSubscription(subId -> {
+            // Create the ConnectivityUtil instance for given subId if absent.
+            if (subId <= ParticipantData.DEFAULT_SELF_SUB_ID) {
+                subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+            }
+            if (!sConnectivityUtilInstanceCacheN.containsKey(subId)) {
+                sConnectivityUtilInstanceCacheN.put(
+                        subId, new ConnectivityUtil(mContext, subId));
             }
         });
     }

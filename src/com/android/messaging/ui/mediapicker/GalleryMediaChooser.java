@@ -58,15 +58,11 @@ class GalleryMediaChooser extends MediaChooser implements
     GalleryMediaChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);
         mAdapter = new GalleryGridAdapter(Factory.get().getApplicationContext(), null);
-        mDocumentImagePicker = new DocumentImagePicker(mMediaPicker,
-                new SelectionListener() {
-                    @Override
-                    public void onDocumentSelected(final PendingAttachmentData data) {
-                        if (mBindingRef.isBound()) {
-                            mMediaPicker.dispatchPendingItemAdded(data);
-                        }
-                    }
-                });
+        mDocumentImagePicker = new DocumentImagePicker(mMediaPicker, data -> {
+            if (mBindingRef.isBound()) {
+                mMediaPicker.dispatchPendingItemAdded(data);
+            }
+        });
     }
 
     @Override
