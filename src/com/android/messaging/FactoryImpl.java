@@ -117,13 +117,10 @@ class FactoryImpl extends Factory {
 
         mApplication.initializeSync(this);
 
-        final Thread asyncInitialization = new Thread() {
-            @Override
-            public void run() {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-                mApplication.initializeAsync(FactoryImpl.this);
-            }
-        };
+        final Thread asyncInitialization = new Thread(() -> {
+            Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+            mApplication.initializeAsync(FactoryImpl.this);
+        });
         asyncInitialization.start();
     }
 

@@ -250,12 +250,7 @@ public class MmsService extends Service {
     // Handler for scheduling service stop
     private final Handler mHandler = new Handler();
     // Service stop task
-    private final Runnable mServiceStopRunnable = new Runnable() {
-        @Override
-        public void run() {
-            tryStopService();
-        }
-    };
+    private final Runnable mServiceStopRunnable = this::tryStopService;
 
     /**
      * Start the service with a request
