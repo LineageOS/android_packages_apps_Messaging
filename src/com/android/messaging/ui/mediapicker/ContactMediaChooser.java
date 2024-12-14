@@ -77,14 +77,10 @@ class ContactMediaChooser extends MediaChooser {
                         false /* attachToRoot */);
         mEnabledView = view.findViewById(R.id.mediapicker_enabled);
         mMissingPermissionView = view.findViewById(R.id.missing_permission_view);
-        mEnabledView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        // Launch an external picker to pick a contact as attachment.
-                        UIIntents.get().launchContactCardPicker(mMediaPicker);
-                    }
-                });
+        mEnabledView.setOnClickListener(v -> {
+            // Launch an external picker to pick a contact as attachment.
+            UIIntents.get().launchContactCardPicker(mMediaPicker);
+        });
         return view;
     }
 
@@ -128,14 +124,11 @@ class ContactMediaChooser extends MediaChooser {
                 }
                 final Uri vCardUri = Uri.withAppendedPath(Contacts.CONTENT_VCARD_URI, lookupKey);
                 if (vCardUri != null) {
-                    SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                        @Override
-                        public void run() {
-                            final PendingAttachmentData pendingItem =
-                                    PendingAttachmentData.createPendingAttachmentData(
-                                            ContentType.TEXT_X_VCARD.toLowerCase(), vCardUri);
-                            mMediaPicker.dispatchPendingItemAdded(pendingItem);
-                        }
+                    SafeAsyncTask.executeOnThreadPool(() -> {
+                        final PendingAttachmentData pendingItem =
+                                PendingAttachmentData.createPendingAttachmentData(
+                                        ContentType.TEXT_X_VCARD.toLowerCase(), vCardUri);
+                        mMediaPicker.dispatchPendingItemAdded(pendingItem);
                     });
                 }
             }
