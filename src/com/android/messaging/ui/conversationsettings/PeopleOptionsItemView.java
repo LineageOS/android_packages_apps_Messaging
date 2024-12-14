@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@ import android.database.Cursor;
 import androidx.appcompat.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -55,12 +55,7 @@ public class PeopleOptionsItemView extends LinearLayout {
     @Override
     protected void onFinishInflate () {
         mTitle = (TextView) findViewById(R.id.title);
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mHostInterface.onOptionsItemViewClicked(mData);
-            }
-        });
+        setOnClickListener(v -> mHostInterface.onOptionsItemViewClicked(mData));
     }
 
     public void bind(final Cursor cursor, final int columnIndex, ParticipantData otherParticipant,

@@ -445,13 +445,9 @@ public class MessagePartData implements Parcelable {
     public void destroyAsync() {
         final Uri contentUri = shouldDestroy();
         if (contentUri != null) {
-            SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                @Override
-                public void run() {
+            SafeAsyncTask.executeOnThreadPool(() ->
                     Factory.get().getApplicationContext().getContentResolver().delete(
-                            contentUri, null, null);
-                }
-            });
+                            contentUri, null, null));
         }
     }
 

@@ -134,12 +134,7 @@ public class MmsConfig {
      * Same as load() but doing it using an async thread from SafeAsyncTask thread pool.
      */
     public static void loadAsync() {
-        SafeAsyncTask.executeOnThreadPool(new Runnable() {
-            @Override
-            public void run() {
-                load();
-            }
-        });
+        SafeAsyncTask.executeOnThreadPool(MmsConfig::load);
     }
 
     /**

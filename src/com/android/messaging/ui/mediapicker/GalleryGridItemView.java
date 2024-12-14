@@ -92,12 +92,9 @@ public class GalleryGridItemView extends FrameLayout {
         mFileName = (TextView) findViewById(R.id.file_name);
         mFileType = (TextView) findViewById(R.id.file_type);
         setOnClickListener(mOnClickListener);
-        final OnLongClickListener longClickListener = new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View v) {
-                mHostInterface.onItemClicked(v, mData, true /* longClick */);
-                return true;
-            }
+        final OnLongClickListener longClickListener = v -> {
+            mHostInterface.onItemClicked(v, mData, true /* longClick */);
+            return true;
         };
         setOnLongClickListener(longClickListener);
         mCheckBox.setOnLongClickListener(longClickListener);

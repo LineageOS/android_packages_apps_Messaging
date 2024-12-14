@@ -57,12 +57,7 @@ public final class Assert {
 
     // This is called from FactoryImpl once the Gservices class is initialized.
     public static void initializeGservices (final BugleGservices gservices) {
-        gservices.registerForChanges(new Runnable() {
-            @Override
-            public void run() {
-                refreshGservices(gservices);
-            }
-        });
+        gservices.registerForChanges(() -> refreshGservices(gservices));
         refreshGservices(gservices);
     }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +37,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.android.messaging.R;
@@ -182,12 +182,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_light);
         mToolbar.setNavigationContentDescription(R.string.back);
-        mToolbar.setNavigationOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mHost.onBackButtonPressed();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> mHost.onBackButtonPressed());
 
         mToolbar.inflateMenu(R.menu.compose_menu);
         mToolbar.setOnMenuItemClickListener(this);
@@ -325,13 +320,10 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
 
         // showImeKeyboard() won't work until the layout is ready, so wait until layout is complete
         // before showing the soft keyboard.
-        UiUtils.doOnceAfterLayoutChange(mRootView, new Runnable() {
-            @Override
-            public void run() {
-                final Activity activity = getActivity();
-                if (activity != null) {
-                    ImeUtil.get().showImeKeyboard(activity, mRecipientTextView);
-                }
+        UiUtils.doOnceAfterLayoutChange(mRootView, () -> {
+            final Activity activity = getActivity();
+            if (activity != null) {
+                ImeUtil.get().showImeKeyboard(activity, mRecipientTextView);
             }
         });
         mRecipientTextView.invalidate();
@@ -541,19 +533,13 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
 
         mCustomHeaderViewPager.animate().alpha(show ? 1F : 0F)
             .setStartDelay(!show ? UiUtils.COMPOSE_TRANSITION_DURATION : 0)
-            .withStartAction(new Runnable() {
-                @Override
-                public void run() {
-                    mCustomHeaderViewPager.setVisibility(View.VISIBLE);
-                    mCustomHeaderViewPager.setAlpha(show ? 0F : 1F);
-                }
+            .withStartAction(() -> {
+                mCustomHeaderViewPager.setVisibility(View.VISIBLE);
+                mCustomHeaderViewPager.setAlpha(show ? 0F : 1F);
             })
-            .withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                    mCustomHeaderViewPager.setVisibility(show ? View.VISIBLE : View.GONE);
-                    mCustomHeaderViewPager.setAlpha(1F);
-                }
+            .withEndAction(() -> {
+                mCustomHeaderViewPager.setVisibility(show ? View.VISIBLE : View.GONE);
+                mCustomHeaderViewPager.setAlpha(1F);
             });
     }
 

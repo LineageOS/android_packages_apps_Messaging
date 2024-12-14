@@ -110,12 +110,9 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     private AnimatorSet mHideAnimation;
     private ObjectAnimator mHidePreviewAnimation;
 
-    private final Runnable mHideTrackRunnable = new Runnable() {
-        @Override
-        public void run() {
-            hide(true /* animate */);
-            mPendingHide = false;
-        }
+    private final Runnable mHideTrackRunnable = () -> {
+        hide(true /* animate */);
+        mPendingHide = false;
     };
 
     private ConversationFastScroller(RecyclerView rv, int position) {

@@ -303,24 +303,21 @@ public class ActionMonitor {
         }
         if (completedListener != null) {
             // Marshal to UI thread
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    ActionCompletedListener listener = null;
-                    synchronized (mLock) {
-                        if (mCompletedListener != null) {
-                            listener = mCompletedListener;
-                        }
-                        mCompletedListener = null;
+            mHandler.post(() -> {
+                ActionCompletedListener listener = null;
+                synchronized (mLock) {
+                    if (mCompletedListener != null) {
+                        listener = mCompletedListener;
                     }
-                    if (listener != null) {
-                        if (succeeded) {
-                            listener.onActionSucceeded(ActionMonitor.this,
-                                    action, mData, result);
-                        } else {
-                            listener.onActionFailed(ActionMonitor.this,
-                                    action, mData, result);
-                        }
+                    mCompletedListener = null;
+                }
+                if (listener != null) {
+                    if (succeeded) {
+                        listener.onActionSucceeded(ActionMonitor.this,
+                                action, mData, result);
+                    } else {
+                        listener.onActionFailed(ActionMonitor.this,
+                                action, mData, result);
                     }
                 }
             });
@@ -372,20 +369,17 @@ public class ActionMonitor {
         }
         if (executedListener != null) {
             // Marshal to UI thread
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    ActionExecutedListener listener = null;
-                    synchronized (mLock) {
-                        if (mExecutedListener != null) {
-                            listener = mExecutedListener;
-                            mExecutedListener = null;
-                        }
+            mHandler.post(() -> {
+                ActionExecutedListener listener = null;
+                synchronized (mLock) {
+                    if (mExecutedListener != null) {
+                        listener = mExecutedListener;
+                        mExecutedListener = null;
                     }
-                    if (listener != null) {
-                        listener.onActionExecuted(ActionMonitor.this,
-                                action, mData, result);
-                    }
+                }
+                if (listener != null) {
+                    listener.onActionExecuted(ActionMonitor.this,
+                            action, mData, result);
                 }
             });
         }

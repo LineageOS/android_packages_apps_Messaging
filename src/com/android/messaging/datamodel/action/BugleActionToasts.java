@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -117,22 +118,13 @@ public class BugleActionToasts {
     }
 
     private static void showToast(final int messageResId) {
-        ThreadUtil.getMainThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(),
-                        getApplicationContext().getString(messageResId), Toast.LENGTH_LONG).show();
-            }
-        });
+        ThreadUtil.getMainThreadHandler().post(() -> Toast.makeText(getApplicationContext(),
+                getApplicationContext().getString(messageResId), Toast.LENGTH_LONG).show());
     }
 
     private static void showToast(final String message) {
-        ThreadUtil.getMainThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
+        ThreadUtil.getMainThreadHandler().post(() ->
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show());
     }
 
     private static Context getApplicationContext() {

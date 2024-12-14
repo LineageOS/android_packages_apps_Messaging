@@ -18,7 +18,6 @@ package com.android.messaging.ui.mediapicker;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeAnimator;
-import android.animation.TimeAnimator.TimeListener;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -107,13 +106,7 @@ public class SoundLevels extends View {
         // which might improve things further.
         mSpeechLevelsAnimator = new TimeAnimator();
         mSpeechLevelsAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-        mSpeechLevelsAnimator.setTimeListener(new TimeListener() {
-            @Override
-            public void onTimeUpdate(final TimeAnimator animation, final long totalTime,
-                    final long deltaTime) {
-                invalidate();
-            }
-        });
+        mSpeechLevelsAnimator.setTimeListener((animation, totalTime, deltaTime) -> invalidate());
     }
 
     @Override

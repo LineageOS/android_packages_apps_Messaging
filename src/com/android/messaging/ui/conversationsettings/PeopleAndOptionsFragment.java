@@ -21,7 +21,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -156,14 +155,10 @@ public class PeopleAndOptionsFragment extends Fragment
                                 item.getOtherParticipant().getDisplayDestination()))
                         .setMessage(res.getString(R.string.block_confirmation_message))
                         .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok,
-                                new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                mBinding.getData().setDestinationBlocked(mBinding, true);
-                                activity.setResult(ConversationActivity.FINISH_RESULT_CODE);
-                                activity.finish();
-                            }
+                        .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
+                            mBinding.getData().setDestinationBlocked(mBinding, true);
+                            activity.setResult(ConversationActivity.FINISH_RESULT_CODE);
+                            activity.finish();
                         })
                         .create()
                         .show();

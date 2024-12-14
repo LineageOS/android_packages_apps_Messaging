@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -146,13 +147,9 @@ public class LevelTrackingMediaRecorder {
                             "media recorder. " + ex);
                     if (mOutputUri != null) {
                         final Uri outputUri = mOutputUri;
-                        SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                            @Override
-                            public void run() {
+                        SafeAsyncTask.executeOnThreadPool(() ->
                                 Factory.get().getApplicationContext().getContentResolver().delete(
-                                        outputUri, null, null);
-                            }
-                        });
+                                        outputUri, null, null));
                         mOutputUri = null;
                     }
                 } finally {
@@ -191,26 +188,23 @@ public class LevelTrackingMediaRecorder {
 
     private void startTrackingSoundLevel() {
         stopTrackingSoundLevel();
-        mRefreshLevelThread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        synchronized (LevelTrackingMediaRecorder.class) {
-                            if (mRecorder != null) {
-                                mLevelSource.setSpeechLevel(getAmplitude());
-                            } else {
-                                // The recording session is over, finish the thread.
-                                return;
-                            }
+        mRefreshLevelThread = new Thread(() -> {
+            try {
+                while (true) {
+                    synchronized (LevelTrackingMediaRecorder.class) {
+                        if (mRecorder != null) {
+                            mLevelSource.setSpeechLevel(getAmplitude());
+                        } else {
+                            // The recording session is over, finish the thread.
+                            return;
                         }
-                        Thread.sleep(REFRESH_INTERVAL_MILLIS);
                     }
-                } catch (final InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    Thread.sleep(REFRESH_INTERVAL_MILLIS);
                 }
+            } catch (final InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-        };
+        });
         mRefreshLevelThread.start();
     }
 
