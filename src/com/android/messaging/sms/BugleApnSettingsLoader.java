@@ -23,8 +23,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.Telephony;
-import androidx.appcompat.mms.ApnSettingsLoader;
-import androidx.appcompat.mms.MmsManager;
+import android.support.v7.mms.ApnSettingsLoader;
+import android.support.v7.mms.MmsManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
 

@@ -530,7 +530,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="androidx.appcompat.mms.MmsService"/>
+        <service android:name="android.support.v7.mms.MmsService"/>
     </application>
 
 </manifest>

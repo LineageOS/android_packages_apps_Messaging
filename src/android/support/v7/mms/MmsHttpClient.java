@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.appcompat.mms;
+package android.support.v7.mms;
 
 import android.content.Context;
 import android.os.Bundle;
