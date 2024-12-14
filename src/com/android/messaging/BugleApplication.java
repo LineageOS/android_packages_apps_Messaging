@@ -127,14 +127,10 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         MmsManager.setForceLegacyMms(!bugleGservices.getBoolean(
                 BugleGservicesKeys.USE_MMS_API_IF_PRESENT,
                 BugleGservicesKeys.USE_MMS_API_IF_PRESENT_DEFAULT));
-        bugleGservices.registerForChanges(new Runnable() {
-            @Override
-            public void run() {
-                MmsManager.setForceLegacyMms(!bugleGservices.getBoolean(
+        bugleGservices.registerForChanges(() -> MmsManager.setForceLegacyMms(
+                !bugleGservices.getBoolean(
                         BugleGservicesKeys.USE_MMS_API_IF_PRESENT,
-                        BugleGservicesKeys.USE_MMS_API_IF_PRESENT_DEFAULT));
-            }
-        });
+                        BugleGservicesKeys.USE_MMS_API_IF_PRESENT_DEFAULT)));
     }
 
     public static void updateAppConfig(final Context context) {
@@ -168,13 +164,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             LogUtil.e(TAG, "Uncaught exception in background thread " + thread, ex);
 
             final Handler handler = new Handler(getMainLooper());
-            handler.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    sSystemUncaughtExceptionHandler.uncaughtException(thread, ex);
-                }
-            });
+            handler.post(() -> sSystemUncaughtExceptionHandler.uncaughtException(thread, ex));
         } else {
             sSystemUncaughtExceptionHandler.uncaughtException(thread, ex);
         }
@@ -192,17 +182,13 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             final File file = DebugUtils.getDebugFile("startup.trace", true);
             if (file != null) {
                 android.os.Debug.startMethodTracing(file.getAbsolutePath(), 160 * 1024 * 1024);
-                new Handler(Looper.getMainLooper()).postDelayed(
-                       new Runnable() {
-                            @Override
-                            public void run() {
-                                android.os.Debug.stopMethodTracing();
-                                // Allow world to see trace file
-                                DebugUtils.ensureReadable(file);
-                                LogUtil.d(LogUtil.PROFILE_TAG, "Tracing complete - "
-                                     + file.getAbsolutePath());
-                            }
-                        }, 30000);
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    android.os.Debug.stopMethodTracing();
+                    // Allow world to see trace file
+                    DebugUtils.ensureReadable(file);
+                    LogUtil.d(LogUtil.PROFILE_TAG, "Tracing complete - "
+                            + file.getAbsolutePath());
+                }, 30000);
             }
         }
     }
@@ -219,13 +205,8 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
                 // Perform upgrade on application-wide prefs.
                 factory.getApplicationPrefs().onUpgrade(existingVersion, targetVersion);
                 // Perform upgrade on each subscription's prefs.
-                PhoneUtils.forEachActiveSubscription(new PhoneUtils.SubscriptionRunnable() {
-                    @Override
-                    public void runForSubscription(final int subId) {
-                        factory.getSubscriptionPrefs(subId)
-                                .onUpgrade(existingVersion, targetVersion);
-                    }
-                });
+                PhoneUtils.forEachActiveSubscription(subId -> factory.getSubscriptionPrefs(subId)
+                        .onUpgrade(existingVersion, targetVersion));
                 factory.getApplicationPrefs().putInt(BuglePrefsKeys.SHARED_PREFERENCES_VERSION,
                         targetVersion);
             } catch (final Exception ex) {

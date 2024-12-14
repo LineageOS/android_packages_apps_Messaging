@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +23,6 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnErrorListener;
-import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -106,32 +104,29 @@ public class AudioAttachmentView extends LinearLayout {
         mPlayPauseButton = (AudioAttachmentPlayPauseButton) findViewById(R.id.play_pause_button);
         mChronometer = (PausableChronometer) findViewById(R.id.timer);
         mProgressBar = (AudioPlaybackProgressBar) findViewById(R.id.progress);
-        mPlayPauseButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                // Has the MediaPlayer already been prepared?
-                if (mMediaPlayer != null && mPrepared) {
-                    if (mMediaPlayer.isPlaying()) {
-                        mMediaPlayer.pause();
-                        mChronometer.pause();
-                        mProgressBar.pause();
-                    } else {
-                        playAudio();
-                    }
+        mPlayPauseButton.setOnClickListener(v -> {
+            // Has the MediaPlayer already been prepared?
+            if (mMediaPlayer != null && mPrepared) {
+                if (mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.pause();
+                    mChronometer.pause();
+                    mProgressBar.pause();
                 } else {
-                    // Either eager preparation is still going on (the user must have clicked
-                    // the Play button immediately after the view is bound) or this is lazy
-                    // preparation.
-                    if (mStartPlayAfterPrepare) {
-                        // The user is (starting and) pausing before the MediaPlayer is prepared
-                        mStartPlayAfterPrepare = false;
-                    } else {
-                        mStartPlayAfterPrepare = true;
-                        setupMediaPlayer();
-                    }
+                    playAudio();
                 }
-                updatePlayPauseButtonState();
+            } else {
+                // Either eager preparation is still going on (the user must have clicked
+                // the Play button immediately after the view is bound) or this is lazy
+                // preparation.
+                if (mStartPlayAfterPrepare) {
+                    // The user is (starting and) pausing before the MediaPlayer is prepared
+                    mStartPlayAfterPrepare = false;
+                } else {
+                    mStartPlayAfterPrepare = true;
+                    setupMediaPlayer();
+                }
             }
+            updatePlayPauseButtonState();
         });
         updatePlayPauseButtonState();
         initializeViewsForMode();
@@ -217,45 +212,36 @@ public class AudioAttachmentView extends LinearLayout {
             try {
                 mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 mMediaPlayer.setDataSource(Factory.get().getApplicationContext(), mDataSourceUri);
-                mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
-                    @Override
-                    public void onCompletion(final MediaPlayer mp) {
-                        updatePlayPauseButtonState();
-                        mChronometer.reset();
-                        mChronometer.setBase(SystemClock.elapsedRealtime() -
-                                mMediaPlayer.getDuration());
-                        updateChronometerVisibility(false /* playing */);
-                        mProgressBar.reset();
+                mMediaPlayer.setOnCompletionListener(mp -> {
+                    updatePlayPauseButtonState();
+                    mChronometer.reset();
+                    mChronometer.setBase(SystemClock.elapsedRealtime() -
+                            mMediaPlayer.getDuration());
+                    updateChronometerVisibility(false /* playing */);
+                    mProgressBar.reset();
 
-                        mPlaybackFinished = true;
-                    }
+                    mPlaybackFinished = true;
                 });
 
-                mMediaPlayer.setOnPreparedListener(new OnPreparedListener() {
-                    @Override
-                    public void onPrepared(final MediaPlayer mp) {
-                        // Set base on the chronometer so we can show the full length of the audio.
-                        mChronometer.setBase(SystemClock.elapsedRealtime() -
-                                mMediaPlayer.getDuration());
-                        mProgressBar.setDuration(mMediaPlayer.getDuration());
-                        mMediaPlayer.seekTo(0);
-                        mPrepared = true;
+                mMediaPlayer.setOnPreparedListener(mp -> {
+                    // Set base on the chronometer so we can show the full length of the audio.
+                    mChronometer.setBase(SystemClock.elapsedRealtime() -
+                            mMediaPlayer.getDuration());
+                    mProgressBar.setDuration(mMediaPlayer.getDuration());
+                    mMediaPlayer.seekTo(0);
+                    mPrepared = true;
 
-                        if (mStartPlayAfterPrepare) {
-                            mStartPlayAfterPrepare = false;
-                            playAudio();
-                            updatePlayPauseButtonState();
-                        }
-                    }
-                });
-
-                mMediaPlayer.setOnErrorListener(new OnErrorListener() {
-                    @Override
-                    public boolean onError(final MediaPlayer mp, final int what, final int extra) {
+                    if (mStartPlayAfterPrepare) {
                         mStartPlayAfterPrepare = false;
-                        onAudioReplayError(what, extra, null);
-                        return true;
+                        playAudio();
+                        updatePlayPauseButtonState();
                     }
+                });
+
+                mMediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                    mStartPlayAfterPrepare = false;
+                    onAudioReplayError(what, extra, null);
+                    return true;
                 });
 
                 mMediaPlayer.prepareAsync();

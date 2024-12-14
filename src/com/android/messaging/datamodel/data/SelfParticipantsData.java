@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@ import android.database.Cursor;
 import androidx.collection.ArrayMap;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -61,15 +61,11 @@ public class SelfParticipantsData {
                 list.add(self);
             }
         }
-        Collections.sort(
-                list,
-                new Comparator() {
-                    public int compare(Object o1, Object o2) {
-                        int slotId1 = ((ParticipantData) o1).getSlotId();
-                        int slotId2 = ((ParticipantData) o2).getSlotId();
-                        return slotId1 > slotId2 ? 1 : -1;
-                    }
-                });
+        list.sort((Comparator) (o1, o2) -> {
+            int slotId1 = ((ParticipantData) o1).getSlotId();
+            int slotId2 = ((ParticipantData) o2).getSlotId();
+            return slotId1 > slotId2 ? 1 : -1;
+        });
         return list;
     }
 

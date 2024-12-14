@@ -82,25 +82,23 @@ class DownloadRequest extends MmsRequest {
         if (contentUri == null || pdu == null) {
             return false;
         }
-        final Callable<Boolean> copyDownloadedPduToOutput = new Callable<Boolean>() {
-            public Boolean call() {
-                ParcelFileDescriptor.AutoCloseOutputStream outStream = null;
-                try {
-                    final ContentResolver cr = context.getContentResolver();
-                    final ParcelFileDescriptor pduFd = cr.openFileDescriptor(contentUri, "w");
-                    outStream = new ParcelFileDescriptor.AutoCloseOutputStream(pduFd);
-                    outStream.write(pdu);
-                    return true;
-                } catch (IOException e) {
-                    Log.e(MmsService.TAG, "Writing PDU to downloader: IO exception", e);
-                    return false;
-                } finally {
-                    if (outStream != null) {
-                        try {
-                            outStream.close();
-                        } catch (IOException ex) {
-                            // Ignore
-                        }
+        final Callable<Boolean> copyDownloadedPduToOutput = () -> {
+            ParcelFileDescriptor.AutoCloseOutputStream outStream = null;
+            try {
+                final ContentResolver cr = context.getContentResolver();
+                final ParcelFileDescriptor pduFd = cr.openFileDescriptor(contentUri, "w");
+                outStream = new ParcelFileDescriptor.AutoCloseOutputStream(pduFd);
+                outStream.write(pdu);
+                return true;
+            } catch (IOException e) {
+                Log.e(MmsService.TAG, "Writing PDU to downloader: IO exception", e);
+                return false;
+            } finally {
+                if (outStream != null) {
+                    try {
+                        outStream.close();
+                    } catch (IOException ex) {
+                        // Ignore
                     }
                 }
             }

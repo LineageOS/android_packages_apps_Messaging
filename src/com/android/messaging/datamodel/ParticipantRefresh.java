@@ -96,20 +96,13 @@ public class ParticipantRefresh {
     private static volatile boolean sObserverInitialized = false;
     private static final Object sLock = new Object();
     private static final AtomicBoolean sFullRefreshScheduled = new AtomicBoolean(false);
-    private static final Runnable sFullRefreshRunnable = new Runnable() {
-        @Override
-        public void run() {
-            final boolean oldScheduled = sFullRefreshScheduled.getAndSet(false);
-            Assert.isTrue(oldScheduled);
-            refreshParticipants(REFRESH_MODE_FULL);
-        }
+    private static final Runnable sFullRefreshRunnable = () -> {
+        final boolean oldScheduled = sFullRefreshScheduled.getAndSet(false);
+        Assert.isTrue(oldScheduled);
+        refreshParticipants(REFRESH_MODE_FULL);
     };
-    private static final Runnable sSelfOnlyRefreshRunnable = new Runnable() {
-        @Override
-        public void run() {
+    private static final Runnable sSelfOnlyRefreshRunnable = () ->
             refreshParticipants(REFRESH_MODE_SELF_ONLY);
-        }
-    };
 
     /**
      * A customized content resolver to track contact changes.

@@ -125,12 +125,9 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
                 // is being sent, making sure we will have a self number for group mms.
                 mmsCategory.removePreference(mGroupMmsPreference);
             } else {
-                mGroupMmsPreference.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                    @Override
-                    public boolean onPreferenceClick(Preference pref) {
-                        GroupMmsSettingDialog.showDialog(getActivity(), mSubId);
-                        return true;
-                    }
+                mGroupMmsPreference.setOnPreferenceClickListener(pref -> {
+                    GroupMmsSettingDialog.showDialog(getActivity(), mSubId);
+                    return true;
                 });
                 updateGroupMmsPrefSummary();
             }

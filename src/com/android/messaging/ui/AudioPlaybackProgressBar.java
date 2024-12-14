@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +18,6 @@ package com.android.messaging.ui;
 
 import android.animation.ObjectAnimator;
 import android.animation.TimeAnimator;
-import android.animation.TimeAnimator.TimeListener;
 import android.content.Context;
 import android.graphics.drawable.ClipDrawable;
 import android.graphics.drawable.Drawable;
@@ -41,18 +41,14 @@ public class AudioPlaybackProgressBar extends ProgressBar implements PlaybackSta
 
         mUpdateAnimator = new TimeAnimator();
         mUpdateAnimator.setRepeatCount(ObjectAnimator.INFINITE);
-        mUpdateAnimator.setTimeListener(new TimeListener() {
-            @Override
-            public void onTimeUpdate(final TimeAnimator animation, final long totalTime,
-                    final long deltaTime) {
-                int progress = 0;
-                if (mDurationInMillis > 0) {
-                    progress = (int) (((mCumulativeTime + SystemClock.elapsedRealtime() -
-                            mCurrentPlayStartTime) * 1.0f / mDurationInMillis) * 100);
-                    progress = Math.max(Math.min(progress, 100), 0);
-                }
-                setProgress(progress);
+        mUpdateAnimator.setTimeListener((animation, totalTime, deltaTime) -> {
+            int progress = 0;
+            if (mDurationInMillis > 0) {
+                progress = (int) (((mCumulativeTime + SystemClock.elapsedRealtime() -
+                        mCurrentPlayStartTime) * 1.0f / mDurationInMillis) * 100);
+                progress = Math.max(Math.min(progress, 100), 0);
             }
+            setProgress(progress);
         });
         updateAppearance();
     }

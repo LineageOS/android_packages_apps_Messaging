@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2015 The Android Open Source Project        
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,30 +56,19 @@ public class AttachmentGridItemView extends FrameLayout {
         super.onFinishInflate();
         mAttachmentViewContainer = (FrameLayout) findViewById(R.id.attachment_container);
         mCheckBox = (CheckBox) findViewById(R.id.checkbox);
-        mCheckBox.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mHostInterface.onItemCheckedChanged(AttachmentGridItemView.this, mAttachmentData);
-            }
-        });
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mHostInterface.onItemClicked(AttachmentGridItemView.this, mAttachmentData);
-            }
-        });
-        addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                    int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                // Enlarge the clickable region for the checkbox.
-                final int touchAreaIncrease = getResources().getDimensionPixelOffset(
-                        R.dimen.attachment_grid_checkbox_area_increase);
-                final Rect region = new Rect();
-                mCheckBox.getHitRect(region);
-                region.inset(-touchAreaIncrease, -touchAreaIncrease);
-                setTouchDelegate(new TouchDelegate(region, mCheckBox));
-            }
+        mCheckBox.setOnClickListener(v -> mHostInterface.onItemCheckedChanged(
+                AttachmentGridItemView.this, mAttachmentData));
+        setOnClickListener(v -> mHostInterface.onItemClicked(AttachmentGridItemView.this,
+                mAttachmentData));
+        addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight,
+                                   oldBottom) -> {
+            // Enlarge the clickable region for the checkbox.
+            final int touchAreaIncrease = getResources().getDimensionPixelOffset(
+                    R.dimen.attachment_grid_checkbox_area_increase);
+            final Rect region = new Rect();
+            mCheckBox.getHitRect(region);
+            region.inset(-touchAreaIncrease, -touchAreaIncrease);
+            setTouchDelegate(new TouchDelegate(region, mCheckBox));
         });
     }
 

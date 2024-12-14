@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,12 +124,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     @Override
     protected void onFinishInflate() {
         mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
-        mContactIconView.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View view) {
-                ConversationMessageView.this.performLongClick();
-                return true;
-            }
+        mContactIconView.setOnLongClickListener(view -> {
+            ConversationMessageView.this.performLongClick();
+            return true;
         });
 
         mMessageAttachmentsView = (LinearLayout) findViewById(R.id.message_attachments);
@@ -1044,40 +1042,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     }
 
     // Sort photos in MultiAttachLayout in the same order as the ConversationImagePartsView
-    static final Comparator<MessagePartData> sImageComparator = new Comparator<MessagePartData>(){
-        @Override
-        public int compare(final MessagePartData x, final MessagePartData y) {
-            return x.getPartId().compareTo(y.getPartId());
-        }
-    };
+    static final Comparator<MessagePartData> sImageComparator =
+            Comparator.comparing(MessagePartData::getPartId);
 
-    static final Predicate<MessagePartData> sVideoFilter = new Predicate<MessagePartData>() {
-        @Override
-        public boolean apply(final MessagePartData part) {
-            return part.isVideo();
-        }
-    };
-
-    static final Predicate<MessagePartData> sAudioFilter = new Predicate<MessagePartData>() {
-        @Override
-        public boolean apply(final MessagePartData part) {
-            return part.isAudio();
-        }
-    };
-
-    static final Predicate<MessagePartData> sVCardFilter = new Predicate<MessagePartData>() {
-        @Override
-        public boolean apply(final MessagePartData part) {
-            return part.isVCard();
-        }
-    };
-
-    static final Predicate<MessagePartData> sImageFilter = new Predicate<MessagePartData>() {
-        @Override
-        public boolean apply(final MessagePartData part) {
-            return part.isImage();
-        }
-    };
+    static final Predicate<MessagePartData> sVideoFilter = MessagePartData::isVideo;
+    static final Predicate<MessagePartData> sAudioFilter = MessagePartData::isAudio;
+    static final Predicate<MessagePartData> sVCardFilter = MessagePartData::isVCard;
+    static final Predicate<MessagePartData> sImageFilter = MessagePartData::isImage;
 
     interface AttachmentViewBinder {
         void bindView(View view, MessagePartData attachment);

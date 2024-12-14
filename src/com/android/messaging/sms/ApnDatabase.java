@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -336,12 +337,8 @@ public class ApnDatabase extends SQLiteOpenHelper {
         final Resources r = sContext.getResources();
         final XmlResourceParser parser = r.getXml(R.xml.apns);
         final ApnsXmlProcessor processor = ApnsXmlProcessor.get(parser);
-        processor.setApnHandler(new ApnsXmlProcessor.ApnHandler() {
-            @Override
-            public void process(final ContentValues apnValues) {
-                db.insert(APN_TABLE, null/*nullColumnHack*/, apnValues);
-            }
-        });
+        processor.setApnHandler(apnValues -> db.insert(APN_TABLE, null/*nullColumnHack*/,
+                apnValues));
         try {
             processor.process();
         } catch (final Exception e) {
