@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.UserManager;
 import android.text.TextUtils;
 
@@ -68,13 +68,7 @@ public class BugleActivityUtil {
                     .setMessage(R.string.requires_sms_permissions_message)
                     .setCancelable(false)
                     .setNegativeButton(R.string.requires_sms_permissions_close_button,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog,
-                                        final int button) {
-                                    System.exit(0);
-                                }
-                            })
+                            (dialog, button) -> System.exit(0))
                     .show();
             return false;
         }

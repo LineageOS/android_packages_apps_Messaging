@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,23 +122,20 @@ public class AudioRecordView extends FrameLayout implements
         mHintTextView = (TextView) findViewById(R.id.hint_text);
         mTimerTextView = (PausableChronometer) findViewById(R.id.timer_text);
         mSoundLevels.setLevelSource(mMediaRecorder.getLevelSource());
-        mRecordButton.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(final View v, final MotionEvent event) {
-                final int action = event.getActionMasked();
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        onRecordButtonTouchDown();
+        mRecordButton.setOnTouchListener((v, event) -> {
+            final int action = event.getActionMasked();
+            switch (action) {
+                case MotionEvent.ACTION_DOWN:
+                    onRecordButtonTouchDown();
 
-                        // Don't let the record button handle the down event to let it fall through
-                        // so that we can handle it for the entire panel in onTouchEvent(). This is
-                        // done so that: 1) the user taps on the record button to start recording
-                        // 2) the entire panel owns the touch event so we'd keep recording even
-                        // if the user moves outside the button region.
-                        return false;
-                }
-                return false;
+                    // Don't let the record button handle the down event to let it fall through
+                    // so that we can handle it for the entire panel in onTouchEvent(). This is
+                    // done so that: 1) the user taps on the record button to start recording
+                    // 2) the entire panel owns the touch event so we'd keep recording even
+                    // if the user moves outside the button region.
+                    return false;
             }
+            return false;
         });
     }
 
@@ -242,18 +240,15 @@ public class AudioRecordView extends FrameLayout implements
     boolean onRecordButtonTouchDown() {
         if (!mMediaRecorder.isRecording() && mCurrentMode == MODE_IDLE) {
             setMode(MODE_STARTING);
-            playAudioStartSound(new OnCompletionListener() {
-                @Override
-                public void onCompletion() {
-                    // Double-check the current mode before recording since the user may have
-                    // lifted finger from the button before the beeping sound is played through.
-                    final int maxSize = MmsConfig.get(mHostInterface.getConversationSelfSubId())
-                            .getMaxMessageSize();
-                    if (mCurrentMode == MODE_STARTING &&
-                            mMediaRecorder.startRecording(AudioRecordView.this,
-                                    AudioRecordView.this, maxSize)) {
-                        setMode(MODE_RECORDING);
-                    }
+            playAudioStartSound(() -> {
+                // Double-check the current mode before recording since the user may have
+                // lifted finger from the button before the beeping sound is played through.
+                final int maxSize = MmsConfig.get(mHostInterface.getConversationSelfSubId())
+                        .getMaxMessageSize();
+                if (mCurrentMode == MODE_STARTING &&
+                        mMediaRecorder.startRecording(AudioRecordView.this,
+                                AudioRecordView.this, maxSize)) {
+                    setMode(MODE_RECORDING);
                 }
             });
             mAudioRecordStartTimeMillis = System.currentTimeMillis();
@@ -270,25 +265,17 @@ public class AudioRecordView extends FrameLayout implements
             // "tap+hold" to record audio.
             final Uri outputUri = stopRecording();
             if (outputUri != null) {
-                SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                    @Override
-                    public void run() {
+                SafeAsyncTask.executeOnThreadPool(() ->
                         Factory.get().getApplicationContext().getContentResolver().delete(
-                                outputUri, null, null);
-                    }
-                });
+                                outputUri, null, null));
             }
             setMode(MODE_IDLE);
             mHintTextView.setTypeface(null, Typeface.BOLD);
         } else if (isRecording()) {
             // Record for some extra time to ensure the ending part is saved.
             setMode(MODE_STOPPING);
-            ThreadUtil.getMainThreadHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    onFinishedRecording();
-                }
-            }, AUDIO_RECORD_ENDING_BUFFER_MILLIS);
+            ThreadUtil.getMainThreadHandler().postDelayed(this::onFinishedRecording,
+                    AUDIO_RECORD_ENDING_BUFFER_MILLIS);
         } else {
             setMode(MODE_IDLE);
         }

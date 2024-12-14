@@ -35,7 +35,6 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.OrientationEventListener;
 import android.view.Surface;
-import android.view.View;
 import android.view.WindowManager;
 
 import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageSubscriptionDataProvider;
@@ -268,18 +267,15 @@ class CameraManager implements FocusOverlayManager.Listener {
 
         if (preview != null) {
             Assert.isTrue(preview.isValid());
-            preview.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(final View view, final MotionEvent motionEvent) {
-                    if ((motionEvent.getActionMasked() & MotionEvent.ACTION_UP) ==
-                            MotionEvent.ACTION_UP) {
-                        mFocusOverlayManager.setPreviewSize(view.getWidth(), view.getHeight());
-                        mFocusOverlayManager.onSingleTapUp(
-                                (int) motionEvent.getX() + view.getLeft(),
-                                (int) motionEvent.getY() + view.getTop());
-                    }
-                    return true;
+            preview.setOnTouchListener((view, motionEvent) -> {
+                if ((motionEvent.getActionMasked() & MotionEvent.ACTION_UP) ==
+                        MotionEvent.ACTION_UP) {
+                    mFocusOverlayManager.setPreviewSize(view.getWidth(), view.getHeight());
+                    mFocusOverlayManager.onSingleTapUp(
+                            (int) motionEvent.getX() + view.getLeft(),
+                            (int) motionEvent.getY() + view.getTop());
                 }
+                return true;
             });
         }
         mCameraPreview = preview;
@@ -542,36 +538,33 @@ class CameraManager implements FocusOverlayManager.Listener {
             callback.onMediaFailed(null);
             return;
         }
-        final Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
-            @Override
-            public void onPictureTaken(final byte[] bytes, final Camera camera) {
-                mTakingPicture = false;
-                if (mCamera != camera) {
-                    // This may happen if the camera was changed between front/back while the
-                    // picture is being taken.
-                    callback.onMediaInfo(MediaCallback.MEDIA_CAMERA_CHANGED);
-                    return;
-                }
-
-                if (bytes == null) {
-                    callback.onMediaInfo(MediaCallback.MEDIA_NO_DATA);
-                    return;
-                }
-
-                final Camera.Size size = camera.getParameters().getPictureSize();
-                int width;
-                int height;
-                if (mRotation == 90 || mRotation == 270) {
-                    width = size.height;
-                    height = size.width;
-                } else {
-                    width = size.width;
-                    height = size.height;
-                }
-                new ImagePersistTask(
-                        width, height, heightPercent, bytes, mCameraPreview.getContext(), callback)
-                        .executeOnThreadPool();
+        final Camera.PictureCallback jpegCallback = (bytes, camera) -> {
+            mTakingPicture = false;
+            if (mCamera != camera) {
+                // This may happen if the camera was changed between front/back while the
+                // picture is being taken.
+                callback.onMediaInfo(MediaCallback.MEDIA_CAMERA_CHANGED);
+                return;
             }
+
+            if (bytes == null) {
+                callback.onMediaInfo(MediaCallback.MEDIA_NO_DATA);
+                return;
+            }
+
+            final Camera.Size size = camera.getParameters().getPictureSize();
+            int width;
+            int height;
+            if (mRotation == 90 || mRotation == 270) {
+                width = size.height;
+                height = size.width;
+            } else {
+                width = size.width;
+                height = size.height;
+            }
+            new ImagePersistTask(
+                    width, height, heightPercent, bytes, mCameraPreview.getContext(), callback)
+                    .executeOnThreadPool();
         };
 
         mTakingPicture = true;
@@ -757,12 +750,8 @@ class CameraManager implements FocusOverlayManager.Listener {
             mCamera.setParameters(params);
             mCameraPreview.startPreview(mCamera);
             mCamera.startPreview();
-            mCamera.setAutoFocusMoveCallback(new Camera.AutoFocusMoveCallback() {
-                @Override
-                public void onAutoFocusMoving(final boolean start, final Camera camera) {
-                    mFocusOverlayManager.onAutoFocusMoving(start);
-                }
-            });
+            mCamera.setAutoFocusMoveCallback((start, camera) ->
+                    mFocusOverlayManager.onAutoFocusMoving(start));
             mFocusOverlayManager.setParameters(mCamera.getParameters());
             mFocusOverlayManager.setMirror(mCameraInfo.facing == CameraInfo.CAMERA_FACING_BACK);
             mFocusOverlayManager.onPreviewStarted();
@@ -830,24 +819,17 @@ class CameraManager implements FocusOverlayManager.Listener {
             return;
         }
 
-        mMediaRecorder.setOnErrorListener(new MediaRecorder.OnErrorListener() {
-            @Override
-            public void onError(final MediaRecorder mediaRecorder, final int what,
-                    final int extra) {
-                if (mListener != null) {
-                    mListener.onCameraError(ERROR_RECORDING_VIDEO, null);
-                }
-                restoreRequestedOrientation();
+        mMediaRecorder.setOnErrorListener((mediaRecorder, what, extra) -> {
+            if (mListener != null) {
+                mListener.onCameraError(ERROR_RECORDING_VIDEO, null);
             }
+            restoreRequestedOrientation();
         });
 
-        mMediaRecorder.setOnInfoListener(new MediaRecorder.OnInfoListener() {
-            @Override
-            public void onInfo(final MediaRecorder mediaRecorder, final int what, final int extra) {
-                if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED ||
-                        what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED) {
-                    stopVideo();
-                }
+        mMediaRecorder.setOnInfoListener((mediaRecorder, what, extra) -> {
+            if (what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED ||
+                    what == MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED) {
+                stopVideo();
             }
         });
 
@@ -1094,12 +1076,8 @@ class CameraManager implements FocusOverlayManager.Listener {
         }
 
         try {
-            mCamera.autoFocus(new Camera.AutoFocusCallback() {
-                @Override
-                public void onAutoFocus(final boolean success, final Camera camera) {
-                    mFocusOverlayManager.onAutoFocus(success, false /* shutterDown */);
-                }
-            });
+            mCamera.autoFocus((success, camera) -> mFocusOverlayManager.onAutoFocus(success,
+                    false /* shutterDown */));
         } catch (final RuntimeException e) {
             LogUtil.e(TAG, "RuntimeException in CameraManager.autoFocus", e);
             // If autofocus fails, the camera should have called the callback with success=false,

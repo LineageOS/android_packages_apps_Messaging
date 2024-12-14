@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,12 +149,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
                 // widget dependent on ConversationListItemData. However, we have to update
                 // the widget regardless, even with those missing pieces. Here we update the
                 // widget again in the background.
-                SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                    @Override
-                    public void run() {
-                        rebuildWidget(context, appWidgetId);
-                    }
-                });
+                SafeAsyncTask.executeOnThreadPool(() -> rebuildWidget(context, appWidgetId));
             }
         }
 

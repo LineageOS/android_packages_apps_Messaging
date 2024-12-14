@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -552,12 +553,8 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
             return;
         }
         UpdateConversationArchiveStatusAction.archiveConversation(conversationId);
-        final Runnable undoRunnable = new Runnable() {
-            @Override
-            public void run() {
+        final Runnable undoRunnable = () ->
                 UpdateConversationArchiveStatusAction.unarchiveConversation(conversationId);
-            }
-        };
         final String message = getResources().getString(R.string.archived_toast_message, 1);
         UiUtils.showSnackBar(getContext(), getRootView(), message, undoRunnable,
                 SnackBar.Action.SNACK_BAR_UNDO,

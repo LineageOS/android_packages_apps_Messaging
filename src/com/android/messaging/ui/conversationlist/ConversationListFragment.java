@@ -35,7 +35,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewPropertyAnimator;
@@ -229,12 +228,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             mStartNewConversationButton.setVisibility(View.GONE);
         } else {
             mStartNewConversationButton.setVisibility(View.VISIBLE);
-            mStartNewConversationButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View clickView) {
-                    mHost.onCreateConversationClick();
-                }
-            });
+            mStartNewConversationButton.setOnClickListener(clickView ->
+                    mHost.onCreateConversationClick());
         }
         ViewCompat.setTransitionName(mStartNewConversationButton, BugleAnimationTags.TAG_FABICON);
 
@@ -415,12 +410,9 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     }
 
     public ViewPropertyAnimator showFab() {
-        return getNormalizedFabAnimator().translationX(0).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                // Re-enable clicks after the animation.
-                mStartNewConversationButton.setEnabled(true);
-            }
+        return getNormalizedFabAnimator().translationX(0).withEndAction(() -> {
+            // Re-enable clicks after the animation.
+            mStartNewConversationButton.setEnabled(true);
         });
     }
 

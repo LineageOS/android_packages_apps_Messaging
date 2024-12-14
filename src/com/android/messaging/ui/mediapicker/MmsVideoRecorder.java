@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -110,13 +111,9 @@ class MmsVideoRecorder extends MediaRecorder {
 
     void cleanupTempFile() {
         final Uri tempUri = mTempVideoUri;
-        SafeAsyncTask.executeOnThreadPool(new Runnable() {
-            @Override
-            public void run() {
+        SafeAsyncTask.executeOnThreadPool(() ->
                 Factory.get().getApplicationContext().getContentResolver().delete(
-                        tempUri, null, null);
-            }
-        });
+                        tempUri, null, null));
         mTempVideoUri = null;
     }
 

@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -168,22 +169,16 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
         if (mListener == null) {
             return;
         }
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (mListener != null && mBinding.isBound()) {
-                    mListener.onPersonClicked(mBinding.getData());
-                }
+        setOnClickListener(v -> {
+            if (mListener != null && mBinding.isBound()) {
+                mListener.onPersonClicked(mBinding.getData());
             }
         });
-        final OnLongClickListener onLongClickListener = new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mListener != null && mBinding.isBound()) {
-                    return mListener.onPersonLongClicked(mBinding.getData());
-                }
-                return false;
+        final OnLongClickListener onLongClickListener = v -> {
+            if (mListener != null && mBinding.isBound()) {
+                return mListener.onPersonLongClicked(mBinding.getData());
             }
+            return false;
         };
         setOnLongClickListener(onLongClickListener);
         mContactIconView.setOnLongClickListener(onLongClickListener);

@@ -23,7 +23,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnAttachStateChangeListener;
@@ -34,7 +33,6 @@ import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
-import android.widget.PopupWindow.OnDismissListener;
 
 import androidx.annotation.NonNull;
 
@@ -66,28 +64,15 @@ public class SnackBarManager {
         return sInstance;
     }
 
-    private final Runnable mDismissRunnable = new Runnable() {
-        @Override
-        public void run() {
-            dismiss();
-        }
+    private final Runnable mDismissRunnable = this::dismiss;
+
+    private final OnTouchListener mDismissOnTouchListener = (view, event) -> {
+        // Dismiss the {@link SnackBar} but don't consume the event.
+        dismiss();
+        return false;
     };
 
-    private final OnTouchListener mDismissOnTouchListener = new OnTouchListener() {
-        @Override
-        public boolean onTouch(final View view, final MotionEvent event) {
-            // Dismiss the {@link SnackBar} but don't consume the event.
-            dismiss();
-            return false;
-        }
-    };
-
-    private final SnackBarListener mDismissOnUserTapListener = new SnackBarListener() {
-        @Override
-        public void onActionClick() {
-            dismiss();
-        }
-    };
+    private final SnackBarListener mDismissOnUserTapListener = this::dismiss;
 
     private final OnAttachStateChangeListener mAttachStateChangeListener =
             new OnAttachStateChangeListener() {
@@ -184,20 +169,12 @@ public class SnackBarManager {
             // You'd expect PopupWindow.showAsDropDown to ensure the popup moves with the anchor
             // view, which it does for scrolling, but not layout changes, so we have to manually
             // update while the snackbar is showing
-            final OnGlobalLayoutListener listener = new OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
+            final OnGlobalLayoutListener listener = () ->
                     mPopupWindow.update(anchorView, 0, getRelativeOffset(snackBar),
                             anchorView.getWidth(), LayoutParams.WRAP_CONTENT);
-                }
-            };
             anchorView.getViewTreeObserver().addOnGlobalLayoutListener(listener);
-            mPopupWindow.setOnDismissListener(new OnDismissListener() {
-                @Override
-                public void onDismiss() {
-                    anchorView.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
-                }
-            });
+            mPopupWindow.setOnDismissListener(() ->
+                    anchorView.getViewTreeObserver().removeOnGlobalLayoutListener(listener));
             mPopupWindow.showAsDropDown(anchorView, 0, getRelativeOffset(snackBar));
         }
 
@@ -205,23 +182,20 @@ public class SnackBarManager {
 
         // Animate the toast bar into view.
         placeSnackBarOffScreen(snackBar);
-        animateSnackBarOnScreen(snackBar).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                mCurrentSnackBar.setEnabled(true);
-                makeCurrentSnackBarDismissibleOnTouch();
-                // Fire an accessibility event as needed
-                String snackBarText = snackBar.getMessageText();
-                if (!TextUtils.isEmpty(snackBarText) &&
-                        TextUtils.getTrimmedLength(snackBarText) > 0) {
-                    snackBarText = snackBarText.trim();
-                    final String snackBarActionText = snackBar.getActionLabel();
-                    if (!TextUtil.isAllWhitespace(snackBarActionText)) {
-                        snackBarText = Joiner.on(", ").join(snackBarText, snackBarActionText);
-                    }
-                    AccessibilityUtil.announceForAccessibilityCompat(snackBar.getSnackBarView(),
-                            null /*accessibilityManager*/, snackBarText);
+        animateSnackBarOnScreen(snackBar).withEndAction(() -> {
+            mCurrentSnackBar.setEnabled(true);
+            makeCurrentSnackBarDismissibleOnTouch();
+            // Fire an accessibility event as needed
+            String snackBarText = snackBar.getMessageText();
+            if (!TextUtils.isEmpty(snackBarText) &&
+                    TextUtils.getTrimmedLength(snackBarText) > 0) {
+                snackBarText = snackBarText.trim();
+                final String snackBarActionText = snackBar.getActionLabel();
+                if (!TextUtil.isAllWhitespace(snackBarActionText)) {
+                    snackBarText = Joiner.on(", ").join(snackBarText, snackBarActionText);
                 }
+                AccessibilityUtil.announceForAccessibilityCompat(snackBar.getSnackBarView(),
+                        null /*accessibilityManager*/, snackBarText);
             }
         });
 
@@ -249,28 +223,25 @@ public class SnackBarManager {
 
         // Animate the toast bar down.
         final View rootView = snackBar.getRootView();
-        animateSnackBarOffScreen(snackBar).withEndAction(new Runnable() {
-            @Override
-            public void run() {
-                rootView.setVisibility(View.GONE);
-                try {
-                    mPopupWindow.dismiss();
-                } catch (IllegalArgumentException e) {
-                    // PopupWindow.dismiss() will fire an IllegalArgumentException if the activity
-                    // has already ended while we were animating
-                }
-                snackBar.getParentView()
-                        .removeOnAttachStateChangeListener(mAttachStateChangeListener);
+        animateSnackBarOffScreen(snackBar).withEndAction(() -> {
+            rootView.setVisibility(View.GONE);
+            try {
+                mPopupWindow.dismiss();
+            } catch (IllegalArgumentException e) {
+                // PopupWindow.dismiss() will fire an IllegalArgumentException if the activity
+                // has already ended while we were animating
+            }
+            snackBar.getParentView()
+                    .removeOnAttachStateChangeListener(mAttachStateChangeListener);
 
-                mCurrentSnackBar = null;
-                mIsCurrentlyDismissing = false;
+            mCurrentSnackBar = null;
+            mIsCurrentlyDismissing = false;
 
-                // Show the next toast if one is waiting.
-                if (mNextSnackBar != null) {
-                    final SnackBar localNextSnackBar = mNextSnackBar;
-                    mNextSnackBar = null;
-                    show(localNextSnackBar);
-                }
+            // Show the next toast if one is waiting.
+            if (mNextSnackBar != null) {
+                final SnackBar localNextSnackBar = mNextSnackBar;
+                mNextSnackBar = null;
+                show(localNextSnackBar);
             }
         });
 

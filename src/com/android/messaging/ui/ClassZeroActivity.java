@@ -20,7 +20,6 @@ package com.android.messaging.ui;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
@@ -188,21 +187,15 @@ public class ClassZeroActivity extends Activity {
         }
     }
 
-    private final OnClickListener mCancelListener = new OnClickListener() {
-        @Override
-        public void onClick(final DialogInterface dialog, final int whichButton) {
-            dialog.dismiss();
-            processNextMessage();
-        }
+    private final OnClickListener mCancelListener = (dialog, whichButton) -> {
+        dialog.dismiss();
+        processNextMessage();
     };
 
-    private final OnClickListener mSaveListener = new OnClickListener() {
-        @Override
-        public void onClick(final DialogInterface dialog, final int whichButton) {
-            mRead = true;
-            saveMessage();
-            dialog.dismiss();
-            processNextMessage();
-        }
+    private final OnClickListener mSaveListener = (dialog, whichButton) -> {
+        mRead = true;
+        saveMessage();
+        dialog.dismiss();
+        processNextMessage();
     };
 }

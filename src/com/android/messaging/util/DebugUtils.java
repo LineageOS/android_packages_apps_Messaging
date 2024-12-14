@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -50,7 +49,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.StreamCorruptedException;
 
@@ -193,13 +191,7 @@ public class DebugUtils {
             }
         });
 
-        builder.setAdapter(arrayAdapter,
-                new android.content.DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface arg0, final int pos) {
-                arrayAdapter.getItem(pos).run();
-            }
-        });
+        builder.setAdapter(arrayAdapter, (arg0, pos) -> arrayAdapter.getItem(pos).run());
 
         builder.create().show();
     }
@@ -231,16 +223,11 @@ public class DebugUtils {
         @Override
         protected String[] doInBackgroundTimed(final Void... params) {
             final File dir = DebugUtils.getDebugFilesDir();
-            return dir.list(new FilenameFilter() {
-                @Override
-                public boolean accept(final File dir, final String filename) {
-                    return filename != null
-                            && ((mAction == DebugSmsMmsFromDumpFileDialogFragment.ACTION_EMAIL
-                            && filename.equals(DumpDatabaseAction.DUMP_NAME))
-                            || filename.startsWith(MmsUtils.MMS_DUMP_PREFIX)
-                            || filename.startsWith(MmsUtils.SMS_DUMP_PREFIX));
-                }
-            });
+            return dir.list((dir1, filename) -> filename != null
+                    && ((mAction == DebugSmsMmsFromDumpFileDialogFragment.ACTION_EMAIL
+                    && filename.equals(DumpDatabaseAction.DUMP_NAME))
+                    || filename.startsWith(MmsUtils.MMS_DUMP_PREFIX)
+                    || filename.startsWith(MmsUtils.SMS_DUMP_PREFIX)));
         }
     }
 

@@ -64,12 +64,7 @@ public class SimSelectorView extends FrameLayout implements SimSelectorItemView.
         mSimListView.setAdapter(mAdapter);
 
         // Clicking anywhere outside the switcher list should dismiss.
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showOrHide(false, true);
-            }
-        });
+        setOnClickListener(v -> showOrHide(false, true));
     }
 
     public void bind(final SubscriptionListData data) {
@@ -102,12 +97,9 @@ public class SimSelectorView extends FrameLayout implements SimSelectorItemView.
                 setAlpha(mShow ? 0.0f : 1.0f);
                 animate().alpha(mShow ? 1.0f : 0.0f)
                     .setDuration(UiUtils.REVEAL_ANIMATION_DURATION)
-                    .withEndAction(new Runnable() {
-                        @Override
-                        public void run() {
-                            setAlpha(1.0f);
-                            setVisibility(mShow ? VISIBLE : GONE);
-                        }
+                    .withEndAction(() -> {
+                        setAlpha(1.0f);
+                        setVisibility(mShow ? VISIBLE : GONE);
                     });
             } else {
                 setVisibility(mShow ? VISIBLE : GONE);

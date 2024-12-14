@@ -51,7 +51,6 @@ import com.android.messaging.datamodel.data.ConversationData.ConversationDataLis
 import com.android.messaging.datamodel.data.ConversationData.SimpleConversationDataListener;
 import com.android.messaging.datamodel.data.DraftMessageData;
 import com.android.messaging.datamodel.data.DraftMessageData.CheckDraftForSendTask;
-import com.android.messaging.datamodel.data.DraftMessageData.CheckDraftTaskCallback;
 import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageDataListener;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
@@ -197,20 +196,14 @@ public class ComposeMessageView extends LinearLayout
                 R.id.compose_message_text);
         mComposeEditText.setOnEditorActionListener(this);
         mComposeEditText.addTextChangedListener(this);
-        mComposeEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(final View v, final boolean hasFocus) {
-                if (v == mComposeEditText && hasFocus) {
-                    mHost.onComposeEditTextFocused();
-                }
+        mComposeEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            if (v == mComposeEditText && hasFocus) {
+                mHost.onComposeEditTextFocused();
             }
         });
-        mComposeEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (mHost.shouldHideAttachmentsWhenSimSelectorShown()) {
-                    hideSimSelector();
-                }
+        mComposeEditText.setOnClickListener(arg0 -> {
+            if (mHost.shouldHideAttachmentsWhenSimSelectorShown()) {
+                hideSimSelector();
             }
         });
 
@@ -221,26 +214,20 @@ public class ComposeMessageView extends LinearLayout
                         .getMaxTextLimit()) });
 
         mSelfSendIcon = (SimIconView) findViewById(R.id.self_send_icon);
-        mSelfSendIcon.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mSelfSendIcon.setOnClickListener(v -> {
+            boolean shown = mInputManager.toggleSimSelector(true /* animate */,
+                    getSelfSubscriptionListEntry());
+            hideAttachmentsWhenShowingSims(shown);
+        });
+        mSelfSendIcon.setOnLongClickListener(v -> {
+            if (mHost.shouldShowSubjectEditor()) {
+                showSubjectEditor();
+            } else {
                 boolean shown = mInputManager.toggleSimSelector(true /* animate */,
                         getSelfSubscriptionListEntry());
                 hideAttachmentsWhenShowingSims(shown);
             }
-        });
-        mSelfSendIcon.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View v) {
-                if (mHost.shouldShowSubjectEditor()) {
-                    showSubjectEditor();
-                } else {
-                    boolean shown = mInputManager.toggleSimSelector(true /* animate */,
-                            getSelfSubscriptionListEntry());
-                    hideAttachmentsWhenShowingSims(shown);
-                }
-                return true;
-            }
+            return true;
         });
 
         mComposeSubjectText = (PlainTextEditText) findViewById(
@@ -255,35 +242,25 @@ public class ComposeMessageView extends LinearLayout
                         .getMaxSubjectLength())});
 
         mDeleteSubjectButton = (ImageButton) findViewById(R.id.delete_subject_button);
-        mDeleteSubjectButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View clickView) {
-                hideSubjectEditor();
-                mComposeSubjectText.setText(null);
-                mBinding.getData().setMessageSubject(null);
-            }
+        mDeleteSubjectButton.setOnClickListener(clickView -> {
+            hideSubjectEditor();
+            mComposeSubjectText.setText(null);
+            mBinding.getData().setMessageSubject(null);
         });
 
         mSubjectView = findViewById(R.id.subject_view);
 
         mSendButton = (ImageButton) findViewById(R.id.send_message_button);
-        mSendButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View clickView) {
-                sendMessageInternal(true /* checkMessageSize */);
+        mSendButton.setOnClickListener(clickView ->
+                sendMessageInternal(true /* checkMessageSize */));
+        mSendButton.setOnLongClickListener(arg0 -> {
+            boolean shown = mInputManager.toggleSimSelector(true /* animate */,
+                    getSelfSubscriptionListEntry());
+            hideAttachmentsWhenShowingSims(shown);
+            if (mHost.shouldShowSubjectEditor()) {
+                showSubjectEditor();
             }
-        });
-        mSendButton.setOnLongClickListener(new OnLongClickListener() {
-            @Override
-            public boolean onLongClick(final View arg0) {
-                boolean shown = mInputManager.toggleSimSelector(true /* animate */,
-                        getSelfSubscriptionListEntry());
-                hideAttachmentsWhenShowingSims(shown);
-                if (mHost.shouldShowSubjectEditor()) {
-                    showSubjectEditor();
-                }
-                return true;
-            }
+            return true;
         });
         mSendButton.setAccessibilityDelegate(new AccessibilityDelegate() {
             @Override
@@ -306,12 +283,9 @@ public class ComposeMessageView extends LinearLayout
 
         mAttachMediaButton =
                 (ImageButton) findViewById(R.id.attach_media_button);
-        mAttachMediaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View clickView) {
-                // Showing the media picker is treated as starting to compose the message.
-                mInputManager.showHideMediaPicker(true /* show */, true /* animate */);
-            }
+        mAttachMediaButton.setOnClickListener(clickView -> {
+            // Showing the media picker is treated as starting to compose the message.
+            mInputManager.showHideMediaPicker(true /* show */, true /* animate */);
         });
 
         mAttachmentPreview = (AttachmentPreview) findViewById(R.id.attachment_draft_view);
@@ -394,69 +368,60 @@ public class ComposeMessageView extends LinearLayout
             mBinding.getData().setMessageSubject(subject);
             // Asynchronously check the draft against various requirements before sending.
             mBinding.getData().checkDraftForAction(checkMessageSize,
-                    mHost.getConversationSelfSubId(), new CheckDraftTaskCallback() {
-                @Override
-                public void onDraftChecked(DraftMessageData data, int result) {
-                    mBinding.ensureBound(data);
-                    switch (result) {
-                        case CheckDraftForSendTask.RESULT_PASSED:
-                            // Continue sending after check succeeded.
-                            final MessageData message = mBinding.getData()
-                                    .prepareMessageForSending(mBinding);
-                            if (message != null && message.hasContent()) {
-                                playSentSound();
-                                mHost.sendMessage(message);
-                                hideSubjectEditor();
-                                if (AccessibilityUtil.isTouchExplorationEnabled(getContext())) {
-                                    AccessibilityUtil.announceForAccessibilityCompat(
-                                            ComposeMessageView.this, null,
-                                            R.string.sending_message);
+                    mHost.getConversationSelfSubId(), (data, result) -> {
+                        mBinding.ensureBound(data);
+                        switch (result) {
+                            case CheckDraftForSendTask.RESULT_PASSED:
+                                // Continue sending after check succeeded.
+                                final MessageData message = mBinding.getData()
+                                        .prepareMessageForSending(mBinding);
+                                if (message != null && message.hasContent()) {
+                                    playSentSound();
+                                    mHost.sendMessage(message);
+                                    hideSubjectEditor();
+                                    if (AccessibilityUtil.isTouchExplorationEnabled(getContext())) {
+                                        AccessibilityUtil.announceForAccessibilityCompat(
+                                                ComposeMessageView.this, null,
+                                                R.string.sending_message);
+                                    }
                                 }
-                            }
-                            break;
+                                break;
 
-                        case CheckDraftForSendTask.RESULT_HAS_PENDING_ATTACHMENTS:
-                            // Cannot send while there's still attachment(s) being loaded.
-                            UiUtils.showToastAtBottom(
-                                    R.string.cant_send_message_while_loading_attachments);
-                            break;
+                            case CheckDraftForSendTask.RESULT_HAS_PENDING_ATTACHMENTS:
+                                // Cannot send while there's still attachment(s) being loaded.
+                                UiUtils.showToastAtBottom(
+                                        R.string.cant_send_message_while_loading_attachments);
+                                break;
 
-                        case CheckDraftForSendTask.RESULT_NO_SELF_PHONE_NUMBER_IN_GROUP_MMS:
-                            mHost.promptForSelfPhoneNumber();
-                            break;
+                            case CheckDraftForSendTask.RESULT_NO_SELF_PHONE_NUMBER_IN_GROUP_MMS:
+                                mHost.promptForSelfPhoneNumber();
+                                break;
 
-                        case CheckDraftForSendTask.RESULT_MESSAGE_OVER_LIMIT:
-                            Assert.isTrue(checkMessageSize);
-                            mHost.warnOfExceedingMessageLimit(
-                                    true /*sending*/, false /* tooManyVideos */);
-                            break;
+                            case CheckDraftForSendTask.RESULT_MESSAGE_OVER_LIMIT:
+                                Assert.isTrue(checkMessageSize);
+                                mHost.warnOfExceedingMessageLimit(
+                                        true /*sending*/, false /* tooManyVideos */);
+                                break;
 
-                        case CheckDraftForSendTask.RESULT_VIDEO_ATTACHMENT_LIMIT_EXCEEDED:
-                            Assert.isTrue(checkMessageSize);
-                            mHost.warnOfExceedingMessageLimit(
-                                    true /*sending*/, true /* tooManyVideos */);
-                            break;
+                            case CheckDraftForSendTask.RESULT_VIDEO_ATTACHMENT_LIMIT_EXCEEDED:
+                                Assert.isTrue(checkMessageSize);
+                                mHost.warnOfExceedingMessageLimit(
+                                        true /*sending*/, true /* tooManyVideos */);
+                                break;
 
-                        case CheckDraftForSendTask.RESULT_SIM_NOT_READY:
-                            // Cannot send if there is no active subscription
-                            UiUtils.showToastAtBottom(
-                                    R.string.cant_send_message_without_active_subscription);
-                            break;
+                            case CheckDraftForSendTask.RESULT_SIM_NOT_READY:
+                                // Cannot send if there is no active subscription
+                                UiUtils.showToastAtBottom(
+                                        R.string.cant_send_message_without_active_subscription);
+                                break;
 
-                        default:
-                            break;
-                    }
-                }
-            }, mBinding);
-        } else {
-            mHost.warnOfMissingActionConditions(true /*sending*/,
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            sendMessageInternal(checkMessageSize);
+                            default:
+                                break;
                         }
-
-            });
+                    }, mBinding);
+        } else {
+            mHost.warnOfMissingActionConditions(true /*sending*/, () ->
+                    sendMessageInternal(checkMessageSize));
         }
     }
 

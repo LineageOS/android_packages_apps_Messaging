@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +25,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
@@ -93,12 +93,7 @@ abstract class MediaChooser extends BasePagerViewHolder
         mTabButton.setContentDescription(
                 inflater.getContext().getResources().getString(getIconDescriptionResource()));
         setSelected(mSelected);
-        mTabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                mMediaPicker.selectChooser(MediaChooser.this);
-            }
-        });
+        mTabButton.setOnClickListener(view -> mMediaPicker.selectChooser(MediaChooser.this));
     }
 
     protected Context getContext() {

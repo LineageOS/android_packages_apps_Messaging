@@ -27,7 +27,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -155,24 +154,21 @@ public class SettingsActivity extends BugleActionBarActivity {
                 } else {
                     subtitleTextView.setVisibility(View.GONE);
                 }
-                itemView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        switch (item.getType()) {
-                            case SettingsItem.TYPE_GENERAL_SETTINGS:
-                                UIIntents.get().launchApplicationSettingsActivity(getActivity(),
-                                        false /* topLevel */);
-                                break;
+                itemView.setOnClickListener(view -> {
+                    switch (item.getType()) {
+                        case SettingsItem.TYPE_GENERAL_SETTINGS:
+                            UIIntents.get().launchApplicationSettingsActivity(getActivity(),
+                                    false /* topLevel */);
+                            break;
 
-                            case SettingsItem.TYPE_PER_SUBSCRIPTION_SETTINGS:
-                                UIIntents.get().launchPerSubscriptionSettingsActivity(getActivity(),
-                                        item.getSubId(), item.getActivityTitle());
-                                break;
+                        case SettingsItem.TYPE_PER_SUBSCRIPTION_SETTINGS:
+                            UIIntents.get().launchPerSubscriptionSettingsActivity(getActivity(),
+                                    item.getSubId(), item.getActivityTitle());
+                            break;
 
-                            default:
-                                Assert.fail("unrecognized setting type!");
-                                break;
-                        }
+                        default:
+                            Assert.fail("unrecognized setting type!");
+                            break;
                     }
                 });
                 return itemView;
