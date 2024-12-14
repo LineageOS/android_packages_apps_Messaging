@@ -87,39 +87,9 @@
         <item quantity="other"><xliff:g id="count">%d</xliff:g> days</item>
     </plurals>
 
-    <!--
-        Plurals used for the duration in free sms storage action and confirm strings above
-        Example: "Delete messages older than a week"
-    -->
-    <plurals name="week_count">
-        <!-- Singular case -->
-        <item quantity="one">a week</item>
-        <!-- Plural case -->
-        <item quantity="other"><xliff:g id="count">%d</xliff:g> weeks</item>
-    </plurals>
-    <plurals name="month_count">
-        <!-- Singular case -->
-        <item quantity="one">a month</item>
-        <!-- Plural case -->
-        <item quantity="other"><xliff:g id="count">%d</xliff:g> months</item>
-    </plurals>
-    <plurals name="year_count">
-        <!-- Singular case -->
-        <item quantity="one">a year</item>
-        <!-- Plural case -->
-        <item quantity="other"><xliff:g id="count">%d</xliff:g> years</item>
-    </plurals>
-
     <!-- Title of the class-0 message activity. -->
     <string name="class_0_message_activity">Class 0 message</string>
     <string name="save">Save</string>
-
-    <!-- Title for SMS storage low notification and dialog. Must match the framework's notification title, i.e. //frameworks/base/core/res/res/values/strings.xml#low_internal_storage_view_title -->
-    <string name="sms_storage_low_title">Storage space running out</string>
-    <!-- Text for SMS storage low notification and dialog -->
-    <string name="sms_storage_low_text">Messaging might not send or receive messages until more space is available on your device.</string>
-    <!-- Ticker for SMS storage low notification -->
-    <string name="sms_storage_low_notification_ticker">Low SMS storage. You may need to delete messages.</string>
 
     <!-- Title for asking the user to enter their phone number -->
     <string name="enter_phone_number_title">Confirm your phone number</string>
@@ -127,16 +97,6 @@
     <string name="enter_phone_number_text">This one-time step will ensure Messaging will deliver your group messages properly.</string>
     <!-- EditText hint for asking the user to enter their phone number -->
     <string name="enter_phone_number_hint">Phone number</string>
-
-    <!-- Free SMS storage actions -->
-    <string name="delete_all_media">Delete all messages with media</string>
-    <string name="delete_oldest_messages">Delete messages older than <xliff:g id="duration">%s</xliff:g></string>
-    <string name="ignore">Ignore</string>
-
-    <!-- Free SMS storage action confirm dialog message -->
-    <string name="delete_all_media_confirmation">Delete all messages with media?</string>
-    <string name="delete_oldest_messages_confirmation">Delete messages older than <xliff:g id="duration">%s</xliff:g>?</string>
-    <string name="auto_delete_oldest_messages_confirmation">Delete messages older than <xliff:g id="duration">%s</xliff:g> and turn on auto-delete?</string>
 
     <!-- ####### Strings to support the mms/sms service ####### -->
 
