@@ -552,12 +552,8 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
             return;
         }
         UpdateConversationArchiveStatusAction.archiveConversation(conversationId);
-        final Runnable undoRunnable = new Runnable() {
-            @Override
-            public void run() {
+        final Runnable undoRunnable = () ->
                 UpdateConversationArchiveStatusAction.unarchiveConversation(conversationId);
-            }
-        };
         final String message = getResources().getString(R.string.archived_toast_message, 1);
         UiUtils.showSnackBar(getContext(), getRootView(), message, undoRunnable,
                 SnackBar.Action.SNACK_BAR_UNDO,
