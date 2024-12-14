@@ -250,12 +250,7 @@ public class MediaPickerPanel extends ViewGroup {
         }
         mFullScreen = false;
         mExpanded = expanded;
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                setDesiredHeight(getDesiredHeight(), animate);
-            }
-        });
+        mHandler.post(() -> setDesiredHeight(getDesiredHeight(), animate));
         if (expanded) {
             setupViewPager(startingPage);
             mMediaPicker.dispatchOpened();
