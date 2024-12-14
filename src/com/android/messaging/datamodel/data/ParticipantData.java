@@ -25,7 +25,7 @@ import android.os.Parcelable;
 import android.telephony.SubscriptionInfo;
 import android.text.TextUtils;
 
-import androidx.appcompat.mms.MmsManager;
+import android.support.v7.mms.MmsManager;
 import androidx.collection.ArrayMap;
 
 import com.android.ex.chips.RecipientEntry;

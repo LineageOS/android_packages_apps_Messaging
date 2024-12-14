@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.appcompat.mms;
+package android.support.v7.mms;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -25,10 +25,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import androidx.appcompat.mms.pdu.GenericPdu;
-import androidx.appcompat.mms.pdu.PduHeaders;
-import androidx.appcompat.mms.pdu.PduParser;
-import androidx.appcompat.mms.pdu.SendConf;
+import android.support.v7.mms.pdu.GenericPdu;
+import android.support.v7.mms.pdu.PduHeaders;
+import android.support.v7.mms.pdu.PduParser;
+import android.support.v7.mms.pdu.SendConf;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 import android.util.Log;
