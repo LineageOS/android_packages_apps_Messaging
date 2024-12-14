@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +24,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 import android.provider.Telephony;
-import androidx.appcompat.mms.ApnSettingsLoader;
-import androidx.appcompat.mms.MmsManager;
+import android.support.v7.mms.ApnSettingsLoader;
+import android.support.v7.mms.MmsManager;
 import android.text.TextUtils;
 import android.util.SparseArray;
 

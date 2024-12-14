@@ -29,10 +29,10 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.support.v7.mms.MmsManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import androidx.appcompat.mms.MmsManager;
 import androidx.core.app.NavUtils;
 
 import com.android.messaging.Factory;
