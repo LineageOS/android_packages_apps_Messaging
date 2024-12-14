@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package androidx.appcompat.mms.pdu;
+package android.support.v7.mms.pdu;
 
 /**
  * M-NofifyResp.ind PDU.
