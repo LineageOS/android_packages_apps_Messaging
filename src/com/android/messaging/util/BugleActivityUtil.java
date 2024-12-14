@@ -20,7 +20,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.UserManager;
 import android.text.TextUtils;
 
@@ -68,13 +67,7 @@ public class BugleActivityUtil {
                     .setMessage(R.string.requires_sms_permissions_message)
                     .setCancelable(false)
                     .setNegativeButton(R.string.requires_sms_permissions_close_button,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(final DialogInterface dialog,
-                                        final int button) {
-                                    System.exit(0);
-                                }
-                            })
+                            (dialog, button) -> System.exit(0))
                     .show();
             return false;
         }

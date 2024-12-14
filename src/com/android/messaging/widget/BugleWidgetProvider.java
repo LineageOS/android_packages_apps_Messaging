@@ -42,12 +42,7 @@ public class BugleWidgetProvider extends BaseWidgetProvider {
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
         if (OsUtil.hasRequiredPermissions()) {
-            SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                @Override
-                public void run() {
-                    rebuildWidget(context, appWidgetId);
-                }
-            });
+            SafeAsyncTask.executeOnThreadPool(() -> rebuildWidget(context, appWidgetId));
         } else {
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                     UiUtils.getWidgetMissingPermissionView(context));
