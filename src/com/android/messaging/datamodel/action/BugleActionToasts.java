@@ -117,22 +117,13 @@ public class BugleActionToasts {
     }
 
     private static void showToast(final int messageResId) {
-        ThreadUtil.getMainThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(),
-                        getApplicationContext().getString(messageResId), Toast.LENGTH_LONG).show();
-            }
-        });
+        ThreadUtil.getMainThreadHandler().post(() -> Toast.makeText(getApplicationContext(),
+                getApplicationContext().getString(messageResId), Toast.LENGTH_LONG).show());
     }
 
     private static void showToast(final String message) {
-        ThreadUtil.getMainThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-            }
-        });
+        ThreadUtil.getMainThreadHandler().post(() ->
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show());
     }
 
     private static Context getApplicationContext() {
