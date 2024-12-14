@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,15 +96,12 @@ public class VideoThumbnailView extends FrameLayout {
             mVideoView.clearFocus();
             addView(mVideoView, 0, new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(final MediaPlayer mediaPlayer) {
-                    mVideoLoaded = true;
-                    mVideoWidth = mediaPlayer.getVideoWidth();
-                    mVideoHeight = mediaPlayer.getVideoHeight();
-                    mediaPlayer.setLooping(loop);
-                    trySwitchToVideo();
-                }
+            mVideoView.setOnPreparedListener(mediaPlayer -> {
+                mVideoLoaded = true;
+                mVideoWidth = mediaPlayer.getVideoWidth();
+                mVideoHeight = mediaPlayer.getVideoHeight();
+                mediaPlayer.setLooping(loop);
+                trySwitchToVideo();
             });
             mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -111,12 +109,7 @@ public class VideoThumbnailView extends FrameLayout {
                     mPlayButton.setVisibility(View.VISIBLE);
                 }
             });
-            mVideoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                @Override
-                public boolean onError(final MediaPlayer mediaPlayer, final int i, final int i2) {
-                    return true;
-                }
-            });
+            mVideoView.setOnErrorListener((mediaPlayer, i, i2) -> true);
         } else {
             mVideoView = null;
         }
@@ -125,28 +118,22 @@ public class VideoThumbnailView extends FrameLayout {
         if (loop) {
             mPlayButton.setVisibility(View.GONE);
         } else {
-            mPlayButton.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(final View view) {
-                    if (mVideoSource == null) {
-                        return;
-                    }
+            mPlayButton.setOnClickListener(view -> {
+                if (mVideoSource == null) {
+                    return;
+                }
 
-                    if (mMode == MODE_PLAYABLE_VIDEO) {
-                        mVideoView.seekTo(0);
-                        start();
-                    } else {
-                        UIIntents.get().launchFullScreenVideoViewer(getContext(), mVideoSource);
-                    }
+                if (mMode == MODE_PLAYABLE_VIDEO) {
+                    mVideoView.seekTo(0);
+                    start();
+                } else {
+                    UIIntents.get().launchFullScreenVideoViewer(getContext(), mVideoSource);
                 }
             });
-            mPlayButton.setOnLongClickListener(new OnLongClickListener() {
-                @Override
-                public boolean onLongClick(final View view) {
-                    // Button prevents long click from propagating up, do it manually
-                    VideoThumbnailView.this.performLongClick();
-                    return true;
-                }
+            mPlayButton.setOnLongClickListener(view -> {
+                // Button prevents long click from propagating up, do it manually
+                VideoThumbnailView.this.performLongClick();
+                return true;
             });
         }
 

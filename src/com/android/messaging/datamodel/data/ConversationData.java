@@ -627,21 +627,18 @@ public class ConversationData extends BindableData {
         }
 
         if (ContactUtil.hasReadContactsPermission()) {
-            SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                @Override
-                public void run() {
-                    final DataUsageStatUpdater updater = new DataUsageStatUpdater(
-                            Factory.get().getApplicationContext());
-                    try {
-                        if (!phones.isEmpty()) {
-                            updater.updateWithPhoneNumber(phones);
-                        }
-                        if (!emails.isEmpty()) {
-                            updater.updateWithAddress(emails);
-                        }
-                    } catch (final SQLiteFullException ex) {
-                        LogUtil.w(TAG, "Unable to update contact", ex);
+            SafeAsyncTask.executeOnThreadPool(() -> {
+                final DataUsageStatUpdater updater = new DataUsageStatUpdater(
+                        Factory.get().getApplicationContext());
+                try {
+                    if (!phones.isEmpty()) {
+                        updater.updateWithPhoneNumber(phones);
                     }
+                    if (!emails.isEmpty()) {
+                        updater.updateWithAddress(emails);
+                    }
+                } catch (final SQLiteFullException ex) {
+                    LogUtil.w(TAG, "Unable to update contact", ex);
                 }
             });
         }

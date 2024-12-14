@@ -95,21 +95,18 @@ class DefaultCarrierConfigValuesLoader implements CarrierConfigValuesLoader {
         XmlResourceParser xml = null;
         try {
             xml = subContext.getResources().getXml(R.xml.mms_config);
-            new CarrierConfigXmlParser(xml, new CarrierConfigXmlParser.KeyValueProcessor() {
-                @Override
-                public void process(String type, String key, String value) {
-                    try {
-                        if (KEY_TYPE_INT.equals(type)) {
-                            values.putInt(key, Integer.parseInt(value));
-                        } else if (KEY_TYPE_BOOL.equals(type)) {
-                            values.putBoolean(key, Boolean.parseBoolean(value));
-                        } else if (KEY_TYPE_STRING.equals(type)) {
-                            values.putString(key, value);
-                        }
-                    } catch (final NumberFormatException e) {
-                        Log.w(MmsService.TAG, "Load carrier value from resources: "
-                                + "invalid " + key + "," + value + "," + type);
+            new CarrierConfigXmlParser(xml, (type, key, value) -> {
+                try {
+                    if (KEY_TYPE_INT.equals(type)) {
+                        values.putInt(key, Integer.parseInt(value));
+                    } else if (KEY_TYPE_BOOL.equals(type)) {
+                        values.putBoolean(key, Boolean.parseBoolean(value));
+                    } else if (KEY_TYPE_STRING.equals(type)) {
+                        values.putString(key, value);
                     }
+                } catch (final NumberFormatException e) {
+                    Log.w(MmsService.TAG, "Load carrier value from resources: "
+                            + "invalid " + key + "," + value + "," + type);
                 }
             }).parse();
         } catch (final Resources.NotFoundException e) {

@@ -28,10 +28,6 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -420,19 +416,13 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         mAdapter = new ConversationMessageAdapter(getActivity(), null, this,
                 null,
                 // Sets the item click listener on the Recycler item views.
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        final ConversationMessageView messageView = (ConversationMessageView) v;
-                        handleMessageClick(messageView);
-                    }
+                v -> {
+                    final ConversationMessageView messageView = (ConversationMessageView) v;
+                    handleMessageClick(messageView);
                 },
-                new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(final View view) {
-                        selectMessage((ConversationMessageView) view);
-                        return true;
-                    }
+                view -> {
+                    selectMessage((ConversationMessageView) view);
+                    return true;
                 }
         );
     }
@@ -555,23 +545,17 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
                     view.setAlpha(0);
                     mPopupTransitionAnimation = new PopupTransitionAnimation(startRect, view);
-                    mPopupTransitionAnimation.setOnStartCallback(new Runnable() {
-                            @Override
-                            public void run() {
-                                final int startWidth = composeBubbleRect.width();
-                                attachmentView.onMessageAnimationStart();
-                                messageBubble.kickOffMorphAnimation(startWidth,
-                                        messageBubble.findViewById(R.id.message_text_and_info)
-                                        .getMeasuredWidth());
-                            }
-                        });
-                    mPopupTransitionAnimation.setOnStopCallback(new Runnable() {
-                            @Override
-                            public void run() {
-                                view.setAlpha(1);
-                                dispatchAddFinished(holder);
-                            }
-                        });
+                    mPopupTransitionAnimation.setOnStartCallback(() -> {
+                        final int startWidth = composeBubbleRect.width();
+                        attachmentView.onMessageAnimationStart();
+                        messageBubble.kickOffMorphAnimation(startWidth,
+                                messageBubble.findViewById(R.id.message_text_and_info)
+                                .getMeasuredWidth());
+                    });
+                    mPopupTransitionAnimation.setOnStopCallback(() -> {
+                        view.setAlpha(1);
+                        dispatchAddFinished(holder);
+                    });
                     mPopupTransitionAnimation.startAfterLayoutComplete();
                     mAddAnimations.add(holder);
                     return true;
@@ -827,13 +811,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                             .setTitle(getResources().getQuantityString(
                                     R.plurals.delete_conversations_confirmation_dialog_title, 1))
                             .setPositiveButton(R.string.delete_conversation_confirmation_button,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(final DialogInterface dialog,
-                                                final int button) {
-                                            deleteConversation();
-                                        }
-                            })
+                                    (dialog, button) -> deleteConversation())
                             .setNegativeButton(R.string.delete_conversation_decline_button, null)
                             .show();
                 } else {
@@ -894,12 +872,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     UiUtils.showSnackBarWithCustomAction(getActivity(),
                             getView().getRootView(),
                             getString(R.string.in_conversation_notify_new_message_text),
-                            SnackBar.Action.createCustomAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    scrollToBottom(true /* smoothScroll */);
-                                    mComposeMessageView.hideAllComposeInputs(false /* animate */);
-                                }
+                            SnackBar.Action.createCustomAction(() -> {
+                                scrollToBottom(true /* smoothScroll */);
+                                mComposeMessageView.hideAllComposeInputs(false /* animate */);
                             },
                             getString(R.string.in_conversation_notify_new_message_action)),
                             null /* interactions */,
@@ -1036,13 +1011,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 LogUtil.w(LogUtil.BUGLE_TAG, "Message can't be sent: conv participants not loaded");
             }
         } else {
-            warnOfMissingActionConditions(true /*sending*/,
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            sendMessage(message);
-                        }
-            });
+            warnOfMissingActionConditions(true /*sending*/, () -> sendMessage(message));
         }
     }
 
@@ -1137,14 +1106,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 mBinding.getData().resendMessage(mBinding, messageId);
             }
         } else {
-            warnOfMissingActionConditions(true /*sending*/,
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            retrySend(messageId);
-                        }
-
-                    });
+            warnOfMissingActionConditions(true /*sending*/, () -> retrySend(messageId));
         }
     }
 
@@ -1154,12 +1116,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     .setTitle(R.string.delete_message_confirmation_dialog_title)
                     .setMessage(R.string.delete_message_confirmation_dialog_text)
                     .setPositiveButton(R.string.delete_message_confirmation_button,
-                            new OnClickListener() {
-                        @Override
-                        public void onClick(final DialogInterface dialog, final int which) {
-                            mBinding.getData().deleteMessage(mBinding, messageId);
-                        }
-                    })
+                            (dialog, which) ->
+                                    mBinding.getData().deleteMessage(mBinding, messageId))
                     .setNegativeButton(android.R.string.cancel, null);
             builder.setOnDismissListener(dialog -> mHost.dismissActionMode());
             builder.create().show();
@@ -1506,19 +1464,11 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             } else {
                 builder.setMessage(R.string.attachment_limit_reached_dialog_message_when_sending)
                         .setNegativeButton(R.string.attachment_limit_reached_send_anyway,
-                                new OnClickListener() {
-                                    @Override
-                                    public void onClick(final DialogInterface dialog,
-                                            final int which) {
-                                        composeMessageView.sendMessageIgnoreMessageSizeLimit();
-                                    }
-                                });
+                                (dialog, which) ->
+                                        composeMessageView.sendMessageIgnoreMessageSizeLimit());
             }
-            builder.setPositiveButton(android.R.string.ok, new OnClickListener() {
-                @Override
-                public void onClick(final DialogInterface dialog, final int which) {
-                    showAttachmentChooser(conversationId, activity);
-                }});
+            builder.setPositiveButton(android.R.string.ok, (dialog, which) ->
+                    showAttachmentChooser(conversationId, activity));
         } else {
             builder.setMessage(R.string.attachment_limit_reached_dialog_message_when_composing)
                     .setPositiveButton(android.R.string.ok, null);
@@ -1557,12 +1507,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 final LayoutInflater inflator = (LayoutInflater)
                         getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 customView = inflator.inflate(R.layout.action_bar_conversation_name, null);
-                customView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        onBackPressed();
-                    }
-                });
+                customView.setOnClickListener(v -> onBackPressed());
                 actionBar.setCustomView(customView);
             }
 

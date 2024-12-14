@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 
 /**
  * <p>Loads and maintains a set of in-memory LRU caches for different types of media resources.
@@ -104,13 +104,10 @@ public class MediaResourceManager {
     // These tasks are run on a single worker thread with low priority so as not to contend with the
     // media loading tasks.
     private static final Executor MEDIA_BACKGROUND_EXECUTOR = Executors.newSingleThreadExecutor(
-            new ThreadFactory() {
-                @Override
-                public Thread newThread(final Runnable runnable) {
-                    final Thread encodingThread = new Thread(runnable);
-                    encodingThread.setPriority(Thread.MIN_PRIORITY);
-                    return encodingThread;
-                }
+            runnable -> {
+                final Thread encodingThread = new Thread(runnable);
+                encodingThread.setPriority(Thread.MIN_PRIORITY);
+                return encodingThread;
             });
 
     /**

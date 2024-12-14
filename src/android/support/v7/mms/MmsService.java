@@ -251,12 +251,7 @@ public class MmsService extends Service {
     // Handler for scheduling service stop
     private final Handler mHandler = new Handler();
     // Service stop task
-    private final Runnable mServiceStopRunnable = new Runnable() {
-        @Override
-        public void run() {
-            tryStopService();
-        }
-    };
+    private final Runnable mServiceStopRunnable = this::tryStopService;
 
     /**
      * Start the service with a request
@@ -325,24 +320,21 @@ public class MmsService extends Service {
                 final MmsRequest request = intent.getParcelableExtra(EXTRA_REQUEST);
                 if (request != null) {
                     try {
-                        retainService(request, new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    request.execute(
-                                            MmsService.this,
-                                            mNetworkManager,
-                                            getApnSettingsLoader(),
-                                            getCarrierConfigValuesLoader(),
-                                            getUserAgentInfoLoader());
-                                } catch (Exception e) {
-                                    Log.w(TAG, "Unexpected execution failure", e);
-                                } finally {
-                                    if (request.getUseWakeLock()) {
-                                        releaseWakeLock();
-                                    }
-                                    releaseService();
+                        retainService(request, () -> {
+                            try {
+                                request.execute(
+                                        MmsService.this,
+                                        mNetworkManager,
+                                        getApnSettingsLoader(),
+                                        getCarrierConfigValuesLoader(),
+                                        getUserAgentInfoLoader());
+                            } catch (Exception e) {
+                                Log.w(TAG, "Unexpected execution failure", e);
+                            } finally {
+                                if (request.getUseWakeLock()) {
+                                    releaseWakeLock();
                                 }
+                                releaseService();
                             }
                         });
                         scheduled = true;

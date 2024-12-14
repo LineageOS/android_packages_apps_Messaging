@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -57,29 +56,16 @@ public class PermissionCheckActivity extends Activity {
         setContentView(R.layout.permission_check_activity);
         UiUtils.setStatusBarColor(this, getColor(R.color.permission_check_activity_background));
 
-        findViewById(R.id.exit).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                finish();
-            }
-        });
+        findViewById(R.id.exit).setOnClickListener(view -> finish());
 
         mNextView = (TextView) findViewById(R.id.next);
-        mNextView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                tryRequestPermission();
-            }
-        });
+        mNextView.setOnClickListener(view -> tryRequestPermission());
 
         mSettingsView = (TextView) findViewById(R.id.settings);
-        mSettingsView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.parse(PACKAGE_URI_PREFIX + getPackageName()));
-                startActivity(intent);
-            }
+        mSettingsView.setOnClickListener(view -> {
+            final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Uri.parse(PACKAGE_URI_PREFIX + getPackageName()));
+            startActivity(intent);
         });
     }
 

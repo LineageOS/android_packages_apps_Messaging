@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,38 +60,35 @@ public class ContactRecipientPhotoManager implements PhotoManager {
     public void populatePhotoBytesAsync(final RecipientEntry entry,
             final PhotoManagerCallback callback) {
         // Post all media resource request to the main thread.
-        ThreadUtil.getMainThreadHandler().post(new Runnable() {
-            @Override
-            public void run() {
-                final Uri avatarUri = AvatarUriUtil.createAvatarUri(
-                        ParticipantData.getFromRecipientEntry(entry));
-                final AvatarRequestDescriptor descriptor =
-                        new AvatarRequestDescriptor(avatarUri, mIconSize, mIconSize);
-                final BindableMediaRequest<ImageResource> req = descriptor.buildAsyncMediaRequest(
-                        mContext,
-                        new MediaResourceLoadListener<ImageResource>() {
-                    @Override
-                    public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
-                            final ImageResource resource, final boolean isCached) {
-                        entry.setPhotoBytes(resource.getBytes());
-                        callback.onPhotoBytesAsynchronouslyPopulated();
-                    }
+        ThreadUtil.getMainThreadHandler().post(() -> {
+            final Uri avatarUri = AvatarUriUtil.createAvatarUri(
+                    ParticipantData.getFromRecipientEntry(entry));
+            final AvatarRequestDescriptor descriptor =
+                    new AvatarRequestDescriptor(avatarUri, mIconSize, mIconSize);
+            final BindableMediaRequest<ImageResource> req = descriptor.buildAsyncMediaRequest(
+                    mContext,
+                    new MediaResourceLoadListener<ImageResource>() {
+                @Override
+                public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
+                        final ImageResource resource, final boolean isCached) {
+                    entry.setPhotoBytes(resource.getBytes());
+                    callback.onPhotoBytesAsynchronouslyPopulated();
+                }
 
-                    @Override
-                    public void onMediaResourceLoadError(final MediaRequest<ImageResource> request,
-                            final Exception exception) {
-                        LogUtil.e(LogUtil.BUGLE_TAG, "Photo bytes loading failed due to " +
-                                exception + " request key=" + request.getKey());
+                @Override
+                public void onMediaResourceLoadError(final MediaRequest<ImageResource> request,
+                        final Exception exception) {
+                    LogUtil.e(LogUtil.BUGLE_TAG, "Photo bytes loading failed due to " +
+                            exception + " request key=" + request.getKey());
 
-                        // Fall back to the default avatar image.
-                        callback.onPhotoBytesAsyncLoadFailed();
-                    }});
+                    // Fall back to the default avatar image.
+                    callback.onPhotoBytesAsyncLoadFailed();
+                }});
 
-                // Statically bind the request since it's not bound to any specific piece of UI.
-                req.bind(IMAGE_BYTES_REQUEST_STATIC_BINDING_ID);
+            // Statically bind the request since it's not bound to any specific piece of UI.
+            req.bind(IMAGE_BYTES_REQUEST_STATIC_BINDING_ID);
 
-                Factory.get().getMediaResourceManager().requestMediaResourceAsync(req);
-            }
+            Factory.get().getMediaResourceManager().requestMediaResourceAsync(req);
         });
     }
 }

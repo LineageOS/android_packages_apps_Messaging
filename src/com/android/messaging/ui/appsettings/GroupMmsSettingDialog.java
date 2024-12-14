@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.RadioButton;
 
 import com.android.messaging.R;
@@ -70,18 +70,8 @@ public class GroupMmsSettingDialog {
                 rootView.findViewById(R.id.disable_group_mms_button);
         final RadioButton enableButton = (RadioButton)
                 rootView.findViewById(R.id.enable_group_mms_button);
-        disableButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeGroupMmsSettings(false);
-            }
-        });
-        enableButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeGroupMmsSettings(true);
-            }
-        });
+        disableButton.setOnClickListener(view -> changeGroupMmsSettings(false));
+        enableButton.setOnClickListener(view -> changeGroupMmsSettings(true));
         final boolean mmsEnabled = BuglePrefs.getSubscriptionPrefs(mSubId).getBoolean(
                 mContext.getString(R.string.group_mms_pref_key),
                 mContext.getResources().getBoolean(R.bool.group_mms_pref_default));

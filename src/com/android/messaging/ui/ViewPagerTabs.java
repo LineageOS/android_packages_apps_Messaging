@@ -157,12 +157,7 @@ public class ViewPagerTabs extends HorizontalScrollView implements ViewPager.OnP
         textView.setText(tabTitle);
         textView.setBackgroundResource(R.drawable.contact_picker_tab_background_selector);
         textView.setGravity(Gravity.CENTER);
-        textView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPager.setCurrentItem(getRtlPosition(position));
-            }
-        });
+        textView.setOnClickListener(v -> mPager.setCurrentItem(getRtlPosition(position)));
 
         // Assign various text appearance related attributes to child views.
         if (mTextStyle > 0) {

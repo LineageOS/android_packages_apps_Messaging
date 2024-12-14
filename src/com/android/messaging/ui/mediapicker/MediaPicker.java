@@ -543,12 +543,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         mOpen = true;
         mPagerAdapter.notifyDataSetChanged();
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onOpened();
-                }
-            });
+            mListenerHandler.post(() -> mListener.onOpened());
         }
         if (mSelectedChooser != null) {
             mSelectedChooser.onFullScreenChanged(false);
@@ -560,12 +555,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         setHasOptionsMenu(false);
         mOpen = false;
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onDismissed();
-                }
-            });
+            mListenerHandler.post(() -> mListener.onDismissed());
         }
         if (mSelectedChooser != null) {
             mSelectedChooser.onOpenedChanged(false);
@@ -575,12 +565,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     void dispatchFullScreen(final boolean fullScreen) {
         setHasOptionsMenu(fullScreen);
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onFullScreenChanged(fullScreen);
-                }
-            });
+            mListenerHandler.post(() -> mListener.onFullScreenChanged(fullScreen));
         }
         if (mSelectedChooser != null) {
             mSelectedChooser.onFullScreenChanged(fullScreen);
@@ -596,12 +581,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     void dispatchItemsSelected(final Collection<MessagePartData> items,
             final boolean dismissMediaPicker) {
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onItemsSelected(items, dismissMediaPicker);
-                }
-            });
+            mListenerHandler.post(() -> mListener.onItemsSelected(items, dismissMediaPicker));
         }
 
         if (isFullScreen() && !dismissMediaPicker) {
@@ -611,12 +591,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
 
     void dispatchItemUnselected(final MessagePartData item) {
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onItemUnselected(item);
-                }
-            });
+            mListenerHandler.post(() -> mListener.onItemUnselected(item));
         }
 
         if (isFullScreen()) {
@@ -626,23 +601,13 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
 
     void dispatchConfirmItemSelection() {
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onConfirmItemSelection();
-                }
-            });
+            mListenerHandler.post(() -> mListener.onConfirmItemSelection());
         }
     }
 
     void dispatchPendingItemAdded(final PendingAttachmentData pendingItem) {
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onPendingItemAdded(pendingItem);
-                }
-            });
+            mListenerHandler.post(() -> mListener.onPendingItemAdded(pendingItem));
         }
 
         if (isFullScreen()) {
@@ -652,12 +617,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
 
     void dispatchChooserSelected(final int chooserIndex) {
         if (mListener != null) {
-            mListenerHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mListener.onChooserSelected(chooserIndex);
-                }
-            });
+            mListenerHandler.post(() -> mListener.onChooserSelected(chooserIndex));
         }
     }
 
