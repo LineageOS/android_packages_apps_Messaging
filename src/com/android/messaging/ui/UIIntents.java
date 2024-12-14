@@ -320,11 +320,6 @@ public abstract class UIIntents {
             final int requestCode);
 
     /**
-     * Get a PendingIntent for showing low storage notifications.
-     */
-    public abstract PendingIntent getPendingIntentForLowStorageNotifications(final Context context);
-
-    /**
      * Get a PendingIntent for showing a new message to a secondary user.
      */
     public abstract PendingIntent getPendingIntentForSecondaryUserNewMessageNotification(

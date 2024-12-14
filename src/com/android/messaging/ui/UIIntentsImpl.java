@@ -152,13 +152,6 @@ public class UIIntentsImpl extends UIIntents {
         context.startActivity(intent);
     }
 
-    /**
-     * Get an intent which shows the low storage warning activity.
-     */
-    private Intent getSmsStorageLowWarningActivityIntent(final Context context) {
-        return new Intent(context, SmsStorageLowWarningActivity.class);
-    }
-
     @Override
     public void launchConversationActivity(final Context context,
             final String conversationId, final MessageData draft, final Bundle activityOptions,
@@ -448,18 +441,6 @@ public class UIIntentsImpl extends UIIntents {
             stackBuilder.getPendingIntent(requestCode,
                     PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
         return resultPendingIntent;
-    }
-
-    @Override
-    public PendingIntent getPendingIntentForLowStorageNotifications(final Context context) {
-        final TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(context);
-        final Intent conversationListIntent = getConversationListActivityIntent(context);
-        taskStackBuilder.addNextIntent(conversationListIntent);
-        taskStackBuilder.addNextIntentWithParentStack(
-                getSmsStorageLowWarningActivityIntent(context));
-
-        return taskStackBuilder.getPendingIntent(
-                0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
