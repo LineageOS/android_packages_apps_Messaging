@@ -110,13 +110,9 @@ class MmsVideoRecorder extends MediaRecorder {
 
     void cleanupTempFile() {
         final Uri tempUri = mTempVideoUri;
-        SafeAsyncTask.executeOnThreadPool(new Runnable() {
-            @Override
-            public void run() {
+        SafeAsyncTask.executeOnThreadPool(() ->
                 Factory.get().getApplicationContext().getContentResolver().delete(
-                        tempUri, null, null);
-            }
-        });
+                        tempUri, null, null));
         mTempVideoUri = null;
     }
 

@@ -25,7 +25,6 @@ import com.android.messaging.util.ContactUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * A cursor builder that takes the frequent contacts cursor and aggregate it with the all contacts
@@ -155,37 +154,34 @@ public class FrequentContactsCursorBuilder {
 
             // Now we have a list of rows containing frequent contacts in alphabetical order.
             // Therefore, sort all the rows according to their actual ranks in the frequents list.
-            Collections.sort(rows, new Comparator<Object[]>() {
-                @Override
-                public int compare(final Object[] lhs, final Object[] rhs) {
-                    final String lookupKeyLhs = (String) lhs[ContactUtil.INDEX_LOOKUP_KEY];
-                    final String lookupKeyRhs = (String) rhs[ContactUtil.INDEX_LOOKUP_KEY];
-                    Assert.isTrue(lookupKeyToRankMap.containsKey(lookupKeyLhs) &&
-                            lookupKeyToRankMap.containsKey(lookupKeyRhs));
-                    final int rankLhs = lookupKeyToRankMap.get(lookupKeyLhs);
-                    final int rankRhs = lookupKeyToRankMap.get(lookupKeyRhs);
-                    if (rankLhs < rankRhs) {
+            Collections.sort(rows, (lhs, rhs) -> {
+                final String lookupKeyLhs = (String) lhs[ContactUtil.INDEX_LOOKUP_KEY];
+                final String lookupKeyRhs = (String) rhs[ContactUtil.INDEX_LOOKUP_KEY];
+                Assert.isTrue(lookupKeyToRankMap.containsKey(lookupKeyLhs) &&
+                        lookupKeyToRankMap.containsKey(lookupKeyRhs));
+                final int rankLhs = lookupKeyToRankMap.get(lookupKeyLhs);
+                final int rankRhs = lookupKeyToRankMap.get(lookupKeyRhs);
+                if (rankLhs < rankRhs) {
+                    return -1;
+                } else if (rankLhs > rankRhs) {
+                    return 1;
+                } else {
+                    // Same rank, so it's two contact records for the same contact.
+                    // Perform secondary sorting on the phone type. Always place
+                    // mobile before everything else.
+                    final int phoneTypeLhs = (int) lhs[ContactUtil.INDEX_PHONE_EMAIL_TYPE];
+                    final int phoneTypeRhs = (int) rhs[ContactUtil.INDEX_PHONE_EMAIL_TYPE];
+                    if (phoneTypeLhs == Phone.TYPE_MOBILE &&
+                            phoneTypeRhs == Phone.TYPE_MOBILE) {
+                        return 0;
+                    } else if (phoneTypeLhs == Phone.TYPE_MOBILE) {
                         return -1;
-                    } else if (rankLhs > rankRhs) {
+                    } else if (phoneTypeRhs == Phone.TYPE_MOBILE) {
                         return 1;
                     } else {
-                        // Same rank, so it's two contact records for the same contact.
-                        // Perform secondary sorting on the phone type. Always place
-                        // mobile before everything else.
-                        final int phoneTypeLhs = (int) lhs[ContactUtil.INDEX_PHONE_EMAIL_TYPE];
-                        final int phoneTypeRhs = (int) rhs[ContactUtil.INDEX_PHONE_EMAIL_TYPE];
-                        if (phoneTypeLhs == Phone.TYPE_MOBILE &&
-                                phoneTypeRhs == Phone.TYPE_MOBILE) {
-                            return 0;
-                        } else if (phoneTypeLhs == Phone.TYPE_MOBILE) {
-                            return -1;
-                        } else if (phoneTypeRhs == Phone.TYPE_MOBILE) {
-                            return 1;
-                        } else {
-                            // Use the default sort order, i.e. sort by phoneType value.
-                            return phoneTypeLhs < phoneTypeRhs ? -1 :
-                                    (phoneTypeLhs == phoneTypeRhs ? 0 : 1);
-                        }
+                        // Use the default sort order, i.e. sort by phoneType value.
+                        return phoneTypeLhs < phoneTypeRhs ? -1 :
+                                (phoneTypeLhs == phoneTypeRhs ? 0 : 1);
                     }
                 }
             });
