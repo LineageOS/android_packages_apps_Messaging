@@ -71,13 +71,9 @@ public class VCardResourceEntry {
     void close() {
         // If the avatar image was temporarily saved in the scratch folder, remove that.
         if (MediaScratchFileProvider.isMediaScratchSpaceUri(mAvatarUri)) {
-            SafeAsyncTask.executeOnThreadPool(new Runnable() {
-                @Override
-                public void run() {
+            SafeAsyncTask.executeOnThreadPool(() ->
                     Factory.get().getApplicationContext().getContentResolver().delete(
-                            mAvatarUri, null, null);
-                }
-            });
+                            mAvatarUri, null, null));
         }
     }
 
