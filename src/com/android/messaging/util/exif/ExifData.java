@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@ import com.android.messaging.util.LogUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteOrder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -235,11 +237,11 @@ class ExifData {
 
         try {
             if (Arrays.equals(code, USER_COMMENT_ASCII)) {
-                return new String(buf, 8, buf.length - 8, "US-ASCII");
+                return new String(buf, 8, buf.length - 8, StandardCharsets.US_ASCII);
             } else if (Arrays.equals(code, USER_COMMENT_JIS)) {
                 return new String(buf, 8, buf.length - 8, "EUC-JP");
             } else if (Arrays.equals(code, USER_COMMENT_UNICODE)) {
-                return new String(buf, 8, buf.length - 8, "UTF-16");
+                return new String(buf, 8, buf.length - 8, StandardCharsets.UTF_16);
             } else {
                 return null;
             }
