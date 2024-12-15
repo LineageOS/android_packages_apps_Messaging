@@ -264,14 +264,6 @@
             android:theme="@style/BugleTheme"
             android:parentActivityName="com.android.messaging.ui.conversation.ConversationActivity" />
 
-        <activity
-            android:name=".ui.debug.DebugMmsConfigActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="user"
-            android:theme="@style/BugleTheme.DialogActivity"
-            android:exported="false">
-        </activity>
-
         <provider android:name=".datamodel.MessagingContentProvider" android:label="@string/app_name"
                   android:authorities="com.android.messaging.datamodel.MessagingContentProvider"
                   android:exported="false" >
@@ -370,18 +362,6 @@
                   android:launchMode="singleTask"
                   android:excludeFromRecents="true">
         </activity>
-
-        <activity android:name=".ui.appsettings.ApnSettingsActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="user"
-                  android:theme="@style/BugleTheme"
-                  android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity" />
-
-        <activity android:name=".ui.appsettings.ApnEditorActivity"
-                  android:configChanges="orientation|screenSize|keyboardHidden"
-                  android:screenOrientation="user"
-                  android:theme="@style/BugleTheme"
-                  android:parentActivityName="com.android.messaging.ui.appsettings.ApnSettingsActivity"/>
 
         <receiver android:name=".receiver.BootAndPackageReplacedReceiver"
             android:exported="true">

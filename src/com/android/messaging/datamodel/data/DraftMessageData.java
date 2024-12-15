@@ -34,7 +34,6 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.Assert.RunsOnMainThread;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
@@ -471,9 +470,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
     }
 
     private int getAttachmentLimit() {
-        return BugleGservices.get().getInt(
-                BugleGservicesKeys.MMS_ATTACHMENT_LIMIT,
-                BugleGservicesKeys.MMS_ATTACHMENT_LIMIT_DEFAULT);
+        return BugleGservicesKeys.MMS_ATTACHMENT_LIMIT_DEFAULT;
     }
 
     public void removeAttachment(final MessagePartData attachment) {

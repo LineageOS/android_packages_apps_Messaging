@@ -27,17 +27,13 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.database.sqlite.SQLiteStatement;
 import android.util.SparseArray;
 
-import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservicesKeys;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 
 import java.util.Locale;
 import java.util.Stack;
-import java.util.regex.Pattern;
 
 public class DatabaseWrapper {
     private static final String TAG = LogUtil.BUGLE_DATABASE_TAG;
@@ -45,12 +41,6 @@ public class DatabaseWrapper {
     private final SQLiteDatabase mDatabase;
     private final Context mContext;
     private final boolean mLog;
-    /**
-     * Set mExplainQueryPlanRegexp (via {@link BugleGservicesKeys#EXPLAIN_QUERY_PLAN_REGEXP}
-     * to regex matching queries to see query plans. For example, ".*" to show all query plans.
-     */
-    // See
-    private final String mExplainQueryPlanRegexp;
     private static final int sTimingThreshold = 50;        // in milliseconds
 
     public static final int INDEX_INSERT_MESSAGE_PART = 0;
@@ -77,8 +67,6 @@ public class DatabaseWrapper {
 
     DatabaseWrapper(final Context context, final SQLiteDatabase db) {
         mLog = LogUtil.isLoggable(LogUtil.BUGLE_DATABASE_PERF_TAG, LogUtil.VERBOSE);
-        mExplainQueryPlanRegexp = Factory.get().getBugleGservices().getString(
-                BugleGservicesKeys.EXPLAIN_QUERY_PLAN_REGEXP, null);
         mDatabase = db;
         mContext = context;
         mCompiledStatements = new SparseArray<SQLiteStatement>();
@@ -94,10 +82,6 @@ public class DatabaseWrapper {
             mCompiledStatements.put(index, compiled);
         }
         return compiled;
-    }
-
-    private void maybePlayDebugNoise() {
-        DebugUtils.maybePlayDebugNoise(mContext, DebugUtils.DEBUG_SOUND_DB_OP);
     }
 
     private static void printTiming(final long t1, final String msg) {
@@ -190,64 +174,10 @@ public class DatabaseWrapper {
         }
     }
 
-    private void explainQueryPlan(final SQLiteQueryBuilder qb, final SQLiteDatabase db,
-            final String[] projection, final String selection,
-            @SuppressWarnings("unused")
-                    final String[] queryArgs,
-            final String groupBy,
-            @SuppressWarnings("unused")
-                    final String having,
-            final String sortOrder, final String limit) {
-        final String queryString = qb.buildQuery(
-                projection,
-                selection,
-                groupBy,
-                null/*having*/,
-                sortOrder,
-                limit);
-        explainQueryPlan(db, queryString, queryArgs);
-    }
-
-    private void explainQueryPlan(final SQLiteDatabase db, final String sql,
-            final String[] queryArgs) {
-        if (!Pattern.matches(mExplainQueryPlanRegexp, sql)) {
-            return;
-        }
-        final Cursor planCursor = db.rawQuery("explain query plan " + sql, queryArgs);
-        try {
-            if (planCursor != null && planCursor.moveToFirst()) {
-                final int detailColumn = planCursor.getColumnIndex("detail");
-                final StringBuilder sb = new StringBuilder();
-                do {
-                    sb.append(planCursor.getString(detailColumn));
-                    sb.append("\n");
-                } while (planCursor.moveToNext());
-                if (sb.length() > 0) {
-                    sb.setLength(sb.length() - 1);
-                }
-                LogUtil.v(TAG, "for query " + sql + "\nplan is: "
-                        + sb);
-            }
-        } catch (final Exception e) {
-            LogUtil.w(TAG, "Query plan failed ", e);
-        } finally {
-            if (planCursor != null) {
-                planCursor.close();
-            }
-        }
-    }
-
     public Cursor query(final String searchTable, final String[] projection,
             final String selection, final String[] selectionArgs, final String groupBy,
             final String having, final String orderBy, final String limit) {
-        if (mExplainQueryPlanRegexp != null) {
-            final SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-            qb.setTables(searchTable);
-            explainQueryPlan(qb, mDatabase, projection, selection, selectionArgs,
-                    groupBy, having, orderBy, limit);
-        }
 
-        maybePlayDebugNoise();
         long t1 = 0;
         if (mLog) {
             t1 = System.currentTimeMillis();
@@ -274,11 +204,6 @@ public class DatabaseWrapper {
     public Cursor query(final SQLiteQueryBuilder qb,
             final String[] projection, final String selection, final String[] queryArgs,
             final String groupBy, final String having, final String sortOrder, final String limit) {
-        if (mExplainQueryPlanRegexp != null) {
-            explainQueryPlan(qb, mDatabase, projection, selection, queryArgs,
-                    groupBy, having, sortOrder, limit);
-        }
-        maybePlayDebugNoise();
         long t1 = 0;
         if (mLog) {
             t1 = System.currentTimeMillis();
@@ -300,7 +225,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         final long retval =
                 DatabaseUtils.queryNumEntries(mDatabase, table, selection, selectionArgs);
         if (mLog){
@@ -313,14 +237,10 @@ public class DatabaseWrapper {
     }
 
     public Cursor rawQuery(final String sql, final String[] args) {
-        if (mExplainQueryPlanRegexp != null) {
-            explainQueryPlan(mDatabase, sql, args);
-        }
         long t1 = 0;
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         final Cursor cursor = mDatabase.rawQuery(sql, args);
         if (mLog) {
             printTiming(
@@ -336,7 +256,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         int count = 0;
         try {
             count = mDatabase.update(table, values, selection, selectionArgs);
@@ -356,7 +275,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         int count = 0;
         try {
             count = mDatabase.delete(table, whereClause, whereArgs);
@@ -378,7 +296,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         long rowId = -1;
         try {
             rowId = mDatabase.insert(table, nullColumnHack, values);
@@ -398,7 +315,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         long rowId = -1;
         try {
             rowId = mDatabase.replace(table, nullColumnHack, values);
@@ -421,7 +337,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         try {
             mDatabase.execSQL(sql, bindArgs);
         } catch (SQLiteFullException ex) {
@@ -439,7 +354,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         try {
             mDatabase.execSQL(sql);
         } catch (SQLiteFullException ex) {
@@ -457,7 +371,6 @@ public class DatabaseWrapper {
         if (mLog) {
             t1 = System.currentTimeMillis();
         }
-        maybePlayDebugNoise();
         final SQLiteStatement statement = mDatabase.compileStatement(sql);
         int rowsUpdated = 0;
         try {
