@@ -154,11 +154,6 @@ public abstract class UIIntents {
             final MessageData draft);
 
     /**
-     * Launch debug activity to set MMS config options.
-     */
-    public abstract void launchDebugMmsConfigActivity(final Context context);
-
-    /**
      * Launch an activity to change settings.
      */
     public abstract void launchSettingsActivity(final Context context);

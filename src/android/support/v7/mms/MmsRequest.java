@@ -108,14 +108,6 @@ abstract class MmsRequest implements Parcelable {
         mUseWakeLock = true;
     }
 
-    void setUseWakeLock(final boolean useWakeLock) {
-        mUseWakeLock = useWakeLock;
-    }
-
-    boolean getUseWakeLock() {
-        return mUseWakeLock;
-    }
-
     /**
      * Run the MMS request.
      *
