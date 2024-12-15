@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -141,7 +142,7 @@ public class ExifParser {
     protected static final int TAG_SIZE = 12;
     protected static final int OFFSET_SIZE = 2;
 
-    private static final Charset US_ASCII = Charset.forName("US-ASCII");
+    private static final Charset US_ASCII = StandardCharsets.US_ASCII;
 
     protected static final int DEFAULT_IFD0_OFFSET = 8;
 

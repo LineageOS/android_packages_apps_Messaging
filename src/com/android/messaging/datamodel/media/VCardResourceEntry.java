@@ -43,8 +43,8 @@ import com.android.vcard.VCardEntry.PostalData;
 import com.android.vcard.VCardEntry.WebsiteData;
 import com.android.vcard.VCardProperty;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -200,11 +200,8 @@ public class VCardResourceEntry {
                 }
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 final String address = formatAddress(postalData);
-                try {
-                    intent.setData(Uri.parse("geo:0,0?q=" + URLEncoder.encode(address, "UTF-8")));
-                } catch (UnsupportedEncodingException e) {
-                    intent = null;
-                }
+                intent.setData(Uri.parse("geo:0,0?q=" + URLEncoder.encode(address,
+                        StandardCharsets.UTF_8)));
 
                 retList.add(new VCardResourceEntryDestinationItem(address, type, intent));
             }

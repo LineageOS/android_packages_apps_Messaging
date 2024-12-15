@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +36,8 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,11 +136,7 @@ public class LaunchConversationActivity extends Activity implements
         final String[] params = urlStr.split("&");
         for (final String p : params) {
             if (p.startsWith("body=")) {
-                try {
-                    return URLDecoder.decode(p.substring(5), "UTF-8");
-                } catch (final UnsupportedEncodingException e) {
-                    // Invalid URL, ignore
-                }
+                return URLDecoder.decode(p.substring(5), StandardCharsets.UTF_8);
             }
         }
         return null;
