@@ -57,23 +57,4 @@
     <PreferenceScreen
             android:key="@string/advanced_pref_key"
             android:title="@string/advanced_settings" />
-
-    <PreferenceCategory
-        android:key="@string/debug_pref_key"
-        android:title="@string/debug_category_pref_title">
-
-        <CheckBoxPreference
-            android:key="@string/dump_sms_pref_key"
-            android:title="@string/dump_sms_pref_title"
-            android:summary="@string/dump_sms_pref_summary"
-            android:defaultValue="@bool/dump_sms_pref_default" />
-
-        <CheckBoxPreference
-            android:key="@string/dump_mms_pref_key"
-            android:title="@string/dump_mms_pref_title"
-            android:summary="@string/dump_mms_pref_summary"
-            android:defaultValue="@bool/dump_mms_pref_default" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

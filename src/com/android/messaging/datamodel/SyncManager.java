@@ -27,7 +27,6 @@ import com.android.messaging.datamodel.action.SyncMessagesAction;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
@@ -206,13 +205,11 @@ public class SyncManager {
      * @return 0 if allowed to run now, else delay in ms
      */
     public long delayUntilFullSync(final long startTimestamp) {
-        final BugleGservices bugleGservices = BugleGservices.get();
         final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
 
         final long lastFullSyncTime = prefs.getLong(BuglePrefsKeys.LAST_FULL_SYNC_TIME, -1L);
-        final long smsFullSyncBackoffTimeMillis = bugleGservices.getLong(
-                BugleGservicesKeys.SMS_FULL_SYNC_BACKOFF_TIME_MILLIS,
-                BugleGservicesKeys.SMS_FULL_SYNC_BACKOFF_TIME_MILLIS_DEFAULT);
+        final long smsFullSyncBackoffTimeMillis =
+                BugleGservicesKeys.SMS_FULL_SYNC_BACKOFF_TIME_MILLIS_DEFAULT;
         final long noFullSyncBefore = (lastFullSyncTime < 0 ? startTimestamp :
             lastFullSyncTime + smsFullSyncBackoffTimeMillis);
 

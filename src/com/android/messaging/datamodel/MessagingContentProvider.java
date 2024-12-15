@@ -451,8 +451,6 @@ public class MessagingContentProvider extends ContentProvider {
             defaultSmsApp = "None";
         }
         writer.println("Default SMS app: " + defaultSmsApp);
-        // Now dump logs
-        LogUtil.dump(writer);
     }
 
     @Override
