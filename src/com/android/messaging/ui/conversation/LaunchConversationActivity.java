@@ -35,8 +35,8 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,11 +135,7 @@ public class LaunchConversationActivity extends Activity implements
         final String[] params = urlStr.split("&");
         for (final String p : params) {
             if (p.startsWith("body=")) {
-                try {
-                    return URLDecoder.decode(p.substring(5), "UTF-8");
-                } catch (final UnsupportedEncodingException e) {
-                    // Invalid URL, ignore
-                }
+                return URLDecoder.decode(p.substring(5), StandardCharsets.UTF_8);
             }
         }
         return null;
