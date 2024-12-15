@@ -17,16 +17,10 @@
 package com.android.messaging.ui.mediapicker;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,6 +30,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -43,10 +44,10 @@ import com.android.messaging.datamodel.binding.Binding;
 import com.android.messaging.datamodel.binding.BindingBase;
 import com.android.messaging.datamodel.binding.ImmutableBindingRef;
 import com.android.messaging.datamodel.data.DraftMessageData;
+import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageSubscriptionDataProvider;
 import com.android.messaging.datamodel.data.MediaPickerData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
-import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageSubscriptionDataProvider;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.FixedViewPagerAdapter;
 import com.android.messaging.util.AccessibilityUtil;
@@ -200,7 +201,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding.getData().init(getLoaderManager());
+        mBinding.getData().init(LoaderManager.getInstance(this));
     }
 
     @Override
@@ -440,7 +441,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         if (mBinding.isBound() && getActivity() != null) {
             mBinding.unbind();
             mBinding.bind(DataModel.get().createMediaPickerData(getActivity()));
-            mBinding.getData().init(getLoaderManager());
+            mBinding.getData().init(LoaderManager.getInstance(this));
         }
     }
 

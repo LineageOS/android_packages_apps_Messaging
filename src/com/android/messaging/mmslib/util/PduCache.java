@@ -64,7 +64,7 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
         URI_MATCHER.addURI("mms-sms", "conversations",   MMS_CONVERSATION);
         URI_MATCHER.addURI("mms-sms", "conversations/#", MMS_CONVERSATION_ID);
 
-        MATCH_TO_MSGBOX_ID_MAP = new SparseArray<Integer>();
+        MATCH_TO_MSGBOX_ID_MAP = new SparseArray<>();
         MATCH_TO_MSGBOX_ID_MAP.put(MMS_INBOX,  Mms.MESSAGE_BOX_INBOX);
         MATCH_TO_MSGBOX_ID_MAP.put(MMS_SENT,   Mms.MESSAGE_BOX_SENT);
         MATCH_TO_MSGBOX_ID_MAP.put(MMS_DRAFTS, Mms.MESSAGE_BOX_DRAFTS);
