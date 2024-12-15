@@ -37,9 +37,7 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.Dates;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.SafeAsyncTask;
 
 import java.util.List;
 
@@ -52,22 +50,8 @@ public class MessageDetailsDialog {
 
     public static void show(final Context context, final ConversationMessageData data,
             final ConversationParticipantsData participants, final ParticipantData self) {
-        if (DebugUtils.isDebugEnabled()) {
-            new SafeAsyncTask<Void, Void, String>() {
-                @Override
-                protected String doInBackgroundTimed(Void... params) {
-                    return getMessageDetails(context, data, participants, self);
-                }
-
-                @Override
-                protected void onPostExecute(String messageDetails) {
-                    showDialog(context, messageDetails);
-                }
-            }.executeOnThreadPool(null, null, null);
-        } else {
-            String messageDetails = getMessageDetails(context, data, participants, self);
-            showDialog(context, messageDetails);
-        }
+        String messageDetails = getMessageDetails(context, data, participants, self);
+        showDialog(context, messageDetails);
     }
 
     private static String getMessageDetails(final Context context,
@@ -140,10 +124,6 @@ public class MessageDetailsDialog {
 
         appendSimInfo(res, self, details);
 
-        if (DebugUtils.isDebugEnabled()) {
-            appendDebugInfo(details, data);
-        }
-
         return details.toString();
     }
 
@@ -205,10 +185,6 @@ public class MessageDetailsDialog {
         }
 
         appendSimInfo(res, self, details);
-
-        if (DebugUtils.isDebugEnabled()) {
-            appendDebugInfo(details, data);
-        }
 
         return details.toString();
     }

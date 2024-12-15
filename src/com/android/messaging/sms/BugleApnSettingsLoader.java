@@ -31,8 +31,6 @@ import android.util.SparseArray;
 
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.mmslib.SqliteWrapper;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
@@ -336,11 +334,6 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
     }
 
     private void loadLocked(final int subId, final String apnName, final List<Apn> apns) {
-        // Try Gservices first
-        loadFromGservices(apns);
-        if (apns.size() > 0) {
-            return;
-        }
         // Try system APN table
         loadFromSystem(subId, apnName, apns);
         if (apns.size() > 0) {
@@ -350,26 +343,6 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
         loadFromLocalDatabase(apnName, apns);
         if (apns.size() <= 0) {
             LogUtil.w(LogUtil.BUGLE_TAG, "Failed to load any APN");
-        }
-    }
-
-    /**
-     * Load from Gservices if APN setting is set in Gservices
-     *
-     * @param apns the list used to return results
-     */
-    private void loadFromGservices(final List<Apn> apns) {
-        final BugleGservices gservices = BugleGservices.get();
-        final String mmsc = gservices.getString(BugleGservicesKeys.MMS_MMSC, null);
-        if (TextUtils.isEmpty(mmsc)) {
-            return;
-        }
-        LogUtil.i(LogUtil.BUGLE_TAG, "Loading APNs from gservices");
-        final String proxy = gservices.getString(BugleGservicesKeys.MMS_PROXY_ADDRESS, null);
-        final int port = gservices.getInt(BugleGservicesKeys.MMS_PROXY_PORT, -1);
-        final Apn apn = BaseApn.from("mms", mmsc, proxy, Integer.toString(port));
-        if (apn != null) {
-            apns.add(apn);
         }
     }
 

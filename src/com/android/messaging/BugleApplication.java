@@ -38,9 +38,6 @@ import com.android.messaging.sms.BugleApnSettingsLoader;
 import com.android.messaging.sms.BugleUserAgentInfoLoader;
 import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.ui.ConversationDrawables;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
-import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
 import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.LogUtil;
@@ -83,8 +80,6 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     public void initializeSync(final Factory factory) {
         Trace.beginSection("app.initializeSync");
         final Context context = factory.getApplicationContext();
-        final BugleGservices bugleGservices = factory.getBugleGservices();
-        final BuglePrefs buglePrefs = factory.getApplicationPrefs();
         final DataModel dataModel = factory.getDataModel();
         final CarrierConfigValuesLoader carrierConfigValuesLoader =
                 factory.getCarrierConfigValuesLoader();
@@ -94,7 +89,7 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         BugleApplication.updateAppConfig(context);
 
         // Initialize MMS lib
-        initMmsLib(context, bugleGservices, carrierConfigValuesLoader);
+        initMmsLib(context, carrierConfigValuesLoader);
         // Initialize APN database
         ApnDatabase.initializeAppContext(context);
         // Fixup messages in flight if we crashed and send any pending
@@ -116,21 +111,12 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         Context.RECEIVER_EXPORTED/*UNAUDITED*/);
     }
 
-    private static void initMmsLib(final Context context, final BugleGservices bugleGservices,
+    private static void initMmsLib(final Context context,
             final CarrierConfigValuesLoader carrierConfigValuesLoader) {
         MmsManager.setApnSettingsLoader(new BugleApnSettingsLoader(context));
         MmsManager.setCarrierConfigValuesLoader(carrierConfigValuesLoader);
         MmsManager.setUserAgentInfoLoader(new BugleUserAgentInfoLoader(context));
         MmsManager.setUseWakeLock(true);
-        // If Gservices is configured not to use mms api, force MmsManager to always use
-        // legacy mms sending logic
-        MmsManager.setForceLegacyMms(!bugleGservices.getBoolean(
-                BugleGservicesKeys.USE_MMS_API_IF_PRESENT,
-                BugleGservicesKeys.USE_MMS_API_IF_PRESENT_DEFAULT));
-        bugleGservices.registerForChanges(() -> MmsManager.setForceLegacyMms(
-                !bugleGservices.getBoolean(
-                        BugleGservicesKeys.USE_MMS_API_IF_PRESENT,
-                        BugleGservicesKeys.USE_MMS_API_IF_PRESENT_DEFAULT)));
     }
 
     public static void updateAppConfig(final Context context) {

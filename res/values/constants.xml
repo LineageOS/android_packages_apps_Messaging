@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2024 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -45,21 +46,12 @@
     <string name="wireless_alerts_key" translatable="false">buglesub_wireless_alerts_key</string>
     <string name="apn_list_pref_key" translatable="false">buglesub_apn_list</string>
 
-    <!-- Debug preferences -->
-    <string name="debug_pref_key" translatable="false">debug_category</string>
-    <string name="dump_sms_pref_key" translatable="false">dump_sms</string>
-    <bool name="dump_sms_pref_default" translatable="false">false</bool>
-    <string name="dump_mms_pref_key" translatable="false">dump_mms</string>
-    <bool name="dump_mms_pref_default" translatable="false">false</bool>
-
-
     <!-- SMS/MMS settings keys -->
     <!--
     TODO: Several of these are currently unused but are expected to be needed to
     implement SMS/MMS delivery and basic settings. Once we have the core functionality in place
     we should do a pass to remove any unused values here.
     -->
-    <string name="sms_apns_key" translatable="false">sms_apns_key</string>
     <string name="use_local_apn_pref_key" translatable="false">use_local_apn_pref_key</string>
     <bool name="use_local_apn_pref_default" translatable="false">false</bool>
 

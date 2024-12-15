@@ -30,7 +30,6 @@ import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
 import com.android.messaging.datamodel.DatabaseHelper.ParticipantColumns;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.Dates;
@@ -396,9 +395,7 @@ public class ConversationMessageData {
                         if (!TextUtils.isEmpty(firstTextPart)) {
                               sb.append(firstTextPart);
                         }
-                        separator = BugleGservices.get().getString(
-                                BugleGservicesKeys.MMS_TEXT_CONCAT_SEPARATOR,
-                                BugleGservicesKeys.MMS_TEXT_CONCAT_SEPARATOR_DEFAULT);
+                        separator = BugleGservicesKeys.MMS_TEXT_CONCAT_SEPARATOR_DEFAULT;
                     }
                     final String partText = part.getText();
                     if (!TextUtils.isEmpty(partText)) {
