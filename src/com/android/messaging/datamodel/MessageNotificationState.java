@@ -50,7 +50,6 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ConversationIdSet;
@@ -1008,13 +1007,9 @@ public abstract class MessageNotificationState extends NotificationState {
 
     private static int getMaxMessagesInConversationNotification() {
         if (!BugleNotifications.isWearCompanionAppInstalled()) {
-            return BugleGservices.get().getInt(
-                    BugleGservicesKeys.MAX_MESSAGES_IN_CONVERSATION_NOTIFICATION,
-                    BugleGservicesKeys.MAX_MESSAGES_IN_CONVERSATION_NOTIFICATION_DEFAULT);
+            return BugleGservicesKeys.MAX_MESSAGES_IN_CONVERSATION_NOTIFICATION_DEFAULT;
         }
-        return BugleGservices.get().getInt(
-                BugleGservicesKeys.MAX_MESSAGES_IN_CONVERSATION_NOTIFICATION_WITH_WEARABLE,
-                BugleGservicesKeys.MAX_MESSAGES_IN_CONVERSATION_NOTIFICATION_WITH_WEARABLE_DEFAULT);
+        return BugleGservicesKeys.MAX_MESSAGES_IN_CONVERSATION_NOTIFICATION_WITH_WEARABLE_DEFAULT;
     }
 
     /**

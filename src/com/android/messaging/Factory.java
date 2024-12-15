@@ -26,7 +26,6 @@ import com.android.messaging.datamodel.media.MediaResourceManager;
 import com.android.messaging.sms.BugleCarrierConfigValuesLoader;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.PhoneUtils;
@@ -56,7 +55,6 @@ public abstract class Factory {
 
     public abstract Context getApplicationContext();
     public abstract DataModel getDataModel();
-    public abstract BugleGservices getBugleGservices();
     public abstract BuglePrefs getApplicationPrefs();
     public abstract BuglePrefs getSubscriptionPrefs(int subId);
     public abstract BuglePrefs getWidgetPrefs();
