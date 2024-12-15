@@ -271,9 +271,6 @@ public class ProcessDownloadedMmsAction extends Action {
                 if (downloadedData != null) {
                     final RetrieveConf retrieveConf =
                             MmsSender.parseRetrieveConf(downloadedData, subId);
-                    if (MmsUtils.isDumpMmsEnabled()) {
-                        MmsUtils.dumpPdu(downloadedData, retrieveConf);
-                    }
                     if (retrieveConf != null) {
                         // Insert the downloaded MMS into telephony
                         final Uri notificationUri = actionParameters.getParcelable(

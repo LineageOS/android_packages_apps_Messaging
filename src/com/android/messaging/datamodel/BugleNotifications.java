@@ -68,7 +68,6 @@ import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
@@ -605,10 +604,9 @@ public class BugleNotifications {
                     // Find out the last time we dinged for this conversation
                     Long lastTime = sLastMessageDingTime.get(conversationId);
                     if (sTimeBetweenDingsMs == 0) {
-                        sTimeBetweenDingsMs = BugleGservices.get().getInt(
-                                BugleGservicesKeys.NOTIFICATION_TIME_BETWEEN_RINGS_SECONDS,
-                                BugleGservicesKeys.NOTIFICATION_TIME_BETWEEN_RINGS_SECONDS_DEFAULT) *
-                                    1000;
+                        sTimeBetweenDingsMs =
+                                BugleGservicesKeys.NOTIFICATION_TIME_BETWEEN_RINGS_SECONDS_DEFAULT *
+                                        1000;
                     }
                     if (lastTime == null
                             || SystemClock.elapsedRealtime() - lastTime > sTimeBetweenDingsMs) {

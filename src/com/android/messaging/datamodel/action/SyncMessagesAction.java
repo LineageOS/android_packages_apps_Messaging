@@ -43,7 +43,6 @@ import com.android.messaging.sms.DatabaseMessages.MmsMessage;
 import com.android.messaging.sms.DatabaseMessages.SmsMessage;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
@@ -76,10 +75,8 @@ public class SyncMessagesAction extends Action implements Parcelable {
      * Start a full sync (backed off a few seconds to avoid pulling sending/receiving messages).
      */
     public static void fullSync() {
-        final BugleGservices bugleGservices = BugleGservices.get();
-        final long smsSyncBackoffTimeMillis = bugleGservices.getLong(
-                BugleGservicesKeys.SMS_SYNC_BACKOFF_TIME_MILLIS,
-                BugleGservicesKeys.SMS_SYNC_BACKOFF_TIME_MILLIS_DEFAULT);
+        final long smsSyncBackoffTimeMillis =
+                BugleGservicesKeys.SMS_SYNC_BACKOFF_TIME_MILLIS_DEFAULT;
 
         final long now = System.currentTimeMillis();
         // TODO: Could base this off most recent message in db but now should be okay...
@@ -94,10 +91,8 @@ public class SyncMessagesAction extends Action implements Parcelable {
      * Start an incremental sync to pull messages since last sync (backed off a few seconds)..
      */
     public static void sync() {
-        final BugleGservices bugleGservices = BugleGservices.get();
-        final long smsSyncBackoffTimeMillis = bugleGservices.getLong(
-                BugleGservicesKeys.SMS_SYNC_BACKOFF_TIME_MILLIS,
-                BugleGservicesKeys.SMS_SYNC_BACKOFF_TIME_MILLIS_DEFAULT);
+        final long smsSyncBackoffTimeMillis =
+                BugleGservicesKeys.SMS_SYNC_BACKOFF_TIME_MILLIS_DEFAULT;
 
         final long now = System.currentTimeMillis();
         // TODO: Could base this off most recent message in db but now should be okay...
@@ -195,20 +190,16 @@ public class SyncMessagesAction extends Action implements Parcelable {
 
     @Override
     protected Bundle doBackgroundWork() {
-        final BugleGservices bugleGservices = BugleGservices.get();
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
-        final int maxMessagesToScan = bugleGservices.getInt(
-                BugleGservicesKeys.SMS_SYNC_BATCH_MAX_MESSAGES_TO_SCAN,
-                BugleGservicesKeys.SMS_SYNC_BATCH_MAX_MESSAGES_TO_SCAN_DEFAULT);
+        final int maxMessagesToScan =
+                BugleGservicesKeys.SMS_SYNC_BATCH_MAX_MESSAGES_TO_SCAN_DEFAULT;
 
         final int initialMaxMessagesToUpdate = actionParameters.getInt(KEY_MAX_UPDATE);
-        final int smsSyncSubsequentBatchSizeMin = bugleGservices.getInt(
-                BugleGservicesKeys.SMS_SYNC_BATCH_SIZE_MIN,
-                BugleGservicesKeys.SMS_SYNC_BATCH_SIZE_MIN_DEFAULT);
-        final int smsSyncSubsequentBatchSizeMax = bugleGservices.getInt(
-                BugleGservicesKeys.SMS_SYNC_BATCH_SIZE_MAX,
-                BugleGservicesKeys.SMS_SYNC_BATCH_SIZE_MAX_DEFAULT);
+        final int smsSyncSubsequentBatchSizeMin =
+                BugleGservicesKeys.SMS_SYNC_BATCH_SIZE_MIN_DEFAULT;
+        final int smsSyncSubsequentBatchSizeMax =
+                BugleGservicesKeys.SMS_SYNC_BATCH_SIZE_MAX_DEFAULT;
 
         // Cap sync size to GServices limits
         final int maxMessagesToUpdate = Math.max(smsSyncSubsequentBatchSizeMin,
@@ -512,10 +503,8 @@ public class SyncMessagesAction extends Action implements Parcelable {
      * @return Target number of messages to sync for next batch
      */
     private static int nextBatchSize(final int messagesUpdated, final long txnTimeMillis) {
-        final BugleGservices bugleGservices = BugleGservices.get();
-        final long smsSyncSubsequentBatchTimeLimitMillis = bugleGservices.getLong(
-                BugleGservicesKeys.SMS_SYNC_BATCH_TIME_LIMIT_MILLIS,
-                BugleGservicesKeys.SMS_SYNC_BATCH_TIME_LIMIT_MILLIS_DEFAULT);
+        final long smsSyncSubsequentBatchTimeLimitMillis =
+                BugleGservicesKeys.SMS_SYNC_BATCH_TIME_LIMIT_MILLIS_DEFAULT;
 
         if (txnTimeMillis <= 0) {
             return 0;

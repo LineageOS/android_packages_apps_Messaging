@@ -688,50 +688,6 @@
     <!-- Label for new message button in share intent dialog -->
     <string name="share_cancel">Cancel</string>
 
-    <!-- Screen title after user selects APNs setting option -->
-    <string name="apn_edit">Edit access point</string>
-    <!-- Edit access point label summary text when no value has been set -->
-    <string name="apn_not_set">Not set</string>
-    <!-- Edit access point labels: A label the user can give to the APN to allow him to differentiate it from the others -->
-    <string name="apn_name">Name</string>
-    <!-- Edit access point labels: -->
-    <string name="apn_mmsc">MMSC</string>
-    <!-- Edit access point labels: The proxy to use for MMS (multimedia messages)-->
-    <string name="apn_mms_proxy">MMS proxy</string>
-    <!-- Edit access point labels: The port on the proxy used for MMS-->
-    <string name="apn_mms_port">MMS port</string>
-    <!-- Edit access point labels: -->
-    <string name="apn_mcc">MCC</string>
-    <!-- Edit access point labels: -->
-    <string name="apn_mnc">MNC</string>
-    <!-- Edit access point screen menu option to delete this APN -->
-    <string name="menu_delete_apn">Delete APN</string>
-    <!-- APNs screen menu option to create a brand spanking new APN -->
-    <string name="menu_new_apn">New APN</string>
-    <!-- Edit access point screen menu option to save the user's changes for this APN to the persistent storage -->
-    <string name="menu_save_apn">Save</string>
-    <!-- Edit access point screen menu option to discard the user's changes for this APN -->
-    <string name="menu_discard_apn_change">Discard</string>
-    <!-- APN error dialog messages: -->
-    <string name="error_apn_name_empty">The Name field can\'t be empty.</string>
-    <!-- APN error dialog messages: -->
-    <string name="error_mcc_not3">MCC field must be 3 digits.</string>
-    <!-- APN error dialog messages: -->
-    <string name="error_mnc_not23">MNC field must be 2 or 3 digits.</string>
-    <!-- The message of dialog indicated restoring default APN settings in progress -->
-    <string name="restore_default_apn">Restoring default APN settings.</string>
-    <!-- APNs screen menu option to reset default APN settings -->
-    <string name="menu_restore_default_apn">Reset to default</string>
-    <!-- APNs screen toast message to inform reset default APN settings is completed -->
-    <string name="restore_default_apn_completed">Reset default APN settings completed.</string>
-    <!-- Name to assign to a Network Access Point that was saved without a name -->
-    <string name="untitled_apn">Untitled</string>
-    <!-- Title for Access Point Names settings -->
-    <string name="sms_apns_title">Access Point Names</string>
-    <!-- Title for Access Point Names settings activity -->
-    <string name="apn_settings">APNs</string>
-    <!-- Error message for users that aren't allowed to modify Access Point Names settings [CHAR LIMIT=none] -->
-    <string name="apn_settings_not_available">Access Point Name settings are not available for this user</string>
     <!-- Alert dialog title to copy information displayed in dialog to system clipboard. -->
     <string name="copy_to_clipboard_dialog_title">Copy to clipboard?</string>
     <!-- Alert dialog accept to copy information displayed in dialog to system clipboard. -->
