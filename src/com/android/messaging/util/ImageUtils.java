@@ -51,14 +51,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class ImageUtils {
     private static final String TAG = LogUtil.BUGLE_TAG;
     private static final int MAX_OOM_COUNT = 1;
-    private static final byte[] GIF87_HEADER = "GIF87a".getBytes(Charset.forName("US-ASCII"));
-    private static final byte[] GIF89_HEADER = "GIF89a".getBytes(Charset.forName("US-ASCII"));
+    private static final byte[] GIF87_HEADER = "GIF87a".getBytes(StandardCharsets.US_ASCII);
+    private static final byte[] GIF89_HEADER = "GIF89a".getBytes(StandardCharsets.US_ASCII);
 
     // Used for drawBitmapWithCircleOnCanvas.
     // Default color is transparent for both circle background and stroke.

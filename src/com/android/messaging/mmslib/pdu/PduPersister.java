@@ -59,7 +59,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
@@ -1632,26 +1632,14 @@ public class PduPersister {
      * Wrap a byte[] into a String.
      */
     public static String toIsoString(final byte[] bytes) {
-        try {
-            return new String(bytes, CharacterSets.MIMENAME_ISO_8859_1);
-        } catch (final UnsupportedEncodingException e) {
-            // Impossible to reach here!
-            Log.e(TAG, "ISO_8859_1 must be supported!", e);
-            return "";
-        }
+        return new String(bytes, StandardCharsets.ISO_8859_1);
     }
 
     /**
      * Unpack a given String into a byte[].
      */
     public static byte[] getBytes(final String data) {
-        try {
-            return data.getBytes(CharacterSets.MIMENAME_ISO_8859_1);
-        } catch (final UnsupportedEncodingException e) {
-            // Impossible to reach here!
-            Log.e(TAG, "ISO_8859_1 must be supported!", e);
-            return new byte[0];
-        }
+        return data.getBytes(StandardCharsets.ISO_8859_1);
     }
 
     /**
