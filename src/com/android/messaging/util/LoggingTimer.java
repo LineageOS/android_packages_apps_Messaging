@@ -59,8 +59,6 @@ public class LoggingTimer {
 
         final String logMessage = String.format("Used %dms for %s", elapsedMs, mName);
 
-        LogUtil.save(LogUtil.DEBUG, mTag, logMessage);
-
         if (mWarnLimitMillis != NO_WARN_LIMIT && elapsedMs > mWarnLimitMillis) {
             LogUtil.w(mTag, logMessage);
         } else if (LogUtil.isLoggable(mTag, LogUtil.VERBOSE)) {
