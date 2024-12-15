@@ -22,7 +22,6 @@ import android.app.role.RoleManager;
 import android.appwidget.AppWidgetManager;
 import android.content.ActivityNotFoundException;
 import android.content.ClipData;
-import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +32,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
 import android.provider.MediaStore;
-import android.provider.Telephony;
+
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -50,6 +49,7 @@ import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.receiver.NotificationReceiver;
 import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.ui.appsettings.ApnEditorActivity;
+import com.android.messaging.ui.appsettings.ApnSettingsActivity;
 import com.android.messaging.ui.appsettings.ApplicationSettingsActivity;
 import com.android.messaging.ui.appsettings.PerSubscriptionSettingsActivity;
 import com.android.messaging.ui.appsettings.SettingsActivity;
@@ -60,7 +60,6 @@ import com.android.messaging.ui.conversationlist.ArchivedConversationListActivit
 import com.android.messaging.ui.conversationlist.ConversationListActivity;
 import com.android.messaging.ui.conversationlist.ForwardMessageActivity;
 import com.android.messaging.ui.conversationsettings.PeopleAndOptionsActivity;
-import com.android.messaging.ui.debug.DebugMmsConfigActivity;
 import com.android.messaging.ui.photoviewer.BuglePhotoViewActivity;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
@@ -190,11 +189,6 @@ public class UIIntentsImpl extends UIIntents {
         final Intent intent = getConversationActivityIntent(context, null, draft,
                 false /* withCustomTransition */);
         context.startActivity(intent);
-    }
-
-    @Override
-    public void launchDebugMmsConfigActivity(final Context context) {
-        context.startActivity(new Intent(context, DebugMmsConfigActivity.class));
     }
 
     @Override

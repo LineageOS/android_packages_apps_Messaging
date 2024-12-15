@@ -297,14 +297,6 @@
                 android:value="com.android.messaging.ui.conversation.ConversationActivity" />
         </activity>
 
-        <activity
-            android:name=".ui.debug.DebugMmsConfigActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="user"
-            android:theme="@style/BugleTheme.DialogActivity"
-            android:exported="false">
-        </activity>
-
         <provider android:name=".datamodel.MessagingContentProvider" android:label="@string/app_name"
                   android:authorities="com.android.messaging.datamodel.MessagingContentProvider"
                   android:exported="false" >
