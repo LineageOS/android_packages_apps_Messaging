@@ -40,9 +40,6 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
 import com.android.messaging.ui.conversationlist.ConversationListFragment.ConversationListFragmentHost;
 import com.android.messaging.ui.conversationlist.MultiSelectActionModeCallback.SelectedConversation;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
 import com.android.messaging.util.UiUtils;
@@ -266,10 +263,6 @@ public abstract class AbstractConversationListActivity  extends BugleActionBarAc
         return isInConversationListSelectMode() &&
                 ((MultiSelectActionModeCallback) getActionModeCallback()).isSelected(
                         conversationId);
-    }
-
-    public void onActionBarDebug() {
-        DebugUtils.showDebugOptions(this);
     }
 
     private static class UpdateDestinationBlockedActionSnackBar

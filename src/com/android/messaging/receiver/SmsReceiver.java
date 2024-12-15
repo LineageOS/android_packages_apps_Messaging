@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +35,6 @@ import androidx.core.app.NotificationManagerCompat;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -44,9 +44,6 @@ import com.android.messaging.datamodel.NoConfirmationSmsSendService;
 import com.android.messaging.datamodel.action.ReceiveSmsMessageAction;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.OsUtil;
@@ -125,10 +122,6 @@ public final class SmsReceiver extends BroadcastReceiver {
         int subId = PhoneUtils.getDefault().getEffectiveIncomingSubIdFromSystem(
                 intent, EXTRA_SUB_ID);
         deliverSmsMessages(context, subId, errorCode, messages);
-        if (MmsUtils.isDumpSmsEnabled()) {
-            final String format = intent.getStringExtra("format");
-            DebugUtils.dumpSms(messages[0].getTimestampMillis(), messages, format);
-        }
     }
 
     public static void deliverSmsMessages(final Context context, final int subId,
@@ -148,8 +141,7 @@ public final class SmsReceiver extends BroadcastReceiver {
         messageValues.put(Sms.Inbox.SEEN, 0);
         messageValues.put(Sms.SUBSCRIPTION_ID, subId);
 
-        if (messages[0].getMessageClass() == android.telephony.SmsMessage.MessageClass.CLASS_0 ||
-                DebugUtils.debugClassZeroSmsEnabled()) {
+        if (messages[0].getMessageClass() == android.telephony.SmsMessage.MessageClass.CLASS_0) {
             Factory.get().getUIIntents().launchClassZeroActivity(context, messageValues);
         } else {
             final ReceiveSmsMessageAction action = new ReceiveSmsMessageAction(messageValues);
@@ -229,30 +221,6 @@ public final class SmsReceiver extends BroadcastReceiver {
     }
 
     /**
-     * Compile all of the patterns we check for to ignore system SMS messages.
-     */
-    private static void compileIgnoreSmsPatterns() {
-        // Get the pattern set from GServices
-        final String smsIgnoreRegex = BugleGservices.get().getString(
-                BugleGservicesKeys.SMS_IGNORE_MESSAGE_REGEX,
-                BugleGservicesKeys.SMS_IGNORE_MESSAGE_REGEX_DEFAULT);
-        if (smsIgnoreRegex != null) {
-            final String[] ignoreSmsExpressions = smsIgnoreRegex.split("\n");
-            if (ignoreSmsExpressions.length != 0) {
-                sIgnoreSmsPatterns = new ArrayList<Pattern>();
-                for (int i = 0; i < ignoreSmsExpressions.length; i++) {
-                    try {
-                        sIgnoreSmsPatterns.add(Pattern.compile(ignoreSmsExpressions[i]));
-                    } catch (PatternSyntaxException e) {
-                        LogUtil.e(TAG, "compileIgnoreSmsPatterns: Skipping bad expression: " +
-                                ignoreSmsExpressions[i]);
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Get the SMS messages from the specified SMS intent.
      * @return the messages. If there is an error or the message should be ignored, return null.
      */
@@ -261,27 +229,6 @@ public final class SmsReceiver extends BroadcastReceiver {
 
         // Check messages for validity
         if (messages == null || messages.length < 1) {
-            return null;
-        }
-        // Sometimes, SmsMessage.mWrappedSmsMessage is null causing NPE when we access
-        // the methods on it although the SmsMessage itself is not null. So do this check
-        // before we do anything on the parsed SmsMessages.
-        try {
-            final String messageBody = messages[0].getDisplayMessageBody();
-            if (messageBody != null) {
-                // Compile patterns if necessary
-                if (sIgnoreSmsPatterns == null) {
-                    compileIgnoreSmsPatterns();
-                }
-                // Check against filters
-                for (final Pattern pattern : sIgnoreSmsPatterns) {
-                    if (pattern.matcher(messageBody).matches()) {
-                        return null;
-                    }
-                }
-            }
-        } catch (final NullPointerException e) {
-            LogUtil.e(TAG, "shouldIgnoreMessage: NPE inside SmsMessage");
             return null;
         }
         return messages;

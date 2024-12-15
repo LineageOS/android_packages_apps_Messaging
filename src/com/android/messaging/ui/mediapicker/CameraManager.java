@@ -45,8 +45,6 @@ import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.ui.mediapicker.camerafocus.FocusOverlayManager;
 import com.android.messaging.ui.mediapicker.camerafocus.RenderOverlay;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.UiUtils;
@@ -975,9 +973,7 @@ class CameraManager implements FocusOverlayManager.Listener {
         screenWidth *= scaleFactor;
         screenHeight *= scaleFactor;
 
-        final float aspectRatio = BugleGservices.get().getFloat(
-                BugleGservicesKeys.CAMERA_ASPECT_RATIO,
-                screenWidth / (float) screenHeight);
+        final float aspectRatio = screenWidth / (float) screenHeight;
         final List<Camera.Size> sizes = new ArrayList<Camera.Size>(
                 mCamera.getParameters().getSupportedPictureSizes());
         final int maxPixels = maxWidth * maxHeight;

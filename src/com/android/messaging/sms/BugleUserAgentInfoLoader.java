@@ -22,7 +22,6 @@ import android.support.v7.mms.UserAgentInfoLoader;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.VersionUtil;
@@ -86,9 +85,7 @@ public class BugleUserAgentInfoLoader implements UserAgentInfoLoader {
         }
         // if the UAProfUrl isn't set, get it from Gservices
         if (TextUtils.isEmpty(mUAProfUrl)) {
-            mUAProfUrl = BugleGservices.get().getString(
-                    BugleGservicesKeys.MMS_UA_PROFILE_URL,
-                    BugleGservicesKeys.MMS_UA_PROFILE_URL_DEFAULT);
+            mUAProfUrl = BugleGservicesKeys.MMS_UA_PROFILE_URL_DEFAULT;
         }
     }
 }

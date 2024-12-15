@@ -34,7 +34,6 @@
          <item name="colorAccent">@color/lineage_accent</item>
          <item name="android:textColorHighlight">@color/text_highlight_color</item>
          <item name="actionBarStyle">@style/BugleActionBar</item>
-         <item name="apnPreferenceStyle">@style/ApnPreference</item>
          <item name="alertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
@@ -464,15 +463,6 @@
 
     <style name="ColorAccentGrayOverrideStyle">
         <item name="colorAccent">@color/search_view_text_cursor</item>
-    </style>
-
-    <style name="ApnPreference">
-        <item name="android:layout">@layout/apn_preference_layout</item>
-    </style>
-
-    <style name="ApnPreferenceLayoutStyle">
-        <item name="android:paddingStart">?android:attr/listPreferredItemPaddingStart</item>
-        <item name="android:paddingEnd">?android:attr/listPreferredItemPaddingEnd</item>
     </style>
 
     <style name="SettingsListItem">

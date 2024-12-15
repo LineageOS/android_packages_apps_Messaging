@@ -36,33 +36,6 @@ public class LogUtil {
     public static final int INFO = android.util.Log.INFO;
     public static final int ERROR = android.util.Log.ERROR;
 
-    // If this is non-null, DEBUG and higher logs will be tracked in-memory. It will not include
-    // VERBOSE logs.
-    private static LogSaver sDebugLogSaver;
-    private static volatile boolean sCaptureDebugLogs;
-
-    /**
-     * Read Gservices to see if logging should be enabled.
-     */
-    public static void refreshGservices(final BugleGservices gservices) {
-        sCaptureDebugLogs = gservices.getBoolean(
-                BugleGservicesKeys.ENABLE_LOG_SAVER,
-                BugleGservicesKeys.ENABLE_LOG_SAVER_DEFAULT);
-        if (sCaptureDebugLogs && (sDebugLogSaver == null || !sDebugLogSaver.isCurrent())) {
-            // We were not capturing logs before. We are now.
-            sDebugLogSaver = LogSaver.newInstance();
-        } else if (!sCaptureDebugLogs && sDebugLogSaver != null) {
-            // We were capturing logs. We aren't anymore.
-            sDebugLogSaver = null;
-        }
-    }
-
- // This is called from FactoryImpl once the Gservices class is initialized.
-    public static void initializeGservices (final BugleGservices gservices) {
-        gservices.registerForChanges(() -> refreshGservices(gservices));
-        refreshGservices(gservices);
-    }
-
     /**
      * Send a {@link #VERBOSE} log message.
      * @param tag Used to identify the source of a log message.  It usually identifies
@@ -214,26 +187,6 @@ public class LogUtil {
      */
     private static void println(final int level, final String tag, final String msg) {
         android.util.Log.println(level, tag, msg);
-
-        LogSaver serviceLog = sDebugLogSaver;
-        if (serviceLog != null && level >= android.util.Log.DEBUG) {
-            serviceLog.log(level, tag, msg);
-        }
-    }
-
-    /**
-     * Save logging into LogSaver only, for dumping to bug report
-     *
-     * @param level The priority/type of this log message
-     * @param tag Used to identify the source of a log message.  It usually identifies
-     *        the class or activity where the log call occurs.
-     * @param msg The message you would like logged.
-     */
-    public static void save(final int level, final String tag, final String msg) {
-        LogSaver serviceLog = sDebugLogSaver;
-        if (serviceLog != null) {
-            serviceLog.log(level, tag, msg);
-        }
     }
 
     /**
@@ -258,13 +211,6 @@ public class LogUtil {
             return text;
         } else {
             return "Redacted-" + text.length();
-        }
-    }
-
-    public static void dump(java.io.PrintWriter out) {
-        final LogSaver logsaver = sDebugLogSaver;
-        if (logsaver != null) {
-            logsaver.dump(out);
         }
     }
 }
