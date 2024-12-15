@@ -17,7 +17,6 @@ package com.android.messaging.ui.contact;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.MergeCursor;
 import androidx.core.util.Pair;
 import android.text.TextUtils;
 import android.text.util.Rfc822Token;
@@ -35,8 +34,6 @@ import com.android.ex.chips.RecipientEntry;
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.ContactRecipientEntryUtils;
 import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.PhoneUtils;
@@ -116,40 +113,16 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
         @DoesNotRunOnMainThread
         private CursorResult getFilteredResultsCursor(final String searchText) {
             Assert.isNotMainThread();
-            if (BugleGservices.get().getBoolean(
-                    BugleGservicesKeys.ALWAYS_AUTOCOMPLETE_EMAIL_ADDRESS,
-                    BugleGservicesKeys.ALWAYS_AUTOCOMPLETE_EMAIL_ADDRESS_DEFAULT)) {
-
-                final Cursor personalFilterPhonesCursor = ContactUtil
-                        .filterPhones(getContext(), searchText).performSynchronousQuery();
-                final Cursor personalFilterEmailsCursor = ContactUtil
-                        .filterEmails(getContext(), searchText).performSynchronousQuery();
-                final Cursor personalCursor = new MergeCursor(
-                        new Cursor[]{personalFilterEmailsCursor, personalFilterPhonesCursor});
-                final CursorResult cursorResult =
-                        new CursorResult(personalCursor, false /* sorted */);
-                // Including enterprise result starting from N.
-                final Cursor enterpriseFilterPhonesCursor = ContactUtil.filterPhonesEnterprise(
-                        getContext(), searchText).performSynchronousQuery();
-                final Cursor enterpriseFilterEmailsCursor = ContactUtil.filterEmailsEnterprise(
-                        getContext(), searchText).performSynchronousQuery();
-                final Cursor enterpriseCursor = new MergeCursor(
-                        new Cursor[]{enterpriseFilterEmailsCursor,
-                                enterpriseFilterPhonesCursor});
-                cursorResult.enterpriseCursor = enterpriseCursor;
-                return cursorResult;
-            } else {
-                final Cursor personalFilterDestinationCursor = ContactUtil
-                        .filterDestination(getContext(), searchText).performSynchronousQuery();
-                final CursorResult cursorResult = new CursorResult(personalFilterDestinationCursor,
-                        true);
-                // Including enterprise result starting from N.
-                final Cursor enterpriseFilterDestinationCursor = ContactUtil
-                        .filterDestinationEnterprise(getContext(), searchText)
-                        .performSynchronousQuery();
-                cursorResult.enterpriseCursor = enterpriseFilterDestinationCursor;
-                return cursorResult;
-            }
+            final Cursor personalFilterDestinationCursor = ContactUtil
+                    .filterDestination(getContext(), searchText).performSynchronousQuery();
+            final CursorResult cursorResult = new CursorResult(personalFilterDestinationCursor,
+                    true);
+            // Including enterprise result starting from N.
+            final Cursor enterpriseFilterDestinationCursor = ContactUtil
+                    .filterDestinationEnterprise(getContext(), searchText)
+                    .performSynchronousQuery();
+            cursorResult.enterpriseCursor = enterpriseFilterDestinationCursor;
+            return cursorResult;
         }
 
         @Override
