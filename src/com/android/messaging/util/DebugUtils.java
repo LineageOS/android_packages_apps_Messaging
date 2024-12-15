@@ -17,16 +17,12 @@
 package com.android.messaging.util;
 
 import android.os.Environment;
-import android.text.TextUtils;
 
-import com.android.messaging.sms.MmsUtils;
 import com.google.common.io.ByteStreams;
 
 import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class DebugUtils {

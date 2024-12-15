@@ -22,10 +22,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationCompat.Builder;
-import androidx.core.app.NotificationCompat.WearableExtender;
-import androidx.core.app.NotificationManagerCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -37,6 +33,11 @@ import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Builder;
+import androidx.core.app.NotificationCompat.WearableExtender;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationListItemData;
@@ -45,7 +46,6 @@ import com.android.messaging.datamodel.data.ConversationParticipantsData;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
@@ -1086,7 +1086,7 @@ public abstract class MessageNotificationState extends NotificationState {
     }
 
     private static CharSequence convertHtmlAndStripUrls(final String s) {
-        final Spanned text = Html.fromHtml(s);
+        final Spanned text = Html.fromHtml(s, Html.FROM_HTML_MODE_LEGACY);
         if (text instanceof Spannable) {
             stripUrls((Spannable) text);
         }
@@ -1102,29 +1102,6 @@ public abstract class MessageNotificationState extends NotificationState {
         }
     }
 
-    /*
-    private static void updateAlertStatusMessages(final long thresholdDeltaMs) {
-        // TODO may need this when supporting error notifications
-        final EsDatabaseHelper helper = EsDatabaseHelper.getDatabaseHelper();
-        final ContentValues values = new ContentValues();
-        final long nowMicros = System.currentTimeMillis() * 1000;
-        values.put(MessageColumns.ALERT_STATUS, "1");
-        final String selection =
-                MessageColumns.ALERT_STATUS + "=0 AND (" +
-                MessageColumns.STATUS + "=" + EsProvider.MESSAGE_STATUS_FAILED_TO_SEND + " OR (" +
-                MessageColumns.STATUS + "!=" + EsProvider.MESSAGE_STATUS_ON_SERVER + " AND " +
-                MessageColumns.TIMESTAMP + "+" + thresholdDeltaMs*1000 + "<" + nowMicros + ")) ";
-
-        final int updateCount = helper.getWritableDatabaseWrapper().update(
-                EsProvider.MESSAGES_TABLE,
-                values,
-                selection,
-                null);
-        if (updateCount > 0) {
-            EsConversationsData.notifyConversationsChanged();
-        }
-    }*/
-
     static CharSequence applyWarningTextColor(final Context context,
             final CharSequence text) {
         if (text == null) {
@@ -1133,7 +1110,7 @@ public abstract class MessageNotificationState extends NotificationState {
         final SpannableStringBuilder spanBuilder = new SpannableStringBuilder();
         spanBuilder.append(text);
         spanBuilder.setSpan(new ForegroundColorSpan(context.getResources().getColor(
-                R.color.notification_warning_color)), 0, text.length(),
+                R.color.notification_warning_color, context.getTheme())), 0, text.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spanBuilder;
     }
@@ -1145,15 +1122,17 @@ public abstract class MessageNotificationState extends NotificationState {
     public static void checkFailedMessages() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
-        final Cursor messageDataCursor = db.query(DatabaseHelper.MESSAGES_TABLE,
-            MessageData.getProjection(),
-            FailedMessageQuery.FAILED_MESSAGES_WHERE_CLAUSE,
-            null /*selectionArgs*/,
-            null /*groupBy*/,
-            null /*having*/,
-            FailedMessageQuery.FAILED_ORDER_BY);
+        /*selectionArgs*/
+        /*groupBy*/
+        /*having*/
 
-        try {
+        try (Cursor messageDataCursor = db.query(DatabaseHelper.MESSAGES_TABLE,
+                MessageData.getProjection(),
+                FailedMessageQuery.FAILED_MESSAGES_WHERE_CLAUSE,
+                null /*selectionArgs*/,
+                null /*groupBy*/,
+                null /*having*/,
+                FailedMessageQuery.FAILED_ORDER_BY)) {
             final Context context = Factory.get().getApplicationContext();
             final Resources resources = context.getResources();
             final NotificationManagerCompat notificationManager =
@@ -1168,7 +1147,6 @@ public abstract class MessageNotificationState extends NotificationState {
                 final ArrayList<Integer> failedMessages = new ArrayList<Integer>();
 
                 int cursorPosition = -1;
-                final long when = 0;
 
                 messageDataCursor.moveToPosition(-1);
                 while (messageDataCursor.moveToNext()) {
@@ -1191,19 +1169,18 @@ public abstract class MessageNotificationState extends NotificationState {
                     LogUtil.d(TAG, "Found " + failedMessages.size() + " failed messages");
                 }
                 if (failedMessages.size() > 0) {
-                    final NotificationCompat.Builder builder =
-                            new NotificationCompat.Builder(context,
+                    final Builder builder =
+                            new Builder(context,
                                     NotificationsUtil.DEFAULT_CHANNEL_ID);
 
                     CharSequence line1;
                     CharSequence line2;
-                    final boolean isRichContent = false;
                     ConversationIdSet conversationIds = null;
                     PendingIntent destinationIntent;
                     if (failedMessages.size() == 1) {
                         messageDataCursor.moveToPosition(cursorPosition);
                         messageData.bind(messageDataCursor);
-                        final String conversationId =  messageData.getConversationId();
+                        final String conversationId = messageData.getConversationId();
 
                         // We have a single conversation, go directly to that conversation.
                         destinationIntent = UIIntents.get()
@@ -1224,17 +1201,11 @@ public abstract class MessageNotificationState extends NotificationState {
                         }
                         line1 = resources.getString(failureStringId);
                         line2 = failedMessgeSnippet;
-                        // Set rich text for non-SMS messages or MMS push notification messages
-                        // which we generate locally with rich text
-                        // TODO- fix this
-//                        if (messageData.isMmsInd()) {
-//                            isRichContent = true;
-//                        }
                     } else {
                         // We have notifications for multiple conversation, go to the conversation
                         // list.
                         destinationIntent = UIIntents.get()
-                            .getPendingIntentForConversationListActivity(context);
+                                .getPendingIntentForConversationListActivity(context);
 
                         int line1StringId;
                         int line2PluralsId;
@@ -1265,41 +1236,26 @@ public abstract class MessageNotificationState extends NotificationState {
                                     0);
 
                     builder
-                        .setContentTitle(line1)
-                        .setTicker(line1)
-                        .setWhen(when > 0 ? when : System.currentTimeMillis())
-                        .setSmallIcon(R.drawable.ic_failed_light)
-                        .setDeleteIntent(pendingIntentForDelete)
-                        .setContentIntent(destinationIntent)
-                        .setSound(UriUtil.getUriForResourceId(context, R.raw.message_failure));
-                    if (isRichContent && !TextUtils.isEmpty(line2)) {
-                        final NotificationCompat.InboxStyle inboxStyle =
-                                new NotificationCompat.InboxStyle(builder);
-                        if (line2 != null) {
-                            inboxStyle.addLine(Html.fromHtml(line2.toString()));
-                        }
-                        builder.setStyle(inboxStyle);
-                    } else {
-                        builder.setContentText(line2);
-                    }
+                            .setContentTitle(line1)
+                            .setTicker(line1)
+                            .setWhen(System.currentTimeMillis())
+                            .setSmallIcon(R.drawable.ic_failed_light)
+                            .setDeleteIntent(pendingIntentForDelete)
+                            .setContentIntent(destinationIntent)
+                            .setSound(UriUtil.getUriForResourceId(context, R.raw.message_failure));
+                    builder.setContentText(line2);
 
-                    if (builder != null) {
-                        notificationManager.notify(
-                                BugleNotifications.buildNotificationTag(
-                                        PendingIntentConstants.MSG_SEND_ERROR, null),
-                                PendingIntentConstants.MSG_SEND_ERROR,
-                                builder.build());
-                    }
+                    notificationManager.notify(
+                            BugleNotifications.buildNotificationTag(
+                                    PendingIntentConstants.MSG_SEND_ERROR, null),
+                            PendingIntentConstants.MSG_SEND_ERROR,
+                            builder.build());
                 } else {
                     notificationManager.cancel(
                             BugleNotifications.buildNotificationTag(
                                     PendingIntentConstants.MSG_SEND_ERROR, null),
                             PendingIntentConstants.MSG_SEND_ERROR);
                 }
-            }
-        } finally {
-            if (messageDataCursor != null) {
-                messageDataCursor.close();
             }
         }
     }

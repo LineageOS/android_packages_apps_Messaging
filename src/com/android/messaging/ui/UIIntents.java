@@ -16,7 +16,6 @@
 package com.android.messaging.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
@@ -25,6 +24,8 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.MessageData;
@@ -318,16 +319,6 @@ public abstract class UIIntents {
      */
     public abstract PendingIntent getPendingIntentForSecondaryUserNewMessageNotification(
             final Context context);
-
-    /**
-     * Get an intent for showing the APN editor.
-     */
-    public abstract Intent getApnEditorIntent(final Context context, final String rowId, int subId);
-
-    /**
-     * Get an intent for showing the APN settings.
-     */
-    public abstract Intent getApnSettingsIntent(final Context context, final int subId);
 
     /**
      * Get an intent for showing advanced settings.
