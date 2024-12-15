@@ -33,7 +33,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.receiver.SendStatusReceiver;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
@@ -225,9 +224,8 @@ public class SmsSender {
                 context, subId, dest, messages, serviceCenter, requireDeliveryReport, messageUri);
         // Wait for pending intent to come back
         synchronized (pendingResult) {
-            final long smsSendTimeoutInMillis = BugleGservices.get().getLong(
-                    BugleGservicesKeys.SMS_SEND_TIMEOUT_IN_MILLIS,
-                    BugleGservicesKeys.SMS_SEND_TIMEOUT_IN_MILLIS_DEFAULT);
+            final long smsSendTimeoutInMillis =
+                    BugleGservicesKeys.SMS_SEND_TIMEOUT_IN_MILLIS_DEFAULT;
             final long beginTime = SystemClock.elapsedRealtime();
             long waitTime = smsSendTimeoutInMillis;
             // We could possibly be woken up while still pending

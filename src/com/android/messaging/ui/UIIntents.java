@@ -155,11 +155,6 @@ public abstract class UIIntents {
             final MessageData draft);
 
     /**
-     * Launch debug activity to set MMS config options.
-     */
-    public abstract void launchDebugMmsConfigActivity(final Context context);
-
-    /**
      * Launch an activity to change settings.
      */
     public abstract void launchSettingsActivity(final Context context);
@@ -324,16 +319,6 @@ public abstract class UIIntents {
      */
     public abstract PendingIntent getPendingIntentForSecondaryUserNewMessageNotification(
             final Context context);
-
-    /**
-     * Get an intent for showing the APN editor.
-     */
-    public abstract Intent getApnEditorIntent(final Context context, final String rowId, int subId);
-
-    /**
-     * Get an intent for showing the APN settings.
-     */
-    public abstract Intent getApnSettingsIntent(final Context context, final int subId);
 
     /**
      * Get an intent for showing advanced settings.

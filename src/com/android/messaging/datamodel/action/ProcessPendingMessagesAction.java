@@ -35,7 +35,6 @@ import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
@@ -153,12 +152,8 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
 
         final ProcessPendingMessagesAction action = new ProcessPendingMessagesAction();
         action.actionParameters.putInt(KEY_SUB_ID, subId);
-        final long initialBackoffMs = BugleGservices.get().getLong(
-                BugleGservicesKeys.INITIAL_MESSAGE_RESEND_DELAY_MS,
-                BugleGservicesKeys.INITIAL_MESSAGE_RESEND_DELAY_MS_DEFAULT);
-        final long maxDelayMs = BugleGservices.get().getLong(
-                BugleGservicesKeys.MAX_MESSAGE_RESEND_DELAY_MS,
-                BugleGservicesKeys.MAX_MESSAGE_RESEND_DELAY_MS_DEFAULT);
+        final long initialBackoffMs = BugleGservicesKeys.INITIAL_MESSAGE_RESEND_DELAY_MS_DEFAULT;
+        final long maxDelayMs = BugleGservicesKeys.MAX_MESSAGE_RESEND_DELAY_MS_DEFAULT;
         long delayMs;
         long nextDelayMs = initialBackoffMs;
         do {

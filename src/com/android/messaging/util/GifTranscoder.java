@@ -42,9 +42,6 @@ public class GifTranscoder {
     }
 
     public static boolean transcode(Context context, String filePath, String outFilePath) {
-        if (!isEnabled()) {
-            return false;
-        }
         final long inputSize = new File(filePath).length();
         Stopwatch stopwatch = Stopwatch.createStarted();
         final boolean success = transcodeInternal(filePath, outFilePath);
@@ -77,19 +74,6 @@ public class GifTranscoder {
     }
 
     public static boolean canBeTranscoded(int width, int height) {
-        if (!isEnabled()) {
-            return false;
-        }
         return width >= MIN_WIDTH && height >= MIN_HEIGHT;
-    }
-
-    private static boolean isEnabled() {
-        final boolean enabled = BugleGservices.get().getBoolean(
-                BugleGservicesKeys.ENABLE_GIF_TRANSCODING,
-                BugleGservicesKeys.ENABLE_GIF_TRANSCODING_DEFAULT);
-        if (!enabled) {
-            LogUtil.w(TAG, "GIF transcoding is disabled");
-        }
-        return enabled;
     }
 }

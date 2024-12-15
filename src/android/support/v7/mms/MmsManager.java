@@ -33,20 +33,8 @@ public class MmsManager {
      */
     public static final int DEFAULT_SUB_ID = -1;
 
-    // Whether to force legacy MMS sending
-    private static volatile boolean sForceLegacyMms = false;
-
     // Cached computed overrides for carrier configuration values
     private static final SparseArray<Bundle> sConfigOverridesMap = new SparseArray<>();
-
-    /**
-     * Set the flag about whether to force to use legacy system APIs instead of system MMS API
-     *
-     * @param forceLegacyMms value to set
-     */
-    public static void setForceLegacyMms(boolean forceLegacyMms) {
-        sForceLegacyMms = forceLegacyMms;
-    }
 
     /**
      * Set the size of thread pool for request execution.
@@ -136,14 +124,10 @@ public class MmsManager {
      */
     public static void sendMultimediaMessage(int subId, Context context, Uri contentUri,
             String locationUrl, PendingIntent sentIntent) {
-        if (shouldUseLegacyMms()) {
-            MmsService.startRequest(context, new SendRequest(locationUrl, contentUri, sentIntent));
-        } else {
-            subId = Utils.getEffectiveSubscriptionId(subId);
-            final SmsManager smsManager = Utils.getSmsManager(subId);
-            smsManager.sendMultimediaMessage(context, contentUri, locationUrl,
-                    getConfigOverrides(subId), sentIntent);
-        }
+        subId = Utils.getEffectiveSubscriptionId(subId);
+        final SmsManager smsManager = Utils.getSmsManager(subId);
+        smsManager.sendMultimediaMessage(context, contentUri, locationUrl,
+                getConfigOverrides(subId), sentIntent);
     }
 
     /**
@@ -158,24 +142,10 @@ public class MmsManager {
      */
     public static void downloadMultimediaMessage(int subId, Context context, String locationUrl,
             Uri contentUri, PendingIntent downloadedIntent) {
-        if (shouldUseLegacyMms()) {
-            MmsService.startRequest(context,
-                    new DownloadRequest(locationUrl, contentUri, downloadedIntent));
-        } else {
-            subId = Utils.getEffectiveSubscriptionId(subId);
-            final SmsManager smsManager = Utils.getSmsManager(subId);
-            smsManager.downloadMultimediaMessage(context, locationUrl, contentUri,
-                    getConfigOverrides(subId), downloadedIntent);
-        }
-    }
-
-    /**
-     * Checks if we should use legacy APIs for MMS.
-     *
-     * @return true if forced to use legacy APIs or platform doesn't supports MMS APIs.
-     */
-    public static boolean shouldUseLegacyMms() {
-        return sForceLegacyMms;
+        subId = Utils.getEffectiveSubscriptionId(subId);
+        final SmsManager smsManager = Utils.getSmsManager(subId);
+        smsManager.downloadMultimediaMessage(context, locationUrl, contentUri,
+                getConfigOverrides(subId), downloadedIntent);
     }
 
     /**

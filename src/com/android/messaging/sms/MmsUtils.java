@@ -67,7 +67,6 @@ import com.android.messaging.mmslib.pdu.SendConf;
 import com.android.messaging.mmslib.pdu.SendReq;
 import com.android.messaging.sms.SmsSender.SendResult;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.ContentType;
@@ -1538,44 +1537,6 @@ public class MmsUtils {
         sUseSystemApn = turnOn;
     }
 
-    /**
-     * Checks if we should dump sms, based on both the setting and the global debug
-     * flag
-     *
-     * @return if dump sms is enabled
-     */
-    public static boolean isDumpSmsEnabled() {
-        if (!DebugUtils.isDebugEnabled()) {
-            return false;
-        }
-        return getDumpSmsOrMmsPref(R.string.dump_sms_pref_key, R.bool.dump_sms_pref_default);
-    }
-
-    /**
-     * Checks if we should dump mms, based on both the setting and the global debug
-     * flag
-     *
-     * @return if dump mms is enabled
-     */
-    public static boolean isDumpMmsEnabled() {
-        if (!DebugUtils.isDebugEnabled()) {
-            return false;
-        }
-        return getDumpSmsOrMmsPref(R.string.dump_mms_pref_key, R.bool.dump_mms_pref_default);
-    }
-
-    /**
-     * Load the value of dump sms or mms setting preference
-     */
-    private static boolean getDumpSmsOrMmsPref(final int prefKeyRes, final int defaultKeyRes) {
-        final Context context = Factory.get().getApplicationContext();
-        final Resources resources = context.getResources();
-        final BuglePrefs prefs = BuglePrefs.getApplicationPrefs();
-        final String key = resources.getString(prefKeyRes);
-        final boolean defaultValue = resources.getBoolean(defaultKeyRes);
-        return prefs.getBoolean(key, defaultValue);
-    }
-
     public static final Uri MMS_PART_CONTENT_URI = Uri.parse("content://mms/part");
 
     /**
@@ -1731,9 +1692,7 @@ public class MmsUtils {
     public static MessagePartData createMmsMessagePart(final DatabaseMessages.MmsPart part) {
         MessagePartData messagePart = null;
         if (part.isText()) {
-            final int mmsTextLengthLimit =
-                    BugleGservices.get().getInt(BugleGservicesKeys.MMS_TEXT_LIMIT,
-                            BugleGservicesKeys.MMS_TEXT_LIMIT_DEFAULT);
+            final int mmsTextLengthLimit = BugleGservicesKeys.MMS_TEXT_LIMIT_DEFAULT;
             String text = part.mText;
             if (text != null && text.length() > mmsTextLengthLimit) {
                 // Limit the text to a reasonable value. We ran into a situation where a vcard
@@ -1806,44 +1765,30 @@ public class MmsUtils {
         int status = MMS_REQUEST_MANUAL_RETRY;
         try {
             RetrieveConf retrieveConf = null;
-            if (DebugUtils.isDebugEnabled() &&
-                    MediaScratchFileProvider
-                            .isMediaScratchSpaceUri(Uri.parse(contentLocation))) {
-                if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
-                    LogUtil.d(TAG, "MmsUtils: Reading MMS from dump file: " + contentLocation);
-                }
-                final String fileName = Uri.parse(contentLocation).getPathSegments().get(1);
-                final byte[] data = DebugUtils.receiveFromDumpFile(fileName);
-                retrieveConf = receiveFromDumpFile(data);
-            } else {
-                if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
-                    LogUtil.d(TAG, "MmsUtils: Downloading MMS via MMS lib API; notification "
-                            + "message: " + notificationUri);
-                }
-                if (subId < 0) {
-                    LogUtil.e(TAG, "MmsUtils: Incoming MMS came from unknown SIM");
-                    throw new MmsFailureException(MMS_REQUEST_NO_RETRY,
-                            "Message from unknown SIM");
-                }
-                if (extras == null) {
-                    extras = new Bundle();
-                }
-                extras.putParcelable(DownloadMmsAction.EXTRA_NOTIFICATION_URI, notificationUri);
-                extras.putInt(DownloadMmsAction.EXTRA_SUB_ID, subId);
-                extras.putString(DownloadMmsAction.EXTRA_SUB_PHONE_NUMBER, subPhoneNumber);
-                extras.putString(DownloadMmsAction.EXTRA_TRANSACTION_ID, transactionId);
-                extras.putString(DownloadMmsAction.EXTRA_CONTENT_LOCATION, contentLocation);
-                extras.putBoolean(DownloadMmsAction.EXTRA_AUTO_DOWNLOAD, autoDownload);
-                extras.putLong(DownloadMmsAction.EXTRA_RECEIVED_TIMESTAMP,
-                        receivedTimestampInSeconds);
-                extras.putLong(DownloadMmsAction.EXTRA_EXPIRY, expiry);
-
-                MmsSender.downloadMms(context, subId, contentLocation, extras);
-                return STATUS_PENDING; // Download happens asynchronously; no status to return
+            if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
+                LogUtil.d(TAG, "MmsUtils: Downloading MMS via MMS lib API; notification "
+                        + "message: " + notificationUri);
             }
-            return insertDownloadedMessageAndSendResponse(context, notificationUri, subId,
-                    subPhoneNumber, transactionId, contentLocation, autoDownload,
-                    receivedTimestampInSeconds, expiry, retrieveConf);
+            if (subId < 0) {
+                LogUtil.e(TAG, "MmsUtils: Incoming MMS came from unknown SIM");
+                throw new MmsFailureException(MMS_REQUEST_NO_RETRY,
+                        "Message from unknown SIM");
+            }
+            if (extras == null) {
+                extras = new Bundle();
+            }
+            extras.putParcelable(DownloadMmsAction.EXTRA_NOTIFICATION_URI, notificationUri);
+            extras.putInt(DownloadMmsAction.EXTRA_SUB_ID, subId);
+            extras.putString(DownloadMmsAction.EXTRA_SUB_PHONE_NUMBER, subPhoneNumber);
+            extras.putString(DownloadMmsAction.EXTRA_TRANSACTION_ID, transactionId);
+            extras.putString(DownloadMmsAction.EXTRA_CONTENT_LOCATION, contentLocation);
+            extras.putBoolean(DownloadMmsAction.EXTRA_AUTO_DOWNLOAD, autoDownload);
+            extras.putLong(DownloadMmsAction.EXTRA_RECEIVED_TIMESTAMP,
+                    receivedTimestampInSeconds);
+            extras.putLong(DownloadMmsAction.EXTRA_EXPIRY, expiry);
+
+            MmsSender.downloadMms(context, subId, contentLocation, extras);
+            return STATUS_PENDING; // Download happens asynchronously; no status to return
 
         } catch (final MmsFailureException e) {
             LogUtil.e(TAG, "MmsUtils: failed to download message " + notificationUri, e);
