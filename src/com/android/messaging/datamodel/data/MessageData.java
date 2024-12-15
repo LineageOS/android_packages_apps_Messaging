@@ -31,7 +31,6 @@ import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.Dates;
 import com.android.messaging.util.DebugUtils;
@@ -563,17 +562,13 @@ public class MessageData implements Parcelable {
     }
 
     public final boolean getInResendWindow(final long now) {
-        final long maxAgeToResend = BugleGservices.get().getLong(
-                BugleGservicesKeys.MESSAGE_RESEND_TIMEOUT_MS,
-                BugleGservicesKeys.MESSAGE_RESEND_TIMEOUT_MS_DEFAULT);
+        final long maxAgeToResend = BugleGservicesKeys.MESSAGE_RESEND_TIMEOUT_MS_DEFAULT;
         final long age = now - mRetryStartTimestamp;
         return age < maxAgeToResend;
     }
 
     public final boolean getInDownloadWindow(final long now) {
-        final long maxAgeToRedownload = BugleGservices.get().getLong(
-                BugleGservicesKeys.MESSAGE_DOWNLOAD_TIMEOUT_MS,
-                BugleGservicesKeys.MESSAGE_DOWNLOAD_TIMEOUT_MS_DEFAULT);
+        final long maxAgeToRedownload = BugleGservicesKeys.MESSAGE_DOWNLOAD_TIMEOUT_MS_DEFAULT;
         final long age = now - mRetryStartTimestamp;
         return age < maxAgeToRedownload;
     }

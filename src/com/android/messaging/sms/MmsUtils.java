@@ -66,7 +66,6 @@ import com.android.messaging.mmslib.pdu.SendConf;
 import com.android.messaging.mmslib.pdu.SendReq;
 import com.android.messaging.sms.SmsSender.SendResult;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.ContentType;
@@ -1735,9 +1734,7 @@ public class MmsUtils {
     public static MessagePartData createMmsMessagePart(final DatabaseMessages.MmsPart part) {
         MessagePartData messagePart = null;
         if (part.isText()) {
-            final int mmsTextLengthLimit =
-                    BugleGservices.get().getInt(BugleGservicesKeys.MMS_TEXT_LIMIT,
-                            BugleGservicesKeys.MMS_TEXT_LIMIT_DEFAULT);
+            final int mmsTextLengthLimit = BugleGservicesKeys.MMS_TEXT_LIMIT_DEFAULT;
             String text = part.mText;
             if (text != null && text.length() > mmsTextLengthLimit) {
                 // Limit the text to a reasonable value. We ran into a situation where a vcard

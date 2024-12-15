@@ -90,8 +90,7 @@ public class DebugUtils {
     }
 
     public static boolean isDebugEnabled() {
-        return BugleGservices.get().getBoolean(BugleGservicesKeys.ENABLE_DEBUGGING_FEATURES,
-                BugleGservicesKeys.ENABLE_DEBUGGING_FEATURES_DEFAULT);
+        return false;
     }
 
     public abstract static class DebugAction {
