@@ -21,11 +21,9 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.android.messaging.R;
-import com.android.messaging.util.DebugUtils;
 
 public class ArchivedConversationListActivity extends AbstractConversationListActivity {
 
@@ -60,25 +58,8 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (super.onCreateOptionsMenu(menu)) {
-            return true;
-        }
-        getMenuInflater().inflate(R.menu.archived_conversation_list_menu, menu);
-        final MenuItem item = menu.findItem(R.id.action_debug_options);
-        if (item != null) {
-            final boolean enableDebugItems = DebugUtils.isDebugEnabled();
-            item.setVisible(enableDebugItems).setEnabled(enableDebugItems);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
         switch(menuItem.getItemId()) {
-            case R.id.action_debug_options:
-                onActionBarDebug();
-                return true;
             case android.R.id.home:
                 onActionBarHome();
                 return true;

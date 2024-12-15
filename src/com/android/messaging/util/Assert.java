@@ -40,25 +40,10 @@ public final class Assert {
         sShouldCrash = sIsEngBuild = true;
     }
 
-    private static void refreshGservices(final BugleGservices gservices) {
-        sShouldCrash = sIsEngBuild;
-        if (!sShouldCrash) {
-            sShouldCrash = gservices.getBoolean(
-                    BugleGservicesKeys.ASSERTS_FATAL,
-                    BugleGservicesKeys.ASSERTS_FATAL_DEFAULT);
-        }
-    }
-
     // Static initializer block to find out if we're running an eng or
     // release build.
     static {
         setIfEngBuild();
-    }
-
-    // This is called from FactoryImpl once the Gservices class is initialized.
-    public static void initializeGservices (final BugleGservices gservices) {
-        gservices.registerForChanges(() -> refreshGservices(gservices));
-        refreshGservices(gservices);
     }
 
     /**

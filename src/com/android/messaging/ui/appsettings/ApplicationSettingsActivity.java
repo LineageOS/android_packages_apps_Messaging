@@ -38,7 +38,6 @@ import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.LicenseActivity;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.BuglePrefs;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.PhoneUtils;
 
 public class ApplicationSettingsActivity extends BugleActionBarActivity {
@@ -116,12 +115,6 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSwipeRightToDeleteConversationPreference =
                     (SwitchPreference) findPreference(mSwipeRightToDeleteConversationkey);
             mIsSmsPreferenceClicked = false;
-
-            if (!DebugUtils.isDebugEnabled()) {
-                final Preference debugCategory = findPreference(getString(
-                        R.string.debug_pref_key));
-                getPreferenceScreen().removePreference(debugCategory);
-            }
 
             final PreferenceScreen advancedScreen = (PreferenceScreen) findPreference(
                     getString(R.string.advanced_pref_key));

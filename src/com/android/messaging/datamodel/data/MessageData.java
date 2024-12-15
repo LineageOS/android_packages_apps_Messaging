@@ -32,10 +32,8 @@ import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.BugleGservices;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.Dates;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.OsUtil;
 
 import java.util.ArrayList;
@@ -564,17 +562,13 @@ public class MessageData implements Parcelable {
     }
 
     public final boolean getInResendWindow(final long now) {
-        final long maxAgeToResend = BugleGservices.get().getLong(
-                BugleGservicesKeys.MESSAGE_RESEND_TIMEOUT_MS,
-                BugleGservicesKeys.MESSAGE_RESEND_TIMEOUT_MS_DEFAULT);
+        final long maxAgeToResend = BugleGservicesKeys.MESSAGE_RESEND_TIMEOUT_MS_DEFAULT;
         final long age = now - mRetryStartTimestamp;
         return age < maxAgeToResend;
     }
 
     public final boolean getInDownloadWindow(final long now) {
-        final long maxAgeToRedownload = BugleGservices.get().getLong(
-                BugleGservicesKeys.MESSAGE_DOWNLOAD_TIMEOUT_MS,
-                BugleGservicesKeys.MESSAGE_DOWNLOAD_TIMEOUT_MS_DEFAULT);
+        final long maxAgeToRedownload = BugleGservicesKeys.MESSAGE_DOWNLOAD_TIMEOUT_MS_DEFAULT;
         final long age = now - mRetryStartTimestamp;
         return age < maxAgeToRedownload;
     }
@@ -586,11 +580,9 @@ public class MessageData implements Parcelable {
             return false;
         }
         // Should show option for manual download if status is manual download or failed
+        // If debug is enabled, allow to download an expired or unavailable message.
         return (status == BUGLE_STATUS_INCOMING_DOWNLOAD_FAILED ||
-                status == BUGLE_STATUS_INCOMING_YET_TO_MANUAL_DOWNLOAD ||
-                // If debug is enabled, allow to download an expired or unavailable message.
-                (DebugUtils.isDebugEnabled()
-                        && status == BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE));
+                status == BUGLE_STATUS_INCOMING_YET_TO_MANUAL_DOWNLOAD);
     }
 
     public boolean canDownloadMessage() {
@@ -611,11 +603,9 @@ public class MessageData implements Parcelable {
             return false;
         }
         // Can redownload if status is manual download not started or download failed
+        // If debug is enabled, allow to download an expired or unavailable message.
         return (mStatus == BUGLE_STATUS_INCOMING_DOWNLOAD_FAILED ||
-                mStatus == BUGLE_STATUS_INCOMING_YET_TO_MANUAL_DOWNLOAD ||
-                // If debug is enabled, allow to download an expired or unavailable message.
-                (DebugUtils.isDebugEnabled()
-                        && mStatus == BUGLE_STATUS_INCOMING_EXPIRED_OR_NOT_AVAILABLE));
+                mStatus == BUGLE_STATUS_INCOMING_YET_TO_MANUAL_DOWNLOAD);
     }
 
     static boolean getShowResendMessage(final int status) {
