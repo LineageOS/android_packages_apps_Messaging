@@ -32,7 +32,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
@@ -40,6 +39,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.Proxy;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -438,16 +438,8 @@ public class MmsHttpClient {
                 nai = nai + naiSuffix;
             }
             byte[] encoded = null;
-            try {
-                encoded = Base64.encode(nai.getBytes("UTF-8"), Base64.NO_WRAP);
-            } catch (UnsupportedEncodingException e) {
-                encoded = Base64.encode(nai.getBytes(), Base64.NO_WRAP);
-            }
-            try {
-                return new String(encoded, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                return new String(encoded);
-            }
+            encoded = Base64.encode(nai.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
+            return new String(encoded, StandardCharsets.UTF_8);
         }
         return null;
     }
