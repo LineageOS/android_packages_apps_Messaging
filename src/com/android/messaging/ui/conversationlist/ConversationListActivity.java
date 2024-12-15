@@ -26,7 +26,6 @@ import android.view.MenuItem;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.Trace;
 
 public class ConversationListActivity extends AbstractConversationListActivity {
@@ -76,11 +75,6 @@ public class ConversationListActivity extends AbstractConversationListActivity {
             return true;
         }
         getMenuInflater().inflate(R.menu.conversation_list_fragment_menu, menu);
-        final MenuItem item = menu.findItem(R.id.action_debug_options);
-        if (item != null) {
-            final boolean enableDebugItems = DebugUtils.isDebugEnabled();
-            item.setVisible(enableDebugItems).setEnabled(enableDebugItems);
-        }
         return true;
     }
 
@@ -92,9 +86,6 @@ public class ConversationListActivity extends AbstractConversationListActivity {
                 return true;
             case R.id.action_settings:
                 onActionBarSettings();
-                return true;
-            case R.id.action_debug_options:
-                onActionBarDebug();
                 return true;
             case R.id.action_show_archived:
                 onActionBarArchived();
