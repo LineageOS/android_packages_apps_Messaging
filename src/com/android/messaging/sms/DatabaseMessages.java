@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,6 +49,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -959,11 +961,7 @@ public class DatabaseMessages {
                 final String name = CharacterSets.getMimeName(charset);
                 return new String(data, name);
             } catch (final UnsupportedEncodingException e) {
-                try {
-                    return new String(data, CharacterSets.MIMENAME_ISO_8859_1);
-                } catch (final UnsupportedEncodingException exception) {
-                    return new String(data); // system default encoding.
-                }
+                return new String(data, StandardCharsets.ISO_8859_1);
             }
         }
     }
