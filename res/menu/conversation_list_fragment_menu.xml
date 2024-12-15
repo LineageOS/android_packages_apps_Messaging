@@ -42,10 +42,4 @@
         android:title="@string/action_settings"
         appcompat:showAsAction="never"/>
 
-    <item
-        android:id="@+id/action_debug_options"
-        android:orderInCategory="9900"
-        android:title="@string/action_debug_options"
-        appcompat:showAsAction="never"/>
-
 </menu>
