@@ -34,8 +34,6 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.UIIntentsImpl;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.BugleApplicationPrefs;
-import com.android.messaging.util.BugleGservices;
-import com.android.messaging.util.BugleGservicesImpl;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BugleSubscriptionPrefs;
 import com.android.messaging.util.BugleWidgetPrefs;
@@ -50,7 +48,6 @@ import java.util.concurrent.ConcurrentHashMap;
 class FactoryImpl extends Factory {
     private BugleApplication mApplication;
     private DataModel mDataModel;
-    private BugleGservices mBugleGservices;
     private BugleApplicationPrefs mBugleApplicationPrefs;
     private BugleWidgetPrefs mBugleWidgetPrefs;
     private Context mApplicationContext;
@@ -88,7 +85,6 @@ class FactoryImpl extends Factory {
         factory.mMemoryCacheManager = new MemoryCacheManager();
         factory.mMediaCacheManager = new BugleMediaCacheManager();
         factory.mMediaResourceManager = new MediaResourceManager();
-        factory.mBugleGservices = new BugleGservicesImpl(applicationContext);
         factory.mBugleApplicationPrefs = new BugleApplicationPrefs(applicationContext);
         factory.mDataModel = new DataModelImpl(applicationContext);
         factory.mBugleWidgetPrefs = new BugleWidgetPrefs(applicationContext);
@@ -97,9 +93,6 @@ class FactoryImpl extends Factory {
         factory.mMediaUtil = new MediaUtilImpl();
         factory.mSubscriptionPrefs = new SparseArray<BugleSubscriptionPrefs>();
         factory.mCarrierConfigValuesLoader = new BugleCarrierConfigValuesLoader(applicationContext);
-
-        Assert.initializeGservices(factory.mBugleGservices);
-        LogUtil.initializeGservices(factory.mBugleGservices);
 
         if (OsUtil.hasRequiredPermissions()) {
             factory.onRequiredPermissionsAcquired();
@@ -132,11 +125,6 @@ class FactoryImpl extends Factory {
     @Override
     public DataModel getDataModel() {
         return mDataModel;
-    }
-
-    @Override
-    public BugleGservices getBugleGservices() {
-        return mBugleGservices;
     }
 
     @Override
