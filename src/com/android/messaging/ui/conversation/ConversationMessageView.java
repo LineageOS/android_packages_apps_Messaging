@@ -15,6 +15,7 @@
  */
 package com.android.messaging.ui.conversation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -122,6 +123,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
         mContactIconView.setOnLongClickListener(view -> {
             ConversationMessageView.this.performLongClick();
@@ -237,8 +239,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      * @param cursor The cursor from a MessageList that this view is in, pointing to its entry.
      * @param oneOnOne Whether this is a 1:1 conversation
      */
-    public void bind(final Cursor cursor,
-            final boolean oneOnOne, final String selectedMessageId) {
+    public void bind(final Cursor cursor, final boolean oneOnOne, final String selectedMessageId) {
         mOneOnOne = oneOnOne;
 
         // Update our UI model
@@ -440,7 +441,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                         subscriptionEntry.displayName;
             mSimNameView.setText(simNameText);
             mSimNameView.setTextColor(showSimIconAsIncoming ? getResources().getColor(
-                    R.color.timestamp_text_incoming) : subscriptionEntry.displayColor);
+                    R.color.timestamp_text_incoming, getContext().getTheme()) :
+                    subscriptionEntry.displayColor);
             mSimNameView.setVisibility(VISIBLE);
         } else {
             mSimNameView.setText(null);
@@ -735,7 +737,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 R.dimen.message_metadata_top_padding);
 
         // Update the message text/info views
-        ImageUtils.setBackgroundDrawableOnView(mMessageTextAndInfoView, textBackground);
+        mMessageTextAndInfoView.setBackground(textBackground);
         mMessageTextAndInfoView.setMinimumHeight(textMinHeight);
         final LinearLayout.LayoutParams textAndInfoLayoutParams =
                 (LinearLayout.LayoutParams) mMessageTextAndInfoView.getLayoutParams();
@@ -833,7 +835,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mMessageAttachmentsView.setGravity(gravity);
 
         // Tint image/video attachments when selected
-        final int selectedImageTint = getResources().getColor(R.color.message_image_selected_tint);
+        final int selectedImageTint = getResources().getColor(R.color.message_image_selected_tint,
+                getContext().getTheme());
         if (mMessageImageView.getVisibility() == View.VISIBLE) {
             if (isSelected()) {
                 mMessageImageView.setColorFilter(selectedImageTint);
@@ -946,24 +949,25 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                     break;
             }
         }
-        final int messageColor = getResources().getColor(messageColorResId);
+        final Resources.Theme theme = getContext().getTheme();
+        final int messageColor = getResources().getColor(messageColorResId, theme);
         mMessageTextView.setTextColor(messageColor);
         mMessageTextView.setLinkTextColor(messageColor);
         mSubjectText.setTextColor(messageColor);
         if (statusColorResId >= 0) {
-            mTitleTextView.setTextColor(getResources().getColor(statusColorResId));
+            mTitleTextView.setTextColor(getResources().getColor(statusColorResId, theme));
         }
         if (infoColorResId >= 0) {
-            mMmsInfoTextView.setTextColor(getResources().getColor(infoColorResId));
+            mMmsInfoTextView.setTextColor(getResources().getColor(infoColorResId, theme));
         }
         if (timestampColorResId == R.color.timestamp_text_incoming &&
                 mData.hasAttachments() && !shouldShowMessageTextBubble()) {
             timestampColorResId = R.color.timestamp_text_outgoing;
         }
-        mStatusTextView.setTextColor(getResources().getColor(timestampColorResId));
+        mStatusTextView.setTextColor(getResources().getColor(timestampColorResId, theme));
 
-        mSubjectLabel.setTextColor(getResources().getColor(subjectLabelColorResId));
-        mSenderNameTextView.setTextColor(getResources().getColor(timestampColorResId));
+        mSubjectLabel.setTextColor(getResources().getColor(subjectLabelColorResId, theme));
+        mSenderNameTextView.setTextColor(getResources().getColor(timestampColorResId, theme));
     }
 
     /**
@@ -1125,8 +1129,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 detailsTextColorRes = mData.getIsIncoming() ? R.color.timestamp_text_incoming
                         : R.color.timestamp_text_outgoing;
             }
-            personView.setNameTextColor(getResources().getColor(nameTextColorRes));
-            personView.setDetailsTextColor(getResources().getColor(detailsTextColorRes));
+            Resources.Theme theme = getContext().getTheme();
+            personView.setNameTextColor(getResources().getColor(nameTextColorRes, theme));
+            personView.setDetailsTextColor(getResources().getColor(detailsTextColorRes, theme));
         }
 
         @Override
@@ -1171,6 +1176,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             return false;
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(final View v, final MotionEvent event) {
             if (event.getActionMasked() == MotionEvent.ACTION_UP && mIsLongClick) {

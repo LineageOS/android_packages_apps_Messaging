@@ -15,7 +15,6 @@
  */
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -73,34 +74,26 @@ public class VCardDetailFragment extends Fragment implements PersonItemDataListe
         Assert.notNull(mVCardUri);
         final View view = inflater.inflate(R.layout.vcard_detail_fragment, container, false);
         mListView = (ExpandableListView) view.findViewById(R.id.list);
-        mListView.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(final View v, final int left, final int top, final int right,
-                    final int bottom, final int oldLeft, final int oldTop, final int oldRight,
-                    final int oldBottom) {
-                mListView.setIndicatorBounds(mListView.getWidth() - getResources()
-                        .getDimensionPixelSize(R.dimen.vcard_detail_group_indicator_width),
-                        mListView.getWidth());
-            }
-        });
-        mListView.setOnChildClickListener(new OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView expandableListView, View clickedView,
-                    int groupPosition, int childPosition, long childId) {
-                if (!(clickedView instanceof PersonItemView)) {
-                    return false;
-                }
-                final Intent intent = ((PersonItemView) clickedView).getClickIntent();
-                if (intent != null) {
-                    try {
-                        startActivity(intent);
-                    } catch (ActivityNotFoundException e) {
-                        return false;
-                    }
-                    return true;
-                }
+        mListView.addOnLayoutChangeListener(
+                (v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) ->
+                        mListView.setIndicatorBounds(mListView.getWidth() - getResources()
+                .getDimensionPixelSize(R.dimen.vcard_detail_group_indicator_width),
+                mListView.getWidth()));
+        mListView.setOnChildClickListener(
+                (expandableListView, clickedView, groupPosition, childPosition, childId) -> {
+            if (!(clickedView instanceof PersonItemView)) {
                 return false;
             }
+            final Intent intent = ((PersonItemView) clickedView).getClickIntent();
+            if (intent != null) {
+                try {
+                    startActivity(intent);
+                } catch (ActivityNotFoundException e) {
+                    return false;
+                }
+                return true;
+            }
+            return false;
         });
         mBinding.bind(DataModel.get().createVCardContactItemData(getActivity(), mVCardUri));
         mBinding.getData().setListener(this);
