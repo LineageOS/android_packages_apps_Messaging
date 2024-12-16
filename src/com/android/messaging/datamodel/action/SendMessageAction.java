@@ -435,7 +435,7 @@ public class SendMessageAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<SendMessageAction> CREATOR
-            = new Parcelable.Creator<SendMessageAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public SendMessageAction createFromParcel(final Parcel in) {
             return new SendMessageAction(in);

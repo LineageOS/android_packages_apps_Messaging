@@ -41,7 +41,6 @@ import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
 import com.android.messaging.ui.conversationlist.ConversationListFragment.ConversationListFragmentHost;
 import com.android.messaging.ui.conversationlist.MultiSelectActionModeCallback.SelectedConversation;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.Trace;
 import com.android.messaging.util.UiUtils;
 
 import java.util.ArrayList;
@@ -133,7 +132,7 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
     @Override
     public void onActionBarArchive(final Iterable<SelectedConversation> conversations,
             final boolean isToArchive) {
-        final ArrayList<String> conversationIds = new ArrayList<String>();
+        final ArrayList<String> conversationIds = new ArrayList<>();
         for (final SelectedConversation conversation : conversations) {
             final String conversationId = conversation.conversationId;
             conversationIds.add(conversationId);

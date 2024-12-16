@@ -16,13 +16,10 @@
 
 package com.android.messaging.ui.appsettings;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v7.mms.MmsManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -37,14 +34,10 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.ParticipantRefresh;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.MmsConfig;
-import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.BuglePrefs;
-import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
 public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {

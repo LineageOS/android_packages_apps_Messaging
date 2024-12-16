@@ -19,9 +19,6 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Outline;
-import android.graphics.drawable.ColorDrawable;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -32,6 +29,9 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -183,7 +183,7 @@ public class ViewPagerTabs extends HorizontalScrollView implements ViewPager.OnP
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         position = getRtlPosition(position);
         int tabStripChildCount = mTabStrip.getChildCount();
-        if ((tabStripChildCount == 0) || (position < 0) || (position >= tabStripChildCount)) {
+        if (position < 0 || position >= tabStripChildCount) {
             return;
         }
 
@@ -194,7 +194,7 @@ public class ViewPagerTabs extends HorizontalScrollView implements ViewPager.OnP
     public void onPageSelected(int position) {
         position = getRtlPosition(position);
         int tabStripChildCount = mTabStrip.getChildCount();
-        if ((tabStripChildCount == 0) || (position < 0) || (position >= tabStripChildCount)) {
+        if (position < 0 || position >= tabStripChildCount) {
             return;
         }
 

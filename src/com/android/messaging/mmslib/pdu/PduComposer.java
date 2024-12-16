@@ -120,7 +120,7 @@ public class PduComposer {
     private static SimpleArrayMap<String, Integer> mContentTypeMap = null;
 
     static {
-        mContentTypeMap = new SimpleArrayMap<String, Integer>();
+        mContentTypeMap = new SimpleArrayMap<>();
 
         int i;
         for (i = 0; i < PduContentTypes.contentTypes.length; i++) {
@@ -521,8 +521,8 @@ public class PduComposer {
                 }
 
                 EncodedStringValue temp;
-                for (int i = 0; i < addr.length; i++) {
-                    temp = appendAddressType(addr[i]);
+                for (EncodedStringValue encodedStringValue : addr) {
+                    temp = appendAddressType(encodedStringValue);
                     if (temp == null) {
                         return PDU_COMPOSE_CONTENT_ERROR;
                     }

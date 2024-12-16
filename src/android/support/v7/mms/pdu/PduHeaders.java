@@ -326,7 +326,7 @@ public class PduHeaders {
      * Constructor of PduHeaders.
      */
     public PduHeaders() {
-        mHeaderMap = new HashMap<Integer, Object>();
+        mHeaderMap = new HashMap<>();
     }
 
     /**
@@ -632,9 +632,9 @@ public class PduHeaders {
                 throw new RuntimeException("Invalid header field!");
         }
 
-        ArrayList<EncodedStringValue> list = new ArrayList<EncodedStringValue>();
-        for (int i = 0; i < value.length; i++) {
-            list.add(value[i]);
+        ArrayList<EncodedStringValue> list = new ArrayList<>();
+        for (EncodedStringValue encodedStringValue : value) {
+            list.add(encodedStringValue);
         }
         mHeaderMap.put(field, list);
     }

@@ -35,7 +35,6 @@ import android.webkit.MimeTypeMap;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.MessageData;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.mmslib.pdu.CharacterSets;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
@@ -65,7 +64,7 @@ public class DatabaseMessages {
 
         @Override
         public boolean equals(final Object other) {
-            if (other == null || !(other instanceof DatabaseMessage)) {
+            if (!(other instanceof DatabaseMessage)) {
                 return false;
             }
             final DatabaseMessage otherDbMsg = (DatabaseMessage) other;
@@ -144,8 +143,6 @@ public class DatabaseMessages {
 
         /**
          * Load from a cursor of a query that returns the SMS to import
-         *
-         * @param cursor
          */
         private void load(final Cursor cursor) {
             mRowId = cursor.getLong(INDEX_ID);
@@ -157,8 +154,8 @@ public class DatabaseMessages {
             mType = cursor.getInt(INDEX_TYPE);
             mThreadId = cursor.getLong(INDEX_THREAD_ID);
             mStatus = cursor.getInt(INDEX_STATUS);
-            mRead = cursor.getInt(INDEX_READ) == 0 ? false : true;
-            mSeen = cursor.getInt(INDEX_SEEN) == 0 ? false : true;
+            mRead = cursor.getInt(INDEX_READ) != 0;
+            mSeen = cursor.getInt(INDEX_SEEN) != 0;
             mUri = ContentUris.withAppendedId(Sms.CONTENT_URI, mRowId).toString();
             mSubId = PhoneUtils.getDefault().getSubIdFromTelephony(cursor, INDEX_SUB_ID);
         }
@@ -166,9 +163,6 @@ public class DatabaseMessages {
         /**
          * Get a new SmsMessage by loading from the cursor of a query
          * that returns the SMS to import
-         *
-         * @param cursor
-         * @return
          */
         public static SmsMessage get(final Cursor cursor) {
             final SmsMessage msg = new SmsMessage();
@@ -217,8 +211,7 @@ public class DatabaseMessages {
             mBody = in.readString();
         }
 
-        public static final Parcelable.Creator<SmsMessage> CREATOR
-                = new Parcelable.Creator<SmsMessage>() {
+        public static final Parcelable.Creator<SmsMessage> CREATOR = new Parcelable.Creator<>() {
             @Override
             public SmsMessage createFromParcel(final Parcel in) {
                 return new SmsMessage(in);
@@ -336,8 +329,6 @@ public class DatabaseMessages {
 
         /**
          * Load from a cursor of a query that returns the MMS to import
-         *
-         * @param cursor
          */
         public void load(final Cursor cursor) {
             mRowId = cursor.getLong(INDEX_ID);
@@ -359,8 +350,8 @@ public class DatabaseMessages {
             mThreadId = cursor.getLong(INDEX_THREAD_ID);
             mPriority = cursor.getInt(INDEX_PRIORITY);
             mStatus = cursor.getInt(INDEX_STATUS);
-            mRead = cursor.getInt(INDEX_READ) == 0 ? false : true;
-            mSeen = cursor.getInt(INDEX_SEEN) == 0 ? false : true;
+            mRead = cursor.getInt(INDEX_READ) != 0;
+            mSeen = cursor.getInt(INDEX_SEEN) != 0;
             mContentLocation = cursor.getString(INDEX_CONTENT_LOCATION);
             mTransactionId = cursor.getString(INDEX_TRANSACTION_ID);
             mMmsMessageType = cursor.getInt(INDEX_MESSAGE_TYPE);
@@ -377,9 +368,6 @@ public class DatabaseMessages {
         /**
          * Get a new MmsMessage by loading from the cursor of a query
          * that returns the MMS to import
-         *
-         * @param cursor
-         * @return
          */
         public static MmsMessage get(final Cursor cursor) {
             final MmsMessage msg = new MmsMessage();
@@ -388,8 +376,6 @@ public class DatabaseMessages {
         }
         /**
          * Add a loaded MMS part
-         *
-         * @param part
          */
         public void addPart(final MmsPart part) {
             mParts.add(part);
@@ -487,15 +473,14 @@ public class DatabaseMessages {
             mRetrieveStatus = in.readInt();
 
             final int nParts = in.readInt();
-            mParts = new ArrayList<MmsPart>();
+            mParts = new ArrayList<>();
             mPartsProcessed = false;
             for (int i = 0; i < nParts; i++) {
                 mParts.add((MmsPart) in.readParcelable(getClass().getClassLoader()));
             }
         }
 
-        public static final Parcelable.Creator<MmsMessage> CREATOR
-                = new Parcelable.Creator<MmsMessage>() {
+        public static final Parcelable.Creator<MmsMessage> CREATOR = new Parcelable.Creator<>() {
             @Override
             public MmsMessage createFromParcel(final Parcel in) {
                 return new MmsMessage(in);
@@ -574,8 +559,6 @@ public class DatabaseMessages {
 
         /**
          * Load from a cursor of a query that returns the MMS part to import
-         *
-         * @param cursor
          */
         public void load(final Cursor cursor, final boolean loadMedia) {
             mRowId = cursor.getLong(INDEX_ID);
@@ -736,32 +719,6 @@ public class DatabaseMessages {
         }
 
         /**
-         * Get media file size
-         */
-        private long getMediaFileSize() {
-            final Context context = Factory.get().getApplicationContext();
-            final Uri uri = getDataUri();
-            AssetFileDescriptor fd = null;
-            try {
-                fd = context.getContentResolver().openAssetFileDescriptor(uri, "r");
-                if (fd != null) {
-                    return fd.getParcelFileDescriptor().getStatSize();
-                }
-            } catch (final FileNotFoundException e) {
-                LogUtil.e(TAG, "DatabaseMessages.MmsPart: cound not find media file: " + e, e);
-            } finally {
-                if (fd != null) {
-                    try {
-                        fd.close();
-                    } catch (final IOException e) {
-                        LogUtil.e(TAG, "DatabaseMessages.MmsPart: failed to close " + e, e);
-                    }
-                }
-            }
-            return 0L;
-        }
-
-        /**
          * @return If the type is a text type that stores text embedded (i.e. in db table)
          */
         private boolean isEmbeddedTextType() {
@@ -773,9 +730,7 @@ public class DatabaseMessages {
         /**
          * Get an instance of the MMS part from the part table cursor
          *
-         * @param cursor
          * @param loadMedia Whether to load the media file of the part
-         * @return
          */
         public static MmsPart get(final Cursor cursor, final boolean loadMedia) {
             final MmsPart part = new MmsPart();
@@ -821,8 +776,7 @@ public class DatabaseMessages {
             mSize = in.readLong();
         }
 
-        public static final Parcelable.Creator<MmsPart> CREATOR
-                = new Parcelable.Creator<MmsPart>() {
+        public static final Parcelable.Creator<MmsPart> CREATOR = new Parcelable.Creator<>() {
             @Override
             public MmsPart createFromParcel(final Parcel in) {
                 return new MmsPart(in);
@@ -904,7 +858,7 @@ public class DatabaseMessages {
         }
 
         public static final Parcelable.Creator<LocalDatabaseMessage> CREATOR
-                = new Parcelable.Creator<LocalDatabaseMessage>() {
+                = new Parcelable.Creator<>() {
             @Override
             public LocalDatabaseMessage createFromParcel(final Parcel in) {
                 return new LocalDatabaseMessage(in);

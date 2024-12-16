@@ -47,17 +47,17 @@ public class UriUtil {
     private static final String SCHEME_SMSTO = "smsto";
     private static final String SCHEME_MMS = "mms";
     private static final String SCHEME_MMSTO = "smsto";
-    public static final HashSet<String> SMS_MMS_SCHEMES = new HashSet<String>(
-        Arrays.asList(SCHEME_SMS, SCHEME_MMS, SCHEME_SMSTO, SCHEME_MMSTO));
+    public static final HashSet<String> SMS_MMS_SCHEMES = new HashSet<>(
+            Arrays.asList(SCHEME_SMS, SCHEME_MMS, SCHEME_SMSTO, SCHEME_MMSTO));
     private static final String SCHEME_HTTP = "http";
     private static final String SCHEME_HTTPS = "https";
 
     public static final String SCHEME_BUGLE = "bugle";
-    public static final HashSet<String> SUPPORTED_SCHEME = new HashSet<String>(
-        Arrays.asList(ContentResolver.SCHEME_ANDROID_RESOURCE,
-            ContentResolver.SCHEME_CONTENT,
-            ContentResolver.SCHEME_FILE,
-            SCHEME_BUGLE));
+    public static final HashSet<String> SUPPORTED_SCHEME = new HashSet<>(
+            Arrays.asList(ContentResolver.SCHEME_ANDROID_RESOURCE,
+                    ContentResolver.SCHEME_CONTENT,
+                    ContentResolver.SCHEME_FILE,
+                    SCHEME_BUGLE));
 
     public static final String SCHEME_TEL = "tel:";
 

@@ -42,7 +42,7 @@ public class MediaScratchFileProvider extends FileProvider {
     private static final String TAG = LogUtil.BUGLE_TAG;
 
     private static final SimpleArrayMap<Uri, String> sUriToDisplayNameMap =
-            new SimpleArrayMap<Uri, String>();
+            new SimpleArrayMap<>();
 
     @VisibleForTesting
     public static final String AUTHORITY =

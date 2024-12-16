@@ -96,7 +96,7 @@ public class MarkAsReadAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<MarkAsReadAction> CREATOR
-            = new Parcelable.Creator<MarkAsReadAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public MarkAsReadAction createFromParcel(final Parcel in) {
             return new MarkAsReadAction(in);

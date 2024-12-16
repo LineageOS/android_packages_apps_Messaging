@@ -75,29 +75,24 @@ public class ConversationData extends BindableData {
      * for each message.
      */
     public List<Integer> getPositions(final String conversationId, final List<Long> ids) {
-        final ArrayList<Integer> result = new ArrayList<Integer>();
+        final ArrayList<Integer> result = new ArrayList<>();
 
         if (ids.isEmpty()) {
             return result;
         }
 
-        final Cursor c = new ConversationData.ReversedCursor(
+        try (Cursor c = new ReversedCursor(
                 DataModel.get().getDatabase().rawQuery(
                         ConversationMessageData.getConversationMessageIdsQuerySql(),
-                        new String [] { conversationId }));
-        if (c != null) {
-            try {
-                final Set<Long> idsSet = new HashSet<Long>(ids);
-                if (c.moveToLast()) {
-                    do {
-                        final long messageId = c.getLong(0);
-                        if (idsSet.contains(messageId)) {
-                            result.add(c.getPosition());
-                        }
-                    } while (c.moveToPrevious());
-                }
-            } finally {
-                c.close();
+                        new String[]{conversationId}))) {
+            final Set<Long> idsSet = new HashSet<>(ids);
+            if (c.moveToLast()) {
+                do {
+                    final long messageId = c.getLong(0);
+                    if (idsSet.contains(messageId)) {
+                        result.add(c.getPosition());
+                    }
+                } while (c.moveToPrevious());
             }
         }
         Collections.sort(result);

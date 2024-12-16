@@ -46,7 +46,6 @@ import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UriUtil;
 
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Represents a single message part. Messages consist of one or more parts which may contain
@@ -412,7 +411,7 @@ public class MessagePartData implements Parcelable {
       }
 
     public static final Parcelable.Creator<MessagePartData> CREATOR
-            = new Parcelable.Creator<MessagePartData>() {
+            = new Parcelable.Creator<>() {
         @Override
         public MessagePartData createFromParcel(final Parcel in) {
             return new MessagePartData(in);

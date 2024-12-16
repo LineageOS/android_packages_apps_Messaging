@@ -164,13 +164,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     private ConversationFragmentHost mHost;
 
-    protected List<Integer> mFilterResults;
-
-    // The minimum scrolling distance between RecyclerView's scroll change event beyong which
-    // a fling motion is considered fast, in which case we'll delay load image attachments for
-    // perf optimization.
-    private int mFastFlingThreshold;
-
     // ConversationMessageView that is currently selected
     private ConversationMessageView mSelectedMessage;
 
@@ -307,67 +300,67 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
             final ConversationMessageData data = mSelectedMessage.getData();
             final String messageId = data.getMessageId();
-            switch (menuItem.getItemId()) {
-                case R.id.save_attachment:
-                    if (OsUtil.hasStoragePermission()) {
-                        final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
-                                getActivity());
-                        for (final MessagePartData part : data.getAttachments()) {
-                            saveAttachmentTask.addAttachmentToSave(part.getContentUri(),
-                                    part.getContentType());
-                        }
-                        if (saveAttachmentTask.getAttachmentCount() > 0) {
-                            saveAttachmentTask.executeOnThreadPool();
-                            mHost.dismissActionMode();
-                        }
-                    } else {
-                        getActivity().requestPermissions(
-                                new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.save_attachment) {
+                if (OsUtil.hasStoragePermission()) {
+                    final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
+                            getActivity());
+                    for (final MessagePartData part : data.getAttachments()) {
+                        saveAttachmentTask.addAttachmentToSave(part.getContentUri(),
+                                part.getContentType());
                     }
-                    return true;
-                case R.id.action_delete_message:
-                    if (mSelectedMessage != null) {
-                        deleteMessage(messageId);
-                    }
-                    return true;
-                case R.id.action_download:
-                    if (mSelectedMessage != null) {
-                        retryDownload(messageId);
+                    if (saveAttachmentTask.getAttachmentCount() > 0) {
+                        saveAttachmentTask.executeOnThreadPool();
                         mHost.dismissActionMode();
                     }
-                    return true;
-                case R.id.action_send:
-                    if (mSelectedMessage != null) {
-                        retrySend(messageId);
-                        mHost.dismissActionMode();
-                    }
-                    return true;
-                case R.id.copy_text:
-                    Assert.isTrue(data.hasText());
-                    final ClipboardManager clipboard = (ClipboardManager) getActivity()
-                            .getSystemService(Context.CLIPBOARD_SERVICE);
-                    clipboard.setPrimaryClip(
-                            ClipData.newPlainText(null /* label */, data.getText()));
+                } else {
+                    getActivity().requestPermissions(
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+                return true;
+            } else if (itemId == R.id.action_delete_message) {
+                if (mSelectedMessage != null) {
+                    deleteMessage(messageId);
+                }
+                return true;
+            } else if (itemId == R.id.action_download) {
+                if (mSelectedMessage != null) {
+                    retryDownload(messageId);
                     mHost.dismissActionMode();
-                    return true;
-                case R.id.details_menu:
-                    MessageDetailsDialog.show(
-                            getActivity(), data, mBinding.getData().getParticipants(),
-                            mBinding.getData().getSelfParticipantById(data.getSelfParticipantId()));
+                }
+                return true;
+            } else if (itemId == R.id.action_send) {
+                if (mSelectedMessage != null) {
+                    retrySend(messageId);
                     mHost.dismissActionMode();
-                    return true;
-                case R.id.share_message_menu:
-                    shareMessage(data);
-                    mHost.dismissActionMode();
-                    return true;
-                case R.id.forward_message_menu:
-                    // TODO: Currently we are forwarding one part at a time, instead of
-                    // the entire message. Change this to forwarding the entire message when we
-                    // use message-based cursor in conversation.
-                    final MessageData message = mBinding.getData().createForwardedMessage(data);
-                    UIIntents.get().launchForwardMessageActivity(getActivity(), message);
-                    mHost.dismissActionMode();
-                    return true;
+                }
+                return true;
+            } else if (itemId == R.id.copy_text) {
+                Assert.isTrue(data.hasText());
+                final ClipboardManager clipboard = (ClipboardManager) getActivity()
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setPrimaryClip(
+                        ClipData.newPlainText(null /* label */, data.getText()));
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.details_menu) {
+                MessageDetailsDialog.show(
+                        getActivity(), data, mBinding.getData().getParticipants(),
+                        mBinding.getData().getSelfParticipantById(data.getSelfParticipantId()));
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.share_message_menu) {
+                shareMessage(data);
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.forward_message_menu) {
+                // TODO: Currently we are forwarding one part at a time, instead of
+                // the entire message. Change this to forwarding the entire message when we
+                // use message-based cursor in conversation.
+                final MessageData message = mBinding.getData().createForwardedMessage(data);
+                UIIntents.get().launchForwardMessageActivity(getActivity(), message);
+                mHost.dismissActionMode();
+                return true;
             }
             return false;
         }
@@ -411,8 +404,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFastFlingThreshold = getResources().getDimensionPixelOffset(
-                R.dimen.conversation_fast_fling_threshold);
         mAdapter = new ConversationMessageAdapter(getActivity(), null, this,
                 null,
                 // Sets the item click listener on the Recycler item views.
@@ -507,7 +498,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator() {
-            private final List<ViewHolder> mAddAnimations = new ArrayList<ViewHolder>();
+            private final List<ViewHolder> mAddAnimations = new ArrayList<>();
             private PopupTransitionAnimation mPopupTransitionAnimation;
 
             @Override
@@ -769,7 +760,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     final View targetView = getActivity().findViewById(R.id.action_call);
                     Point centerPoint;
                     if (targetView != null) {
-                        final int screenLocation[] = new int[2];
+                        final int[] screenLocation = new int[2];
                         targetView.getLocationOnScreen(screenLocation);
                         final int centerX = screenLocation[0] + targetView.getWidth() / 2;
                         final int centerY = screenLocation[1] + targetView.getHeight() / 2;
@@ -1575,11 +1566,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     @Override
     public int overrideCounterColor() {
         return -1;      // don't override the color
-    }
-
-    @Override
-    public void onAttachmentsChanged(final boolean haveAttachments) {
-        // no-op for now
     }
 
     @Override

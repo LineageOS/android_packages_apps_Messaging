@@ -21,7 +21,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.text.TextUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -40,7 +39,8 @@ public class FileUtil {
     private static synchronized File getNewFile(File directory, String extension,
             String fileNameFormat) throws IOException {
         final Date date = new Date(System.currentTimeMillis());
-        final SimpleDateFormat dateFormat = new SimpleDateFormat(fileNameFormat);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat(fileNameFormat,
+                Locale.getDefault(Locale.Category.FORMAT));
         final String numberedFileNameFormat = dateFormat.format(date) + "_%02d" + "." + extension;
         for (int i = 1; i <= 99; i++) { // Only save 99 of the same file name.
             final String newName = String.format(Locale.US, numberedFileNameFormat, i);
@@ -69,55 +69,6 @@ public class FileUtil {
         String fileNameFormat = context.getString(ContentType.isImageType(contentType)
                 ? R.string.new_image_file_name_format : R.string.new_file_name_format);
         return getNewFile(directory, fileExtension, fileNameFormat);
-    }
-
-    /** Delete everything below and including root */
-    public static void removeFileOrDirectory(File root) {
-        removeFileOrDirectoryExcept(root, null);
-    }
-
-    /** Delete everything below and including root except for the given file */
-    public static void removeFileOrDirectoryExcept(File root, File exclude) {
-        if (root.exists()) {
-            if (root.isDirectory()) {
-                for (File file : root.listFiles()) {
-                    if (exclude == null || !file.equals(exclude)) {
-                        removeFileOrDirectoryExcept(file, exclude);
-                    }
-                }
-                root.delete();
-            } else if (root.isFile()) {
-                root.delete();
-            }
-        }
-    }
-
-    /**
-     * Move all files and folders under a directory into the target.
-     */
-    public static void moveAllContentUnderDirectory(File sourceDir, File targetDir) {
-        if (sourceDir.isDirectory() && targetDir.isDirectory()) {
-            if (isSameOrSubDirectory(sourceDir, targetDir)) {
-                LogUtil.e(LogUtil.BUGLE_TAG, "Can't move directory content since the source " +
-                        "directory is a parent of the target");
-                return;
-            }
-            for (File file : sourceDir.listFiles()) {
-                if (file.isDirectory()) {
-                    final File dirTarget = new File(targetDir, file.getName());
-                    dirTarget.mkdirs();
-                    moveAllContentUnderDirectory(file, dirTarget);
-                } else {
-                    try {
-                        final File fileTarget = new File(targetDir, file.getName());
-                        Files.move(file, fileTarget);
-                    } catch (IOException e) {
-                        LogUtil.e(LogUtil.BUGLE_TAG, "Failed to move files", e);
-                        // Try proceed with the next file.
-                    }
-                }
-            }
-        }
     }
 
     // Checks if the file is in /data, and don't allow any app to send personal information.

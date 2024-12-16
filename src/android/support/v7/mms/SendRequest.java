@@ -145,7 +145,7 @@ class SendRequest extends MmsRequest {
     }
 
     public static final Parcelable.Creator<SendRequest> CREATOR
-            = new Parcelable.Creator<SendRequest>() {
+            = new Parcelable.Creator<>() {
         public SendRequest createFromParcel(Parcel in) {
             return new SendRequest(in);
         }

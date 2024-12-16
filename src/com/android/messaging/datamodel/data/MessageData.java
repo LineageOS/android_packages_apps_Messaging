@@ -201,7 +201,7 @@ public class MessageData implements Parcelable {
      * Create an "empty" message
      */
     public MessageData() {
-        mParts = new ArrayList<MessagePartData>();
+        mParts = new ArrayList<>();
     }
 
     public static String[] getProjection() {
@@ -638,14 +638,6 @@ public class MessageData implements Parcelable {
                 || mProtocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION;
     }
 
-    public static boolean getIsMmsNotification(final int protocol) {
-        return (protocol == MessageData.PROTOCOL_MMS_PUSH_NOTIFICATION);
-    }
-
-    public final boolean getIsMmsNotification() {
-        return getIsMmsNotification(mProtocol);
-    }
-
     public static boolean getIsSms(final int protocol) {
         return protocol == (MessageData.PROTOCOL_SMS);
     }
@@ -800,10 +792,6 @@ public class MessageData implements Parcelable {
         }
     }
 
-    public final void setRetryStartTimestamp(final long timestamp) {
-        mRetryStartTimestamp = timestamp;
-    }
-
     public final void setRawTelephonyStatus(final int rawStatus) {
         mRawStatus = rawStatus;
     }
@@ -845,7 +833,7 @@ public class MessageData implements Parcelable {
         mRetryStartTimestamp = in.readLong();
 
         // Read parts
-        mParts = new ArrayList<MessagePartData>();
+        mParts = new ArrayList<>();
         final int partCount = in.readInt();
         for (int i = 0; i < partCount; i++) {
             mParts.add((MessagePartData) in.readParcelable(MessagePartData.class.getClassLoader()));
@@ -888,7 +876,7 @@ public class MessageData implements Parcelable {
     }
 
     public static final Parcelable.Creator<MessageData> CREATOR
-            = new Parcelable.Creator<MessageData>() {
+            = new Parcelable.Creator<>() {
         @Override
         public MessageData createFromParcel(final Parcel in) {
             return new MessageData(in);

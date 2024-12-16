@@ -18,24 +18,18 @@ package com.android.messaging.util;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.os.UserManager;
-import android.text.TextUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.ui.conversation.ConversationActivity;
-import com.android.messaging.ui.conversationlist.ConversationListActivity;
 
 /**
  * Utility class including logic to verify requirements to run Bugle and other activity startup
  * logic. Called from base Bugle activity classes.
  */
 public class BugleActivityUtil {
-
-    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
 
     /**
      * Determine if the requirements for the app to run are met. Log any Activity startup

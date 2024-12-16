@@ -242,7 +242,7 @@ class ExifOutputStream extends FilterOutputStream {
     }
 
     private ArrayList<ExifTag> stripNullValueTags(ExifData data) {
-        ArrayList<ExifTag> nullTags = new ArrayList<ExifTag>();
+        ArrayList<ExifTag> nullTags = new ArrayList<>();
         if (data.getAllTags() == null) {
             return nullTags;
         }
@@ -485,7 +485,7 @@ class ExifOutputStream extends FilterOutputStream {
             throws IOException {
         switch (tag.getDataType()) {
             case ExifTag.TYPE_ASCII:
-                byte buf[] = tag.getStringByte();
+                byte[] buf = tag.getStringByte();
                 if (buf.length == tag.getComponentCount()) {
                     buf[buf.length - 1] = 0;
                     dataOutputStream.write(buf);

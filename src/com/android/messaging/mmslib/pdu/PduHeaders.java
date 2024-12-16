@@ -22,6 +22,7 @@ import android.util.SparseArray;
 import com.android.messaging.mmslib.InvalidHeaderValueException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class PduHeaders {
     /**
@@ -652,10 +653,8 @@ public class PduHeaders {
                 throw new RuntimeException("Invalid header field!");
         }
 
-        ArrayList<EncodedStringValue> list = new ArrayList<EncodedStringValue>();
-        for (int i = 0; i < value.length; i++) {
-            list.add(value[i]);
-        }
+        ArrayList<EncodedStringValue> list = new ArrayList<>();
+        Collections.addAll(list, value);
         mHeaderMap.put(field, list);
     }
 
