@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +29,8 @@ import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.ex.chips.RecipientEditTextView;
 import com.android.ex.chips.RecipientEntry;
@@ -113,8 +116,9 @@ public class ContactRecipientAutoCompleteView extends RecipientEditTextView {
         addTextChangedListener(new ContactChipsWatcher());
         setOnFocusListShrinkRecipients(false);
 
-        setBackground(context.getResources().getDrawable(
-                androidx.appcompat.R.drawable.abc_textfield_search_default_mtrl_alpha));
+        setBackground(ResourcesCompat.getDrawable(context.getResources(),
+                androidx.appcompat.R.drawable.abc_textfield_search_default_mtrl_alpha,
+                context.getTheme()));
     }
 
     public void setContactChipsListener(final ContactChipsChangeListener listener) {

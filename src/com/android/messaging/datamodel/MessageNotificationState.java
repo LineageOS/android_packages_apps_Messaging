@@ -1134,7 +1134,7 @@ public abstract class MessageNotificationState extends NotificationState {
         final SpannableStringBuilder spanBuilder = new SpannableStringBuilder();
         spanBuilder.append(text);
         spanBuilder.setSpan(new ForegroundColorSpan(context.getResources().getColor(
-                R.color.notification_warning_color)), 0, text.length(),
+                R.color.notification_warning_color, context.getTheme())), 0, text.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spanBuilder;
     }

@@ -441,7 +441,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                         subscriptionEntry.displayName;
             mSimNameView.setText(simNameText);
             mSimNameView.setTextColor(showSimIconAsIncoming ? getResources().getColor(
-                    R.color.timestamp_text_incoming) : subscriptionEntry.displayColor);
+                    R.color.timestamp_text_incoming, getContext().getTheme()) :
+                    subscriptionEntry.displayColor);
             mSimNameView.setVisibility(VISIBLE);
         } else {
             mSimNameView.setText(null);
@@ -834,7 +835,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mMessageAttachmentsView.setGravity(gravity);
 
         // Tint image/video attachments when selected
-        final int selectedImageTint = getResources().getColor(R.color.message_image_selected_tint);
+        final int selectedImageTint = getResources().getColor(R.color.message_image_selected_tint,
+                getContext().getTheme());
         if (mMessageImageView.getVisibility() == View.VISIBLE) {
             if (isSelected()) {
                 mMessageImageView.setColorFilter(selectedImageTint);
@@ -947,24 +949,25 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                     break;
             }
         }
-        final int messageColor = getResources().getColor(messageColorResId);
+        final Resources.Theme theme = getContext().getTheme();
+        final int messageColor = getResources().getColor(messageColorResId, theme);
         mMessageTextView.setTextColor(messageColor);
         mMessageTextView.setLinkTextColor(messageColor);
         mSubjectText.setTextColor(messageColor);
         if (statusColorResId >= 0) {
-            mTitleTextView.setTextColor(getResources().getColor(statusColorResId));
+            mTitleTextView.setTextColor(getResources().getColor(statusColorResId, theme));
         }
         if (infoColorResId >= 0) {
-            mMmsInfoTextView.setTextColor(getResources().getColor(infoColorResId));
+            mMmsInfoTextView.setTextColor(getResources().getColor(infoColorResId, theme));
         }
         if (timestampColorResId == R.color.timestamp_text_incoming &&
                 mData.hasAttachments() && !shouldShowMessageTextBubble()) {
             timestampColorResId = R.color.timestamp_text_outgoing;
         }
-        mStatusTextView.setTextColor(getResources().getColor(timestampColorResId));
+        mStatusTextView.setTextColor(getResources().getColor(timestampColorResId, theme));
 
-        mSubjectLabel.setTextColor(getResources().getColor(subjectLabelColorResId));
-        mSenderNameTextView.setTextColor(getResources().getColor(timestampColorResId));
+        mSubjectLabel.setTextColor(getResources().getColor(subjectLabelColorResId, theme));
+        mSenderNameTextView.setTextColor(getResources().getColor(timestampColorResId, theme));
     }
 
     /**
@@ -1103,8 +1106,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 detailsTextColorRes = mData.getIsIncoming() ? R.color.timestamp_text_incoming
                         : R.color.timestamp_text_outgoing;
             }
-            personView.setNameTextColor(getResources().getColor(nameTextColorRes));
-            personView.setDetailsTextColor(getResources().getColor(detailsTextColorRes));
+            Resources.Theme theme = getContext().getTheme();
+            personView.setNameTextColor(getResources().getColor(nameTextColorRes, theme));
+            personView.setDetailsTextColor(getResources().getColor(detailsTextColorRes, theme));
         }
 
         @Override
