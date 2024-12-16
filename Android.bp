@@ -75,7 +75,6 @@ android_app {
         "libchips",
         "libphotoviewer",
         "androidx.annotation_annotation",
-        "android-common",
         "android-common-framesequence",
         "com.android.vcard",
         "guava",
