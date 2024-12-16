@@ -155,21 +155,13 @@ public class UriUtil {
     public static long getContentSize(final Uri uri) {
         Assert.isNotMainThread();
         if (isLocalResourceUri(uri)) {
-            ParcelFileDescriptor pfd = null;
-            try {
-                pfd = Factory.get().getApplicationContext()
-                        .getContentResolver().openFileDescriptor(uri, "r");
+            try (ParcelFileDescriptor pfd = Factory.get().getApplicationContext()
+                    .getContentResolver().openFileDescriptor(uri, "r")) {
                 return Math.max(pfd.getStatSize(), 0);
             } catch (final FileNotFoundException e) {
                 LogUtil.e(LogUtil.BUGLE_TAG, "Error getting content size", e);
-            } finally {
-                if (pfd != null) {
-                    try {
-                        pfd.close();
-                    } catch (final IOException e) {
-                        // Do nothing.
-                    }
-                }
+            } catch (final IOException e) {
+                // Do nothing.
             }
         } else {
             Assert.fail("Unsupported uri type!");

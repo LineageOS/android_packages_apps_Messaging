@@ -747,14 +747,12 @@ public class MmsUtils {
                 ALL_THREADS_URI,
                 RECIPIENTS_PROJECTION, "_id=?", new String[] { String.valueOf(threadId) }, null);
         if (thread != null) {
-            try {
+            try (thread) {
                 if (thread.moveToFirst()) {
                     // recipientIds will be a space-separated list of ids into the
                     // canonical addresses table.
                     return thread.getString(RECIPIENT_IDS);
                 }
-            } finally {
-                thread.close();
             }
         }
         return null;
@@ -1519,18 +1517,12 @@ public class MmsUtils {
             final SQLiteDatabase database = ApnDatabase.getApnDatabase().getWritableDatabase();
 
             // Do we already have the table?
-            Cursor cursor = null;
-            try {
-                cursor = database.query(ApnDatabase.APN_TABLE,
-                        ApnDatabase.APN_PROJECTION,
-                        null, null, null, null, null, null);
+            try (Cursor cursor = database.query(ApnDatabase.APN_TABLE,
+                    ApnDatabase.APN_PROJECTION,
+                    null, null, null, null, null, null)) {
             } catch (final Exception e) {
                 // Apparently there's no table, create it now.
                 ApnDatabase.forceBuildAndLoadApnTables();
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
             }
         }
         sUseSystemApn = turnOn;
@@ -1625,12 +1617,10 @@ public class MmsUtils {
                 null/*selectionArgs*/,
                 null/*sortOrder*/);
         if (cursor != null) {
-            try {
+            try (cursor) {
                 if (cursor.moveToFirst()) {
                     return DatabaseMessages.MmsAddr.get(cursor);
                 }
-            } finally {
-                cursor.close();
             }
         }
         return null;
@@ -2032,12 +2022,10 @@ public class MmsUtils {
                     new String(rawTransactionId)
             };
 
-            Cursor cursor = null;
-            try {
-                cursor = SqliteWrapper.query(
-                        context, context.getContentResolver(),
-                        Mms.CONTENT_URI, new String[] { Mms._ID },
-                        selection, selectionArgs, null);
+            try (Cursor cursor = SqliteWrapper.query(
+                    context, context.getContentResolver(),
+                    Mms.CONTENT_URI, new String[]{Mms._ID},
+                    selection, selectionArgs, null)) {
                 final int dupCount = cursor.getCount();
                 if (dupCount > 0) {
                     // We already received the same notification before.
@@ -2051,8 +2039,6 @@ public class MmsUtils {
                 }
             } catch (final SQLiteException e) {
                 LogUtil.e(TAG, "query failure: " + e, e);
-            } finally {
-                cursor.close();
             }
         }
         return null;
@@ -2502,12 +2488,9 @@ public class MmsUtils {
         if (dumpFile != null) {
             try {
                 final FileOutputStream fos = new FileOutputStream(dumpFile);
-                final BufferedOutputStream bos = new BufferedOutputStream(fos);
-                try {
+                try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
                     bos.write(rawPdu);
                     bos.flush();
-                } finally {
-                    bos.close();
                 }
                 DebugUtils.ensureReadable(dumpFile);
             } catch (final IOException e) {
