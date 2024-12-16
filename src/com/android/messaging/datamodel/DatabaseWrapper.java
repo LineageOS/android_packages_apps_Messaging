@@ -57,7 +57,7 @@ public class DatabaseWrapper {
 
     // track transaction on a per thread basis
     private static final ThreadLocal<Stack<TransactionData>> sTransactionDepth =
-            ThreadLocal.withInitial(() -> new Stack<TransactionData>());
+            ThreadLocal.withInitial(() -> new Stack<>());
 
     private static final String[] sFormatStrings = new String[] {
         "took %d ms to %s",
@@ -69,7 +69,7 @@ public class DatabaseWrapper {
         mLog = LogUtil.isLoggable(LogUtil.BUGLE_DATABASE_PERF_TAG, LogUtil.VERBOSE);
         mDatabase = db;
         mContext = context;
-        mCompiledStatements = new SparseArray<SQLiteStatement>();
+        mCompiledStatements = new SparseArray<>();
     }
 
     public SQLiteStatement getStatementInTransaction(final int index, final String statement) {

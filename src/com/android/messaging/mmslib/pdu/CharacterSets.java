@@ -402,8 +402,8 @@ public class CharacterSets {
 
     static {
         // Create the HashMaps.
-        MIBENUM_TO_NAME_MAP = new SparseArray<String>();
-        NAME_TO_MIBENUM_MAP = new SimpleArrayMap<String, Integer>();
+        MIBENUM_TO_NAME_MAP = new SparseArray<>();
+        NAME_TO_MIBENUM_MAP = new SimpleArrayMap<>();
         assert (MIBENUM_NUMBERS.length == MIME_NAMES.length);
         final int count = MIBENUM_NUMBERS.length - 1;
         for (int i = 0; i <= count; i++) {

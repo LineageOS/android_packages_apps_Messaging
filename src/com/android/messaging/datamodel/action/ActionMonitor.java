@@ -412,8 +412,7 @@ public class ActionMonitor {
      * Map of action monitors indexed by actionKey
      */
     @VisibleForTesting
-    static final SimpleArrayMap<String, ActionMonitor> sActionMonitors =
-            new SimpleArrayMap<String, ActionMonitor>();
+    static final SimpleArrayMap<String, ActionMonitor> sActionMonitors = new SimpleArrayMap<>();
 
     /**
      * Insert new monitor into map

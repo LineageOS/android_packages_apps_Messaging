@@ -811,7 +811,7 @@ public class PduParser {
                 }
 
                 case PduHeaders.CONTENT_TYPE: {
-                    SparseArray<Object> map = new SparseArray<Object>();
+                    SparseArray<Object> map = new SparseArray<>();
                     byte[] contentType =
                             parseContentType(pduDataStream, map);
 
@@ -882,7 +882,7 @@ public class PduParser {
             }
 
             /* parse part's content-type */
-            SparseArray<Object> map = new SparseArray<Object>();
+            SparseArray<Object> map = new SparseArray<>();
             byte[] contentType = parseContentType(pduDataStream, map);
             if (null != contentType) {
                 part.setContentType(contentType);
