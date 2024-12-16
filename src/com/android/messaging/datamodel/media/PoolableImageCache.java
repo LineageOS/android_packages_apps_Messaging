@@ -118,7 +118,7 @@ public class PoolableImageCache extends MediaCache<ImageResource> {
         private final SparseArray<LinkedList<ImageResource>> mImageListSparseArray;
 
         public ReusableImageResourcePool() {
-            mImageListSparseArray = new SparseArray<LinkedList<ImageResource>>();
+            mImageListSparseArray = new SparseArray<>();
         }
 
         /**
@@ -232,7 +232,7 @@ public class PoolableImageCache extends MediaCache<ImageResource> {
                 Assert.isTrue(poolKey != INVALID_POOL_KEY);
                 LinkedList<ImageResource> imageList = mImageListSparseArray.get(poolKey);
                 if (imageList == null) {
-                    imageList = new LinkedList<ImageResource>();
+                    imageList = new LinkedList<>();
                     mImageListSparseArray.put(poolKey, imageList);
                 }
                 imageList.addLast(imageResource);

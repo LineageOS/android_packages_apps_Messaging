@@ -123,7 +123,7 @@ public class PduPart {
      * Empty Constructor.
      */
     public PduPart() {
-        mPartHeader = new SparseArray<Object>();
+        mPartHeader = new SparseArray<>();
     }
 
     /**

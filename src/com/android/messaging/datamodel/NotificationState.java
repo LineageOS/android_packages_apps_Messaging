@@ -70,7 +70,7 @@ public abstract class NotificationState {
 
     NotificationState(final ConversationIdSet conversationIds) {
         mConversationIds = conversationIds;
-        mPeople = new HashSet<String>();
+        mPeople = new HashSet<>();
     }
 
     /**

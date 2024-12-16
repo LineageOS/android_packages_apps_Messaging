@@ -33,7 +33,7 @@ public abstract class MediaCacheManager implements MemoryCache {
     protected final SparseArray<MediaCache<?>> mCaches;
 
     public MediaCacheManager() {
-        mCaches = new SparseArray<MediaCache<?>>();
+        mCaches = new SparseArray<>();
         MemoryCacheManager.get().registerMemoryCache(this);
     }
 
