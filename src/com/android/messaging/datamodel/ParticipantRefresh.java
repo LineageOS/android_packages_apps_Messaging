@@ -233,7 +233,7 @@ public class ParticipantRefresh {
             refreshSelfParticipantList();
         }
 
-        final ArrayList<String> changedParticipants = new ArrayList<String>();
+        final ArrayList<String> changedParticipants = new ArrayList<>();
 
         String selection = null;
         String[] selectionArgs = null;
@@ -305,7 +305,7 @@ public class ParticipantRefresh {
 
     private static Set<Integer> getExistingSubIds() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
-        final HashSet<Integer> existingSubIds = new HashSet<Integer>();
+        final HashSet<Integer> existingSubIds = new HashSet<>();
 
         try (Cursor cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
                 ParticipantsQuery.PROJECTION,
@@ -345,7 +345,7 @@ public class ParticipantRefresh {
         final List<SubscriptionInfo> subInfoRecords =
                 PhoneUtils.getDefault().getActiveSubscriptionInfoList();
         final ArrayMap<Integer, SubscriptionInfo> activeSubscriptionIdToRecordMap =
-                new ArrayMap<Integer, SubscriptionInfo>();
+                new ArrayMap<>();
         db.beginTransaction();
         final Set<Integer> existingSubIds = getExistingSubIds();
 
@@ -602,7 +602,7 @@ public class ParticipantRefresh {
      */
     private static List<String> getInactiveSelfParticipantIds() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
-        final List<String> inactiveSelf = new ArrayList<String>();
+        final List<String> inactiveSelf = new ArrayList<>();
 
         final String selection = ParticipantColumns.SIM_SLOT_ID + "=? AND " +
                 SELF_PARTICIPANTS_CLAUSE;
@@ -627,7 +627,7 @@ public class ParticipantRefresh {
      */
     private static List<String> getConversationsWithSelfParticipantIds(final List<String> selfIds) {
         final DatabaseWrapper db = DataModel.get().getDatabase();
-        final List<String> conversationIds = new ArrayList<String>();
+        final List<String> conversationIds = new ArrayList<>();
 
         Cursor cursor = null;
         try {

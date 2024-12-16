@@ -86,7 +86,7 @@ public class SubscriptionListData {
     private final Context mContext;
 
     public SubscriptionListData(final Context context) {
-        mEntriesExcludingDefault = new ArrayList<SubscriptionListEntry>();
+        mEntriesExcludingDefault = new ArrayList<>();
         mContext = context;
     }
 

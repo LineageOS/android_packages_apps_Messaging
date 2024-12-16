@@ -125,7 +125,7 @@ public class PduPart {
       * Empty Constructor.
       */
      public PduPart() {
-         mPartHeader = new HashMap<Integer, Object>();
+         mPartHeader = new HashMap<>();
      }
 
      /**
