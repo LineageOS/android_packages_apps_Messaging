@@ -136,7 +136,7 @@ public class ShareIntentActivity extends BaseBugleActivity implements
             // Handle sharing multiple contents.
             final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
             if (uris != null && !uris.isEmpty()) {
-                ArrayMap<Uri, String> uriMap = new ArrayMap<Uri, String>();
+                ArrayMap<Uri, String> uriMap = new ArrayMap<>();
                 StringBuffer strBuffer = new StringBuffer();
                 for (final Uri uri : uris) {
                     if (UriUtil.isFileUri(uri)) {

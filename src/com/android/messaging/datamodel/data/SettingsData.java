@@ -196,7 +196,7 @@ public class SettingsData extends BindableData implements
 
     public List<SettingsItem> getSettingsItems() {
         final List<ParticipantData> selfs = mSelfParticipantsData.getSelfParticipants(true);
-        final List<SettingsItem> settingsItems = new ArrayList<SettingsItem>();
+        final List<SettingsItem> settingsItems = new ArrayList<>();
         // First goes the general settings, followed by per-subscription settings.
         settingsItems.add(SettingsItem.createGeneralSettingsItem(mContext));
         // For per-subscription settings, show the actual SIM name with phone number if the

@@ -119,7 +119,7 @@ public class DeleteMessageAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<DeleteMessageAction> CREATOR
-            = new Parcelable.Creator<DeleteMessageAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public DeleteMessageAction createFromParcel(final Parcel in) {
             return new DeleteMessageAction(in);

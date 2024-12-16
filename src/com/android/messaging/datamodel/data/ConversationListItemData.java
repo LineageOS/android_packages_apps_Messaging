@@ -489,7 +489,7 @@ public class ConversationListItemData {
             return participants.get(0).getDisplayName(true);
         }
 
-        final ArrayList<String> participantNames = new ArrayList<String>();
+        final ArrayList<String> participantNames = new ArrayList<>();
         for (final ParticipantData participant : participants) {
             // Prefer first name over full name for group conversation
             participantNames.add(participant.getDisplayName(false));

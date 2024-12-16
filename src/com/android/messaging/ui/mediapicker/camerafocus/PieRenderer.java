@@ -149,7 +149,7 @@ public class PieRenderer extends OverlayRenderer
 
     private void init(Context ctx) {
         setVisible(false);
-        mItems = new ArrayList<PieItem>();
+        mItems = new ArrayList<>();
         Resources res = ctx.getResources();
         mRadius = (int) res.getDimensionPixelSize(R.dimen.pie_radius_start);
         mCircleSize = mRadius - res.getDimensionPixelSize(R.dimen.focus_radius_offset);

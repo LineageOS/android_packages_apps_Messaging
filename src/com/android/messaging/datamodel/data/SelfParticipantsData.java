@@ -37,7 +37,7 @@ public class SelfParticipantsData {
     private final ArrayMap<String, ParticipantData> mSelfParticipantMap;
 
     public SelfParticipantsData() {
-        mSelfParticipantMap = new ArrayMap<String, ParticipantData>();
+        mSelfParticipantMap = new ArrayMap<>();
     }
 
     public void bind(final Cursor cursor) {
@@ -55,7 +55,7 @@ public class SelfParticipantsData {
      * @param activeOnly if set, returns active self entries only (i.e. those with SIMs plugged in).
      */
     public List<ParticipantData> getSelfParticipants(final boolean activeOnly) {
-         List<ParticipantData> list = new ArrayList<ParticipantData>();
+         List<ParticipantData> list = new ArrayList<>();
         for (final ParticipantData self : mSelfParticipantMap.values()) {
             if (!activeOnly || self.isActiveSubscription()) {
                 list.add(self);

@@ -408,7 +408,7 @@ class CameraManager implements FocusOverlayManager.Listener {
         }
 
         mPendingOpenCameraIndex = mCameraIndex;
-        mOpenCameraTask = new AsyncTask<Integer, Void, Camera>() {
+        mOpenCameraTask = new AsyncTask<>() {
             private Exception mException;
 
             @Override
@@ -974,7 +974,7 @@ class CameraManager implements FocusOverlayManager.Listener {
         screenHeight *= scaleFactor;
 
         final float aspectRatio = screenWidth / (float) screenHeight;
-        final List<Camera.Size> sizes = new ArrayList<Camera.Size>(
+        final List<Camera.Size> sizes = new ArrayList<>(
                 mCamera.getParameters().getSupportedPictureSizes());
         final int maxPixels = maxWidth * maxHeight;
 
@@ -989,7 +989,7 @@ class CameraManager implements FocusOverlayManager.Listener {
      * aspect ratio and size as the picture if possible
      */
     private Camera.Size chooseBestPreviewSize(final Camera.Size pictureSize) {
-        final List<Camera.Size> sizes = new ArrayList<Camera.Size>(
+        final List<Camera.Size> sizes = new ArrayList<>(
                 mCamera.getParameters().getSupportedPreviewSizes());
         final float aspectRatio = pictureSize.width / (float) pictureSize.height;
         final int capturePixels = pictureSize.width * pictureSize.height;

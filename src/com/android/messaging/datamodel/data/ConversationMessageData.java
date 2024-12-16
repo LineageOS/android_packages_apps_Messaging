@@ -163,7 +163,7 @@ public class ConversationMessageData {
 
     // statics to avoid unnecessary object allocation
     private static final StringBuilder sUnquoteStringBuilder = new StringBuilder();
-    private static final ArrayList<String> sUnquoteResults = new ArrayList<String>();
+    private static final ArrayList<String> sUnquoteResults = new ArrayList<>();
 
     // this lock is used to guard access to the above statics
     private static final Object sUnquoteLock = new Object();
@@ -281,7 +281,7 @@ public class ConversationMessageData {
             final String rawTexts,
             final int partsCount,
             final String messageId) {
-        final List<MessagePartData> parts = new LinkedList<MessagePartData>();
+        final List<MessagePartData> parts = new LinkedList<>();
         if (partsCount == 1) {
             parts.add(makePartData(
                     rawIds,

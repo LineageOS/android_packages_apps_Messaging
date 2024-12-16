@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,7 +104,7 @@ public class AvatarUriUtil {
         }
 
         final int numParticipants = Math.min(participants.size(), MAX_GROUP_PARTICIPANTS);
-        final ArrayList<Uri> avatarUris = new ArrayList<Uri>(numParticipants);
+        final ArrayList<Uri> avatarUris = new ArrayList<>(numParticipants);
         for (int i = 0; i < numParticipants; i++) {
             avatarUris.add(createAvatarUri(participants.get(i)));
         }
