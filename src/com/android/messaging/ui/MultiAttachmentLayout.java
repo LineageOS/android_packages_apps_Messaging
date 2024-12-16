@@ -158,13 +158,13 @@ public class MultiAttachmentLayout extends FrameLayout {
 
     public MultiAttachmentLayout(final Context context, final AttributeSet attrs) {
         super(context, attrs);
-        mPreviewViews = new ArrayList<ViewWrapper>();
+        mPreviewViews = new ArrayList<>();
     }
 
     public void bindAttachments(final Iterable<MessagePartData> attachments,
             final Rect transitionRect, final int count) {
         final ArrayList<ViewWrapper> previousViews = mPreviewViews;
-        mPreviewViews = new ArrayList<ViewWrapper>();
+        mPreviewViews = new ArrayList<>();
         removeView(mPlusTextView);
         mPlusTextView = null;
 

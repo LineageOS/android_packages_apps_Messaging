@@ -113,8 +113,7 @@ class DownloadRequest extends MmsRequest {
         return false;
     }
 
-    public static final Parcelable.Creator<DownloadRequest> CREATOR
-            = new Parcelable.Creator<DownloadRequest>() {
+    public static final Parcelable.Creator<DownloadRequest> CREATOR = new Parcelable.Creator<>() {
         public DownloadRequest createFromParcel(Parcel in) {
             return new DownloadRequest(in);
         }

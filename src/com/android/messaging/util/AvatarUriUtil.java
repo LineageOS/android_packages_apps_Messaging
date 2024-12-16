@@ -103,7 +103,7 @@ public class AvatarUriUtil {
         }
 
         final int numParticipants = Math.min(participants.size(), MAX_GROUP_PARTICIPANTS);
-        final ArrayList<Uri> avatarUris = new ArrayList<Uri>(numParticipants);
+        final ArrayList<Uri> avatarUris = new ArrayList<>(numParticipants);
         for (int i = 0; i < numParticipants; i++) {
             avatarUris.add(createAvatarUri(participants.get(i)));
         }

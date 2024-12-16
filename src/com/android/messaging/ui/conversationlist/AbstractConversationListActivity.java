@@ -133,7 +133,7 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
     @Override
     public void onActionBarArchive(final Iterable<SelectedConversation> conversations,
             final boolean isToArchive) {
-        final ArrayList<String> conversationIds = new ArrayList<String>();
+        final ArrayList<String> conversationIds = new ArrayList<>();
         for (final SelectedConversation conversation : conversations) {
             final String conversationId = conversation.conversationId;
             conversationIds.add(conversationId);

@@ -25,7 +25,7 @@ import java.util.HashSet;
  * is memory pressure provide a callback to reclaim the memory in the caches.
  */
 public class MemoryCacheManager {
-    private final HashSet<MemoryCache> mMemoryCaches = new HashSet<MemoryCache>();
+    private final HashSet<MemoryCache> mMemoryCaches = new HashSet<>();
     private final Object mMemoryCacheLock = new Object();
 
     public static MemoryCacheManager get() {
