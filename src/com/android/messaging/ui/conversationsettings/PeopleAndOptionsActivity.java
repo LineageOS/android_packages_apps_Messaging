@@ -17,11 +17,11 @@
 
 package com.android.messaging.ui.conversationsettings;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.BugleActionBarActivity;
@@ -42,7 +42,7 @@ public class PeopleAndOptionsActivity extends BugleActionBarActivity {
     }
 
     @Override
-    public void onAttachFragment(final Fragment fragment) {
+    public void onAttachFragment(@NonNull final Fragment fragment) {
         if (fragment instanceof PeopleAndOptionsFragment) {
             final String conversationId =
                     getIntent().getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID);

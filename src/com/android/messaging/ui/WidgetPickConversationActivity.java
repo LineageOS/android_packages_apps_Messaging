@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +17,14 @@
 
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.ConversationListItemData;
@@ -29,14 +34,13 @@ import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.widget.WidgetConversationProvider;
 
 public class WidgetPickConversationActivity extends BaseBugleActivity implements
-        ShareIntentFragment.HostInterface {
+        ShareIntentFragment.HostInterface, FragmentOnAttachListener {
 
     private int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         // Set the result to CANCELED.  This will cause the widget host to cancel
         // out of the widget placement if they press the back button.
@@ -55,15 +59,18 @@ public class WidgetPickConversationActivity extends BaseBugleActivity implements
             finish();
         }
 
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
+
         final ShareIntentFragment convPicker = new ShareIntentFragment();
         final Bundle bundle = new Bundle();
         bundle.putBoolean(ShareIntentFragment.HIDE_NEW_CONVERSATION_BUTTON_KEY, true);
         convPicker.setArguments(bundle);
-        convPicker.show(getFragmentManager(), "ShareIntentFragment");
+        convPicker.show(getSupportFragmentManager(), "ShareIntentFragment");
     }
 
     @Override
-    public void onAttachFragment(final Fragment fragment) {
+    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
+                                 @NonNull Fragment fragment) {
         final Intent intent = getIntent();
         final String action = intent.getAction();
         if (!AppWidgetManager.ACTION_APPWIDGET_CONFIGURE.equals(action)) {
@@ -110,5 +117,4 @@ public class WidgetPickConversationActivity extends BaseBugleActivity implements
         final BuglePrefs prefs = Factory.get().getWidgetPrefs();
         prefs.remove(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID + appWidgetId);
     }
-
 }
