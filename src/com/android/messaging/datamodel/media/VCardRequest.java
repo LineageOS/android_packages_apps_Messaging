@@ -265,19 +265,14 @@ public class VCardRequest implements MediaRequest<VCardResource> {
                 for (final VCardEntry.PhotoData photo : photos) {
                     final byte[] photoBytes = photo.getBytes();
                     if (photoBytes != null) {
-                        final InputStream inputStream = new ByteArrayInputStream(photoBytes);
-                        try {
+                        try (InputStream inputStream = new ByteArrayInputStream(photoBytes)) {
                             avatarUri = UriUtil.persistContentToScratchSpace(inputStream);
                             if (avatarUri != null) {
                                 // Just load the first avatar and be done. Want more? wait for V2.
                                 break;
                             }
-                        } finally {
-                            try {
-                                inputStream.close();
-                            } catch (final IOException e) {
-                                // Do nothing.
-                            }
+                        } catch (IOException e) {
+                            // Do nothing.
                         }
                     }
                 }
