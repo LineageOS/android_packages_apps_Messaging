@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +20,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -71,33 +74,37 @@ public class ConversationDrawables {
 
     public void updateDrawables() {
         final Resources resources = mContext.getResources();
+        final Resources.Theme theme = mContext.getTheme();
 
-        mIncomingBubbleNoArrowDrawable =
-                resources.getDrawable(R.drawable.message_bubble_incoming_no_arrow);
-        mOutgoingBubbleNoArrowDrawable =
-                resources.getDrawable(R.drawable.message_bubble_outgoing_no_arrow);
-        mAudioPlayButtonDrawable = resources.getDrawable(R.drawable.ic_play_light);
-        mAudioPauseButtonDrawable = resources.getDrawable(R.drawable.ic_pause_light);
-        mIncomingAudioProgressBackgroundDrawable =
-                resources.getDrawable(R.drawable.audio_progress_bar_background_incoming);
-        mOutgoingAudioProgressBackgroundDrawable =
-                resources.getDrawable(R.drawable.audio_progress_bar_background_outgoing);
-        mAudioProgressForegroundDrawable =
-                resources.getDrawable(R.drawable.audio_progress_bar_progress);
-        mFastScrollThumbDrawable = resources.getDrawable(R.drawable.fastscroll_thumb);
-        mFastScrollThumbPressedDrawable =
-                resources.getDrawable(R.drawable.fastscroll_thumb_pressed);
-        mFastScrollPreviewDrawableLeft =
-                resources.getDrawable(R.drawable.fastscroll_preview_left);
-        mFastScrollPreviewDrawableRight =
-                resources.getDrawable(R.drawable.fastscroll_preview_right);
-        mOutgoingBubbleColor = resources.getColor(R.color.message_bubble_color_outgoing);
+        mIncomingBubbleNoArrowDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.message_bubble_incoming_no_arrow, theme);
+        mOutgoingBubbleNoArrowDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.message_bubble_outgoing_no_arrow, theme);
+        mAudioPlayButtonDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.ic_play_light, theme);
+        mAudioPauseButtonDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.ic_pause_light, theme);
+        mIncomingAudioProgressBackgroundDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.audio_progress_bar_background_incoming, theme);
+        mOutgoingAudioProgressBackgroundDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.audio_progress_bar_background_outgoing, theme);
+        mAudioProgressForegroundDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.audio_progress_bar_progress, theme);
+        mFastScrollThumbDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.fastscroll_thumb, theme);
+        mFastScrollThumbPressedDrawable = ResourcesCompat.getDrawable(resources,
+                R.drawable.fastscroll_thumb_pressed, theme);
+        mFastScrollPreviewDrawableLeft = ResourcesCompat.getDrawable(resources,
+                R.drawable.fastscroll_preview_left, theme);
+        mFastScrollPreviewDrawableRight = ResourcesCompat.getDrawable(resources,
+                R.drawable.fastscroll_preview_right, theme);
+        mOutgoingBubbleColor = resources.getColor(R.color.message_bubble_color_outgoing, theme);
         mIncomingErrorBubbleColor =
-                resources.getColor(R.color.message_error_bubble_color_incoming);
+                resources.getColor(R.color.message_error_bubble_color_incoming, theme);
         mIncomingAudioButtonColor =
-                resources.getColor(R.color.message_audio_button_color_incoming);
-        mSelectedBubbleColor = resources.getColor(R.color.message_bubble_color_selected);
-        mThemeColor = resources.getColor(R.color.primary_color);
+                resources.getColor(R.color.message_audio_button_color_incoming, theme);
+        mSelectedBubbleColor = resources.getColor(R.color.message_bubble_color_selected, theme);
+        mThemeColor = resources.getColor(R.color.primary_color, theme);
         mColors = resources.obtainTypedArray(R.array.letter_tile_colors);
     }
 

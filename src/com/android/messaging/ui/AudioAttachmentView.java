@@ -17,6 +17,7 @@
 package com.android.messaging.ui;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Path;
@@ -31,6 +32,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -350,11 +353,13 @@ public class AudioAttachmentView extends LinearLayout {
                 mChronometer.setVisibility(GONE);
                 ((MarginLayoutParams) mPlayPauseButton.getLayoutParams()).setMargins(0, 0, 0, 0);
                 final ImageView playButton = (ImageView) findViewById(R.id.play_button);
+                final Resources res = getResources();
+                final Resources.Theme theme = getContext().getTheme();
                 playButton.setImageDrawable(
-                        getResources().getDrawable(R.drawable.ic_preview_play));
+                        ResourcesCompat.getDrawable(res, R.drawable.ic_preview_play, theme));
                 final ImageView pauseButton = (ImageView) findViewById(R.id.pause_button);
                 pauseButton.setImageDrawable(
-                        getResources().getDrawable(R.drawable.ic_preview_pause));
+                        ResourcesCompat.getDrawable(res, R.drawable.ic_preview_pause, theme));
                 break;
 
             default:

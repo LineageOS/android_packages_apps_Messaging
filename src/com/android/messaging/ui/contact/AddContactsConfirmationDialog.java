@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,11 +56,13 @@ public class AddContactsConfirmationDialog implements DialogInterface.OnClickLis
         final Resources resources = mContext.getResources();
         final Button cancelButton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
         if (cancelButton != null) {
-            cancelButton.setTextColor(resources.getColor(R.color.contact_picker_button_text_color));
+            cancelButton.setTextColor(resources.getColor(R.color.contact_picker_button_text_color,
+                    mContext.getTheme()));
         }
         final Button addButton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (addButton != null) {
-            addButton.setTextColor(resources.getColor(R.color.contact_picker_button_text_color));
+            addButton.setTextColor(resources.getColor(R.color.contact_picker_button_text_color,
+                    mContext.getTheme()));
         }
     }
 

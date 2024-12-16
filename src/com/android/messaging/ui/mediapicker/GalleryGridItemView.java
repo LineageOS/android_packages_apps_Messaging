@@ -17,6 +17,7 @@
 package com.android.messaging.ui.mediapicker;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -161,9 +162,10 @@ public class GalleryGridItemView extends FrameLayout {
             mAdditionalInfo.setVisibility(VISIBLE);
         } else {
             final String contentType = mData.getContentType();
+            Resources.Theme theme = getContext().getTheme();
             if (ContentType.isAudioType(contentType)) {
                 setBackgroundColor(
-                        getResources().getColor(R.color.gallery_image_default_background));
+                        getResources().getColor(R.color.gallery_image_default_background, theme));
                 mIcon.setImageResource(R.drawable.ic_music);
                 mIcon.setColorFilter(
                         ConversationDrawables.get().getConversationThemeColor(),
@@ -178,7 +180,7 @@ public class GalleryGridItemView extends FrameLayout {
             } else { // For image and video types
                 mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 setBackgroundColor(
-                        getResources().getColor(R.color.gallery_image_default_background));
+                        getResources().getColor(R.color.gallery_image_default_background, theme));
                 mImageView.setImageResourceId(mData.getImageRequestDescriptor());
                 mImageView.setVisibility(VISIBLE);
                 if (ContentType.isVideoType(mData.getContentType())) {
