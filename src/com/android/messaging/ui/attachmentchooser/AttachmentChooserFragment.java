@@ -16,14 +16,10 @@
  */
 package com.android.messaging.ui.attachmentchooser;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +27,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.Fragment;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -80,7 +80,7 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.attachment_chooser_menu, menu);
     }
@@ -158,7 +158,7 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
 
     class AttachmentGridAdapter extends ArrayAdapter<MessagePartData> {
         public AttachmentGridAdapter(final Context context) {
-            super(context, R.layout.attachment_grid_item_view, new ArrayList<MessagePartData>());
+            super(context, R.layout.attachment_grid_item_view, new ArrayList<>());
         }
 
         public void onAttachmentsLoaded(final List<MessagePartData> attachments) {
