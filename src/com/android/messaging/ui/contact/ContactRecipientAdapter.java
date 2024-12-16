@@ -166,7 +166,7 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
                     cursorResult.enterpriseCursor};
             for (Cursor cursor : cursors) {
                 if (cursor != null) {
-                    try {
+                    try (cursor) {
                         final List<RecipientEntry> tempEntries = new ArrayList<>();
                         HashSet<Long> existingContactIds = new HashSet<>();
                         while (cursor.moveToNext()) {
@@ -185,8 +185,6 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
                             Collections.sort(tempEntries, mComparator);
                         }
                         entries.addAll(tempEntries);
-                    } finally {
-                        cursor.close();
                     }
                 }
             }
