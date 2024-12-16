@@ -202,7 +202,7 @@ public class MessageData implements Parcelable {
      * Create an "empty" message
      */
     public MessageData() {
-        mParts = new ArrayList<MessagePartData>();
+        mParts = new ArrayList<>();
     }
 
     public static String[] getProjection() {
@@ -846,7 +846,7 @@ public class MessageData implements Parcelable {
         mRetryStartTimestamp = in.readLong();
 
         // Read parts
-        mParts = new ArrayList<MessagePartData>();
+        mParts = new ArrayList<>();
         final int partCount = in.readInt();
         for (int i = 0; i < partCount; i++) {
             mParts.add((MessagePartData) in.readParcelable(MessagePartData.class.getClassLoader()));
@@ -889,7 +889,7 @@ public class MessageData implements Parcelable {
     }
 
     public static final Parcelable.Creator<MessageData> CREATOR
-            = new Parcelable.Creator<MessageData>() {
+            = new Parcelable.Creator<>() {
         @Override
         public MessageData createFromParcel(final Parcel in) {
             return new MessageData(in);

@@ -655,7 +655,7 @@ public class ComposeMessageView extends LinearLayout
                 mBinding.getData().hasAttachments();
 
         final List<MessagePartData> attachments =
-                new ArrayList<MessagePartData>(draftMessageData.getReadOnlyAttachments());
+                new ArrayList<>(draftMessageData.getReadOnlyAttachments());
         if (draftMessageData.getIsMms()) { // MMS case
             if (draftMessageData.hasAttachments()) {
                 if (hasAttachmentsChanged) {

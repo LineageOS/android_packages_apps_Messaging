@@ -92,7 +92,7 @@ class FactoryImpl extends Factory {
         factory.mUIIntents = new UIIntentsImpl();
         factory.mContactContentObserver = new ContactContentObserver();
         factory.mMediaUtil = new MediaUtilImpl();
-        factory.mSubscriptionPrefs = new SparseArray<BugleSubscriptionPrefs>();
+        factory.mSubscriptionPrefs = new SparseArray<>();
         factory.mCarrierConfigValuesLoader = new BugleCarrierConfigValuesLoader(applicationContext);
 
         if (OsUtil.hasRequiredPermissions()) {

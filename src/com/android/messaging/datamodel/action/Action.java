@@ -47,7 +47,7 @@ public abstract class Action implements Parcelable {
     protected final Bundle actionParameters;
 
     // This does not get written to the parcel
-    private final List<Action> mBackgroundActions = new LinkedList<Action>();
+    private final List<Action> mBackgroundActions = new LinkedList<>();
 
     /**
      * Process the action locally - runs on action service thread.

@@ -122,8 +122,8 @@ public class CharacterSets {
 
     static {
         // Create the HashMaps.
-        MIBENUM_TO_NAME_MAP = new HashMap<Integer, String>();
-        NAME_TO_MIBENUM_MAP = new HashMap<String, Integer>();
+        MIBENUM_TO_NAME_MAP = new HashMap<>();
+        NAME_TO_MIBENUM_MAP = new HashMap<>();
         assert(MIBENUM_NUMBERS.length == MIME_NAMES.length);
         int count = MIBENUM_NUMBERS.length - 1;
         for(int i = 0; i <= count; i++) {

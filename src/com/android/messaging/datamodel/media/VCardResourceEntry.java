@@ -163,7 +163,7 @@ public class VCardResourceEntry {
             final VCardEntry vcard) {
         final Resources resources = Factory.get().getApplicationContext().getResources();
         final List<VCardResourceEntry.VCardResourceEntryDestinationItem> retList =
-                new ArrayList<VCardResourceEntry.VCardResourceEntryDestinationItem>();
+                new ArrayList<>();
         if (vcard.getPhoneList() != null) {
             for (final PhoneData phone : vcard.getPhoneList()) {
                 final Intent intent = new Intent(Intent.ACTION_DIAL);
@@ -264,7 +264,7 @@ public class VCardResourceEntry {
 
         if (vcard.getNotes() != null) {
             for (final NoteData note : vcard.getNotes()) {
-                 final ArrayMap<String, String> curChildMap = new ArrayMap<String, String>();
+                 final ArrayMap<String, String> curChildMap = new ArrayMap<>();
                  if (TextUtils.isGraphic(note.getNote())){
                      retList.add(new VCardResourceEntryDestinationItem(note.getNote(),
                              resources.getString(R.string.vcard_detail_notes_label), null));

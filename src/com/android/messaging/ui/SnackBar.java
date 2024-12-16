@@ -118,8 +118,7 @@ public class SnackBar {
     }
 
     public static class Builder {
-        private static final List<SnackBarInteraction> NO_INTERACTIONS = 
-            new ArrayList<SnackBarInteraction>();
+        private static final List<SnackBarInteraction> NO_INTERACTIONS = new ArrayList<>();
 
         private final Context mContext;
         private final SnackBarManager mSnackBarManager;
@@ -213,7 +212,7 @@ public class SnackBar {
         mPlacement = builder.mPlacement;
         mParentView = builder.mParentView;
         if (builder.mInteractions == null) {
-            mInteractions = new ArrayList<SnackBarInteraction>();
+            mInteractions = new ArrayList<>();
         } else {
             mInteractions = builder.mInteractions;
         }

@@ -53,8 +53,8 @@ public class RenderOverlay extends FrameLayout {
         mRenderView = new RenderView(context);
         addView(mRenderView, new LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.MATCH_PARENT));
-        mClients = new ArrayList<Renderer>(10);
-        mTouchClients = new ArrayList<Renderer>(10);
+        mClients = new ArrayList<>(10);
+        mTouchClients = new ArrayList<>(10);
         setWillNotDraw(false);
 
         addRenderer(new PieRenderer(context));

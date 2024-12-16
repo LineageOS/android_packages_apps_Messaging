@@ -226,7 +226,7 @@ public abstract class MessageNotificationState extends NotificationState {
             mIncludeEmailAddress = includeEmailAddress;
             mReceivedTimestamp = receivedTimestamp;
             mSelfParticipantId = selfParticipantId;
-            mLineInfos = new ArrayList<NotificationLineInfo>();
+            mLineInfos = new ArrayList<>();
             mTotalMessageCount = 0;
             mAvatarUri = avatarUri;
             mContactUri = contactUri;
@@ -340,8 +340,7 @@ public abstract class MessageNotificationState extends NotificationState {
      */
     public static class MultiConversationNotificationState extends MessageNotificationState {
 
-        public final List<MessageNotificationState>
-                mChildren = new ArrayList<MessageNotificationState>();
+        public final List<MessageNotificationState> mChildren = new ArrayList<>();
 
         public MultiConversationNotificationState(
                 final ConversationInfoList convList, final MessageNotificationState state) {
@@ -618,7 +617,7 @@ public abstract class MessageNotificationState extends NotificationState {
 
         final Iterator<ParticipantData> iter = participantsData.iterator();
 
-        final HashMap<String, Integer> firstNames = new HashMap<String, Integer>();
+        final HashMap<String, Integer> firstNames = new HashMap<>();
         boolean seenSelf = false;
         while (iter.hasNext()) {
             final ParticipantData participant = iter.next();
@@ -1040,13 +1039,13 @@ public abstract class MessageNotificationState extends NotificationState {
                 // For now, only show avatars for notifications for a single conversation.
                 if (convInfo.mAvatarUri != null) {
                     if (state.mParticipantAvatarsUris == null) {
-                        state.mParticipantAvatarsUris = new ArrayList<Uri>(1);
+                        state.mParticipantAvatarsUris = new ArrayList<>(1);
                     }
                     state.mParticipantAvatarsUris.add(convInfo.mAvatarUri);
                 }
                 if (convInfo.mContactUri != null) {
                     if (state.mParticipantContactUris == null) {
-                        state.mParticipantContactUris = new ArrayList<Uri>(1);
+                        state.mParticipantContactUris = new ArrayList<>(1);
                     }
                     state.mParticipantContactUris.add(convInfo.mContactUri);
                 }
@@ -1160,11 +1159,11 @@ public abstract class MessageNotificationState extends NotificationState {
             if (messageDataCursor != null) {
                 final MessageData messageData = new MessageData();
 
-                final HashSet<String> conversationsWithFailedMessages = new HashSet<String>();
+                final HashSet<String> conversationsWithFailedMessages = new HashSet<>();
 
                 // track row ids in case we want to display something that requires this
                 // information
-                final ArrayList<Integer> failedMessages = new ArrayList<Integer>();
+                final ArrayList<Integer> failedMessages = new ArrayList<>();
 
                 int cursorPosition = -1;
                 final long when = 0;

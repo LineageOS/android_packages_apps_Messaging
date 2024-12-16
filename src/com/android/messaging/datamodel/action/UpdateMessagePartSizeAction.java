@@ -87,7 +87,7 @@ public class UpdateMessagePartSizeAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<UpdateMessagePartSizeAction> CREATOR
-            = new Parcelable.Creator<UpdateMessagePartSizeAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public UpdateMessagePartSizeAction createFromParcel(final Parcel in) {
             return new UpdateMessagePartSizeAction(in);

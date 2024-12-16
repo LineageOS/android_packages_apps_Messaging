@@ -243,7 +243,7 @@ class ExifOutputStream extends FilterOutputStream {
     }
 
     private ArrayList<ExifTag> stripNullValueTags(ExifData data) {
-        ArrayList<ExifTag> nullTags = new ArrayList<ExifTag>();
+        ArrayList<ExifTag> nullTags = new ArrayList<>();
         if (data.getAllTags() == null) {
             return nullTags;
         }
