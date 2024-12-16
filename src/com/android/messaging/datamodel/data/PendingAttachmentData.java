@@ -162,15 +162,15 @@ public class PendingAttachmentData extends MessagePartData {
     }
 
     public static final Parcelable.Creator<PendingAttachmentData> CREATOR
-        = new Parcelable.Creator<PendingAttachmentData>() {
-            @Override
-            public PendingAttachmentData createFromParcel(final Parcel in) {
-                return new PendingAttachmentData(in);
-            }
+        = new Parcelable.Creator<>() {
+        @Override
+        public PendingAttachmentData createFromParcel(final Parcel in) {
+            return new PendingAttachmentData(in);
+        }
 
-            @Override
-            public PendingAttachmentData[] newArray(final int size) {
-                return new PendingAttachmentData[size];
-            }
-        };
+        @Override
+        public PendingAttachmentData[] newArray(final int size) {
+            return new PendingAttachmentData[size];
+        }
+    };
 }

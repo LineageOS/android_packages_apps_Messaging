@@ -103,7 +103,7 @@ public class LineWrapLayout extends ViewGroup {
         int currLineHeight = 0;
 
         // Do a dry-run first to get the line heights.
-        final ArrayList<Integer> lineHeights = new ArrayList<Integer>();
+        final ArrayList<Integer> lineHeights = new ArrayList<>();
         for (int i = 0; i < childCount; i++) {
             View currChild = getChildAt(i);
             if (currChild.getVisibility() == GONE) {

@@ -44,7 +44,7 @@ public class AvatarGroupRequestDescriptor extends CompositeImageRequestDescripto
             final int desiredWidth, final int desiredHeight) {
         final List<String> participantUriStrings = AvatarUriUtil.getGroupParticipantUris(uri);
         final List<AvatarRequestDescriptor> avatarDescriptors =
-                new ArrayList<AvatarRequestDescriptor>(participantUriStrings.size());
+                new ArrayList<>(participantUriStrings.size());
         for (final String uriString : participantUriStrings) {
             final AvatarRequestDescriptor descriptor = new AvatarRequestDescriptor(
                     Uri.parse(uriString), desiredWidth, desiredHeight);
@@ -55,7 +55,7 @@ public class AvatarGroupRequestDescriptor extends CompositeImageRequestDescripto
 
     @Override
     public CompositeImageRequest<?> buildBatchImageRequest(final Context context) {
-        return new CompositeImageRequest<AvatarGroupRequestDescriptor>(context, this);
+        return new CompositeImageRequest<>(context, this);
     }
 
     @Override

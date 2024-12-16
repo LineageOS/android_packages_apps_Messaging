@@ -29,7 +29,7 @@ public abstract class AbstractCache<K, V> {
     private final SimpleArrayMap<K, CacheEntry<V>> mCacheMap;
 
     protected AbstractCache() {
-        mCacheMap = new SimpleArrayMap<K, CacheEntry<V>>();
+        mCacheMap = new SimpleArrayMap<>();
     }
 
     public boolean put(K key, V value) {
@@ -47,7 +47,7 @@ public abstract class AbstractCache<K, V> {
         }
 
         if (key != null) {
-            CacheEntry<V> cacheEntry = new CacheEntry<V>();
+            CacheEntry<V> cacheEntry = new CacheEntry<>();
             cacheEntry.value = value;
             mCacheMap.put(key, cacheEntry);
 
