@@ -19,13 +19,12 @@
     package="com.android.messaging"
     android:installLocation="internalOnly">
 
-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="29" />
+    <uses-sdk android:minSdkVersion="33" android:targetSdkVersion="34" />
 
     <!-- Application holds CPU wakelock while working in background -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- Application needs SMS/MMS permissions -->
     <uses-permission android:name="android.permission.READ_SMS"/>
-    <uses-permission android:name="android.permission.WRITE_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_MMS"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
@@ -56,6 +55,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
     <uses-feature android:name="android.hardware.screen.portrait" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
 
     <queries>
         <intent>
@@ -195,7 +195,8 @@
             android:theme="@style/BugleTheme.SettingsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="user"
-            android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity">
+            android:parentActivityName="com.android.messaging.ui.appsettings.SettingsActivity"
+            android:exported="true">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:exported="true"

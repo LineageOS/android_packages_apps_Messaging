@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -428,7 +429,7 @@ public class UIIntentsImpl extends UIIntents {
         }
         return PendingIntent.getBroadcast(context,
                 requestCode, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
     }
 
     /**
@@ -446,7 +447,8 @@ public class UIIntentsImpl extends UIIntents {
         // Adds the back stack for the Intent (plus the Intent itself)
         stackBuilder.addNextIntentWithParentStack(intent);
         final PendingIntent resultPendingIntent =
-            stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT);
+            stackBuilder.getPendingIntent(requestCode,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
         return resultPendingIntent;
     }
 
