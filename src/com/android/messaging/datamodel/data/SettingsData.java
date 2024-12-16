@@ -16,12 +16,14 @@
 
 package com.android.messaging.datamodel.data;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.BoundCursorLoader;
@@ -126,6 +128,7 @@ public class SettingsData extends BindableData implements
 
     private static final int SELF_PARTICIPANT_LOADER = 1;
 
+    @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
         Assert.equals(SELF_PARTICIPANT_LOADER, id);
@@ -147,7 +150,7 @@ public class SettingsData extends BindableData implements
     }
 
     @Override
-    public void onLoadFinished(final Loader<Cursor> generic, final Cursor data) {
+    public void onLoadFinished(@NonNull final Loader<Cursor> generic, final Cursor data) {
         final BoundCursorLoader loader = (BoundCursorLoader) generic;
 
         // Check if data still bound to the requesting ui element
