@@ -87,7 +87,7 @@ public class BitmapPool implements MemoryCache {
         Assert.isTrue(!TextUtils.isEmpty(name));
         mPoolName = name;
         mMaxSize = maxSize;
-        mPool = new SparseArray<SingleSizePool>();
+        mPool = new SparseArray<>();
     }
 
     @Override

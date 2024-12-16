@@ -305,7 +305,7 @@ public class FocusOverlayManager {
     private void initializeFocusAreas(int focusWidth, int focusHeight,
             int x, int y, int previewWidth, int previewHeight) {
         if (mFocusArea == null) {
-            mFocusArea = new ArrayList<Object>();
+            mFocusArea = new ArrayList<>();
             mFocusArea.add(new Area(new Rect(), 1));
         }
 
@@ -317,7 +317,7 @@ public class FocusOverlayManager {
     private void initializeMeteringAreas(int focusWidth, int focusHeight,
             int x, int y, int previewWidth, int previewHeight) {
         if (mMeteringArea == null) {
-            mMeteringArea = new ArrayList<Object>();
+            mMeteringArea = new ArrayList<>();
             mMeteringArea.add(new Area(new Rect(), 1));
         }
 
