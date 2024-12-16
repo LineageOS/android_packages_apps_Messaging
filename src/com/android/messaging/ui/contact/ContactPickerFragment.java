@@ -173,7 +173,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mCustomHeaderViewPager.setViewHolders(viewHolders);
         mCustomHeaderViewPager.setViewPagerTabHeight(CustomHeaderViewPager.DEFAULT_TAB_STRIP_SIZE);
         mCustomHeaderViewPager.setBackgroundColor(getResources()
-                .getColor(R.color.contact_picker_background));
+                .getColor(R.color.contact_picker_background, getContext().getTheme()));
 
         // The view pager defaults to the frequent contacts page.
         mCustomHeaderViewPager.setCurrentItem(0);
@@ -552,8 +552,9 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         // Hide the action bar for contact picker mode. The custom ToolBar containing chips UI
         // etc. will take the spot of the action bar.
         actionBar.hide();
-        UiUtils.setStatusBarColor(getActivity(),
-                getResources().getColor(R.color.compose_notification_bar_background));
+        UiUtils.setStatusBarColor(requireActivity(),
+                getResources().getColor(R.color.compose_notification_bar_background,
+                        requireActivity().getTheme()));
     }
 
     private GetOrCreateConversationActionMonitor mMonitor;
