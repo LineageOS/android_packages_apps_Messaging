@@ -115,7 +115,7 @@ public class ResendMessageAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<ResendMessageAction> CREATOR
-            = new Parcelable.Creator<ResendMessageAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public ResendMessageAction createFromParcel(final Parcel in) {
             return new ResendMessageAction(in);

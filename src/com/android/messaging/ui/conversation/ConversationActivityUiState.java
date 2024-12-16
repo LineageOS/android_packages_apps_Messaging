@@ -276,7 +276,7 @@ public class ConversationActivityUiState implements Parcelable, Cloneable {
     }
 
     public static final Parcelable.Creator<ConversationActivityUiState> CREATOR
-        = new Parcelable.Creator<ConversationActivityUiState>() {
+        = new Parcelable.Creator<>() {
         @Override
         public ConversationActivityUiState createFromParcel(final Parcel in) {
             return new ConversationActivityUiState(in);

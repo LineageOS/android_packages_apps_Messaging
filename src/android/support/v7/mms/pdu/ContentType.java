@@ -78,10 +78,10 @@ public class ContentType {
     public static final String APP_DRM_CONTENT   = "application/vnd.oma.drm.content";
     public static final String APP_DRM_MESSAGE   = "application/vnd.oma.drm.message";
 
-    private static final ArrayList<String> sSupportedContentTypes = new ArrayList<String>();
-    private static final ArrayList<String> sSupportedImageTypes = new ArrayList<String>();
-    private static final ArrayList<String> sSupportedAudioTypes = new ArrayList<String>();
-    private static final ArrayList<String> sSupportedVideoTypes = new ArrayList<String>();
+    private static final ArrayList<String> sSupportedContentTypes = new ArrayList<>();
+    private static final ArrayList<String> sSupportedImageTypes = new ArrayList<>();
+    private static final ArrayList<String> sSupportedAudioTypes = new ArrayList<>();
+    private static final ArrayList<String> sSupportedVideoTypes = new ArrayList<>();
 
     static {
         sSupportedContentTypes.add(TEXT_PLAIN);

@@ -77,7 +77,7 @@ public class UpdateConversationArchiveStatusAction extends Action {
     }
 
     public static final Parcelable.Creator<UpdateConversationArchiveStatusAction> CREATOR
-            = new Parcelable.Creator<UpdateConversationArchiveStatusAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public UpdateConversationArchiveStatusAction createFromParcel(final Parcel in) {
             return new UpdateConversationArchiveStatusAction(in);

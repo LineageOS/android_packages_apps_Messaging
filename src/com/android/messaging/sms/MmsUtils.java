@@ -763,7 +763,7 @@ public class MmsUtils {
             Uri.parse("content://mms-sms/canonical-address");
 
     private static List<String> getAddresses(final Context context, final String spaceSepIds) {
-        final List<String> numbers = new ArrayList<String>();
+        final List<String> numbers = new ArrayList<>();
         final String[] ids = spaceSepIds.split(" ");
         for (final String id : ids) {
             long longId;
@@ -813,7 +813,7 @@ public class MmsUtils {
     // Get telephony SMS thread ID
     public static long getOrCreateSmsThreadId(final Context context, final String dest) {
         // use destinations to determine threadId
-        final Set<String> recipients = new HashSet<String>();
+        final Set<String> recipients = new HashSet<>();
         recipients.add(dest);
         try {
             return MmsSmsUtils.Threads.getOrCreateThreadId(context, recipients);
@@ -829,7 +829,7 @@ public class MmsUtils {
             return -1;
         }
         // use destinations to determine threadId
-        final Set<String> recipients = new HashSet<String>(dests);
+        final Set<String> recipients = new HashSet<>(dests);
         try {
             return MmsSmsUtils.Threads.getOrCreateThreadId(context, recipients);
         } catch (final IllegalArgumentException e) {

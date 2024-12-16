@@ -132,7 +132,7 @@ public class UpdateDestinationBlockedAction extends Action {
     }
 
     public static final Parcelable.Creator<UpdateDestinationBlockedAction> CREATOR
-            = new Parcelable.Creator<UpdateDestinationBlockedAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public UpdateDestinationBlockedAction createFromParcel(final Parcel in) {
             return new UpdateDestinationBlockedAction(in);

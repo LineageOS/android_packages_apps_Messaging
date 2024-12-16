@@ -157,7 +157,7 @@ public class GetOrCreateConversationAction extends Action implements Parcelable 
     }
 
     public static final Parcelable.Creator<GetOrCreateConversationAction> CREATOR
-            = new Parcelable.Creator<GetOrCreateConversationAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public GetOrCreateConversationAction createFromParcel(final Parcel in) {
             return new GetOrCreateConversationAction(in);

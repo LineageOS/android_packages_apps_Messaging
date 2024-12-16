@@ -126,7 +126,7 @@ public class SimSelectorView extends FrameLayout implements SimSelectorItemView.
      */
     private class SimSelectorAdapter extends ArrayAdapter<SubscriptionListEntry> {
         public SimSelectorAdapter(final Context context) {
-            super(context, R.layout.sim_selector_item_view, new ArrayList<SubscriptionListEntry>());
+            super(context, R.layout.sim_selector_item_view, new ArrayList<>());
         }
 
         public void bindData(final List<SubscriptionListEntry> newList) {

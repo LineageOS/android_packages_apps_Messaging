@@ -77,7 +77,7 @@ public class OsUtil {
         return null;
     }
 
-    private static final Hashtable<String, Integer> sPermissions = new Hashtable<String, Integer>();
+    private static final Hashtable<String, Integer> sPermissions = new Hashtable<>();
 
     /**
      * Check if the app has the specified permission. If it does not, the app needs to use
@@ -139,7 +139,7 @@ public class OsUtil {
      * again, and its up to the app to only request permissions that are missing.
      */
     public static String[] getMissingPermissions(final String[] permissions) {
-        final ArrayList<String> missingList = new ArrayList<String>();
+        final ArrayList<String> missingList = new ArrayList<>();
         for (final String permission : permissions) {
             if (!hasPermission(permission)) {
                 missingList.add(permission);

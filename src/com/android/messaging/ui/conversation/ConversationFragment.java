@@ -508,7 +508,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator() {
-            private final List<ViewHolder> mAddAnimations = new ArrayList<ViewHolder>();
+            private final List<ViewHolder> mAddAnimations = new ArrayList<>();
             private PopupTransitionAnimation mPopupTransitionAnimation;
 
             @Override

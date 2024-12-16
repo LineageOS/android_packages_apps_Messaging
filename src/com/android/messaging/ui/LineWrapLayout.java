@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -103,7 +104,7 @@ public class LineWrapLayout extends ViewGroup {
         int currLineHeight = 0;
 
         // Do a dry-run first to get the line heights.
-        final ArrayList<Integer> lineHeights = new ArrayList<Integer>();
+        final ArrayList<Integer> lineHeights = new ArrayList<>();
         for (int i = 0; i < childCount; i++) {
             View currChild = getChildAt(i);
             if (currChild.getVisibility() == GONE) {

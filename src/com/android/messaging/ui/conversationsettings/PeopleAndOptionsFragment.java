@@ -127,7 +127,7 @@ public class PeopleAndOptionsFragment extends Fragment
     public void onOptionsItemViewClicked(final PeopleOptionsItemData item) {
         switch (item.getItemId()) {
             case PeopleOptionsItemData.SETTING_NOTIFICATION:
-                ArrayList<String> participantsNames = new ArrayList<String>();
+                ArrayList<String> participantsNames = new ArrayList<>();
                 for (ParticipantData participant : mOtherParticipants) {
                     participantsNames.add(participant.getDisplayName(true));
                 }
@@ -236,7 +236,7 @@ public class PeopleAndOptionsFragment extends Fragment
      */
     private class PeopleListAdapter extends ArrayAdapter<ParticipantData> {
         public PeopleListAdapter(final Context context) {
-            super(context, R.layout.people_list_item_view, new ArrayList<ParticipantData>());
+            super(context, R.layout.people_list_item_view, new ArrayList<>());
         }
 
         public void updateParticipants(final List<ParticipantData> newList) {

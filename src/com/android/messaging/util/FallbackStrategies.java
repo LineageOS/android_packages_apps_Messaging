@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,13 +55,13 @@ public class FallbackStrategies<Input, Output> {
     private final List<Strategy<Input, Output>> mChainedStrategies;
 
     private FallbackStrategies(final Strategy<Input, Output> primaryStrategy) {
-        mChainedStrategies = new ArrayList<Strategy<Input, Output>>();
+        mChainedStrategies = new ArrayList<>();
         mChainedStrategies.add(primaryStrategy);
     }
 
     public static <Input, Output> FallbackStrategies<Input, Output> startWith(
             final Strategy<Input, Output> primaryStrategy) {
-        return new FallbackStrategies<Input, Output>(primaryStrategy);
+        return new FallbackStrategies<>(primaryStrategy);
     }
 
     public FallbackStrategies<Input, Output> thenTry(final Strategy<Input, Output> strategy) {
