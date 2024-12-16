@@ -399,9 +399,7 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
             return;
         }
         // MCC/MNC is good, loading/querying APNs from XML
-        XmlResourceParser xml = null;
-        try {
-            xml = mContext.getResources().getXml(R.xml.apns);
+        try (XmlResourceParser xml = mContext.getResources().getXml(R.xml.apns)) {
             new ApnsXmlParser(xml, apnValues -> {
                 final String mcc = trimWithNullCheck(apnValues.getAsString(APN_MCC));
                 final String mnc = trimWithNullCheck(apnValues.getAsString(APN_MNC));
@@ -425,10 +423,6 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
             }).parse();
         } catch (final Resources.NotFoundException e) {
             Log.w(MmsService.TAG, "Can not get apns.xml " + e);
-        } finally {
-            if (xml != null) {
-                xml.close();
-            }
         }
     }
 

@@ -270,22 +270,17 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
             return null;
         }
         final Uri uri = MessagingContentProvider.buildConversationMetadataUri(conversationId);
-        Cursor cursor = null;
-        try {
-            cursor = context.getContentResolver().query(uri,
-                    ConversationListItemData.PROJECTION,
-                    null,       // selection
-                    null,       // selection args
-                    null);      // sort order
+        try (Cursor cursor = context.getContentResolver().query(uri,
+                ConversationListItemData.PROJECTION,
+                null,       // selection
+                null,       // selection args
+                null        // sort order
+        )) {
             if (cursor != null && cursor.getCount() > 0) {
                 final ConversationListItemData conv = new ConversationListItemData();
                 cursor.moveToFirst();
                 conv.bind(cursor);
                 return conv;
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
         return null;
