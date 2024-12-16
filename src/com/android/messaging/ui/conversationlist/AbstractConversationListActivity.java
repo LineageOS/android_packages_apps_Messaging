@@ -18,14 +18,15 @@ package com.android.messaging.ui.conversationlist;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.action.DeleteConversationAction;
@@ -48,29 +49,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 /**
  * Base class for many Conversation List activities. This will handle the common actions of multi
  * select and common launching of intents.
  */
-public abstract class AbstractConversationListActivity  extends BugleActionBarActivity
+public abstract class AbstractConversationListActivity extends BugleActionBarActivity
     implements ConversationListFragmentHost, MultiSelectActionModeCallback.Listener {
 
     private static final int REQUEST_SET_DEFAULT_SMS_APP = 1;
 
     protected ConversationListFragment mConversationListFragment;
-
-    @Override
-    public void onAttachFragment(final Fragment fragment) {
-        Trace.beginSection("AbstractConversationListActivity.onAttachFragment");
-        // Fragment could be debug dialog
-        if (fragment instanceof ConversationListFragment) {
-            mConversationListFragment = (ConversationListFragment) fragment;
-            mConversationListFragment.setHost(this);
-        }
-        Trace.endSection();
-    }
 
     @Override
     public void onBackPressed() {

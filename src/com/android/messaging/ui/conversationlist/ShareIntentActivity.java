@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +17,6 @@
 
 package com.android.messaging.ui.conversationlist;
 
-import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
@@ -24,7 +24,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.collection.ArrayMap;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.ConversationListItemData;
@@ -48,7 +52,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class ShareIntentActivity extends BaseBugleActivity implements
-        ShareIntentFragment.HostInterface {
+        ShareIntentFragment.HostInterface, FragmentOnAttachListener {
 
     private MessageData mDraftMessage;
 
@@ -74,11 +78,13 @@ public class ShareIntentActivity extends BaseBugleActivity implements
             finish();
             return;
         }
-        new ShareIntentFragment().show(getFragmentManager(), "ShareIntentFragment");
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
+        new ShareIntentFragment().show(getSupportFragmentManager(), "ShareIntentFragment");
     }
 
     @Override
-    public void onAttachFragment(final Fragment fragment) {
+    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
+                                 @NonNull Fragment fragment) {
         final Intent intent = getIntent();
         final String action = intent.getAction();
 

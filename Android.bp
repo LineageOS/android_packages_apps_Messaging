@@ -68,6 +68,7 @@ android_app {
         "androidx.legacy_legacy-support-core-utils",
         "androidx.legacy_legacy-support-core-ui",
         "androidx.palette_palette",
+        "androidx.preference_preference",
         "androidx.recyclerview_recyclerview",
         "androidx.viewpager_viewpager",
         "androidx.legacy_legacy-support-v13",

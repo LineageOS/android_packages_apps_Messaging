@@ -18,14 +18,18 @@ package com.android.messaging.ui.conversationlist;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import android.view.MenuItem;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.android.messaging.R;
 
-public class ArchivedConversationListActivity extends AbstractConversationListActivity {
+public class ArchivedConversationListActivity extends AbstractConversationListActivity
+        implements FragmentOnAttachListener {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -33,7 +37,8 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
 
         final ConversationListFragment fragment =
                 ConversationListFragment.createArchivedConversationListFragment();
-        getFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
+        getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
         invalidateActionBar();
     }
 
@@ -76,5 +81,14 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
     @Override
     public boolean isSwipeAnimatable() {
         return false;
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
+                                 @NonNull Fragment fragment) {
+        if (fragment instanceof ConversationListFragment) {
+            mConversationListFragment = (ConversationListFragment) fragment;
+            mConversationListFragment.setHost(this);
+        }
     }
 }

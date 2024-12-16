@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +17,9 @@
 
 package com.android.messaging.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.messaging.util.BugleActivityUtil;
 import com.android.messaging.util.LogUtil;
@@ -27,7 +29,7 @@ import com.android.messaging.util.UiUtils;
  * Base class for app activities that would normally derive from Activity. Responsible for
  * ensuring app requirements are met during onResume()
  */
-public class BaseBugleActivity extends Activity {
+public class BaseBugleActivity extends FragmentActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
