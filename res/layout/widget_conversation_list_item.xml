@@ -33,7 +33,7 @@
             style="@style/WidgetConversationListItemAvatar"
             android:layout_width="@dimen/contact_icon_view_normal_size"
             android:layout_height="@dimen/contact_icon_view_normal_size"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:scaleType="fitXY"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
