@@ -45,7 +45,7 @@
             android:src="@drawable/ic_person_light"
             android:scaleX="1.33"
             android:scaleY="1.33"
-            android:tint="@color/primary_color"
+            app:tint="@color/primary_color"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
     </FrameLayout>
