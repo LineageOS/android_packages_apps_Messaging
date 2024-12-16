@@ -54,13 +54,13 @@ public class FallbackStrategies<Input, Output> {
     private final List<Strategy<Input, Output>> mChainedStrategies;
 
     private FallbackStrategies(final Strategy<Input, Output> primaryStrategy) {
-        mChainedStrategies = new ArrayList<Strategy<Input, Output>>();
+        mChainedStrategies = new ArrayList<>();
         mChainedStrategies.add(primaryStrategy);
     }
 
     public static <Input, Output> FallbackStrategies<Input, Output> startWith(
             final Strategy<Input, Output> primaryStrategy) {
-        return new FallbackStrategies<Input, Output>(primaryStrategy);
+        return new FallbackStrategies<>(primaryStrategy);
     }
 
     public FallbackStrategies<Input, Output> thenTry(final Strategy<Input, Output> strategy) {

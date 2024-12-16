@@ -120,7 +120,7 @@ public class PduComposer {
     private static SimpleArrayMap<String, Integer> mContentTypeMap = null;
 
     static {
-        mContentTypeMap = new SimpleArrayMap<String, Integer>();
+        mContentTypeMap = new SimpleArrayMap<>();
 
         int i;
         for (i = 0; i < PduContentTypes.contentTypes.length; i++) {

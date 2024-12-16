@@ -23,7 +23,7 @@ import androidx.collection.LongSparseArray;
  */
 public class LongSparseSet {
     private static final Object THE_ONLY_VALID_VALUE = new Object();
-    private final LongSparseArray<Object> mSet = new LongSparseArray<Object>();
+    private final LongSparseArray<Object> mSet = new LongSparseArray<>();
 
     public LongSparseSet() {
     }
