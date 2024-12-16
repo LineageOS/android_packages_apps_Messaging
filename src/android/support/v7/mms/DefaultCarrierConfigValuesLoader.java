@@ -92,9 +92,7 @@ class DefaultCarrierConfigValuesLoader implements CarrierConfigValuesLoader {
     private void loadFromResources(final int subId, final Bundle values) {
         // Get a subscription-dependent context for loading the mms_config.xml
         final Context subContext = Utils.getSubDepContext(mContext, subId);
-        XmlResourceParser xml = null;
-        try {
-            xml = subContext.getResources().getXml(R.xml.mms_config);
+        try (XmlResourceParser xml = subContext.getResources().getXml(R.xml.mms_config)) {
             new CarrierConfigXmlParser(xml, (type, key, value) -> {
                 try {
                     if (KEY_TYPE_INT.equals(type)) {
@@ -111,10 +109,6 @@ class DefaultCarrierConfigValuesLoader implements CarrierConfigValuesLoader {
             }).parse();
         } catch (final Resources.NotFoundException e) {
             Log.w(MmsService.TAG, "Can not get mms_config.xml");
-        } finally {
-            if (xml != null) {
-                xml.close();
-            }
         }
     }
 }

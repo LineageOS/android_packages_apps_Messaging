@@ -184,12 +184,10 @@ public class ApnDatabase extends SQLiteOpenHelper {
      * @return The list of user changed apns
      */
     public static List<ContentValues> loadUserDataFromOldTable(final SQLiteDatabase db) {
-        Cursor cursor = null;
-        try {
-            cursor = db.query(APN_TABLE,
-                    APN_FULL_PROJECTION, CURRENT_SELECTION,
-                    null/*selectionArgs*/,
-                    null/*groupBy*/, null/*having*/, null/*orderBy*/);
+        try (Cursor cursor = db.query(APN_TABLE,
+                APN_FULL_PROJECTION, CURRENT_SELECTION,
+                null/*selectionArgs*/,
+                null/*groupBy*/, null/*having*/, null/*orderBy*/)) {
             if (cursor != null) {
                 final List<ContentValues> result = Lists.newArrayList();
                 while (cursor.moveToNext()) {
@@ -202,10 +200,6 @@ public class ApnDatabase extends SQLiteOpenHelper {
             }
         } catch (final SQLiteException e) {
             LogUtil.w(TAG, "ApnDatabase.loadUserDataFromOldTable: no old user data: " + e, e);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
         }
         return null;
     }
@@ -243,13 +237,14 @@ public class ApnDatabase extends SQLiteOpenHelper {
                     }
                 }
             }
-            Cursor cursor = null;
-            try {
-                cursor = db.query(APN_TABLE,
-                        ID_PROJECTION,
-                        selectionBuilder.toString(),
-                        selectionArgs.toArray(new String[0]),
-                        null/*groupBy*/, null/*having*/, null/*orderBy*/);
+            try (Cursor cursor = db.query(APN_TABLE,
+                    ID_PROJECTION,
+                    selectionBuilder.toString(),
+                    selectionArgs.toArray(new String[0]),
+                    null/*groupBy*/, null/*having*/, null/*orderBy*/)) {
+                /*groupBy*/
+                /*having*/
+                /*orderBy*/
                 if (cursor != null && cursor.moveToFirst()) {
                     db.update(APN_TABLE, row, ID_SELECTION, new String[]{cursor.getString(0)});
                 } else {
@@ -263,10 +258,6 @@ public class ApnDatabase extends SQLiteOpenHelper {
                 }
             } catch (final SQLiteException e) {
                 LogUtil.e(TAG, "ApnDatabase.saveUserDataFromOldTable: query error " + e, e);
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
             }
         }
     }
