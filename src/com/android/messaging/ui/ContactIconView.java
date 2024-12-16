@@ -76,7 +76,8 @@ public class ContactIconView extends AsyncImageView {
                 mIconSize = 0;
                 Assert.fail("Unsupported ContactIconView icon size attribute");
         }
-        mColorPressedId = resources.getColor(R.color.contact_avatar_pressed_color);
+        mColorPressedId = resources.getColor(R.color.contact_avatar_pressed_color,
+                context.getTheme());
 
         setImage(null);
         a.recycle();
