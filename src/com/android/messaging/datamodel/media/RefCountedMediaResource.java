@@ -48,7 +48,7 @@ public abstract class RefCountedMediaResource {
     // to find out where each ref change happens.
     private static final boolean DEBUG = false;
     private static final String TAG = "bugle_media_ref_history";
-    private final ArrayList<String> mRefHistory = new ArrayList<String>();
+    private final ArrayList<String> mRefHistory = new ArrayList<>();
 
     // A lock that guards access to shared members in this class (and all its subclasses).
     private final ReentrantLock mLock = new ReentrantLock();

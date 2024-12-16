@@ -118,7 +118,7 @@ public class ClassZeroActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         if (mMessageQueue == null) {
-            mMessageQueue = new ArrayList<ContentValues>();
+            mMessageQueue = new ArrayList<>();
         }
         if (!queueMsgFromIntent(getIntent())) {
             return;
