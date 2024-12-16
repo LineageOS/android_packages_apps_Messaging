@@ -162,7 +162,7 @@ public class MmsSmsUtils {
          * messages.
          */
         public static long getOrCreateThreadId(final Context context, final String recipient) {
-            final Set<String> recipients = new HashSet<String>();
+            final Set<String> recipients = new HashSet<>();
 
             recipients.add(recipient);
             return getOrCreateThreadId(context, recipients);
@@ -196,15 +196,13 @@ public class MmsSmsUtils {
             final Cursor cursor = SqliteWrapper.query(context, context.getContentResolver(),
                     uri, ID_PROJECTION, null, null, null);
             if (cursor != null) {
-                try {
+                try (cursor) {
                     if (cursor.moveToFirst()) {
                         return cursor.getLong(0);
                     } else {
                         LogUtil.e(LogUtil.BUGLE_DATAMODEL_TAG,
                                 "getOrCreateThreadId returned no rows!");
                     }
-                } finally {
-                    cursor.close();
                 }
             }
 

@@ -15,7 +15,6 @@
  */
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,6 +27,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -75,7 +76,7 @@ public class VCardDetailFragment extends Fragment implements PersonItemDataListe
                                              oldBottom) -> {
             mListView.setIndicatorBounds(mListView.getWidth() - getResources().
                             getDimensionPixelSize(R.dimen.vcard_detail_group_indicator_width),
-                    mListView.getWidth())
+                    mListView.getWidth());
         });
         mListView.setOnChildClickListener((expandableListView, clickedView, groupPosition,
                                            childPosition, childId) -> {

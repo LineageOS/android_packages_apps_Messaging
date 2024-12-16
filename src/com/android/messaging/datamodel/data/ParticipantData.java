@@ -45,7 +45,7 @@ import com.android.messaging.util.TextUtil;
 public class ParticipantData implements Parcelable {
 
     private static final ArrayMap<Integer, String> sSubIdtoParticipantIdCache =
-            new ArrayMap<Integer, String>();
+            new ArrayMap<>();
 
     // We always use -1 as default/invalid sub id although system may give us anything negative
     public static final int DEFAULT_SELF_SUB_ID = MmsManager.DEFAULT_SUB_ID;
@@ -151,21 +151,15 @@ public class ParticipantData implements Parcelable {
 
     public static ParticipantData getFromId(final DatabaseWrapper dbWrapper,
             final String participantId) {
-        Cursor cursor = null;
-        try {
-            cursor = dbWrapper.query(DatabaseHelper.PARTICIPANTS_TABLE,
-                    ParticipantsQuery.PROJECTION,
-                    ParticipantColumns._ID + " =?",
-                    new String[] { participantId }, null, null, null);
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.PARTICIPANTS_TABLE,
+                ParticipantsQuery.PROJECTION,
+                ParticipantColumns._ID + " =?",
+                new String[]{participantId}, null, null, null)) {
 
             if (cursor.moveToFirst()) {
                 return ParticipantData.getFromCursor(cursor);
             } else {
                 return null;
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
     }
@@ -589,7 +583,7 @@ public class ParticipantData implements Parcelable {
     }
 
     public static final Parcelable.Creator<ParticipantData> CREATOR
-    = new Parcelable.Creator<ParticipantData>() {
+    = new Parcelable.Creator<>() {
         @Override
         public ParticipantData createFromParcel(final Parcel in) {
             return new ParticipantData(in);

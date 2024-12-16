@@ -19,7 +19,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.android.messaging.datamodel.data.MessagePartData;
@@ -155,7 +154,7 @@ public abstract class ImageRequest<D extends ImageRequestDescriptor>
         if (unknownSize) {
             final InputStream inputStream = getInputStreamForResource();
             if (inputStream != null) {
-                try {
+                try (inputStream) {
                     options.inJustDecodeBounds = true;
                     BitmapFactory.decodeStream(inputStream, null, options);
                     // This is called when dimensions of image were unknown to allow db update
@@ -164,8 +163,6 @@ public abstract class ImageRequest<D extends ImageRequestDescriptor>
                     } else {
                         mDescriptor.updateSourceDimensions(options.outWidth, options.outHeight);
                     }
-                } finally {
-                    inputStream.close();
                 }
             } else {
                 throw new FileNotFoundException();
@@ -226,7 +223,7 @@ public abstract class ImageRequest<D extends ImageRequestDescriptor>
             final int backgroundColor = mDescriptor.circleBackgroundColor;
             final int strokeColor = mDescriptor.circleStrokeColor;
             ImageUtils.drawBitmapWithCircleOnCanvas(sourceBitmap, new Canvas(targetBitmap), source,
-                    dest, null, backgroundColor == 0 ? false : true /* fillBackground */,
+                    dest, null, backgroundColor != 0 /* fillBackground */,
                             backgroundColor, strokeColor);
             return new DecodedImageResource(getKey(), targetBitmap,
                     loadedResource.getOrientation());

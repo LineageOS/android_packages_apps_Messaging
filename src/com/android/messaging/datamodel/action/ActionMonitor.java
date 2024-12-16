@@ -413,7 +413,7 @@ public class ActionMonitor {
      */
     @VisibleForTesting
     static final SimpleArrayMap<String, ActionMonitor> sActionMonitors =
-            new SimpleArrayMap<String, ActionMonitor>();
+            new SimpleArrayMap<>();
 
     /**
      * Insert new monitor into map

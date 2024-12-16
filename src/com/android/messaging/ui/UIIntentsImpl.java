@@ -16,7 +16,6 @@
 package com.android.messaging.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.role.RoleManager;
 import android.appwidget.AppWidgetManager;
@@ -32,11 +31,12 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
+import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import android.text.TextUtils;
 
 import com.android.ex.photo.Intents.PhotoViewIntentBuilder;
 import com.android.messaging.R;
@@ -377,9 +377,8 @@ public class UIIntentsImpl extends UIIntents {
     @Override
     public Intent getIntentForConversationActivity(final Context context,
             final String conversationId, final MessageData draft) {
-        final Intent intent = getConversationActivityIntent(context, conversationId, draft,
+        return getConversationActivityIntent(context, conversationId, draft,
                 false /* withCustomTransition */);
-        return intent;
     }
 
     @Override
@@ -410,7 +409,7 @@ public class UIIntentsImpl extends UIIntents {
         }
         return PendingIntent.getBroadcast(context,
                 requestCode, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     /**
@@ -428,7 +427,8 @@ public class UIIntentsImpl extends UIIntents {
         // Adds the back stack for the Intent (plus the Intent itself)
         stackBuilder.addNextIntentWithParentStack(intent);
         final PendingIntent resultPendingIntent =
-            stackBuilder.getPendingIntent(requestCode, PendingIntent.FLAG_UPDATE_CURRENT);
+            stackBuilder.getPendingIntent(requestCode,
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         return resultPendingIntent;
     }
 

@@ -779,7 +779,7 @@ public class PduParser {
 
                 case PduHeaders.CONTENT_TYPE: {
                     HashMap<Integer, Object> map =
-                        new HashMap<Integer, Object>();
+                            new HashMap<>();
                     byte[] contentType =
                         parseContentType(pduDataStream, map);
 
@@ -848,7 +848,7 @@ public class PduParser {
             }
 
             /* parse part's content-type */
-            HashMap<Integer, Object> map = new HashMap<Integer, Object>();
+            HashMap<Integer, Object> map = new HashMap<>();
             byte[] contentType = parseContentType(pduDataStream, map);
             if (null != contentType) {
                 part.setContentType(contentType);

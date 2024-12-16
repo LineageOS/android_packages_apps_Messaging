@@ -111,7 +111,7 @@ public class ContactSectionIndexer implements SectionIndexer {
         }
 
         this.mSections = sections;
-        mSectionStartingPositions = new ArrayList<Integer>(counts.length);
+        mSectionStartingPositions = new ArrayList<>(counts.length);
         int position = 0;
         for (int i = 0; i < counts.length; i++) {
             if (TextUtils.isEmpty(mSections[i])) {
@@ -131,8 +131,8 @@ public class ContactSectionIndexer implements SectionIndexer {
         // The result is stored into two arrays, one for the section header (i.e. the first
         // character), and one for the starting position, which is guaranteed to be sorted in
         // ascending order.
-        final ArrayList<String> sections = new ArrayList<String>();
-        mSectionStartingPositions = new ArrayList<Integer>();
+        final ArrayList<String> sections = new ArrayList<>();
+        mSectionStartingPositions = new ArrayList<>();
         if (cursor != null) {
             cursor.moveToPosition(-1);
             int currentPosition = 0;

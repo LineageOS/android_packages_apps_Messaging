@@ -465,22 +465,16 @@ public class ConversationListItemData {
         ConversationListItemData conversation = null;
 
         // Look for an existing conversation in the db with this conversation id
-        Cursor cursor = null;
-        try {
+        try (Cursor cursor = dbWrapper.query(getConversationListView(),
+                PROJECTION,
+                ConversationColumns._ID + "=?",
+                new String[]{conversationId},
+                null, null, null)) {
             // TODO: Should we be able to read a row from just the conversation table?
-            cursor = dbWrapper.query(getConversationListView(),
-                    PROJECTION,
-                    ConversationColumns._ID + "=?",
-                    new String[] { conversationId },
-                    null, null, null);
             Assert.inRange(cursor.getCount(), 0, 1);
             if (cursor.moveToFirst()) {
                 conversation = new ConversationListItemData();
                 conversation.bind(cursor);
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
 
@@ -494,7 +488,7 @@ public class ConversationListItemData {
             return participants.get(0).getDisplayName(true);
         }
 
-        final ArrayList<String> participantNames = new ArrayList<String>();
+        final ArrayList<String> participantNames = new ArrayList<>();
         for (final ParticipantData participant : participants) {
             // Prefer first name over full name for group conversation
             participantNames.add(participant.getDisplayName(false));

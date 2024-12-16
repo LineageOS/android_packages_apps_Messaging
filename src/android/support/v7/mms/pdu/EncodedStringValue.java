@@ -229,10 +229,10 @@ public class EncodedStringValue implements Cloneable {
     public static EncodedStringValue[] extract(String src) {
         String[] values = src.split(";");
 
-        ArrayList<EncodedStringValue> list = new ArrayList<EncodedStringValue>();
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].length() > 0) {
-                list.add(new EncodedStringValue(values[i]));
+        ArrayList<EncodedStringValue> list = new ArrayList<>();
+        for (String value : values) {
+            if (value.length() > 0) {
+                list.add(new EncodedStringValue(value));
             }
         }
 
