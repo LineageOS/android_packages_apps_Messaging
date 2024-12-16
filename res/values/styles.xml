@@ -34,6 +34,7 @@
          <item name="android:textColorHighlight">@color/text_highlight_color</item>
          <item name="actionBarStyle">@style/BugleActionBar</item>
          <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
