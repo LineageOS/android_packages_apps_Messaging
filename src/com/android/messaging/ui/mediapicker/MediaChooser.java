@@ -16,10 +16,8 @@
 
 package com.android.messaging.ui.mediapicker;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +25,8 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.fragment.app.FragmentManager;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.binding.ImmutableBindingRef;
 import com.android.messaging.datamodel.data.MediaPickerData;
