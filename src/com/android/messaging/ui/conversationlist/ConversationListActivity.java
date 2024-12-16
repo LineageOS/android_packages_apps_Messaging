@@ -19,22 +19,26 @@ package com.android.messaging.ui.conversationlist;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuItem;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Trace;
 
-public class ConversationListActivity extends AbstractConversationListActivity {
+public class ConversationListActivity extends AbstractConversationListActivity implements FragmentOnAttachListener {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Trace.beginSection("ConversationListActivity.onCreate");
         setTheme(R.style.BugleTheme_ConversationListActivity);
         super.onCreate(savedInstanceState);
+        getSupportFragmentManager().addFragmentOnAttachListener(this);
         setContentView(R.layout.conversation_list_activity);
         Trace.endSection();
         invalidateActionBar();
@@ -128,12 +132,21 @@ public class ConversationListActivity extends AbstractConversationListActivity {
     public void onWindowFocusChanged(final boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         final ConversationListFragment conversationListFragment =
-                (ConversationListFragment) getFragmentManager().findFragmentById(
+                (ConversationListFragment) getSupportFragmentManager().findFragmentById(
                         R.id.conversation_list_fragment);
         // When the screen is turned on, the last used activity gets resumed, but it gets
         // window focus only after the lock screen is unlocked.
         if (hasFocus && conversationListFragment != null) {
             conversationListFragment.setScrolledToNewestConversationIfNeeded();
+        }
+    }
+
+    @Override
+    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
+                                 @NonNull Fragment fragment) {
+        if (fragment instanceof ConversationListFragment) {
+            mConversationListFragment = (ConversationListFragment) fragment;
+            mConversationListFragment.setHost(this);
         }
     }
 }
