@@ -445,16 +445,10 @@ public class ContactUtil {
             return null;
         }
         String firstName = null;
-        Cursor nameCursor = null;
-        try {
-            nameCursor = ContactUtil.lookupStructuredName(context, contactId, true)
-                    .performSynchronousQuery();
+        try (Cursor nameCursor = ContactUtil.lookupStructuredName(context, contactId, true)
+                .performSynchronousQuery()) {
             if (nameCursor != null && nameCursor.moveToFirst()) {
                 firstName = nameCursor.getString(ContactUtil.INDEX_STRUCTURED_NAME_GIVEN_NAME);
-            }
-        } finally {
-            if (nameCursor != null) {
-                nameCursor.close();
             }
         }
         return firstName;
