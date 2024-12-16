@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2024 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -35,7 +36,7 @@
             style="@style/WidgetConversationItemOutgoingAvatarShadow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_widget_avatar_shadow"
             android:layout_marginTop="-4dp"
             android:importantForAccessibility="no"
@@ -44,7 +45,7 @@
             android:id="@+id/avatarView"
             android:layout_width="@dimen/contact_icon_view_normal_size"
             android:layout_height="@dimen/contact_icon_view_normal_size"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:scaleType="fitXY"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
