@@ -16,23 +16,22 @@
 
 package com.android.messaging.ui.appsettings;
 
-import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 import android.support.v7.mms.MmsManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NavUtils;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -62,7 +61,7 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
             // This will fall back to the default title, i.e. "Messaging settings," so No-op.
         }
 
-        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        final FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         final PerSubscriptionSettingsFragment fragment = new PerSubscriptionSettingsFragment();
         ft.replace(android.R.id.content, fragment);
         ft.commit();
@@ -78,7 +77,7 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public static class PerSubscriptionSettingsFragment extends PreferenceFragment
+    public static class PerSubscriptionSettingsFragment extends PreferenceFragmentCompat
             implements OnSharedPreferenceChangeListener {
         private PhoneNumberPreference mPhoneNumberPreference;
         private Preference mGroupMmsPreference;
@@ -91,12 +90,9 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
         }
 
         @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
+        public void onCreatePreferences(@Nullable Bundle savedInstanceState, String rootKey) {
             // Get sub id from launch intent
-            final Intent intent = getActivity().getIntent();
-            Assert.notNull(intent);
+            final Intent intent = requireActivity().getIntent();
             mSubId = (intent != null) ? intent.getIntExtra(UIIntents.UI_INTENT_EXTRA_SUB_ID,
                     ParticipantData.DEFAULT_SELF_SUB_ID) : ParticipantData.DEFAULT_SELF_SUB_ID;
 

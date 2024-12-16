@@ -18,11 +18,7 @@ package com.android.messaging.ui.conversation;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DownloadManager;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -39,16 +35,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.core.text.BidiFormatter;
-import androidx.core.text.TextDirectionHeuristicsCompat;
-import androidx.appcompat.app.ActionBar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
 import android.view.ActionMode;
@@ -61,6 +47,21 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.text.BidiFormatter;
+import androidx.core.text.TextDirectionHeuristicsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.loader.app.LoaderManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
@@ -441,7 +442,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         // Delay showing the message list until the participant list is loaded.
         mRecyclerView.setVisibility(View.INVISIBLE);
         mBinding.ensureBound();
-        mBinding.getData().init(getLoaderManager(), mBinding);
+        mBinding.getData().init(LoaderManager.getInstance(this), mBinding);
 
         // Build the input manager with all its required dependencies and pass it along to the
         // compose message view.
@@ -1177,7 +1178,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             ImeUtil.hideSoftInput(getActivity(), mComposeMessageView);
         }
 
-        final FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+        final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         final EnterSelfPhoneNumberDialog dialog = EnterSelfPhoneNumberDialog
                 .newInstance(getConversationSelfSubId());
         dialog.setTargetFragment(this, 0/*requestCode*/);
