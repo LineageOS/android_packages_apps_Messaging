@@ -644,7 +644,8 @@ public class BugleNotifications {
         notificationState.mNotificationBuilder
             .setSmallIcon(notificationState.getIcon())
             .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
-            .setColor(context.getResources().getColor(R.color.notification_accent_color))
+            .setColor(context.getResources().getColor(R.color.notification_accent_color,
+                    context.getTheme()))
 //            .setPublicVersion(null)    // TODO: when/if we ever support different
                                          // text on the lockscreen, instead of "contents hidden"
             .setCategory(CATEGORY_MESSAGE);
@@ -729,7 +730,8 @@ public class BugleNotifications {
 
         final NotificationCompat.Builder notifBuilder = notificationState.mNotificationBuilder;
         notifBuilder.setStyle(notificationState.mNotificationStyle);
-        notifBuilder.setColor(context.getResources().getColor(R.color.notification_accent_color));
+        notifBuilder.setColor(context.getResources().getColor(R.color.notification_accent_color,
+                context.getTheme()));
 
         final WearableExtender wearableExtender = new WearableExtender();
         setWearableGroupOptions(notifBuilder, notificationState);
