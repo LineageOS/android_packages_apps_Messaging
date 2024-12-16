@@ -222,17 +222,11 @@ public class ImageUtils {
     public static String getContentType(final ContentResolver cr, final Uri uri) {
         // Figure out the content type of media.
         String contentType = null;
-        Cursor cursor = null;
         if (UriUtil.isMediaStoreUri(uri)) {
-            try {
-                cursor = cr.query(uri, MEDIA_CONTENT_PROJECTION, null, null, null);
+            try (Cursor cursor = cr.query(uri, MEDIA_CONTENT_PROJECTION, null, null, null)) {
 
                 if (cursor != null && cursor.moveToFirst()) {
                     contentType = cursor.getString(INDEX_CONTENT_TYPE);
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
                 }
             }
         }
@@ -315,7 +309,7 @@ public class ImageUtils {
      */
     public static boolean isGif(InputStream inputStream) {
         if (inputStream != null) {
-            try {
+            try (inputStream) {
                 byte[] gifHeaderBytes = new byte[6];
                 int value = inputStream.read(gifHeaderBytes, 0, 6);
                 if (value == 6) {
@@ -324,12 +318,6 @@ public class ImageUtils {
                 }
             } catch (IOException e) {
                 return false;
-            } finally {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
             }
         }
         return false;
