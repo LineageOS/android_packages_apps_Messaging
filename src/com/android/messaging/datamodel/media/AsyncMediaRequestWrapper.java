@@ -31,7 +31,7 @@ class AsyncMediaRequestWrapper<T extends RefCountedMediaResource> extends Bindab
     public static <T extends RefCountedMediaResource> AsyncMediaRequestWrapper<T>
             createWith(final MediaRequest<T> wrappedRequest,
                     final MediaResourceLoadListener<T> listener) {
-        return new AsyncMediaRequestWrapper<T>(listener, wrappedRequest);
+        return new AsyncMediaRequestWrapper<>(listener, wrappedRequest);
     }
 
     private final MediaRequest<T> mWrappedRequest;

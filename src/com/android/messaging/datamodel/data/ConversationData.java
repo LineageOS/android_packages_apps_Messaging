@@ -71,7 +71,7 @@ public class ConversationData extends BindableData {
      * for each message.
      */
     public List<Integer> getPositions(final String conversationId, final List<Long> ids) {
-        final ArrayList<Integer> result = new ArrayList<Integer>();
+        final ArrayList<Integer> result = new ArrayList<>();
 
         if (ids.isEmpty()) {
             return result;
@@ -83,7 +83,7 @@ public class ConversationData extends BindableData {
                         new String [] { conversationId }));
         if (c != null) {
             try {
-                final Set<Long> idsSet = new HashSet<Long>(ids);
+                final Set<Long> idsSet = new HashSet<>(ids);
                 if (c.moveToLast()) {
                     do {
                         final long messageId = c.getLong(0);

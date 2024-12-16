@@ -26,7 +26,7 @@ public class PduBody {
      * Constructor.
      */
     public PduBody() {
-        mParts = new Vector<PduPart>();
+        mParts = new Vector<>();
     }
 
     /**
