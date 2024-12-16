@@ -152,21 +152,15 @@ public class ParticipantData implements Parcelable {
 
     public static ParticipantData getFromId(final DatabaseWrapper dbWrapper,
             final String participantId) {
-        Cursor cursor = null;
-        try {
-            cursor = dbWrapper.query(DatabaseHelper.PARTICIPANTS_TABLE,
-                    ParticipantsQuery.PROJECTION,
-                    ParticipantColumns._ID + " =?",
-                    new String[] { participantId }, null, null, null);
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.PARTICIPANTS_TABLE,
+                ParticipantsQuery.PROJECTION,
+                ParticipantColumns._ID + " =?",
+                new String[]{participantId}, null, null, null)) {
 
             if (cursor.moveToFirst()) {
                 return ParticipantData.getFromCursor(cursor);
             } else {
                 return null;
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
     }

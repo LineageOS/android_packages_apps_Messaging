@@ -601,18 +601,12 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
      */
     public static String getFirstTryApn(final SQLiteDatabase database, final String mccMnc) {
         String key = null;
-        Cursor cursor = null;
-        try {
-            cursor = queryLocalDatabase(database, mccMnc, null/*apnName*/);
+        try (Cursor cursor = queryLocalDatabase(database, mccMnc, null/*apnName*/)) {
             if (cursor.moveToFirst()) {
                 key = cursor.getString(ApnDatabase.COLUMN_ID);
             }
         } catch (final Exception e) {
             // Nothing to do
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
         }
         return key;
     }

@@ -56,15 +56,12 @@ public class DebugUtils {
             final File inputFile = getDebugFile(dumpFileName, false);
             if (inputFile != null) {
                 final FileInputStream fis = new FileInputStream(inputFile);
-                final BufferedInputStream bis = new BufferedInputStream(fis);
-                try {
+                try (BufferedInputStream bis = new BufferedInputStream(fis)) {
                     // dump file
                     data = ByteStreams.toByteArray(bis);
                     if (data == null || data.length < 1) {
                         LogUtil.e(LogUtil.BUGLE_TAG, "receiveFromDumpFile: empty data");
                     }
-                } finally {
-                    bis.close();
                 }
             }
         } catch (final IOException e) {

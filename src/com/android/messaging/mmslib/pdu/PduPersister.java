@@ -1026,10 +1026,8 @@ public class PduPersister {
 
             } else if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
                 final String[] projection = new String[] {MediaStore.MediaColumns.DATA};
-                Cursor cursor = null;
-                try {
-                    cursor = context.getContentResolver().query(uri, projection, null,
-                            null, null);
+                try (Cursor cursor = context.getContentResolver().query(uri, projection, null,
+                        null, null)) {
                     if (null == cursor || 0 == cursor.getCount() || !cursor.moveToFirst()) {
                         throw new IllegalArgumentException("Given Uri could not be found" +
                                 " in media store");
@@ -1040,10 +1038,6 @@ public class PduPersister {
                 } catch (final SQLiteException e) {
                     throw new IllegalArgumentException("Given Uri is not formatted in a way " +
                             "so that it can be found in media store.");
-                } finally {
-                    if (null != cursor) {
-                        cursor.close();
-                    }
                 }
             } else {
                 throw new IllegalArgumentException("Given Uri scheme is not supported");
