@@ -165,7 +165,8 @@ public class ActionServiceImpl extends JobIntentService {
                 final long delayMs) {
             final Context context = Factory.get().getApplicationContext();
             final PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                    context, requestCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    context, requestCode, intent,
+                    PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
             final AlarmManager mgr =
                     (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -201,7 +202,7 @@ public class ActionServiceImpl extends JobIntentService {
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         }
         return PendingIntent.getBroadcast(context, requestCode, intent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     /**
