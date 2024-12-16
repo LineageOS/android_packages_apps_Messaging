@@ -40,7 +40,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.sms.MmsSmsUtils;
-
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class abstracts away platform dependency of calling telephony related
@@ -107,15 +107,6 @@ public class PhoneUtils {
     }
 
     /**
-     * Get number of SIM slots
-     *
-     * @return the SIM slot count
-     */
-    public int getSimSlotCount() {
-        return mSubscriptionManager.getActiveSubscriptionInfoCountMax();
-    }
-
-    /**
      * Get SIM's carrier name
      *
      * @return the carrier name of the SIM
@@ -133,15 +124,6 @@ public class PhoneUtils {
             }
         }
         return null;
-    }
-
-    /**
-     * Check if there is SIM inserted on the device
-     *
-     * @return true if there is SIM inserted, false otherwise
-     */
-    public boolean hasSim() {
-        return mSubscriptionManager.getActiveSubscriptionInfoCount() > 0;
     }
 
     /**
@@ -167,16 +149,6 @@ public class PhoneUtils {
             mnc = subInfo.getMnc();
         }
         return new int[]{mcc, mnc};
-    }
-
-    /**
-     * Get the mcc/mnc string
-     *
-     * @return the text of mccmnc string
-     */
-    public String getSimOperatorNumeric() {
-        // For L_MR1 we return the canonicalized (xxxxxx) string
-        return getMccMncString(getMccMnc());
     }
 
     /**
@@ -324,19 +296,7 @@ public class PhoneUtils {
      * @return true if mobile data is enabled, false otherwise
      */
     public boolean isMobileDataEnabled() {
-        boolean mobileDataEnabled = false;
-        try {
-            final Class cmClass = mTelephonyManager.getClass();
-            final Method method = cmClass.getDeclaredMethod("getDataEnabled", Integer.TYPE);
-            method.setAccessible(true); // Make the method callable
-            // get the setting for "mobile data"
-            mobileDataEnabled = (Boolean) method.invoke(
-                    mTelephonyManager, Integer.valueOf(mSubId));
-        } catch (final Exception e) {
-            LogUtil.e(TAG, "PhoneUtil.isMobileDataEnabled: system api not found", e);
-        }
-        return mobileDataEnabled;
-
+        return mTelephonyManager.createForSubscriptionId(mSubId).isDataEnabled();
     }
 
     /**
@@ -385,10 +345,7 @@ public class PhoneUtils {
     public List<SubscriptionInfo> getActiveSubscriptionInfoList() {
         final List<SubscriptionInfo> subscriptionInfos =
                 mSubscriptionManager.getActiveSubscriptionInfoList();
-        if (subscriptionInfos != null) {
-            return subscriptionInfos;
-        }
-        return EMPTY_SUBSCRIPTION_LIST;
+        return Objects.requireNonNullElse(subscriptionInfos, EMPTY_SUBSCRIPTION_LIST);
     }
 
     /**
@@ -580,39 +537,6 @@ public class PhoneUtils {
             return "";
         }
         return getCanonicalBySimLocale(selfNumber);
-    }
-
-    /**
-     * Get the SIM's phone number in NATIONAL format with only digits, used in sending
-     * as LINE1NOCOUNTRYCODE macro in mms_config
-     *
-     * @return all digits national format number of the SIM
-     */
-    public String getSimNumberNoCountryCode() {
-        String selfNumber = null;
-        try {
-            selfNumber = getSelfRawNumber(false/*allowOverride*/);
-        } catch (IllegalStateException e) {
-            // continue
-        }
-        if (selfNumber == null) {
-            selfNumber = "";
-        }
-        final String country = getSimCountry();
-        final PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-        try {
-            final PhoneNumber phoneNumber = phoneNumberUtil.parse(selfNumber, country);
-            if (phoneNumber != null && phoneNumberUtil.isValidNumber(phoneNumber)) {
-                return phoneNumberUtil
-                        .format(phoneNumber, PhoneNumberFormat.NATIONAL)
-                        .replaceAll("\\D", "");
-            }
-        } catch (final NumberParseException e) {
-            LogUtil.e(TAG, "PhoneUtils.getSimNumberNoCountryCode(): Not able to parse phone number "
-                    + LogUtil.sanitizePII(selfNumber) + " for country " + country);
-        }
-        return selfNumber;
-
     }
 
     /**

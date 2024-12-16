@@ -32,9 +32,10 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
-import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.MediaScratchFileProvider;
@@ -169,21 +170,11 @@ public class ImageUtils {
     }
 
     /**
-     * Sets a drawable to the background of a view. setBackgroundDrawable() is deprecated since
-     * JB and replaced by setBackground().
-     */
-    @SuppressWarnings("deprecation")
-    public static void setBackgroundDrawableOnView(final View view, final Drawable drawable) {
-        view.setBackground(drawable);
-    }
-
-    /**
      * Based on the input bitmap bounds given by BitmapFactory.Options, compute the required
      * sub-sampling size for loading a scaled down version of the bitmap to the required size
      * @param options a BitmapFactory.Options instance containing the bounds info of the bitmap
      * @param reqWidth the desired width of the bitmap. Can be ImageRequest.UNSPECIFIED_SIZE.
      * @param reqHeight the desired height of the bitmap.  Can be ImageRequest.UNSPECIFIED_SIZE.
-     * @return
      */
     public int calculateInSampleSize(
             final BitmapFactory.Options options, final int reqWidth, final int reqHeight) {
@@ -318,6 +309,7 @@ public class ImageUtils {
             } catch (IOException e) {
                 return false;
             }
+            // Ignore
         }
         return false;
     }

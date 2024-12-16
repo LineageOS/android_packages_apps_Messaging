@@ -41,15 +41,12 @@ public class ContactRecipientPhotoManager implements PhotoManager {
     private static final String IMAGE_BYTES_REQUEST_STATIC_BINDING_ID = "imagebytes";
     private final Context mContext;
     private final int mIconSize;
-    private final ContactListItemView.HostInterface mClivHostInterface;
 
-    public ContactRecipientPhotoManager(final Context context,
-            final ContactListItemView.HostInterface clivHostInterface) {
+    public ContactRecipientPhotoManager(final Context context) {
         mContext = context;
         mIconSize = context.getResources().getDimensionPixelSize(
                 R.dimen.compose_message_chip_height) - context.getResources().getDimensionPixelSize(
                         R.dimen.compose_message_chip_padding) * 2;
-        mClivHostInterface = clivHostInterface;
     }
 
     /**
@@ -67,22 +64,25 @@ public class ContactRecipientPhotoManager implements PhotoManager {
             final BindableMediaRequest<ImageResource> req = descriptor.buildAsyncMediaRequest(
                     mContext,
                     new MediaResourceLoadListener<>() {
-                @Override
-                public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
-                        final ImageResource resource, final boolean isCached) {
-                    entry.setPhotoBytes(resource.getBytes());
-                    callback.onPhotoBytesAsynchronouslyPopulated();
-                }
+                        @Override
+                        public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
+                                                          final ImageResource resource,
+                                                          final boolean isCached) {
+                            entry.setPhotoBytes(resource.getBytes());
+                            callback.onPhotoBytesAsynchronouslyPopulated();
+                        }
 
-                @Override
-                public void onMediaResourceLoadError(final MediaRequest<ImageResource> request,
-                        final Exception exception) {
-                    LogUtil.e(LogUtil.BUGLE_TAG, "Photo bytes loading failed due to " +
-                            exception + " request key=" + request.getKey());
+                        @Override
+                        public void onMediaResourceLoadError(final MediaRequest<ImageResource>
+                                                                     request,
+                                                             final Exception exception) {
+                            LogUtil.e(LogUtil.BUGLE_TAG, "Photo bytes loading failed due to " +
+                                    exception + " request key=" + request.getKey());
 
-                    // Fall back to the default avatar image.
-                    callback.onPhotoBytesAsyncLoadFailed();
-                }});
+                            // Fall back to the default avatar image.
+                            callback.onPhotoBytesAsyncLoadFailed();
+                        }
+                    });
 
             // Statically bind the request since it's not bound to any specific piece of UI.
             req.bind(IMAGE_BYTES_REQUEST_STATIC_BINDING_ID);

@@ -20,9 +20,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -39,6 +36,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -89,7 +89,6 @@ public class ComposeMessageView extends LinearLayout
         void sendMessage(MessageData message);
         void onComposeEditTextFocused();
         void onAttachmentsCleared();
-        void onAttachmentsChanged(final boolean haveAttachments);
         void displayPhoto(Uri photoUri, Rect imageBounds, boolean isDraft);
         void promptForSelfPhoneNumber();
         boolean isReadyForAction();
@@ -191,6 +190,7 @@ public class ComposeMessageView extends LinearLayout
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mComposeEditText = (PlainTextEditText) findViewById(
                 R.id.compose_message_text);
         mComposeEditText.setOnEditorActionListener(this);
@@ -208,9 +208,9 @@ public class ComposeMessageView extends LinearLayout
 
         // onFinishInflate() is called before self is loaded from db. We set the default text
         // limit here, and apply the real limit later in updateOnSelfSubscriptionChange().
-        mComposeEditText.setFilters(new InputFilter[] {
+        mComposeEditText.setFilters(new InputFilter[]{
                 new LengthFilter(MmsConfig.get(ParticipantData.DEFAULT_SELF_SUB_ID)
-                        .getMaxTextLimit()) });
+                        .getMaxTextLimit())});
 
         mSelfSendIcon = (SimIconView) findViewById(R.id.self_send_icon);
         mSelfSendIcon.setOnClickListener(v -> {
@@ -236,7 +236,7 @@ public class ComposeMessageView extends LinearLayout
         mComposeSubjectText.addTextChangedListener(this);
         // onFinishInflate() is called before self is loaded from db. We set the default text
         // limit here, and apply the real limit later in updateOnSelfSubscriptionChange().
-        mComposeSubjectText.setFilters(new InputFilter[] {
+        mComposeSubjectText.setFilters(new InputFilter[]{
                 new LengthFilter(MmsConfig.get(ParticipantData.DEFAULT_SELF_SUB_ID)
                         .getMaxSubjectLength())});
 
@@ -272,8 +272,8 @@ public class ComposeMessageView extends LinearLayout
                     event.getText().clear();
                     event.getText().add(getResources()
                             .getText(shouldShowSimSelector(mConversationDataModel.getData()) ?
-                            R.string.send_button_long_click_description_with_sim_selector :
-                                R.string.send_button_long_click_description_no_sim_selector));
+                                    R.string.send_button_long_click_description_with_sim_selector :
+                                    R.string.send_button_long_click_description_no_sim_selector));
                     // Make this an announcement so TalkBack will read our custom message.
                     event.setEventType(AccessibilityEvent.TYPE_ANNOUNCEMENT);
                 }
@@ -300,10 +300,8 @@ public class ComposeMessageView extends LinearLayout
         }
         final boolean haveAttachments = mBinding.getData().hasAttachments();
         if (simPickerVisible && haveAttachments) {
-            mHost.onAttachmentsChanged(false);
             mAttachmentPreview.hideAttachmentPreview();
         } else {
-            mHost.onAttachmentsChanged(haveAttachments);
             mAttachmentPreview.onAttachmentsChanged(mBinding.getData());
         }
     }
@@ -322,14 +320,12 @@ public class ComposeMessageView extends LinearLayout
     }
 
     // returns true if it actually shows the subject editor and false if already showing
-    private boolean showSubjectEditor() {
+    private void showSubjectEditor() {
         // show the subject editor
         if (mSubjectView.getVisibility() == View.GONE) {
             mSubjectView.setVisibility(View.VISIBLE);
             mSubjectView.requestFocus();
-            return true;
         }
-        return false;
     }
 
     private void hideSubjectEditor() {
@@ -473,8 +469,6 @@ public class ComposeMessageView extends LinearLayout
 
         if ((changeFlags & DraftMessageData.ATTACHMENTS_CHANGED) ==
                 DraftMessageData.ATTACHMENTS_CHANGED) {
-            final boolean haveAttachments = mAttachmentPreview.onAttachmentsChanged(data);
-            mHost.onAttachmentsChanged(haveAttachments);
             hasAttachmentsChanged = true;
         }
 
@@ -611,8 +605,9 @@ public class ComposeMessageView extends LinearLayout
             mSizeTextView = tv;
         }
 
+        @SafeVarargs
         @Override
-        protected Long doInBackgroundTimed(final List<MessagePartData>... params) {
+        protected final Long doInBackgroundTimed(final List<MessagePartData>... params) {
             final List<MessagePartData> attachments = params[0];
             long totalSize = 0;
             for (final MessagePartData attachment : attachments) {
@@ -736,7 +731,7 @@ public class ComposeMessageView extends LinearLayout
             } else {
                 mComposeEditText.setHint(Html.fromHtml(getResources().getString(
                         R.string.compose_message_view_hint_text_multi_sim,
-                        subscriptionListEntry.displayName)));
+                        subscriptionListEntry.displayName), Html.FROM_HTML_MODE_LEGACY));
             }
         } else {
             int type = -1;

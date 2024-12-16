@@ -23,9 +23,10 @@ import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
+
 import androidx.collection.ArrayMap;
 import androidx.collection.SimpleArrayMap;
-import android.text.TextUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
@@ -54,6 +55,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import javax.annotation.Nullable;
 
 
@@ -834,17 +836,6 @@ public class BugleDatabaseOperations {
         return null;
     }
 
-    /**
-     * Frees up memory associated with phone number to participant id matching.
-     */
-    @DoesNotRunOnMainThread
-    public static void clearParticipantIdCache() {
-        Assert.isNotMainThread();
-        synchronized (sNormalizedPhoneNumberToParticipantIdCache) {
-            sNormalizedPhoneNumberToParticipantIdCache.clear();
-        }
-    }
-
     @DoesNotRunOnMainThread
     public static ArrayList<String> getRecipientsForConversation(final DatabaseWrapper dbWrapper,
             final String conversationId) {
@@ -937,21 +928,6 @@ public class BugleDatabaseOperations {
             readMessagePartsData(dbWrapper, message, false);
         }
         return message;
-    }
-
-    @VisibleForTesting
-    static MessagePartData readMessagePartData(final DatabaseWrapper dbWrapper,
-            final String partId) {
-        MessagePartData messagePartData = null;
-        try (Cursor cursor = dbWrapper.query(DatabaseHelper.PARTS_TABLE,
-                MessagePartData.getProjection(), PartColumns._ID + "=?",
-                new String[]{partId}, null, null, null)) {
-            Assert.inRange(cursor.getCount(), 0, 1);
-            if (cursor.moveToFirst()) {
-                messagePartData = MessagePartData.createFromCursor(cursor);
-            }
-        }
-        return messagePartData;
     }
 
     @DoesNotRunOnMainThread
@@ -1723,17 +1699,6 @@ public class BugleDatabaseOperations {
                 LogUtil.v(TAG, "Number of conversations refreshed:" + conversationIds.size());
             }
         }
-    }
-
-    /**
-     * Refresh conversation names/avatars based on a changed participant.
-     */
-    @DoesNotRunOnMainThread
-    public static void refreshConversationsForParticipant(final String participantId) {
-        Assert.isNotMainThread();
-        final ArrayList<String> participantList = new ArrayList<>(1);
-        participantList.add(participantId);
-        refreshConversationsForParticipants(participantList);
     }
 
     /**

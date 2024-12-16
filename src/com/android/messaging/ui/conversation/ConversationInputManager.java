@@ -177,8 +177,8 @@ public class ConversationInputManager implements ConversationInput.ConversationI
     }
 
     public boolean onNavigationUpPressed() {
-        for (int i = 0; i < mInputs.length; i++) {
-            if (mInputs[i].onNavigationUpPressed()) {
+        for (ConversationInput input : mInputs) {
+            if (input.onNavigationUpPressed()) {
                 return true;
             }
         }
@@ -209,16 +209,14 @@ public class ConversationInputManager implements ConversationInput.ConversationI
 
     public void hideAllInputs(final boolean animate) {
         beginUpdate();
-        for (int i = 0; i < mInputs.length; i++) {
-            showHideInternal(mInputs[i], false, animate);
+        for (ConversationInput input : mInputs) {
+            showHideInternal(input, false, animate);
         }
         endUpdate();
     }
 
     /**
      * Toggle the visibility of the sim selector.
-     * @param animate
-     * @param subEntry
      * @return true if the view is now shown, false if it now hidden
      */
     public boolean toggleSimSelector(final boolean animate, final SubscriptionListEntry subEntry) {
@@ -227,32 +225,12 @@ public class ConversationInputManager implements ConversationInput.ConversationI
     }
 
     public boolean updateActionBar(final ActionBar actionBar) {
-        for (int i = 0; i < mInputs.length; i++) {
-            if (mInputs[i].mShowing) {
-                return mInputs[i].updateActionBar(actionBar);
+        for (ConversationInput input : mInputs) {
+            if (input.mShowing) {
+                return input.updateActionBar(actionBar);
             }
         }
         return false;
-    }
-
-    @VisibleForTesting
-    boolean isMediaPickerVisible() {
-        return mMediaInput.mShowing;
-    }
-
-    @VisibleForTesting
-    boolean isSimSelectorVisible() {
-        return mSimInput.mShowing;
-    }
-
-    @VisibleForTesting
-    boolean isImeKeyboardVisible() {
-        return mImeInput.mShowing;
-    }
-
-    @VisibleForTesting
-    void testNotifyImeStateChanged(final boolean imeOpen) {
-        mImeStateObserver.onImeStateChanged(imeOpen);
     }
 
     /**
@@ -293,8 +271,7 @@ public class ConversationInputManager implements ConversationInput.ConversationI
         // All inputs are mutually exclusive. Showing one will hide everything else.
         // The one exception, is that the keyboard and location media chooser can be open at the
         // time to enable searching within that chooser
-        for (int i = 0; i < mInputs.length; i++) {
-            final ConversationInput currInput = mInputs[i];
+        for (final ConversationInput currInput : mInputs) {
             if (currInput != target) {
                 // TODO : If there's more exceptions we will want to make this more
                 // generic

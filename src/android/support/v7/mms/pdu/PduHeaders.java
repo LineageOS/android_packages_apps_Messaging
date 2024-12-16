@@ -633,8 +633,8 @@ public class PduHeaders {
         }
 
         ArrayList<EncodedStringValue> list = new ArrayList<>();
-        for (int i = 0; i < value.length; i++) {
-            list.add(value[i]);
+        for (EncodedStringValue encodedStringValue : value) {
+            list.add(encodedStringValue);
         }
         mHeaderMap.put(field, list);
     }

@@ -349,9 +349,9 @@ public class MmsHttpClient {
                 CarrierConfigValuesLoader.CONFIG_HTTP_PARAMS);
         if (!TextUtils.isEmpty(extraHttpParams)) {
             // Parse the parameter list
-            String paramList[] = extraHttpParams.split("\\|");
+            String[] paramList = extraHttpParams.split("\\|");
             for (String paramPair : paramList) {
-                String splitPair[] = paramPair.split(":", 2);
+                String[] splitPair = paramPair.split(":", 2);
                 if (splitPair.length == 2) {
                     final String name = splitPair[0].trim();
                     final String value = resolveMacro(splitPair[1].trim(), mmsConfig);
@@ -477,26 +477,6 @@ public class MmsHttpClient {
             }
         } catch (Exception e) {
             Log.w(MmsService.TAG, "TelephonyManager.getNai failed " + e);
-        }
-        return null;
-    }
-
-    /**
-     * Get NAI using hidden SystemProperties.get(String)
-     *
-     * @return the NAI string as system property
-     */
-    private static String getNaiBySystemProperty() {
-        try {
-            final Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
-            if (systemPropertiesClass != null) {
-                final Method method = systemPropertiesClass.getMethod("get", String.class);
-                if (method != null) {
-                    return (String) method.invoke(null, NAI_PROPERTY);
-                }
-            }
-        } catch (Exception e) {
-            Log.w(MmsService.TAG, "SystemProperties.get failed " + e);
         }
         return null;
     }

@@ -38,19 +38,6 @@ public class AccessibilityUtil {
         return accessibilityManager.isTouchExplorationEnabled();
     }
 
-    public static StringBuilder appendContentDescription(final Context context,
-            final StringBuilder contentDescription, final String val) {
-        if (sContentDescriptionDivider == null) {
-            sContentDescriptionDivider =
-                    context.getResources().getString(R.string.enumeration_comma);
-        }
-        if (contentDescription.length() != 0) {
-            contentDescription.append(sContentDescriptionDivider);
-        }
-        contentDescription.append(val);
-        return contentDescription;
-    }
-
     public static void announceForAccessibilityCompat(
             final View view, @Nullable final AccessibilityManager accessibilityManager,
             final int textResourceId) {
@@ -82,10 +69,7 @@ public class AccessibilityUtil {
         event.setEnabled(view.isEnabled());
         event.setClassName(view.getClass().getName());
         event.setPackageName(context.getPackageName());
-
-        // JellyBean MR1 requires a source view to set the window ID.
-        final AccessibilityRecordCompat record = AccessibilityEventCompat.asRecord(event);
-        record.setSource(view);
+        event.setSource(view);
 
         // Sends the event directly through the accessibility manager. If we only supported SDK 14+
         // we could have done:

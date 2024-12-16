@@ -18,6 +18,7 @@
 package android.support.v7.mms.pdu;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 public class CharacterSets {
