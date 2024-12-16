@@ -233,8 +233,7 @@ public class MediaResourceManager {
         }
         // We don't use SafeAsyncTask here since it enforces the shared thread pool executor
         // whereas we want a dedicated thread pool executor.
-        AsyncTask<Void, Void, MediaLoadingResult<T>> mediaLoadingTask =
-                new AsyncTask<Void, Void, MediaLoadingResult<T>>() {
+        AsyncTask<Void, Void, MediaLoadingResult<T>> mediaLoadingTask = new AsyncTask<>() {
             private Exception mException;
 
             @Override

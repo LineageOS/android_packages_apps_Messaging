@@ -310,7 +310,7 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
             final RecipientMatchCallback callback) {
         final int addressesSize = Math.min(
                 RecipientAlternatesAdapter.MAX_LOOKUPS, inAddresses.size());
-        final HashSet<String> addresses = new HashSet<String>();
+        final HashSet<String> addresses = new HashSet<>();
         for (int i = 0; i < addressesSize; i++) {
             final Rfc822Token[] tokens = Rfc822Tokenizer.tokenize(inAddresses.get(i).toLowerCase());
             addresses.add(tokens.length > 0 ? tokens[0].getAddress() : inAddresses.get(i));

@@ -218,8 +218,7 @@ public class DatabaseMessages {
             mBody = in.readString();
         }
 
-        public static final Parcelable.Creator<SmsMessage> CREATOR
-                = new Parcelable.Creator<SmsMessage>() {
+        public static final Parcelable.Creator<SmsMessage> CREATOR = new Parcelable.Creator<>() {
             @Override
             public SmsMessage createFromParcel(final Parcel in) {
                 return new SmsMessage(in);
@@ -488,15 +487,14 @@ public class DatabaseMessages {
             mRetrieveStatus = in.readInt();
 
             final int nParts = in.readInt();
-            mParts = new ArrayList<MmsPart>();
+            mParts = new ArrayList<>();
             mPartsProcessed = false;
             for (int i = 0; i < nParts; i++) {
                 mParts.add((MmsPart) in.readParcelable(getClass().getClassLoader()));
             }
         }
 
-        public static final Parcelable.Creator<MmsMessage> CREATOR
-                = new Parcelable.Creator<MmsMessage>() {
+        public static final Parcelable.Creator<MmsMessage> CREATOR = new Parcelable.Creator<>() {
             @Override
             public MmsMessage createFromParcel(final Parcel in) {
                 return new MmsMessage(in);
@@ -822,8 +820,7 @@ public class DatabaseMessages {
             mSize = in.readLong();
         }
 
-        public static final Parcelable.Creator<MmsPart> CREATOR
-                = new Parcelable.Creator<MmsPart>() {
+        public static final Parcelable.Creator<MmsPart> CREATOR = new Parcelable.Creator<>() {
             @Override
             public MmsPart createFromParcel(final Parcel in) {
                 return new MmsPart(in);
@@ -905,7 +902,7 @@ public class DatabaseMessages {
         }
 
         public static final Parcelable.Creator<LocalDatabaseMessage> CREATOR
-                = new Parcelable.Creator<LocalDatabaseMessage>() {
+                = new Parcelable.Creator<>() {
             @Override
             public LocalDatabaseMessage createFromParcel(final Parcel in) {
                 return new LocalDatabaseMessage(in);

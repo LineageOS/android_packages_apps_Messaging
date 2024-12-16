@@ -213,7 +213,7 @@ public class PduPersister {
     private static final SparseArray<String> LONG_COLUMN_NAME_MAP;
 
     static {
-        MESSAGE_BOX_MAP = new SimpleArrayMap<Uri, Integer>();
+        MESSAGE_BOX_MAP = new SimpleArrayMap<>();
         MESSAGE_BOX_MAP.put(Mms.Inbox.CONTENT_URI, Mms.MESSAGE_BOX_INBOX);
         MESSAGE_BOX_MAP.put(Mms.Sent.CONTENT_URI, Mms.MESSAGE_BOX_SENT);
         MESSAGE_BOX_MAP.put(Mms.Draft.CONTENT_URI, Mms.MESSAGE_BOX_DRAFTS);
@@ -223,7 +223,7 @@ public class PduPersister {
         CHARSET_COLUMN_INDEX_MAP.put(PduHeaders.SUBJECT, PDU_COLUMN_SUBJECT_CHARSET);
         CHARSET_COLUMN_INDEX_MAP.put(PduHeaders.RETRIEVE_TEXT, PDU_COLUMN_RETRIEVE_TEXT_CHARSET);
 
-        CHARSET_COLUMN_NAME_MAP = new SparseArray<String>();
+        CHARSET_COLUMN_NAME_MAP = new SparseArray<>();
         CHARSET_COLUMN_NAME_MAP.put(PduHeaders.SUBJECT, Mms.SUBJECT_CHARSET);
         CHARSET_COLUMN_NAME_MAP.put(PduHeaders.RETRIEVE_TEXT, Mms.RETRIEVE_TEXT_CHARSET);
 
@@ -232,7 +232,7 @@ public class PduPersister {
         ENCODED_STRING_COLUMN_INDEX_MAP.put(PduHeaders.RETRIEVE_TEXT, PDU_COLUMN_RETRIEVE_TEXT);
         ENCODED_STRING_COLUMN_INDEX_MAP.put(PduHeaders.SUBJECT, PDU_COLUMN_SUBJECT);
 
-        ENCODED_STRING_COLUMN_NAME_MAP = new SparseArray<String>();
+        ENCODED_STRING_COLUMN_NAME_MAP = new SparseArray<>();
         ENCODED_STRING_COLUMN_NAME_MAP.put(PduHeaders.RETRIEVE_TEXT, Mms.RETRIEVE_TEXT);
         ENCODED_STRING_COLUMN_NAME_MAP.put(PduHeaders.SUBJECT, Mms.SUBJECT);
 
@@ -245,7 +245,7 @@ public class PduPersister {
         TEXT_STRING_COLUMN_INDEX_MAP.put(PduHeaders.RESPONSE_TEXT, PDU_COLUMN_RESPONSE_TEXT);
         TEXT_STRING_COLUMN_INDEX_MAP.put(PduHeaders.TRANSACTION_ID, PDU_COLUMN_TRANSACTION_ID);
 
-        TEXT_STRING_COLUMN_NAME_MAP = new SparseArray<String>();
+        TEXT_STRING_COLUMN_NAME_MAP = new SparseArray<>();
         TEXT_STRING_COLUMN_NAME_MAP.put(PduHeaders.CONTENT_LOCATION, Mms.CONTENT_LOCATION);
         TEXT_STRING_COLUMN_NAME_MAP.put(PduHeaders.CONTENT_TYPE, Mms.CONTENT_TYPE);
         TEXT_STRING_COLUMN_NAME_MAP.put(PduHeaders.MESSAGE_CLASS, Mms.MESSAGE_CLASS);
@@ -266,7 +266,7 @@ public class PduPersister {
         OCTET_COLUMN_INDEX_MAP.put(PduHeaders.RETRIEVE_STATUS, PDU_COLUMN_RETRIEVE_STATUS);
         OCTET_COLUMN_INDEX_MAP.put(PduHeaders.STATUS, PDU_COLUMN_STATUS);
 
-        OCTET_COLUMN_NAME_MAP = new SparseArray<String>();
+        OCTET_COLUMN_NAME_MAP = new SparseArray<>();
         OCTET_COLUMN_NAME_MAP.put(PduHeaders.CONTENT_CLASS, Mms.CONTENT_CLASS);
         OCTET_COLUMN_NAME_MAP.put(PduHeaders.DELIVERY_REPORT, Mms.DELIVERY_REPORT);
         OCTET_COLUMN_NAME_MAP.put(PduHeaders.MESSAGE_TYPE, Mms.MESSAGE_TYPE);
@@ -285,7 +285,7 @@ public class PduPersister {
         LONG_COLUMN_INDEX_MAP.put(PduHeaders.EXPIRY, PDU_COLUMN_EXPIRY);
         LONG_COLUMN_INDEX_MAP.put(PduHeaders.MESSAGE_SIZE, PDU_COLUMN_MESSAGE_SIZE);
 
-        LONG_COLUMN_NAME_MAP = new SparseArray<String>();
+        LONG_COLUMN_NAME_MAP = new SparseArray<>();
         LONG_COLUMN_NAME_MAP.put(PduHeaders.DATE, Mms.DATE);
         LONG_COLUMN_NAME_MAP.put(PduHeaders.DELIVERY_TIME, Mms.DELIVERY_TIME);
         LONG_COLUMN_NAME_MAP.put(PduHeaders.EXPIRY, Mms.EXPIRY);
@@ -1135,7 +1135,7 @@ public class PduPersister {
         }
 
         final PduHeaders headers = sendReq.getPduHeaders();
-        final HashSet<String> recipients = new HashSet<String>();
+        final HashSet<String> recipients = new HashSet<>();
         for (final int addrType : ADDRESS_FIELDS) {
             EncodedStringValue[] array = null;
             if (addrType == PduHeaders.FROM) {
@@ -1233,8 +1233,8 @@ public class PduPersister {
                 PDU_CACHE_INSTANCE.setUpdating(uri, true);
             }
 
-            final ArrayList<PduPart> toBeCreated = new ArrayList<PduPart>();
-            final ArrayMap<Uri, PduPart> toBeUpdated = new ArrayMap<Uri, PduPart>();
+            final ArrayList<PduPart> toBeCreated = new ArrayList<>();
+            final ArrayMap<Uri, PduPart> toBeUpdated = new ArrayMap<>();
 
             final int partsNum = body.getPartsNum();
             final StringBuilder filter = new StringBuilder().append('(');
@@ -1376,7 +1376,7 @@ public class PduPersister {
         }
 
         final SparseArray<EncodedStringValue[]> addressMap =
-                new SparseArray<EncodedStringValue[]>(ADDRESS_FIELDS.length);
+                new SparseArray<>(ADDRESS_FIELDS.length);
         // Save address information.
         for (final int addrType : ADDRESS_FIELDS) {
             EncodedStringValue[] array = null;
@@ -1392,7 +1392,7 @@ public class PduPersister {
             addressMap.put(addrType, array);
         }
 
-        final HashSet<String> recipients = new HashSet<String>();
+        final HashSet<String> recipients = new HashSet<>();
         final int msgType = pdu.getMessageType();
         // Here we only allocate thread ID for M-Notification.ind,
         // M-Retrieve.conf and M-Send.req.
@@ -1553,7 +1553,7 @@ public class PduPersister {
             final SparseArray<EncodedStringValue[]> addressMap, final String selfNumber) {
         final EncodedStringValue[] arrayTo = addressMap.get(PduHeaders.TO);
         final EncodedStringValue[] arrayCc = addressMap.get(PduHeaders.CC);
-        final ArrayList<String> numbers = new ArrayList<String>();
+        final ArrayList<String> numbers = new ArrayList<>();
         if (arrayTo != null) {
             for (final EncodedStringValue v : arrayTo) {
                 if (v != null) {

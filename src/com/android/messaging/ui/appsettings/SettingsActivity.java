@@ -122,7 +122,7 @@ public class SettingsActivity extends BugleActionBarActivity {
          */
         private class SettingsListAdapter extends ArrayAdapter<SettingsItem> {
             public SettingsListAdapter(final Context context) {
-                super(context, R.layout.settings_item_view, new ArrayList<SettingsItem>());
+                super(context, R.layout.settings_item_view, new ArrayList<>());
             }
 
             public void setSettingsItems(final List<SettingsItem> newList) {

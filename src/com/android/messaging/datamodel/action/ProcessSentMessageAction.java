@@ -296,7 +296,7 @@ public class ProcessSentMessageAction extends Action {
     }
 
     public static final Parcelable.Creator<ProcessSentMessageAction> CREATOR
-            = new Parcelable.Creator<ProcessSentMessageAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public ProcessSentMessageAction createFromParcel(final Parcel in) {
             return new ProcessSentMessageAction(in);

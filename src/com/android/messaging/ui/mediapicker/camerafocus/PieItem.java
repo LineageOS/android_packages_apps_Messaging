@@ -74,7 +74,7 @@ public class PieItem {
 
     public void addItem(PieItem item) {
         if (mItems == null) {
-            mItems = new ArrayList<PieItem>();
+            mItems = new ArrayList<>();
         }
         mItems.add(item);
     }

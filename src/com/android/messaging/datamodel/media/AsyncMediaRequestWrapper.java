@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ class AsyncMediaRequestWrapper<T extends RefCountedMediaResource> extends Bindab
     public static <T extends RefCountedMediaResource> AsyncMediaRequestWrapper<T>
             createWith(final MediaRequest<T> wrappedRequest,
                     final MediaResourceLoadListener<T> listener) {
-        return new AsyncMediaRequestWrapper<T>(listener, wrappedRequest);
+        return new AsyncMediaRequestWrapper<>(listener, wrappedRequest);
     }
 
     private final MediaRequest<T> mWrappedRequest;
