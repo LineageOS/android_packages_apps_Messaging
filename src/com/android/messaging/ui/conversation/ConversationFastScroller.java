@@ -39,6 +39,7 @@ import android.view.ViewGroupOverlay;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationMessageData;
 import com.android.messaging.ui.ConversationDrawables;
