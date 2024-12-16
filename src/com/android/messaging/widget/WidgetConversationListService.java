@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -170,7 +171,8 @@ public class WidgetConversationListService extends RemoteViewsService {
                         builder.setSpan(new StyleSpan(Typeface.ITALIC), 0, text.length(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         builder.setSpan(new ForegroundColorSpan(
-                                    resources.getColor(R.color.widget_text_color)),
+                                    resources.getColor(R.color.widget_text_color,
+                                            mContext.getTheme())),
                                 0, text.length(),
                                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         remoteViews.setTextViewText(R.id.errorText, builder);

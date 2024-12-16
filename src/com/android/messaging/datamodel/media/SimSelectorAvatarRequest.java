@@ -30,6 +30,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 
 import androidx.exifinterface.media.ExifInterface;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.messaging.R;
 import com.android.messaging.util.Assert;
@@ -81,8 +82,8 @@ public class SimSelectorAvatarRequest extends AvatarRequest {
         final Canvas canvas = new Canvas(bitmap);
 
         if (sRegularSimIcon == null) {
-            final BitmapDrawable regularSim = (BitmapDrawable) mContext.getResources()
-                    .getDrawable(R.drawable.ic_sim_card_send);
+            final BitmapDrawable regularSim = (BitmapDrawable) ResourcesCompat.getDrawable(
+                    mContext.getResources(), R.drawable.ic_sim_card_send, mContext.getTheme());
             sRegularSimIcon = regularSim.getBitmap();
         }
 

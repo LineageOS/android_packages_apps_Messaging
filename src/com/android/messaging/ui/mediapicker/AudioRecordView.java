@@ -17,6 +17,7 @@
 package com.android.messaging.ui.mediapicker;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
@@ -31,6 +32,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.content.res.ResourcesCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -222,9 +225,12 @@ public class AudioRecordView extends FrameLayout implements
     }
 
     private void updateRecordButtonAppearance() {
-        final Drawable foregroundDrawable = getResources().getDrawable(R.drawable.ic_mp_audio_mic);
-        final GradientDrawable backgroundDrawable = ((GradientDrawable) getResources()
-                .getDrawable(R.drawable.audio_record_control_button_background));
+        final Resources res = getResources();
+        final Resources.Theme theme = getContext().getTheme();
+        final Drawable foregroundDrawable = ResourcesCompat.getDrawable(res,
+                R.drawable.ic_mp_audio_mic, theme);
+        final GradientDrawable backgroundDrawable = ((GradientDrawable) ResourcesCompat.getDrawable(
+                res, R.drawable.audio_record_control_button_background, theme));
         if (isRecording()) {
             foregroundDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
             backgroundDrawable.setColor(mThemeColor);
