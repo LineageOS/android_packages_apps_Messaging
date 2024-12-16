@@ -101,6 +101,7 @@ public class ViewGroupItemVerticalExplodeAnimation {
         public void startAnimation() {
             final Context context = mViewToAnimate.getContext();
             final Resources resources = context.getResources();
+            final Resources.Theme theme = context.getTheme();
             final View decorView = ((Activity) context).getWindow().getDecorView();
             final ViewOverlay viewOverlay = decorView.getOverlay();
             if (viewOverlay instanceof ViewGroupOverlay) {
@@ -119,7 +120,7 @@ public class ViewGroupItemVerticalExplodeAnimation {
                 shadowContainerLayer.setBottom(containerRect.bottom);
                 shadowContainerLayer.setRight(containerRect.right);
                 shadowContainerLayer.setBackgroundColor(resources.getColor(
-                        R.color.open_conversation_animation_background_shadow));
+                        R.color.open_conversation_animation_background_shadow, theme));
                 // Per design request, temporarily clear out the background of the item content
                 // to not show any ripple effects during animation.
                 if (!(oldBackground instanceof ColorDrawable)) {
@@ -150,8 +151,8 @@ public class ViewGroupItemVerticalExplodeAnimation {
                 expandLayer.setTop(viewRect.top);
                 expandLayer.setBottom(viewRect.bottom);
                 expandLayer.setRight(viewRect.right);
-                expandLayer.setBackgroundColor(resources.getColor(
-                        R.color.conversation_background));
+                expandLayer.setBackgroundColor(resources.getColor(R.color.conversation_background,
+                        theme));
                 ViewCompat.setElevation(expandLayer, elevation);
 
                 // Conditionally stage the snapshot in the overlay.
