@@ -17,6 +17,7 @@
 package com.android.messaging.ui;
 
 import android.content.Context;
+
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
@@ -66,7 +67,7 @@ public class CustomHeaderViewPager extends LinearLayout {
         final PagerAdapter adapter = new CustomHeaderViewPagerAdapter(viewHolders);
         mViewPager.setAdapter(adapter);
         mTabstrip.setViewPager(mViewPager);
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
             public void onPageScrollStateChanged(int state) {

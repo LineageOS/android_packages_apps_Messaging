@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +17,14 @@
 
 package com.android.messaging.datamodel.data;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 import com.android.messaging.datamodel.BoundCursorLoader;
 import com.android.messaging.datamodel.GalleryBoundCursorLoader;
@@ -57,6 +60,7 @@ public class MediaPickerData extends BindableData {
      * A trampoline class so that we can inherit from LoaderManager.LoaderCallbacks multiple times.
      */
     private class GalleryLoaderCallbacks implements LoaderManager.LoaderCallbacks<Cursor> {
+        @NonNull
         @Override
         public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
             final String bindingId = args.getString(BINDING_ID);
@@ -80,7 +84,7 @@ public class MediaPickerData extends BindableData {
          * {@inheritDoc}
          */
         @Override
-        public void onLoadFinished(final Loader<Cursor> loader, final Cursor data) {
+        public void onLoadFinished(@NonNull final Loader<Cursor> loader, final Cursor data) {
             final BoundCursorLoader cursorLoader = (BoundCursorLoader) loader;
             if (isBound(cursorLoader.getBindingId())) {
                 switch (loader.getId()) {
@@ -102,7 +106,7 @@ public class MediaPickerData extends BindableData {
          * {@inheritDoc}
          */
         @Override
-        public void onLoaderReset(final Loader<Cursor> loader) {
+        public void onLoaderReset(@NonNull final Loader<Cursor> loader) {
             final BoundCursorLoader cursorLoader = (BoundCursorLoader) loader;
             if (isBound(cursorLoader.getBindingId())) {
                 switch (loader.getId()) {

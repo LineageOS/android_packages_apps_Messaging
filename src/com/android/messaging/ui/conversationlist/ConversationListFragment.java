@@ -17,19 +17,12 @@
 package com.android.messaging.ui.conversationlist;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewGroupCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,6 +34,14 @@ import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.messaging.R;
 import com.android.messaging.annotation.VisibleForAnimation;
@@ -127,7 +128,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     @Override
     public void onCreate(final Bundle bundle) {
         super.onCreate(bundle);
-        mListBinding.getData().init(getLoaderManager(), mListBinding);
+        mListBinding.getData().init(LoaderManager.getInstance(this), mListBinding);
         mAdapter = new ConversationListAdapter(getActivity(), null, this);
     }
 
@@ -244,8 +245,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     }
 
     @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(@NonNull final Context context) {
+        super.onAttach(context);
         if (VERBOSE) {
             LogUtil.v(LogUtil.BUGLE_TAG, "Attaching List");
         }
@@ -254,12 +255,12 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             mArchiveMode = arguments.getBoolean(BUNDLE_ARCHIVED_MODE, false);
             mForwardMessageMode = arguments.getBoolean(BUNDLE_FORWARD_MESSAGE_MODE, false);
         }
-        mListBinding.bind(DataModel.get().createConversationListData(activity, this, mArchiveMode));
+        mListBinding.bind(DataModel.get().createConversationListData(context, this, mArchiveMode));
     }
 
 
     @Override
-    public void onSaveInstanceState(final Bundle outState) {
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
         super.onSaveInstanceState(outState);
         if (mListState != null) {
             outState.putParcelable(SAVED_INSTANCE_STATE_LIST_VIEW_STATE_KEY, mListState);
@@ -305,7 +306,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     }
 
     @Override
-    public void onPrepareOptionsMenu(final Menu menu) {
+    public void onPrepareOptionsMenu(@NonNull final Menu menu) {
         super.onPrepareOptionsMenu(menu);
         final MenuItem startNewConversationMenuItem =
                 menu.findItem(R.id.action_start_new_conversation);

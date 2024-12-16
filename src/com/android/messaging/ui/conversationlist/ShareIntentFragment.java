@@ -20,10 +20,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
-import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.loader.app.LoaderManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,6 +65,7 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
     /**
      * {@inheritDoc} from Fragment
      */
+    @NonNull
     @Override
     public Dialog onCreateDialog(final Bundle bundle) {
         final Activity activity = getActivity();
@@ -79,7 +84,7 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
                         ViewGroup.LayoutParams.WRAP_CONTENT);
             }
         };
-        mListBinding.getData().init(getLoaderManager(), mListBinding);
+        mListBinding.getData().init(LoaderManager.getInstance(this), mListBinding);
         mAdapter = new ShareIntentAdapter(activity, null, this);
         mRecyclerView = (RecyclerView) view.findViewById(android.R.id.list);
         mRecyclerView.setLayoutManager(manager);
@@ -101,7 +106,7 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
     }
 
     @Override
-    public void onDismiss(DialogInterface dialog) {
+    public void onDismiss(@NonNull DialogInterface dialog) {
         if (!mDismissed) {
             final Activity activity = getActivity();
             if (activity != null) {
@@ -120,12 +125,12 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
     }
 
     @Override
-    public void onAttach(final Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof HostInterface) {
-            mHost = (HostInterface) activity;
+    public void onAttach(@NonNull final Context context) {
+        super.onAttach(context);
+        if (context instanceof HostInterface) {
+            mHost = (HostInterface) context;
         }
-        mListBinding.bind(DataModel.get().createConversationListData(activity, this, false));
+        mListBinding.bind(DataModel.get().createConversationListData(context, this, false));
     }
 
     @Override

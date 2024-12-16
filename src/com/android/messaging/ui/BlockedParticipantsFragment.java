@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +16,18 @@
  */
 package com.android.messaging.ui;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.cursoradapter.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import androidx.cursoradapter.widget.CursorAdapter;
+import androidx.fragment.app.Fragment;
+import androidx.loader.app.LoaderManager;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.binding.Binding;
@@ -58,7 +61,7 @@ public class BlockedParticipantsFragment extends Fragment
         mAdapter = new BlockedParticipantListAdapter(getActivity(), null);
         mListView.setAdapter(mAdapter);
         mBinding.bind(DataModel.get().createBlockedParticipantsData(getActivity(), this));
-        mBinding.getData().init(getLoaderManager(), mBinding);
+        mBinding.getData().init(LoaderManager.getInstance(this), mBinding);
         return view;
     }
 
