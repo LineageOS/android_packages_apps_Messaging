@@ -308,21 +308,15 @@ public class ParticipantRefresh {
         final DatabaseWrapper db = DataModel.get().getDatabase();
         final HashSet<Integer> existingSubIds = new HashSet<Integer>();
 
-        Cursor cursor = null;
-        try {
-            cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
-                    ParticipantsQuery.PROJECTION,
-                    SELF_PARTICIPANTS_CLAUSE, null, null, null, null);
+        try (Cursor cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
+                ParticipantsQuery.PROJECTION,
+                SELF_PARTICIPANTS_CLAUSE, null, null, null, null)) {
 
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     final int subId = cursor.getInt(ParticipantsQuery.INDEX_SUB_ID);
                     existingSubIds.add(subId);
                 }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
         return existingSubIds;
@@ -445,9 +439,7 @@ public class ParticipantRefresh {
         // For self participant, try getting name/avatar from self profile in CP2 first.
         // TODO: in case of multi-sim, profile would not be able to be used for
         // different numbers. Need to figure out that.
-        Cursor selfCursor = null;
-        try {
-            selfCursor = ContactUtil.getSelf(db.getContext()).performSynchronousQuery();
+        try (Cursor selfCursor = ContactUtil.getSelf(db.getContext()).performSynchronousQuery()) {
             if (selfCursor != null && selfCursor.getCount() > 0) {
                 selfCursor.moveToNext();
                 final long selfContactId = selfCursor.getLong(ContactUtil.INDEX_CONTACT_ID);
@@ -467,10 +459,6 @@ public class ParticipantRefresh {
             // However, we need to at least log the exception so we know something was wrong.
             LogUtil.e(LogUtil.BUGLE_DATAMODEL_TAG, "Participant refresh: failed to refresh " +
                     "participant. exception=" + exception);
-        } finally {
-            if (selfCursor != null) {
-                selfCursor.close();
-            }
         }
         return changed;
     }
@@ -619,22 +607,16 @@ public class ParticipantRefresh {
 
         final String selection = ParticipantColumns.SIM_SLOT_ID + "=? AND " +
                 SELF_PARTICIPANTS_CLAUSE;
-        Cursor cursor = null;
-        try {
-            cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
-                    new String[] { ParticipantColumns._ID },
-                    selection, new String[] { String.valueOf(ParticipantData.INVALID_SLOT_ID) },
-                    null, null, null);
+        try (Cursor cursor = db.query(DatabaseHelper.PARTICIPANTS_TABLE,
+                new String[]{ParticipantColumns._ID},
+                selection, new String[]{String.valueOf(ParticipantData.INVALID_SLOT_ID)},
+                null, null, null)) {
 
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     final String participantId = cursor.getString(0);
                     inactiveSelf.add(participantId);
                 }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
 

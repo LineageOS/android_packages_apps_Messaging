@@ -125,19 +125,13 @@ public class BugleCarrierConfigValuesLoader implements CarrierConfigValuesLoader
         // Get a subscription-dependent context for loading the mms_config.xml
         final Context subContext = getSubDepContext(mContext, subId);
         // Load and parse the XML
-        XmlResourceParser parser = null;
-        try {
-            parser = subContext.getResources().getXml(R.xml.mms_config);
+        try (XmlResourceParser parser = subContext.getResources().getXml(R.xml.mms_config)) {
             final ApnsXmlProcessor processor = ApnsXmlProcessor.get(parser);
             processor.setMmsConfigHandler((mccMnc, key, value, type) ->
                     update(values, type, key, value));
             processor.process();
         } catch (final Resources.NotFoundException e) {
             LogUtil.w(LogUtil.BUGLE_TAG, "Can not find mms_config.xml");
-        } finally {
-            if (parser != null) {
-                parser.close();
-            }
         }
     }
 

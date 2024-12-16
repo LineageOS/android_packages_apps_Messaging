@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -265,19 +266,14 @@ public class VCardRequest implements MediaRequest<VCardResource> {
                 for (final VCardEntry.PhotoData photo : photos) {
                     final byte[] photoBytes = photo.getBytes();
                     if (photoBytes != null) {
-                        final InputStream inputStream = new ByteArrayInputStream(photoBytes);
-                        try {
+                        try (InputStream inputStream = new ByteArrayInputStream(photoBytes)) {
                             avatarUri = UriUtil.persistContentToScratchSpace(inputStream);
                             if (avatarUri != null) {
                                 // Just load the first avatar and be done. Want more? wait for V2.
                                 break;
                             }
-                        } finally {
-                            try {
-                                inputStream.close();
-                            } catch (final IOException e) {
-                                // Do nothing.
-                            }
+                        } catch (IOException e) {
+                            // Do nothing.
                         }
                     }
                 }
