@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +26,7 @@ import java.util.HashSet;
  * is memory pressure provide a callback to reclaim the memory in the caches.
  */
 public class MemoryCacheManager {
-    private final HashSet<MemoryCache> mMemoryCaches = new HashSet<MemoryCache>();
+    private final HashSet<MemoryCache> mMemoryCaches = new HashSet<>();
     private final Object mMemoryCacheLock = new Object();
 
     public static MemoryCacheManager get() {

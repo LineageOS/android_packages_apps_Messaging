@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +34,7 @@ public abstract class MediaCacheManager implements MemoryCache {
     protected final SparseArray<MediaCache<?>> mCaches;
 
     public MediaCacheManager() {
-        mCaches = new SparseArray<MediaCache<?>>();
+        mCaches = new SparseArray<>();
         MemoryCacheManager.get().registerMemoryCache(this);
     }
 

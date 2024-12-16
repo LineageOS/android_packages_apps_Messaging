@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +32,7 @@ class ExifModifier {
     public static final boolean DEBUG = false;
     private final ByteBuffer mByteBuffer;
     private final ExifData mTagToModified;
-    private final List<TagOffset> mTagOffsets = new ArrayList<TagOffset>();
+    private final List<TagOffset> mTagOffsets = new ArrayList<>();
     private final ExifInterface mInterface;
     private int mOffsetBase;
 

@@ -47,7 +47,7 @@ public class UpdateMessageNotificationAction extends Action {
     }
 
     public static final Parcelable.Creator<UpdateMessageNotificationAction> CREATOR
-            = new Parcelable.Creator<UpdateMessageNotificationAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public UpdateMessageNotificationAction createFromParcel(final Parcel in) {
             return new UpdateMessageNotificationAction(in);

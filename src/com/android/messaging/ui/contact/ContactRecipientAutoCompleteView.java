@@ -259,8 +259,7 @@ public class ContactRecipientAutoCompleteView extends RecipientEditTextView {
     public ArrayList<ParticipantData> getRecipientParticipantDataForConversationCreation() {
         final DrawableRecipientChip[] recips = getText()
                 .getSpans(0, getText().length(), DrawableRecipientChip.class);
-        final ArrayList<ParticipantData> contacts =
-                new ArrayList<ParticipantData>(recips.length);
+        final ArrayList<ParticipantData> contacts = new ArrayList<>(recips.length);
         for (final DrawableRecipientChip recipient : recips) {
             final RecipientEntry entry = recipient.getEntry();
             if (entry != null && entry.isValid() && entry.getDestination() != null &&
@@ -277,7 +276,7 @@ public class ContactRecipientAutoCompleteView extends RecipientEditTextView {
      * consumer with determining quickly whether a contact is currently selected.
      */
     public Set<String> getSelectedDestinations() {
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         final DrawableRecipientChip[] recips = getText()
                 .getSpans(0, getText().length(), DrawableRecipientChip.class);
 

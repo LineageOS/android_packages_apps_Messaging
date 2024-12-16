@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,7 +88,7 @@ public class BitmapPool implements MemoryCache {
         Assert.isTrue(!TextUtils.isEmpty(name));
         mPoolName = name;
         mMaxSize = maxSize;
-        mPool = new SparseArray<SingleSizePool>();
+        mPool = new SparseArray<>();
     }
 
     @Override

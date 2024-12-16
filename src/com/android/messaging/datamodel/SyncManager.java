@@ -365,12 +365,10 @@ public class SyncManager {
 
     public static class ThreadInfoCache {
         // Cache of thread->conversationId map
-        private final LongSparseArray<String> mThreadToConversationId =
-                new LongSparseArray<String>();
+        private final LongSparseArray<String> mThreadToConversationId = new LongSparseArray<>();
 
         // Cache of thread->recipients map
-        private final LongSparseArray<List<String>> mThreadToRecipients =
-                new LongSparseArray<List<String>>();
+        private final LongSparseArray<List<String>> mThreadToRecipients = new LongSparseArray<>();
 
         // Remember the conversation ids that need to be archived
         private final HashSet<String> mArchivedConversations = new HashSet<>();

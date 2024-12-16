@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007 Esmertec AG.
  * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -346,7 +347,7 @@ public class PduHeaders {
      * Constructor of PduHeaders.
      */
     public PduHeaders() {
-        mHeaderMap = new SparseArray<Object>();
+        mHeaderMap = new SparseArray<>();
     }
 
     /**
@@ -652,7 +653,7 @@ public class PduHeaders {
                 throw new RuntimeException("Invalid header field!");
         }
 
-        ArrayList<EncodedStringValue> list = new ArrayList<EncodedStringValue>();
+        ArrayList<EncodedStringValue> list = new ArrayList<>();
         for (int i = 0; i < value.length; i++) {
             list.add(value[i]);
         }
@@ -684,7 +685,7 @@ public class PduHeaders {
         ArrayList<EncodedStringValue> list =
                 (ArrayList<EncodedStringValue>) mHeaderMap.get(field);
         if (null == list) {
-            list = new ArrayList<EncodedStringValue>();
+            list = new ArrayList<>();
         }
         list.add(value);
         mHeaderMap.put(field, list);

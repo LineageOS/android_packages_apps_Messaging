@@ -106,7 +106,7 @@ public class ProcessDeliveryReportAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<ProcessDeliveryReportAction> CREATOR
-            = new Parcelable.Creator<ProcessDeliveryReportAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public ProcessDeliveryReportAction createFromParcel(final Parcel in) {
             return new ProcessDeliveryReportAction(in);

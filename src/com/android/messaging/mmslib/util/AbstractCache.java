@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008 Esmertec AG.
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +30,7 @@ public abstract class AbstractCache<K, V> {
     private final SimpleArrayMap<K, CacheEntry<V>> mCacheMap;
 
     protected AbstractCache() {
-        mCacheMap = new SimpleArrayMap<K, CacheEntry<V>>();
+        mCacheMap = new SimpleArrayMap<>();
     }
 
     public boolean put(K key, V value) {
@@ -47,7 +48,7 @@ public abstract class AbstractCache<K, V> {
         }
 
         if (key != null) {
-            CacheEntry<V> cacheEntry = new CacheEntry<V>();
+            CacheEntry<V> cacheEntry = new CacheEntry<>();
             cacheEntry.value = value;
             mCacheMap.put(key, cacheEntry);
 

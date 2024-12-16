@@ -64,7 +64,7 @@ public class NotificationPlayer implements OnCompletionListener {
         }
     }
 
-    private final LinkedList<Command> mCmdQueue = new LinkedList<Command>();
+    private final LinkedList<Command> mCmdQueue = new LinkedList<>();
 
     private Looper mLooper;
 

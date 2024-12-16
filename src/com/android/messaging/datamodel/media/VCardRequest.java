@@ -71,7 +71,7 @@ public class VCardRequest implements MediaRequest<VCardResource> {
     VCardRequest(final Context context, final VCardRequestDescriptor descriptor) {
         mDescriptor = descriptor;
         mContext = context;
-        mLoadedVCards = new ArrayList<VCardResourceEntry>();
+        mLoadedVCards = new ArrayList<>();
     }
 
     @Override

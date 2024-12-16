@@ -73,7 +73,7 @@ class SyncMessageBatch {
         mMmsToAdd = mmsToAdd;
         mMessagesToDelete = messagesToDelete;
         mCache = cache;
-        mConversationsToUpdate = new HashSet<String>();
+        mConversationsToUpdate = new HashSet<>();
     }
 
     void updateLocalDatabase() {

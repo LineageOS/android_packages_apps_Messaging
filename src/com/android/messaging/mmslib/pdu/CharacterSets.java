@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007 Esmertec AG.
  * Copyright (C) 2007 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -402,8 +403,8 @@ public class CharacterSets {
 
     static {
         // Create the HashMaps.
-        MIBENUM_TO_NAME_MAP = new SparseArray<String>();
-        NAME_TO_MIBENUM_MAP = new SimpleArrayMap<String, Integer>();
+        MIBENUM_TO_NAME_MAP = new SparseArray<>();
+        NAME_TO_MIBENUM_MAP = new SimpleArrayMap<>();
         assert (MIBENUM_NUMBERS.length == MIME_NAMES.length);
         final int count = MIBENUM_NUMBERS.length - 1;
         for (int i = 0; i <= count; i++) {
