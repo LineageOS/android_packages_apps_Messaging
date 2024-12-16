@@ -20,7 +20,6 @@ package com.android.messaging.datamodel.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import android.database.sqlite.SQLiteFullException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,7 +29,6 @@ import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
-import com.android.common.contacts.DataUsageStatUpdater;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.BoundCursorLoader;
@@ -52,10 +50,8 @@ import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.RunsOnMainThread;
-import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.widget.WidgetConversationProvider;
 
 import java.util.ArrayList;
@@ -630,23 +626,6 @@ public class ConversationData extends BindableData {
                     phones.add(participant.getSendDestination());
                 }
             }
-        }
-
-        if (ContactUtil.hasReadContactsPermission()) {
-            SafeAsyncTask.executeOnThreadPool(() -> {
-                final DataUsageStatUpdater updater = new DataUsageStatUpdater(
-                        Factory.get().getApplicationContext());
-                try {
-                    if (!phones.isEmpty()) {
-                        updater.updateWithPhoneNumber(phones);
-                    }
-                    if (!emails.isEmpty()) {
-                        updater.updateWithAddress(emails);
-                    }
-                } catch (final SQLiteFullException ex) {
-                    LogUtil.w(TAG, "Unable to update contact", ex);
-                }
-            });
         }
     }
 
