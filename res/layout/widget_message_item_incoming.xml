@@ -35,7 +35,7 @@
             style="@style/WidgetConversationItemIncomingAvatarShadow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/ic_widget_avatar_shadow"
             android:layout_marginTop="-4dp"
             android:importantForAccessibility="no"
@@ -45,7 +45,7 @@
             style="@style/WidgetConversationItemAvatarIncoming"
             android:layout_width="@dimen/contact_icon_view_normal_size"
             android:layout_height="@dimen/contact_icon_view_normal_size"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:scaleType="fitXY"
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
