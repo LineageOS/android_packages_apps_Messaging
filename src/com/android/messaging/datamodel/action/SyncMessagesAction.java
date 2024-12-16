@@ -221,12 +221,11 @@ public class SyncMessagesAction extends Action implements Parcelable {
         cache.clear();
 
         // Sms messages to store
-        final ArrayList<SmsMessage> smsToAdd = new ArrayList<SmsMessage>();
+        final ArrayList<SmsMessage> smsToAdd = new ArrayList<>();
         // Mms messages to store
-        final LongSparseArray<MmsMessage> mmsToAdd = new LongSparseArray<MmsMessage>();
+        final LongSparseArray<MmsMessage> mmsToAdd = new LongSparseArray<>();
         // List of local SMS/MMS to remove
-        final ArrayList<LocalDatabaseMessage> messagesToDelete =
-                new ArrayList<LocalDatabaseMessage>();
+        final ArrayList<LocalDatabaseMessage> messagesToDelete = new ArrayList<>();
 
         long lastTimestampMillis = SYNC_FAILED;
         if (syncManager.isSyncing(upperBoundTimeMillis)) {
@@ -242,7 +241,7 @@ public class SyncMessagesAction extends Action implements Parcelable {
 
         // If comparison succeeds bundle up the changes for processing in ActionService
         if (lastTimestampMillis > SYNC_FAILED) {
-            final ArrayList<MmsMessage> mmsToAddList = new ArrayList<MmsMessage>();
+            final ArrayList<MmsMessage> mmsToAddList = new ArrayList<>();
             for (int i = 0; i < mmsToAdd.size(); i++) {
                 final MmsMessage mms = mmsToAdd.valueAt(i);
                 mmsToAddList.add(mms);
@@ -610,7 +609,7 @@ public class SyncMessagesAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<SyncMessagesAction> CREATOR
-            = new Parcelable.Creator<SyncMessagesAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public SyncMessagesAction createFromParcel(final Parcel in) {
             return new SyncMessagesAction(in);

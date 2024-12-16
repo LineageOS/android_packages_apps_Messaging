@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +34,7 @@ public abstract class BindingBase<T extends BindableData> {
      * Creates a new exclusively owned binding for the owner object.
      */
     public static <T extends BindableData> Binding<T> createBinding(final Object owner) {
-        return new Binding<T>(owner);
+        return new Binding<>(owner);
     }
 
     /**
@@ -43,7 +44,7 @@ public abstract class BindingBase<T extends BindableData> {
      */
     public static <T extends BindableData> ImmutableBindingRef<T> createBindingReference(
             final BindingBase<T> srcBinding) {
-        return new ImmutableBindingRef<T>(srcBinding);
+        return new ImmutableBindingRef<>(srcBinding);
     }
 
     /**
@@ -52,7 +53,7 @@ public abstract class BindingBase<T extends BindableData> {
      */
     public static <T extends BindableData> DetachableBinding<T> createDetachableBinding(
             final Object owner) {
-        return new DetachableBinding<T>(owner);
+        return new DetachableBinding<>(owner);
     }
 
     public abstract T getData();

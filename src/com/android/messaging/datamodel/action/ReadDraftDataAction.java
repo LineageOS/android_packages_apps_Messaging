@@ -150,7 +150,7 @@ public class ReadDraftDataAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<ReadDraftDataAction> CREATOR
-            = new Parcelable.Creator<ReadDraftDataAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public ReadDraftDataAction createFromParcel(final Parcel in) {
             return new ReadDraftDataAction(in);

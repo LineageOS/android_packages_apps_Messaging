@@ -67,7 +67,7 @@ public class BugleDatabaseOperations {
 
     // Global cache of phone numbers -> participant id mapping since this call is expensive.
     private static final ArrayMap<String, String> sNormalizedPhoneNumberToParticipantIdCache =
-            new ArrayMap<String, String>();
+            new ArrayMap<>();
 
     /**
      * Convert list of recipient strings (email/phone number) into list of ConversationParticipants
@@ -78,8 +78,7 @@ public class BugleDatabaseOperations {
     static ArrayList<ParticipantData> getConversationParticipantsFromRecipients(
             final List<String> recipients, final int refSubId) {
         // Generate a list of partially formed participants
-        final ArrayList<ParticipantData> participants = new
-                ArrayList<ParticipantData>();
+        final ArrayList<ParticipantData> participants = new ArrayList<>();
 
         if (recipients != null) {
             for (final String recipient : recipients) {
@@ -98,7 +97,7 @@ public class BugleDatabaseOperations {
         Assert.isNotMainThread();
         if (participants.size() > 0) {
             // First remove redundant phone numbers
-            final HashSet<String> recipients = new HashSet<String>();
+            final HashSet<String> recipients = new HashSet<>();
             for (int i = participants.size() - 1; i >= 0; i--) {
                 final String recipient = participants.get(i).getNormalizedDestination();
                 if (!recipients.contains(recipient)) {
@@ -141,7 +140,7 @@ public class BugleDatabaseOperations {
             final List<ParticipantData> participants) {
         Assert.isNotMainThread();
         // First find the thread id for this list of participants.
-        final ArrayList<String> recipients = new ArrayList<String>();
+        final ArrayList<String> recipients = new ArrayList<>();
 
         for (final ParticipantData participant : participants) {
             recipients.add(participant.getSendDestination());
@@ -854,7 +853,7 @@ public class BugleDatabaseOperations {
         final ArrayList<ParticipantData> participants =
                 getParticipantsForConversation(dbWrapper, conversationId);
 
-        final ArrayList<String> recipients = new ArrayList<String>();
+        final ArrayList<String> recipients = new ArrayList<>();
         for (final ParticipantData participant : participants) {
             recipients.add(participant.getSendDestination());
         }
@@ -913,8 +912,7 @@ public class BugleDatabaseOperations {
     public static ArrayList<ParticipantData> getParticipantsForConversation(
             final DatabaseWrapper dbWrapper, final String conversationId) {
         Assert.isNotMainThread();
-        final ArrayList<ParticipantData> participants =
-                new ArrayList<ParticipantData>();
+        final ArrayList<ParticipantData> participants = new ArrayList<>();
         try (Cursor cursor = dbWrapper.query(DatabaseHelper.PARTICIPANTS_TABLE,
                 ParticipantData.ParticipantsQuery.PROJECTION,
                 ParticipantColumns._ID + " IN ( " + "SELECT "
@@ -1684,7 +1682,7 @@ public class BugleDatabaseOperations {
     private static HashSet<String> getConversationsForParticipants(
             final ArrayList<String> participantIds) {
         final DatabaseWrapper db = DataModel.get().getDatabase();
-        final HashSet<String> conversationIds = new HashSet<String>();
+        final HashSet<String> conversationIds = new HashSet<>();
 
         final String selection = ConversationParticipantsColumns.PARTICIPANT_ID + "=?";
         for (final String participantId : participantIds) {
@@ -1734,7 +1732,7 @@ public class BugleDatabaseOperations {
     @DoesNotRunOnMainThread
     public static void refreshConversationsForParticipant(final String participantId) {
         Assert.isNotMainThread();
-        final ArrayList<String> participantList = new ArrayList<String>(1);
+        final ArrayList<String> participantList = new ArrayList<>(1);
         participantList.add(participantId);
         refreshConversationsForParticipants(participantList);
     }
@@ -1764,7 +1762,7 @@ public class BugleDatabaseOperations {
             final String rowKey, final String rowId, final ContentValues values) {
         Assert.isNotMainThread();
         final StringBuilder sb = new StringBuilder();
-        final ArrayList<String> whereValues = new ArrayList<String>(values.size() + 1);
+        final ArrayList<String> whereValues = new ArrayList<>(values.size() + 1);
         whereValues.add(rowId);
 
         for (final String key : values.keySet()) {

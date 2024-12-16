@@ -42,7 +42,7 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
     private int mParticipantCountExcludingSelf = 0;
 
     public ConversationParticipantsData() {
-        mConversationParticipantsMap = new SimpleArrayMap<String, ParticipantData>();
+        mConversationParticipantsMap = new SimpleArrayMap<>();
     }
 
     public void bind(final Cursor cursor) {
@@ -66,7 +66,7 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
 
     ArrayList<ParticipantData> getParticipantListExcludingSelf() {
         final ArrayList<ParticipantData> retList =
-                new ArrayList<ParticipantData>(mConversationParticipantsMap.size());
+                new ArrayList<>(mConversationParticipantsMap.size());
         for (int i = 0; i < mConversationParticipantsMap.size(); i++) {
             final ParticipantData participant = mConversationParticipantsMap.valueAt(i);
             if (!participant.isSelf()) {
@@ -103,7 +103,7 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
     @NonNull
     @Override
     public Iterator<ParticipantData> iterator() {
-        return new Iterator<ParticipantData>() {
+        return new Iterator<>() {
             private int mCurrentIndex = -1;
 
             @Override
