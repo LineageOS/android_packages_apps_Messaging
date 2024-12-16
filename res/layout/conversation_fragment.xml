@@ -24,14 +24,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="vertical">
         <!-- This FrameLayout will take all available height (excluding media picker)
         but setting height to 0dp causes it not to shrink properly in KK, so a height of match_parent
         works equally well -->
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1" >
             <!-- Message list -->
             <androidx.recyclerview.widget.RecyclerView
