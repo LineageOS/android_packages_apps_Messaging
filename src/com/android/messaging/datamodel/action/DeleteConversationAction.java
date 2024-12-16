@@ -148,13 +148,11 @@ public class DeleteConversationAction extends Action implements Parcelable {
         Assert.notNull(conversationId);
 
         final List<Uri> messageUris = new ArrayList<>();
-        Cursor cursor = null;
-        try {
-            cursor = db.query(DatabaseHelper.MESSAGES_TABLE,
-                    new String[] { MessageColumns.SMS_MESSAGE_URI },
-                    MessageColumns.CONVERSATION_ID + "=?",
-                    new String[] { conversationId },
-                    null, null, null);
+        try (Cursor cursor = db.query(DatabaseHelper.MESSAGES_TABLE,
+                new String[]{MessageColumns.SMS_MESSAGE_URI},
+                MessageColumns.CONVERSATION_ID + "=?",
+                new String[]{conversationId},
+                null, null, null)) {
             while (cursor.moveToNext()) {
                 String messageUri = cursor.getString(0);
                 try {
@@ -163,10 +161,6 @@ public class DeleteConversationAction extends Action implements Parcelable {
                     LogUtil.e(TAG, "DeleteConversationAction: Could not parse message uri "
                             + messageUri);
                 }
-            }
-        } finally {
-            if (cursor != null) {
-                cursor.close();
             }
         }
         for (Uri messageUri : messageUris) {

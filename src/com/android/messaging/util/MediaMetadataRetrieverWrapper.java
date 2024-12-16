@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,17 +38,14 @@ public class MediaMetadataRetrieverWrapper {
 
     public void setDataSource(Uri uri) throws IOException {
         ContentResolver resolver = Factory.get().getApplicationContext().getContentResolver();
-        AssetFileDescriptor fd = resolver.openAssetFileDescriptor(uri, "r");
-        if (fd == null) {
-            throw new IOException("openAssetFileDescriptor returned null for " + uri);
-        }
-        try {
+        try (AssetFileDescriptor fd = resolver.openAssetFileDescriptor(uri, "r")) {
+            if (fd == null) {
+                throw new IOException("openAssetFileDescriptor returned null for " + uri);
+            }
             mRetriever.setDataSource(fd.getFileDescriptor());
         } catch (RuntimeException e) {
             release();
             throw new IOException(e);
-        } finally {
-            fd.close();
         }
     }
 

@@ -1146,15 +1146,13 @@ public abstract class MessageNotificationState extends NotificationState {
     public static void checkFailedMessages() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
-        final Cursor messageDataCursor = db.query(DatabaseHelper.MESSAGES_TABLE,
-            MessageData.getProjection(),
-            FailedMessageQuery.FAILED_MESSAGES_WHERE_CLAUSE,
-            null /*selectionArgs*/,
-            null /*groupBy*/,
-            null /*having*/,
-            FailedMessageQuery.FAILED_ORDER_BY);
-
-        try {
+        try (Cursor messageDataCursor = db.query(DatabaseHelper.MESSAGES_TABLE,
+                MessageData.getProjection(),
+                FailedMessageQuery.FAILED_MESSAGES_WHERE_CLAUSE,
+                null /*selectionArgs*/,
+                null /*groupBy*/,
+                null /*having*/,
+                FailedMessageQuery.FAILED_ORDER_BY)) {
             final Context context = Factory.get().getApplicationContext();
             final Resources resources = context.getResources();
             final NotificationManagerCompat notificationManager =
@@ -1192,8 +1190,8 @@ public abstract class MessageNotificationState extends NotificationState {
                     LogUtil.d(TAG, "Found " + failedMessages.size() + " failed messages");
                 }
                 if (failedMessages.size() > 0) {
-                    final NotificationCompat.Builder builder =
-                            new NotificationCompat.Builder(context,
+                    final Builder builder =
+                            new Builder(context,
                                     NotificationsUtil.DEFAULT_CHANNEL_ID);
 
                     CharSequence line1;
@@ -1204,7 +1202,7 @@ public abstract class MessageNotificationState extends NotificationState {
                     if (failedMessages.size() == 1) {
                         messageDataCursor.moveToPosition(cursorPosition);
                         messageData.bind(messageDataCursor);
-                        final String conversationId =  messageData.getConversationId();
+                        final String conversationId = messageData.getConversationId();
 
                         // We have a single conversation, go directly to that conversation.
                         destinationIntent = UIIntents.get()
@@ -1235,7 +1233,7 @@ public abstract class MessageNotificationState extends NotificationState {
                         // We have notifications for multiple conversation, go to the conversation
                         // list.
                         destinationIntent = UIIntents.get()
-                            .getPendingIntentForConversationListActivity(context);
+                                .getPendingIntentForConversationListActivity(context);
 
                         int line1StringId;
                         int line2PluralsId;
@@ -1266,13 +1264,13 @@ public abstract class MessageNotificationState extends NotificationState {
                                     0);
 
                     builder
-                        .setContentTitle(line1)
-                        .setTicker(line1)
-                        .setWhen(when > 0 ? when : System.currentTimeMillis())
-                        .setSmallIcon(R.drawable.ic_failed_light)
-                        .setDeleteIntent(pendingIntentForDelete)
-                        .setContentIntent(destinationIntent)
-                        .setSound(UriUtil.getUriForResourceId(context, R.raw.message_failure));
+                            .setContentTitle(line1)
+                            .setTicker(line1)
+                            .setWhen(when > 0 ? when : System.currentTimeMillis())
+                            .setSmallIcon(R.drawable.ic_failed_light)
+                            .setDeleteIntent(pendingIntentForDelete)
+                            .setContentIntent(destinationIntent)
+                            .setSound(UriUtil.getUriForResourceId(context, R.raw.message_failure));
                     if (isRichContent && !TextUtils.isEmpty(line2)) {
                         final NotificationCompat.InboxStyle inboxStyle =
                                 new NotificationCompat.InboxStyle(builder);
@@ -1297,10 +1295,6 @@ public abstract class MessageNotificationState extends NotificationState {
                                     PendingIntentConstants.MSG_SEND_ERROR, null),
                             PendingIntentConstants.MSG_SEND_ERROR);
                 }
-            }
-        } finally {
-            if (messageDataCursor != null) {
-                messageDataCursor.close();
             }
         }
     }
