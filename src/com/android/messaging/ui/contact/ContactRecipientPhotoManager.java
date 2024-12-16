@@ -67,7 +67,7 @@ public class ContactRecipientPhotoManager implements PhotoManager {
                     new AvatarRequestDescriptor(avatarUri, mIconSize, mIconSize);
             final BindableMediaRequest<ImageResource> req = descriptor.buildAsyncMediaRequest(
                     mContext,
-                    new MediaResourceLoadListener<ImageResource>() {
+                    new MediaResourceLoadListener<>() {
                 @Override
                 public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
                         final ImageResource resource, final boolean isCached) {

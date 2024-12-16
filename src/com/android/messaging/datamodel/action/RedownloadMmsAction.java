@@ -115,7 +115,7 @@ public class RedownloadMmsAction extends Action implements Parcelable {
     }
 
     public static final Parcelable.Creator<RedownloadMmsAction> CREATOR
-            = new Parcelable.Creator<RedownloadMmsAction>() {
+            = new Parcelable.Creator<>() {
         @Override
         public RedownloadMmsAction createFromParcel(final Parcel in) {
             return new RedownloadMmsAction(in);

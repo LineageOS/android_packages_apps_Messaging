@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,7 +121,7 @@ public class PduComposer {
     private static SimpleArrayMap<String, Integer> mContentTypeMap = null;
 
     static {
-        mContentTypeMap = new SimpleArrayMap<String, Integer>();
+        mContentTypeMap = new SimpleArrayMap<>();
 
         int i;
         for (i = 0; i < PduContentTypes.contentTypes.length; i++) {

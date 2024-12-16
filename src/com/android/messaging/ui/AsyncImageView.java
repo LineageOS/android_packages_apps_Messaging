@@ -417,7 +417,7 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
         private final HashSet<AsyncImageView> mAttachedViews;
 
         public AsyncImageViewDelayLoader() {
-            mAttachedViews = new HashSet<AsyncImageView>();
+            mAttachedViews = new HashSet<>();
         }
 
         private void registerView(final AsyncImageView view) {

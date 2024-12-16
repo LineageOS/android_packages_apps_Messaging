@@ -163,7 +163,7 @@ public class MmsSmsUtils {
          * messages.
          */
         public static long getOrCreateThreadId(final Context context, final String recipient) {
-            final Set<String> recipients = new HashSet<String>();
+            final Set<String> recipients = new HashSet<>();
 
             recipients.add(recipient);
             return getOrCreateThreadId(context, recipients);

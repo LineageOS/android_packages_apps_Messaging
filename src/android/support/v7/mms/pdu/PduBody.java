@@ -34,12 +34,12 @@ public class PduBody {
      * Constructor.
      */
     public PduBody() {
-        mParts = new Vector<PduPart>();
+        mParts = new Vector<>();
 
-        mPartMapByContentId = new HashMap<String, PduPart>();
-        mPartMapByContentLocation  = new HashMap<String, PduPart>();
-        mPartMapByName = new HashMap<String, PduPart>();
-        mPartMapByFileName = new HashMap<String, PduPart>();
+        mPartMapByContentId = new HashMap<>();
+        mPartMapByContentLocation  = new HashMap<>();
+        mPartMapByName = new HashMap<>();
+        mPartMapByFileName = new HashMap<>();
     }
 
     private void putPartToMaps(PduPart part) {

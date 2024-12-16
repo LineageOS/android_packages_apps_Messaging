@@ -65,7 +65,7 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
         URI_MATCHER.addURI("mms-sms", "conversations",   MMS_CONVERSATION);
         URI_MATCHER.addURI("mms-sms", "conversations/#", MMS_CONVERSATION_ID);
 
-        MATCH_TO_MSGBOX_ID_MAP = new SparseArray<Integer>();
+        MATCH_TO_MSGBOX_ID_MAP = new SparseArray<>();
         MATCH_TO_MSGBOX_ID_MAP.put(MMS_INBOX,  Mms.MESSAGE_BOX_INBOX);
         MATCH_TO_MSGBOX_ID_MAP.put(MMS_SENT,   Mms.MESSAGE_BOX_SENT);
         MATCH_TO_MSGBOX_ID_MAP.put(MMS_DRAFTS, Mms.MESSAGE_BOX_DRAFTS);
@@ -77,9 +77,9 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
     private final HashSet<Uri> mUpdating;
 
     private PduCache() {
-        mMessageBoxes = new SparseArray<HashSet<Uri>>();
-        mThreads = new SimpleArrayMap<Long, HashSet<Uri>>();
-        mUpdating = new HashSet<Uri>();
+        mMessageBoxes = new SparseArray<>();
+        mThreads = new SimpleArrayMap<>();
+        mUpdating = new HashSet<>();
     }
 
     public static synchronized PduCache getInstance() {
@@ -97,14 +97,14 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
         int msgBoxId = entry.getMessageBox();
         HashSet<Uri> msgBox = mMessageBoxes.get(msgBoxId);
         if (msgBox == null) {
-            msgBox = new HashSet<Uri>();
+            msgBox = new HashSet<>();
             mMessageBoxes.put(msgBoxId, msgBox);
         }
 
         long threadId = entry.getThreadId();
         HashSet<Uri> thread = mThreads.get(threadId);
         if (thread == null) {
-            thread = new HashSet<Uri>();
+            thread = new HashSet<>();
             mThreads.put(threadId, thread);
         }
 

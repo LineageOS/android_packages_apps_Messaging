@@ -117,9 +117,9 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
 
     public DraftMessageData(final String conversationId) {
         mConversationId = conversationId;
-        mAttachments = new ArrayList<MessagePartData>();
+        mAttachments = new ArrayList<>();
         mReadOnlyAttachments = Collections.unmodifiableList(mAttachments);
-        mPendingAttachments = new ArrayList<PendingAttachmentData>();
+        mPendingAttachments = new ArrayList<>();
         mReadOnlyPendingAttachments = Collections.unmodifiableList(mPendingAttachments);
         mListeners = new DraftMessageDataEventDispatcher();
         mMessageTextStats = new MessageTextStats();
@@ -773,7 +773,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
             mBindingId = binding.getBindingId();
             // Obtain an immutable copy of the attachment list so we can operate on it in the
             // background thread.
-            mAttachmentsCopy = new ArrayList<MessagePartData>(mAttachments);
+            mAttachmentsCopy = new ArrayList<>(mAttachments);
 
             mCheckDraftForSendTask = this;
         }

@@ -119,8 +119,7 @@ public class BugleNotifications {
 
     private static final String WEARABLE_COMPANION_APP_PACKAGE = "com.google.android.wearable.app";
 
-    private static final Set<NotificationState> sPendingNotifications =
-            new HashSet<NotificationState>();
+    private static final Set<NotificationState> sPendingNotifications = new HashSet<>();
 
     private static int sWearableImageWidth;
     private static int sWearableImageHeight;
@@ -134,8 +133,7 @@ public class BugleNotifications {
     // sLastMessageDingTime is a map between a conversation id and a time. It's used to keep track
     // of the time we last dinged a message for this conversation. When messages are coming in
     // at flurry, we don't want to over-ding the user.
-    private static final SimpleArrayMap<String, Long> sLastMessageDingTime =
-            new SimpleArrayMap<String, Long>();
+    private static final SimpleArrayMap<String, Long> sLastMessageDingTime = new SimpleArrayMap<>();
     private static int sTimeBetweenDingsMs;
 
     /**
