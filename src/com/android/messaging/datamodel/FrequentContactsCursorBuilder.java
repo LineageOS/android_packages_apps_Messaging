@@ -86,8 +86,7 @@ public class FrequentContactsCursorBuilder {
 
             // First, go through the frequents cursor and take note of all lookup keys and their
             // corresponding rank in the frequents list.
-            final SimpleArrayMap<String, Integer> lookupKeyToRankMap =
-                    new SimpleArrayMap<String, Integer>();
+            final SimpleArrayMap<String, Integer> lookupKeyToRankMap = new SimpleArrayMap<>();
             int oldPosition = mFrequentContactsCursor.getPosition();
             int rank = 0;
             mFrequentContactsCursor.moveToPosition(-1);
@@ -102,8 +101,7 @@ public class FrequentContactsCursorBuilder {
             // (multiple phone numbers etc.) and store that in an array list. Since the all
             // contacts list only contains phone contacts, this step will ensure that we filter
             // out any invalid/email contacts in the frequents list.
-            final ArrayList<Object[]> rows =
-                    new ArrayList<Object[]>(mFrequentContactsCursor.getCount());
+            final ArrayList<Object[]> rows = new ArrayList<>(mFrequentContactsCursor.getCount());
             oldPosition = mAllContactsCursor.getPosition();
             mAllContactsCursor.moveToPosition(-1);
             while (mAllContactsCursor.moveToNext()) {

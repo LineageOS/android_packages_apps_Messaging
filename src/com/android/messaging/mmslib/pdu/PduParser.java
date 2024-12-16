@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2007-2008 Esmertec AG.
  * Copyright (C) 2007-2008 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -811,7 +812,7 @@ public class PduParser {
                 }
 
                 case PduHeaders.CONTENT_TYPE: {
-                    SparseArray<Object> map = new SparseArray<Object>();
+                    SparseArray<Object> map = new SparseArray<>();
                     byte[] contentType =
                             parseContentType(pduDataStream, map);
 
@@ -882,7 +883,7 @@ public class PduParser {
             }
 
             /* parse part's content-type */
-            SparseArray<Object> map = new SparseArray<Object>();
+            SparseArray<Object> map = new SparseArray<>();
             byte[] contentType = parseContentType(pduDataStream, map);
             if (null != contentType) {
                 part.setContentType(contentType);

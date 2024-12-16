@@ -173,7 +173,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
 
     public MediaPicker(final Context context) {
         mBinding.bind(DataModel.get().createMediaPickerData(context));
-        mEnabledChoosers = new ArrayList<MediaChooser>();
+        mEnabledChoosers = new ArrayList<>();
         mChoosers = new MediaChooser[] {
             new CameraMediaChooser(this),
             new GalleryMediaChooser(this),
@@ -432,7 +432,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         }
         final MediaChooser[] enabledChoosers = new MediaChooser[mEnabledChoosers.size()];
         mEnabledChoosers.toArray(enabledChoosers);
-        mPagerAdapter = new FixedViewPagerAdapter<MediaChooser>(enabledChoosers);
+        mPagerAdapter = new FixedViewPagerAdapter<>(enabledChoosers);
         if (mViewPager != null) {
             mViewPager.setAdapter(mPagerAdapter);
         }
@@ -574,7 +574,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     }
 
     void dispatchItemsSelected(final MessagePartData item, final boolean dismissMediaPicker) {
-        final List<MessagePartData> items = new ArrayList<MessagePartData>(1);
+        final List<MessagePartData> items = new ArrayList<>(1);
         items.add(item);
         dispatchItemsSelected(items, dismissMediaPicker);
     }

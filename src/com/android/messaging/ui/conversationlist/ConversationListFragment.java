@@ -385,7 +385,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
 
     @Override
     public List<SnackBarInteraction> getSnackBarInteractions() {
-        final List<SnackBarInteraction> interactions = new ArrayList<SnackBarInteraction>(1);
+        final List<SnackBarInteraction> interactions = new ArrayList<>(1);
         final SnackBarInteraction fabInteraction =
                 new SnackBarInteraction.BasicSnackBarInteraction(mStartNewConversationButton);
         interactions.add(fabInteraction);

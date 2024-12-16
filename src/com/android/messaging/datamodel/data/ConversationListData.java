@@ -81,7 +81,7 @@ public class ConversationListData extends BindableData
     private static final int INDEX_BLOCKED_PARTICIPANTS_NORMALIZED_DESTINATION = 1;
 
     // all blocked participants
-    private final HashSet<String> mBlockedParticipants = new HashSet<String>();
+    private final HashSet<String> mBlockedParticipants = new HashSet<>();
 
     @NonNull
     @Override

@@ -62,7 +62,7 @@ public class SmsSender {
      * A map for pending sms messages. The key is the random request UUID.
      */
     private static final ConcurrentHashMap<Uri, SendResult> sPendingMessageMap =
-            new ConcurrentHashMap<Uri, SendResult>();
+            new ConcurrentHashMap<>();
 
     private static final Random RANDOM = new Random();
 
@@ -256,8 +256,8 @@ public class SmsSender {
         Assert.notNull(context);
         final SmsManager smsManager = PhoneUtils.get(subId).getSmsManager();
         final int messageCount = messages.size();
-        final ArrayList<PendingIntent> deliveryIntents = new ArrayList<PendingIntent>(messageCount);
-        final ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>(messageCount);
+        final ArrayList<PendingIntent> deliveryIntents = new ArrayList<>(messageCount);
+        final ArrayList<PendingIntent> sentIntents = new ArrayList<>(messageCount);
         for (int i = 0; i < messageCount; i++) {
             // Make pending intents different for each message part
             final int partId = (messageCount <= 1 ? 0 : i + 1);
