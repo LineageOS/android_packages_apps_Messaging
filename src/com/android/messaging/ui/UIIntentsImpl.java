@@ -16,7 +16,6 @@
 package com.android.messaging.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.PendingIntent;
 import android.app.role.RoleManager;
 import android.appwidget.AppWidgetManager;
@@ -35,6 +34,7 @@ import android.provider.MediaStore;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
+import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
