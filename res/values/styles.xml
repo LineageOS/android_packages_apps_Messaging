@@ -644,4 +644,13 @@
         <item name="android:background">@color/window_background</item>
         <item name="dialogCornerRadius">28dp</item>
     </style>
+
+    <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
+    </style>
+
+    <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+
 </resources>
