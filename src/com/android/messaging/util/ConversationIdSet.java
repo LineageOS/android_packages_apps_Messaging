@@ -21,7 +21,7 @@ import java.util.HashSet;
 
 /**
  * Utility class to make it easy to store multiple conversation id strings in a single string
- * with delimeters.
+ * with delimiters.
  */
 public class ConversationIdSet extends HashSet<String> {
     private static final String JOIN_DELIMITER = "|";

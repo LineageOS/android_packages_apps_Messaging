@@ -52,7 +52,7 @@ public class FrequentContactsCursorQueryData extends CursorQueryData {
 
         private abstract class StrequentContactsQueryStrategy implements Strategy<Void, Cursor> {
             @Override
-            public Cursor execute(Void params) throws Exception {
+            public Cursor execute(Void params) {
                 final Uri uri = getUri();
                 if (uri != null) {
                     setUri(uri);
