@@ -238,43 +238,6 @@ public class EncodedStringValue implements Cloneable {
         return ret;
     }
 
-    /**
-     * Extract an EncodedStringValue[] from a given String.
-     */
-    public static EncodedStringValue[] extract(String src) {
-        String[] values = src.split(";");
-
-        ArrayList<EncodedStringValue> list = new ArrayList<>();
-        for (int i = 0; i < values.length; i++) {
-            if (values[i].length() > 0) {
-                list.add(new EncodedStringValue(values[i]));
-            }
-        }
-
-        int len = list.size();
-        if (len > 0) {
-            return list.toArray(new EncodedStringValue[len]);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * Concatenate an EncodedStringValue[] into a single String.
-     */
-    public static String concat(EncodedStringValue[] addr) {
-        StringBuilder sb = new StringBuilder();
-        int maxIndex = addr.length - 1;
-        for (int i = 0; i <= maxIndex; i++) {
-            sb.append(addr[i].getString());
-            if (i < maxIndex) {
-                sb.append(";");
-            }
-        }
-
-        return sb.toString();
-    }
-
     public static EncodedStringValue copy(EncodedStringValue value) {
         if (value == null) {
             return null;

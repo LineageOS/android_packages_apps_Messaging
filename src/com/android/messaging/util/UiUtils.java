@@ -34,7 +34,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.Gravity;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.OnLayoutChangeListener;
 import android.view.animation.Animation;
@@ -61,10 +60,6 @@ public class UiUtils {
     public static final int MEDIAPICKER_TRANSITION_DURATION =
             getApplicationContext().getResources().getInteger(
                     R.integer.mediapicker_transition_duration);
-    /** Short transition duration in ms */
-    public static final int ASYNCIMAGE_TRANSITION_DURATION =
-            getApplicationContext().getResources().getInteger(
-                    R.integer.asyncimage_transition_duration);
     /** Compose transition duration in ms */
     public static final int COMPOSE_TRANSITION_DURATION =
             getApplicationContext().getResources().getInteger(
@@ -271,34 +266,6 @@ public class UiUtils {
                 Color.rgb(blendedRed, blendedGreen, blendedBlue));
     }
 
-    public static void lockOrientation(final Activity activity) {
-        final int orientation = activity.getResources().getConfiguration().orientation;
-        final int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-
-        // rotation tracks the rotation of the device from its natural orientation
-        // orientation tracks whether the screen is landscape or portrait.
-        // It is possible to have a rotation of 0 (device in its natural orientation) in portrait
-        // (phone), or in landscape (tablet), so we have to check both values to determine what to
-        // pass to setRequestedOrientation.
-        if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_90) {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            }
-        } else if (rotation == Surface.ROTATION_180 || rotation == Surface.ROTATION_270) {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-            }
-        }
-    }
-
-    public static void unlockOrientation(final Activity activity) {
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-    }
-
     public static boolean isRtlMode() {
         return Factory.get().getApplicationContext().getResources()
                 .getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
@@ -347,67 +314,6 @@ public class UiUtils {
 
         // Is the default sms app?
         return phoneUtils.isDefaultSmsApp();
-    }
-
-    /*
-     * Removes all html markup from the text and replaces links with the the text and a text version
-     * of the href.
-     * @param htmlText HTML markup text
-     * @return Sanitized string with link hrefs inlined
-     */
-    public static String stripHtml(final String htmlText) {
-        final StringBuilder result = new StringBuilder();
-        final Spanned markup = Html.fromHtml(htmlText);
-        final String strippedText = markup.toString();
-
-        final URLSpan[] links = markup.getSpans(0, markup.length() - 1, URLSpan.class);
-        int currentIndex = 0;
-        for (final URLSpan link : links) {
-            final int spanStart = markup.getSpanStart(link);
-            final int spanEnd = markup.getSpanEnd(link);
-            if (spanStart > currentIndex) {
-                result.append(strippedText, currentIndex, spanStart);
-            }
-            final String displayText = strippedText.substring(spanStart, spanEnd);
-            final String linkText = link.getURL();
-            result.append(getApplicationContext().getString(R.string.link_display_format,
-                    displayText, linkText));
-            currentIndex = spanEnd;
-        }
-        if (strippedText.length() > currentIndex) {
-            result.append(strippedText, currentIndex, strippedText.length());
-        }
-        return result.toString();
-    }
-
-    public static void setActionBarShadowVisibility(final AppCompatActivity activity, final boolean visible) {
-        final ActionBar actionBar = activity.getSupportActionBar();
-        actionBar.setElevation(visible ?
-                activity.getResources().getDimensionPixelSize(R.dimen.action_bar_elevation) :
-                0);
-        final View actionBarView = activity.getWindow().getDecorView().findViewById(
-                androidx.appcompat.R.id.decor_content_parent);
-        if (actionBarView != null) {
-            // AppCompatActionBar has one drawable Field, which is the shadow for the action bar
-            // set the alpha on that drawable manually
-            final Field[] fields = actionBarView.getClass().getDeclaredFields();
-            try {
-                for (final Field field : fields) {
-                    if (field.getType().equals(Drawable.class)) {
-                        field.setAccessible(true);
-                        final Drawable shadowDrawable = (Drawable) field.get(actionBarView);
-                        if (shadowDrawable != null) {
-                            shadowDrawable.setAlpha(visible ? 255 : 0);
-                            actionBarView.invalidate();
-                            return;
-                        }
-                    }
-                }
-            } catch (final IllegalAccessException ex) {
-                // Not expected, we should avoid this via field.setAccessible(true) above
-                LogUtil.e(LogUtil.BUGLE_TAG, "Error setting shadow visibility", ex);
-            }
-        }
     }
 
     /**

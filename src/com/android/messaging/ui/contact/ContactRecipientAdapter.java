@@ -68,15 +68,14 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
      */
     private static final int ENTRY_TYPE_DIRECTORY = RecipientEntry.ENTRY_TYPE_SIZE;
 
-    public ContactRecipientAdapter(final Context context,
-            final ContactListItemView.HostInterface clivHost) {
-        this(context, Integer.MAX_VALUE, QUERY_TYPE_PHONE, clivHost);
+    public ContactRecipientAdapter(final Context context) {
+        this(context, Integer.MAX_VALUE, QUERY_TYPE_PHONE);
     }
 
     public ContactRecipientAdapter(final Context context, final int preferredMaxResultCount,
-            final int queryMode, final ContactListItemView.HostInterface clivHost) {
+            final int queryMode) {
         super(context, preferredMaxResultCount, queryMode);
-        setPhotoManager(new ContactRecipientPhotoManager(context, clivHost));
+        setPhotoManager(new ContactRecipientPhotoManager(context));
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 

@@ -169,15 +169,6 @@ public class ImageUtils {
     }
 
     /**
-     * Sets a drawable to the background of a view. setBackgroundDrawable() is deprecated since
-     * JB and replaced by setBackground().
-     */
-    @SuppressWarnings("deprecation")
-    public static void setBackgroundDrawableOnView(final View view, final Drawable drawable) {
-        view.setBackground(drawable);
-    }
-
-    /**
      * Based on the input bitmap bounds given by BitmapFactory.Options, compute the required
      * sub-sampling size for loading a scaled down version of the bitmap to the required size
      * @param options a BitmapFactory.Options instance containing the bounds info of the bitmap

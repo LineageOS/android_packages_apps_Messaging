@@ -235,26 +235,6 @@ public class ConversationInputManager implements ConversationInput.ConversationI
         return false;
     }
 
-    @VisibleForTesting
-    boolean isMediaPickerVisible() {
-        return mMediaInput.mShowing;
-    }
-
-    @VisibleForTesting
-    boolean isSimSelectorVisible() {
-        return mSimInput.mShowing;
-    }
-
-    @VisibleForTesting
-    boolean isImeKeyboardVisible() {
-        return mImeInput.mShowing;
-    }
-
-    @VisibleForTesting
-    void testNotifyImeStateChanged(final boolean imeOpen) {
-        mImeStateObserver.onImeStateChanged(imeOpen);
-    }
-
     /**
      * returns true if the state of the visibility was actually changed
      */

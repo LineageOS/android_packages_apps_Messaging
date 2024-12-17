@@ -116,7 +116,6 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         MmsManager.setApnSettingsLoader(new BugleApnSettingsLoader(context));
         MmsManager.setCarrierConfigValuesLoader(carrierConfigValuesLoader);
         MmsManager.setUserAgentInfoLoader(new BugleUserAgentInfoLoader(context));
-        MmsManager.setUseWakeLock(true);
     }
 
     public static void updateAppConfig(final Context context) {
