@@ -58,29 +58,18 @@ public final class ContentType {
     public static final String IMAGE_PNG         = "image/png";
     public static final String IMAGE_X_MS_BMP    = "image/x-ms-bmp";
 
-    public static final String AUDIO_UNSPECIFIED = "audio/*";
     public static final String AUDIO_AAC         = "audio/aac";
     public static final String AUDIO_AMR         = "audio/amr";
-    public static final String AUDIO_IMELODY     = "audio/imelody";
     public static final String AUDIO_MID         = "audio/mid";
     public static final String AUDIO_MIDI        = "audio/midi";
     public static final String AUDIO_MP3         = "audio/mp3";
-    public static final String AUDIO_MPEG3       = "audio/mpeg3";
-    public static final String AUDIO_MPEG        = "audio/mpeg";
-    public static final String AUDIO_MPG         = "audio/mpg";
     public static final String AUDIO_MP4         = "audio/mp4";
-    public static final String AUDIO_MP4_LATM    = "audio/mp4-latm";
     public static final String AUDIO_X_MID       = "audio/x-mid";
     public static final String AUDIO_X_MIDI      = "audio/x-midi";
     public static final String AUDIO_X_MP3       = "audio/x-mp3";
-    public static final String AUDIO_X_MPEG3     = "audio/x-mpeg3";
-    public static final String AUDIO_X_MPEG      = "audio/x-mpeg";
-    public static final String AUDIO_X_MPG       = "audio/x-mpg";
     public static final String AUDIO_3GPP        = "audio/3gpp";
     public static final String AUDIO_X_WAV       = "audio/x-wav";
     public static final String AUDIO_OGG         = "application/ogg";
-
-    public static final String MULTIPART_MIXED = "multipart/mixed";
 
     public static final String VIDEO_UNSPECIFIED = "video/*";
     public static final String VIDEO_3GP         = "video/3gp";
@@ -95,10 +84,6 @@ public final class ContentType {
 
     public static final String APP_SMIL          = "application/smil";
     public static final String APP_WAP_XHTML     = "application/vnd.wap.xhtml+xml";
-    public static final String APP_XHTML         = "application/xhtml+xml";
-
-    public static final String APP_DRM_CONTENT   = "application/vnd.oma.drm.content";
-    public static final String APP_DRM_MESSAGE   = "application/vnd.oma.drm.message";
 
     // This class should never be instantiated.
     private ContentType() {
@@ -134,16 +119,6 @@ public final class ContentType {
         return (null != contentType)
                 && (contentType.equalsIgnoreCase(TEXT_X_VCARD)
                         || contentType.equalsIgnoreCase(TEXT_VCARD));
-    }
-
-    public static boolean isDrmType(final String contentType) {
-        return (null != contentType)
-                && (contentType.equals(APP_DRM_CONTENT)
-                        || contentType.equals(APP_DRM_MESSAGE));
-    }
-
-    public static boolean isUnspecified(final String contentType) {
-        return (null != contentType) && contentType.endsWith("*");
     }
 
     /**

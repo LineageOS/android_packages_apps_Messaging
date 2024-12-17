@@ -23,18 +23,4 @@ public class PendingIntentConstants {
     public static final int SMS_NOTIFICATION_ID = 0;
     public static final int SMS_SECONDARY_USER_NOTIFICATION_ID = 1;
     public static final int MSG_SEND_ERROR = 2;
-
-    // Request codes
-    public static final int UPDATE_NOTIFICATIONS_ALARM_ACTION_ID = 100;
-
-    public static final int MIN_ASSIGNED_REQUEST_CODE = 1001;
-
-    // Logging
-    private static final String TAG = LogUtil.BUGLE_TAG;
-    private static final boolean VERBOSE = false;
-
-    // Internal Constants
-    private static final String NOTIFICATION_REQUEST_CODE_PREFS = "notificationRequestCodes.v1";
-    private static final String REQUEST_CODE_DELIMITER = "|";
-    private static final String MAX_REQUEST_CODE_KEY = "maxRequestCode";
 }

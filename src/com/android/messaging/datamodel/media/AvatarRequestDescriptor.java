@@ -25,7 +25,6 @@ import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.UriUtil;
 
 public class AvatarRequestDescriptor extends UriImageRequestDescriptor {
-    final boolean isWearBackground;
 
     public AvatarRequestDescriptor(final Uri uri, final int desiredWidth,
             final int desiredHeight) {
@@ -45,7 +44,6 @@ public class AvatarRequestDescriptor extends UriImageRequestDescriptor {
                 ImageUtils.DEFAULT_CIRCLE_STROKE_COLOR /* circleStrokeColor */);
         Assert.isTrue(uri == null || UriUtil.isLocalResourceUri(uri) ||
                 AvatarUriUtil.isAvatarUri(uri));
-        this.isWearBackground = isWearBackground;
     }
 
     @Override

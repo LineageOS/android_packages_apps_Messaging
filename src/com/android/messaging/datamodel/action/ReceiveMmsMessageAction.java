@@ -28,7 +28,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.datamodel.DataModelException;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.SyncManager;
@@ -161,7 +160,7 @@ public class ReceiveMmsMessageAction extends Action implements Parcelable {
     }
 
     @Override
-    protected Bundle doBackgroundWork() throws DataModelException {
+    protected Bundle doBackgroundWork() {
         final Context context = Factory.get().getApplicationContext();
         final int subId = actionParameters.getInt(KEY_SUB_ID, ParticipantData.DEFAULT_SELF_SUB_ID);
         final String transactionId = actionParameters.getString(KEY_TRANSACTION_ID);

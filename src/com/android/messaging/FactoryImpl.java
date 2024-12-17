@@ -57,7 +57,6 @@ class FactoryImpl extends Factory {
     private MediaResourceManager mMediaResourceManager;
     private MediaCacheManager mMediaCacheManager;
     private ContactContentObserver mContactContentObserver;
-    private PhoneUtils mPhoneUtils;
     private MediaUtil mMediaUtil;
     private SparseArray<BugleSubscriptionPrefs> mSubscriptionPrefs;
     private BugleCarrierConfigValuesLoader mCarrierConfigValuesLoader;

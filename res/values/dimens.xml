@@ -116,7 +116,6 @@
 
     <dimen name="vcard_detail_group_indicator_width">40dp</dimen>
     <dimen name="mms_indicator_size">12sp</dimen>
-    <dimen name="conversation_fast_fling_threshold">10dp</dimen>
     <dimen name="list_empty_text_size">14sp</dimen>
     <dimen name="list_empty_text_top_margin">20dp</dimen>
     <dimen name="list_empty_text_left_right_margin">60dp</dimen>

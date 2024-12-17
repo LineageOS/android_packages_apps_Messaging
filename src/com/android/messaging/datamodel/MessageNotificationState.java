@@ -1102,29 +1102,6 @@ public abstract class MessageNotificationState extends NotificationState {
         }
     }
 
-    /*
-    private static void updateAlertStatusMessages(final long thresholdDeltaMs) {
-        // TODO may need this when supporting error notifications
-        final EsDatabaseHelper helper = EsDatabaseHelper.getDatabaseHelper();
-        final ContentValues values = new ContentValues();
-        final long nowMicros = System.currentTimeMillis() * 1000;
-        values.put(MessageColumns.ALERT_STATUS, "1");
-        final String selection =
-                MessageColumns.ALERT_STATUS + "=0 AND (" +
-                MessageColumns.STATUS + "=" + EsProvider.MESSAGE_STATUS_FAILED_TO_SEND + " OR (" +
-                MessageColumns.STATUS + "!=" + EsProvider.MESSAGE_STATUS_ON_SERVER + " AND " +
-                MessageColumns.TIMESTAMP + "+" + thresholdDeltaMs*1000 + "<" + nowMicros + ")) ";
-
-        final int updateCount = helper.getWritableDatabaseWrapper().update(
-                EsProvider.MESSAGES_TABLE,
-                values,
-                selection,
-                null);
-        if (updateCount > 0) {
-            EsConversationsData.notifyConversationsChanged();
-        }
-    }*/
-
     static CharSequence applyWarningTextColor(final Context context,
             final CharSequence text) {
         if (text == null) {
@@ -1166,7 +1143,6 @@ public abstract class MessageNotificationState extends NotificationState {
                 final ArrayList<Integer> failedMessages = new ArrayList<>();
 
                 int cursorPosition = -1;
-                final long when = 0;
 
                 messageDataCursor.moveToPosition(-1);
                 while (messageDataCursor.moveToNext()) {
@@ -1195,7 +1171,6 @@ public abstract class MessageNotificationState extends NotificationState {
 
                     CharSequence line1;
                     CharSequence line2;
-                    final boolean isRichContent = false;
                     ConversationIdSet conversationIds = null;
                     PendingIntent destinationIntent;
                     if (failedMessages.size() == 1) {
@@ -1222,12 +1197,6 @@ public abstract class MessageNotificationState extends NotificationState {
                         }
                         line1 = resources.getString(failureStringId);
                         line2 = failedMessgeSnippet;
-                        // Set rich text for non-SMS messages or MMS push notification messages
-                        // which we generate locally with rich text
-                        // TODO- fix this
-//                        if (messageData.isMmsInd()) {
-//                            isRichContent = true;
-//                        }
                     } else {
                         // We have notifications for multiple conversation, go to the conversation
                         // list.
@@ -1265,29 +1234,18 @@ public abstract class MessageNotificationState extends NotificationState {
                     builder
                             .setContentTitle(line1)
                             .setTicker(line1)
-                            .setWhen(when > 0 ? when : System.currentTimeMillis())
+                            .setWhen(System.currentTimeMillis())
                             .setSmallIcon(R.drawable.ic_failed_light)
                             .setDeleteIntent(pendingIntentForDelete)
                             .setContentIntent(destinationIntent)
                             .setSound(UriUtil.getUriForResourceId(context, R.raw.message_failure));
-                    if (isRichContent && !TextUtils.isEmpty(line2)) {
-                        final NotificationCompat.InboxStyle inboxStyle =
-                                new NotificationCompat.InboxStyle(builder);
-                        if (line2 != null) {
-                            inboxStyle.addLine(Html.fromHtml(line2.toString()));
-                        }
-                        builder.setStyle(inboxStyle);
-                    } else {
-                        builder.setContentText(line2);
-                    }
+                    builder.setContentText(line2);
 
-                    if (builder != null) {
-                        notificationManager.notify(
-                                BugleNotifications.buildNotificationTag(
-                                        PendingIntentConstants.MSG_SEND_ERROR, null),
-                                PendingIntentConstants.MSG_SEND_ERROR,
-                                builder.build());
-                    }
+                    notificationManager.notify(
+                            BugleNotifications.buildNotificationTag(
+                                    PendingIntentConstants.MSG_SEND_ERROR, null),
+                            PendingIntentConstants.MSG_SEND_ERROR,
+                            builder.build());
                 } else {
                     notificationManager.cancel(
                             BugleNotifications.buildNotificationTag(
