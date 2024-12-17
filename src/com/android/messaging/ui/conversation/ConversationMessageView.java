@@ -737,7 +737,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 R.dimen.message_metadata_top_padding);
 
         // Update the message text/info views
-        ImageUtils.setBackgroundDrawableOnView(mMessageTextAndInfoView, textBackground);
+        mMessageTextAndInfoView.setBackground(textBackground);
         mMessageTextAndInfoView.setMinimumHeight(textMinHeight);
         final LinearLayout.LayoutParams textAndInfoLayoutParams =
                 (LinearLayout.LayoutParams) mMessageTextAndInfoView.getLayoutParams();

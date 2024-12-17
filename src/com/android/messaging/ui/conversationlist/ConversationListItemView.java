@@ -79,8 +79,6 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
     private static String sPlusOneString;
     private static String sPlusNString;
 
-    private static final int SWIPE_DIRECTION_RIGHT = 2;
-
     public interface HostInterface {
         boolean isConversationSelected(final String conversationId);
         void onConversationClicked(final ConversationListItemData conversationListItemData,

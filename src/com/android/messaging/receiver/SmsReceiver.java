@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.BugleNotifications;
-import com.android.messaging.datamodel.MessageNotificationState;
 import com.android.messaging.datamodel.NoConfirmationSmsSendService;
 import com.android.messaging.datamodel.action.ReceiveSmsMessageAction;
 import com.android.messaging.sms.MmsUtils;
@@ -161,17 +160,6 @@ public final class SmsReceiver extends BroadcastReceiver {
                             "android.provider.Telephony.MMS_DOWNLOADED".equals(action))) {
                 postNewMessageSecondaryUserNotification();
             }
-        }
-    }
-
-    private static class SecondaryUserNotificationState extends MessageNotificationState {
-        SecondaryUserNotificationState() {
-            super(null);
-        }
-
-        @Override
-        protected Style build(Builder builder) {
-            return null;
         }
     }
 

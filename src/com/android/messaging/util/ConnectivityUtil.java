@@ -45,10 +45,6 @@ public class ConnectivityUtil {
                         .createForSubscriptionId(subId);
     }
 
-    public int getCurrentServiceState() {
-        return mCurrentServiceState;
-    }
-
     private final PhoneStateListener mPhoneStateListener = new PhoneStateListener() {
         @Override
         public void onServiceStateChanged(final ServiceState serviceState) {

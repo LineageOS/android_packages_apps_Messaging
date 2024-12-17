@@ -46,17 +46,7 @@
     <string name="wireless_alerts_key" translatable="false">buglesub_wireless_alerts_key</string>
     <string name="apn_list_pref_key" translatable="false">buglesub_apn_list</string>
 
-    <!-- SMS/MMS settings keys -->
-    <!--
-    TODO: Several of these are currently unused but are expected to be needed to
-    implement SMS/MMS delivery and basic settings. Once we have the core functionality in place
-    we should do a pass to remove any unused values here.
-    -->
-    <string name="use_local_apn_pref_key" translatable="false">use_local_apn_pref_key</string>
-    <bool name="use_local_apn_pref_default" translatable="false">false</bool>
-
     <integer name="mediapicker_transition_duration">600</integer><!-- ms -->
-    <integer name="asyncimage_transition_duration">300</integer><!-- ms -->
     <integer name="compose_transition_duration">300</integer><!-- ms -->
     <integer name="camera_shutter_duration">200</integer><!-- ms -->
     <fraction name="camera_shutter_max_alpha">70%</fraction>

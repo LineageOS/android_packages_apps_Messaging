@@ -20,7 +20,6 @@ package com.android.messaging.sms;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -732,32 +731,6 @@ public class DatabaseMessages {
             } finally {
                 retriever.release();
             }
-        }
-
-        /**
-         * Get media file size
-         */
-        private long getMediaFileSize() {
-            final Context context = Factory.get().getApplicationContext();
-            final Uri uri = getDataUri();
-            AssetFileDescriptor fd = null;
-            try {
-                fd = context.getContentResolver().openAssetFileDescriptor(uri, "r");
-                if (fd != null) {
-                    return fd.getParcelFileDescriptor().getStatSize();
-                }
-            } catch (final FileNotFoundException e) {
-                LogUtil.e(TAG, "DatabaseMessages.MmsPart: cound not find media file: " + e, e);
-            } finally {
-                if (fd != null) {
-                    try {
-                        fd.close();
-                    } catch (final IOException e) {
-                        LogUtil.e(TAG, "DatabaseMessages.MmsPart: failed to close " + e, e);
-                    }
-                }
-            }
-            return 0L;
         }
 
         /**
