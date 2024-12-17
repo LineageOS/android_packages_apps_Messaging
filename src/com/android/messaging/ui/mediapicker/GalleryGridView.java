@@ -277,7 +277,7 @@ public class GalleryGridView extends MediaPickerGridView implements
 
         private SavedState(final Parcel in) {
             super(in);
-            isMultiSelectMode = in.readInt() == 1 ? true : false;
+            isMultiSelectMode = in.readInt() == 1;
 
             // Read parts
             final int partCount = in.readInt();

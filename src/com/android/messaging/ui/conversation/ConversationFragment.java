@@ -300,67 +300,67 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
             final ConversationMessageData data = mSelectedMessage.getData();
             final String messageId = data.getMessageId();
-            switch (menuItem.getItemId()) {
-                case R.id.save_attachment:
-                    if (OsUtil.hasStoragePermission()) {
-                        final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
-                                getActivity());
-                        for (final MessagePartData part : data.getAttachments()) {
-                            saveAttachmentTask.addAttachmentToSave(part.getContentUri(),
-                                    part.getContentType());
-                        }
-                        if (saveAttachmentTask.getAttachmentCount() > 0) {
-                            saveAttachmentTask.executeOnThreadPool();
-                            mHost.dismissActionMode();
-                        }
-                    } else {
-                        getActivity().requestPermissions(
-                                new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.save_attachment) {
+                if (OsUtil.hasStoragePermission()) {
+                    final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
+                            getActivity());
+                    for (final MessagePartData part : data.getAttachments()) {
+                        saveAttachmentTask.addAttachmentToSave(part.getContentUri(),
+                                part.getContentType());
                     }
-                    return true;
-                case R.id.action_delete_message:
-                    if (mSelectedMessage != null) {
-                        deleteMessage(messageId);
-                    }
-                    return true;
-                case R.id.action_download:
-                    if (mSelectedMessage != null) {
-                        retryDownload(messageId);
+                    if (saveAttachmentTask.getAttachmentCount() > 0) {
+                        saveAttachmentTask.executeOnThreadPool();
                         mHost.dismissActionMode();
                     }
-                    return true;
-                case R.id.action_send:
-                    if (mSelectedMessage != null) {
-                        retrySend(messageId);
-                        mHost.dismissActionMode();
-                    }
-                    return true;
-                case R.id.copy_text:
-                    Assert.isTrue(data.hasText());
-                    final ClipboardManager clipboard = (ClipboardManager) getActivity()
-                            .getSystemService(Context.CLIPBOARD_SERVICE);
-                    clipboard.setPrimaryClip(
-                            ClipData.newPlainText(null /* label */, data.getText()));
+                } else {
+                    getActivity().requestPermissions(
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+                return true;
+            } else if (itemId == R.id.action_delete_message) {
+                if (mSelectedMessage != null) {
+                    deleteMessage(messageId);
+                }
+                return true;
+            } else if (itemId == R.id.action_download) {
+                if (mSelectedMessage != null) {
+                    retryDownload(messageId);
                     mHost.dismissActionMode();
-                    return true;
-                case R.id.details_menu:
-                    MessageDetailsDialog.show(
-                            getActivity(), data, mBinding.getData().getParticipants(),
-                            mBinding.getData().getSelfParticipantById(data.getSelfParticipantId()));
+                }
+                return true;
+            } else if (itemId == R.id.action_send) {
+                if (mSelectedMessage != null) {
+                    retrySend(messageId);
                     mHost.dismissActionMode();
-                    return true;
-                case R.id.share_message_menu:
-                    shareMessage(data);
-                    mHost.dismissActionMode();
-                    return true;
-                case R.id.forward_message_menu:
-                    // TODO: Currently we are forwarding one part at a time, instead of
-                    // the entire message. Change this to forwarding the entire message when we
-                    // use message-based cursor in conversation.
-                    final MessageData message = mBinding.getData().createForwardedMessage(data);
-                    UIIntents.get().launchForwardMessageActivity(getActivity(), message);
-                    mHost.dismissActionMode();
-                    return true;
+                }
+                return true;
+            } else if (itemId == R.id.copy_text) {
+                Assert.isTrue(data.hasText());
+                final ClipboardManager clipboard = (ClipboardManager) getActivity()
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setPrimaryClip(
+                        ClipData.newPlainText(null /* label */, data.getText()));
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.details_menu) {
+                MessageDetailsDialog.show(
+                        getActivity(), data, mBinding.getData().getParticipants(),
+                        mBinding.getData().getSelfParticipantById(data.getSelfParticipantId()));
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.share_message_menu) {
+                shareMessage(data);
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.forward_message_menu) {
+                // TODO: Currently we are forwarding one part at a time, instead of
+                // the entire message. Change this to forwarding the entire message when we
+                // use message-based cursor in conversation.
+                final MessageData message = mBinding.getData().createForwardedMessage(data);
+                UIIntents.get().launchForwardMessageActivity(getActivity(), message);
+                mHost.dismissActionMode();
+                return true;
             }
             return false;
         }

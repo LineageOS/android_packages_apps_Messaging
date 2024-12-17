@@ -37,9 +37,7 @@ import com.android.messaging.datamodel.data.GalleryGridItemData;
 import com.android.messaging.datamodel.data.MediaPickerData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.MediaPickerData.MediaPickerDataListener;
-import com.android.messaging.datamodel.data.PendingAttachmentData;
 import com.android.messaging.ui.UIIntents;
-import com.android.messaging.ui.mediapicker.DocumentImagePicker.SelectionListener;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.OsUtil;
 

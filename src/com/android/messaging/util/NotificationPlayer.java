@@ -17,6 +17,7 @@
 package com.android.messaging.util;
 
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -30,6 +31,7 @@ import androidx.annotation.NonNull;
 import com.android.messaging.Factory;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * This class is provides the same interface and functionality as android.media.AsyncPlayer
@@ -90,7 +92,9 @@ public class NotificationPlayer implements OnCompletionListener {
                         .getSystemService(Context.AUDIO_SERVICE);
                 try {
                     final MediaPlayer player = new MediaPlayer();
-                    player.setAudioStreamType(mCmd.stream);
+                    AudioAttributes.Builder attributes = new AudioAttributes.Builder();
+                    attributes.setLegacyStreamType(mCmd.stream);
+                    player.setAudioAttributes(attributes.build());
                     player.setDataSource(Factory.get().getApplicationContext(), mCmd.uri);
                     player.setLooping(mCmd.looping);
                     player.setVolume(mCmd.volume, mCmd.volume);
@@ -256,11 +260,7 @@ public class NotificationPlayer implements OnCompletionListener {
      * @param tag a string to use for debugging
      */
     public NotificationPlayer(final String tag) {
-        if (tag != null) {
-            mTag = tag;
-        } else {
-            mTag = "NotificationPlayer";
-        }
+        mTag = Objects.requireNonNullElse(tag, "NotificationPlayer");
     }
 
     /**
