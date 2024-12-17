@@ -30,9 +30,6 @@ public class Rational {
 
     /**
      * Create a Rational with a given numerator and denominator.
-     *
-     * @param nominator
-     * @param denominator
      */
     public Rational(long nominator, long denominator) {
         mNumerator = nominator;

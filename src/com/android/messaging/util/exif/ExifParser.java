@@ -235,9 +235,6 @@ public class ExifParser {
 
     /**
      * Parses the the given InputStream with the given options
-     *
-     * @exception java.io.IOException
-     * @exception ExifInvalidFormatException
      */
     protected static ExifParser parse(InputStream inputStream, int options, ExifInterface iRef)
             throws IOException, ExifInvalidFormatException {
@@ -248,8 +245,6 @@ public class ExifParser {
      * Parses the the given InputStream with default options; that is, every IFD
      * and thumbnaill will be parsed.
      *
-     * @exception java.io.IOException
-     * @exception ExifInvalidFormatException
      * @see #parse(java.io.InputStream, int)
      */
     protected static ExifParser parse(InputStream inputStream, ExifInterface iRef)
@@ -262,8 +257,6 @@ public class ExifParser {
     /**
      * Moves the parser forward and returns the next parsing event
      *
-     * @exception java.io.IOException
-     * @exception ExifInvalidFormatException
      * @see #EVENT_START_OF_IFD
      * @see #EVENT_NEW_TAG
      * @see #EVENT_VALUE_OF_REGISTERED_TAG
@@ -359,9 +352,6 @@ public class ExifParser {
     /**
      * Skips the tags area of current IFD, if the parser is not in the tag area,
      * nothing will happen.
-     *
-     * @throws java.io.IOException
-     * @throws ExifInvalidFormatException
      */
     protected void skipRemainingTagsInCurrentIfd() throws IOException, ExifInvalidFormatException {
         int endOfTags = mIfdStartOffset + OFFSET_SIZE + TAG_SIZE * mNumOfTagInIfd;

@@ -434,8 +434,6 @@ public class SyncManager {
         /**
          * Load the recipients of a thread from telephony provider. If we fail, use
          * a predefined unknown recipient. This should not return null.
-         *
-         * @param threadId
          */
         public synchronized List<String> getThreadRecipients(final long threadId) {
             List<String> recipients = mThreadToRecipients.get(threadId);

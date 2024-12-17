@@ -54,7 +54,6 @@ public class UriImageRequestDescriptor extends ImageRequestDescriptor {
      * Creates a new Uri-based image request.
      * @param uri the content Uri. Currently Bugle only supports local resources Uri (i.e. it has
      * to begin with content: or android.resource:
-     * @param circleStrokeColor
      */
     public UriImageRequestDescriptor(final Uri uri, final int desiredWidth,
             final int desiredHeight, final int sourceWidth, final int sourceHeight,

@@ -648,7 +648,6 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
 
     /**
      * Check if Bugle is default sms app
-     * @return
      */
     public boolean getIsDefaultSmsApp() {
         return PhoneUtils.getDefault().isDefaultSmsApp();

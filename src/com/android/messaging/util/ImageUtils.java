@@ -174,7 +174,6 @@ public class ImageUtils {
      * @param options a BitmapFactory.Options instance containing the bounds info of the bitmap
      * @param reqWidth the desired width of the bitmap. Can be ImageRequest.UNSPECIFIED_SIZE.
      * @param reqHeight the desired height of the bitmap.  Can be ImageRequest.UNSPECIFIED_SIZE.
-     * @return
      */
     public int calculateInSampleSize(
             final BitmapFactory.Options options, final int reqWidth, final int reqHeight) {
