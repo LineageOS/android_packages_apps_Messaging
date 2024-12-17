@@ -64,22 +64,25 @@ public class ContactRecipientPhotoManager implements PhotoManager {
             final BindableMediaRequest<ImageResource> req = descriptor.buildAsyncMediaRequest(
                     mContext,
                     new MediaResourceLoadListener<>() {
-                @Override
-                public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
-                        final ImageResource resource, final boolean isCached) {
-                    entry.setPhotoBytes(resource.getBytes());
-                    callback.onPhotoBytesAsynchronouslyPopulated();
-                }
+                        @Override
+                        public void onMediaResourceLoaded(final MediaRequest<ImageResource> request,
+                                                          final ImageResource resource,
+                                                          final boolean isCached) {
+                            entry.setPhotoBytes(resource.getBytes());
+                            callback.onPhotoBytesAsynchronouslyPopulated();
+                        }
 
-                @Override
-                public void onMediaResourceLoadError(final MediaRequest<ImageResource> request,
-                        final Exception exception) {
-                    LogUtil.e(LogUtil.BUGLE_TAG, "Photo bytes loading failed due to " +
-                            exception + " request key=" + request.getKey());
+                        @Override
+                        public void onMediaResourceLoadError(final MediaRequest<ImageResource>
+                                                                     request,
+                                                             final Exception exception) {
+                            LogUtil.e(LogUtil.BUGLE_TAG, "Photo bytes loading failed due to " +
+                                    exception + " request key=" + request.getKey());
 
-                    // Fall back to the default avatar image.
-                    callback.onPhotoBytesAsyncLoadFailed();
-                }});
+                            // Fall back to the default avatar image.
+                            callback.onPhotoBytesAsyncLoadFailed();
+                        }
+                    });
 
             // Statically bind the request since it's not bound to any specific piece of UI.
             req.bind(IMAGE_BYTES_REQUEST_STATIC_BINDING_ID);
