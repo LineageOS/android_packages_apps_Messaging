@@ -22,7 +22,6 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.datamodel.DataModelException;
 import com.android.messaging.datamodel.action.ActionMonitor.ActionCompletedListener;
 import com.android.messaging.datamodel.action.ActionMonitor.ActionExecutedListener;
 import com.android.messaging.util.LogUtil;
@@ -95,11 +94,10 @@ public abstract class Action implements Parcelable {
     /**
      * Do work in a long running background worker thread.
      * {@link #requestBackgroundWork} needs to be called for this method to
-     * be called. {@link #processBackgroundFailure} will be called on the Action service thread
-     * if this method throws {@link DataModelException}.
+     * be called.
      * @return response that is to be passed to {@link #processBackgroundResponse}
      */
-    protected Bundle doBackgroundWork() throws DataModelException {
+    protected Bundle doBackgroundWork() {
         return null;
     }
 

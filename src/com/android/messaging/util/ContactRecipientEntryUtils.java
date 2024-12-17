@@ -105,11 +105,4 @@ public class ContactRecipientEntryUtils {
     public static boolean isSendToDestinationContact(final RecipientEntry entry) {
         return entry.getContactId() == CONTACT_ID_SENDTO_DESTINATION;
     }
-
-    /**
-     * Returns true if the given participant is a special send to number item.
-     */
-    public static boolean isSendToDestinationContact(final ParticipantData participant) {
-        return participant.getContactId() == CONTACT_ID_SENDTO_DESTINATION;
-    }
 }
