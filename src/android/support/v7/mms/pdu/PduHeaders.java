@@ -507,8 +507,6 @@ public class PduHeaders {
      *
      * @param value the value
      * @param field the field
-     * @return the TextString value of the pdu header
-     *          with specified header field
      * @throws NullPointerException if the value is null.
      */
     protected void setTextString(byte[] value, int field) {
@@ -573,8 +571,6 @@ public class PduHeaders {
      *
      * @param value the value
      * @param field the field
-     * @return the EncodedStringValue value of the pdu header
-     *          with specified header field
      * @throws NullPointerException if the value is null.
      */
     protected void setEncodedStringValue(EncodedStringValue value, int field) {
@@ -610,8 +606,6 @@ public class PduHeaders {
      *
      * @param value the value
      * @param field the field
-     * @return the EncodedStringValue value array of the pdu header
-     *          with specified header field
      * @throws NullPointerException if the value is null.
      */
     protected void setEncodedStringValues(EncodedStringValue[] value, int field) {
