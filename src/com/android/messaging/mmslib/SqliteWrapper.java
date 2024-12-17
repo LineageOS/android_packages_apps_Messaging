@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2008 Esmertec AG.
  * Copyright (C) 2008 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,10 +39,7 @@ public final class SqliteWrapper {
             String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         try {
             return resolver.query(uri, projection, selection, selectionArgs, sortOrder);
-        } catch (SQLiteException e) {
-            LogUtil.e(TAG, "SqliteWrapper: catch an exception when query", e);
-            return null;
-        } catch (IllegalArgumentException e) {
+        } catch (SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "SqliteWrapper: catch an exception when query", e);
             return null;
         }
@@ -51,10 +49,7 @@ public final class SqliteWrapper {
             ContentValues values, String where, String[] selectionArgs) {
         try {
             return resolver.update(uri, values, where, selectionArgs);
-        } catch (SQLiteException e) {
-            LogUtil.e(TAG, "SqliteWrapper: catch an exception when update", e);
-            return -1;
-        } catch (IllegalArgumentException e) {
+        } catch (SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "SqliteWrapper: catch an exception when update", e);
             return -1;
         }
@@ -64,10 +59,7 @@ public final class SqliteWrapper {
             String where, String[] selectionArgs) {
         try {
             return resolver.delete(uri, where, selectionArgs);
-        } catch (SQLiteException e) {
-            LogUtil.e(TAG, "SqliteWrapper: catch an exception when delete", e);
-            return -1;
-        } catch (IllegalArgumentException e) {
+        } catch (SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "SqliteWrapper: catch an exception when delete", e);
             return -1;
         }
@@ -77,10 +69,7 @@ public final class SqliteWrapper {
             Uri uri, ContentValues values) {
         try {
             return resolver.insert(uri, values);
-        } catch (SQLiteException e) {
-            LogUtil.e(TAG, "SqliteWrapper: catch an exception when insert", e);
-            return null;
-        } catch (IllegalArgumentException e) {
+        } catch (SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "SqliteWrapper: catch an exception when insert", e);
             return null;
         }

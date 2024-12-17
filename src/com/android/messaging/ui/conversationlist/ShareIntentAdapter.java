@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +31,6 @@ import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.datamodel.data.PersonItemData;
 import com.android.messaging.ui.CursorRecyclerAdapter;
 import com.android.messaging.ui.PersonItemView;
-import com.android.messaging.ui.PersonItemView.PersonItemViewListener;
 import com.android.messaging.util.PhoneUtils;
 
 /**

@@ -107,9 +107,7 @@ public class BugleCarrierConfigValuesLoader implements CarrierConfigValuesLoader
         try {
             final Bundle systemValues =
                     PhoneUtils.get(subId).getSmsManager().getCarrierConfigValues();
-            if (systemValues != null) {
-                values.putAll(systemValues);
-            }
+            values.putAll(systemValues);
         } catch (final Exception e) {
             LogUtil.w(LogUtil.BUGLE_TAG, "Calling system getCarrierConfigValues exception", e);
         }

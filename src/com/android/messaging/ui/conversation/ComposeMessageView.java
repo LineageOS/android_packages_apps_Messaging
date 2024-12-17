@@ -21,9 +21,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -41,6 +38,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.binding.Binding;
@@ -320,14 +319,12 @@ public class ComposeMessageView extends LinearLayout
     }
 
     // returns true if it actually shows the subject editor and false if already showing
-    private boolean showSubjectEditor() {
+    private void showSubjectEditor() {
         // show the subject editor
         if (mSubjectView.getVisibility() == View.GONE) {
             mSubjectView.setVisibility(View.VISIBLE);
             mSubjectView.requestFocus();
-            return true;
         }
-        return false;
     }
 
     private void hideSubjectEditor() {

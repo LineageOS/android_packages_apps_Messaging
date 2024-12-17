@@ -34,7 +34,6 @@ import com.android.messaging.R;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.datamodel.media.MessagePartVideoThumbnailRequestDescriptor;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.util.Assert;
 
 /**

@@ -38,7 +38,6 @@ import android.view.Surface;
 import android.view.WindowManager;
 
 import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageSubscriptionDataProvider;
-import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.sms.MmsConfig;

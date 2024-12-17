@@ -522,8 +522,8 @@ public class PduComposer {
                 }
 
                 EncodedStringValue temp;
-                for (int i = 0; i < addr.length; i++) {
-                    temp = appendAddressType(addr[i]);
+                for (EncodedStringValue encodedStringValue : addr) {
+                    temp = appendAddressType(encodedStringValue);
                     if (temp == null) {
                         return PDU_COMPOSE_CONTENT_ERROR;
                     }

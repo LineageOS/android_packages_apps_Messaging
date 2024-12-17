@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,20 +33,15 @@ class SystemProperties {
                     sSystemPropertiesGetMethod =
                             systemPropertiesClass.getMethod("get", String.class);
                 }
-            } catch (final ClassNotFoundException e) {
-                // Nothing to do
-            } catch (final NoSuchMethodException e) {
+            } catch (final ClassNotFoundException | NoSuchMethodException e) {
                 // Nothing to do
             }
         }
         if (sSystemPropertiesGetMethod != null) {
             try {
                 return (String) sSystemPropertiesGetMethod.invoke(null, name);
-            } catch (final IllegalArgumentException e) {
-                // Nothing to do
-            } catch (final IllegalAccessException e) {
-                // Nothing to do
-            } catch (final InvocationTargetException e) {
+            } catch (final IllegalArgumentException | InvocationTargetException |
+                           IllegalAccessException e) {
                 // Nothing to do
             }
         }

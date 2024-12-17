@@ -106,11 +106,7 @@ public class SyncMessagesAction extends Action implements Parcelable {
      *  sending/receiving).
      */
     public static void immediateSync() {
-        final long now = System.currentTimeMillis();
-        // TODO: Could base this off most recent message in db but now should be okay...
-        final long startTimestamp = now;
-
-        sync(startTimestamp);
+        sync(System.currentTimeMillis());
     }
 
     private static void sync(final long startTimestamp) {

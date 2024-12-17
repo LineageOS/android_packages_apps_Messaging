@@ -18,7 +18,6 @@ package com.android.messaging.ui.contact;
 
 import android.content.Context;
 import android.database.Cursor;
-import androidx.core.util.Pair;
 import android.text.TextUtils;
 import android.text.util.Rfc822Token;
 import android.text.util.Rfc822Tokenizer;
@@ -222,7 +221,6 @@ public final class ContactRecipientAdapter extends BaseRecipientAdapter {
              * Compare two RecipientEntry's, first by locale-aware display name comparison, then by
              * contact id comparison, finally by first-level-ness comparison.
              */
-            @Override
             public int compare(RecipientEntry lhs, RecipientEntry rhs) {
                 // Send-to-destinations always appear before everything else.
                 final boolean sendToLhs = ContactRecipientEntryUtils
