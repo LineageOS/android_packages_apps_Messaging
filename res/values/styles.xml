@@ -35,6 +35,7 @@
          <item name="android:textColorHighlight">@color/text_highlight_color</item>
          <item name="actionBarStyle">@style/BugleActionBar</item>
          <item name="alertDialogTheme">@style/AlertDialogTheme</item>
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
 
     <style name="LaunchTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -638,4 +639,13 @@
         <item name="android:background">@color/window_background</item>
         <item name="dialogCornerRadius">28dp</item>
     </style>
+
+    <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
+    </style>
+
+    <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+
 </resources>
