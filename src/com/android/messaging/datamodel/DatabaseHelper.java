@@ -33,12 +33,6 @@ import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.LogUtil;
 
 /**
- * TODO: Open Issues:
- * - Should we be storing the draft messages in the regular messages table or should we have a
- *   separate table for drafts to keep the normal messages query as simple as possible?
- */
-
-/**
  * Allows access to the SQL database.  This is package private.
  */
 public class DatabaseHelper extends SQLiteOpenHelper {

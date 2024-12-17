@@ -188,10 +188,7 @@ public class MediaResourceManager {
         }
         final MediaCache<T> mediaCache = mediaRequest.getMediaCache();
         if (mediaCache != null) {
-            final T mediaResource = mediaCache.fetchResourceFromCache(mediaRequest.getKey());
-            if (mediaResource != null) {
-                return mediaResource;
-            }
+            return mediaCache.fetchResourceFromCache(mediaRequest.getKey());
         }
         return null;
     }
