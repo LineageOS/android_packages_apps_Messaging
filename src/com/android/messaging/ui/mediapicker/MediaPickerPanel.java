@@ -31,7 +31,6 @@ import android.widget.LinearLayout;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.PagingAwareViewPager;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.UiUtils;
 
 /**
