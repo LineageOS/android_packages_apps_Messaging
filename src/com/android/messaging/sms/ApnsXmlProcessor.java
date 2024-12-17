@@ -107,10 +107,7 @@ class ApnsXmlProcessor {
     /**
      * Move XML parser forward to next event type or the end of doc
      *
-     * @param eventType
      * @return The final event type we meet
-     * @throws XmlPullParserException
-     * @throws IOException
      */
     private int advanceToNextEvent(int eventType) throws XmlPullParserException, IOException {
         for (;;) {
@@ -225,8 +222,6 @@ class ApnsXmlProcessor {
      * Process one apn
      *
      * @param apnValues Where we store the parsed apn
-     * @throws IOException
-     * @throws XmlPullParserException
      */
     private void processApn(ContentValues apnValues) throws IOException, XmlPullParserException {
         Assert.notNull(apnValues);
@@ -271,8 +266,6 @@ class ApnsXmlProcessor {
     /**
      * Process one mms_config.
      *
-     * @throws IOException
-     * @throws XmlPullParserException
      */
     private void processMmsConfig()
             throws IOException, XmlPullParserException {
@@ -302,8 +295,6 @@ class ApnsXmlProcessor {
      * Process one mms_config key/value pair
      *
      * @param mccMnc The mcc and mnc of this mms_config
-     * @throws IOException
-     * @throws XmlPullParserException
      */
     private void processMmsConfigKeyValue(String mccMnc)
             throws IOException, XmlPullParserException {

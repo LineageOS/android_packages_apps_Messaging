@@ -313,7 +313,6 @@ public class MessageDetailsDialog {
 
     /**
      * Convert the numeric mms priority into a human-readable string
-     * @param res
      * @param priorityValue coded PduHeader priority
      * @return string representation of the priority
      */
