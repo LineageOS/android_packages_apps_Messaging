@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import com.android.messaging.Factory;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 /**
  * This class is provides the same interface and functionality as android.media.AsyncPlayer
@@ -256,11 +257,7 @@ public class NotificationPlayer implements OnCompletionListener {
      * @param tag a string to use for debugging
      */
     public NotificationPlayer(final String tag) {
-        if (tag != null) {
-            mTag = tag;
-        } else {
-            mTag = "NotificationPlayer";
-        }
+        mTag = Objects.requireNonNullElse(tag, "NotificationPlayer");
     }
 
     /**
