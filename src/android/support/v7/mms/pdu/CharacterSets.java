@@ -140,7 +140,6 @@ public class CharacterSets {
      *
      * @param mibEnumValue An IANA assigned MIBEnum number.
      * @return The name string of the charset.
-     * @throws UnsupportedEncodingException
      */
     public static String getMimeName(int mibEnumValue)
             throws UnsupportedEncodingException {
@@ -156,7 +155,6 @@ public class CharacterSets {
      *
      * @param mimeName The charset name.
      * @return The MIBEnum number assigned by IANA for this charset.
-     * @throws UnsupportedEncodingException
      */
     public static int getMibEnumValue(String mimeName)
             throws UnsupportedEncodingException {

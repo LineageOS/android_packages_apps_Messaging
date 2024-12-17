@@ -99,9 +99,6 @@ class Utils {
     /**
      * Redact the URL for non-VERBOSE logging. Replace url with only the host part and the length
      * of the input URL string.
-     *
-     * @param urlString
-     * @return
      */
     static String redactUrlForNonVerbose(String urlString) {
         if (Log.isLoggable(MmsService.TAG, Log.VERBOSE)) {

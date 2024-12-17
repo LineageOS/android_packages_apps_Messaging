@@ -212,7 +212,6 @@ class CameraMediaChooser extends MediaChooser implements
 
     /**
      * Updates the view when entering or leaving full-screen camera mode
-     * @param fullScreen
      */
     @Override
     void onFullScreenChanged(final boolean fullScreen) {

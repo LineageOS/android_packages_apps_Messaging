@@ -39,13 +39,11 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * APN loader for default SMS SIM
- *
  * This loader tries to load APNs from 3 sources in order:
- * 1. Gservices setting
- * 2. System APN table
- * 3. Local APN table
+ * 1. System APN table
+ * 2. Local APN table
  */
 public class BugleApnSettingsLoader implements ApnSettingsLoader {
     /**

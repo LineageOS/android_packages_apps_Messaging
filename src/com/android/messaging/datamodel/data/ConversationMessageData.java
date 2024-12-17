@@ -202,7 +202,6 @@ public class ConversationMessageData {
      * ignoring the outer quotes and the divider and replacing any pair of consecutive
      * single quotes with a single single quote.
      *
-     * @param inputString
      * @return array of constituent strings
      */
     @VisibleForTesting

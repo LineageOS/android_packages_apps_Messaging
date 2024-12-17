@@ -234,7 +234,6 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
     /**
      * Queue any pending actions
      *
-     * @param actionState
      * @return true if action queued (or no actions to queue) else false
      */
     private boolean queueActions(final Action processingAction) {
