@@ -35,16 +35,17 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationCompat.WearableExtender;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.app.RemoteInput;
-import androidx.collection.SimpleArrayMap;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
+
+import androidx.collection.SimpleArrayMap;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.WearableExtender;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.RemoteInput;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -55,14 +56,12 @@ import com.android.messaging.datamodel.MessageNotificationState.MultiMessageNoti
 import com.android.messaging.datamodel.action.MarkAsReadAction;
 import com.android.messaging.datamodel.action.MarkAsSeenAction;
 import com.android.messaging.datamodel.action.RedownloadMmsAction;
-import com.android.messaging.datamodel.data.ConversationListItemData;
 import com.android.messaging.datamodel.media.AvatarRequestDescriptor;
 import com.android.messaging.datamodel.media.ImageResource;
 import com.android.messaging.datamodel.media.MediaRequest;
 import com.android.messaging.datamodel.media.MediaResourceManager;
 import com.android.messaging.datamodel.media.MessagePartVideoThumbnailRequestDescriptor;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
@@ -78,7 +77,6 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.NotificationPlayer;
 import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.PendingIntentConstants;
-import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UriUtil;
 
@@ -632,9 +630,7 @@ public class BugleNotifications {
         }
 
         synchronized (sPendingNotifications) {
-            if (sPendingNotifications.contains(notificationState)) {
-                sPendingNotifications.remove(notificationState);
-            }
+            sPendingNotifications.remove(notificationState);
         }
 
         notificationState.mNotificationBuilder
@@ -662,11 +658,10 @@ public class BugleNotifications {
         Bitmap attachmentBitmap = null;
 
         // For messages with photo/video attachment, request an image to show in the notification.
-        if (attachmentUri != null && notificationState.mNotificationStyle != null &&
-                (notificationState.mNotificationStyle instanceof
-                        NotificationCompat.BigPictureStyle) &&
-                        (ContentType.isImageType(attachmentType) ||
-                                ContentType.isVideoType(attachmentType))) {
+        if (attachmentUri != null && (notificationState.mNotificationStyle instanceof
+                NotificationCompat.BigPictureStyle) &&
+                (ContentType.isImageType(attachmentType) ||
+                        ContentType.isVideoType(attachmentType))) {
             final boolean isVideo = ContentType.isVideoType(attachmentType);
 
             MediaRequest<ImageResource> imageRequest;
