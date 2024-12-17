@@ -90,7 +90,6 @@ public class ComposeMessageView extends LinearLayout
         void sendMessage(MessageData message);
         void onComposeEditTextFocused();
         void onAttachmentsCleared();
-        void onAttachmentsChanged(final boolean haveAttachments);
         void displayPhoto(Uri photoUri, Rect imageBounds, boolean isDraft);
         void promptForSelfPhoneNumber();
         boolean isReadyForAction();
@@ -301,10 +300,8 @@ public class ComposeMessageView extends LinearLayout
         }
         final boolean haveAttachments = mBinding.getData().hasAttachments();
         if (simPickerVisible && haveAttachments) {
-            mHost.onAttachmentsChanged(false);
             mAttachmentPreview.hideAttachmentPreview();
         } else {
-            mHost.onAttachmentsChanged(haveAttachments);
             mAttachmentPreview.onAttachmentsChanged(mBinding.getData());
         }
     }
@@ -474,8 +471,7 @@ public class ComposeMessageView extends LinearLayout
 
         if ((changeFlags & DraftMessageData.ATTACHMENTS_CHANGED) ==
                 DraftMessageData.ATTACHMENTS_CHANGED) {
-            final boolean haveAttachments = mAttachmentPreview.onAttachmentsChanged(data);
-            mHost.onAttachmentsChanged(haveAttachments);
+            mAttachmentPreview.onAttachmentsChanged(data);
             hasAttachmentsChanged = true;
         }
 

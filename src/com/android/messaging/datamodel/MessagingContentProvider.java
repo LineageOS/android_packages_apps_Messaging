@@ -254,15 +254,6 @@ public class MessagingContentProvider extends ContentProvider {
     @Override
     public Cursor query(@NonNull final Uri uri, final String[] projection, String selection,
                         final String[] selectionArgs, String sortOrder) {
-
-        // Processes other than self are allowed to temporarily access the media
-        // scratch space; we grant uri read access on a case-by-case basis. Dialer app and
-        // contacts app would doQuery() on the vCard uri before trying to open the inputStream.
-        // There's nothing that we need to return for this uri so just No-Op.
-        //if (isMediaScratchSpaceUri(uri)) {
-        //    return null;
-        //}
-
         final SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         String[] queryArgs = selectionArgs;

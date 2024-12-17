@@ -37,32 +37,6 @@ public class MmsManager {
     private static final SparseArray<Bundle> sConfigOverridesMap = new SparseArray<>();
 
     /**
-     * Set the size of thread pool for request execution.
-     *
-     * Default is 4
-     *
-     * Note: if system MMS API is used, this has no effect
-     *
-     * @param size thread pool size
-     */
-    public static void setThreadPoolSize(int size) {
-        MmsService.setThreadPoolSize(size);
-    }
-
-    /**
-     * Set whether to use wake lock while sending or downloading MMS.
-     *
-     * Default value is true
-     *
-     * Note: if system MMS API is used, this has no effect
-     *
-     * @param useWakeLock true to use wake lock, false otherwise
-     */
-    public static void setUseWakeLock(final boolean useWakeLock) {
-        MmsService.setUseWakeLock(useWakeLock);
-    }
-
-    /**
      * Set the optional carrier config values loader
      *
      * Note: if system MMS API is used, this is used to compute the overrides

@@ -182,7 +182,7 @@ public class SmsSender {
     // This should be called from a RequestWriter queue thread
     public static SendResult sendMessage(final Context context, final int subId, String dest,
             String message, final String serviceCenter, final boolean requireDeliveryReport,
-            final Uri messageUri) throws SmsException {
+            final Uri messageUri) throws Exception {
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "SmsSender: sending message. " +
                     "dest=" + dest + " message=" + message +
@@ -191,7 +191,7 @@ public class SmsSender {
                     " requestId=" + messageUri);
         }
         if (TextUtils.isEmpty(message)) {
-            throw new SmsException("SmsSender: empty text message");
+            throw new Exception("SmsSender: empty text message");
         }
         // Get the real dest and message for email or alias if dest is email or alias
         // Or sanitize the dest if dest is a number
@@ -208,13 +208,13 @@ public class SmsSender {
             dest = PhoneNumberUtils.stripSeparators(dest);
         }
         if (TextUtils.isEmpty(dest)) {
-            throw new SmsException("SmsSender: empty destination address");
+            throw new Exception("SmsSender: empty destination address");
         }
         // Divide the input message by SMS length limit
         final SmsManager smsManager = PhoneUtils.get(subId).getSmsManager();
         final ArrayList<String> messages = smsManager.divideMessage(message);
         if (messages == null || messages.size() < 1) {
-            throw new SmsException("SmsSender: fails to divide message");
+            throw new Exception("SmsSender: fails to divide message");
         }
         // Prepare the send result, which collects the send status for each part
         final SendResult pendingResult = new SendResult(messages.size());
@@ -252,7 +252,7 @@ public class SmsSender {
     // Actually sending the message using SmsManager
     private static void sendInternal(final Context context, final int subId, String dest,
             final ArrayList<String> messages, final String serviceCenter,
-            final boolean requireDeliveryReport, final Uri messageUri) throws SmsException {
+            final boolean requireDeliveryReport, final Uri messageUri) throws Exception {
         Assert.notNull(context);
         final SmsManager smsManager = PhoneUtils.get(subId).getSmsManager();
         final int messageCount = messages.size();
@@ -295,7 +295,7 @@ public class SmsSender {
                         dest, serviceCenter, messages, sentIntents, deliveryIntents);
             }
         } catch (final Exception e) {
-            throw new SmsException("SmsSender: caught exception in sending " + e);
+            throw new Exception("SmsSender: caught exception in sending " + e);
         }
     }
 

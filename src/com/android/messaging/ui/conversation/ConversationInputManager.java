@@ -40,7 +40,6 @@ import com.android.messaging.ui.mediapicker.MediaPicker.MediaPickerListener;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.ImeUtil.ImeStateHost;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Collection;
 
@@ -234,26 +233,6 @@ public class ConversationInputManager implements ConversationInput.ConversationI
             }
         }
         return false;
-    }
-
-    @VisibleForTesting
-    boolean isMediaPickerVisible() {
-        return mMediaInput.mShowing;
-    }
-
-    @VisibleForTesting
-    boolean isSimSelectorVisible() {
-        return mSimInput.mShowing;
-    }
-
-    @VisibleForTesting
-    boolean isImeKeyboardVisible() {
-        return mImeInput.mShowing;
-    }
-
-    @VisibleForTesting
-    void testNotifyImeStateChanged(final boolean imeOpen) {
-        mImeStateObserver.onImeStateChanged(imeOpen);
     }
 
     /**

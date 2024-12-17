@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +26,6 @@ import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.UriUtil;
 
 public class AvatarRequestDescriptor extends UriImageRequestDescriptor {
-    final boolean isWearBackground;
 
     public AvatarRequestDescriptor(final Uri uri, final int desiredWidth,
             final int desiredHeight) {
@@ -45,7 +45,6 @@ public class AvatarRequestDescriptor extends UriImageRequestDescriptor {
                 ImageUtils.DEFAULT_CIRCLE_STROKE_COLOR /* circleStrokeColor */);
         Assert.isTrue(uri == null || UriUtil.isLocalResourceUri(uri) ||
                 AvatarUriUtil.isAvatarUri(uri));
-        this.isWearBackground = isWearBackground;
     }
 
     @Override
