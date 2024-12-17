@@ -37,7 +37,7 @@
         </intent>
     </PreferenceScreen>
 
-    <CheckBoxPreference
+    <SwitchPreferenceCompat
         android:key="@string/send_sound_pref_key"
         android:title="@string/send_sound_pref_title"
         android:defaultValue="@bool/send_sound_pref_default"
@@ -48,7 +48,7 @@
         android:title="@string/notifications_pref_title"
         android:persistent="true" />
 
-    <SwitchPreference
+    <SwitchPreferenceCompat
         android:key="@string/swipe_right_deletes_conversation_key"
         android:title="@string/swipe_to_delete_conversation_pref_title"
         android:summary="@string/swipe_to_delete_conversation_pref_summary"
