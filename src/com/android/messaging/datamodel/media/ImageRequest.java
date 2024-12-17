@@ -91,7 +91,6 @@ public abstract class ImageRequest<D extends ImageRequestDescriptor>
 
     /**
      * Retrieves an input stream from which image resource could be loaded.
-     * @throws FileNotFoundException
      */
     protected abstract InputStream getInputStreamForResource() throws FileNotFoundException;
 
