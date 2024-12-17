@@ -187,10 +187,7 @@ public class MediaResourceManager {
         }
         final MediaCache<T> mediaCache = mediaRequest.getMediaCache();
         if (mediaCache != null) {
-            final T mediaResource = mediaCache.fetchResourceFromCache(mediaRequest.getKey());
-            if (mediaResource != null) {
-                return mediaResource;
-            }
+            return mediaCache.fetchResourceFromCache(mediaRequest.getKey());
         }
         return null;
     }
@@ -235,49 +232,49 @@ public class MediaResourceManager {
         AsyncTask<Void, Void, MediaLoadingResult<T>> mediaLoadingTask = new AsyncTask<>() {
             private Exception mException;
 
-            @Override
-            protected MediaLoadingResult<T> doInBackground(Void... params) {
-                // Double check the request is still valid by the time we start processing it
-                if (bindableRequest != null && !bindableRequest.isBound()) {
-                    return null; // Request is obsolete
-                }
-                try {
-                    return processMediaRequestInternal(mediaRequest);
-                } catch (Exception e) {
-                    mException = e;
-                    return null;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(final MediaLoadingResult<T> result) {
-                if (result != null) {
-                    Assert.isNull(mException);
-                    Assert.isTrue(result.loadedResource.getRefCount() > 0);
-                    try {
-                        if (bindableRequest != null) {
-                            bindableRequest.onMediaResourceLoaded(
-                                    bindableRequest, result.loadedResource, result.fromCache);
+                    @Override
+                    protected MediaLoadingResult<T> doInBackground(Void... params) {
+                        // Double check the request is still valid by the time we start processing it
+                        if (bindableRequest != null && !bindableRequest.isBound()) {
+                            return null; // Request is obsolete
                         }
-                    } finally {
-                        result.loadedResource.release();
-                        result.scheduleChainedRequests();
+                        try {
+                            return processMediaRequestInternal(mediaRequest);
+                        } catch (Exception e) {
+                            mException = e;
+                            return null;
+                        }
                     }
-                } else if (mException != null) {
-                    LogUtil.e(LogUtil.BUGLE_TAG, "Asynchronous media loading failed, key=" +
-                            mediaRequest.getKey(), mException);
-                    if (bindableRequest != null) {
-                        bindableRequest.onMediaResourceLoadError(bindableRequest, mException);
+
+                    @Override
+                    protected void onPostExecute(final MediaLoadingResult<T> result) {
+                        if (result != null) {
+                            Assert.isNull(mException);
+                            Assert.isTrue(result.loadedResource.getRefCount() > 0);
+                            try {
+                                if (bindableRequest != null) {
+                                    bindableRequest.onMediaResourceLoaded(
+                                            bindableRequest, result.loadedResource, result.fromCache);
+                                }
+                            } finally {
+                                result.loadedResource.release();
+                                result.scheduleChainedRequests();
+                            }
+                        } else if (mException != null) {
+                            LogUtil.e(LogUtil.BUGLE_TAG, "Asynchronous media loading failed, key=" +
+                                    mediaRequest.getKey(), mException);
+                            if (bindableRequest != null) {
+                                bindableRequest.onMediaResourceLoadError(bindableRequest, mException);
+                            }
+                        } else {
+                            Assert.isTrue(bindableRequest == null || !bindableRequest.isBound());
+                            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
+                                LogUtil.v(TAG, "media request not processed, no longer bound; key=" +
+                                        LogUtil.sanitizePII(mediaRequest.getKey()) /* key with phone# */);
+                            }
+                        }
                     }
-                } else {
-                    Assert.isTrue(bindableRequest == null || !bindableRequest.isBound());
-                    if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                        LogUtil.v(TAG, "media request not processed, no longer bound; key=" +
-                                LogUtil.sanitizePII(mediaRequest.getKey()) /* key with phone# */);
-                    }
-                }
-            }
-        };
+                };
         mediaLoadingTask.executeOnExecutor(executor, (Void) null);
     }
 

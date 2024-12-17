@@ -69,10 +69,7 @@ public class AccessibilityUtil {
         event.setEnabled(view.isEnabled());
         event.setClassName(view.getClass().getName());
         event.setPackageName(context.getPackageName());
-
-        // JellyBean MR1 requires a source view to set the window ID.
-        final AccessibilityRecordCompat record = AccessibilityEventCompat.asRecord(event);
-        record.setSource(view);
+        event.setSource(view);
 
         // Sends the event directly through the accessibility manager. If we only supported SDK 14+
         // we could have done:
