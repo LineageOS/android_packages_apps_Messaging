@@ -18,16 +18,12 @@
 package com.android.messaging.util;
 
 import android.os.Environment;
-import android.text.TextUtils;
 
-import com.android.messaging.sms.MmsUtils;
 import com.google.common.io.ByteStreams;
 
 import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class DebugUtils {
@@ -54,14 +50,12 @@ public class DebugUtils {
         byte[] data = null;
         try {
             final File inputFile = getDebugFile(dumpFileName, false);
-            if (inputFile != null) {
-                final FileInputStream fis = new FileInputStream(inputFile);
-                try (BufferedInputStream bis = new BufferedInputStream(fis)) {
-                    // dump file
-                    data = ByteStreams.toByteArray(bis);
-                    if (data == null || data.length < 1) {
-                        LogUtil.e(LogUtil.BUGLE_TAG, "receiveFromDumpFile: empty data");
-                    }
+            final FileInputStream fis = new FileInputStream(inputFile);
+            try (BufferedInputStream bis = new BufferedInputStream(fis)) {
+                // dump file
+                data = ByteStreams.toByteArray(bis);
+                if (data == null || data.length < 1) {
+                    LogUtil.e(LogUtil.BUGLE_TAG, "receiveFromDumpFile: empty data");
                 }
             }
         } catch (final IOException e) {

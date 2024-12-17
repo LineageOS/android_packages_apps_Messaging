@@ -23,10 +23,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationCompat.Builder;
-import androidx.core.app.NotificationCompat.WearableExtender;
-import androidx.core.app.NotificationManagerCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -38,6 +34,11 @@ import android.text.style.StyleSpan;
 import android.text.style.TextAppearanceSpan;
 import android.text.style.URLSpan;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationCompat.Builder;
+import androidx.core.app.NotificationCompat.WearableExtender;
+import androidx.core.app.NotificationManagerCompat;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationListItemData;
@@ -46,7 +47,6 @@ import com.android.messaging.datamodel.data.ConversationParticipantsData;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
@@ -635,9 +635,7 @@ public abstract class MessageNotificationState extends NotificationState {
                 continue;
             }
 
-            final int currentCount = firstNames.containsKey(firstName)
-                    ? firstNames.get(firstName)
-                    : 0;
+            final int currentCount = firstNames.getOrDefault(firstName, 0);
             firstNames.put(firstName, currentCount + 1);
         }
         return firstNames;
