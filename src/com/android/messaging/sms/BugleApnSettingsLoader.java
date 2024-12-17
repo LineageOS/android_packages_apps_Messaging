@@ -358,7 +358,7 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
         } else {
             uri = Telephony.Carriers.CONTENT_URI;
         }
-        Cursor cursor = null;
+        Cursor cursor;
         try {
             for (; ; ) {
                 // Try different combinations of queries. Some would work on some platforms.
@@ -555,7 +555,7 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
             return addr;
         }
         final StringBuilder builder = new StringBuilder(16);
-        String result = null;
+        String result;
         for (int i = 0; i < 4; i++) {
             try {
                 if (octets[i].length() > 3) {
