@@ -476,10 +476,6 @@ public class ConversationMessageData {
         return mProtocol == (MessageData.PROTOCOL_SMS);
     }
 
-    final int getProtocol() {
-        return mProtocol;
-    }
-
     public final int getStatus() {
         return mStatus;
     }
