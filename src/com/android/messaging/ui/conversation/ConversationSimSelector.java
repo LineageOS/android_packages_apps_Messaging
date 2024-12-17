@@ -26,7 +26,6 @@ import com.android.messaging.datamodel.data.SubscriptionListData;
 import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionListEntry;
 import com.android.messaging.ui.conversation.SimSelectorView.SimSelectorViewListener;
 import com.android.messaging.util.AccessibilityUtil;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.ThreadUtil;
 
 /**

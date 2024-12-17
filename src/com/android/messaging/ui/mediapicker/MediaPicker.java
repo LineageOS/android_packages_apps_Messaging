@@ -17,7 +17,6 @@
 
 package com.android.messaging.ui.mediapicker;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -188,8 +187,8 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     private boolean mAnimateOnAttach;
 
     @Override
-    public void onAttach (final Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(@NonNull final Context context) {
+        super.onAttach(context);
         mIsAttached = true;
         if (mStartingMediaTypeOnAttach != MEDA_TYPE_INVALID) {
             // open() was previously called. Do the pending open now.

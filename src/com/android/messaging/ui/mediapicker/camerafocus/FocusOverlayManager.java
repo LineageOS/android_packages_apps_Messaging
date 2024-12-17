@@ -545,7 +545,7 @@ public class FocusOverlayManager {
     }
 
     public static boolean isSupported(String value, List<String> supported) {
-        return supported != null && supported.indexOf(value) >= 0;
+        return supported != null && supported.contains(value);
     }
 
     public static boolean isMeteringAreaSupported(Parameters params) {
