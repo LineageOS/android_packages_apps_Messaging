@@ -217,8 +217,6 @@ public class ConversationInputManager implements ConversationInput.ConversationI
 
     /**
      * Toggle the visibility of the sim selector.
-     * @param animate
-     * @param subEntry
      * @return true if the view is now shown, false if it now hidden
      */
     public boolean toggleSimSelector(final boolean animate, final SubscriptionListEntry subEntry) {

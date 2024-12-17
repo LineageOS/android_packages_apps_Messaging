@@ -52,7 +52,6 @@ public class PagingAwareViewPager extends ViewPager {
     /**
      * Switches position in pager to be adjusted for if we are in RtL mode
      *
-     * @param position
      * @return position adjusted if in rtl mode
      */
     protected int getRtlPosition(final int position) {
