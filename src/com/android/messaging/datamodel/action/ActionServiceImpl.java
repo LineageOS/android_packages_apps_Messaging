@@ -80,7 +80,6 @@ public class ActionServiceImpl extends JobIntentService {
 
     /**
      * Handle response returned by BackgroundWorker
-     * @param request - request generating response
      * @param response - response from service
      */
     protected static void handleResponseFromBackgroundWorker(final Action action,
@@ -97,7 +96,6 @@ public class ActionServiceImpl extends JobIntentService {
 
     /**
      * Handle response returned by BackgroundWorker
-     * @param request - request generating failure
      */
     protected static void handleFailureFromBackgroundWorker(final Action action,
             final Exception exception) {
