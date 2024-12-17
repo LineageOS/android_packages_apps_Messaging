@@ -80,7 +80,6 @@ public class EncodedStringValue implements Cloneable {
     /**
      * Constructor
      *
-     * @param charset
      * @param data The text in Java String
      * @throws NullPointerException if Text-string value is null.
      */

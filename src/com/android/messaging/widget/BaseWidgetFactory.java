@@ -143,7 +143,6 @@ abstract class BaseWidgetFactory implements RemoteViewsService.RemoteViewsFactor
      * Returns the number of messages that should be shown in the widget.  This method
      * doesn't update the boolean that indicates whether the "show more" item should be included
      * in the list.
-     * @return
      */
     protected int getItemCount() {
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
