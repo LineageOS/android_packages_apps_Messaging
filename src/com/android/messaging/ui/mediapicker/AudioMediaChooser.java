@@ -120,7 +120,7 @@ class AudioMediaChooser extends MediaChooser implements
 
     @Override
     protected void onRequestPermissionsResult(
-            final int requestCode, final String permissions[], final int[] grantResults) {
+            final int requestCode, final String[] permissions, final int[] grantResults) {
         if (requestCode == MediaPicker.RECORD_AUDIO_PERMISSION_REQUEST_CODE) {
             final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             // onRequestPermissionsResult can sometimes get called before createView().
