@@ -79,12 +79,10 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
-    public Bitmap loadBitmapInternal() throws IOException {
+    public Bitmap loadBitmapInternal() {
         Assert.isNotMainThread();
 
-        InputStream inputStream = null;
         Bitmap bitmap = null;
         HttpURLConnection connection = null;
         try {
@@ -109,9 +107,6 @@ public class NetworkUriImageRequest<D extends UriImageRequestDescriptor> extends
                     "IOException trying to get inputStream for image with url: "
                             + mDescriptor.uri, e);
         } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
             if (connection != null) {
                 connection.disconnect();
             }

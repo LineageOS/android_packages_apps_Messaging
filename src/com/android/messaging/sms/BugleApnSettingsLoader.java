@@ -595,19 +595,4 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
         }
         return false;
     }
-
-    /**
-     * Get the ID of first APN to try
-     */
-    public static String getFirstTryApn(final SQLiteDatabase database, final String mccMnc) {
-        String key = null;
-        try (Cursor cursor = queryLocalDatabase(database, mccMnc, null/*apnName*/)) {
-            if (cursor.moveToFirst()) {
-                key = cursor.getString(ApnDatabase.COLUMN_ID);
-            }
-        } catch (final Exception e) {
-            // Nothing to do
-        }
-        return key;
-    }
 }

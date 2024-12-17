@@ -36,7 +36,6 @@ import android.widget.AbsListView;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
@@ -51,7 +50,6 @@ import com.android.messaging.datamodel.binding.BindingBase;
 import com.android.messaging.datamodel.data.ConversationListData;
 import com.android.messaging.datamodel.data.ConversationListData.ConversationListDataListener;
 import com.android.messaging.datamodel.data.ConversationListItemData;
-import com.android.messaging.ui.BugleAnimationTags;
 import com.android.messaging.ui.ListEmptyView;
 import com.android.messaging.ui.SnackBarInteraction;
 import com.android.messaging.ui.UIIntents;
@@ -232,7 +230,6 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             mStartNewConversationButton.setOnClickListener(clickView ->
                     mHost.onCreateConversationClick());
         }
-        ViewCompat.setTransitionName(mStartNewConversationButton, BugleAnimationTags.TAG_FABICON);
 
         // The root view has a non-null background, which by default is deemed by the framework
         // to be a "transition group," where all child views are animated together during an
@@ -415,15 +412,6 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             // Re-enable clicks after the animation.
             mStartNewConversationButton.setEnabled(true);
         });
-    }
-
-    public View getHeroElementForTransition() {
-        return mArchiveMode ? null : mStartNewConversationButton;
-    }
-
-    @VisibleForAnimation
-    public RecyclerView getRecyclerView() {
-        return mRecyclerView;
     }
 
     @Override

@@ -98,23 +98,11 @@ abstract class MmsRequest implements Parcelable {
     // Thread pool for transferring PDU with MMS apps
     protected final ExecutorService mPduTransferExecutor = Executors.newCachedThreadPool();
 
-    // Whether this request should acquire wake lock
-    private boolean mUseWakeLock;
-
     protected MmsRequest(final String locationUrl, final Uri pduUri,
             final PendingIntent pendingIntent) {
         mLocationUrl = locationUrl;
         mPduUri = pduUri;
         mPendingIntent = pendingIntent;
-        mUseWakeLock = true;
-    }
-
-    void setUseWakeLock(final boolean useWakeLock) {
-        mUseWakeLock = useWakeLock;
-    }
-
-    boolean getUseWakeLock() {
-        return mUseWakeLock;
     }
 
     /**
@@ -376,7 +364,6 @@ abstract class MmsRequest implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeByte((byte) (mUseWakeLock ? 1 : 0));
         parcel.writeString(mLocationUrl);
         parcel.writeParcelable(mPduUri, 0);
         parcel.writeParcelable(mPendingIntent, 0);
@@ -384,7 +371,6 @@ abstract class MmsRequest implements Parcelable {
 
     protected MmsRequest(final Parcel in) {
         final ClassLoader classLoader = MmsRequest.class.getClassLoader();
-        mUseWakeLock = in.readByte() != 0;
         mLocationUrl = in.readString();
         mPduUri = in.readParcelable(classLoader);
         mPendingIntent = in.readParcelable(classLoader);

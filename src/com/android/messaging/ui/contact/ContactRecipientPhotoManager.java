@@ -42,15 +42,12 @@ public class ContactRecipientPhotoManager implements PhotoManager {
     private static final String IMAGE_BYTES_REQUEST_STATIC_BINDING_ID = "imagebytes";
     private final Context mContext;
     private final int mIconSize;
-    private final ContactListItemView.HostInterface mClivHostInterface;
 
-    public ContactRecipientPhotoManager(final Context context,
-            final ContactListItemView.HostInterface clivHostInterface) {
+    public ContactRecipientPhotoManager(final Context context) {
         mContext = context;
         mIconSize = context.getResources().getDimensionPixelSize(
                 R.dimen.compose_message_chip_height) - context.getResources().getDimensionPixelSize(
                         R.dimen.compose_message_chip_padding) * 2;
-        mClivHostInterface = clivHostInterface;
     }
 
     /**
