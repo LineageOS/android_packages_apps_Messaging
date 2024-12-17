@@ -310,7 +310,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             // It is recommended for the Floating Action button functionality to be duplicated as a
             // menu
             AccessibilityManager accessibilityManager = (AccessibilityManager)
-                    getActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
+                    requireActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
             startNewConversationMenuItem.setVisible(accessibilityManager
                     .isTouchExplorationEnabled());
         }
