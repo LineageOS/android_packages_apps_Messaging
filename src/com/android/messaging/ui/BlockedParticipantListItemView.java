@@ -28,7 +28,6 @@ import com.android.messaging.datamodel.data.ParticipantListItemData;
 
 /**
  * View for individual participant in blocked participants list.
- *
  * Unblocks participant when clicked.
  */
 public class BlockedParticipantListItemView extends LinearLayout {

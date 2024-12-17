@@ -720,7 +720,6 @@ public class ExifInterface {
      * object's existing exif tags.
      *
      * @param jpeg a byte array containing a jpeg compressed image.
-     * @throws java.io.IOException
      */
     public void readExif(byte[] jpeg) throws IOException {
         readExif(new ByteArrayInputStream(jpeg));
@@ -731,7 +730,6 @@ public class ExifInterface {
      * object's existing exif tags.
      *
      * @param inStream an InputStream containing a jpeg compressed image.
-     * @throws java.io.IOException
      */
     public void readExif(InputStream inStream) throws IOException {
         if (inStream == null) {
@@ -751,8 +749,6 @@ public class ExifInterface {
      * existing exif tags.
      *
      * @param inFileName a string representing the filepath to jpeg file.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      */
     public void readExif(String inFileName) throws FileNotFoundException, IOException {
         if (inFileName == null) {
@@ -794,7 +790,6 @@ public class ExifInterface {
      * @param jpeg a byte array containing a jpeg compressed image.
      * @param exifOutStream an OutputStream to which the jpeg image with added
      *            exif tags will be written.
-     * @throws java.io.IOException
      */
     public void writeExif(byte[] jpeg, OutputStream exifOutStream) throws IOException {
         if (jpeg == null || exifOutStream == null) {
@@ -812,7 +807,6 @@ public class ExifInterface {
      * @param bmap a bitmap to compress and write exif into.
      * @param exifOutStream the OutputStream to which the jpeg image with added
      *            exif tags will be written.
-     * @throws java.io.IOException
      */
     public void writeExif(Bitmap bmap, OutputStream exifOutStream) throws IOException {
         if (bmap == null || exifOutStream == null) {
@@ -830,7 +824,6 @@ public class ExifInterface {
      * @param jpegStream an InputStream containing a jpeg compressed image.
      * @param exifOutStream an OutputStream to which the jpeg image with added
      *            exif tags will be written.
-     * @throws java.io.IOException
      */
     public void writeExif(InputStream jpegStream, OutputStream exifOutStream) throws IOException {
         if (jpegStream == null || exifOutStream == null) {
@@ -848,8 +841,6 @@ public class ExifInterface {
      * @param jpeg a byte array containing a jpeg compressed image.
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *            image with added exif tags will be written.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      */
     public void writeExif(byte[] jpeg, String exifOutFileName) throws FileNotFoundException,
             IOException {
@@ -875,8 +866,6 @@ public class ExifInterface {
      * @param bmap a bitmap to compress and write exif into.
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *            image with added exif tags will be written.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      */
     public void writeExif(Bitmap bmap, String exifOutFileName) throws FileNotFoundException,
             IOException {
@@ -902,8 +891,6 @@ public class ExifInterface {
      * @param jpegStream an InputStream containing a jpeg compressed image.
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *            image with added exif tags will be written.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      */
     public void writeExif(InputStream jpegStream, String exifOutFileName)
             throws FileNotFoundException, IOException {
@@ -929,8 +916,6 @@ public class ExifInterface {
      * @param jpegFileName a String containing the filepath for a jpeg file.
      * @param exifOutFileName a String containing the filepath to which the jpeg
      *            image with added exif tags will be written.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      */
     public void writeExif(String jpegFileName, String exifOutFileName)
             throws FileNotFoundException, IOException {
@@ -978,7 +963,6 @@ public class ExifInterface {
      * @param exifOutFileName an String containing a filepath for a jpeg file.
      * @return an OutputStream that writes to the exifOutFileName file, and adds
      *         exif metadata. A jpeg image should be written to this stream.
-     * @throws java.io.FileNotFoundException
      */
     public OutputStream getExifWriterStream(String exifOutFileName) throws FileNotFoundException {
         if (exifOutFileName == null) {
@@ -1005,8 +989,6 @@ public class ExifInterface {
      *            tags if possible.
      * @return true if success, false if could not overwrite. If false, no
      *         changes are made to the file.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      */
     public boolean rewriteExif(String filename, Collection<ExifTag> tags)
             throws FileNotFoundException, IOException {
@@ -1064,7 +1046,6 @@ public class ExifInterface {
      *            existing tags if possible.
      * @return true if success, false if could not overwrite. If false, no
      *         changes are made to the ByteBuffer.
-     * @throws java.io.IOException
      */
     public boolean rewriteExif(ByteBuffer buf, Collection<ExifTag> tags) throws IOException {
         ExifModifier mod = null;
@@ -1087,8 +1068,6 @@ public class ExifInterface {
      * @param filename a String containing a filepath for a jpeg file.
      * @param tags tags that will be written into the jpeg file over existing
      *            tags if possible.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      * @see #rewriteExif
      */
     public void forceRewriteExif(String filename, Collection<ExifTag> tags)
@@ -1126,8 +1105,6 @@ public class ExifInterface {
      * This preserves tags that are not being rewritten.
      *
      * @param filename a String containing a filepath for a jpeg file.
-     * @throws java.io.FileNotFoundException
-     * @throws java.io.IOException
      * @see #rewriteExif
      */
     public void forceRewriteExif(String filename) throws FileNotFoundException, IOException {

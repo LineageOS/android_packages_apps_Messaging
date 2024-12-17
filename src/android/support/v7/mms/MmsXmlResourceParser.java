@@ -30,9 +30,6 @@ import java.io.IOException;
 abstract class MmsXmlResourceParser {
     /**
      * Parse the content
-     *
-     * @throws IOException
-     * @throws XmlPullParserException
      */
     protected abstract void parseRecord() throws IOException, XmlPullParserException;
 
@@ -87,10 +84,7 @@ abstract class MmsXmlResourceParser {
     /**
      * Move XML parser forward to next event type or the end of doc
      *
-     * @param eventType
      * @return The final event type we meet
-     * @throws XmlPullParserException
-     * @throws IOException
      */
     protected int advanceToNextEvent(int eventType) throws XmlPullParserException, IOException {
         for (;;) {

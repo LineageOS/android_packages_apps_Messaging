@@ -39,7 +39,6 @@ public class BugleActivityUtil {
     /**
      * Determine if the requirements for the app to run are met. Log any Activity startup
      * analytics.
-     * @param context
      * @param activity is used to launch an error Dialog if necessary
      * @return true if resume should continue normally. Returns false if some requirements to run
      * are not met.
