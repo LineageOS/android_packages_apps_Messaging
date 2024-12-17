@@ -734,32 +734,6 @@ public class DatabaseMessages {
         }
 
         /**
-         * Get media file size
-         */
-        private long getMediaFileSize() {
-            final Context context = Factory.get().getApplicationContext();
-            final Uri uri = getDataUri();
-            AssetFileDescriptor fd = null;
-            try {
-                fd = context.getContentResolver().openAssetFileDescriptor(uri, "r");
-                if (fd != null) {
-                    return fd.getParcelFileDescriptor().getStatSize();
-                }
-            } catch (final FileNotFoundException e) {
-                LogUtil.e(TAG, "DatabaseMessages.MmsPart: cound not find media file: " + e, e);
-            } finally {
-                if (fd != null) {
-                    try {
-                        fd.close();
-                    } catch (final IOException e) {
-                        LogUtil.e(TAG, "DatabaseMessages.MmsPart: failed to close " + e, e);
-                    }
-                }
-            }
-            return 0L;
-        }
-
-        /**
          * @return If the type is a text type that stores text embedded (i.e. in db table)
          */
         private boolean isEmbeddedTextType() {
