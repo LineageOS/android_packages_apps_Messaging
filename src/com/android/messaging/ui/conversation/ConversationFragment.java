@@ -165,13 +165,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     private ConversationFragmentHost mHost;
 
-    protected List<Integer> mFilterResults;
-
-    // The minimum scrolling distance between RecyclerView's scroll change event beyong which
-    // a fling motion is considered fast, in which case we'll delay load image attachments for
-    // perf optimization.
-    private int mFastFlingThreshold;
-
     // ConversationMessageView that is currently selected
     private ConversationMessageView mSelectedMessage;
 
@@ -412,8 +405,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFastFlingThreshold = getResources().getDimensionPixelOffset(
-                R.dimen.conversation_fast_fling_threshold);
         mAdapter = new ConversationMessageAdapter(getActivity(), null, this,
                 null,
                 // Sets the item click listener on the Recycler item views.
@@ -1577,11 +1568,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     @Override
     public int overrideCounterColor() {
         return -1;      // don't override the color
-    }
-
-    @Override
-    public void onAttachmentsChanged(final boolean haveAttachments) {
-        // no-op for now
     }
 
     @Override

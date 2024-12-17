@@ -26,7 +26,6 @@ import androidx.core.app.JobIntentService;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.datamodel.DataModelException;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
@@ -140,18 +139,9 @@ public class BackgroundWorkerService extends JobIntentService {
         } catch (final Exception exception) {
             final boolean retry = false;
             LogUtil.e(TAG, "Error in background worker", exception);
-            if (!(exception instanceof DataModelException)) {
-                // DataModelException is expected (sort-of) and handled in handleFailureFromWorker
-                // below, but other exceptions should crash ENG builds
-                Assert.fail("Unexpected error in background worker - abort");
-            }
-            if (retry) {
-                action.markBackgroundWorkQueued();
-                startServiceWithAction(action, attempt + 1);
-            } else {
-                action.markBackgroundCompletionQueued();
-                mHost.handleFailureFromBackgroundWorker(action, exception);
-            }
+            Assert.fail("Unexpected error in background worker - abort");
+            action.markBackgroundCompletionQueued();
+            mHost.handleFailureFromBackgroundWorker(action, exception);
         }
     }
 }

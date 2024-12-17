@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,47 +28,16 @@ import javax.annotation.concurrent.ThreadSafe;
 @ThreadSafe
 public class AudioLevelSource {
     private volatile int mSpeechLevel;
-    private volatile Listener mListener;
 
     public static final int LEVEL_UNKNOWN = -1;
-
-    public interface Listener {
-        void onSpeechLevel(int speechLevel);
-    }
 
     public void setSpeechLevel(int speechLevel) {
         Preconditions.checkArgument(speechLevel >= 0 && speechLevel <= 100 ||
                 speechLevel == LEVEL_UNKNOWN);
         mSpeechLevel = speechLevel;
-        maybeNotify();
     }
 
     public int getSpeechLevel() {
         return mSpeechLevel;
-    }
-
-    public void reset() {
-        setSpeechLevel(LEVEL_UNKNOWN);
-    }
-
-    public boolean isValid() {
-        return mSpeechLevel > 0;
-    }
-
-    private void maybeNotify() {
-        final Listener l = mListener;
-        if (l != null) {
-            l.onSpeechLevel(mSpeechLevel);
-        }
-    }
-
-    public synchronized void setListener(Listener listener) {
-        mListener = listener;
-    }
-
-    public synchronized void clearListener(Listener listener) {
-        if (mListener == listener) {
-            mListener = null;
-        }
     }
 }
