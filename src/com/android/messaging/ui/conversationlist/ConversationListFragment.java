@@ -32,7 +32,6 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AbsListView;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewGroupCompat;
@@ -311,7 +310,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             // It is recommended for the Floating Action button functionality to be duplicated as a
             // menu
             AccessibilityManager accessibilityManager = (AccessibilityManager)
-                    getActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
+                    requireActivity().getSystemService(Context.ACCESSIBILITY_SERVICE);
             startNewConversationMenuItem.setVisible(accessibilityManager
                     .isTouchExplorationEnabled());
         }
@@ -396,7 +395,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
                         R.integer.fab_animation_duration_ms));
     }
 
-    public ViewPropertyAnimator dismissFab() {
+    public void dismissFab() {
         // To prevent clicking while animating.
         mStartNewConversationButton.setEnabled(false);
         final MarginLayoutParams lp =
@@ -404,11 +403,11 @@ public class ConversationListFragment extends Fragment implements ConversationLi
         final float fabWidthWithLeftRightMargin = mStartNewConversationButton.getWidth()
                 + lp.leftMargin + lp.rightMargin;
         final int direction = AccessibilityUtil.isLayoutRtl(mStartNewConversationButton) ? -1 : 1;
-        return getNormalizedFabAnimator().translationX(direction * fabWidthWithLeftRightMargin);
+        getNormalizedFabAnimator().translationX(direction * fabWidthWithLeftRightMargin);
     }
 
-    public ViewPropertyAnimator showFab() {
-        return getNormalizedFabAnimator().translationX(0).withEndAction(() -> {
+    public void showFab() {
+        getNormalizedFabAnimator().translationX(0).withEndAction(() -> {
             // Re-enable clicks after the animation.
             mStartNewConversationButton.setEnabled(true);
         });

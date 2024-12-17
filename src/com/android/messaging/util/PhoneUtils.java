@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class abstracts away platform dependency of calling telephony related
@@ -356,10 +357,7 @@ public class PhoneUtils {
     public List<SubscriptionInfo> getActiveSubscriptionInfoList() {
         final List<SubscriptionInfo> subscriptionInfos =
                 mSubscriptionManager.getActiveSubscriptionInfoList();
-        if (subscriptionInfos != null) {
-            return subscriptionInfos;
-        }
-        return EMPTY_SUBSCRIPTION_LIST;
+        return Objects.requireNonNullElse(subscriptionInfos, EMPTY_SUBSCRIPTION_LIST);
     }
 
     /**

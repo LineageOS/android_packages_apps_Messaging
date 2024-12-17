@@ -237,7 +237,7 @@ public class AudioRecordView extends FrameLayout implements
     }
 
     @VisibleForTesting
-    boolean onRecordButtonTouchDown() {
+    void onRecordButtonTouchDown() {
         if (!mMediaRecorder.isRecording() && mCurrentMode == MODE_IDLE) {
             setMode(MODE_STARTING);
             playAudioStartSound(() -> {
@@ -252,9 +252,7 @@ public class AudioRecordView extends FrameLayout implements
                 }
             });
             mAudioRecordStartTimeMillis = System.currentTimeMillis();
-            return true;
         }
-        return false;
     }
 
     @VisibleForTesting
