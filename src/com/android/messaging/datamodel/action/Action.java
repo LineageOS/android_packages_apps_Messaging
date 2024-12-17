@@ -69,9 +69,8 @@ public abstract class Action implements Parcelable {
 
     /**
      * Queues up background actions for background processing after the current action has
-     * completed its processing ({@link #executeAction}, {@link processBackgroundCompletion}
-     * or {@link #processBackgroundFailure}) on the Action thread.
-     * @param backgroundAction
+     * completed its processing ({@link #executeAction} or {@link #processBackgroundFailure})
+     * on the Action thread.
      */
     protected void requestBackgroundWork(final Action backgroundAction) {
         mBackgroundActions.add(backgroundAction);

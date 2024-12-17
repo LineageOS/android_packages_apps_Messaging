@@ -220,7 +220,6 @@ public class PieRenderer extends OverlayRenderer
 
     /**
      * guaranteed has center set
-     * @param show
      */
     private void show(boolean show) {
         if (show) {
@@ -486,7 +485,6 @@ public class PieRenderer extends OverlayRenderer
     /**
      * enter a slice for a view
      * updates model only
-     * @param item
      */
     private void onEnter(PieItem item) {
         if (mCurrentItem != null) {
