@@ -34,7 +34,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import androidx.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.MediaScratchFileProvider;
@@ -166,15 +165,6 @@ public class ImageUtils {
                     dest.width() / 2f - stroke.getStrokeWidth() / 2f,
                     stroke);
         }
-    }
-
-    /**
-     * Sets a drawable to the background of a view. setBackgroundDrawable() is deprecated since
-     * JB and replaced by setBackground().
-     */
-    @SuppressWarnings("deprecation")
-    public static void setBackgroundDrawableOnView(final View view, final Drawable drawable) {
-        view.setBackground(drawable);
     }
 
     /**
