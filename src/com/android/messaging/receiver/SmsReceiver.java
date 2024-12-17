@@ -28,17 +28,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.provider.Telephony;
 import android.provider.Telephony.Sms;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationCompat.Builder;
-import androidx.core.app.NotificationCompat.Style;
-import androidx.core.app.NotificationManagerCompat;
 
-import java.util.ArrayList;
-import java.util.regex.Pattern;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
-import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.datamodel.NoConfirmationSmsSendService;
 import com.android.messaging.datamodel.action.ReceiveSmsMessageAction;
 import com.android.messaging.sms.MmsUtils;
@@ -48,6 +43,9 @@ import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PendingIntentConstants;
 import com.android.messaging.util.PhoneUtils;
+
+import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Class that receives incoming SMS messages through android.provider.Telephony.SMS_RECEIVED

@@ -42,7 +42,6 @@ import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
 import com.android.messaging.ui.conversationlist.ConversationListFragment.ConversationListFragmentHost;
 import com.android.messaging.ui.conversationlist.MultiSelectActionModeCallback.SelectedConversation;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.Trace;
 import com.android.messaging.util.UiUtils;
 
 import java.util.ArrayList;

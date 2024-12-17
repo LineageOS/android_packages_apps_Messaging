@@ -29,12 +29,10 @@ import android.database.sqlite.SQLiteException;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
-import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 
@@ -45,7 +43,6 @@ import com.android.messaging.datamodel.action.DownloadMmsAction;
 import com.android.messaging.datamodel.action.SendMessageAction;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
-import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.mmslib.InvalidHeaderValueException;
 import com.android.messaging.mmslib.MmsException;
 import com.android.messaging.mmslib.SqliteWrapper;
@@ -122,7 +119,7 @@ public class MmsUtils {
      */
     public static final int MMS_REQUEST_NO_RETRY = 3;
 
-    public static final String getRequestStatusDescription(final int status) {
+    public static String getRequestStatusDescription(final int status) {
         switch (status) {
             case MMS_REQUEST_SUCCEEDED:
                 return "SUCCEEDED";
@@ -889,9 +886,7 @@ public class MmsUtils {
                 LogUtil.d(TAG, "Mmsutils: Inserted SMS message into telephony (type = " + type + ")"
                         + ", uri: " + response);
             }
-        } catch (final SQLiteException e) {
-            LogUtil.e(TAG, "MmsUtils: persist sms message failure " + e, e);
-        } catch (final IllegalArgumentException e) {
+        } catch (final SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "MmsUtils: persist sms message failure " + e, e);
         }
         return response;
@@ -914,9 +909,7 @@ public class MmsUtils {
                 }
                 return true;
             }
-        } catch (final SQLiteException e) {
-            LogUtil.e(TAG, "MmsUtils: update sms message failure " + e, e);
-        } catch (final IllegalArgumentException e) {
+        } catch (final SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "MmsUtils: update sms message failure " + e, e);
         }
         return false;
@@ -999,9 +992,7 @@ public class MmsUtils {
                 }
                 return true;
             }
-        } catch (final SQLiteException e) {
-            LogUtil.e(TAG, "MmsUtils: update mms message failure " + e, e);
-        } catch (final IllegalArgumentException e) {
+        } catch (final SQLiteException | IllegalArgumentException e) {
             LogUtil.e(TAG, "MmsUtils: update mms message failure " + e, e);
         }
         return false;
@@ -1135,9 +1126,7 @@ public class MmsUtils {
             if (messageUri != null) {
                 return ContentUris.parseId(messageUri);
             }
-        } catch (final UnsupportedOperationException e) {
-            // Nothing to do
-        } catch (final NumberFormatException e) {
+        } catch (final UnsupportedOperationException | NumberFormatException e) {
             // Nothing to do
         }
         return -1;
@@ -1785,9 +1774,7 @@ public class MmsUtils {
             }
             MmsSender.sendNotifyResponseForMmsDownload(
                     context, subId, transactionId, contentLocation, status);
-        } catch (final MmsFailureException e) {
-            LogUtil.e(TAG, "sendNotifyResponseForMmsDownload: failed to retrieve message " + e, e);
-        } catch (final InvalidHeaderValueException e) {
+        } catch (final MmsFailureException | InvalidHeaderValueException e) {
             LogUtil.e(TAG, "sendNotifyResponseForMmsDownload: failed to retrieve message " + e, e);
         }
     }
@@ -1810,9 +1797,7 @@ public class MmsUtils {
                 return;
             }
             MmsSender.sendAcknowledgeForMmsDownload(context, subId, transactionId, contentLocation);
-        } catch (final MmsFailureException e) {
-            LogUtil.e(TAG, "sendAcknowledgeForMmsDownload: failed to retrieve message " + e, e);
-        } catch (final InvalidHeaderValueException e) {
+        } catch (final MmsFailureException | InvalidHeaderValueException e) {
             LogUtil.e(TAG, "sendAcknowledgeForMmsDownload: failed to retrieve message " + e, e);
         }
     }
@@ -1875,12 +1860,10 @@ public class MmsUtils {
             status = e.retryHint;
             rawStatus = e.rawStatus;
             LogUtil.e(TAG, "MmsUtils: failed to send message " + e, e);
-        } catch (final InvalidHeaderValueException e) {
+        } catch (final MmsException e) {
             LogUtil.e(TAG, "MmsUtils: failed to send message " + e, e);
         } catch (final IllegalArgumentException e) {
             LogUtil.e(TAG, "MmsUtils: invalid message to send " + e, e);
-        } catch (final MmsException e) {
-            LogUtil.e(TAG, "MmsUtils: failed to send message " + e, e);
         }
         // If we get here, some exception occurred
         return new StatusPlusUri(status, rawStatus, messageUri);
@@ -1939,8 +1922,6 @@ public class MmsUtils {
     private static String[] getDupNotifications(final Context context, final NotificationInd nInd) {
         final byte[] rawTransactionId = nInd.getTransactionId();
         if (rawTransactionId != null) {
-            // dedup algorithm
-            String selection = DUP_NOTIFICATION_QUERY_SELECTION;
             final long nowSecs = System.currentTimeMillis() / 1000;
             String[] selectionArgs = new String[] {
                     Integer.toString(PduHeaders.MESSAGE_TYPE_NOTIFICATION_IND),
@@ -1952,7 +1933,7 @@ public class MmsUtils {
             try (Cursor cursor = SqliteWrapper.query(
                     context, context.getContentResolver(),
                     Mms.CONTENT_URI, new String[]{Mms._ID},
-                    selection, selectionArgs, null)) {
+                    DUP_NOTIFICATION_QUERY_SELECTION, selectionArgs, null)) {
                 final int dupCount = cursor.getCount();
                 if (dupCount > 0) {
                     // We already received the same notification before.
@@ -2015,7 +1996,7 @@ public class MmsUtils {
                 }
                 final String[] dups = getDupNotifications(context, nInd);
                 if (dups == null) {
-                    Uri inboxUri = null;
+                    Uri inboxUri;
                     try {
                         inboxUri = p.persist(pdu, Mms.Inbox.CONTENT_URI, subId, subPhoneNumber,
                                 null);
@@ -2299,9 +2280,7 @@ public class MmsUtils {
             if (pduData == null || pduData.length < 1) {
                 throw new IllegalArgumentException("Empty or zero length PDU data");
             }
-        } catch (final MmsFailureException e) {
-            // Nothing to do
-        } catch (final InvalidHeaderValueException e) {
+        } catch (final MmsFailureException | InvalidHeaderValueException e) {
             // Nothing to do
         }
         return pduData;
@@ -2349,17 +2328,15 @@ public class MmsUtils {
         }
         final String dumpFileName = MmsUtils.MMS_DUMP_PREFIX + getDumpFileId(pdu);
         final File dumpFile = DebugUtils.getDebugFile(dumpFileName, true);
-        if (dumpFile != null) {
-            try {
-                final FileOutputStream fos = new FileOutputStream(dumpFile);
-                try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-                    bos.write(rawPdu);
-                    bos.flush();
-                }
-                DebugUtils.ensureReadable(dumpFile);
-            } catch (final IOException e) {
-                LogUtil.e(TAG, "dumpPdu: " + e, e);
+        try {
+            final FileOutputStream fos = new FileOutputStream(dumpFile);
+            try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+                bos.write(rawPdu);
+                bos.flush();
             }
+            DebugUtils.ensureReadable(dumpFile);
+        } catch (final IOException e) {
+            LogUtil.e(TAG, "dumpPdu: " + e, e);
         }
     }
 

@@ -106,17 +106,13 @@ public class BackgroundWorkerService extends JobIntentService {
     protected void onHandleWork(@NonNull final Intent intent) {
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
 
-        switch(opcode) {
-            case OP_PROCESS_REQUEST: {
-                final Action action = intent.getParcelableExtra(EXTRA_ACTION);
-                final int attempt = intent.getIntExtra(EXTRA_ATTEMPT, -1);
-                doBackgroundWork(action, attempt);
-                break;
-            }
-
-            default:
-                LogUtil.w(TAG, "Unrecognized opcode in BackgroundWorkerService " + opcode);
-                throw new RuntimeException("Unrecognized opcode in BackgroundWorkerService");
+        if (opcode == OP_PROCESS_REQUEST) {
+            final Action action = intent.getParcelableExtra(EXTRA_ACTION);
+            final int attempt = intent.getIntExtra(EXTRA_ATTEMPT, -1);
+            doBackgroundWork(action, attempt);
+        } else {
+            LogUtil.w(TAG, "Unrecognized opcode in BackgroundWorkerService " + opcode);
+            throw new RuntimeException("Unrecognized opcode in BackgroundWorkerService");
         }
     }
 
