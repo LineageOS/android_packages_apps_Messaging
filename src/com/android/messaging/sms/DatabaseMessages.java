@@ -143,8 +143,6 @@ public class DatabaseMessages {
 
         /**
          * Load from a cursor of a query that returns the SMS to import
-         *
-         * @param cursor
          */
         private void load(final Cursor cursor) {
             mRowId = cursor.getLong(INDEX_ID);
@@ -165,9 +163,6 @@ public class DatabaseMessages {
         /**
          * Get a new SmsMessage by loading from the cursor of a query
          * that returns the SMS to import
-         *
-         * @param cursor
-         * @return
          */
         public static SmsMessage get(final Cursor cursor) {
             final SmsMessage msg = new SmsMessage();
@@ -334,8 +329,6 @@ public class DatabaseMessages {
 
         /**
          * Load from a cursor of a query that returns the MMS to import
-         *
-         * @param cursor
          */
         public void load(final Cursor cursor) {
             mRowId = cursor.getLong(INDEX_ID);
@@ -375,9 +368,6 @@ public class DatabaseMessages {
         /**
          * Get a new MmsMessage by loading from the cursor of a query
          * that returns the MMS to import
-         *
-         * @param cursor
-         * @return
          */
         public static MmsMessage get(final Cursor cursor) {
             final MmsMessage msg = new MmsMessage();
@@ -386,8 +376,6 @@ public class DatabaseMessages {
         }
         /**
          * Add a loaded MMS part
-         *
-         * @param part
          */
         public void addPart(final MmsPart part) {
             mParts.add(part);
@@ -571,8 +559,6 @@ public class DatabaseMessages {
 
         /**
          * Load from a cursor of a query that returns the MMS part to import
-         *
-         * @param cursor
          */
         public void load(final Cursor cursor, final boolean loadMedia) {
             mRowId = cursor.getLong(INDEX_ID);
@@ -744,9 +730,6 @@ public class DatabaseMessages {
         /**
          * Get an instance of the MMS part from the part table cursor
          *
-         * @param cursor
-         * @param loadMedia Whether to load the media file of the part
-         * @return
          */
         public static MmsPart get(final Cursor cursor, final boolean loadMedia) {
             final MmsPart part = new MmsPart();

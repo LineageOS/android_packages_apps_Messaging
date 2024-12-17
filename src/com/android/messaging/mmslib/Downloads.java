@@ -21,8 +21,6 @@ import android.provider.BaseColumns;
 
 /**
  * The Download Manager
- *
- * @pending
  */
 public final class Downloads {
     private Downloads() {}
