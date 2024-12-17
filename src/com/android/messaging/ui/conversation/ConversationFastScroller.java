@@ -24,12 +24,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import android.util.StateSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,6 +34,11 @@ import android.view.ViewGroupOverlay;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ConversationMessageData;
@@ -77,9 +76,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     private static final int HIDE_ANIMATION_DURATION_MS = 300;
     private static final int HIDE_DELAY_MS = 1500;
 
-    private final Context mContext;
     private final RecyclerView mRv;
-    private final ViewGroupOverlay mOverlay;
     private final ImageView mTrackImageView;
     private final ImageView mThumbImageView;
     private final TextView mPreviewTextView;
@@ -117,7 +114,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
     };
 
     private ConversationFastScroller(RecyclerView rv, int position) {
-        mContext = rv.getContext();
+        final Context context  = rv.getContext();
         mRv = rv;
         mRv.addOnLayoutChangeListener(this);
         mRv.addOnScrollListener(this);
@@ -131,7 +128,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
         mPosRight = (position == POSITION_RIGHT_SIDE);
 
         // Cache the dimensions we'll need during layout
-        final Resources res = mContext.getResources();
+        final Resources res = context.getResources();
         mTrackWidth = res.getDimensionPixelSize(R.dimen.fastscroll_track_width);
         mThumbHeight = res.getDimensionPixelSize(R.dimen.fastscroll_thumb_height);
         mPreviewHeight = res.getDimensionPixelSize(R.dimen.fastscroll_preview_height);
@@ -141,7 +138,7 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
                 R.dimen.fastscroll_preview_margin_left_right);
         mTouchSlop = res.getDimensionPixelOffset(R.dimen.fastscroll_touch_slop);
 
-        final LayoutInflater inflator = LayoutInflater.from(mContext);
+        final LayoutInflater inflator = LayoutInflater.from(context);
         mTrackImageView = (ImageView) inflator.inflate(R.layout.fastscroll_track, null);
         mThumbImageView = (ImageView) inflator.inflate(R.layout.fastscroll_thumb, null);
         mPreviewTextView = (TextView) inflator.inflate(R.layout.fastscroll_preview, null);
@@ -149,10 +146,10 @@ public class ConversationFastScroller extends RecyclerView.OnScrollListener impl
         refreshConversationThemeColor();
 
         // Add the fast scroll views to the overlay, so they are rendered above the list
-        mOverlay = rv.getOverlay();
-        mOverlay.add(mTrackImageView);
-        mOverlay.add(mThumbImageView);
-        mOverlay.add(mPreviewTextView);
+        final ViewGroupOverlay overlay = rv.getOverlay();
+        overlay.add(mTrackImageView);
+        overlay.add(mThumbImageView);
+        overlay.add(mPreviewTextView);
 
         hide(false /* animate */);
         mPreviewTextView.setAlpha(0f);

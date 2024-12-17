@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.android.messaging.datamodel.data.MessagePartData;
@@ -224,7 +223,7 @@ public abstract class ImageRequest<D extends ImageRequestDescriptor>
             final int backgroundColor = mDescriptor.circleBackgroundColor;
             final int strokeColor = mDescriptor.circleStrokeColor;
             ImageUtils.drawBitmapWithCircleOnCanvas(sourceBitmap, new Canvas(targetBitmap), source,
-                    dest, null, backgroundColor == 0 ? false : true /* fillBackground */,
+                    dest, null, backgroundColor != 0 /* fillBackground */,
                             backgroundColor, strokeColor);
             return new DecodedImageResource(getKey(), targetBitmap,
                     loadedResource.getOrientation());
