@@ -349,9 +349,9 @@ public class MmsHttpClient {
                 CarrierConfigValuesLoader.CONFIG_HTTP_PARAMS);
         if (!TextUtils.isEmpty(extraHttpParams)) {
             // Parse the parameter list
-            String paramList[] = extraHttpParams.split("\\|");
+            String[] paramList = extraHttpParams.split("\\|");
             for (String paramPair : paramList) {
-                String splitPair[] = paramPair.split(":", 2);
+                String[] splitPair = paramPair.split(":", 2);
                 if (splitPair.length == 2) {
                     final String name = splitPair[0].trim();
                     final String value = resolveMacro(splitPair[1].trim(), mmsConfig);

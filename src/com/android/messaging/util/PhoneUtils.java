@@ -40,7 +40,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.sms.MmsSmsUtils;
-
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class abstracts away platform dependency of calling telephony related
@@ -296,19 +296,7 @@ public class PhoneUtils {
      * @return true if mobile data is enabled, false otherwise
      */
     public boolean isMobileDataEnabled() {
-        boolean mobileDataEnabled = false;
-        try {
-            final Class cmClass = mTelephonyManager.getClass();
-            final Method method = cmClass.getDeclaredMethod("getDataEnabled", Integer.TYPE);
-            method.setAccessible(true); // Make the method callable
-            // get the setting for "mobile data"
-            mobileDataEnabled = (Boolean) method.invoke(
-                    mTelephonyManager, Integer.valueOf(mSubId));
-        } catch (final Exception e) {
-            LogUtil.e(TAG, "PhoneUtil.isMobileDataEnabled: system api not found", e);
-        }
-        return mobileDataEnabled;
-
+        return mTelephonyManager.createForSubscriptionId(mSubId).isDataEnabled();
     }
 
     /**
@@ -357,10 +345,7 @@ public class PhoneUtils {
     public List<SubscriptionInfo> getActiveSubscriptionInfoList() {
         final List<SubscriptionInfo> subscriptionInfos =
                 mSubscriptionManager.getActiveSubscriptionInfoList();
-        if (subscriptionInfos != null) {
-            return subscriptionInfos;
-        }
-        return EMPTY_SUBSCRIPTION_LIST;
+        return Objects.requireNonNullElse(subscriptionInfos, EMPTY_SUBSCRIPTION_LIST);
     }
 
     /**

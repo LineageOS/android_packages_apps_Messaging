@@ -17,10 +17,8 @@ package com.android.messaging.datamodel.data;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 
 import com.android.messaging.R;
-import com.android.messaging.datamodel.data.ConversationListItemData.ConversationListViewColumns;
 import com.android.messaging.util.Assert;
 
 public class PeopleOptionsItemData {

@@ -165,16 +165,14 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             // Start method tracing with a big enough buffer and let it run for 30s.
             // Note we use a logging tag as we don't want to wait for gservices to start up.
             final File file = DebugUtils.getDebugFile("startup.trace", true);
-            if (file != null) {
-                android.os.Debug.startMethodTracing(file.getAbsolutePath(), 160 * 1024 * 1024);
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    android.os.Debug.stopMethodTracing();
-                    // Allow world to see trace file
-                    DebugUtils.ensureReadable(file);
-                    LogUtil.d(LogUtil.PROFILE_TAG, "Tracing complete - "
-                            + file.getAbsolutePath());
+            android.os.Debug.startMethodTracing(file.getAbsolutePath(), 160 * 1024 * 1024);
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                android.os.Debug.stopMethodTracing();
+                // Allow world to see trace file
+                DebugUtils.ensureReadable(file);
+                LogUtil.d(LogUtil.PROFILE_TAG, "Tracing complete - "
+                        + file.getAbsolutePath());
                 }, 30000);
-            }
         }
     }
 
