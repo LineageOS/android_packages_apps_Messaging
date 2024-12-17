@@ -123,8 +123,6 @@ class SyncMessageBatch {
 
     /**
      * Store the SMS message into local database.
-     *
-     * @param sms
      */
     private void storeSms(final DatabaseWrapper db, final SmsMessage sms) {
         if (sms.mBody == null) {
@@ -224,8 +222,6 @@ class SyncMessageBatch {
 
     /**
      * Store the MMS message into local database
-     *
-     * @param mms
      */
     private void storeMms(final DatabaseWrapper db, final MmsMessage mms) {
         if (mms.mParts.size() < 1) {
@@ -348,9 +344,6 @@ class SyncMessageBatch {
      * Batch delete database rows by matching a column with a list of values, usually some
      * kind of IDs.
      *
-     * @param table
-     * @param column
-     * @param ids
      * @return Total number of deleted messages
      */
     private static int batchDelete(final DatabaseWrapper db, final String table,
