@@ -209,5 +209,5 @@ abstract class MediaChooser extends BasePagerViewHolder
     public void onPause() { }
     public void onResume() { }
     protected void onRequestPermissionsResult(
-            final int requestCode, final String permissions[], final int[] grantResults) { }
+            final int requestCode, final String[] permissions, final int[] grantResults) { }
 }
