@@ -97,7 +97,7 @@ class ContactMediaChooser extends MediaChooser {
 
     @Override
     protected void onRequestPermissionsResult(
-            final int requestCode, final String permissions[], final int[] grantResults) {
+            final int requestCode, final String[] permissions, final int[] grantResults) {
         if (requestCode == MediaPicker.READ_CONTACT_PERMISSION_REQUEST_CODE) {
             final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             mEnabledView.setVisibility(permissionGranted ? View.VISIBLE : View.GONE);

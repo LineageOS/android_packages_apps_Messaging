@@ -91,7 +91,7 @@ public class PermissionCheckActivity extends Activity {
 
     @Override
     public void onRequestPermissionsResult(final int requestCode,
-                                           @NonNull final String permissions[],
+                                           @NonNull final String[] permissions,
                                            @NonNull final int[] grantResults) {
         if (requestCode == REQUIRED_PERMISSIONS_REQUEST_CODE) {
             // We do not use grantResults as some of the granted permissions might have been

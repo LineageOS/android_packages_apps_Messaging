@@ -762,7 +762,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     final View targetView = getActivity().findViewById(R.id.action_call);
                     Point centerPoint;
                     if (targetView != null) {
-                        final int screenLocation[] = new int[2];
+                        final int[] screenLocation = new int[2];
                         targetView.getLocationOnScreen(screenLocation);
                         final int centerX = screenLocation[0] + targetView.getWidth() / 2;
                         final int centerY = screenLocation[1] + targetView.getHeight() / 2;
