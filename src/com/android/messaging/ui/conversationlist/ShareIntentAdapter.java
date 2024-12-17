@@ -30,7 +30,6 @@ import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.datamodel.data.PersonItemData;
 import com.android.messaging.ui.CursorRecyclerAdapter;
 import com.android.messaging.ui.PersonItemView;
-import com.android.messaging.ui.PersonItemView.PersonItemViewListener;
 import com.android.messaging.util.PhoneUtils;
 
 /**
