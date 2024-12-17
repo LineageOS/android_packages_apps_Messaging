@@ -23,7 +23,6 @@ import com.android.ex.chips.RecipientEntry;
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.BugleRecipientEntry;
-import com.android.messaging.datamodel.data.ParticipantData;
 
 /**
  * Provides utility methods around creating RecipientEntry instance specific to Bugle's needs.
@@ -104,12 +103,5 @@ public class ContactRecipientEntryUtils {
      */
     public static boolean isSendToDestinationContact(final RecipientEntry entry) {
         return entry.getContactId() == CONTACT_ID_SENDTO_DESTINATION;
-    }
-
-    /**
-     * Returns true if the given participant is a special send to number item.
-     */
-    public static boolean isSendToDestinationContact(final ParticipantData participant) {
-        return participant.getContactId() == CONTACT_ID_SENDTO_DESTINATION;
     }
 }
