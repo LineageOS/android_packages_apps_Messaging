@@ -89,7 +89,6 @@ public abstract class NotificationState {
 
     /**
      * Build the notification using the given builder.
-     * @param builder
      * @return The style of the notification.
      */
     protected abstract NotificationCompat.Style build(NotificationCompat.Builder builder);
