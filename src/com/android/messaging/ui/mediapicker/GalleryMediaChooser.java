@@ -224,7 +224,7 @@ class GalleryMediaChooser extends MediaChooser implements
 
     @Override
     protected void onRequestPermissionsResult(
-            final int requestCode, final String permissions[], final int[] grantResults) {
+            final int requestCode, final String[] permissions, final int[] grantResults) {
         if (requestCode == MediaPicker.GALLERY_PERMISSION_REQUEST_CODE) {
             final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             if (permissionGranted) {
