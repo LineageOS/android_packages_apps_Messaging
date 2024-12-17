@@ -94,8 +94,6 @@ import java.util.Set;
  * There are currently two main classes of notification and their rules: <p>
  * 1) Messages - {@link MessageNotificationState}. Only one message notification.
  * Unread messages across senders and conversations are coalesced.<p>
- * 2) Failed Messages - {@link MessageNotificationState#checkFailedMesages } Only one failed
- * message. Multiple failures are coalesced.<p>
  *
  * To add a new class of notifications, subclass the NotificationState and add commands which
  * create one and pass into general creation function.

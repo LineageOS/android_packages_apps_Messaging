@@ -29,7 +29,7 @@ import com.android.messaging.R;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
-/**
+/*
  * Carrier configuration loader
  *
  * Loader tries to load from resources. If there is MMS API available, also

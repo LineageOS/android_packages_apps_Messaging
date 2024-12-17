@@ -61,7 +61,6 @@ public abstract class ConversationInput {
 
     /**
      * Toggle the visibility of this view.
-     * @param animate
      * @return true if the view is now shown, false if it now hidden
      */
     public boolean toggle(final boolean animate) {

@@ -78,7 +78,7 @@ public class DrmConvertSession {
     /**
      * Convert a buffer of data to protected format.
      *
-     * @param buffer Buffer filled with data to convert.
+     * @param inBuffer Buffer filled with data to convert.
      * @param size   The number of bytes that shall be converted.
      * @return A Buffer filled with converted data, if execution is ok, in all
      * other case null.
@@ -117,7 +117,7 @@ public class DrmConvertSession {
     /**
      * Ends a conversion session of a file.
      *
-     * @param fileName The filename of the converted file.
+     * @param filename The filename of the converted file.
      * @return Downloads.Impl.STATUS_SUCCESS if execution is ok.
      *         Downloads.Impl.STATUS_FILE_ERROR in case converted file can not
      *         be accessed. Downloads.Impl.STATUS_NOT_ACCEPTABLE if a problem
