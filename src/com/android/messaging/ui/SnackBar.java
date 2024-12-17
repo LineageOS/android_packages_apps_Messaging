@@ -32,6 +32,7 @@ import com.android.messaging.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class SnackBar {
     public static final int LONG_DURATION_IN_MS = 5000;
@@ -211,11 +212,7 @@ public class SnackBar {
         mAction = builder.mAction;
         mPlacement = builder.mPlacement;
         mParentView = builder.mParentView;
-        if (builder.mInteractions == null) {
-            mInteractions = new ArrayList<>();
-        } else {
-            mInteractions = builder.mInteractions;
-        }
+        mInteractions = Objects.requireNonNullElseGet(builder.mInteractions, ArrayList::new);
 
         mActionTextView = (TextView) mRootView.findViewById(R.id.snack_bar_action);
         mMessageView = (TextView) mRootView.findViewById(R.id.snack_bar_message);

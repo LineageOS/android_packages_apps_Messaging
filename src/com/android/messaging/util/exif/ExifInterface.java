@@ -1222,10 +1222,10 @@ public class ExifInterface {
      */
     public Long getTagLongValue(int tagId, int ifdId) {
         long[] l = getTagLongValues(tagId, ifdId);
-        if (l == null || l.length <= 0) {
+        if (l == null || l.length == 0) {
             return null;
         }
-        return new Long(l[0]);
+        return l[0];
     }
 
     /**
@@ -1241,10 +1241,10 @@ public class ExifInterface {
      */
     public Integer getTagIntValue(int tagId, int ifdId) {
         int[] l = getTagIntValues(tagId, ifdId);
-        if (l == null || l.length <= 0) {
+        if (l == null || l.length == 0) {
             return null;
         }
-        return new Integer(l[0]);
+        return l[0];
     }
 
     /**
@@ -1260,10 +1260,10 @@ public class ExifInterface {
      */
     public Byte getTagByteValue(int tagId, int ifdId) {
         byte[] l = getTagByteValues(tagId, ifdId);
-        if (l == null || l.length <= 0) {
+        if (l == null || l.length == 0) {
             return null;
         }
-        return new Byte(l[0]);
+        return l[0];
     }
 
     /**

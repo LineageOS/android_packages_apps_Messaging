@@ -25,7 +25,6 @@ import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContactUtil;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * A cursor builder that takes the frequent contacts cursor and aggregate it with the all contacts
@@ -45,20 +44,16 @@ public class FrequentContactsCursorBuilder {
 
     /**
      * Sets the frequent contacts cursor as soon as it is loaded, or null if it's reset.
-     * @return this builder instance for chained operations
      */
-    public FrequentContactsCursorBuilder setFrequents(final Cursor frequentContactsCursor) {
+    public void setFrequents(final Cursor frequentContactsCursor) {
         mFrequentContactsCursor = frequentContactsCursor;
-        return this;
     }
 
     /**
      * Sets the all contacts cursor as soon as it is loaded, or null if it's reset.
-     * @return this builder instance for chained operations
      */
-    public FrequentContactsCursorBuilder setAllContacts(final Cursor allContactsCursor) {
+    public void setAllContacts(final Cursor allContactsCursor) {
         mAllContactsCursor = allContactsCursor;
-        return this;
     }
 
     /**
@@ -153,7 +148,7 @@ public class FrequentContactsCursorBuilder {
 
             // Now we have a list of rows containing frequent contacts in alphabetical order.
             // Therefore, sort all the rows according to their actual ranks in the frequents list.
-            Collections.sort(rows, (lhs, rhs) -> {
+            rows.sort((lhs, rhs) -> {
                 final String lookupKeyLhs = (String) lhs[ContactUtil.INDEX_LOOKUP_KEY];
                 final String lookupKeyRhs = (String) rhs[ContactUtil.INDEX_LOOKUP_KEY];
                 Assert.isTrue(lookupKeyToRankMap.containsKey(lookupKeyLhs) &&
@@ -179,8 +174,7 @@ public class FrequentContactsCursorBuilder {
                         return 1;
                     } else {
                         // Use the default sort order, i.e. sort by phoneType value.
-                        return phoneTypeLhs < phoneTypeRhs ? -1 :
-                                (phoneTypeLhs == phoneTypeRhs ? 0 : 1);
+                        return Integer.compare(phoneTypeLhs, phoneTypeRhs);
                     }
                 }
             });

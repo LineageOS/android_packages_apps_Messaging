@@ -145,7 +145,7 @@ public final class EmailAddress {
         }
 
         // check if the host contains two continuous dots.
-        if (host.indexOf("..") >= 0) {
+        if (host.contains("..")) {
             return false;
         }
 
@@ -179,7 +179,7 @@ public final class EmailAddress {
             }
 
             // the user cannot contain two continuous dots
-            if (user.indexOf("..") >= 0) {
+            if (user.contains("..")) {
                 return false;
             }
 

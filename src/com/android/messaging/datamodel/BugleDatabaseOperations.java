@@ -24,9 +24,10 @@ import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.text.TextUtils;
+
 import androidx.collection.ArrayMap;
 import androidx.collection.SimpleArrayMap;
-import android.text.TextUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DatabaseHelper.ConversationColumns;
@@ -55,6 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
 import javax.annotation.Nullable;
 
 

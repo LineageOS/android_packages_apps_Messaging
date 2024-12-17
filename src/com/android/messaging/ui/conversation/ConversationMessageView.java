@@ -73,7 +73,6 @@ import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.YouTubeUtil;
 import com.google.common.base.Predicate;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -238,8 +237,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      * @param cursor The cursor from a MessageList that this view is in, pointing to its entry.
      * @param oneOnOne Whether this is a 1:1 conversation
      */
-    public void bind(final Cursor cursor,
-            final boolean oneOnOne, final String selectedMessageId) {
+    public void bind(final Cursor cursor, final boolean oneOnOne, final String selectedMessageId) {
         mOneOnOne = oneOnOne;
 
         // Update our UI model
@@ -494,7 +492,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         // Bind image attachments. If there are multiple, they are shown in a collage view.
         final List<MessagePartData> imageParts = mData.getAttachments(sImageFilter);
         if (imageParts.size() > 1) {
-            Collections.sort(imageParts, sImageComparator);
+            imageParts.sort(sImageComparator);
             mMultiAttachmentView.bindAttachments(imageParts, null, imageParts.size());
             mMultiAttachmentView.setVisibility(View.VISIBLE);
         } else {
