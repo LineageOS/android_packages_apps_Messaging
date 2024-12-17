@@ -114,9 +114,6 @@ public class BugleActionToasts {
         }
     }
 
-    public static void onConversationDeleted() {
-    }
-
     private static void showToast(final int messageResId) {
         ThreadUtil.getMainThreadHandler().post(() -> Toast.makeText(getApplicationContext(),
                 getApplicationContext().getString(messageResId), Toast.LENGTH_LONG).show());

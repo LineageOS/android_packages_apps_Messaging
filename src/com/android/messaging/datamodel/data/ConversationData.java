@@ -55,10 +55,7 @@ import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.widget.WidgetConversationProvider;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ConversationData extends BindableData {
 
@@ -66,40 +63,6 @@ public class ConversationData extends BindableData {
     private static final String BINDING_ID = "bindingId";
     private static final long LAST_MESSAGE_TIMESTAMP_NaN = -1;
     private static final int MESSAGE_COUNT_NaN = -1;
-
-    /**
-     * Takes a conversation id and a list of message ids and computes the positions
-     * for each message.
-     */
-    public List<Integer> getPositions(final String conversationId, final List<Long> ids) {
-        final ArrayList<Integer> result = new ArrayList<>();
-
-        if (ids.isEmpty()) {
-            return result;
-        }
-
-        final Cursor c = new ConversationData.ReversedCursor(
-                DataModel.get().getDatabase().rawQuery(
-                        ConversationMessageData.getConversationMessageIdsQuerySql(),
-                        new String [] { conversationId }));
-        if (c != null) {
-            try {
-                final Set<Long> idsSet = new HashSet<>(ids);
-                if (c.moveToLast()) {
-                    do {
-                        final long messageId = c.getLong(0);
-                        if (idsSet.contains(messageId)) {
-                            result.add(c.getPosition());
-                        }
-                    } while (c.moveToPrevious());
-                }
-            } finally {
-                c.close();
-            }
-        }
-        Collections.sort(result);
-        return result;
-    }
 
     public interface ConversationDataListener {
         void onConversationMessagesCursorUpdated(ConversationData data, Cursor cursor,

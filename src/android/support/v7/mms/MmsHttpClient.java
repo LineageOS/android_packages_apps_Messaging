@@ -480,24 +480,4 @@ public class MmsHttpClient {
         }
         return null;
     }
-
-    /**
-     * Get NAI using hidden SystemProperties.get(String)
-     *
-     * @return the NAI string as system property
-     */
-    private static String getNaiBySystemProperty() {
-        try {
-            final Class systemPropertiesClass = Class.forName("android.os.SystemProperties");
-            if (systemPropertiesClass != null) {
-                final Method method = systemPropertiesClass.getMethod("get", String.class);
-                if (method != null) {
-                    return (String) method.invoke(null, NAI_PROPERTY);
-                }
-            }
-        } catch (Exception e) {
-            Log.w(MmsService.TAG, "SystemProperties.get failed " + e);
-        }
-        return null;
-    }
 }
