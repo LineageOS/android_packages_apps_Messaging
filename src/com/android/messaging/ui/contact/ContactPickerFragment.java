@@ -152,7 +152,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mRecipientTextView.setContactChipsListener(this);
         mRecipientTextView.setDropdownChipLayouter(new ContactDropdownLayouter(inflater,
                 getActivity(), this));
-        mRecipientTextView.setAdapter(new ContactRecipientAdapter(getActivity(), this));
+        mRecipientTextView.setAdapter(new ContactRecipientAdapter(getActivity()));
         mRecipientTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(final CharSequence s, final int start, final int before,

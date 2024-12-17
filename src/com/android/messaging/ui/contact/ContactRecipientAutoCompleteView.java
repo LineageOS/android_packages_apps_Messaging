@@ -59,7 +59,6 @@ public class ContactRecipientAutoCompleteView extends RecipientEditTextView {
         void onEntryComplete();
     }
 
-    private final int mTextHeight;
     private ContactChipsChangeListener mChipsChangeListener;
 
     /**
@@ -110,7 +109,6 @@ public class ContactRecipientAutoCompleteView extends RecipientEditTextView {
         final Rect textBounds = new Rect(0, 0, 0, 0);
         final TextPaint paint = getPaint();
         paint.getTextBounds(TEXT_HEIGHT_SAMPLE, 0, TEXT_HEIGHT_SAMPLE.length(), textBounds);
-        mTextHeight = textBounds.height();
 
         setTokenizer(new Rfc822Tokenizer());
         addTextChangedListener(new ContactChipsWatcher());

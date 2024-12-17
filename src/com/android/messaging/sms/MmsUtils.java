@@ -25,7 +25,6 @@ import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -38,8 +37,6 @@ import android.provider.Telephony.Threads;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
-import android.text.util.Rfc822Token;
-import android.text.util.Rfc822Tokenizer;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -1380,45 +1377,6 @@ public class MmsUtils {
     }
 
     /**
-     * Update the read status of a single MMS message by its URI
-     *
-     * @param mmsUri
-     * @param read
-     */
-    public static void updateReadStatusForMmsMessage(final Uri mmsUri, final boolean read) {
-        final ContentResolver resolver = Factory.get().getApplicationContext().getContentResolver();
-        final ContentValues values = new ContentValues();
-        values.put(Mms.READ, read ? 1 : 0);
-        resolver.update(mmsUri, values, null/*where*/, null/*selectionArgs*/);
-    }
-
-    public static class AttachmentInfo {
-        public String mUrl;
-        public String mContentType;
-        public int mWidth;
-        public int mHeight;
-    }
-
-    /**
-     * Convert byte array to Java String using a charset name
-     *
-     * @param bytes
-     * @param charsetName
-     * @return
-     */
-    public static String bytesToString(final byte[] bytes, final String charsetName) {
-        if (bytes == null) {
-            return null;
-        }
-        try {
-            return new String(bytes, charsetName);
-        } catch (final UnsupportedEncodingException e) {
-            LogUtil.e(TAG, "MmsUtils.bytesToString: " + e, e);
-            return new String(bytes);
-        }
-    }
-
-    /**
      * Convert a Java String to byte array using a charset name
      *
      * @param string
@@ -1508,25 +1466,6 @@ public class MmsUtils {
             }
         }
         return sUseSystemApn;
-    }
-
-    // For the internal debugger only
-    public static void setUseSystemApnTable(final boolean turnOn) {
-        if (!turnOn) {
-            // We're turning on local APNs on a device where we wouldn't normally have the
-            // local APN table. Build it here.
-            final SQLiteDatabase database = ApnDatabase.getApnDatabase().getWritableDatabase();
-
-            // Do we already have the table?
-            try (Cursor cursor = database.query(ApnDatabase.APN_TABLE,
-                    ApnDatabase.APN_PROJECTION,
-                    null, null, null, null, null, null)) {
-            } catch (final Exception e) {
-                // Apparently there's no table, create it now.
-                ApnDatabase.forceBuildAndLoadApnTables();
-            }
-        }
-        sUseSystemApn = turnOn;
     }
 
     public static final Uri MMS_PART_CONTENT_URI = Uri.parse("content://mms/part");
@@ -2045,28 +1984,6 @@ public class MmsUtils {
         return null;
     }
 
-    /**
-     * Try parse the address using RFC822 format. If it fails to parse, then return the
-     * original address
-     *
-     * @param address The MMS ind sender address to parse
-     * @return The real address. If in RFC822 format, returns the correct email.
-     */
-    private static String parsePotentialRfc822EmailAddress(final String address) {
-        if (address == null || !address.contains("@") || !address.contains("<")) {
-            return address;
-        }
-        final Rfc822Token[] tokens = Rfc822Tokenizer.tokenize(address);
-        if (tokens != null && tokens.length > 0) {
-            for (final Rfc822Token token : tokens) {
-                if (token != null && !TextUtils.isEmpty(token.getAddress())) {
-                    return token.getAddress();
-                }
-            }
-        }
-        return address;
-    }
-
     public static DatabaseMessages.MmsMessage processReceivedPdu(final Context context,
             final byte[] pushData, final int subId, final String subPhoneNumber) {
         // Parse data
@@ -2089,20 +2006,6 @@ public class MmsUtils {
         switch (type) {
             case PduHeaders.MESSAGE_TYPE_DELIVERY_IND:
             case PduHeaders.MESSAGE_TYPE_READ_ORIG_IND: {
-                // TODO: Should this be commented out?
-//                threadId = findThreadId(context, pdu, type);
-//                if (threadId == -1) {
-//                    // The associated SendReq isn't found, therefore skip
-//                    // processing this PDU.
-//                    break;
-//                }
-
-//                Uri uri = p.persist(pdu, Inbox.CONTENT_URI, true,
-//                        MessagingPreferenceActivity.getIsGroupMmsEnabled(mContext), null);
-//                // Update thread ID for ReadOrigInd & DeliveryInd.
-//                ContentValues values = new ContentValues(1);
-//                values.put(Mms.THREAD_ID, threadId);
-//                SqliteWrapper.update(mContext, cr, uri, values, null, null);
                 LogUtil.w(TAG, "Received unsupported WAP Push, type=" + type);
                 break;
             }
@@ -2125,24 +2028,6 @@ public class MmsUtils {
                 }
                 final String[] dups = getDupNotifications(context, nInd);
                 if (dups == null) {
-                    // TODO: Do we handle Rfc822 Email Addresses?
-                    //final String contentLocation =
-                    //        MmsUtils.bytesToString(nInd.getContentLocation(), "UTF-8");
-                    //final byte[] transactionId = nInd.getTransactionId();
-                    //final long messageSize = nInd.getMessageSize();
-                    //final long expiry = nInd.getExpiry();
-                    //final String transactionIdString =
-                    //        MmsUtils.bytesToString(transactionId, "UTF-8");
-
-                    //final EncodedStringValue fromEncoded = nInd.getFrom();
-                    // An mms ind received from email address will have from address shown as
-                    // "John Doe <johndoe@foobar.com>" but the actual received message will only
-                    // have the email address. So let's try to parse the RFC822 format to get the
-                    // real email. Otherwise we will create two conversations for the MMS
-                    // notification and the actual MMS message if auto retrieve is disabled.
-                    //final String from = parsePotentialRfc822EmailAddress(
-                    //        fromEncoded != null ? fromEncoded.getString() : null);
-
                     Uri inboxUri = null;
                     try {
                         inboxUri = p.persist(pdu, Mms.Inbox.CONTENT_URI, subId, subPhoneNumber,
@@ -2441,12 +2326,6 @@ public class MmsUtils {
         switch (rawStatus) {
             case PduHeaders.RESPONSE_STATUS_ERROR_SERVICE_DENIED:
             case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_SERVICE_DENIED:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_REPLY_CHARGING_LIMITATIONS_NOT_MET:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_REPLY_CHARGING_REQUEST_NOT_ACCEPTED:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_REPLY_CHARGING_FORWARDING_DENIED:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_REPLY_CHARGING_NOT_SUPPORTED:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_ADDRESS_HIDING_NOT_SUPPORTED:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_PERMANENT_LACK_OF_PREPAID:
                 stringResId = R.string.mms_failure_outgoing_service;
                 break;
             case PduHeaders.RESPONSE_STATUS_ERROR_SENDING_ADDRESS_UNRESOLVED:
@@ -2463,8 +2342,6 @@ public class MmsUtils {
                 stringResId = R.string.mms_failure_outgoing_content;
                 break;
             case PduHeaders.RESPONSE_STATUS_ERROR_UNSUPPORTED_MESSAGE:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_MESSAGE_NOT_FOUND:
-            //case PduHeaders.RESPONSE_STATUS_ERROR_TRANSIENT_MESSAGE_NOT_FOUND:
                 stringResId = R.string.mms_failure_outgoing_unsupported;
                 break;
             case MessageData.RAW_TELEPHONY_STATUS_MESSAGE_TOO_BIG:

@@ -33,7 +33,6 @@ import android.view.ViewOverlay;
 import android.widget.FrameLayout;
 
 import com.android.messaging.R;
-import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.UiUtils;
 
 /**
@@ -192,9 +191,9 @@ public class ViewGroupItemVerticalExplodeAnimation {
         // Strip the view of its background when taking a snapshot so that things like touch
         // feedback don't get accidentally snapshotted.
         final Drawable viewBackground = view.getBackground();
-        ImageUtils.setBackgroundDrawableOnView(view, null);
+        view.setBackground(null);
         view.draw(new Canvas(viewBitmap));
-        ImageUtils.setBackgroundDrawableOnView(view, viewBackground);
+        view.setBackground(viewBackground);
         return viewBitmap;
     }
 }

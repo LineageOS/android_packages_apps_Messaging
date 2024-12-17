@@ -30,7 +30,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.datamodel.DataModel;
-import com.android.messaging.datamodel.DataModelException;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
@@ -71,7 +70,7 @@ public class DeleteConversationAction extends Action implements Parcelable {
     // telephony database can sometimes be quite slow to delete conversations, so we delete from
     // the local DB first, notify the UI, and then delete from telephony.
     @Override
-    protected Bundle doBackgroundWork() throws DataModelException {
+    protected Bundle doBackgroundWork() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
         final String conversationId = actionParameters.getString(KEY_CONVERSATION_ID);
@@ -84,8 +83,6 @@ public class DeleteConversationAction extends Action implements Parcelable {
             if (BugleDatabaseOperations.deleteConversation(db, conversationId, cutoffTimestamp)) {
                 LogUtil.i(TAG, "DeleteConversationAction: Deleted local conversation "
                         + conversationId);
-
-                BugleActionToasts.onConversationDeleted();
 
                 // Remove notifications if necessary
                 BugleNotifications.update(true /* silent */, null /* conversationId */,

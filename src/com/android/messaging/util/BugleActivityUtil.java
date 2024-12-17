@@ -36,8 +36,6 @@ import com.android.messaging.ui.conversationlist.ConversationListActivity;
  */
 public class BugleActivityUtil {
 
-    private static final int REQUEST_GOOGLE_PLAY_SERVICES = 0;
-
     /**
      * Determine if the requirements for the app to run are met. Log any Activity startup
      * analytics.

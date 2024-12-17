@@ -17,7 +17,6 @@
 
 package com.android.messaging.ui.mediapicker.camerafocus;
 
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
@@ -47,7 +46,6 @@ public class PieItem {
     private List<PieItem> mItems;
     private Path mPath;
     private OnClickListener mOnClickListener;
-    private float mAlpha;
 
     // Gray out the view when disabled
     private static final float ENABLED_ALPHA = 1;
@@ -87,12 +85,7 @@ public class PieItem {
         return mPath;
     }
 
-    public void setChangeAlphaWhenDisabled (boolean enable) {
-        mChangeAlphaWhenDisabled = enable;
-    }
-
     public void setAlpha(float alpha) {
-        mAlpha = alpha;
         mDrawable.setAlpha((int) (255 * alpha));
     }
 
@@ -136,11 +129,6 @@ public class PieItem {
         sweep = sw;
         inner = inside;
         outer = outside;
-    }
-
-    public void setFixedSlice(float center, float sweep) {
-        mCenter = center;
-        this.sweep = sweep;
     }
 
     public float getCenter() {
@@ -192,12 +180,4 @@ public class PieItem {
     public void draw(Canvas canvas) {
         mDrawable.draw(canvas);
     }
-
-    public void setImageResource(Context context, int resId) {
-        Drawable d = context.getResources().getDrawable(resId).mutate();
-        d.setBounds(mDrawable.getBounds());
-        mDrawable = d;
-        setAlpha(mAlpha);
-    }
-
 }

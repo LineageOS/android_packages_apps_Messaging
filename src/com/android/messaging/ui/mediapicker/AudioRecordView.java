@@ -111,11 +111,6 @@ public class AudioRecordView extends FrameLayout implements
         mHostInterface = hostInterface;
     }
 
-    @VisibleForTesting
-    public void testSetMediaRecorder(final LevelTrackingMediaRecorder recorder) {
-        mMediaRecorder = recorder;
-    }
-
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
