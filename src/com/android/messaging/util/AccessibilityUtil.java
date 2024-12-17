@@ -38,19 +38,6 @@ public class AccessibilityUtil {
         return accessibilityManager.isTouchExplorationEnabled();
     }
 
-    public static StringBuilder appendContentDescription(final Context context,
-            final StringBuilder contentDescription, final String val) {
-        if (sContentDescriptionDivider == null) {
-            sContentDescriptionDivider =
-                    context.getResources().getString(R.string.enumeration_comma);
-        }
-        if (contentDescription.length() != 0) {
-            contentDescription.append(sContentDescriptionDivider);
-        }
-        contentDescription.append(val);
-        return contentDescription;
-    }
-
     public static void announceForAccessibilityCompat(
             final View view, @Nullable final AccessibilityManager accessibilityManager,
             final int textResourceId) {
