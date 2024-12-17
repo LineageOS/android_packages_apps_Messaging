@@ -18,7 +18,6 @@ package com.android.messaging.util;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -34,7 +33,6 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.android.ex.chips.RecipientEntry;
-import com.android.messaging.Factory;
 import com.android.messaging.datamodel.CursorQueryData;
 import com.android.messaging.datamodel.FrequentContactsCursorQueryData;
 import com.android.messaging.datamodel.data.ParticipantData;

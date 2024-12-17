@@ -15,6 +15,7 @@
  */
 package com.android.messaging.ui.conversation;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -72,7 +73,6 @@ import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.YouTubeUtil;
 import com.google.common.base.Predicate;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -122,6 +122,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
         mContactIconView.setOnLongClickListener(view -> {
             ConversationMessageView.this.performLongClick();
@@ -237,8 +238,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      * @param cursor The cursor from a MessageList that this view is in, pointing to its entry.
      * @param oneOnOne Whether this is a 1:1 conversation
      */
-    public void bind(final Cursor cursor,
-            final boolean oneOnOne, final String selectedMessageId) {
+    public void bind(final Cursor cursor, final boolean oneOnOne, final String selectedMessageId) {
         mOneOnOne = oneOnOne;
 
         // Update our UI model
@@ -493,7 +493,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         // Bind image attachments. If there are multiple, they are shown in a collage view.
         final List<MessagePartData> imageParts = mData.getAttachments(sImageFilter);
         if (imageParts.size() > 1) {
-            Collections.sort(imageParts, sImageComparator);
+            imageParts.sort(sImageComparator);
             mMultiAttachmentView.bindAttachments(imageParts, null, imageParts.size());
             mMultiAttachmentView.setVisibility(View.VISIBLE);
         } else {
@@ -1152,6 +1152,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             return false;
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         @Override
         public boolean onTouch(final View v, final MotionEvent event) {
             if (event.getActionMasked() == MotionEvent.ACTION_UP && mIsLongClick) {

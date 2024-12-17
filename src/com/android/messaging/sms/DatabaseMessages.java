@@ -34,7 +34,6 @@ import android.webkit.MimeTypeMap;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.MessageData;
-import com.android.messaging.datamodel.media.VideoThumbnailRequest;
 import com.android.messaging.mmslib.pdu.CharacterSets;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
@@ -64,7 +63,7 @@ public class DatabaseMessages {
 
         @Override
         public boolean equals(final Object other) {
-            if (other == null || !(other instanceof DatabaseMessage)) {
+            if (!(other instanceof DatabaseMessage)) {
                 return false;
             }
             final DatabaseMessage otherDbMsg = (DatabaseMessage) other;
@@ -154,8 +153,8 @@ public class DatabaseMessages {
             mType = cursor.getInt(INDEX_TYPE);
             mThreadId = cursor.getLong(INDEX_THREAD_ID);
             mStatus = cursor.getInt(INDEX_STATUS);
-            mRead = cursor.getInt(INDEX_READ) == 0 ? false : true;
-            mSeen = cursor.getInt(INDEX_SEEN) == 0 ? false : true;
+            mRead = cursor.getInt(INDEX_READ) != 0;
+            mSeen = cursor.getInt(INDEX_SEEN) != 0;
             mUri = ContentUris.withAppendedId(Sms.CONTENT_URI, mRowId).toString();
             mSubId = PhoneUtils.getDefault().getSubIdFromTelephony(cursor, INDEX_SUB_ID);
         }
@@ -350,8 +349,8 @@ public class DatabaseMessages {
             mThreadId = cursor.getLong(INDEX_THREAD_ID);
             mPriority = cursor.getInt(INDEX_PRIORITY);
             mStatus = cursor.getInt(INDEX_STATUS);
-            mRead = cursor.getInt(INDEX_READ) == 0 ? false : true;
-            mSeen = cursor.getInt(INDEX_SEEN) == 0 ? false : true;
+            mRead = cursor.getInt(INDEX_READ) != 0;
+            mSeen = cursor.getInt(INDEX_SEEN) != 0;
             mContentLocation = cursor.getString(INDEX_CONTENT_LOCATION);
             mTransactionId = cursor.getString(INDEX_TRANSACTION_ID);
             mMmsMessageType = cursor.getInt(INDEX_MESSAGE_TYPE);
@@ -730,6 +729,7 @@ public class DatabaseMessages {
         /**
          * Get an instance of the MMS part from the part table cursor
          *
+         * @param loadMedia Whether to load the media file of the part
          */
         public static MmsPart get(final Cursor cursor, final boolean loadMedia) {
             final MmsPart part = new MmsPart();

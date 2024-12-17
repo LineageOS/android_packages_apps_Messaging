@@ -61,9 +61,10 @@ public class VCardDetailActivity extends BugleActionBarActivity
                 // ConversationActivity, it doesn't lose its original intent (conversation id etc.)
                 onBackPressed();
                 return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+            case android.R.id.list:
+                onBackPressed();
+                return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }
