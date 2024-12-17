@@ -16,7 +16,7 @@
  */
 package com.android.messaging.datamodel.binding;
 
-/**
+/*
  * The binding class keeps track of a binding between a ui component and an item of BindableData
  * It allows each side to ensure that when it communicates with the other they are still bound
  * together.

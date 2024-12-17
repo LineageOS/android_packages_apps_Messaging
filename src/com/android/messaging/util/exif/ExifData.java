@@ -102,8 +102,6 @@ class ExifData {
 
     /**
      * Gets the strip at the specified index.
-     *
-     * @exceptions #IndexOutOfBoundException
      */
     protected byte[] getStrip(int index) {
         return mStripBytes.get(index);
