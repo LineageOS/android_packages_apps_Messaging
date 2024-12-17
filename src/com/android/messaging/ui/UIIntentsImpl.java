@@ -32,11 +32,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import android.text.TextUtils;
 
 import com.android.ex.photo.Intents.PhotoViewIntentBuilder;
 import com.android.messaging.R;
@@ -345,9 +345,8 @@ public class UIIntentsImpl extends UIIntents {
     @Override
     public Intent getIntentForConversationActivity(final Context context,
             final String conversationId, final MessageData draft) {
-        final Intent intent = getConversationActivityIntent(context, conversationId, draft,
+        return getConversationActivityIntent(context, conversationId, draft,
                 false /* withCustomTransition */);
-        return intent;
     }
 
     @Override

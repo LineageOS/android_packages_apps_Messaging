@@ -19,7 +19,7 @@ package com.android.messaging.ui.conversationsettings;
 import android.content.Context;
 import android.database.Cursor;
 import androidx.appcompat.widget.SwitchCompat;
-import android.text.TextUtils;
+
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;

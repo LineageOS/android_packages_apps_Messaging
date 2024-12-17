@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +51,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * This class abstracts away platform dependency of calling telephony related
@@ -356,10 +358,7 @@ public class PhoneUtils {
     public List<SubscriptionInfo> getActiveSubscriptionInfoList() {
         final List<SubscriptionInfo> subscriptionInfos =
                 mSubscriptionManager.getActiveSubscriptionInfoList();
-        if (subscriptionInfos != null) {
-            return subscriptionInfos;
-        }
-        return EMPTY_SUBSCRIPTION_LIST;
+        return Objects.requireNonNullElse(subscriptionInfos, EMPTY_SUBSCRIPTION_LIST);
     }
 
     /**

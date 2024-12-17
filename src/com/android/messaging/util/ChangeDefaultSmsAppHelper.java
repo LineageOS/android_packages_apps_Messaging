@@ -104,7 +104,7 @@ public class ChangeDefaultSmsAppHelper {
         }
     }
 
-    private class ChangeSmsAppSettingRunnable implements Runnable {
+    private static class ChangeSmsAppSettingRunnable implements Runnable {
         private final Activity mActivity;
 
         public ChangeSmsAppSettingRunnable(final Activity activity) {

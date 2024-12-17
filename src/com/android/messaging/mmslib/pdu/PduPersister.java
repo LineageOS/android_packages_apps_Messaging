@@ -31,7 +31,6 @@ import android.provider.Telephony.Mms.Addr;
 import android.provider.Telephony.Mms.Part;
 import android.provider.Telephony.MmsSms;
 import android.provider.Telephony.MmsSms.PendingMessages;
-import androidx.collection.ArrayMap;
 import androidx.collection.SimpleArrayMap;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -694,9 +693,8 @@ public class PduPersister {
                 || (msgType == PduHeaders.MESSAGE_TYPE_SEND_REQ)) {
             final PduPart[] parts = loadParts(msgId);
             if (parts != null) {
-                final int partsNum = parts.length;
-                for (int i = 0; i < partsNum; i++) {
-                    body.addPart(parts[i]);
+                for (PduPart part : parts) {
+                    body.addPart(part);
                 }
             }
         }
@@ -1223,7 +1221,7 @@ public class PduPersister {
         values.put(Mms.TEXT_ONLY, textOnly ? 1 : 0);
         values.put(Mms.SUBSCRIPTION_ID, subId);
 
-        Uri res = null;
+        Uri res;
         if (existingUri) {
             res = uri;
             SqliteWrapper.update(mContext, mContentResolver, res, values, null, null);
@@ -1279,10 +1277,7 @@ public class PduPersister {
         for (final EncodedStringValue v : array) {
             if (v != null) {
                 final String number = v.getString();
-                if (!recipients.contains(number)) {
-                    // Only add numbers which aren't already included.
-                    recipients.add(number);
-                }
+                recipients.add(number);
             }
         }
     }
@@ -1325,10 +1320,7 @@ public class PduPersister {
         for (final String number : numbers) {
             // Only add numbers which aren't my own number.
             if (isSelfNumberUnavailable || !PhoneNumberUtils.compare(number, selfNumber)) {
-                if (!recipients.contains(number)) {
-                    // Only add numbers which aren't already included.
-                    recipients.add(number);
-                }
+                recipients.add(number);
             }
         }
     }
