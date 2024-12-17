@@ -674,7 +674,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
 
     @Override
     public void onRequestPermissionsResult(final int requestCode,
-                                           @NonNull final String permissions[],
+                                           @NonNull final String[] permissions,
                                            @NonNull final int[] grantResults) {
         if (mSelectedChooser != null) {
             mSelectedChooser.onRequestPermissionsResult(requestCode, permissions, grantResults);

@@ -68,7 +68,7 @@ class ExifReader {
                     exifData.getIfdData(tag.getIfd()).setTag(tag);
                     break;
                 case ExifParser.EVENT_COMPRESSED_IMAGE:
-                    byte buf[] = new byte[parser.getCompressedImageSize()];
+                    byte[] buf = new byte[parser.getCompressedImageSize()];
                     if (buf.length == parser.read(buf)) {
                         exifData.setCompressedThumbnail(buf);
                     } else {
