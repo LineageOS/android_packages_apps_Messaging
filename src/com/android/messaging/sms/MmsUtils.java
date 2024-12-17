@@ -1010,7 +1010,6 @@ public class MmsUtils {
     /**
      * Parse values from a received sms message
      *
-     * @param context
      * @param msgs The received sms message content
      * @param error The received sms error
      * @return Parsed values from the message
@@ -1085,7 +1084,6 @@ public class MmsUtils {
      * a null string. Otherwise it will return the original subject string.
      * @param resources So the function can grab string resources
      * @param subject the raw subject
-     * @return
      */
     public static String cleanseMmsSubject(final Resources resources, final String subject) {
         if (TextUtils.isEmpty(subject)) {
@@ -1153,10 +1151,6 @@ public class MmsUtils {
 
     /**
      * Update the status and date_sent column of sms message in telephony provider
-     *
-     * @param smsMessageUri
-     * @param status
-     * @param timeSentInMillis
      */
     public static void updateSmsStatusAndDateSent(final Uri smsMessageUri, final int status,
             final long timeSentInMillis) {
@@ -1272,9 +1266,6 @@ public class MmsUtils {
 
     /**
      * Get the (?,?,...) thing for the SQL IN operator by a count
-     *
-     * @param count
-     * @return
      */
     public static String getSqlInOperand(final int count) {
         if (count <= 0) {
@@ -1378,10 +1369,6 @@ public class MmsUtils {
 
     /**
      * Convert a Java String to byte array using a charset name
-     *
-     * @param string
-     * @param charsetName
-     * @return
      */
     public static byte[] stringToBytes(final String string, final String charsetName) {
         if (string == null) {
@@ -2103,7 +2090,6 @@ public class MmsUtils {
      * Create an MMS message with subject, text and image
      *
      * @return Both the M-Send.req and the M-Send.conf for processing in the caller
-     * @throws MmsException
      */
     private static SendReq createMmsSendReq(final Context context, final int subId,
             final String[] recipients, final MessageData message,

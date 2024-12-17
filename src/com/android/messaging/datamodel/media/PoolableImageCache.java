@@ -131,7 +131,6 @@ public class PoolableImageCache extends MediaCache<ImageResource> {
          * @param width The width of the bitmap.
          * @param height The height of the bitmap.
          * @return The decoded Bitmap with the resource drawn in it.
-         * @throws IOException
          */
         public Bitmap decodeSampledBitmapFromInputStream(@NonNull final InputStream inputStream,
                 @NonNull final BitmapFactory.Options optionsTmp,
@@ -172,7 +171,6 @@ public class PoolableImageCache extends MediaCache<ImageResource> {
          * @param width The width of the bitmap.
          * @param height The height of the bitmap.
          * @return A Bitmap with the encoded bytes drawn in it.
-         * @throws IOException
          */
         public Bitmap decodeByteArray(@NonNull final byte[] bytes,
                 @NonNull final BitmapFactory.Options optionsTmp, final int width,

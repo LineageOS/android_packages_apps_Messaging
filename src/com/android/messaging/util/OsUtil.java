@@ -18,6 +18,7 @@
 package com.android.messaging.util;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.UserHandle;
@@ -55,9 +56,6 @@ public class OsUtil {
 
     /**
      * Creates a joined string from a Set<String> using the given delimiter.
-     * @param values
-     * @param delimiter
-     * @return
      */
     public static String joinFromSetWithDelimiter(
             final Set<String> values, final String delimiter) {
