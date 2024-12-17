@@ -132,7 +132,7 @@ public class AttachmentPreview extends ScrollView implements OnAttachmentClickLi
     }
 
     // returns true if we have attachments
-    public boolean onAttachmentsChanged(final DraftMessageData draftMessageData) {
+    public void onAttachmentsChanged(final DraftMessageData draftMessageData) {
         final boolean isFirstUpdate = mPendingFirstUpdate;
         final List<MessagePartData> attachments = draftMessageData.getReadOnlyAttachments();
         final List<PendingAttachmentData> pendingAttachments =
@@ -163,7 +163,7 @@ public class AttachmentPreview extends ScrollView implements OnAttachmentClickLi
                 // Run immediately when clearing attachments
                 mHideRunnable.run();
             }
-            return false;
+            return;
         }
 
         cancelPendingHide();  // We're showing
@@ -248,7 +248,6 @@ public class AttachmentPreview extends ScrollView implements OnAttachmentClickLi
                 }
             }
         }
-        return true;
     }
 
     public void onMessageAnimationStart() {

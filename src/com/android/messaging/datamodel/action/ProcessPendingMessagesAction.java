@@ -30,7 +30,6 @@ import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DataModelImpl;
 import com.android.messaging.datamodel.DatabaseHelper;
-import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.MessageData;
@@ -42,9 +41,6 @@ import com.android.messaging.util.ConnectivityUtil;
 import com.android.messaging.util.ConnectivityUtil.ConnectivityListener;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Action used to lookup any messages in the pending send/download state and either fail them or
