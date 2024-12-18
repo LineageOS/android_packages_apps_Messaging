@@ -17,8 +17,6 @@
 package com.android.messaging.ui.mediapicker;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.MatrixCursor;
@@ -37,7 +35,6 @@ import com.android.messaging.datamodel.data.GalleryGridItemData;
 import com.android.messaging.datamodel.data.MediaPickerData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.MediaPickerData.MediaPickerDataListener;
-import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.OsUtil;
 
@@ -241,14 +238,5 @@ class GalleryMediaChooser extends MediaChooser implements
 
         mGalleryGridView.setVisibility(granted ? View.VISIBLE : View.GONE);
         mMissingPermissionView.setVisibility(granted ? View.GONE : View.VISIBLE);
-    }
-
-    @Override
-    protected void onActivityResult(
-            final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == UIIntents.REQUEST_PICK_MEDIA_FROM_DOCUMENT_PICKER
-                && resultCode == Activity.RESULT_OK) {
-            mDocumentImagePicker.onActivityResult(requestCode, resultCode, data);
-        }
     }
 }

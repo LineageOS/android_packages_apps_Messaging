@@ -19,6 +19,7 @@ package com.android.messaging.ui.mediapicker;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -30,6 +31,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
@@ -280,12 +284,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         for (final MediaChooser chooser : mEnabledChoosers) {
             chooser.onResume();
         }
-    }
-
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        mSelectedChooser.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
