@@ -59,6 +59,7 @@ android_app {
     defaults: ["messaging_defaults"],
 
     static_libs: [
+        "androidx.activity_activity",
         "androidx.annotation_annotation",
         "androidx.appcompat_appcompat",
         "androidx.collection_collection",

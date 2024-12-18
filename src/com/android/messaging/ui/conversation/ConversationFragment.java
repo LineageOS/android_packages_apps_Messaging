@@ -49,6 +49,10 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -87,6 +91,7 @@ import com.android.messaging.ui.ConversationDrawables;
 import com.android.messaging.ui.SnackBar;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.animation.PopupTransitionAnimation;
+import com.android.messaging.ui.attachmentchooser.AttachmentChooserActivity;
 import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
 import com.android.messaging.ui.conversation.ComposeMessageView.IComposeMessageViewHost;
 import com.android.messaging.ui.conversation.ConversationInputManager.ConversationInputHost;
@@ -399,6 +404,25 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
     };
 
+    private final ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    final ConversationFragment conversationFragment = getConversationFragment();
+                    if (conversationFragment != null) {
+                        conversationFragment.onAttachmentChoosen();
+                    } else {
+                        LogUtil.e(LogUtil.BUGLE_TAG,
+                                "ConversationFragment is missing after launching " +
+                                        "AttachmentChooserActivity!");
+                    }
+                }
+            });
+
+    public ConversationFragment getConversationFragment() {
+        return (ConversationFragment) getParentFragmentManager().findFragmentByTag(
+                ConversationFragment.FRAGMENT_TAG);
+    }
+
     /**
      * {@inheritDoc} from Fragment
      */
@@ -429,8 +453,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
      * loading when onActivityCreated() is called, which is guaranteed to happen after both.
      */
     @Override
-    public void onActivityCreated(final Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // Delay showing the message list until the participant list is loaded.
         mRecyclerView.setVisibility(View.INVISIBLE);
         mBinding.ensureBound();
@@ -1448,7 +1472,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 getActivity(), tooManyVideos);
     }
 
-    public static void warnOfExceedingMessageLimit(final boolean sending,
+    public void warnOfExceedingMessageLimit(final boolean sending,
             final ComposeMessageView composeMessageView, final String conversationId,
             final Activity activity, final boolean tooManyVideos) {
         final AlertDialog.Builder builder =
@@ -1478,10 +1502,11 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         showAttachmentChooser(mConversationId, getActivity());
     }
 
-    public static void showAttachmentChooser(final String conversationId,
+    public void showAttachmentChooser(final String conversationId,
             final Activity activity) {
-        UIIntents.get().launchAttachmentChooserActivity(activity,
-                conversationId, REQUEST_CHOOSE_ATTACHMENTS);
+        final Intent intent = new Intent(activity, AttachmentChooserActivity.class);
+        intent.putExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID, conversationId);
+        mLauncher.launch(intent);
     }
 
     private void updateActionAndStatusBarColor(final ActionBar actionBar) {

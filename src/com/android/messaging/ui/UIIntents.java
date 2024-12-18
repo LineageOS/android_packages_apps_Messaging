@@ -166,20 +166,6 @@ public abstract class UIIntents {
     public abstract void launchAddContactActivity(final Context context, final String destination);
 
     /**
-     * Launch an activity to show the document picker to pick an image/video/audio.
-     *
-     * @param fragment the requesting fragment
-     */
-    public abstract void launchDocumentImagePicker(final Fragment fragment);
-
-    /**
-     * Launch an activity to show the contacts list to pick one.
-     *
-     * @param fragment the requesting fragment
-     */
-    public abstract void launchContactCardPicker(final Fragment fragment);
-
-    /**
      * Launch an activity to show people & options for a given conversation.
      */
     public abstract void launchPeopleAndOptionsActivity(final Activity context,
@@ -222,12 +208,6 @@ public abstract class UIIntents {
      * Launch an external activity that handles the intent to add VCard to contacts
      */
     public abstract void launchSaveVCardToContactsActivity(Context context, Uri vcardUri);
-
-    /**
-     * Launch an activity to let the user select & unselect the list of attachments to send.
-     */
-    public abstract void launchAttachmentChooserActivity(final Activity activity,
-            final String conversationId, final int requestCode);
 
     /**
      * Launch full screen video viewer.

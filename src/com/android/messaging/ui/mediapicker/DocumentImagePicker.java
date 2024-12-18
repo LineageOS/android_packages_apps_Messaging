@@ -20,15 +20,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
 import com.android.messaging.ui.UIIntents;
+import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.FileUtil;
 import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.SafeAsyncTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Wraps around the functionalities to allow the user to pick an image/video/audio from the document
@@ -58,6 +65,8 @@ public class DocumentImagePicker {
 
     private static final String EXTRA_PHOTO_URL = "photo_url";
 
+    private final ActivityResultLauncher<PickVisualMediaRequest> mPickMultipleMedia;
+
     /**
      * Creates a new instance of DocumentImagePicker.
      * @param activity The activity that owns the picker, or the activity that hosts the owning
@@ -67,39 +76,29 @@ public class DocumentImagePicker {
             final SelectionListener listener) {
         mFragment = fragment;
         mListener = listener;
+
+        mPickMultipleMedia = mFragment.registerForActivityResult(
+                new ActivityResultContracts.PickMultipleVisualMedia(
+                        BugleGservicesKeys.MMS_ATTACHMENT_LIMIT_DEFAULT), uris -> {
+                    // Callback is invoked after the user selects media items or closes the
+                    // photo picker.
+                    if (!uris.isEmpty()) {
+                        onDocumentsPicked(uris);
+                    }
+                });
     }
 
     /**
      * Intent out to open an image/video from document picker.
      */
     public void launchPicker() {
-        UIIntents.get().launchDocumentImagePicker(mFragment);
+        mPickMultipleMedia.launch(new PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageAndVideo.INSTANCE)
+                .build());
     }
 
-    /**
-     * Must be called from the fragment/activity's onActivityResult().
-     */
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        // Sometimes called after media item has been picked from the document picker.
-        String url = data.getStringExtra(EXTRA_PHOTO_URL);
-        if (url == null) {
-            // we're using the builtin photo picker which supplies the return
-            // url as it's "data"
-            url = data.getDataString();
-            if (url == null) {
-                final Bundle extras = data.getExtras();
-                if (extras != null) {
-                    final Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-                    if (uri != null) {
-                        url = uri.toString();
-                    }
-                }
-            }
-        }
-
-        // Guard against null uri cases for when the activity returns a null/invalid intent.
-        if (url != null) {
-            final Uri uri = Uri.parse(url);
+    public void onDocumentsPicked(List<Uri> uris) {
+        for (Uri uri: uris) {
             prepareDocumentForAttachment(uri);
         }
     }

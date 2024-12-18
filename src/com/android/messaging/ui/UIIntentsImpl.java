@@ -35,7 +35,6 @@ import android.provider.MediaStore;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.TaskStackBuilder;
-import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.text.TextUtils;
 
@@ -52,7 +51,6 @@ import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.ui.appsettings.ApplicationSettingsActivity;
 import com.android.messaging.ui.appsettings.PerSubscriptionSettingsActivity;
 import com.android.messaging.ui.appsettings.SettingsActivity;
-import com.android.messaging.ui.attachmentchooser.AttachmentChooserActivity;
 import com.android.messaging.ui.conversation.ConversationActivity;
 import com.android.messaging.ui.conversation.LaunchConversationActivity;
 import com.android.messaging.ui.conversationlist.ArchivedConversationListActivity;
@@ -217,29 +215,6 @@ public class UIIntentsImpl extends UIIntents {
     }
 
     @Override
-    public void launchDocumentImagePicker(final Fragment fragment) {
-        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.putExtra(Intent.EXTRA_MIME_TYPES, MessagePartData.ACCEPTABLE_GALLERY_MEDIA_TYPES);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType(ContentType.ANY_TYPE);
-
-        fragment.startActivityForResult(intent, REQUEST_PICK_MEDIA_FROM_DOCUMENT_PICKER);
-    }
-
-    @Override
-    public void launchContactCardPicker(final Fragment fragment) {
-        final Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType(Contacts.CONTENT_TYPE);
-
-        try {
-            fragment.startActivityForResult(intent, REQUEST_PICK_CONTACT_CARD);
-        } catch (final ActivityNotFoundException ex) {
-            LogUtil.w(LogUtil.BUGLE_TAG, "Couldn't find activity:", ex);
-            UiUtils.showToastAtBottom(R.string.activity_not_found_message);
-        }
-    }
-
-    @Override
     public void launchPeopleAndOptionsActivity(final Activity activity,
             final String conversationId) {
         final Intent intent = new Intent(activity, PeopleAndOptionsActivity.class);
@@ -288,14 +263,6 @@ public class UIIntentsImpl extends UIIntents {
         intent.setDataAndType(vcardUri, ContentType.TEXT_X_VCARD.toLowerCase());
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startExternalActivity(context, intent);
-    }
-
-    @Override
-    public void launchAttachmentChooserActivity(final Activity activity,
-            final String conversationId, final int requestCode) {
-        final Intent intent = new Intent(activity, AttachmentChooserActivity.class);
-        intent.putExtra(UI_INTENT_EXTRA_CONVERSATION_ID, conversationId);
-        activity.startActivityForResult(intent, requestCode);
     }
 
     @Override

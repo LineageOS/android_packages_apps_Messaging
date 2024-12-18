@@ -18,7 +18,6 @@
 package com.android.messaging.ui.mediapicker;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -196,9 +195,6 @@ abstract class MediaChooser extends BasePagerViewHolder
 
     public void stopTouchHandling() {
     }
-
-    protected void onActivityResult(
-            final int requestCode, final int resultCode, final Intent data) {}
 
     @Override
     public int getConversationSelfSubId() {
