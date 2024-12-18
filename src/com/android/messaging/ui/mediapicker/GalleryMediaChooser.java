@@ -17,39 +17,20 @@
 package com.android.messaging.ui.mediapicker;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.MergeCursor;
-import androidx.appcompat.app.ActionBar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.messaging.Factory;
 import com.android.messaging.R;
-import com.android.messaging.datamodel.data.GalleryGridItemData;
-import com.android.messaging.datamodel.data.MediaPickerData;
-import com.android.messaging.datamodel.data.MessagePartData;
-import com.android.messaging.datamodel.data.MediaPickerData.MediaPickerDataListener;
-import com.android.messaging.datamodel.data.PendingAttachmentData;
-import com.android.messaging.ui.UIIntents;
-import com.android.messaging.ui.mediapicker.DocumentImagePicker.SelectionListener;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.OsUtil;
 
 /**
  * Chooser which allows the user to select one or more existing images or videos or audios.
  */
-class GalleryMediaChooser extends MediaChooser implements
-        GalleryGridView.GalleryGridViewListener, MediaPickerDataListener {
-    private final GalleryGridAdapter mAdapter;
-    private GalleryGridView mGalleryGridView;
+class GalleryMediaChooser extends MediaChooser {
+
+    private View mEnabledView;
     private View mMissingPermissionView;
 
     /** Handles picking a media from the document picker. */
@@ -57,7 +38,6 @@ class GalleryMediaChooser extends MediaChooser implements
 
     GalleryMediaChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);
-        mAdapter = new GalleryGridAdapter(Factory.get().getApplicationContext(), null);
         mDocumentImagePicker = new DocumentImagePicker(mMediaPicker, data -> {
             if (mBindingRef.isBound()) {
                 mMediaPicker.dispatchPendingItemAdded(data);
@@ -73,17 +53,6 @@ class GalleryMediaChooser extends MediaChooser implements
     }
 
     @Override
-    public View destroyView() {
-        mGalleryGridView.setAdapter(null);
-        mAdapter.setHostInterface(null);
-        // The loader is started only if startMediaPickerDataLoader() is called
-        if (OsUtil.hasStoragePermission()) {
-            mBindingRef.getData().destroyLoader(MediaPickerData.GALLERY_MEDIA_LOADER);
-        }
-        return super.destroyView();
-    }
-
-    @Override
     public int getIconResource() {
         return R.drawable.ic_image_light;
     }
@@ -94,45 +63,6 @@ class GalleryMediaChooser extends MediaChooser implements
     }
 
     @Override
-    public boolean canSwipeDown() {
-        return mGalleryGridView.canSwipeDown();
-    }
-
-    @Override
-    public void onItemSelected(final MessagePartData item) {
-        mMediaPicker.dispatchItemsSelected(item, !mGalleryGridView.isMultiSelectEnabled());
-    }
-
-    @Override
-    public void onItemUnselected(final MessagePartData item) {
-        mMediaPicker.dispatchItemUnselected(item);
-    }
-
-    @Override
-    public void onConfirmSelection() {
-        // The user may only confirm if multiselect is enabled.
-        Assert.isTrue(mGalleryGridView.isMultiSelectEnabled());
-        mMediaPicker.dispatchConfirmItemSelection();
-    }
-
-    @Override
-    public void onUpdate() {
-        mMediaPicker.invalidateOptionsMenu();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(final MenuInflater inflater, final Menu menu) {
-        if (mView != null) {
-            mGalleryGridView.onCreateOptionsMenu(inflater, menu);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        return (mView != null) ? mGalleryGridView.onOptionsItemSelected(item) : false;
-    }
-
-    @Override
     protected View createView(final ViewGroup container) {
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(
@@ -140,16 +70,12 @@ class GalleryMediaChooser extends MediaChooser implements
                 container /* root */,
                 false /* attachToRoot */);
 
-        mGalleryGridView = (GalleryGridView) view.findViewById(R.id.gallery_grid_view);
-        mAdapter.setHostInterface(mGalleryGridView);
-        mGalleryGridView.setAdapter(mAdapter);
-        mGalleryGridView.setHostInterface(this);
-        mGalleryGridView.setDraftMessageDataModel(mMediaPicker.getDraftMessageDataModel());
-        if (OsUtil.hasStoragePermission()) {
-            startMediaPickerDataLoader();
-        }
-
+        mEnabledView = view.findViewById(R.id.mediapicker_enabled);
         mMissingPermissionView = view.findViewById(R.id.missing_permission_view);
+        mEnabledView.setOnClickListener(v -> {
+            // Launch an external picker to pick item from document picker as attachment.
+            mDocumentImagePicker.launchPicker();
+        });
         updateForPermissionState(OsUtil.hasStoragePermission());
         return view;
     }
@@ -157,54 +83,6 @@ class GalleryMediaChooser extends MediaChooser implements
     @Override
     int getActionBarTitleResId() {
         return R.string.mediapicker_gallery_title;
-    }
-
-    @Override
-    public void onDocumentPickerItemClicked() {
-        // Launch an external picker to pick item from document picker as attachment.
-        mDocumentImagePicker.launchPicker();
-    }
-
-    @Override
-    void updateActionBar(final ActionBar actionBar) {
-        super.updateActionBar(actionBar);
-        if (mGalleryGridView == null) {
-            return;
-        }
-        final int selectionCount = mGalleryGridView.getSelectionCount();
-        if (selectionCount > 0 && mGalleryGridView.isMultiSelectEnabled()) {
-            actionBar.setTitle(getContext().getResources().getString(
-                    R.string.mediapicker_gallery_title_selection,
-                    selectionCount));
-        }
-    }
-
-    @Override
-    public void onMediaPickerDataUpdated(final MediaPickerData mediaPickerData, final Object data,
-            final int loaderId) {
-        mBindingRef.ensureBound(mediaPickerData);
-        Assert.equals(MediaPickerData.GALLERY_MEDIA_LOADER, loaderId);
-        Cursor rawCursor = null;
-        if (data instanceof Cursor) {
-            rawCursor = (Cursor) data;
-        }
-        // Before delivering the cursor, wrap around the local gallery cursor
-        // with an extra item for document picker integration in the front.
-        final MatrixCursor specialItemsCursor =
-                new MatrixCursor(GalleryGridItemData.SPECIAL_ITEM_COLUMNS);
-        specialItemsCursor.addRow(new Object[] { GalleryGridItemData.ID_DOCUMENT_PICKER_ITEM });
-        final MergeCursor cursor =
-                new MergeCursor(new Cursor[] { specialItemsCursor, rawCursor });
-        mAdapter.swapCursor(cursor);
-    }
-
-    @Override
-    public void onResume() {
-        if (OsUtil.hasStoragePermission()) {
-            // Work around a bug in MediaStore where cursors querying the Files provider don't get
-            // updated for changes to Images.Media or Video.Media.
-            startMediaPickerDataLoader();
-        }
     }
 
     @Override
@@ -217,40 +95,18 @@ class GalleryMediaChooser extends MediaChooser implements
         }
     }
 
-    private void startMediaPickerDataLoader() {
-        mBindingRef
-                .getData()
-                .startLoader(MediaPickerData.GALLERY_MEDIA_LOADER, mBindingRef, null, this);
-    }
-
     @Override
     protected void onRequestPermissionsResult(
             final int requestCode, final String[] permissions, final int[] grantResults) {
         if (requestCode == MediaPicker.GALLERY_PERMISSION_REQUEST_CODE) {
             final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            if (permissionGranted) {
-                startMediaPickerDataLoader();
-            }
             updateForPermissionState(permissionGranted);
         }
     }
 
     private void updateForPermissionState(final boolean granted) {
         // onRequestPermissionsResult can sometimes get called before createView().
-        if (mGalleryGridView == null) {
-            return;
-        }
-
-        mGalleryGridView.setVisibility(granted ? View.VISIBLE : View.GONE);
+        mEnabledView.setVisibility(granted ? View.VISIBLE : View.GONE);
         mMissingPermissionView.setVisibility(granted ? View.GONE : View.VISIBLE);
-    }
-
-    @Override
-    protected void onActivityResult(
-            final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == UIIntents.REQUEST_PICK_MEDIA_FROM_DOCUMENT_PICKER
-                && resultCode == Activity.RESULT_OK) {
-            mDocumentImagePicker.onActivityResult(requestCode, resultCode, data);
-        }
     }
 }
