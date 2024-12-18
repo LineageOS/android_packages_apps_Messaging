@@ -36,7 +36,6 @@ import com.android.messaging.datamodel.data.ConversationData.ConversationDataLis
 import com.android.messaging.datamodel.data.ConversationListData;
 import com.android.messaging.datamodel.data.ConversationListData.ConversationListDataListener;
 import com.android.messaging.datamodel.data.DraftMessageData;
-import com.android.messaging.datamodel.data.GalleryGridItemData;
 import com.android.messaging.datamodel.data.LaunchConversationData;
 import com.android.messaging.datamodel.data.LaunchConversationData.LaunchConversationDataListener;
 import com.android.messaging.datamodel.data.MediaPickerData;
@@ -80,8 +79,6 @@ public abstract class DataModel {
             final ContactPickerDataListener listener);
 
     public abstract MediaPickerData createMediaPickerData(final Context context);
-
-    public abstract GalleryGridItemData createGalleryGridItemData();
 
     public abstract LaunchConversationData createLaunchConversationData(
             LaunchConversationDataListener listener);
