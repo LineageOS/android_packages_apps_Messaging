@@ -197,9 +197,6 @@ abstract class MediaChooser extends BasePagerViewHolder
     public void stopTouchHandling() {
     }
 
-    protected void onActivityResult(
-            final int requestCode, final int resultCode, final Intent data) {}
-
     @Override
     public int getConversationSelfSubId() {
         return mMediaPicker.getConversationSelfSubId();
