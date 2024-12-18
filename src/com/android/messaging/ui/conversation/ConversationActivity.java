@@ -240,7 +240,7 @@ public class ConversationActivity extends BugleActionBarActivity
                 ContactPickerFragment.FRAGMENT_TAG);
     }
 
-    private ConversationFragment getConversationFragment() {
+    public ConversationFragment getConversationFragment() {
         return (ConversationFragment) getSupportFragmentManager().findFragmentByTag(
                 ConversationFragment.FRAGMENT_TAG);
     }
@@ -365,23 +365,5 @@ public class ConversationActivity extends BugleActionBarActivity
     @Override
     public boolean shouldResumeComposeMessage() {
         return mUiState.shouldResumeComposeMessage();
-    }
-
-    @SuppressWarnings("MissingSuperCall") // TODO: fix me
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode,
-            final Intent data) {
-        if (requestCode == ConversationFragment.REQUEST_CHOOSE_ATTACHMENTS &&
-                resultCode == RESULT_OK) {
-            final ConversationFragment conversationFragment = getConversationFragment();
-            if (conversationFragment != null) {
-                conversationFragment.onAttachmentChoosen();
-            } else {
-                LogUtil.e(LogUtil.BUGLE_TAG, "ConversationFragment is missing after launching " +
-                        "AttachmentChooserActivity!");
-            }
-        } else if (resultCode == FINISH_RESULT_CODE) {
-            finish();
-        }
     }
 }

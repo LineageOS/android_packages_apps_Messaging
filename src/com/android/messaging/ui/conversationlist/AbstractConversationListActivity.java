@@ -90,11 +90,6 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
         return isInConversationListSelectMode();
     }
 
-    @SuppressWarnings("MissingSuperCall") // TODO: fix me
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    }
-
     @Override
     public void onActionBarDelete(final Collection<SelectedConversation> conversations) {
         if (!PhoneUtils.getDefault().isDefaultSmsApp()) {
