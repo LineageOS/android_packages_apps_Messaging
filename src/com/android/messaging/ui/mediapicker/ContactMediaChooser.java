@@ -19,6 +19,7 @@ package com.android.messaging.ui.mediapicker;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,12 +29,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
-import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.ContentType;
+import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.SafeAsyncTask;
+import com.android.messaging.util.UiUtils;
 
 /**
  * Chooser which allows the user to select an existing contact from contacts apps on this device.
@@ -43,9 +48,42 @@ import com.android.messaging.util.SafeAsyncTask;
 class ContactMediaChooser extends MediaChooser {
     private View mEnabledView;
     private View mMissingPermissionView;
+    private final ActivityResultLauncher<Intent> mPickerLauncher;
 
     ContactMediaChooser(final MediaPicker mediaPicker) {
         super(mediaPicker);
+        mPickerLauncher = mediaPicker.registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() != Activity.RESULT_OK ||
+                            result.getData() == null) {
+                        return;
+                    }
+                    Uri contactUri = result.getData().getData();
+                    if (contactUri != null) {
+                        String lookupKey = null;
+                        try (final Cursor c = getContext().getContentResolver().query(
+                                contactUri,
+                                new String[]{Contacts.LOOKUP_KEY},
+                                null,
+                                null,
+                                null)) {
+                            if (c != null) {
+                                c.moveToFirst();
+                                lookupKey = c.getString(0);
+                            }
+                        }
+                        final Uri vCardUri = Uri.withAppendedPath(Contacts.CONTENT_VCARD_URI,
+                                lookupKey);
+                        if (vCardUri != null) {
+                            SafeAsyncTask.executeOnThreadPool(() -> {
+                                final PendingAttachmentData pendingItem =
+                                        PendingAttachmentData.createPendingAttachmentData(
+                                                ContentType.TEXT_X_VCARD.toLowerCase(), vCardUri);
+                                mMediaPicker.dispatchPendingItemAdded(pendingItem);
+                            });
+                        }
+                    }
+                });
     }
 
     @Override
@@ -80,7 +118,14 @@ class ContactMediaChooser extends MediaChooser {
         mMissingPermissionView = view.findViewById(R.id.missing_permission_view);
         mEnabledView.setOnClickListener(v -> {
             // Launch an external picker to pick a contact as attachment.
-            UIIntents.get().launchContactCardPicker(mMediaPicker);
+            final Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
+
+            try {
+                mPickerLauncher.launch(intent);
+            } catch (final ActivityNotFoundException ex) {
+                LogUtil.w(LogUtil.BUGLE_TAG, "Couldn't find activity:", ex);
+                UiUtils.showToastAtBottom(R.string.activity_not_found_message);
+            }
         });
         return view;
     }
@@ -102,37 +147,6 @@ class ContactMediaChooser extends MediaChooser {
             final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
             mEnabledView.setVisibility(permissionGranted ? View.VISIBLE : View.GONE);
             mMissingPermissionView.setVisibility(permissionGranted ? View.GONE : View.VISIBLE);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == UIIntents.REQUEST_PICK_CONTACT_CARD
-                && resultCode == Activity.RESULT_OK) {
-            Uri contactUri = data.getData();
-            if (contactUri != null) {
-                String lookupKey = null;
-                try (final Cursor c = getContext().getContentResolver().query(
-                                        contactUri,
-                                        new String[] {Contacts.LOOKUP_KEY},
-                                        null,
-                                        null,
-                                        null)) {
-                    if (c != null) {
-                        c.moveToFirst();
-                        lookupKey = c.getString(0);
-                    }
-                }
-                final Uri vCardUri = Uri.withAppendedPath(Contacts.CONTENT_VCARD_URI, lookupKey);
-                if (vCardUri != null) {
-                    SafeAsyncTask.executeOnThreadPool(() -> {
-                        final PendingAttachmentData pendingItem =
-                                PendingAttachmentData.createPendingAttachmentData(
-                                        ContentType.TEXT_X_VCARD.toLowerCase(), vCardUri);
-                        mMediaPicker.dispatchPendingItemAdded(pendingItem);
-                    });
-                }
-            }
         }
     }
 }
