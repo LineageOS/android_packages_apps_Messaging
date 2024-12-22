@@ -55,15 +55,12 @@ public class PeopleAndOptionsActivity extends BugleActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull final MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                // Treat the home press as back press so that when we go back to
-                // ConversationActivity, it doesn't lose its original intent (conversation id etc.)
-                onBackPressed();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            // Treat the home press as back press so that when we go back to
+            // ConversationActivity, it doesn't lose its original intent (conversation id etc.)
+            onBackPressed();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

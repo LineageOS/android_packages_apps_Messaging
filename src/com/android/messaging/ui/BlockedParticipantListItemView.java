@@ -41,6 +41,7 @@ public class BlockedParticipantListItemView extends LinearLayout {
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mNameTextView = (TextView) findViewById(R.id.name);
         mContactIconView = (ContactIconView) findViewById(R.id.contact_icon);
         setOnClickListener(v -> mData.unblock(getContext()));

@@ -178,7 +178,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mCustomHeaderViewPager.setViewHolders(viewHolders);
         mCustomHeaderViewPager.setViewPagerTabHeight(CustomHeaderViewPager.DEFAULT_TAB_STRIP_SIZE);
         mCustomHeaderViewPager.setBackgroundColor(getResources()
-                .getColor(R.color.contact_picker_background, getContext().getTheme()));
+                .getColor(R.color.contact_picker_background, requireActivity().getTheme()));
 
         // The view pager defaults to the frequent contacts page.
         mCustomHeaderViewPager.setCurrentItem(0);
@@ -220,32 +220,29 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
 
     @Override
     public boolean onMenuItemClick(final MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.action_ime_dialpad_toggle:
-                final int baseInputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE;
-                if ((mRecipientTextView.getInputType() & InputType.TYPE_CLASS_PHONE) !=
-                        InputType.TYPE_CLASS_PHONE) {
-                    mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_PHONE);
-                    menuItem.setIcon(R.drawable.ic_ime_light);
-                } else {
-                    mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_TEXT);
-                    menuItem.setIcon(R.drawable.ic_numeric_dialpad);
-                }
-                ImeUtil.get().showImeKeyboard(getActivity(), mRecipientTextView);
-                return true;
-
-            case R.id.action_add_more_participants:
-                mHost.onInitiateAddMoreParticipants();
-                return true;
-
-            case R.id.action_confirm_participants:
-                maybeGetOrCreateConversation();
-                return true;
-
-            case R.id.action_delete_text:
-                Assert.equals(MODE_PICK_INITIAL_CONTACT, mContactPickingMode);
-                mRecipientTextView.setText("");
-                return true;
+        int itemId = menuItem.getItemId();
+        if (itemId == R.id.action_ime_dialpad_toggle) {
+            final int baseInputType = InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+            if ((mRecipientTextView.getInputType() & InputType.TYPE_CLASS_PHONE) !=
+                    InputType.TYPE_CLASS_PHONE) {
+                mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_PHONE);
+                menuItem.setIcon(R.drawable.ic_ime_light);
+            } else {
+                mRecipientTextView.setInputType(baseInputType | InputType.TYPE_CLASS_TEXT);
+                menuItem.setIcon(R.drawable.ic_numeric_dialpad);
+            }
+            ImeUtil.get().showImeKeyboard(requireActivity(), mRecipientTextView);
+            return true;
+        } else if (itemId == R.id.action_add_more_participants) {
+            mHost.onInitiateAddMoreParticipants();
+            return true;
+        } else if (itemId == R.id.action_confirm_participants) {
+            maybeGetOrCreateConversation();
+            return true;
+        } else if (itemId == R.id.action_delete_text) {
+            Assert.equals(MODE_PICK_INITIAL_CONTACT, mContactPickingMode);
+            mRecipientTextView.setText("");
+            return true;
         }
         return false;
     }
