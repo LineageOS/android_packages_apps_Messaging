@@ -504,6 +504,16 @@ public class ConversationData extends BindableData {
         mLoaderManager.initLoader(SELF_PARTICIPANT_LOADER, args, mSelfParticipantLoaderCallbacks);
     }
 
+    public void restart(final BindingBase<ConversationData> binding) {
+        final Bundle args = new Bundle();
+        args.putString(BINDING_ID, binding.getBindingId());
+        mLoaderManager.restartLoader(CONVERSATION_META_DATA_LOADER, args, mMetadataLoaderCallbacks);
+        mLoaderManager.restartLoader(CONVERSATION_MESSAGES_LOADER, args, mMessagesLoaderCallbacks);
+        mLoaderManager.restartLoader(PARTICIPANT_LOADER, args, mParticipantsLoaderCallbacks);
+        mLoaderManager.restartLoader(SELF_PARTICIPANT_LOADER, args,
+                mSelfParticipantLoaderCallbacks);
+    }
+
     @Override
     protected void unregisterListeners() {
         mListeners.clear();
