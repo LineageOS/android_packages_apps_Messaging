@@ -21,4 +21,6 @@
     <color name="window_background">@*android:color/system_neutral1_900</color>
 
     <color name="compose_send_text_background_color">@*android:color/system_neutral1_600</color>
+
+    <color name="fab_fg_color">@android:color/black</color>
 </resources>

@@ -23,4 +23,6 @@
     <color name="navigation_bar_bg">@color/window_background</color>
 
     <color name="compose_send_text_background_color">@android:color/white</color>
+
+    <color name="fab_fg_color">@android:color/white</color>
 </resources>
