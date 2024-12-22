@@ -19,7 +19,7 @@
     <!--
         Base application theme
     -->
-    <style name="BugleBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BugleBaseTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="android:forceDarkAllowed">true</item>
         <item name="android:navigationBarColor">@color/navigation_bar_bg</item>
         <item name="android:windowLightNavigationBar">@bool/light_navigation_bar</item>
@@ -38,7 +38,7 @@
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
     </style>
 
-    <style name="LaunchTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="LaunchTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
          <item name="colorPrimary">@color/action_bar_background_color</item>
          <item name="colorPrimaryDark">@color/action_bar_background_color_dark</item>
     </style>
@@ -646,6 +646,11 @@
 
     <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
         <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
     </style>
 
 </resources>
