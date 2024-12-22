@@ -72,6 +72,7 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
 
     protected void startMultiSelectActionMode() {
         startActionMode(new MultiSelectActionModeCallback(this));
+        mConversationListFragment.dismissFab();
     }
 
     protected void exitMultiSelectState() {
