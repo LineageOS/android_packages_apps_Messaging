@@ -122,6 +122,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mContactIconView = (ContactIconView) findViewById(R.id.conversation_icon);
         mContactIconView.setOnLongClickListener(view -> {
             ConversationMessageView.this.performLongClick();

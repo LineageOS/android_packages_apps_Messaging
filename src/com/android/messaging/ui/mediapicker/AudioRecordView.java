@@ -122,16 +122,15 @@ public class AudioRecordView extends FrameLayout implements
         mSoundLevels.setLevelSource(mMediaRecorder.getLevelSource());
         mRecordButton.setOnTouchListener((v, event) -> {
             final int action = event.getActionMasked();
-            switch (action) {
-                case MotionEvent.ACTION_DOWN:
-                    onRecordButtonTouchDown();
+            if (action == MotionEvent.ACTION_DOWN) {
+                onRecordButtonTouchDown();
 
-                    // Don't let the record button handle the down event to let it fall through
-                    // so that we can handle it for the entire panel in onTouchEvent(). This is
-                    // done so that: 1) the user taps on the record button to start recording
-                    // 2) the entire panel owns the touch event so we'd keep recording even
-                    // if the user moves outside the button region.
-                    return false;
+                // Don't let the record button handle the down event to let it fall through
+                // so that we can handle it for the entire panel in onTouchEvent(). This is
+                // done so that: 1) the user taps on the record button to start recording
+                // 2) the entire panel owns the touch event so we'd keep recording even
+                // if the user moves outside the button region.
+                return false;
             }
             return false;
         });
