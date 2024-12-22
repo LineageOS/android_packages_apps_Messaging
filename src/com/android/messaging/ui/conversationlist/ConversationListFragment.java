@@ -58,6 +58,7 @@ import com.android.messaging.util.Assert;
 import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
 
     private ConversationListFragmentHost mHost;
     private RecyclerView mRecyclerView;
-    private ImageView mStartNewConversationButton;
+    private ExtendedFloatingActionButton mStartNewConversationButton;
     private ListEmptyView mEmptyListMessageView;
     private ConversationListAdapter mAdapter;
 
@@ -221,7 +222,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             mListState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_LIST_VIEW_STATE_KEY);
         }
 
-        mStartNewConversationButton = (ImageView) rootView.findViewById(
+        mStartNewConversationButton = (ExtendedFloatingActionButton) rootView.findViewById(
                 R.id.start_new_conversation_button);
         if (mArchiveMode) {
             mStartNewConversationButton.setVisibility(View.GONE);
