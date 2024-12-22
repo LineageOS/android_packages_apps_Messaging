@@ -40,6 +40,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+
 import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.binding.Binding;
@@ -190,6 +191,7 @@ public class ComposeMessageView extends LinearLayout
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mComposeEditText = (PlainTextEditText) findViewById(
                 R.id.compose_message_text);
         mComposeEditText.setOnEditorActionListener(this);
@@ -730,7 +732,7 @@ public class ComposeMessageView extends LinearLayout
             } else {
                 mComposeEditText.setHint(Html.fromHtml(getResources().getString(
                         R.string.compose_message_view_hint_text_multi_sim,
-                        subscriptionListEntry.displayName)));
+                        subscriptionListEntry.displayName), Html.FROM_HTML_MODE_LEGACY));
             }
         } else {
             int type = -1;
