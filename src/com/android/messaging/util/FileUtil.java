@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
-import android.text.TextUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
@@ -39,7 +39,8 @@ public class FileUtil {
     private static synchronized File getNewFile(File directory, String extension,
             String fileNameFormat) throws IOException {
         final Date date = new Date(System.currentTimeMillis());
-        final SimpleDateFormat dateFormat = new SimpleDateFormat(fileNameFormat);
+        final SimpleDateFormat dateFormat = new SimpleDateFormat(fileNameFormat,
+                Locale.getDefault(Locale.Category.FORMAT));
         final String numberedFileNameFormat = dateFormat.format(date) + "_%02d" + "." + extension;
         for (int i = 1; i <= 99; i++) { // Only save 99 of the same file name.
             final String newName = String.format(Locale.US, numberedFileNameFormat, i);
