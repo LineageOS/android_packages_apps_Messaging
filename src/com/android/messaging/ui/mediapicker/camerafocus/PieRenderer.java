@@ -29,6 +29,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
@@ -115,7 +116,7 @@ public class PieRenderer extends OverlayRenderer
     private LinearAnimation mFadeIn;
     private volatile boolean mFocusCancelled;
 
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         public void handleMessage(Message msg) {
             switch(msg.what) {
                 case MSG_OPEN:

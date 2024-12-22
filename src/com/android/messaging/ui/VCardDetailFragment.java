@@ -125,41 +125,38 @@ public class VCardDetailFragment extends Fragment implements PersonItemDataListe
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add_contact:
-                mBinding.ensureBound();
-                final Uri vCardUri = mBinding.getData().getVCardUri();
+        if (item.getItemId() == R.id.action_add_contact) {
+            mBinding.ensureBound();
+            final Uri vCardUri = mBinding.getData().getVCardUri();
 
-                // We have to do things in the background in case we need to copy the vcard data.
-                new SafeAsyncTask<Void, Void, Uri>() {
-                    @Override
-                    protected Uri doInBackgroundTimed(final Void... params) {
-                        // We can't delete the persisted vCard file because we don't know when to
-                        // delete it, since the app that uses it (contacts, dialer) may start or
-                        // shut down at any point. Therefore, we rely on the system to clean up
-                        // the cache directory for us.
-                        return mScratchSpaceUri != null ? mScratchSpaceUri :
+            // We have to do things in the background in case we need to copy the vcard data.
+            new SafeAsyncTask<Void, Void, Uri>() {
+                @Override
+                protected Uri doInBackgroundTimed(final Void... params) {
+                    // We can't delete the persisted vCard file because we don't know when to
+                    // delete it, since the app that uses it (contacts, dialer) may start or
+                    // shut down at any point. Therefore, we rely on the system to clean up
+                    // the cache directory for us.
+                    return mScratchSpaceUri != null ? mScratchSpaceUri :
                             UriUtil.persistContentToScratchSpace(vCardUri);
-                    }
+                }
 
-                    @Override
-                    protected void onPostExecute(final Uri result) {
-                        if (result != null) {
-                            mScratchSpaceUri = result;
-                            if (getActivity() != null) {
-                                MediaScratchFileProvider.addUriToDisplayNameEntry(
-                                        result, mBinding.getData().getDisplayName());
-                                UIIntents.get().launchSaveVCardToContactsActivity(getActivity(),
-                                        result);
-                            }
+                @Override
+                protected void onPostExecute(final Uri result) {
+                    if (result != null) {
+                        mScratchSpaceUri = result;
+                        if (getActivity() != null) {
+                            MediaScratchFileProvider.addUriToDisplayNameEntry(
+                                    result, mBinding.getData().getDisplayName());
+                            UIIntents.get().launchSaveVCardToContactsActivity(getActivity(),
+                                    result);
                         }
                     }
-                }.executeOnThreadPool();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+                }
+            }.executeOnThreadPool();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setVCardUri(final Uri vCardUri) {

@@ -110,8 +110,8 @@ public class Dates {
             flags = FORCE_12_HOUR;
         }
         return getOlderThanAYearTimestamp(time,
-                context.getResources().getConfiguration().locale, false /*abbreviated*/,
-                flags);
+                context.getResources().getConfiguration().getLocales().get(0),
+                false /*abbreviated*/, flags);
     }
 
     private static CharSequence getTimeString(final long time, final boolean abbreviated,
@@ -124,7 +124,8 @@ public class Dates {
             flags = FORCE_12_HOUR;
         }
         return getTimestamp(time, System.currentTimeMillis(), abbreviated,
-                context.getResources().getConfiguration().locale, flags, minPeriodToday);
+                context.getResources().getConfiguration().getLocales().get(0), flags,
+                minPeriodToday);
     }
 
     @VisibleForTesting

@@ -123,45 +123,41 @@ public class PeopleAndOptionsFragment extends Fragment
 
     @Override
     public void onOptionsItemViewClicked(final PeopleOptionsItemData item) {
-        switch (item.getItemId()) {
-            case PeopleOptionsItemData.SETTING_NOTIFICATION:
-                ArrayList<String> participantsNames = new ArrayList<>();
-                for (ParticipantData participant : mOtherParticipants) {
-                    participantsNames.add(participant.getDisplayName(true));
-                }
-                NotificationsUtil.createNotificationChannelGroup(getActivity(),
-                        NotificationsUtil.CONVERSATION_GROUP_NAME,
-                        R.string.notification_channel_messages_title);
-                NotificationsUtil.createNotificationChannel(getActivity(),
-                        mBinding.getData().getConversationId(),
-                        String.join(", ", participantsNames),
-                        NotificationManager.IMPORTANCE_DEFAULT,
-                        NotificationsUtil.CONVERSATION_GROUP_NAME);
-                Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
-                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
-                startActivity(intent);
-                break;
-
-            case PeopleOptionsItemData.SETTING_BLOCKED:
-                if (item.getOtherParticipant().isBlocked()) {
-                    mBinding.getData().setDestinationBlocked(mBinding, false);
-                    break;
-                }
-                final Resources res = getResources();
-                final Activity activity = getActivity();
-                new AlertDialog.Builder(activity)
-                        .setTitle(res.getString(R.string.block_confirmation_title,
-                                item.getOtherParticipant().getDisplayDestination()))
-                        .setMessage(res.getString(R.string.block_confirmation_message))
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
-                            mBinding.getData().setDestinationBlocked(mBinding, true);
-                            activity.setResult(ConversationActivity.FINISH_RESULT_CODE);
-                            activity.finish();
-                        })
-                        .create()
-                        .show();
-                break;
+        if (item.getItemId() == PeopleOptionsItemData.SETTING_NOTIFICATION) {
+            ArrayList<String> participantsNames = new ArrayList<>();
+            for (ParticipantData participant : mOtherParticipants) {
+                participantsNames.add(participant.getDisplayName(true));
+            }
+            NotificationsUtil.createNotificationChannelGroup(getActivity(),
+                    NotificationsUtil.CONVERSATION_GROUP_NAME,
+                    R.string.notification_channel_messages_title);
+            NotificationsUtil.createNotificationChannel(getActivity(),
+                    mBinding.getData().getConversationId(),
+                    String.join(", ", participantsNames),
+                    NotificationManager.IMPORTANCE_DEFAULT,
+                    NotificationsUtil.CONVERSATION_GROUP_NAME);
+            Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+            intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
+            startActivity(intent);
+        } else if (item.getItemId() == PeopleOptionsItemData.SETTING_BLOCKED) {
+            if (item.getOtherParticipant().isBlocked()) {
+                mBinding.getData().setDestinationBlocked(mBinding, false);
+                return;
+            }
+            final Resources res = getResources();
+            final Activity activity = getActivity();
+            new AlertDialog.Builder(activity)
+                    .setTitle(res.getString(R.string.block_confirmation_title,
+                            item.getOtherParticipant().getDisplayDestination()))
+                    .setMessage(res.getString(R.string.block_confirmation_message))
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, (arg0, arg1) -> {
+                        mBinding.getData().setDestinationBlocked(mBinding, true);
+                        activity.setResult(ConversationActivity.FINISH_RESULT_CODE);
+                        activity.finish();
+                    })
+                    .create()
+                    .show();
         }
     }
 

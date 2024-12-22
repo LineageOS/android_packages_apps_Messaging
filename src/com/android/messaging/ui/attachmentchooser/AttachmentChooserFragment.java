@@ -87,14 +87,11 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_confirm_selection:
-                confirmSelection();
-                return true;
-
-            default:
-                return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.action_confirm_selection) {
+            confirmSelection();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @VisibleForTesting

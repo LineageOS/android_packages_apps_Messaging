@@ -203,12 +203,11 @@ public class BugleActionBarActivity extends AppCompatActivity implements ImeUtil
             return true;
         }
 
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                if (mActionMode != null) {
-                    dismissActionMode();
-                    return true;
-                }
+        if (menuItem.getItemId() == android.R.id.home) {
+            if (mActionMode != null) {
+                dismissActionMode();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(menuItem);
     }

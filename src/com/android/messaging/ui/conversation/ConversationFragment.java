@@ -306,67 +306,67 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
             final ConversationMessageData data = mSelectedMessage.getData();
             final String messageId = data.getMessageId();
-            switch (menuItem.getItemId()) {
-                case R.id.save_attachment:
-                    if (OsUtil.hasStoragePermission()) {
-                        final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
-                                getActivity());
-                        for (final MessagePartData part : data.getAttachments()) {
-                            saveAttachmentTask.addAttachmentToSave(part.getContentUri(),
-                                    part.getContentType());
-                        }
-                        if (saveAttachmentTask.getAttachmentCount() > 0) {
-                            saveAttachmentTask.executeOnThreadPool();
-                            mHost.dismissActionMode();
-                        }
-                    } else {
-                        getActivity().requestPermissions(
-                                new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE }, 0);
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.save_attachment) {
+                if (OsUtil.hasStoragePermission()) {
+                    final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
+                            getActivity());
+                    for (final MessagePartData part : data.getAttachments()) {
+                        saveAttachmentTask.addAttachmentToSave(part.getContentUri(),
+                                part.getContentType());
                     }
-                    return true;
-                case R.id.action_delete_message:
-                    if (mSelectedMessage != null) {
-                        deleteMessage(messageId);
-                    }
-                    return true;
-                case R.id.action_download:
-                    if (mSelectedMessage != null) {
-                        retryDownload(messageId);
+                    if (saveAttachmentTask.getAttachmentCount() > 0) {
+                        saveAttachmentTask.executeOnThreadPool();
                         mHost.dismissActionMode();
                     }
-                    return true;
-                case R.id.action_send:
-                    if (mSelectedMessage != null) {
-                        retrySend(messageId);
-                        mHost.dismissActionMode();
-                    }
-                    return true;
-                case R.id.copy_text:
-                    Assert.isTrue(data.hasText());
-                    final ClipboardManager clipboard = (ClipboardManager) getActivity()
-                            .getSystemService(Context.CLIPBOARD_SERVICE);
-                    clipboard.setPrimaryClip(
-                            ClipData.newPlainText(null /* label */, data.getText()));
+                } else {
+                    getActivity().requestPermissions(
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+                return true;
+            } else if (itemId == R.id.action_delete_message) {
+                if (mSelectedMessage != null) {
+                    deleteMessage(messageId);
+                }
+                return true;
+            } else if (itemId == R.id.action_download) {
+                if (mSelectedMessage != null) {
+                    retryDownload(messageId);
                     mHost.dismissActionMode();
-                    return true;
-                case R.id.details_menu:
-                    MessageDetailsDialog.show(
-                            getActivity(), data, mBinding.getData().getParticipants(),
-                            mBinding.getData().getSelfParticipantById(data.getSelfParticipantId()));
+                }
+                return true;
+            } else if (itemId == R.id.action_send) {
+                if (mSelectedMessage != null) {
+                    retrySend(messageId);
                     mHost.dismissActionMode();
-                    return true;
-                case R.id.share_message_menu:
-                    shareMessage(data);
-                    mHost.dismissActionMode();
-                    return true;
-                case R.id.forward_message_menu:
-                    // TODO: Currently we are forwarding one part at a time, instead of
-                    // the entire message. Change this to forwarding the entire message when we
-                    // use message-based cursor in conversation.
-                    final MessageData message = mBinding.getData().createForwardedMessage(data);
-                    UIIntents.get().launchForwardMessageActivity(getActivity(), message);
-                    mHost.dismissActionMode();
-                    return true;
+                }
+                return true;
+            } else if (itemId == R.id.copy_text) {
+                Assert.isTrue(data.hasText());
+                final ClipboardManager clipboard = (ClipboardManager) getActivity()
+                        .getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setPrimaryClip(
+                        ClipData.newPlainText(null /* label */, data.getText()));
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.details_menu) {
+                MessageDetailsDialog.show(
+                        getActivity(), data, mBinding.getData().getParticipants(),
+                        mBinding.getData().getSelfParticipantById(data.getSelfParticipantId()));
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.share_message_menu) {
+                shareMessage(data);
+                mHost.dismissActionMode();
+                return true;
+            } else if (itemId == R.id.forward_message_menu) {
+                // TODO: Currently we are forwarding one part at a time, instead of
+                // the entire message. Change this to forwarding the entire message when we
+                // use message-based cursor in conversation.
+                final MessageData message = mBinding.getData().createForwardedMessage(data);
+                UIIntents.get().launchForwardMessageActivity(getActivity(), message);
+                mHost.dismissActionMode();
+                return true;
             }
             return false;
         }
@@ -774,72 +774,66 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_people_and_options:
-                Assert.isTrue(mBinding.getData().getParticipantsLoaded());
-                UIIntents.get().launchPeopleAndOptionsActivity(getActivity(), mConversationId);
-                return true;
-
-            case R.id.action_call:
-                final String phoneNumber = mBinding.getData().getParticipantPhoneNumber();
-                Assert.notNull(phoneNumber);
-                // Can't make a call to emergency numbers using ACTION_CALL.
-                if (PhoneNumberUtils.isEmergencyNumber(phoneNumber)) {
-                    UiUtils.showToast(R.string.disallow_emergency_call);
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_people_and_options) {
+            Assert.isTrue(mBinding.getData().getParticipantsLoaded());
+            UIIntents.get().launchPeopleAndOptionsActivity(getActivity(), mConversationId);
+            return true;
+        } else if (itemId == R.id.action_call) {
+            final String phoneNumber = mBinding.getData().getParticipantPhoneNumber();
+            Assert.notNull(phoneNumber);
+            // Can't make a call to emergency numbers using ACTION_CALL.
+            if (PhoneNumberUtils.isEmergencyNumber(phoneNumber)) {
+                UiUtils.showToast(R.string.disallow_emergency_call);
+            } else {
+                final View targetView = getActivity().findViewById(R.id.action_call);
+                Point centerPoint;
+                if (targetView != null) {
+                    final int[] screenLocation = new int[2];
+                    targetView.getLocationOnScreen(screenLocation);
+                    final int centerX = screenLocation[0] + targetView.getWidth() / 2;
+                    final int centerY = screenLocation[1] + targetView.getHeight() / 2;
+                    centerPoint = new Point(centerX, centerY);
                 } else {
-                    final View targetView = getActivity().findViewById(R.id.action_call);
-                    Point centerPoint;
-                    if (targetView != null) {
-                        final int[] screenLocation = new int[2];
-                        targetView.getLocationOnScreen(screenLocation);
-                        final int centerX = screenLocation[0] + targetView.getWidth() / 2;
-                        final int centerY = screenLocation[1] + targetView.getHeight() / 2;
-                        centerPoint = new Point(centerX, centerY);
-                    } else {
-                        // In the overflow menu, just use the center of the screen.
-                        final Display display =
-                                getActivity().getWindowManager().getDefaultDisplay();
-                        centerPoint = new Point(display.getWidth() / 2, display.getHeight() / 2);
-                    }
-                    UIIntents.get()
-                            .launchPhoneCallActivity(getActivity(), phoneNumber, centerPoint);
+                    // In the overflow menu, just use the center of the screen.
+                    final Display display =
+                            getActivity().getWindowManager().getDefaultDisplay();
+                    centerPoint = new Point(display.getWidth() / 2, display.getHeight() / 2);
                 }
-                return true;
-
-            case R.id.action_archive:
-                mBinding.getData().archiveConversation(mBinding);
-                closeConversation(mConversationId);
-                return true;
-
-            case R.id.action_unarchive:
-                mBinding.getData().unarchiveConversation(mBinding);
-                return true;
-
-            case R.id.action_settings:
-                return true;
-
-            case R.id.action_add_contact:
-                final ParticipantData participant = mBinding.getData().getOtherParticipant();
-                Assert.notNull(participant);
-                final String destination = participant.getNormalizedDestination();
-                final Uri avatarUri = AvatarUriUtil.createAvatarUri(participant);
-                (new AddContactsConfirmationDialog(getActivity(), avatarUri, destination)).show();
-                return true;
-
-            case R.id.action_delete:
-                if (isReadyForDeleteAction()) {
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle(getResources().getQuantityString(
-                                    R.plurals.delete_conversations_confirmation_dialog_title, 1))
-                            .setPositiveButton(R.string.delete_conversation_confirmation_button,
-                                    (dialog, button) -> deleteConversation())
-                            .setNegativeButton(R.string.delete_conversation_decline_button, null)
-                            .show();
-                } else {
-                    warnOfMissingActionConditions(false /*sending*/,
-                            null /*commandToRunAfterActionConditionResolved*/);
-                }
-                return true;
+                UIIntents.get()
+                        .launchPhoneCallActivity(getActivity(), phoneNumber, centerPoint);
+            }
+            return true;
+        } else if (itemId == R.id.action_archive) {
+            mBinding.getData().archiveConversation(mBinding);
+            closeConversation(mConversationId);
+            return true;
+        } else if (itemId == R.id.action_unarchive) {
+            mBinding.getData().unarchiveConversation(mBinding);
+            return true;
+        } else if (itemId == R.id.action_settings) {
+            return true;
+        } else if (itemId == R.id.action_add_contact) {
+            final ParticipantData participant = mBinding.getData().getOtherParticipant();
+            Assert.notNull(participant);
+            final String destination = participant.getNormalizedDestination();
+            final Uri avatarUri = AvatarUriUtil.createAvatarUri(participant);
+            (new AddContactsConfirmationDialog(getActivity(), avatarUri, destination)).show();
+            return true;
+        } else if (itemId == R.id.action_delete) {
+            if (isReadyForDeleteAction()) {
+                new AlertDialog.Builder(getActivity())
+                        .setTitle(getResources().getQuantityString(
+                                R.plurals.delete_conversations_confirmation_dialog_title, 1))
+                        .setPositiveButton(R.string.delete_conversation_confirmation_button,
+                                (dialog, button) -> deleteConversation())
+                        .setNegativeButton(R.string.delete_conversation_decline_button, null)
+                        .show();
+            } else {
+                warnOfMissingActionConditions(false /*sending*/,
+                        null /*commandToRunAfterActionConditionResolved*/);
+            }
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
