@@ -18,6 +18,7 @@ package com.android.messaging.util;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
@@ -37,7 +38,9 @@ public class MediaUtilImpl extends MediaUtil {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         try {
             final MediaPlayer mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_NOTIFICATION);
+            AudioAttributes.Builder attributes = new AudioAttributes.Builder();
+            attributes.setLegacyStreamType(AudioManager.STREAM_NOTIFICATION);
+            mediaPlayer.setAudioAttributes(attributes.build());
             final AssetFileDescriptor afd = context.getResources().openRawResourceFd(resId);
             mediaPlayer.setDataSource(
                     afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
