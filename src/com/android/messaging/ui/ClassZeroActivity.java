@@ -24,6 +24,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.provider.Telephony.Sms;
@@ -66,7 +67,7 @@ public class ClassZeroActivity extends Activity {
 
     private ArrayList<ContentValues> mMessageQueue = null;
 
-    private final Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(final Message msg) {
             // Do not handle an invalid message.
