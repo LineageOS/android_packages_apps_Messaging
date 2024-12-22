@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,6 +65,7 @@ public class ContactListItemView extends LinearLayout implements OnClickListener
 
     @Override
     protected void onFinishInflate () {
+        super.onFinishInflate();
         mContactNameTextView = (TextView) findViewById(R.id.contact_name);
         mContactDetailsTextView = (TextView) findViewById(R.id.contact_details);
         mContactDetailTypeTextView = (TextView) findViewById(R.id.contact_detail_type);

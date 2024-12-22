@@ -144,6 +144,7 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mSwipeableContainer = (ViewGroup) findViewById(R.id.swipeableContainer);
         mCrossSwipeBackground = (ViewGroup) findViewById(R.id.crossSwipeBackground);
         mSwipeableContent = (ViewGroup) findViewById(R.id.swipeableContent);
