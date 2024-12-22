@@ -64,13 +64,11 @@ public class ArchivedConversationListActivity extends AbstractConversationListAc
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch(menuItem.getItemId()) {
-            case android.R.id.home:
-                onActionBarHome();
-                return true;
-            default:
-                return super.onOptionsItemSelected(menuItem);
+        if (menuItem.getItemId() == android.R.id.home) {
+            onActionBarHome();
+            return true;
         }
+        return super.onOptionsItemSelected(menuItem);
     }
 
     @Override

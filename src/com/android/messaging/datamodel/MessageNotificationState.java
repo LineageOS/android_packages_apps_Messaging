@@ -1084,7 +1084,7 @@ public abstract class MessageNotificationState extends NotificationState {
     }
 
     private static CharSequence convertHtmlAndStripUrls(final String s) {
-        final Spanned text = Html.fromHtml(s);
+        final Spanned text = Html.fromHtml(s, Html.FROM_HTML_MODE_LEGACY);
         if (text instanceof Spannable) {
             stripUrls((Spannable) text);
         }
