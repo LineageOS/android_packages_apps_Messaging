@@ -701,6 +701,10 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         mComposeMessageView.saveInputState(outState);
     }
 
+    public void onRestart() {
+        mBinding.getData().restart(mBinding);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
