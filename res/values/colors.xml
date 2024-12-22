@@ -134,7 +134,6 @@
     <color name="people_and_options_list_divider">#cccccc</color>
 
     <color name="fab_color">@color/lineage_accent</color>
-    <color name="fab_ripple">#40ffffff</color>
 
     <color name="message_body_size_text_color">#555555</color>
     <color name="mms_indicator_color">#681faf</color>
