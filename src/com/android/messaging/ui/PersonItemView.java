@@ -67,6 +67,7 @@ public class PersonItemView extends LinearLayout implements PersonItemDataListen
 
     @Override
     protected void onFinishInflate() {
+        super.onFinishInflate();
         mNameTextView = (TextView) findViewById(R.id.name);
         mDetailsTextView = (TextView) findViewById(R.id.details);
         mContactIconView = (ContactIconView) findViewById(R.id.contact_icon);

@@ -18,6 +18,7 @@
 package com.android.messaging.util;
 
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
@@ -92,7 +93,9 @@ public class NotificationPlayer implements OnCompletionListener {
                         .getSystemService(Context.AUDIO_SERVICE);
                 try {
                     final MediaPlayer player = new MediaPlayer();
-                    player.setAudioStreamType(mCmd.stream);
+                    AudioAttributes.Builder attributes = new AudioAttributes.Builder();
+                    attributes.setLegacyStreamType(mCmd.stream);
+                    player.setAudioAttributes(attributes.build());
                     player.setDataSource(Factory.get().getApplicationContext(), mCmd.uri);
                     player.setLooping(mCmd.looping);
                     player.setVolume(mCmd.volume, mCmd.volume);
