@@ -26,7 +26,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -44,6 +43,7 @@ import androidx.collection.SimpleArrayMap;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.WearableExtender;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.app.Person;
 import androidx.core.app.RemoteInput;
 
 import com.android.messaging.Factory;
@@ -648,7 +648,8 @@ public class BugleNotifications {
         if (notificationState.mParticipantContactUris != null &&
                 notificationState.mParticipantContactUris.size() > 0) {
             for (final Uri contactUri : notificationState.mParticipantContactUris) {
-                notificationState.mNotificationBuilder.addPerson(contactUri.toString());
+                Person p = new Person.Builder().setUri(contactUri.toString()).build();
+                notificationState.mNotificationBuilder.addPerson(p);
             }
         }
 
@@ -726,16 +727,6 @@ public class BugleNotifications {
         final WearableExtender wearableExtender = new WearableExtender();
         setWearableGroupOptions(notifBuilder, notificationState);
 
-        if (avatarHiResBitmap != null) {
-            wearableExtender.setBackground(avatarHiResBitmap);
-        } else if (avatarBitmap != null) {
-            // Nothing to do here; we already set avatarBitmap as the notification icon
-        } else {
-            final Bitmap defaultBackground = BitmapFactory.decodeResource(
-                    context.getResources(), R.drawable.bg_sms);
-            wearableExtender.setBackground(defaultBackground);
-        }
-
         if (notificationState instanceof MultiMessageNotificationState) {
             if (attachmentBitmap != null) {
                 // When we've got a picture attachment, we do some switcheroo trickery. When
@@ -753,29 +744,8 @@ public class BugleNotifications {
                     .bigPicture(attachmentBitmap)
                     .bigLargeIcon(avatarBitmap);
                 notificationState.mNotificationBuilder.setLargeIcon(smallBitmap);
-
-                // Add a wearable page with no visible card so you can more easily see the photo.
-                String conversationId = notificationState.mConversationIds.first();
-                String id = NotificationsUtil.DEFAULT_CHANNEL_ID;
-                if (NotificationsUtil.getNotificationChannel(context, conversationId) != null) {
-                    id = conversationId;
-                }
-                final NotificationCompat.Builder photoPageNotifBuilder =
-                        new NotificationCompat.Builder(Factory.get().getApplicationContext(),
-                        NotificationsUtil.DEFAULT_CHANNEL_ID);
-                final WearableExtender photoPageWearableExtender = new WearableExtender();
-                photoPageWearableExtender.setHintShowBackgroundOnly(true);
-                if (attachmentBitmap != null) {
-                    final Bitmap wearBitmap = ImageUtils.scaleCenterCrop(attachmentBitmap,
-                            sWearableImageWidth, sWearableImageHeight);
-                    photoPageWearableExtender.setBackground(wearBitmap);
-                }
-                photoPageNotifBuilder.extend(photoPageWearableExtender);
-                wearableExtender.addPage(photoPageNotifBuilder.build());
             }
 
-            maybeAddWearableConversationLog(wearableExtender,
-                    (MultiMessageNotificationState) notificationState);
             addDownloadMmsAction(notifBuilder, wearableExtender, notificationState);
             addWearableVoiceReplyAction(notifBuilder, wearableExtender, notificationState);
         }
@@ -800,22 +770,6 @@ public class BugleNotifications {
             // by the sort key, hence the need for zeroes to preserve the ordering.
             final String sortKey = String.format(Locale.US, "%02d", order);
             notifBuilder.setGroup(groupKey).setSortKey(sortKey);
-        }
-    }
-
-    private static void maybeAddWearableConversationLog(
-            final WearableExtender wearableExtender,
-            final MultiMessageNotificationState notificationState) {
-        if (!isWearCompanionAppInstalled()) {
-            return;
-        }
-        final String convId = notificationState.mConversationIds.first();
-        ConversationLineInfo convInfo = notificationState.mConvList.mConvInfos.get(0);
-        final Notification page = MessageNotificationState.buildConversationPageForWearable(
-                convId,
-                convInfo.mParticipantCount);
-        if (page != null) {
-            wearableExtender.addPage(page);
         }
     }
 
