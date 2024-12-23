@@ -665,19 +665,4 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     public ImmutableBindingRef<MediaPickerData> getMediaPickerDataBinding() {
         return BindingBase.createBindingReference(mBinding);
     }
-
-    protected static final int CAMERA_PERMISSION_REQUEST_CODE = 1;
-    protected static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
-    protected static final int RECORD_AUDIO_PERMISSION_REQUEST_CODE = 3;
-    protected static final int GALLERY_PERMISSION_REQUEST_CODE = 4;
-    protected static final int READ_CONTACT_PERMISSION_REQUEST_CODE = 5;
-
-    @Override
-    public void onRequestPermissionsResult(final int requestCode,
-                                           @NonNull final String[] permissions,
-                                           @NonNull final int[] grantResults) {
-        if (mSelectedChooser != null) {
-            mSelectedChooser.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
 }
