@@ -66,11 +66,6 @@ public class BlockedParticipantsFragment extends Fragment
     }
 
     @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         mBinding.unbind();
