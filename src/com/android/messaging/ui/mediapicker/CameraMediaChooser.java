@@ -47,6 +47,7 @@ class CameraMediaChooser extends MediaChooser {
     private View mMissingPermissionView;
     private final ActivityResultLauncher<Uri> mPictureLauncher;
     private final ActivityResultLauncher<Uri> mVideoLauncher;
+    private final ActivityResultLauncher<String> mRequestPermissionLauncher;
     private final DocumentImagePicker mDocumentImagePicker;
     private Uri mOutputUri;
 
@@ -81,6 +82,10 @@ class CameraMediaChooser extends MediaChooser {
                                         MessagingContentProvider.UNSPECIFIED_SIZE),
                                 true /* dismissMediaPicker */);
                     }
+                });
+        mRequestPermissionLauncher = mediaPicker.registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(), granted -> {
+                    updateForPermissionState(granted);
                 });
     }
 
@@ -151,22 +156,11 @@ class CameraMediaChooser extends MediaChooser {
     }
 
     private void requestCameraPermission() {
-        mMediaPicker.requestPermissions(new String[] { Manifest.permission.CAMERA },
-                MediaPicker.CAMERA_PERMISSION_REQUEST_CODE);
+        mRequestPermissionLauncher.launch(Manifest.permission.CAMERA);
     }
 
     private void requestRecordAudioPermission() {
-        mMediaPicker.requestPermissions(new String[] { Manifest.permission.RECORD_AUDIO },
-                MediaPicker.RECORD_AUDIO_PERMISSION_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onRequestPermissionsResult(
-            final int requestCode, final String[] permissions, final int[] grantResults) {
-        if (requestCode == MediaPicker.CAMERA_PERMISSION_REQUEST_CODE) {
-            final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            updateForPermissionState(permissionGranted);
-        }
+        mRequestPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
     }
 
     private void updateForPermissionState(final boolean granted) {
