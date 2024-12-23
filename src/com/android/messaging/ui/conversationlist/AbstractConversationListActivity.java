@@ -24,6 +24,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -40,6 +42,7 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
 import com.android.messaging.ui.conversationlist.ConversationListFragment.ConversationListFragmentHost;
 import com.android.messaging.ui.conversationlist.MultiSelectActionModeCallback.SelectedConversation;
+import com.android.messaging.util.ChangeDefaultSmsAppHelper;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
 
@@ -57,6 +60,19 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
     private static final int REQUEST_SET_DEFAULT_SMS_APP = 1;
 
     protected ConversationListFragment mConversationListFragment;
+
+    private ChangeDefaultSmsAppHelper mChangeDefaultSmsAppHelper;
+
+    private final ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    if (mChangeDefaultSmsAppHelper == null) {
+                        mChangeDefaultSmsAppHelper = new ChangeDefaultSmsAppHelper();
+                    }
+                    mChangeDefaultSmsAppHelper.handleChangeDefaultSmsResult(
+                            REQUEST_SET_DEFAULT_SMS_APP, result.getResultCode(), null);
+                }
+            });
 
     @Override
     public void onBackPressed() {
@@ -100,7 +116,7 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
                     SnackBar.Action.createCustomAction(() -> {
                         final Intent intent =
                                 UIIntents.get().getChangeDefaultSmsAppIntent(activity);
-                        startActivityForResult(intent, REQUEST_SET_DEFAULT_SMS_APP);
+                        mLauncher.launch(intent);
                     },
                         getString(R.string.requires_default_sms_change_button)),
                     null /* interactions */,
