@@ -1200,14 +1200,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         dialog.show(ft, null/*tag*/);
     }
 
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (mChangeDefaultSmsAppHelper == null) {
-            mChangeDefaultSmsAppHelper = new ChangeDefaultSmsAppHelper();
-        }
-        mChangeDefaultSmsAppHelper.handleChangeDefaultSmsResult(requestCode, resultCode, null);
-    }
-
     public boolean hasMessages() {
         return mAdapter != null && mAdapter.getItemCount() > 0;
     }
