@@ -26,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import com.android.messaging.Factory;
+import com.android.messaging.datamodel.MediaScratchFileProvider;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.BugleGservicesKeys;
@@ -110,7 +111,8 @@ public class DocumentImagePicker {
         new SafeAsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackgroundTimed(final Void... params) {
-                if (FileUtil.isInPrivateDir(documentUri)) {
+                if (FileUtil.isInPrivateDir(documentUri) &&
+                        !MediaScratchFileProvider.isMediaScratchSpaceUri(documentUri)) {
                     // hacker sending private app data. Bail out
                     if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.ERROR)) {
                         LogUtil.e(LogUtil.BUGLE_TAG, "Aborting attach of private app data ("
