@@ -29,6 +29,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.PagerAdapter;
@@ -178,7 +179,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         };
 
         mOpen = false;
-        setSupportedMediaTypes(MEDIA_TYPE_ALL);
     }
 
     private boolean mIsAttached;
@@ -189,6 +189,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     public void onAttach(@NonNull final Context context) {
         super.onAttach(context);
         mIsAttached = true;
+        setSupportedMediaTypes(MEDIA_TYPE_ALL);
         if (mStartingMediaTypeOnAttach != MEDA_TYPE_INVALID) {
             // open() was previously called. Do the pending open now.
             doOpen(mStartingMediaTypeOnAttach, mAnimateOnAttach);
@@ -214,11 +215,9 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         mTabStrip.setBackgroundColor(mThemeColor);
         for (final MediaChooser chooser : mChoosers) {
             chooser.onCreateTabButton(inflater, mTabStrip);
-            final boolean enabled = (chooser.getSupportedMediaTypes() & mSupportedMediaTypes) !=
-                    MEDIA_TYPE_NONE;
             final ImageButton tabButton = chooser.getTabButton();
             if (tabButton != null) {
-                tabButton.setVisibility(enabled ? View.VISIBLE : View.GONE);
+                tabButton.setVisibility(View.GONE); // we make them visible in onViewCreated
                 mTabStrip.addView(tabButton);
             }
         }
@@ -260,9 +259,22 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        for (final MediaChooser chooser : mChoosers) {
+            final boolean enabled = (chooser.getSupportedMediaTypes() & mSupportedMediaTypes) !=
+                    MEDIA_TYPE_NONE;
+            final ImageButton tabButton = chooser.getTabButton();
+            if (tabButton != null) {
+                tabButton.setVisibility(enabled ? View.VISIBLE : View.GONE);
+            }
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
-        CameraManager.get().onPause();
         for (final MediaChooser chooser : mEnabledChoosers) {
             chooser.onPause();
         }
@@ -271,7 +283,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     @Override
     public void onResume() {
         super.onResume();
-        CameraManager.get().onResume();
 
         for (final MediaChooser chooser : mEnabledChoosers) {
             chooser.onResume();
