@@ -49,16 +49,4 @@
             android:importantForAccessibility="no"
             android:contentDescription="@null" />
     </FrameLayout>
-
-    <!-- This view will hide all other views if the required permission is not granted -->
-    <TextView
-        android:id="@+id/missing_permission_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/enable_permission_procedure"
-        android:contentDescription="@string/enable_permission_procedure_description"
-        android:background="@android:color/white"
-        android:gravity="center"
-        android:visibility="gone" />
-
 </FrameLayout>
