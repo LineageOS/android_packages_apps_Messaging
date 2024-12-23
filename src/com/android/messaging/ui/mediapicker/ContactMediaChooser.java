@@ -16,11 +16,9 @@
 
 package com.android.messaging.ui.mediapicker;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
@@ -33,7 +31,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
-import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.SafeAsyncTask;
@@ -45,8 +42,6 @@ import com.android.messaging.util.UiUtils;
  * set of permissions for this app. Thus no case to request READ_CONTACTS permission on it actually.
  */
 class ContactMediaChooser extends MediaChooser {
-    private View mEnabledView;
-    private View mMissingPermissionView;
     private final ActivityResultLauncher<Intent> mPickerLauncher;
 
     ContactMediaChooser(final MediaPicker mediaPicker) {
@@ -113,9 +108,8 @@ class ContactMediaChooser extends MediaChooser {
                         R.layout.mediapicker_contact_chooser,
                         container /* root */,
                         false /* attachToRoot */);
-        mEnabledView = view.findViewById(R.id.mediapicker_enabled);
-        mMissingPermissionView = view.findViewById(R.id.missing_permission_view);
-        mEnabledView.setOnClickListener(v -> {
+        final View enabledView = view.findViewById(R.id.mediapicker_enabled);
+        enabledView.setOnClickListener(v -> {
             // Launch an external picker to pick a contact as attachment.
             final Intent intent = new Intent(Intent.ACTION_PICK, Contacts.CONTENT_URI);
 
@@ -127,25 +121,5 @@ class ContactMediaChooser extends MediaChooser {
             }
         });
         return view;
-    }
-
-    @Override
-    protected void setSelected(final boolean selected) {
-        super.setSelected(selected);
-        if (selected && !ContactUtil.hasReadContactsPermission()) {
-            mMediaPicker.requestPermissions(
-                    new String[] {Manifest.permission.READ_CONTACTS},
-                    MediaPicker.READ_CONTACT_PERMISSION_REQUEST_CODE);
-        }
-    }
-
-    @Override
-    protected void onRequestPermissionsResult(
-            final int requestCode, final String[] permissions, final int[] grantResults) {
-        if (requestCode == MediaPicker.READ_CONTACT_PERMISSION_REQUEST_CODE) {
-            final boolean permissionGranted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-            mEnabledView.setVisibility(permissionGranted ? View.VISIBLE : View.GONE);
-            mMissingPermissionView.setVisibility(permissionGranted ? View.GONE : View.VISIBLE);
-        }
     }
 }
