@@ -17,8 +17,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="3062916848713424329">"SMS/MMS"</string>
-    <string name="share_intent_label" msgid="6920483598866144717">"SMS/MMS"</string>
+    <string name="app_name" msgid="3062916848713424329">"Nachrichten"</string>
+    <string name="share_intent_label" msgid="6920483598866144717">"Nachrichten"</string>
     <string name="share_intent_activity_label" msgid="2939454246983196756">"Konversation auswählen"</string>
     <string name="action_settings" msgid="1329008122345201684">"Einstellungen"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Nachricht senden"</string>
@@ -28,9 +28,9 @@
     <string name="exit" msgid="1905187380359981199">"Beenden"</string>
     <string name="settings_with_arrow" msgid="8534633224579301342">"Einstellungen &gt;"</string>
     <string name="settings" msgid="1045695083932447399">"Einstellungen"</string>
-    <string name="required_permissions_promo" msgid="3898014894175251590">"Die SMS/MMS App benötigt Berechtigungen für SMS, Telefon und Kontakte."</string>
-    <string name="enable_permission_procedure" msgid="2778471831376319587">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"SMS/MMS\" &gt; \"Berechtigungen\" ändern."</string>
-    <string name="enable_permission_procedure_description" msgid="8672121020793945630">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"SMS/MMS\" &gt; \"Berechtigungen\" ändern."</string>
+    <string name="required_permissions_promo" msgid="3898014894175251590">"Die Nachrichten App benötigt Berechtigungen für SMS, Telefon und Kontakte."</string>
+    <string name="enable_permission_procedure" msgid="2778471831376319587">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"Nachrichten\" &gt; \"Berechtigungen\" ändern."</string>
+    <string name="enable_permission_procedure_description" msgid="8672121020793945630">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"Nachrichten\" &gt; \"Berechtigungen\" ändern."</string>
     <string name="contact_picker_frequents_tab_title" msgid="7157326165824706883">"Häufig genutzte Kontakte"</string>
     <string name="contact_picker_all_contacts_tab_title" msgid="1424746082040243161">"Alle Kontakte"</string>
     <string name="contact_list_send_to_text" msgid="3167455944684758290">"An <xliff:g id="DESTINATION">%s</xliff:g> senden"</string>
