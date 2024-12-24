@@ -16,6 +16,24 @@
       "message": "Should that be then removed?",
       "revId": "b0161e353f4dc03b68652ada25204da8cab414ee",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f247d5c_50ffd8b2",
+        "filename": "src/com/android/messaging/datamodel/action/BackgroundWorkerService.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2024-12-24T13:41:00Z",
+      "side": 1,
+      "message": "It was in another patch, but moved the removal here now",
+      "parentUuid": "3c28c58e_fd548f2c",
+      "revId": "b0161e353f4dc03b68652ada25204da8cab414ee",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
