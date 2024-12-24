@@ -17,8 +17,8 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="3062916848713424329">"SMS/MMS"</string>
-    <string name="share_intent_label" msgid="6920483598866144717">"SMS/MMS"</string>
+    <string name="app_name" msgid="3062916848713424329">"Nachrichten"</string>
+    <string name="share_intent_label" msgid="6920483598866144717">"Nachrichten"</string>
     <string name="share_intent_activity_label" msgid="2939454246983196756">"Konversation auswählen"</string>
     <string name="action_settings" msgid="1329008122345201684">"Einstellungen"</string>
     <string name="sendButtonContentDescription" msgid="8422114979691093956">"Nachricht senden"</string>
@@ -28,9 +28,9 @@
     <string name="exit" msgid="1905187380359981199">"Beenden"</string>
     <string name="settings_with_arrow" msgid="8534633224579301342">"Einstellungen &gt;"</string>
     <string name="settings" msgid="1045695083932447399">"Einstellungen"</string>
-    <string name="required_permissions_promo" msgid="3898014894175251590">"Die SMS/MMS App benötigt Berechtigungen für SMS, Telefon und Kontakte."</string>
-    <string name="enable_permission_procedure" msgid="2778471831376319587">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"SMS/MMS\" &gt; \"Berechtigungen\" ändern."</string>
-    <string name="enable_permission_procedure_description" msgid="8672121020793945630">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"SMS/MMS\" &gt; \"Berechtigungen\" ändern."</string>
+    <string name="required_permissions_promo" msgid="3898014894175251590">"Die Nachrichten App benötigt Berechtigungen für SMS, Telefon und Kontakte."</string>
+    <string name="enable_permission_procedure" msgid="2778471831376319587">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"Nachrichten\" &gt; \"Berechtigungen\" ändern."</string>
+    <string name="enable_permission_procedure_description" msgid="8672121020793945630">"Sie können die Berechtigungen unter \"Einstellungen\" &gt; \"Apps\" &gt; \"Nachrichten\" &gt; \"Berechtigungen\" ändern."</string>
     <string name="contact_picker_frequents_tab_title" msgid="7157326165824706883">"Häufig genutzte Kontakte"</string>
     <string name="contact_picker_all_contacts_tab_title" msgid="1424746082040243161">"Alle Kontakte"</string>
     <string name="contact_list_send_to_text" msgid="3167455944684758290">"An <xliff:g id="DESTINATION">%s</xliff:g> senden"</string>
@@ -62,7 +62,7 @@
     <string name="class_0_message_activity" msgid="4603850264073169854">"Nachricht Klasse 0"</string>
     <string name="save" msgid="5081141452059463572">"Speichern"</string>
     <string name="enter_phone_number_title" msgid="7263355879949248448">"Telefonnummer bestätigen"</string>
-    <string name="enter_phone_number_text" msgid="4539767473801195966">"Mit dieser einmaligen Eingabe stellen Sie sicher, dass die SMS/MMS App Ihre Gruppennachrichten korrekt sendet."</string>
+    <string name="enter_phone_number_text" msgid="4539767473801195966">"Mit dieser einmaligen Eingabe stellen Sie sicher, dass die Nachrichten App Ihre Gruppennachrichten korrekt sendet."</string>
     <string name="enter_phone_number_hint" msgid="6242965213882272822">"Telefonnummer"</string>
     <string name="incoming_text_sender_content_description" msgid="2481078288502342745">"<xliff:g id="SENDER">%s</xliff:g> hat Folgendes gesagt:"</string>
     <string name="outgoing_text_sender_content_description" msgid="3492116976256510272">"Sie haben Folgendes gesagt:"</string>
@@ -93,13 +93,13 @@
     <string name="dl_failure_notification" msgid="8744588243554006189">"Nachricht \"<xliff:g id="SUBJECT">%1$s</xliff:g>\" von <xliff:g id="FROM">%2$s</xliff:g> konnte nicht heruntergeladen werden."</string>
     <string name="low_memory" msgid="5300743415198486619">"Datenbankoperation konnte aufgrund unzureichenden Speichers nicht abgeschlossen werden."</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"Nachricht wurde nicht gesendet."</string>
-    <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"Einige Nachrichten in der SMS/MMS App wurden nicht gesendet."</string>
+    <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"Einige Nachrichten in der Nachrichten App wurden nicht gesendet."</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
       <item quantity="other"><xliff:g id="MESSAGES_1">%d</xliff:g> Nachrichten in <xliff:g id="CONVERSATIONS">%d</xliff:g> Unterhaltungen</item>
       <item quantity="one"><xliff:g id="MESSAGES_0">%d</xliff:g> Nachricht in einer Unterhaltung</item>
     </plurals>
     <string name="notification_download_failures_line1_singular" msgid="4424772073720626885">"Nachricht nicht heruntergeladen"</string>
-    <string name="notification_download_failures_line1_plural" msgid="1697982467160426345">"Einige Nachrichten in der SMS/MMS App wurden nicht heruntergeladen."</string>
+    <string name="notification_download_failures_line1_plural" msgid="1697982467160426345">"Einige Nachrichten in der Nachrichten App wurden nicht heruntergeladen."</string>
     <plurals name="notification_download_failures" formatted="false" msgid="5341490525457911398">
       <item quantity="other"><xliff:g id="MESSAGES_1">%d</xliff:g> Nachrichten in <xliff:g id="CONVERSATIONS">%d</xliff:g> Unterhaltungen</item>
       <item quantity="one"><xliff:g id="MESSAGES_0">%d</xliff:g> Nachricht in einer Unterhaltung</item>
@@ -166,7 +166,7 @@
     <string name="notification_off_toast_message" msgid="5203458459139408265">"Benachrichtigungen deaktiviert"</string>
     <string name="notification_on_toast_message" msgid="1240626023754746310">"Benachrichtigungen aktiviert"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"Bereit. Zum erneuten Senden tippen."</string>
-    <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"Die SMS/MMS App wurde als Standard-SMS-App festgelegt."</string>
+    <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"Die Nachrichten App wurde als Standard-SMS-App festgelegt."</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
       <item quantity="other">Anhänge verwerfen</item>
       <item quantity="one">Anhang verwerfen</item>
@@ -198,7 +198,7 @@
     <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Zwischen Kamera auf Vorder- und Rückseite wechseln"</string>
     <string name="camera_stop_recording" msgid="5331592576107271152">"Aufnahme beenden und Video anhängen"</string>
     <string name="camera_cancel_recording" msgid="6431544304743145818">"Videoaufzeichnung stoppen"</string>
-    <string name="photo_view_activity_title" msgid="6556006393051918135">"Fotos in der SMS/MMS App"</string>
+    <string name="photo_view_activity_title" msgid="6556006393051918135">"Fotos in der Nachrichten App"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> Fotos im Album \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" gespeichert</item>
       <item quantity="one"><xliff:g id="QUANTITY_0">%d</xliff:g> Foto im Album \"<xliff:g id="ALBUMNAME_1">%s</xliff:g>\" gespeichert</item>
@@ -345,10 +345,10 @@
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"SMS deaktiviert"</string>
-    <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"Um Nachrichten zu senden, legen Sie die SMS/MMS App als Standard-SMS-App fest."</string>
-    <string name="requires_default_sms_app" msgid="7477365167876194810">"Legen Sie die SMS/MMS App als Standard-SMS-App fest."</string>
+    <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"Um Nachrichten zu senden, legen Sie die Nachrichten App als Standard-SMS-App fest."</string>
+    <string name="requires_default_sms_app" msgid="7477365167876194810">"Legen Sie die Nachrichten App als Standard-SMS-App fest."</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"Ändern"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"Um Nachrichten zu erhalten, legen Sie die SMS/MMS App als Standard-SMS-App fest."</string>
+    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"Um Nachrichten zu erhalten, legen Sie die Nachrichten App als Standard-SMS-App fest."</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"Keine bevorzugte SIM für das Senden von SMS ausgewählt"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"Diese App wird vom Geräteeigentümer nicht zugelassen."</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"OK"</string>
@@ -461,7 +461,7 @@
     <string name="send_button_long_click_description_with_sim_selector" msgid="7670274457707760465">"SIM auswählen oder Betreff bearbeiten"</string>
     <string name="audio_record_view_content_description" msgid="29401157183728655">"Für Audioaufnahme berühren und halten"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"Neue Unterhaltung starten"</string>
-    <string name="widget_title_content_description" msgid="5802836840910466231">"SMS/MMS"</string>
+    <string name="widget_title_content_description" msgid="5802836840910466231">"Nachrichten"</string>
     <string name="widget_conversation_list_name" msgid="4005037639000611925">"Liste der Unterhaltungen"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"Nachricht"</string>
     <string name="widget_new_message_content_description" msgid="2706347689522691188">"Neue Nachricht"</string>
@@ -481,7 +481,7 @@
     <string name="attachment_limit_reached_dialog_message_when_composing" msgid="2983376679583030373">"Bitte entfernen Sie mindestens einen Anhang und versuchen Sie es erneut."</string>
     <string name="attachment_limit_reached_dialog_message_when_sending" msgid="3917529855170816197">"Sie können versuchen, die Nachricht zu senden, sie wird jedoch möglicherweise nicht zugestellt, wenn Sie nicht mindestens einen Anhang entfernen."</string>
     <string name="video_attachment_limit_exceeded_when_sending" msgid="8545536951461996462">"Pro Nachricht kann nur ein Video gesendet werden. Bitte entfernen Sie überzählige Videos und versuchen Sie es erneut."</string>
-    <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Die SMS/MMS App konnte den Anhang nicht laden."</string>
+    <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Die Nachrichten App konnte den Anhang nicht laden."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Trotzdem senden"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Die Unterhaltung konnte nicht gestartet werden."</string>
     <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
