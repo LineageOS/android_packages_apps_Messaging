@@ -241,7 +241,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"రోమింగ్‌లో ఉన్నప్పుడు MMSని స్వయంచాలకంగా తిరిగి పొందుతుంది"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"సమూహ సందేశాలు"</string>
     <string name="group_mms_pref_summary" msgid="3758710015912690629">"ఒక సందేశాన్ని బహుళ స్వీకర్తలకు పంపాల్సినప్పుడు MMSను ఉపయోగించండి"</string>
-    <string name="sms_disabled_pref_title" msgid="6352764741524717132">"డిఫాల్ట్ SMS అనువర్తనం"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"డిఫాల్ట్ SMS అనువర్తనం"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
