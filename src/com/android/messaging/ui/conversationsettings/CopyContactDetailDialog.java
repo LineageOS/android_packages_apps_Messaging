@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +39,7 @@ public class CopyContactDetailDialog implements DialogInterface.OnClickListener 
     }
 
     public void show() {
-        new AlertDialog.Builder(mContext)
+        new AlertDialog.Builder(mContext, R.style.AlertDialogTheme)
                 .setView(createBodyView())
                 .setTitle(R.string.copy_to_clipboard_dialog_title)
                 .setPositiveButton(R.string.copy_to_clipboard, this)
