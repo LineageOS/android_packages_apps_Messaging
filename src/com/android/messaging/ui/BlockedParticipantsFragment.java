@@ -75,6 +75,7 @@ public class BlockedParticipantsFragment extends Fragment
      * An adapter to display ParticipantListItemView based on ParticipantData.
      */
     private class BlockedParticipantListAdapter extends CursorAdapter {
+
         public BlockedParticipantListAdapter(final Context context, final Cursor cursor) {
             super(context, cursor, 0);
         }
@@ -96,5 +97,8 @@ public class BlockedParticipantsFragment extends Fragment
     @Override
     public void onBlockedParticipantsCursorUpdated(Cursor cursor) {
         mAdapter.swapCursor(cursor);
+        if (mAdapter.getCount() == 0) {
+            requireActivity().finish();
+        }
     }
 }
