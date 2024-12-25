@@ -369,8 +369,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title">Roaming auto-retrieve</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary">Automatically retrieve MMS when roaming</string>
     <string name="group_mms_pref_title">Group messaging</string>
-    <!-- Preference title: SMS disabled (Messaging is not default SMS app) -->
-    <string name="sms_disabled_pref_title">Default SMS app</string>
     <!-- Preference title: SMS enabled (Messaging is the default SMS app) -->
     <string name="sms_enabled_pref_title">Default SMS app</string>
     <!-- Preference summary: Current default SMS app -->

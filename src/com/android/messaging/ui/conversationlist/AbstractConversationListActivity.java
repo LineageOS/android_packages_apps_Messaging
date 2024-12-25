@@ -16,6 +16,8 @@
  */
 package com.android.messaging.ui.conversationlist;
 
+import static com.android.messaging.util.ChangeDefaultSmsAppHelper.REQUEST_SET_DEFAULT_SMS_APP;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -57,8 +59,6 @@ import java.util.List;
  */
 public abstract class AbstractConversationListActivity extends BugleActionBarActivity
     implements ConversationListFragmentHost, MultiSelectActionModeCallback.Listener {
-
-    private static final int REQUEST_SET_DEFAULT_SMS_APP = 1;
 
     protected ConversationListFragment mConversationListFragment;
 

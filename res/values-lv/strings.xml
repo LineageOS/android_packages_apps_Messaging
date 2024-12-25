@@ -256,7 +256,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"Automātiska multiziņu izgūšana viesabonēšanas laikā"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"Grupas ziņojumapmaiņa"</string>
     <string name="group_mms_pref_summary" msgid="3758710015912690629">"Izmantojiet multiziņu, lai vairākiem adresātiem nosūtītu vienu ziņu."</string>
-    <string name="sms_disabled_pref_title" msgid="6352764741524717132">"Noklusējuma īsziņu lietotne"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"Noklusējuma īsziņu lietotne"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
