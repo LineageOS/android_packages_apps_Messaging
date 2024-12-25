@@ -17,12 +17,18 @@
 
 package com.android.messaging.ui.appsettings;
 
+import static com.android.messaging.util.ChangeDefaultSmsAppHelper.REQUEST_SET_DEFAULT_SMS_APP;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NavUtils;
@@ -36,9 +42,11 @@ import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.LicenseActivity;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.BuglePrefs;
+import com.android.messaging.util.ChangeDefaultSmsAppHelper;
 import com.android.messaging.util.PhoneUtils;
 
 public class ApplicationSettingsActivity extends BugleActionBarActivity {
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,10 +89,19 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
     public static class ApplicationSettingsFragment extends PreferenceFragmentCompat {
 
         private String mNotificationsPreferenceKey;
-        private String mSmsDisabledPrefKey;
-        private Preference mSmsDisabledPreference;
         private String mSmsEnabledPrefKey;
         private Preference mSmsEnabledPreference;
+        private ChangeDefaultSmsAppHelper mChangeDefaultSmsAppHelper;
+        private final ActivityResultLauncher<Intent> mLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        if (mChangeDefaultSmsAppHelper == null) {
+                            mChangeDefaultSmsAppHelper = new ChangeDefaultSmsAppHelper();
+                        }
+                        mChangeDefaultSmsAppHelper.handleChangeDefaultSmsResult(
+                                REQUEST_SET_DEFAULT_SMS_APP, result.getResultCode(), null);
+                    }
+                });
 
         public ApplicationSettingsFragment() {
             // Required empty constructor
@@ -98,8 +115,6 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
 
             mNotificationsPreferenceKey =
                     getString(R.string.notifications_pref_key);
-            mSmsDisabledPrefKey = getString(R.string.sms_disabled_pref_key);
-            mSmsDisabledPreference = findPreference(mSmsDisabledPrefKey);
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
 
@@ -128,15 +143,23 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
         }
 
         private void updateSmsEnabledPreferences() {
-            final String defaultSmsAppLabel = getString(R.string.default_sms_app,
+            String defaultSmsAppLabel = getString(R.string.default_sms_app,
                     PhoneUtils.getDefault().getDefaultSmsAppLabel());
-            if (PhoneUtils.getDefault().isDefaultSmsApp()) {
-                getPreferenceScreen().removePreference(mSmsDisabledPreference);
-                mSmsEnabledPreference.setSummary(defaultSmsAppLabel);
+            if (!PhoneUtils.getDefault().isDefaultSmsApp()) {
+                mSmsEnabledPreference.setOnPreferenceClickListener(preference -> {
+                    final Intent intent =
+                            UIIntents.get().getChangeDefaultSmsAppIntent(getActivity());
+                    mLauncher.launch(intent);
+                    return true;
+                });
             } else {
-                getPreferenceScreen().removePreference(mSmsEnabledPreference);
-                mSmsDisabledPreference.setSummary(defaultSmsAppLabel);
+                mSmsEnabledPreference.setOnPreferenceClickListener(null);
+                // Fallback since we don't always get our own name
+                if (TextUtils.isEmpty(defaultSmsAppLabel)) {
+                    defaultSmsAppLabel = getString(R.string.app_name);
+                }
             }
+            mSmsEnabledPreference.setSummary(defaultSmsAppLabel);
         }
 
         @Override

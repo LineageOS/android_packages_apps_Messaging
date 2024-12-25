@@ -241,7 +241,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"റോമിംഗിലായിരിക്കുമ്പോൾ സ്വയമേ MMS വീണ്ടെടുക്കുന്നു"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"ഗ്രൂപ്പ് സന്ദേശമയയ്‌ക്കൽ"</string>
     <string name="group_mms_pref_summary" msgid="3758710015912690629">"ഒന്നിലധികം സ്വീകർത്താക്കൾ ഉള്ളപ്പോൾ ഒരൊറ്റ സന്ദേശം അയയ്‌ക്കാൻ MMS ഉപയോഗിക്കുക."</string>
-    <string name="sms_disabled_pref_title" msgid="6352764741524717132">"സ്ഥിര SMS അപ്ലിക്കേഷൻ"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"സ്ഥിര SMS അപ്ലിക്കേഷൻ"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
