@@ -241,7 +241,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"ກູ້​ຄືນ MMS ອັດ​ຕະ​ໂນ​ມັດ​ເມື່ອ​ໂຣມ​ມິງ"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"ການສົ່ງ​ຂໍ້ຄວາມກຸ່ມ"</string>
     <string name="group_mms_pref_summary" msgid="3758710015912690629">"ໃຊ້ MMS ເພື່ອສົ່ງ​ຂໍ້ຄວາມ​ໃດນຶ່ງ​ເມື່ອມີຜູ່ຮັບ​ຫຼາຍຄົນ"</string>
-    <string name="sms_disabled_pref_title" msgid="6352764741524717132">"ແອັບຯ SMS ມາດ​ຕະ​ຖານ"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"ແອັບຯ SMS ມາດ​ຕະ​ຖານ"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />

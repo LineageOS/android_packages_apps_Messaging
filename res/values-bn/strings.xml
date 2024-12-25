@@ -241,7 +241,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"রোমিং-এ থাকার সময় স্বয়ংক্রিয়ভাবে MMS পুনরুদ্ধার করুন"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"গোষ্ঠীর মধ্যে বার্তাপ্রেরণ"</string>
     <string name="group_mms_pref_summary" msgid="3758710015912690629">"যখন একাধিক প্রাপক রয়েছে তখন একটি বার্তা পাঠাতে MMS ব্যবহার করুন"</string>
-    <string name="sms_disabled_pref_title" msgid="6352764741524717132">"ডিফল্ট SMS অ্যাপ্লিকেশান"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"ডিফল্ট SMS অ্যাপ্লিকেশান"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
