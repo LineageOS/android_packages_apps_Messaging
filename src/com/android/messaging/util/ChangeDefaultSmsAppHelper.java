@@ -32,7 +32,7 @@ public class ChangeDefaultSmsAppHelper {
     private Runnable mRunAfterMadeDefault;
     private ChangeSmsAppSettingRunnable mChangeSmsAppSettingRunnable;
 
-    private static final int REQUEST_SET_DEFAULT_SMS_APP = 1;
+    public static final int REQUEST_SET_DEFAULT_SMS_APP = 1;
 
     /**
      * When there's some condition that prevents an operation, such as sending a message,

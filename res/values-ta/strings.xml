@@ -241,7 +241,6 @@
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"ரோமிங்கின் போது தானாகவே MMSஐ மீட்டெடு"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"குழு மெசேஜ்"</string>
     <string name="group_mms_pref_summary" msgid="3758710015912690629">"ஒரு செய்தியைப் பல பெறுநர்களுக்கு அனுப்புவதற்கு MMS ஐப் பயன்படுத்து"</string>
-    <string name="sms_disabled_pref_title" msgid="6352764741524717132">"இயல்புநிலை SMS பயன்பாடு"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"இயல்புநிலை SMS பயன்பாடு"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
