@@ -38,7 +38,7 @@ public class CopyContactDetailDialog implements DialogInterface.OnClickListener 
     }
 
     public void show() {
-        new AlertDialog.Builder(mContext)
+        new AlertDialog.Builder(mContext, R.style.AlertDialogTheme)
                 .setView(createBodyView())
                 .setTitle(R.string.copy_to_clipboard_dialog_title)
                 .setPositiveButton(R.string.copy_to_clipboard, this)
