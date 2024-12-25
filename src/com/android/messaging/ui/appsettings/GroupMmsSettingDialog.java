@@ -48,7 +48,7 @@ public class GroupMmsSettingDialog {
 
     private void show() {
         Assert.isNull(mDialog);
-        mDialog = new AlertDialog.Builder(mContext)
+        mDialog = new AlertDialog.Builder(mContext, R.style.AlertDialogTheme)
                 .setView(createView())
                 .setTitle(R.string.group_mms_pref_title)
                 .setNegativeButton(android.R.string.cancel, null)

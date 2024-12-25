@@ -146,7 +146,7 @@ public class PeopleAndOptionsFragment extends Fragment
             }
             final Resources res = getResources();
             final Activity activity = getActivity();
-            new AlertDialog.Builder(activity)
+            new AlertDialog.Builder(activity, R.style.AlertDialogTheme)
                     .setTitle(res.getString(R.string.block_confirmation_title,
                             item.getOtherParticipant().getDisplayDestination()))
                     .setMessage(res.getString(R.string.block_confirmation_message))

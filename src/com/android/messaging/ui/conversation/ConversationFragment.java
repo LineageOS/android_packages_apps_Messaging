@@ -822,7 +822,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             return true;
         } else if (itemId == R.id.action_delete) {
             if (isReadyForDeleteAction()) {
-                new AlertDialog.Builder(getActivity())
+                new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme)
                         .setTitle(getResources().getQuantityString(
                                 R.plurals.delete_conversations_confirmation_dialog_title, 1))
                         .setPositiveButton(R.string.delete_conversation_confirmation_button,
