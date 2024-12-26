@@ -16,6 +16,24 @@
       "message": "this is great, did you check if we can now get rid of some permissions from manifest?\nif you use the contracts you can avoid requesting media related ones",
       "revId": "9f028e400df2342f00516fec8cdde85defc6b86a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9114675a_334cbc7d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-12-26T14:48:24Z",
+      "side": 1,
+      "message": ".",
+      "parentUuid": "c6bd2f5e_86c294f6",
+      "revId": "9f028e400df2342f00516fec8cdde85defc6b86a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
