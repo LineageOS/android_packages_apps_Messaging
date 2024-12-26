@@ -39,7 +39,6 @@ import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.SafeAsyncTask;
 import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
@@ -47,6 +46,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -146,7 +146,7 @@ public class ParticipantRefresh {
             if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
                 LogUtil.v(TAG, "Started full participant refresh");
             }
-            SafeAsyncTask.executeOnThreadPool(sFullRefreshRunnable);
+            Executors.newSingleThreadExecutor().execute(sFullRefreshRunnable);
         } else if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
             LogUtil.v(TAG, "Skipped full participant refresh");
         }
@@ -156,7 +156,7 @@ public class ParticipantRefresh {
      * Refresh self participants on subscription or settings change.
      */
     public static void refreshSelfParticipants() {
-        SafeAsyncTask.executeOnThreadPool(sSelfOnlyRefreshRunnable);
+        Executors.newSingleThreadExecutor().execute(sSelfOnlyRefreshRunnable);
     }
 
     private static boolean getNeedFullRefresh() {

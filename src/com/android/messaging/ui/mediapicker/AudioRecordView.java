@@ -46,9 +46,10 @@ import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.MediaUtil.OnCompletionListener;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
+
+import java.util.concurrent.Executors;
 
 /**
  * Hosts an audio recorder with tap and hold to record functionality.
@@ -260,7 +261,7 @@ public class AudioRecordView extends FrameLayout implements
             // "tap+hold" to record audio.
             final Uri outputUri = stopRecording();
             if (outputUri != null) {
-                SafeAsyncTask.executeOnThreadPool(() ->
+                Executors.newSingleThreadExecutor().execute(() ->
                         Factory.get().getApplicationContext().getContentResolver().delete(
                                 outputUri, null, null));
             }

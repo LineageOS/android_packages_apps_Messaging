@@ -20,6 +20,8 @@ import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,9 +43,11 @@ import com.android.messaging.datamodel.data.PersonItemData;
 import com.android.messaging.datamodel.data.VCardContactItemData;
 import com.android.messaging.datamodel.data.PersonItemData.PersonItemDataListener;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A fragment that shows the content of a VCard that contains one or more contacts.
@@ -130,19 +134,18 @@ public class VCardDetailFragment extends Fragment implements PersonItemDataListe
             final Uri vCardUri = mBinding.getData().getVCardUri();
 
             // We have to do things in the background in case we need to copy the vcard data.
-            new SafeAsyncTask<Void, Void, Uri>() {
-                @Override
-                protected Uri doInBackgroundTimed(final Void... params) {
-                    // We can't delete the persisted vCard file because we don't know when to
-                    // delete it, since the app that uses it (contacts, dialer) may start or
-                    // shut down at any point. Therefore, we rely on the system to clean up
-                    // the cache directory for us.
-                    return mScratchSpaceUri != null ? mScratchSpaceUri :
-                            UriUtil.persistContentToScratchSpace(vCardUri);
-                }
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
 
-                @Override
-                protected void onPostExecute(final Uri result) {
+            executor.execute(() -> {
+                // We can't delete the persisted vCard file because we don't know when to
+                // delete it, since the app that uses it (contacts, dialer) may start or
+                // shut down at any point. Therefore, we rely on the system to clean up
+                // the cache directory for us.
+                Uri result = mScratchSpaceUri != null ? mScratchSpaceUri :
+                        UriUtil.persistContentToScratchSpace(vCardUri);
+
+                handler.post(() -> {
                     if (result != null) {
                         mScratchSpaceUri = result;
                         if (getActivity() != null) {
@@ -152,8 +155,8 @@ public class VCardDetailFragment extends Fragment implements PersonItemDataListe
                                     result);
                         }
                     }
-                }
-            }.executeOnThreadPool();
+                });
+            });
             return true;
         }
         return super.onOptionsItemSelected(item);

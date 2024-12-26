@@ -17,6 +17,8 @@
 package com.android.messaging.datamodel.data;
 
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
@@ -24,8 +26,12 @@ import androidx.annotation.NonNull;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UriUtil;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Represents a "pending" message part that acts as a placeholder for the actual attachment being
@@ -98,37 +104,26 @@ public class PendingAttachmentData extends MessagePartData {
         }
         mCurrentState = STATE_LOADING;
 
-        // Kick off a SafeAsyncTask to load the content of the media and persist it locally.
+        // Kick off loading the content of the media and persist it locally.
         // Note: we need to persist the media locally even if it's not remote, because we
         // want to be able to resend the media in case the message failed to send.
-        new SafeAsyncTask<Void, Void, MessagePartData>(LOAD_MEDIA_TIME_LIMIT_MILLIS,
-                true /* cancelExecutionOnTimeout */) {
-            @Override
-            protected MessagePartData doInBackgroundTimed(final Void... params) {
-                final Uri contentUri = getContentUri();
-                final Uri persistedUri = UriUtil.persistContentToScratchSpace(contentUri);
-                if (persistedUri != null) {
-                    return MessagePartData.createMediaMessagePart(
-                            getText(),
-                            getContentType(),
-                            persistedUri,
-                            getWidth(),
-                            getHeight());
-                }
-                return null;
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(2);
+        Handler handler = new Handler(Looper.getMainLooper());
+        final Future<?> future = executor.submit(() -> {
+            MessagePartData data = null;
+            final Uri contentUri = getContentUri();
+            final Uri persistedUri = UriUtil.persistContentToScratchSpace(contentUri);
+            if (persistedUri != null) {
+                data = MessagePartData.createMediaMessagePart(
+                        getText(),
+                        getContentType(),
+                        persistedUri,
+                        getWidth(),
+                        getHeight());
             }
 
-            @Override
-            protected void onCancelled() {
-                LogUtil.w(LogUtil.BUGLE_TAG, "Timeout while retrieving media");
-                mCurrentState = STATE_FAILED;
-                if (draftMessageData.isBound(bindingId)) {
-                    draftMessageData.removePendingAttachment(PendingAttachmentData.this);
-                }
-            }
-
-            @Override
-            protected void onPostExecute(final MessagePartData attachment) {
+            final MessagePartData attachment = data;
+            handler.post(() -> {
                 if (attachment != null) {
                     mCurrentState = STATE_LOADED;
                     if (draftMessageData.isBound(bindingId)) {
@@ -147,8 +142,18 @@ public class PendingAttachmentData extends MessagePartData {
                         draftMessageData.removePendingAttachment(PendingAttachmentData.this);
                     }
                 }
+            });
+        });
+        executor.schedule(() -> {
+            if (!future.isDone()) {
+                future.cancel(true);
+                LogUtil.w(LogUtil.BUGLE_TAG, "Timeout while retrieving media");
+                mCurrentState = STATE_FAILED;
+                if (draftMessageData.isBound(bindingId)) {
+                    draftMessageData.removePendingAttachment(PendingAttachmentData.this);
+                }
             }
-        }.executeOnThreadPool();
+        }, LOAD_MEDIA_TIME_LIMIT_MILLIS, TimeUnit.MILLISECONDS);
     }
 
     protected PendingAttachmentData(final Parcel in) {
