@@ -23,4 +23,5 @@
     android:minWidth="@dimen/single_attachment_min_dimen"
     android:minHeight="@dimen/single_attachment_min_dimen"
     android:scaleType="centerCrop"
-    android:adjustViewBounds="true" />
+    android:adjustViewBounds="true"
+    app:cornerRadius="@dimen/attachment_rounded_corner_radius"/>

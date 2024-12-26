@@ -20,7 +20,7 @@
     android:id="@+id/audio_attachment_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/attachment_chooser_audio_background">
+    android:background="@drawable/attachment_audio_preview_background">
 
     <com.android.messaging.ui.AudioAttachmentView
         android:id="@+id/audio_attachment_view"
