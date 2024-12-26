@@ -34,6 +34,24 @@
       "parentUuid": "c6bd2f5e_86c294f6",
       "revId": "9f028e400df2342f00516fec8cdde85defc6b86a",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf178e37_13f8437a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2024-12-26T14:57:31Z",
+      "side": 1,
+      "message": "I checked for camera - which failed tremendously. I can maybe check again for the others, but I\u0027d do so in a different patch so we don\u0027t have to rebase all the patches over and over anymore :)",
+      "parentUuid": "9114675a_334cbc7d",
+      "revId": "9f028e400df2342f00516fec8cdde85defc6b86a",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
