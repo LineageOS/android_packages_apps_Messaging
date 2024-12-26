@@ -21,6 +21,8 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -70,13 +72,14 @@ import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * This view contains the UI required to generate and send messages.
@@ -596,10 +599,11 @@ public class ComposeMessageView extends LinearLayout
                 mConversationDataModel.getData().getParticipantsLoaded();
     }
 
-    private static class AsyncUpdateMessageBodySizeTask
-            extends SafeAsyncTask<List<MessagePartData>, Void, Long> {
+    private static class AsyncUpdateMessageBodySizeTask {
 
         private final Context mContext;
+        private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+        private final Handler mHandler = new Handler(Looper.getMainLooper());
         private final TextView mSizeTextView;
 
         public AsyncUpdateMessageBodySizeTask(final Context context, final TextView tv) {
@@ -607,20 +611,23 @@ public class ComposeMessageView extends LinearLayout
             mSizeTextView = tv;
         }
 
-        @Override
-        protected Long doInBackgroundTimed(final List<MessagePartData>... params) {
-            final List<MessagePartData> attachments = params[0];
-            long totalSize = 0;
-            for (final MessagePartData attachment : attachments) {
-                final Uri contentUri = attachment.getContentUri();
-                if (contentUri != null) {
-                    totalSize += UriUtil.getContentSize(attachment.getContentUri());
+        protected void execute(final List<MessagePartData> attachments) {
+            mExecutor.execute(() -> {
+                long totalSize = 0;
+                for (final MessagePartData attachment : attachments) {
+                    final Uri contentUri = attachment.getContentUri();
+                    if (contentUri != null) {
+                        totalSize += UriUtil.getContentSize(attachment.getContentUri());
+                    }
                 }
-            }
-            return totalSize;
+
+                final long size = totalSize;
+                mHandler.post(() -> {
+                    onPostExecute(size);
+                });
+            });
         }
 
-        @Override
         protected void onPostExecute(Long size) {
             if (mSizeTextView != null) {
                 mSizeTextView.setText(Formatter.formatFileSize(mContext, size));
@@ -656,7 +663,7 @@ public class ComposeMessageView extends LinearLayout
                 if (hasAttachmentsChanged) {
                     // Calculate message attachments size and show it.
                     new AsyncUpdateMessageBodySizeTask(getContext(), mMessageBodySize)
-                            .executeOnThreadPool(attachments, null, null);
+                            .execute(attachments);
                 } else {
                     // No update. Just show previous size.
                     mMessageBodySize.setVisibility(View.VISIBLE);
