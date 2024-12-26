@@ -28,8 +28,9 @@ import com.android.messaging.R;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UiUtils;
+
+import java.util.concurrent.Executors;
 
 public class BugleWidgetProvider extends BaseWidgetProvider {
     public static final String ACTION_NOTIFY_CONVERSATIONS_CHANGED =
@@ -43,7 +44,7 @@ public class BugleWidgetProvider extends BaseWidgetProvider {
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
         if (OsUtil.hasRequiredPermissions()) {
-            SafeAsyncTask.executeOnThreadPool(() -> rebuildWidget(context, appWidgetId));
+            Executors.newSingleThreadExecutor().execute(() -> rebuildWidget(context, appWidgetId));
         } else {
             AppWidgetManager.getInstance(context).updateAppWidget(appWidgetId,
                     UiUtils.getWidgetMissingPermissionView(context));

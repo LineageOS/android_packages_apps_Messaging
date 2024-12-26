@@ -32,7 +32,6 @@ import com.android.messaging.datamodel.MediaScratchFileProvider;
 import com.android.messaging.datamodel.data.PersonItemData;
 import com.android.messaging.util.ContactUtil;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.vcard.VCardEntry;
 import com.android.vcard.VCardEntry.EmailData;
 import com.android.vcard.VCardEntry.ImData;
@@ -47,6 +46,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 /**
  * Holds one entry item (i.e. a single contact) within a VCard resource. It is able to take
@@ -72,7 +72,7 @@ public class VCardResourceEntry {
     void close() {
         // If the avatar image was temporarily saved in the scratch folder, remove that.
         if (MediaScratchFileProvider.isMediaScratchSpaceUri(mAvatarUri)) {
-            SafeAsyncTask.executeOnThreadPool(() ->
+            Executors.newSingleThreadExecutor().execute(() ->
                     Factory.get().getApplicationContext().getContentResolver().delete(
                             mAvatarUri, null, null));
         }
