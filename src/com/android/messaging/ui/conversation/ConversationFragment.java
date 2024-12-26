@@ -34,6 +34,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcelable;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -105,7 +106,6 @@ import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.TextUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
@@ -113,6 +113,8 @@ import com.android.messaging.util.UriUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Shows a list of messages/parts comprising a conversation.
@@ -312,7 +314,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                             part.getContentType());
                 }
                 if (saveAttachmentTask.getAttachmentCount() > 0) {
-                    saveAttachmentTask.executeOnThreadPool();
+                    saveAttachmentTask.execute();
                     mHost.dismissActionMode();
                 }
                 return true;
@@ -1266,8 +1268,10 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
     }
 
-    public static class SaveAttachmentTask extends SafeAsyncTask<Void, Void, Void> {
+    public static class SaveAttachmentTask {
         private final Context mContext;
+        private final ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+        private final Handler mHandler = new Handler(Looper.getMainLooper());
         private final List<AttachmentToSave> mAttachmentsToSave = new ArrayList<>();
 
         public SaveAttachmentTask(final Context context, final Uri contentUri,
@@ -1288,8 +1292,14 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             return mAttachmentsToSave.size();
         }
 
-        @Override
-        protected Void doInBackgroundTimed(final Void... arg) {
+        public void execute() {
+            mExecutor.execute(() -> {
+                onExecute();
+                mHandler.post(this::onPostExecute);
+            });
+        }
+
+        protected void onExecute() {
             final File appDir = new File(Environment.getExternalStoragePublicDirectory(
                     Environment.DIRECTORY_PICTURES),
                     mContext.getResources().getString(R.string.app_name));
@@ -1301,11 +1311,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 attachment.persistedUri = UriUtil.persistContent(attachment.uri,
                         isImageOrVideo ? appDir : downloadDir, attachment.contentType);
            }
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(final Void result) {
+        protected void onPostExecute() {
             int failCount = 0;
             int imageCount = 0;
             int videoCount = 0;

@@ -34,8 +34,9 @@ import com.android.messaging.R;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UiUtils;
+
+import java.util.concurrent.Executors;
 
 /**
  * Chooser which allows the user to select an existing contact from contacts apps on this device.
@@ -71,7 +72,7 @@ class ContactMediaChooser extends MediaChooser {
                         final Uri vCardUri = Uri.withAppendedPath(Contacts.CONTENT_VCARD_URI,
                                 lookupKey);
                         if (vCardUri != null) {
-                            SafeAsyncTask.executeOnThreadPool(() -> {
+                            Executors.newSingleThreadExecutor().execute(() -> {
                                 final PendingAttachmentData pendingItem =
                                         PendingAttachmentData.createPendingAttachmentData(
                                                 ContentType.TEXT_X_VCARD.toLowerCase(), vCardUri);
