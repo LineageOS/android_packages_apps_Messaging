@@ -52,7 +52,6 @@ import com.android.messaging.ui.FixedViewPagerAdapter;
 import com.android.messaging.util.AccessibilityUtil;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.UiUtils;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -156,7 +155,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     /** The theme color to use to make the media picker match the rest of the UI */
     private int mThemeColor;
 
-    @VisibleForTesting
     final Binding<MediaPickerData> mBinding = BindingBase.createBinding(this);
 
     /** Provides subscription-related data to access per-subscription configurations. */

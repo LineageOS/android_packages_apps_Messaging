@@ -24,8 +24,6 @@ import androidx.collection.SimpleArrayMap;
 
 import com.android.messaging.util.Assert;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -57,11 +55,6 @@ public class ConversationParticipantsData implements Iterable<ParticipantData> {
                 mConversationParticipantsMap.put(newParticipant.getId(), newParticipant);
             }
         }
-    }
-
-    @VisibleForTesting
-    ParticipantData getParticipantById(final String participantId) {
-        return mConversationParticipantsMap.get(participantId);
     }
 
     ArrayList<ParticipantData> getParticipantListExcludingSelf() {

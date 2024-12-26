@@ -58,7 +58,6 @@ import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +100,6 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             "conversationListViewState";
     private Parcelable mListState;
 
-    @VisibleForTesting
     final Binding<ConversationListData> mListBinding = BindingBase.createBinding(this);
 
     public static ConversationListFragment createArchivedConversationListFragment() {

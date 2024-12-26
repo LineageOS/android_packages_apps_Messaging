@@ -29,7 +29,6 @@ import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.List;
 
@@ -64,15 +63,11 @@ public class BackgroundWorkerService extends JobIntentService {
     }
 
     // ops
-    @VisibleForTesting
     protected static final int OP_PROCESS_REQUEST = 400;
 
     // extras
-    @VisibleForTesting
     protected static final String EXTRA_OP_CODE = "op";
-    @VisibleForTesting
     protected static final String EXTRA_ACTION = "action";
-    @VisibleForTesting
     protected static final String EXTRA_ATTEMPT = "retry_attempt";
 
     /**

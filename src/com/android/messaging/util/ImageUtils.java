@@ -43,7 +43,6 @@ import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.exif.ExifInterface;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.Files;
 
 import java.io.ByteArrayOutputStream;
@@ -78,7 +77,6 @@ public class ImageUtils {
         return sInstance;
     }
 
-    @VisibleForTesting
     public static void set(final ImageUtils imageUtils) {
         sInstance = imageUtils;
     }

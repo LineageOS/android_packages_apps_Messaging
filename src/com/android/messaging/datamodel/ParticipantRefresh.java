@@ -40,7 +40,6 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.SafeAsyncTask;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
@@ -61,7 +60,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
  *     2. Partial refresh, this is triggered when a participant is added to a conversation. This
  *        normally happens during SMS sync.
  */
-@VisibleForTesting
 public class ParticipantRefresh {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
 
@@ -200,7 +198,6 @@ public class ParticipantRefresh {
      * @param refreshMode the refresh mode desired. See {@link #REFRESH_MODE_FULL},
      *        {@link #REFRESH_MODE_INCREMENTAL}, and {@link #REFRESH_MODE_SELF_ONLY}
      */
-     @VisibleForTesting
      static void refreshParticipants(final int refreshMode) {
         Assert.inRange(refreshMode, REFRESH_MODE_FULL, REFRESH_MODE_SELF_ONLY);
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {

@@ -43,7 +43,6 @@ import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.attachmentchooser.AttachmentGridView.AttachmentGridHost;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +57,6 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
     private AttachmentGridAdapter mAdapter;
     private AttachmentChooserFragmentHost mHost;
 
-    @VisibleForTesting
     final Binding<DraftMessageData> mBinding = BindingBase.createBinding(this);
 
     @Override
@@ -94,7 +92,6 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
         return super.onOptionsItemSelected(item);
     }
 
-    @VisibleForTesting
     void confirmSelection() {
         if (mBinding.isBound()) {
             mBinding.getData().removeExistingAttachments(
