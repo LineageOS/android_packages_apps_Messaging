@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c6f1636_9de11651",
+        "filename": "res/layout/preference_material_switch.xml",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2024-12-26T14:42:29Z",
+      "side": 1,
+      "message": "license?",
+      "revId": "1203c4fb536e0f95681282974b657a8388156a0d",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
