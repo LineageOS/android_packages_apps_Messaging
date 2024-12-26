@@ -36,8 +36,9 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.WidgetPickConversationActivity;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
-import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.UiUtils;
+
+import java.util.concurrent.Executors;
 
 public class WidgetConversationProvider extends BaseWidgetProvider {
     public static final String ACTION_NOTIFY_MESSAGES_CHANGED =
@@ -149,7 +150,8 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
                 // widget dependent on ConversationListItemData. However, we have to update
                 // the widget regardless, even with those missing pieces. Here we update the
                 // widget again in the background.
-                SafeAsyncTask.executeOnThreadPool(() -> rebuildWidget(context, appWidgetId));
+                Executors.newSingleThreadExecutor().execute(() ->
+                        rebuildWidget(context, appWidgetId));
             }
         }
 

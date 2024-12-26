@@ -19,6 +19,8 @@ package com.android.messaging.ui.mediapicker;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -33,10 +35,11 @@ import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.FileUtil;
 import com.android.messaging.util.ImageUtils;
-import com.android.messaging.util.SafeAsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Wraps around the functionalities to allow the user to pick an image/video/audio from the document
@@ -108,24 +111,24 @@ public class DocumentImagePicker {
         // Notify our listener with a PendingAttachmentData containing the metadata.
         // Asynchronously get the content type for the picked image since
         // ImageUtils.getContentType() potentially involves I/O and can be expensive.
-        new SafeAsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackgroundTimed(final Void... params) {
-                if (FileUtil.isInPrivateDir(documentUri) &&
-                        !MediaScratchFileProvider.isMediaScratchSpaceUri(documentUri)) {
-                    // hacker sending private app data. Bail out
-                    if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.ERROR)) {
-                        LogUtil.e(LogUtil.BUGLE_TAG, "Aborting attach of private app data ("
-                                + documentUri + ")");
-                    }
-                    return null;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+            final String contentType;
+            if (FileUtil.isInPrivateDir(documentUri) &&
+                    !MediaScratchFileProvider.isMediaScratchSpaceUri(documentUri)) {
+                // hacker sending private app data. Bail out
+                if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.ERROR)) {
+                    LogUtil.e(LogUtil.BUGLE_TAG, "Aborting attach of private app data ("
+                            + documentUri + ")");
                 }
-                return ImageUtils.getContentType(
+                contentType = null;
+            } else {
+                contentType = ImageUtils.getContentType(
                         Factory.get().getApplicationContext().getContentResolver(), documentUri);
             }
 
-            @Override
-            protected void onPostExecute(final String contentType) {
+            handler.post(() -> {
                 if (contentType == null) {
                     return;     // bad uri on input
                 }
@@ -134,7 +137,7 @@ public class DocumentImagePicker {
                         PendingAttachmentData.createPendingAttachmentData(contentType,
                                 documentUri);
                 mListener.onDocumentSelected(pendingItem);
-            }
-        }.executeOnThreadPool();
+            });
+        });
     }
 }
