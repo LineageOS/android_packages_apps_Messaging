@@ -16,6 +16,24 @@
       "message": "png :(",
       "revId": "5ce3a1b2dbf09ef87d36f7cc081bcf33f1e96ae1",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7901f61_8ae623f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2024-12-26T14:47:41Z",
+      "side": 1,
+      "message": "We used this patch as-is, drawable replacement happens later:\nhttps://review.lineageos.org/c/LineageOS/android_packages_apps_Messaging/+/411107/",
+      "parentUuid": "0d8da346_85826a0e",
+      "revId": "5ce3a1b2dbf09ef87d36f7cc081bcf33f1e96ae1",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
