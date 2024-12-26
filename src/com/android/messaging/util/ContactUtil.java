@@ -39,12 +39,10 @@ import com.android.messaging.datamodel.FrequentContactsCursorQueryData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.ui.contact.AddContactsConfirmationDialog;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Utility class including logic to list, filter, and lookup phone and emails in CP2.
  */
-@VisibleForTesting
 public class ContactUtil {
 
     /**
@@ -208,7 +206,6 @@ public class ContactUtil {
         }
     }
 
-    @VisibleForTesting
     public static CursorQueryData getSelf(final Context context) {
         if (!ContactUtil.hasReadContactsPermission()) {
             return CursorQueryData.getEmptyQueryData();
@@ -221,7 +218,6 @@ public class ContactUtil {
      * Get a list of phones sorted by contact name. One contact may have multiple phones.
      * In that case, each phone will be returned as a separate record in the result cursor.
      */
-    @VisibleForTesting
     public static CursorQueryData getPhones(final Context context) {
         if (!ContactUtil.hasReadContactsPermission()) {
             return CursorQueryData.getEmptyQueryData();
@@ -291,7 +287,6 @@ public class ContactUtil {
      * NOTE: This is visible for testing only, clients should only call filterDestination() since
      * we support email addresses as well.
      */
-    @VisibleForTesting
     public static CursorQueryData filterPhones(final Context context, final String query) {
         return filterPhonesInternal(context, Phone.CONTENT_FILTER_URI, query, Directory.DEFAULT);
     }
@@ -323,7 +318,6 @@ public class ContactUtil {
      * NOTE: This is visible for testing only, clients should only call lookupDestination() since
      * we support email addresses as well.
      */
-    @VisibleForTesting
     public static CursorQueryData lookupPhone(final Context context, final String phone) {
         if (!ContactUtil.hasReadContactsPermission()) {
             return CursorQueryData.getEmptyQueryData();
@@ -355,7 +349,6 @@ public class ContactUtil {
      * NOTE: This is visible for testing only, clients should only call filterDestination() since
      * we support email addresses as well.
      */
-    @VisibleForTesting
     public static CursorQueryData filterEmails(final Context context, final String query) {
         return filterEmailsInternal(context, Email.CONTENT_FILTER_URI, query, Directory.DEFAULT);
     }
@@ -388,7 +381,6 @@ public class ContactUtil {
      * NOTE: This is visible for testing only, clients should only call lookupDestination() since
      * we support email addresses as well.
      */
-    @VisibleForTesting
     public static CursorQueryData lookupEmail(final Context context, final String email) {
         if (!ContactUtil.hasReadContactsPermission()) {
             return CursorQueryData.getEmptyQueryData();

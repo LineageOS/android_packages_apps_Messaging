@@ -41,7 +41,6 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.widget.BugleWidgetProvider;
 import com.android.messaging.widget.WidgetConversationProvider;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.FileDescriptor;
 import java.io.FileNotFoundException;
@@ -53,7 +52,6 @@ import java.io.PrintWriter;
 public class MessagingContentProvider extends ContentProvider {
     private static final String TAG = LogUtil.BUGLE_TAG;
 
-    @VisibleForTesting
     public static final String AUTHORITY =
             "com.android.messaging.datamodel.MessagingContentProvider";
     private static final String CONTENT_AUTHORITY = "content://" + AUTHORITY + '/';

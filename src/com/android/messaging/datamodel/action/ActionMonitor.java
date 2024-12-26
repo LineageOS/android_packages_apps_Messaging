@@ -25,7 +25,6 @@ import com.android.messaging.util.Assert.RunsOnAnyThread;
 import com.android.messaging.util.Assert.RunsOnMainThread;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.ThreadUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -126,7 +125,6 @@ public class ActionMonitor {
     /**
      * Current state of action
      */
-    @VisibleForTesting
     protected int mState;
 
     /**
@@ -238,7 +236,6 @@ public class ActionMonitor {
      * @param expectedOldState - expected existing state of action (can be UNKNOWN)
      * @param newState - new state which will be set
      */
-    @VisibleForTesting
     protected void updateState(final Action action, final int expectedOldState,
             final int newState) {
         ActionStateChangedListener listener = null;
@@ -412,7 +409,6 @@ public class ActionMonitor {
     /**
      * Map of action monitors indexed by actionKey
      */
-    @VisibleForTesting
     static final SimpleArrayMap<String, ActionMonitor> sActionMonitors = new SimpleArrayMap<>();
 
     /**
@@ -441,19 +437,6 @@ public class ActionMonitor {
             monitor = sActionMonitors.get(actionKey);
         }
         return monitor;
-    }
-
-    /**
-     * Remove monitor from map
-     */
-    @VisibleForTesting
-    static void unregisterActionMonitor(final String actionKey,
-            final ActionMonitor monitor) {
-        if (monitor != null) {
-            synchronized (sActionMonitors) {
-                sActionMonitors.remove(actionKey);
-            }
-        }
     }
 
     /**

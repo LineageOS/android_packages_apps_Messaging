@@ -35,7 +35,6 @@ import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.ContactIconView;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.AvatarUriUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * The view for a single entry in a contact list.
@@ -46,7 +45,6 @@ public class ContactListItemView extends LinearLayout implements OnClickListener
         boolean isContactSelected(ContactListItemData item);
     }
 
-    @VisibleForTesting
     final ContactListItemData mData;
     private TextView mContactNameTextView;
     private TextView mContactDetailsTextView;

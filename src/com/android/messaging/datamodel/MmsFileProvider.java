@@ -22,7 +22,6 @@ import android.net.Uri;
 
 import com.android.messaging.Factory;
 import com.android.messaging.util.LogUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +32,6 @@ import java.io.IOException;
 public class MmsFileProvider extends FileProvider {
     private static final String TAG = LogUtil.BUGLE_TAG;
 
-    @VisibleForTesting
     static final String AUTHORITY = "com.android.messaging.datamodel.MmsFileProvider";
     private static final String RAW_MMS_DIR = "rawmms";
 

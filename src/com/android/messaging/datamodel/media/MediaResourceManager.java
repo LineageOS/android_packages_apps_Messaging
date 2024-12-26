@@ -22,7 +22,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.RunsOnAnyThread;
 import com.android.messaging.util.LogUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -279,7 +278,6 @@ public class MediaResourceManager {
         mediaLoadingTask.executeOnExecutor(executor, (Void) null);
     }
 
-    @VisibleForTesting
     @RunsOnAnyThread
     <T extends RefCountedMediaResource> void addResourceToMemoryCache(
             final MediaRequest<T> mediaRequest, final T mediaResource) {
