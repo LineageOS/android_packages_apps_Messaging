@@ -18,7 +18,7 @@
     <item>
          <shape>
              <solid android:color="@color/subject_editor_bubble" />
-             <corners android:radius="3dp" />
+             <corners android:radius="16dp" />
          </shape>
     </item>
 </layer-list>
