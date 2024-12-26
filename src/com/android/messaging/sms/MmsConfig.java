@@ -26,12 +26,12 @@ import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.android.messaging.util.SafeAsyncTask;
 import com.google.common.collect.Maps;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 /**
  * MMS configuration.
@@ -134,7 +134,7 @@ public class MmsConfig {
      * Same as load() but doing it using an async thread from SafeAsyncTask thread pool.
      */
     public static void loadAsync() {
-        SafeAsyncTask.executeOnThreadPool(MmsConfig::load);
+        Executors.newSingleThreadExecutor().execute(MmsConfig::load);
     }
 
     /**
