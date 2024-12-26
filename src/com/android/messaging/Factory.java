@@ -30,16 +30,13 @@ import com.android.messaging.util.Assert;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.MediaUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.google.common.annotations.VisibleForTesting;
 
 public abstract class Factory {
 
     // Making this volatile because on the unit tests, setInstance is called from a unit test
     // thread, and then it's read on the UI thread.
     private static volatile Factory sInstance;
-    @VisibleForTesting
     protected static boolean sRegistered;
-    @VisibleForTesting
     protected static boolean sInitialized;
 
     public static Factory get() {

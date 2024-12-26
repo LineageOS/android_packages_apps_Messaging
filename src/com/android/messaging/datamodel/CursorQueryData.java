@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.android.messaging.util.Assert;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Holds parameters and data (such as content URI) for performing queries on the content provider.
@@ -65,11 +65,6 @@ public class CursorQueryData {
             return mContext.getContentResolver().query(mUri, mProjection, mSelection,
                     mSelectionArgs, mSortOrder);
         }
-    }
-
-    @VisibleForTesting
-    public Uri getUri() {
-        return mUri;
     }
 
     /**

@@ -32,7 +32,6 @@ import com.android.messaging.Factory;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * ActionService used to perform background processing for data model
@@ -111,25 +110,16 @@ public class ActionServiceImpl extends JobIntentService {
     }
 
     // ops
-    @VisibleForTesting
     protected static final int OP_START_ACTION = 200;
-    @VisibleForTesting
     protected static final int OP_RECEIVE_BACKGROUND_RESPONSE = 201;
-    @VisibleForTesting
     protected static final int OP_RECEIVE_BACKGROUND_FAILURE = 202;
 
     // extras
-    @VisibleForTesting
     protected static final String EXTRA_OP_CODE = "op";
-    @VisibleForTesting
     protected static final String EXTRA_ACTION_BUNDLE = "datamodel_action_bundle";
-    @VisibleForTesting
     protected static final String EXTRA_WORKER_EXCEPTION = "worker_exception";
-    @VisibleForTesting
     protected static final String EXTRA_WORKER_RESPONSE = "worker_response";
-    @VisibleForTesting
     protected static final String EXTRA_WORKER_UPDATE = "worker_update";
-    @VisibleForTesting
     protected static final String BUNDLE_ACTION = "bundle_action";
 
     private BackgroundWorker mBackgroundWorker;

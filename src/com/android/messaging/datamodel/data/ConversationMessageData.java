@@ -34,7 +34,6 @@ import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.ContentType;
 import com.android.messaging.util.Dates;
 import com.android.messaging.util.LogUtil;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 
 import java.util.ArrayList;
@@ -176,7 +175,6 @@ public class ConversationMessageData {
         }
     }
 
-    @VisibleForTesting
     static String[] splitUnquotedString(final String inputString) {
         if (TextUtils.isEmpty(inputString)) {
             return new String[0];
@@ -204,7 +202,6 @@ public class ConversationMessageData {
      *
      * @return array of constituent strings
      */
-    @VisibleForTesting
     static String[] splitQuotedString(final String inputString) {
         if (TextUtils.isEmpty(inputString)) {
             return new String[0];
@@ -270,7 +267,6 @@ public class ConversationMessageData {
         }
     }
 
-    @VisibleForTesting
     static List<MessagePartData> makeParts(
             final String rawIds,
             final String rawContentTypes,
@@ -305,7 +301,6 @@ public class ConversationMessageData {
         return parts;
     }
 
-    @VisibleForTesting
     static void unpackMessageParts(
             final List<MessagePartData> parts,
             final String[] ids,

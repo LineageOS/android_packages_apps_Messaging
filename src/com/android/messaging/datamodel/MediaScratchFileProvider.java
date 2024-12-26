@@ -32,7 +32,6 @@ import android.text.TextUtils;
 import com.android.messaging.Factory;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +45,6 @@ public class MediaScratchFileProvider extends FileProvider {
 
     private static final SimpleArrayMap<Uri, String> sUriToDisplayNameMap = new SimpleArrayMap<>();
 
-    @VisibleForTesting
     public static final String AUTHORITY =
             "com.android.messaging.datamodel.MediaScratchFileProvider";
     private static final String MEDIA_SCRATCH_SPACE_DIR = "mediascratchspace";

@@ -66,7 +66,6 @@ import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UiUtils;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -105,7 +104,6 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         void invalidateActionBar();
     }
 
-    @VisibleForTesting
     final Binding<ContactPickerData> mBinding = BindingBase.createBinding(this);
 
     private ContactPickerFragmentHost mHost;

@@ -49,7 +49,6 @@ import com.android.messaging.util.MediaUtil.OnCompletionListener;
 import com.android.messaging.util.SafeAsyncTask;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Hosts an audio recorder with tap and hold to record functionality.
@@ -236,7 +235,6 @@ public class AudioRecordView extends FrameLayout implements
         mRecordButtonVisual.setBackground(backgroundDrawable);
     }
 
-    @VisibleForTesting
     void onRecordButtonTouchDown() {
         if (!mMediaRecorder.isRecording() && mCurrentMode == MODE_IDLE) {
             setMode(MODE_STARTING);
@@ -255,7 +253,6 @@ public class AudioRecordView extends FrameLayout implements
         }
     }
 
-    @VisibleForTesting
     boolean onRecordButtonTouchUp() {
         if (System.currentTimeMillis() - mAudioRecordStartTimeMillis <
                 AUDIO_RECORD_MINIMUM_DURATION_MILLIS) {
