@@ -50,7 +50,6 @@ import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UriUtil;
 import com.android.messaging.widget.WidgetConversationProvider;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -245,7 +244,6 @@ public class BugleDatabaseOperations {
      * @param senderBlocked Flag whether sender of message is in blocked people list
      * @return The existing conversation id or null
      */
-    @VisibleForTesting
     @DoesNotRunOnMainThread
     public static String getExistingConversation(final DatabaseWrapper dbWrapper,
             final long threadId, final boolean senderBlocked) {
@@ -898,7 +896,6 @@ public class BugleDatabaseOperations {
         return ParticipantData.DEFAULT_SELF_SUB_ID;
     }
 
-    @VisibleForTesting
     @DoesNotRunOnMainThread
     public static ArrayList<ParticipantData> getParticipantsForConversation(
             final DatabaseWrapper dbWrapper, final String conversationId) {
@@ -1505,7 +1502,6 @@ public class BugleDatabaseOperations {
      * @return If the participant is available in our cache, or the DB, this returns the
      * participant id for the given subid/phone number.  Otherwise it returns null.
      */
-    @VisibleForTesting
     private static String getParticipantId(final DatabaseWrapper dbWrapper,
             final int subId, final String canonicalRecipient) {
         // First check our memory cache for the participant Id

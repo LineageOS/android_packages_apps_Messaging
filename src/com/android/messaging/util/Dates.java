@@ -22,7 +22,6 @@ import android.text.format.DateUtils;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -46,9 +45,9 @@ public class Dates {
     // Callers of methods in this class should never have to specify these; this is really
     // intended only for unit tests.
     @SuppressWarnings("deprecation")
-    @VisibleForTesting public static final int FORCE_12_HOUR = DateUtils.FORMAT_12HOUR;
+    public static final int FORCE_12_HOUR = DateUtils.FORMAT_12HOUR;
     @SuppressWarnings("deprecation")
-    @VisibleForTesting public static final int FORCE_24_HOUR = DateUtils.FORMAT_24HOUR;
+    public static final int FORCE_24_HOUR = DateUtils.FORMAT_24HOUR;
 
     /**
      * Private default constructor
@@ -128,7 +127,6 @@ public class Dates {
                 minPeriodToday);
     }
 
-    @VisibleForTesting
     public static CharSequence getTimestamp(final long time, final long now,
             final boolean abbreviated, final Locale locale, final int flags,
             final boolean minPeriodToday) {

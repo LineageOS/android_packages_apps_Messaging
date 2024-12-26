@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import com.android.messaging.Factory;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.UiUtils;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * A PagerAdapter that provides a fixed number of paged Views provided by a fixed set of
@@ -79,7 +78,6 @@ public class FixedViewPagerAdapter<T extends PagerViewHolder> extends PagerAdapt
         return getViewHolder(i, true /* rtlAware */);
     }
 
-    @VisibleForTesting
     public T getViewHolder(final int i, final boolean rtlAware) {
         return mViewHolders[rtlAware ? getRtlPosition(i) : i];
     }

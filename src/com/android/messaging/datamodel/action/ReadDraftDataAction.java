@@ -31,7 +31,6 @@ import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.RunsOnMainThread;
 import com.android.messaging.util.LogUtil;
-import com.google.common.annotations.VisibleForTesting;
 
 public class ReadDraftDataAction extends Action implements Parcelable {
 
@@ -71,7 +70,6 @@ public class ReadDraftDataAction extends Action implements Parcelable {
         actionParameters.putParcelable(KEY_INCOMING_DRAFT, incomingDraft);
     }
 
-    @VisibleForTesting
     class DraftData {
         public final MessageData message;
         public final ConversationListItemData conversation;

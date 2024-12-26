@@ -47,7 +47,6 @@ import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
-import com.google.common.annotations.VisibleForTesting;
 
 import java.util.HashSet;
 
@@ -65,7 +64,6 @@ public class AsyncImageView extends ImageView implements MediaResourceLoadListen
     // issues, so that when the image is loaded, the ImageRequest (which extends BindableData)
     // will be able to figure out whether the binding is still valid and whether the loaded image
     // should be delivered to the AsyncImageView via onMediaResourceLoaded() callback.
-    @VisibleForTesting
     public final Binding<BindableMediaRequest<ImageResource>> mImageRequestBinding;
 
     /** True if we want the image to fade in when it loads */

@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 
 import com.android.messaging.ui.contact.ContactPickerFragment;
 import com.android.messaging.util.Assert;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Keeps track of the different UI states that the ConversationActivity may be in. This acts as
@@ -298,13 +297,5 @@ public class ConversationActivityUiState implements Parcelable, Cloneable {
                     "reference?");
         }
         return null;
-    }
-
-    /**
-     * allows for overridding the internal UI state. Should never be called except by test code.
-     */
-    @VisibleForTesting
-    void testSetUiState(final int uiState) {
-        mConversationContactUiState = uiState;
     }
 }

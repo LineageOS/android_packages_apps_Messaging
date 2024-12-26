@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2024 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +23,6 @@ import android.os.Debug;
 import android.os.PowerManager;
 import android.os.Process;
 
-import com.google.common.annotations.VisibleForTesting;
-
 /**
  * Helper class used to manage wakelock state
  */
@@ -31,7 +30,6 @@ public class WakeLockHelper {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
     private static final boolean VERBOSE = false;
 
-    @VisibleForTesting
     public static final String EXTRA_CALLING_PID = "pid";
 
     private final Object mLock = new Object();

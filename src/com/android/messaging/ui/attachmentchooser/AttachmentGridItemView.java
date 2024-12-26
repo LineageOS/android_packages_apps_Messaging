@@ -29,7 +29,6 @@ import com.android.messaging.R;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.ui.AttachmentPreviewFactory;
 import com.android.messaging.util.Assert;
-import com.google.common.annotations.VisibleForTesting;
 
 /**
  * Shows an item in the attachment picker grid.
@@ -41,7 +40,6 @@ public class AttachmentGridItemView extends FrameLayout {
         void onItemClicked(AttachmentGridItemView view, MessagePartData attachment);
     }
 
-    @VisibleForTesting
     MessagePartData mAttachmentData;
     private FrameLayout mAttachmentViewContainer;
     private CheckBox mCheckBox;
@@ -87,11 +85,6 @@ public class AttachmentGridItemView extends FrameLayout {
             mAttachmentData = attachment;
             updateAttachmentView();
         }
-    }
-
-    @VisibleForTesting
-    HostInterface testGetHostInterface() {
-        return mHostInterface;
     }
 
     public void updateSelectedState() {
