@@ -100,7 +100,7 @@
 
     <!-- Videos in the message list view should at least be this big in the smallest dimension -->
     <dimen name="video_message_min_size">320dp</dimen>
-    <dimen name="attachment_rounded_corner_radius">3dp</dimen>
+    <dimen name="attachment_rounded_corner_radius">16dp</dimen>
     <dimen name="participant_list_text_size">18sp</dimen>
     <dimen name="people_and_options_header_text_size">16sp</dimen>
     <dimen name="image_attachment_fallback_width">240dp</dimen>
