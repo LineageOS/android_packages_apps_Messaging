@@ -22,6 +22,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.support.v7.mms.pdu.PduHeaders;
 import android.text.TextUtils;
 
 import com.android.messaging.datamodel.BugleDatabaseOperations;
@@ -33,7 +34,6 @@ import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.SyncManager.ThreadInfoCache;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.mmslib.pdu.PduHeaders;
 import com.android.messaging.sms.DatabaseMessages.LocalDatabaseMessage;
 import com.android.messaging.sms.DatabaseMessages.MmsMessage;
 import com.android.messaging.sms.DatabaseMessages.SmsMessage;

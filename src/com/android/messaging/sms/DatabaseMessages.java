@@ -29,14 +29,14 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
+import android.support.v7.mms.pdu.CharacterSets;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.data.MessageData;
-import com.android.messaging.mmslib.pdu.CharacterSets;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.MediaMetadataRetrieverWrapper;
 import com.android.messaging.util.PhoneUtils;

@@ -47,7 +47,7 @@ public class NotifyRespInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    NotifyRespInd(PduHeaders headers) {
+    public NotifyRespInd(PduHeaders headers) {
         super(headers);
     }
 

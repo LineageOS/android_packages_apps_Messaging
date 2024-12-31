@@ -26,6 +26,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.SystemClock;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -40,7 +41,6 @@ import com.android.messaging.R;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.ui.mediapicker.PausableChronometer;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 

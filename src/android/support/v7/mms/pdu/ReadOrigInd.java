@@ -37,7 +37,7 @@ public class ReadOrigInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    ReadOrigInd(PduHeaders headers) {
+    public ReadOrigInd(PduHeaders headers) {
         super(headers);
     }
 

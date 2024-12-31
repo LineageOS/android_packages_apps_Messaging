@@ -17,7 +17,7 @@
 
 package com.android.messaging.mmslib.util;
 
-import com.android.messaging.mmslib.pdu.GenericPdu;
+import android.support.v7.mms.pdu.GenericPdu;
 
 public final class PduCacheEntry {
     private final GenericPdu mPdu;

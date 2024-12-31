@@ -21,9 +21,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Telephony;
+import android.support.v7.mms.pdu.ContentType;
 
 import com.android.messaging.datamodel.action.ReceiveMmsMessageAction;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.PhoneUtils;
 
 /**

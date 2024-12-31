@@ -74,11 +74,25 @@ public class EncodedStringValue implements Cloneable {
     }
 
     public EncodedStringValue(String data) {
+        this(CharacterSets.DEFAULT_CHARSET, data);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param data The text in Java String
+     * @throws NullPointerException if Text-string value is null.
+     */
+    public EncodedStringValue(int charset, String data) {
+        if (null == data) {
+            throw new NullPointerException("EncodedStringValue: Text-string is null");
+        }
+        mCharacterSet = charset;
         try {
-            mData = data.getBytes(CharacterSets.DEFAULT_CHARSET_NAME);
-            mCharacterSet = CharacterSets.DEFAULT_CHARSET;
+            mData = data.getBytes(CharacterSets.getMimeName(charset));
         } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Default encoding must be supported.", e);
+            Log.e(TAG, "Input encoding " + charset + " must be supported.", e);
+            mData = data.getBytes();
         }
     }
 
