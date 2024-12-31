@@ -20,8 +20,16 @@ package com.android.messaging.mmslib.pdu;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import androidx.collection.SimpleArrayMap;
+import android.support.v7.mms.pdu.EncodedStringValue;
+import android.support.v7.mms.pdu.GenericPdu;
+import android.support.v7.mms.pdu.PduBody;
+import android.support.v7.mms.pdu.PduContentTypes;
+import android.support.v7.mms.pdu.PduHeaders;
+import android.support.v7.mms.pdu.PduPart;
+import android.support.v7.mms.pdu.SendReq;
 import android.text.TextUtils;
+
+import androidx.collection.SimpleArrayMap;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;

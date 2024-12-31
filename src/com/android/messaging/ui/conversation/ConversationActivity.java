@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -40,7 +41,6 @@ import com.android.messaging.ui.conversation.ConversationActivityUiState.Convers
 import com.android.messaging.ui.conversation.ConversationFragment.ConversationFragmentHost;
 import com.android.messaging.ui.conversationlist.ConversationListActivity;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 

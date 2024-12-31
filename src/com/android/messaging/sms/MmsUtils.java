@@ -33,6 +33,20 @@ import android.provider.Telephony;
 import android.provider.Telephony.Mms;
 import android.provider.Telephony.Sms;
 import android.provider.Telephony.Threads;
+import android.support.v7.mms.pdu.CharacterSets;
+import android.support.v7.mms.pdu.ContentType;
+import android.support.v7.mms.pdu.EncodedStringValue;
+import android.support.v7.mms.pdu.GenericPdu;
+import android.support.v7.mms.pdu.InvalidHeaderValueException;
+import android.support.v7.mms.pdu.MmsException;
+import android.support.v7.mms.pdu.NotificationInd;
+import android.support.v7.mms.pdu.PduBody;
+import android.support.v7.mms.pdu.PduHeaders;
+import android.support.v7.mms.pdu.PduParser;
+import android.support.v7.mms.pdu.PduPart;
+import android.support.v7.mms.pdu.RetrieveConf;
+import android.support.v7.mms.pdu.SendConf;
+import android.support.v7.mms.pdu.SendReq;
 import android.telephony.SmsMessage;
 import android.text.TextUtils;
 
@@ -43,27 +57,13 @@ import com.android.messaging.datamodel.action.DownloadMmsAction;
 import com.android.messaging.datamodel.action.SendMessageAction;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
-import com.android.messaging.mmslib.InvalidHeaderValueException;
-import com.android.messaging.mmslib.MmsException;
 import com.android.messaging.mmslib.SqliteWrapper;
-import com.android.messaging.mmslib.pdu.CharacterSets;
-import com.android.messaging.mmslib.pdu.EncodedStringValue;
-import com.android.messaging.mmslib.pdu.GenericPdu;
-import com.android.messaging.mmslib.pdu.NotificationInd;
-import com.android.messaging.mmslib.pdu.PduBody;
 import com.android.messaging.mmslib.pdu.PduComposer;
-import com.android.messaging.mmslib.pdu.PduHeaders;
-import com.android.messaging.mmslib.pdu.PduParser;
-import com.android.messaging.mmslib.pdu.PduPart;
 import com.android.messaging.mmslib.pdu.PduPersister;
-import com.android.messaging.mmslib.pdu.RetrieveConf;
-import com.android.messaging.mmslib.pdu.SendConf;
-import com.android.messaging.mmslib.pdu.SendReq;
 import com.android.messaging.sms.SmsSender.SendResult;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.EmailAddress;
 import com.android.messaging.util.ImageUtils;
@@ -917,7 +917,7 @@ public class MmsUtils {
 
     // Persist a sent MMS message in telephony
     private static Uri insertSendReq(final Context context, final GenericPdu pdu, final int subId,
-            final String subPhoneNumber) {
+                                     final String subPhoneNumber) {
         final PduPersister persister = PduPersister.getPduPersister(context);
         Uri uri = null;
         try {
@@ -941,8 +941,8 @@ public class MmsUtils {
 
     // Persist a received MMS message in telephony
     public static Uri insertReceivedMmsMessage(final Context context,
-            final RetrieveConf retrieveConf, final int subId, final String subPhoneNumber,
-            final long receivedTimestampInSeconds, final long expiry, final String transactionId) {
+                                               final RetrieveConf retrieveConf, final int subId, final String subPhoneNumber,
+                                               final long receivedTimestampInSeconds, final long expiry, final String transactionId) {
         final PduPersister persister = PduPersister.getPduPersister(context);
         Uri uri = null;
         try {
