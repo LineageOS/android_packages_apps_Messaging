@@ -25,6 +25,8 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.Telephony.Mms;
+import android.support.v7.mms.pdu.PduHeaders;
+import android.support.v7.mms.pdu.RetrieveConf;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
 
@@ -41,8 +43,6 @@ import com.android.messaging.datamodel.SyncManager;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.mmslib.SqliteWrapper;
-import com.android.messaging.mmslib.pdu.PduHeaders;
-import com.android.messaging.mmslib.pdu.RetrieveConf;
 import com.android.messaging.sms.DatabaseMessages;
 import com.android.messaging.sms.MmsSender;
 import com.android.messaging.sms.MmsUtils;

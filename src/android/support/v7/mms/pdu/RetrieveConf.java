@@ -50,7 +50,7 @@ public class RetrieveConf extends MultimediaMessagePdu {
      * @param headers Headers for this PDU.
      * @param body Body of this PDu.
      */
-    RetrieveConf(PduHeaders headers, PduBody body) {
+    public RetrieveConf(PduHeaders headers, PduBody body) {
         super(headers, body);
     }
 
@@ -197,7 +197,12 @@ public class RetrieveConf extends MultimediaMessagePdu {
      * @return the value
      */
     public int getRetrieveStatus() {
-        return mPduHeaders.getOctet(PduHeaders.RETRIEVE_STATUS);
+        /*
+         * If the header is not there, assuming it is OK status.
+         * Some carriers may choose to not send this header.
+         */
+        return mPduHeaders.hasHeader(PduHeaders.RETRIEVE_STATUS) ?
+                mPduHeaders.getOctet(PduHeaders.RETRIEVE_STATUS) : PduHeaders.RETRIEVE_STATUS_OK;
     }
 
     /**

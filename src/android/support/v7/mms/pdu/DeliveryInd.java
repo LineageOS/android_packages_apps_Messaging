@@ -40,7 +40,7 @@ public class DeliveryInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    DeliveryInd(PduHeaders headers) {
+    public DeliveryInd(PduHeaders headers) {
         super(headers);
     }
 

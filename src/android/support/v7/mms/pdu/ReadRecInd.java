@@ -49,7 +49,7 @@ public class ReadRecInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    ReadRecInd(PduHeaders headers) {
+    public ReadRecInd(PduHeaders headers) {
         super(headers);
     }
 

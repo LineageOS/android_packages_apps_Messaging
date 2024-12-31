@@ -24,22 +24,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.mms.MmsManager;
+import android.support.v7.mms.pdu.AcknowledgeInd;
+import android.support.v7.mms.pdu.EncodedStringValue;
+import android.support.v7.mms.pdu.GenericPdu;
+import android.support.v7.mms.pdu.InvalidHeaderValueException;
+import android.support.v7.mms.pdu.NotifyRespInd;
+import android.support.v7.mms.pdu.PduHeaders;
+import android.support.v7.mms.pdu.PduParser;
+import android.support.v7.mms.pdu.RetrieveConf;
+import android.support.v7.mms.pdu.SendConf;
+import android.support.v7.mms.pdu.SendReq;
 import android.telephony.SmsManager;
 
 import com.android.messaging.datamodel.MmsFileProvider;
 import com.android.messaging.datamodel.action.SendMessageAction;
 import com.android.messaging.datamodel.data.MessageData;
-import com.android.messaging.mmslib.InvalidHeaderValueException;
-import com.android.messaging.mmslib.pdu.AcknowledgeInd;
-import com.android.messaging.mmslib.pdu.EncodedStringValue;
-import com.android.messaging.mmslib.pdu.GenericPdu;
-import com.android.messaging.mmslib.pdu.NotifyRespInd;
 import com.android.messaging.mmslib.pdu.PduComposer;
-import com.android.messaging.mmslib.pdu.PduHeaders;
-import com.android.messaging.mmslib.pdu.PduParser;
-import com.android.messaging.mmslib.pdu.RetrieveConf;
-import com.android.messaging.mmslib.pdu.SendConf;
-import com.android.messaging.mmslib.pdu.SendReq;
 import com.android.messaging.receiver.SendStatusReceiver;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
@@ -65,7 +65,7 @@ public class MmsSender {
      * @param sendReq The SendReq PDU of the message
      */
     public static void sendMms(final Context context, final int subId, final Uri messageUri,
-            final SendReq sendReq, final Bundle sentIntentExras) throws MmsFailureException {
+                               final SendReq sendReq, final Bundle sentIntentExras) throws MmsFailureException {
         sendMms(context,
                 subId,
                 messageUri,
@@ -139,8 +139,8 @@ public class MmsSender {
      * Sending of AcknowledgeInd and NotifyRespInd are not important.
      */
     private static void sendMms(final Context context, final int subId, final Uri messageUri,
-            final String locationUrl, final GenericPdu pdu, final boolean responseImportant,
-            final Bundle sentIntentExtras) throws MmsFailureException {
+                                final String locationUrl, final GenericPdu pdu, final boolean responseImportant,
+                                final Bundle sentIntentExtras) throws MmsFailureException {
         // Write PDU to temporary file to send to platform
         final Uri contentUri = writePduToTempFile(context, pdu, subId);
 

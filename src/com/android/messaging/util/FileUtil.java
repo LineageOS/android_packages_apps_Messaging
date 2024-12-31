@@ -22,6 +22,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.mms.pdu.ContentType;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;

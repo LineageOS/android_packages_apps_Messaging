@@ -23,7 +23,7 @@ public class PduContentTypes {
      * All content types. From:
      * http://www.openmobilealliance.org/tech/omna/omna-wsp-content-type.htm
      */
-    static final String[] contentTypes = {
+    public static final String[] contentTypes = {
         "*/*",                                        /* 0x00 */
         "text/*",                                     /* 0x01 */
         "text/html",                                  /* 0x02 */

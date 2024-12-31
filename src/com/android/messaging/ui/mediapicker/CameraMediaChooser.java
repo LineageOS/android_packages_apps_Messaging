@@ -17,7 +17,7 @@
 
 package com.android.messaging.ui.mediapicker;
 
-import static com.android.messaging.util.ContentType.VIDEO_UNSPECIFIED;
+import static android.support.v7.mms.pdu.ContentType.VIDEO_UNSPECIFIED;
 
 import android.Manifest;
 import android.app.Activity;
