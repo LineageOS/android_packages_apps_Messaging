@@ -24,6 +24,7 @@ import android.database.sqlite.SQLiteDoneException;
 import android.database.sqlite.SQLiteStatement;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 
 import androidx.collection.ArrayMap;
@@ -45,7 +46,6 @@ import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
 import com.android.messaging.util.AvatarUriUtil;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.UriUtil;
