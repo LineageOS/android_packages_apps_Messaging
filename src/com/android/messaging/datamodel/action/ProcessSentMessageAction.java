@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.mms.pdu.SendConf;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsManager;
 
@@ -37,7 +38,6 @@ import com.android.messaging.datamodel.MmsFileProvider;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
-import com.android.messaging.mmslib.pdu.SendConf;
 import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.sms.MmsSender;
 import com.android.messaging.sms.MmsUtils;

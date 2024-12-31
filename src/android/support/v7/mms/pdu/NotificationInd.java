@@ -41,7 +41,7 @@ public class NotificationInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    NotificationInd(PduHeaders headers) {
+    public NotificationInd(PduHeaders headers) {
         super(headers);
     }
 

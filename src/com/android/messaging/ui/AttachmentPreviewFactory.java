@@ -21,6 +21,8 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.net.Uri;
 import androidx.annotation.Nullable;
+
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +44,6 @@ import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
 import com.android.messaging.ui.MultiAttachmentLayout.OnAttachmentClickListener;
 import com.android.messaging.ui.PersonItemView.PersonItemViewListener;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;

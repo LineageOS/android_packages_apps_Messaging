@@ -19,10 +19,10 @@ package com.android.messaging.datamodel.media;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.mms.pdu.ContentType;
 
 import com.android.messaging.Factory;
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 
 import java.io.FileNotFoundException;

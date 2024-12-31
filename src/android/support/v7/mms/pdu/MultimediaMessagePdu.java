@@ -146,4 +146,13 @@ public class MultimediaMessagePdu extends GenericPdu{
     public void setDate(long value) {
         mPduHeaders.setLongInteger(value, PduHeaders.DATE);
     }
+
+    /**
+     * Get the message size
+     *
+     * @return the size of the message
+     */
+    public long getMessageSize() {
+        return mPduHeaders.getLongInteger(PduHeaders.MESSAGE_SIZE);
+    }
 }
