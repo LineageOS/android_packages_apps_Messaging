@@ -19,9 +19,7 @@
 package android.support.v7.mms.pdu;
 
 import android.net.Uri;
-
-import java.util.HashMap;
-import java.util.Map;
+import android.util.SparseArray;
 
 /**
  * The pdu part.
@@ -108,7 +106,7 @@ public class PduPart {
      /**
       * Header of part.
       */
-     private Map<Integer, Object> mPartHeader = null;
+     private SparseArray<Object> mPartHeader = null;
 
      /**
       * Data uri.
@@ -126,7 +124,7 @@ public class PduPart {
       * Empty Constructor.
       */
      public PduPart() {
-         mPartHeader = new HashMap<>();
+         mPartHeader = new SparseArray<>();
      }
 
      /**
@@ -135,40 +133,17 @@ public class PduPart {
       * @param data the data
       */
      public void setData(byte[] data) {
-         if(data == null) {
-            return;
-        }
-
-         mPartData = new byte[data.length];
-         System.arraycopy(data, 0, mPartData, 0, data.length);
+         mPartData = data;
      }
 
      /**
-      * @return A copy of the part data or null if the data wasn't set or
-      *         the data is stored as Uri.
+      * @return The part data or null if the data wasn't set or
+      * the data is stored as Uri.
       * @see #getDataUri
       */
      public byte[] getData() {
-         if(mPartData == null) {
-            return null;
-         }
-
-         byte[] byteArray = new byte[mPartData.length];
-         System.arraycopy(mPartData, 0, byteArray, 0, mPartData.length);
-         return byteArray;
+         return mPartData;
      }
-
-    /**
-     * @return The length of the data, if this object have data, else 0.
-     */
-     public int getDataLength() {
-         if(mPartData != null){
-             return mPartData.length;
-         } else {
-             return 0;
-         }
-     }
-
 
      /**
       * Set data uri. The data are stored as Uri.

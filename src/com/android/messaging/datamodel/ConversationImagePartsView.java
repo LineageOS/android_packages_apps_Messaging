@@ -18,13 +18,12 @@
 package com.android.messaging.datamodel;
 
 import android.provider.BaseColumns;
+import android.support.v7.mms.pdu.ContentType;
 
 import com.android.ex.photo.provider.PhotoContract.PhotoViewColumns;
-
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
 import com.android.messaging.datamodel.DatabaseHelper.ParticipantColumns;
-import com.android.messaging.util.ContentType;
 
 /**
  * View for the image parts for the conversation. It is used to provide the photoviewer with a

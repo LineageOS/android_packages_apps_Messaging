@@ -20,6 +20,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.ContactsContract;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -31,7 +32,6 @@ import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
 import com.android.messaging.datamodel.DatabaseHelper.ParticipantColumns;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.BugleGservicesKeys;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.Dates;
 import com.android.messaging.util.LogUtil;
 import com.google.common.base.Predicate;

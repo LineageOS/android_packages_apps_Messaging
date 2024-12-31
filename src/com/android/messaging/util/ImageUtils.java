@@ -33,6 +33,7 @@ import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;

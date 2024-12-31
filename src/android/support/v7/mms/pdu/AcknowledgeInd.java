@@ -44,7 +44,7 @@ public class AcknowledgeInd extends GenericPdu {
      *
      * @param headers Headers for this PDU.
      */
-    AcknowledgeInd(PduHeaders headers) {
+    public AcknowledgeInd(PduHeaders headers) {
         super(headers);
     }
 

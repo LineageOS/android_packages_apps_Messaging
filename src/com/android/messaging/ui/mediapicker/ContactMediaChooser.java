@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract.Contacts;
+import android.support.v7.mms.pdu.ContentType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.data.PendingAttachmentData;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 
