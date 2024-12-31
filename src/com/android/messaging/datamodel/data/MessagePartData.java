@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,6 @@ import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.GifTranscoder;
 import com.android.messaging.util.ImageUtils;
 import com.android.messaging.util.LogUtil;

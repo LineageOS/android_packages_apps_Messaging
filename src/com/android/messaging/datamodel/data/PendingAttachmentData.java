@@ -21,10 +21,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.mms.pdu.ContentType;
+
 import androidx.annotation.NonNull;
 
 import com.android.messaging.util.Assert;
-import com.android.messaging.util.ContentType;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UriUtil;
 
