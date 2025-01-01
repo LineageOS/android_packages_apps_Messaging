@@ -37,13 +37,14 @@ import android.support.v7.mms.pdu.ContentType;
 import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
+import androidx.exifinterface.media.ExifInterface;
 
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.MediaScratchFileProvider;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.media.ImageRequest;
 import com.android.messaging.util.Assert.DoesNotRunOnMainThread;
-import com.android.messaging.util.exif.ExifInterface;
+import com.android.messaging.util.exif.ExifInterface.OrientationParams;
 import com.google.common.io.Files;
 
 import java.io.ByteArrayOutputStream;
@@ -248,20 +249,17 @@ public class ImageUtils {
         int orientation = androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED;
         if (inputStream != null) {
             try {
-                final ExifInterface exifInterface = new ExifInterface();
-                exifInterface.readExif(inputStream);
-                final Integer orientationValue =
-                        exifInterface.getTagIntValue(ExifInterface.TAG_ORIENTATION);
-                if (orientationValue != null) {
-                    orientation = orientationValue.intValue();
+                final ExifInterface exifInterface = new ExifInterface(inputStream);
+                final int orientationValue = exifInterface.getAttributeInt(
+                        ExifInterface.TAG_ORIENTATION, -1);
+                if (orientationValue != -1) {
+                    orientation = orientationValue;
                 }
             } catch (IOException e) {
                 // If the image if GIF, PNG, or missing exif header, just use the defaults
             } finally {
                 try {
-                    if (inputStream != null) {
-                        inputStream.close();
-                    }
+                    inputStream.close();
                 } catch (IOException e) {
                     LogUtil.e(TAG, "getOrientation error closing input stream", e);
                 }
@@ -366,7 +364,7 @@ public class ImageUtils {
         private int mWidth;
         private int mHeight;
         // Orientation params of image as read from EXIF data
-        private final ExifInterface.OrientationParams mOrientationParams;
+        private final OrientationParams mOrientationParams;
         // Matrix to undo orientation and scale at the same time
         private final Matrix mMatrix;
         // Size limit as provided by MMS library
@@ -414,7 +412,8 @@ public class ImageUtils {
                 final Context context, final String contentType) {
             mWidth = width;
             mHeight = height;
-            mOrientationParams = ExifInterface.getOrientationParams(orientation);
+            mOrientationParams = com.android.messaging.util.exif.ExifInterface.getOrientationParams(
+                    orientation);
             mMatrix = new Matrix();
             mWidthLimit = widthLimit;
             mHeightLimit = heightLimit;
