@@ -142,8 +142,8 @@ public class AttachmentGridView extends GridView implements
             final int partCount = in.readInt();
             unselectedParts = new MessagePartData[partCount];
             for (int i = 0; i < partCount; i++) {
-                unselectedParts[i] = ((MessagePartData) in.readParcelable(
-                        MessagePartData.class.getClassLoader()));
+                unselectedParts[i] = in.readParcelable(MessagePartData.class.getClassLoader(),
+                        MessagePartData.class);
             }
         }
 

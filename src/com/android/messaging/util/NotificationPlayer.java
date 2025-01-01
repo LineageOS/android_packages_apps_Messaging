@@ -186,7 +186,7 @@ public class NotificationPlayer implements OnCompletionListener {
         @Override
         public void run() {
             while (true) {
-                Command cmd = null;
+                Command cmd;
 
                 synchronized (mCmdQueue) {
                     if (mDebug) {
@@ -325,31 +325,6 @@ public class NotificationPlayer implements OnCompletionListener {
             mThread = new CmdThread();
             mThread.start();
         }
-    }
-
-    /**
-     * We want to hold a wake lock while we do the prepare and play.  The stop probably is
-     * optional, but it won't hurt to have it too.  The problem is that if you start a sound
-     * while you're holding a wake lock (e.g. an alarm starting a notification), you want the
-     * sound to play, but if the CPU turns off before mThread gets to work, it won't.  The
-     * simplest way to deal with this is to make it so there is a wake lock held while the
-     * thread is starting or running.  You're going to need the WAKE_LOCK permission if you're
-     * going to call this.
-     *
-     * This must be called before the first time play is called.
-     *
-     * @hide
-     */
-    public void setUsesWakeLock() {
-        if (mWakeLock != null || mThread != null) {
-            // if either of these has happened, we've already played something.
-            // and our releases will be out of sync.
-            throw new RuntimeException("assertion failed mWakeLock=" + mWakeLock
-                    + " mThread=" + mThread);
-        }
-        final PowerManager pm = (PowerManager) Factory.get().getApplicationContext()
-                .getSystemService(Context.POWER_SERVICE);
-        mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, mTag);
     }
 
     private void acquireWakeLock() {

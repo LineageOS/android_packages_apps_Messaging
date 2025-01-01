@@ -171,8 +171,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             final Bundle savedInstanceState) {
         final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.conversation_list_fragment,
                 container, false);
-        mRecyclerView = (RecyclerView) rootView.findViewById(android.R.id.list);
-        mEmptyListMessageView = (ListEmptyView) rootView.findViewById(R.id.no_conversations_view);
+        mRecyclerView = rootView.findViewById(android.R.id.list);
+        mEmptyListMessageView = rootView.findViewById(R.id.no_conversations_view);
         mEmptyListMessageView.setImageHint(R.drawable.ic_oobe_conv_list);
         // The default behavior for default layout param generation by LinearLayoutManager is to
         // provide width and height of WRAP_CONTENT, but this is not desirable for
@@ -189,7 +189,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             int mCurrentState = AbsListView.OnScrollListener.SCROLL_STATE_IDLE;
 
             @Override
@@ -216,11 +216,11 @@ public class ConversationListFragment extends Fragment implements ConversationLi
         mRecyclerView.addOnItemTouchListener(new ConversationListSwipeHelper(mRecyclerView));
 
         if (savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_LIST_VIEW_STATE_KEY);
+            mListState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_LIST_VIEW_STATE_KEY,
+                    Parcelable.class);
         }
 
-        mStartNewConversationButton = (ExtendedFloatingActionButton) rootView.findViewById(
-                R.id.start_new_conversation_button);
+        mStartNewConversationButton = rootView.findViewById(R.id.start_new_conversation_button);
         if (mArchiveMode || mForwardMessageMode) {
             mStartNewConversationButton.setVisibility(View.GONE);
         } else {

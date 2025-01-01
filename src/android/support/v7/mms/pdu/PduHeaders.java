@@ -323,7 +323,7 @@ public class PduHeaders {
     /**
      * The map contains the value of all headers.
      */
-    private SparseArray<Object> mHeaderMap = null;
+    private SparseArray<Object> mHeaderMap;
 
     /**
      * Constructor of PduHeaders.

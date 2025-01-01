@@ -466,7 +466,7 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
         LogUtil.i(LogUtil.BUGLE_TAG, "Loading APNs from local APN table");
         final SQLiteDatabase database = ApnDatabase.getApnDatabase().getWritableDatabase();
         final String mccMnc = PhoneUtils.getMccMncString(PhoneUtils.getDefault().getMccMnc());
-        Cursor cursor = null;
+        Cursor cursor;
         cursor = queryLocalDatabase(database, mccMnc, apnName);
         if (cursor == null) {
             cursor = queryLocalDatabase(database, mccMnc, null/*apnName*/);
@@ -513,7 +513,7 @@ public class BugleApnSettingsLoader implements ApnSettingsLoader {
             selection = SELECTION_NUMERIC + " AND " + SELECTION_APN;
             selectionArgs = new String[] { numeric, apnName };
         }
-        Cursor cursor = null;
+        Cursor cursor;
         try {
             cursor = db.query(ApnDatabase.APN_TABLE, APN_PROJECTION_LOCAL, selection, selectionArgs,
                     null/*groupBy*/, null/*having*/, ORDER_BY, null/*limit*/);

@@ -82,7 +82,7 @@ public class SendStatusReceiver extends BroadcastReceiver {
                 LogUtil.e(LogUtil.BUGLE_TAG, "SendStatusReceiver: empty report message");
                 return;
             }
-            int status = Sms.STATUS_COMPLETE;
+            int status;
             try {
                 final String format = intent.getStringExtra("format");
                 status = smsMessage.getStatus();

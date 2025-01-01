@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.android.messaging.util;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
@@ -345,32 +344,6 @@ public class UriUtil {
         // replaceUnicodeDigits will replace digits typed in other languages (i.e. Egyptian) with
         // the usual ascii equivalents.
         return TextUtil.replaceUnicodeDigits(parts[0]).replace(';', ',');
-    }
-
-    /**
-     * Return the length of the file to which contentUri refers
-     *
-     * @param contentUri URI for the file of which we want the length
-     * @return Length of the file or AssetFileDescriptor.UNKNOWN_LENGTH
-     */
-    public static long getUriContentLength(final Uri contentUri) {
-        final Context context = Factory.get().getApplicationContext();
-        AssetFileDescriptor afd = null;
-        try {
-            afd = context.getContentResolver().openAssetFileDescriptor(contentUri, "r");
-            return afd.getLength();
-        } catch (final FileNotFoundException e) {
-            LogUtil.w(LogUtil.BUGLE_TAG, "Failed to query length of " + contentUri);
-        } finally {
-            if (afd != null) {
-                try {
-                    afd.close();
-                } catch (final IOException e) {
-                    LogUtil.w(LogUtil.BUGLE_TAG, "Failed to close afd for " + contentUri);
-                }
-            }
-        }
-        return AssetFileDescriptor.UNKNOWN_LENGTH;
     }
 
     /** @return string representation of URI or null if URI was null */

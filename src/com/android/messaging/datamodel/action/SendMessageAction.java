@@ -193,9 +193,9 @@ public class SendMessageAction extends Action implements Parcelable {
      */
     @Override
     protected Bundle doBackgroundWork() {
-        final MessageData message = actionParameters.getParcelable(KEY_MESSAGE);
+        final MessageData message = actionParameters.getParcelable(KEY_MESSAGE, MessageData.class);
         final String messageId = actionParameters.getString(KEY_MESSAGE_ID);
-        Uri messageUri = actionParameters.getParcelable(KEY_MESSAGE_URI);
+        Uri messageUri = actionParameters.getParcelable(KEY_MESSAGE_URI, Uri.class);
         Uri updatedMessageUri = null;
         final boolean isSms = message.getProtocol() == MessageData.PROTOCOL_SMS;
         final int subId = actionParameters.getInt(KEY_SUB_ID, ParticipantData.DEFAULT_SELF_SUB_ID);
@@ -294,7 +294,7 @@ public class SendMessageAction extends Action implements Parcelable {
     @Override
     protected Object processBackgroundFailure() {
         final String messageId = actionParameters.getString(KEY_MESSAGE_ID);
-        final MessageData message = actionParameters.getParcelable(KEY_MESSAGE);
+        final MessageData message = actionParameters.getParcelable(KEY_MESSAGE, MessageData.class);
         final boolean isSms = message.getProtocol() == MessageData.PROTOCOL_SMS;
         final int subId = actionParameters.getInt(KEY_SUB_ID, ParticipantData.DEFAULT_SELF_SUB_ID);
         final int resultCode = actionParameters.getInt(ProcessSentMessageAction.KEY_RESULT_CODE);
