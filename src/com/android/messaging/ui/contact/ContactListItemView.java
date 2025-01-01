@@ -64,13 +64,13 @@ public class ContactListItemView extends LinearLayout implements OnClickListener
     @Override
     protected void onFinishInflate () {
         super.onFinishInflate();
-        mContactNameTextView = (TextView) findViewById(R.id.contact_name);
-        mContactDetailsTextView = (TextView) findViewById(R.id.contact_details);
-        mContactDetailTypeTextView = (TextView) findViewById(R.id.contact_detail_type);
-        mAlphabetHeaderTextView = (TextView) findViewById(R.id.alphabet_header);
-        mContactIconView = (ContactIconView) findViewById(R.id.contact_icon);
-        mContactCheckmarkView = (ImageView) findViewById(R.id.contact_checkmark);
-        mWorkProfileIcon = (ImageView) findViewById(R.id.work_profile_icon);
+        mContactNameTextView = findViewById(R.id.contact_name);
+        mContactDetailsTextView = findViewById(R.id.contact_details);
+        mContactDetailTypeTextView = findViewById(R.id.contact_detail_type);
+        mAlphabetHeaderTextView = findViewById(R.id.alphabet_header);
+        mContactIconView = findViewById(R.id.contact_icon);
+        mContactCheckmarkView = findViewById(R.id.contact_checkmark);
+        mWorkProfileIcon = findViewById(R.id.work_profile_icon);
     }
 
     /**

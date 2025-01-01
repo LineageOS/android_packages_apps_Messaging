@@ -59,7 +59,7 @@ public class GifImageResource extends ImageResource {
     @Override
     public Drawable getDrawable(Resources resources) {
         try {
-            return (AnimatedImageDrawable) ImageDecoder.decodeDrawable(mImageDecoderSource);
+            return ImageDecoder.decodeDrawable(mImageDecoderSource);
         } catch (final Throwable t) {
             // Malicious gif images can make the platform throw different kind of throwables, such
             // as OutOfMemoryError and NullPointerException. Catch them all.

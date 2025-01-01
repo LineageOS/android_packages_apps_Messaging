@@ -131,7 +131,7 @@ public class MmsManager {
      * @return a Bundle containing the overrides
      */
     private static Bundle getConfigOverrides(final int subId) {
-        Bundle overrides = null;
+        Bundle overrides;
         synchronized (sConfigOverridesMap) {
             overrides = sConfigOverridesMap.get(subId);
             if (overrides == null) {

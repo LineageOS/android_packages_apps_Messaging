@@ -306,8 +306,8 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
             final String selfId) {
         String toSendMessageId = null;
         Cursor cursor = null;
-        int sendingCnt = 0;
-        int pendingCnt = 0;
+        int sendingCnt;
+        int pendingCnt;
         int failedCnt = 0;
         db.beginTransaction();
         try {
@@ -390,8 +390,8 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
             final String selfId) {
         String toDownloadMessageId = null;
         Cursor cursor = null;
-        int downloadingCnt = 0;
-        int pendingCnt = 0;
+        int downloadingCnt;
+        int pendingCnt;
         db.beginTransaction();
         try {
             // First check if we have any messages already downloading

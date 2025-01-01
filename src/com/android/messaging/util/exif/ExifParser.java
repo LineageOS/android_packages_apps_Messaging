@@ -157,7 +157,7 @@ public class ExifParser {
     private ExifTag mStripSizeTag;
     private ExifTag mJpegSizeTag;
     private boolean mNeedToParseOffsetsInCurrentIfd;
-    private boolean mContainExifData = false;
+    private boolean mContainExifData;
     private int mApp1End;
     private int mOffsetToApp1EndFromSOF = 0;
     private byte[] mDataAboveIfd0;
@@ -759,8 +759,8 @@ public class ExifParser {
             // Some invalid formatted image contains multiple APP1,
             // try to find the one with Exif data.
             if (marker == JpegHeader.APP1) {
-                int header = 0;
-                short headerTail = 0;
+                int header;
+                short headerTail;
                 if (length >= 8) {
                     header = dataStream.readInt();
                     headerTail = dataStream.readShort();

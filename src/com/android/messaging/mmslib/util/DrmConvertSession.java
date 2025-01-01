@@ -86,7 +86,7 @@ public class DrmConvertSession {
     public byte[] convert(byte[] inBuffer, int size) {
         byte[] result = null;
         if (inBuffer != null) {
-            DrmConvertedStatus convertedStatus = null;
+            DrmConvertedStatus convertedStatus;
             try {
                 if (size != inBuffer.length) {
                     byte[] buf = new byte[size];
@@ -125,7 +125,7 @@ public class DrmConvertSession {
      *         Downloads.Impl.STATUS_UNKNOWN_ERROR if a general error occurred.
      */
     public int close(String filename) {
-        DrmConvertedStatus convertedStatus = null;
+        DrmConvertedStatus convertedStatus;
         int result = Downloads.Impl.STATUS_UNKNOWN_ERROR;
         if (mDrmClient != null && mConvertSessionId >= 0) {
             try {

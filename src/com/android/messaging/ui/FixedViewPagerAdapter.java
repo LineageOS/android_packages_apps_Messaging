@@ -108,7 +108,7 @@ public class FixedViewPagerAdapter<T extends PagerViewHolder> extends PagerAdapt
             ((Bundle) state).setClassLoader(Factory.get().getApplicationContext().getClassLoader());
             for (int i = 0; i < mViewHolders.length; i++) {
                 final Parcelable pageState = restoredViewHolderState
-                        .getParcelable(getInstanceStateKeyForPage(i));
+                        .getParcelable(getInstanceStateKeyForPage(i), Parcelable.class);
                 getViewHolder(i).restoreState(pageState);
             }
         } else {

@@ -157,7 +157,7 @@ public class MediaResourceManager {
             final MediaRequest<T> mediaRequest)
                     throws Exception {
         final List<MediaRequest<T>> chainedRequests = new ArrayList<>();
-        T loadedResource = null;
+        T loadedResource;
         // Try fetching from cache first.
         final T cachedResource = loadMediaFromCache(mediaRequest);
         if (cachedResource != null) {

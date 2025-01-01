@@ -109,7 +109,7 @@ public class NoConfirmationSmsSendService extends IntentService {
             if (TextUtils.isEmpty(conversationId)) {
                 InsertNewMessageAction.insertNewMessage(subId, recipients, message, subject);
             } else {
-                MessageData messageData = null;
+                MessageData messageData;
                 if (requiresMms) {
                     if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
                         LogUtil.v(TAG, "Auto-sending MMS message in conversation: " +

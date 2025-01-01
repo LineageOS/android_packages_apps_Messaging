@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +39,8 @@ public class AudioAttachmentPlayPauseButton extends ViewSwitcher {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mPlayButton = (ImageView) findViewById(R.id.play_button);
-        mPauseButton = (ImageView) findViewById(R.id.pause_button);
+        mPlayButton = findViewById(R.id.play_button);
+        mPauseButton = findViewById(R.id.pause_button);
         updateAppearance();
     }
 

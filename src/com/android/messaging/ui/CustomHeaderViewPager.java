@@ -45,8 +45,8 @@ public class CustomHeaderViewPager extends LinearLayout {
         inflater.inflate(R.layout.custom_header_view_pager, this, true);
         setOrientation(LinearLayout.VERTICAL);
 
-        mTabstrip = (ViewPagerTabs) findViewById(R.id.tab_strip);
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mTabstrip = findViewById(R.id.tab_strip);
+        mViewPager = findViewById(R.id.pager);
 
         TypedValue tv = new TypedValue();
         context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);

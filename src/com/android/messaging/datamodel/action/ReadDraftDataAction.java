@@ -84,7 +84,8 @@ public class ReadDraftDataAction extends Action implements Parcelable {
     protected Object executeAction() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
         final String conversationId = actionParameters.getString(KEY_CONVERSATION_ID);
-        final MessageData incomingDraft = actionParameters.getParcelable(KEY_INCOMING_DRAFT);
+        final MessageData incomingDraft = actionParameters.getParcelable(KEY_INCOMING_DRAFT,
+                MessageData.class);
         final ConversationListItemData conversation =
                 ConversationListItemData.getExistingConversation(db, conversationId);
         MessageData message = null;

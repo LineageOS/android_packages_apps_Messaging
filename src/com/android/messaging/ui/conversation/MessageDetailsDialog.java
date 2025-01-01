@@ -57,7 +57,7 @@ public class MessageDetailsDialog {
     private static String getMessageDetails(final Context context,
             final ConversationMessageData data,
             final ConversationParticipantsData participants, final ParticipantData self) {
-        String messageDetails = null;
+        String messageDetails;
         if (data.getIsSms()) {
             messageDetails = getSmsMessageDetails(data, participants, self);
         } else {

@@ -446,7 +446,7 @@ public class MessagingContentProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         // This is going to wind up calling into createDatabase() below.
-        mDatabaseHelper = (DatabaseHelper) getDatabase();
+        mDatabaseHelper = getDatabase();
         // We cannot initialize mDatabaseWrapper yet as the Factory may not be initialized
         return true;
     }

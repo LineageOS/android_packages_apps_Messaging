@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 The LineageOS Project
+ * Copyright (C) 2019-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -71,10 +71,5 @@ public final class NotificationsUtil {
     public static NotificationChannel getNotificationChannel(Context context, String id) {
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         return manager.getNotificationChannel(id);
-    }
-
-    public static NotificationChannelGroup getNotificationChannelGroup(Context context, String id) {
-        NotificationManager manager = context.getSystemService(NotificationManager.class);
-        return manager.getNotificationChannelGroup(id);
     }
 }

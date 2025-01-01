@@ -82,7 +82,8 @@ public class ClassZeroActivity extends Activity {
 
     private boolean queueMsgFromIntent(final Intent msgIntent) {
         final ContentValues messageValues =
-                msgIntent.getParcelableExtra(UIIntents.UI_INTENT_EXTRA_MESSAGE_VALUES);
+                msgIntent.getParcelableExtra(UIIntents.UI_INTENT_EXTRA_MESSAGE_VALUES,
+                        ContentValues.class);
         // that takes the format argument is a hidden API right now.
         final String message = messageValues.getAsString(Sms.BODY);
         if (TextUtils.isEmpty(message)) {
