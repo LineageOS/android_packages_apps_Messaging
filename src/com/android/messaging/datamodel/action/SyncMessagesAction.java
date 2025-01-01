@@ -272,10 +272,10 @@ public class SyncMessagesAction extends Action implements Parcelable {
         final long startTimeMillis = SystemClock.elapsedRealtime();
 
         // Number of messages scanned local and remote
-        int localPos = 0;
-        int remotePos = 0;
-        int localTotal = 0;
-        int remoteTotal = 0;
+        int localPos;
+        int remotePos;
+        int localTotal;
+        int remoteTotal;
         // Scan through the messages on both sides and prepare messages for local message table
         // changes (including adding and deleting)
         try {

@@ -434,8 +434,8 @@ public class ProcessDownloadedMmsAction extends Action {
             mms = MmsUtils.loadMms(mmsUri);
         }
 
-        boolean messageInFocusedConversation = false;
-        boolean messageInObservableConversation = false;
+        boolean messageInFocusedConversation;
+        boolean messageInObservableConversation;
         String conversationId = null;
         MessageData message = null;
         final DatabaseWrapper db = DataModel.get().getDatabase();

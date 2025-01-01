@@ -106,7 +106,7 @@ public class PduPart {
      /**
       * Header of part.
       */
-     private SparseArray<Object> mPartHeader = null;
+     private SparseArray<Object> mPartHeader;
 
      /**
       * Data uri.

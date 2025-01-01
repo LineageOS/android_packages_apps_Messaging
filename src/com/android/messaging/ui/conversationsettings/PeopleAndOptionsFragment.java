@@ -297,7 +297,7 @@ public class PeopleAndOptionsFragment extends Fragment
 
         @Override
         public View getHeaderView(final View convertView, final ViewGroup parentView) {
-            View view = null;
+            View view;
             if (convertView != null && convertView.getId() == R.id.people_and_options_header) {
                 view = convertView;
             } else {

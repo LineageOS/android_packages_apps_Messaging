@@ -66,7 +66,7 @@ public class AttachmentPreviewFactory {
             final int viewType, final boolean startImageRequest,
             @Nullable final OnAttachmentClickListener clickListener) {
         final String contentType = attachmentData.getContentType();
-        View attachmentView = null;
+        View attachmentView;
         if (attachmentData instanceof PendingAttachmentData) {
             attachmentView = createPendingAttachmentPreview(layoutInflater, parent,
                     (PendingAttachmentData) attachmentData);

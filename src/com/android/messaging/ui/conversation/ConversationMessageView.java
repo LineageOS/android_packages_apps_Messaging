@@ -882,8 +882,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
     private void updateTextAppearance() {
         int messageColorResId;
-        int statusColorResId = -1;
-        int infoColorResId = -1;
+        int statusColorResId;
+        int infoColorResId;
         int timestampColorResId;
         int subjectLabelColorResId;
         if (isSelected()) {

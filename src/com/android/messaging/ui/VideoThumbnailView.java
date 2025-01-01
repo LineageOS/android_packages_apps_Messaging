@@ -268,8 +268,8 @@ public class VideoThumbnailView extends FrameLayout {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
         }
-        int desiredWidth = 1;
-        int desiredHeight = 1;
+        int desiredWidth;
+        int desiredHeight;
         if (mVideoView != null) {
             mVideoView.measure(widthMeasureSpec, heightMeasureSpec);
         }

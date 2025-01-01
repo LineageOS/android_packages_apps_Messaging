@@ -735,7 +735,7 @@ public class ExifInterface {
         if (inStream == null) {
             throw new IllegalArgumentException(NULL_ARGUMENT_STRING);
         }
-        ExifData d = null;
+        ExifData d;
         try {
             d = new ExifReader(this).read(inStream);
         } catch (ExifInvalidFormatException e) {
@@ -1000,7 +1000,7 @@ public class ExifInterface {
             is = new BufferedInputStream(new FileInputStream(temp));
 
             // Parse beginning of APP1 in exif to find size of exif header.
-            ExifParser parser = null;
+            ExifParser parser;
             try {
                 parser = ExifParser.parse(is, this);
             } catch (ExifInvalidFormatException e) {
@@ -1048,7 +1048,7 @@ public class ExifInterface {
      *         changes are made to the ByteBuffer.
      */
     public boolean rewriteExif(ByteBuffer buf, Collection<ExifTag> tags) throws IOException {
-        ExifModifier mod = null;
+        ExifModifier mod;
         try {
             mod = new ExifModifier(buf, this);
             for (ExifTag t : tags) {
@@ -1079,7 +1079,7 @@ public class ExifInterface {
             ExifData tempData = mData;
             mData = new ExifData(DEFAULT_BYTE_ORDER);
             FileInputStream is = null;
-            ByteArrayOutputStream bytes = null;
+            ByteArrayOutputStream bytes;
             try {
                 is = new FileInputStream(filename);
                 bytes = new ByteArrayOutputStream();
