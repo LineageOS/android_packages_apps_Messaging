@@ -228,11 +228,6 @@ public class ActionServiceImpl extends JobIntentService {
      */
     @Override
     protected void onHandleWork(@NonNull final Intent intent) {
-        if (intent == null) {
-            // Shouldn't happen but sometimes does following another crash.
-            LogUtil.w(TAG, "ActionService.onHandleIntent: Called with null intent");
-            return;
-        }
         final int opcode = intent.getIntExtra(EXTRA_OP_CODE, 0);
 
         Action action;
@@ -240,20 +235,20 @@ public class ActionServiceImpl extends JobIntentService {
         actionBundle.setClassLoader(getClassLoader());
         switch(opcode) {
             case OP_START_ACTION: {
-                action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
+                action = actionBundle.getParcelable(BUNDLE_ACTION, Action.class);
                 executeAction(action);
                 break;
             }
 
             case OP_RECEIVE_BACKGROUND_RESPONSE: {
-                action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
+                action = actionBundle.getParcelable(BUNDLE_ACTION, Action.class);
                 final Bundle response = intent.getBundleExtra(EXTRA_WORKER_RESPONSE);
                 processBackgroundResponse(action, response);
                 break;
             }
 
             case OP_RECEIVE_BACKGROUND_FAILURE: {
-                action = (Action) actionBundle.getParcelable(BUNDLE_ACTION);
+                action = actionBundle.getParcelable(BUNDLE_ACTION, Action.class);
                 processBackgroundFailure(action);
                 break;
             }

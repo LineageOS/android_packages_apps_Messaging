@@ -118,7 +118,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
 
-            final PreferenceScreen advancedScreen = (PreferenceScreen) findPreference(
+            final PreferenceScreen advancedScreen = findPreference(
                     getString(R.string.advanced_pref_key));
             final boolean topLevel = getActivity().getIntent().getBooleanExtra(
                     UIIntents.UI_INTENT_EXTRA_TOP_LEVEL_SETTINGS, false);
@@ -134,7 +134,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
 
         @Override
         public boolean onPreferenceTreeClick(@NonNull Preference preference) {
-            if (preference.getKey() == mNotificationsPreferenceKey) {
+            if (preference.getKey().equals(mNotificationsPreferenceKey)) {
                 Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                 intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
                 startActivity(intent);

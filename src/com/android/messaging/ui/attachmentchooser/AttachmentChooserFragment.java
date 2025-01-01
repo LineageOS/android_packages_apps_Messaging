@@ -63,7 +63,7 @@ public class AttachmentChooserFragment extends Fragment implements DraftMessageD
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.attachment_chooser_fragment, container, false);
-        mAttachmentGridView = (AttachmentGridView) view.findViewById(R.id.grid);
+        mAttachmentGridView = view.findViewById(R.id.grid);
         mAdapter = new AttachmentGridAdapter(getActivity());
         mAttachmentGridView.setAdapter(mAdapter);
         mAttachmentGridView.setHost(this);

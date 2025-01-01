@@ -185,7 +185,7 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
      * @return the MessageData for the draft, null if self id is not set
      */
     public MessageData createMessageWithCurrentAttachments(final boolean clearLocalCopy) {
-        MessageData message = null;
+        MessageData message;
         if (getIsMms()) {
             message = MessageData.createDraftMmsMessage(mConversationId, mSelfId,
                     mMessageText, mMessageSubject);

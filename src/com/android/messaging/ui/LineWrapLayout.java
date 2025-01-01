@@ -76,7 +76,6 @@ public class LineWrapLayout extends ViewGroup {
                 currLineHeight = 0;
                 x = startPadding;
                 currLineWidth = 0;
-                startMargin = 0;
             }
 
             x += childMeasuredWidth;

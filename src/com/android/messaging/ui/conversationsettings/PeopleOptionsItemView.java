@@ -55,7 +55,7 @@ public class PeopleOptionsItemView extends LinearLayout {
     @Override
     protected void onFinishInflate () {
         super.onFinishInflate();
-        mTitle = (TextView) findViewById(R.id.title);
+        mTitle = findViewById(R.id.title);
         setOnClickListener(v -> mHostInterface.onOptionsItemViewClicked(mData));
     }
 

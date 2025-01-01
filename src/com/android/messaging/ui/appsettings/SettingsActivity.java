@@ -98,7 +98,7 @@ public class SettingsActivity extends BugleActionBarActivity {
         public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                 final Bundle savedInstanceState) {
             final View view = inflater.inflate(R.layout.settings_fragment, container, false);
-            mListView = (ListView) view.findViewById(android.R.id.list);
+            mListView = view.findViewById(android.R.id.list);
             mAdapter = new SettingsListAdapter(getActivity());
             mListView.setAdapter(mAdapter);
             return view;
@@ -144,8 +144,8 @@ public class SettingsActivity extends BugleActionBarActivity {
                             R.layout.settings_item_view, parent, false);
                 }
                 final SettingsItem item = getItem(position);
-                final TextView titleTextView = (TextView) itemView.findViewById(R.id.title);
-                final TextView subtitleTextView = (TextView) itemView.findViewById(R.id.subtitle);
+                final TextView titleTextView = itemView.findViewById(R.id.title);
+                final TextView subtitleTextView = itemView.findViewById(R.id.subtitle);
                 final String summaryText = item.getDisplayDetail();
                 titleTextView.setText(item.getDisplayName());
                 if (!TextUtils.isEmpty(summaryText)) {

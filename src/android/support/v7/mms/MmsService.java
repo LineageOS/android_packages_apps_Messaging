@@ -220,7 +220,8 @@ public class MmsService extends Service {
             // embedded in the intent to make sure it is indeed from the
             // the current life of this service.
             if (fromThisProcess(intent)) {
-                final MmsRequest request = intent.getParcelableExtra(EXTRA_REQUEST);
+                final MmsRequest request = intent.getParcelableExtra(EXTRA_REQUEST,
+                        MmsRequest.class);
                 if (request != null) {
                     try {
                         retainService(request, () -> {

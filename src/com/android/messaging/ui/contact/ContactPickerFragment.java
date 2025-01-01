@@ -172,7 +172,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
                 mFrequentContactsListViewHolder,
                 mAllContactsListViewHolder };
 
-        mCustomHeaderViewPager = (CustomHeaderViewPager) view.findViewById(R.id.contact_pager);
+        mCustomHeaderViewPager = view.findViewById(R.id.contact_pager);
         mCustomHeaderViewPager.setViewHolders(viewHolders);
         mCustomHeaderViewPager.setViewPagerTabHeight(CustomHeaderViewPager.DEFAULT_TAB_STRIP_SIZE);
         mCustomHeaderViewPager.setBackgroundColor(getResources()
@@ -181,7 +181,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         // The view pager defaults to the frequent contacts page.
         mCustomHeaderViewPager.setCurrentItem(0);
 
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        mToolbar = view.findViewById(R.id.toolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_light);
         mToolbar.setNavigationContentDescription(R.string.back);
         mToolbar.setNavigationOnClickListener(v -> mHost.onBackButtonPressed());

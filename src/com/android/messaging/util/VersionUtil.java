@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +27,6 @@ public final class VersionUtil {
     private static final Object sLock = new Object();
     private static VersionUtil sInstance;
     private final String mSimpleVersionName;
-    private final int mVersionCode;
 
     public static VersionUtil getInstance(final Context context) {
         synchronized (sLock) {
@@ -47,7 +47,6 @@ public final class VersionUtil {
             Assert.fail("couldn't get package info " + exception);
             versionCode = -1;
         }
-        mVersionCode = versionCode;
         final int majorBuildNumber = versionCode / 1000;
         // Use US locale to format version number so that other language characters don't
         // show up in version string.
@@ -55,10 +54,6 @@ public final class VersionUtil {
                 majorBuildNumber / 10000,
                 (majorBuildNumber / 1000) % 10,
                 majorBuildNumber % 1000);
-    }
-
-    public int getVersionCode() {
-        return mVersionCode;
     }
 
     public String getSimpleName() {

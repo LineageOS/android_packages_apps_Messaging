@@ -222,7 +222,7 @@ public class VCardResourceEntry {
 
         if (vcard.getOrganizationList() != null) {
             for (final OrganizationData organtization : vcard.getOrganizationList()) {
-                String type = null;
+                String type;
                 try {
                      type = resources.getString(Organization.getTypeLabelResource(
                                     organtization.getType()));

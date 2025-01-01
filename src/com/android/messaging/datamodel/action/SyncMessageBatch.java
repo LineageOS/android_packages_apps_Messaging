@@ -197,7 +197,7 @@ class SyncMessageBatch {
 
     public static int bugleStatusForSms(final boolean isOutgoing, final int type,
             final int status) {
-        int bugleStatus = MessageData.BUGLE_STATUS_UNKNOWN;
+        int bugleStatus;
         // For a message we sync either
         if (isOutgoing) {
             // Outgoing message not yet been sent

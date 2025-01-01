@@ -97,7 +97,8 @@ public class GetOrCreateConversationAction extends Action implements Parcelable 
 
         // First find the thread id for this list of participants.
         final ArrayList<ParticipantData> participants =
-                actionParameters.getParcelableArrayList(KEY_PARTICIPANTS_LIST);
+                actionParameters.getParcelableArrayList(KEY_PARTICIPANTS_LIST,
+                        ParticipantData.class);
         BugleDatabaseOperations.sanitizeConversationParticipants(participants);
         final ArrayList<String> recipients =
                 BugleDatabaseOperations.getRecipientsFromConversationParticipants(participants);

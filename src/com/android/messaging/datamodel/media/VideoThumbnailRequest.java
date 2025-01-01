@@ -48,7 +48,7 @@ public class VideoThumbnailRequest extends ImageRequest<UriImageRequestDescripto
 
     @Override
     protected Bitmap getBitmapForResource() throws IOException {
-        Bitmap bitmap = null;
+        Bitmap bitmap;
         // Get a thumbnail through MediaMetadataRetriever to get a representative frame at any time
         // position instead.
         final MediaMetadataRetrieverWrapper retriever = new MediaMetadataRetrieverWrapper();

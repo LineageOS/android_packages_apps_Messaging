@@ -71,7 +71,7 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
         final Activity activity = getActivity();
         final LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.share_intent_conversation_list_view, null);
-        mEmptyListMessageView = (ListEmptyView) view.findViewById(R.id.no_conversations_view);
+        mEmptyListMessageView = view.findViewById(R.id.no_conversations_view);
         mEmptyListMessageView.setImageHint(R.drawable.ic_oobe_conv_list);
         // The default behavior for default layout param generation by LinearLayoutManager is to
         // provide width and height of WRAP_CONTENT, but this is not desirable for
@@ -86,7 +86,7 @@ public class ShareIntentFragment extends DialogFragment implements ConversationL
         };
         mListBinding.getData().init(LoaderManager.getInstance(this), mListBinding);
         mAdapter = new ShareIntentAdapter(activity, null, this);
-        mRecyclerView = (RecyclerView) view.findViewById(android.R.id.list);
+        mRecyclerView = view.findViewById(android.R.id.list);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
