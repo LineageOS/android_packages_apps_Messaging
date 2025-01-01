@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,7 +98,6 @@ public class ExifParser {
      * {@link #getStripIndex()} to get the index of the strip.
      *
      * @see #getStripIndex()
-     * @see #getStripCount()
      */
     public static final int EVENT_UNCOMPRESSED_STRIP = 4;
     /**
@@ -153,16 +152,13 @@ public class ExifParser {
     private int mIfdType;
     private ExifTag mTag;
     private ImageEvent mImageEvent;
-    private int mStripCount;
     private ExifTag mStripSizeTag;
     private ExifTag mJpegSizeTag;
     private boolean mNeedToParseOffsetsInCurrentIfd;
     private boolean mContainExifData;
     private int mApp1End;
-    private int mOffsetToApp1EndFromSOF = 0;
     private byte[] mDataAboveIfd0;
     private int mIfd0Position;
-    private int mTiffStartPosition;
     private final ExifInterface mInterface;
 
     private static final short TAG_EXIF_IFD = ExifInterface
@@ -244,8 +240,6 @@ public class ExifParser {
     /**
      * Parses the the given InputStream with default options; that is, every IFD
      * and thumbnaill will be parsed.
-     *
-     * @see #parse(java.io.InputStream, int)
      */
     protected static ExifParser parse(InputStream inputStream, ExifInterface iRef)
             throws IOException, ExifInvalidFormatException {
@@ -426,13 +420,6 @@ public class ExifParser {
     }
 
     /**
-     * Gets number of tags in the current IFD area.
-     */
-    protected int getTagCountInCurrentIfd() {
-        return mNumOfTagInIfd;
-    }
-
-    /**
      * Gets the ID of current IFD.
      *
      * @see IfdId#TYPE_IFD_0
@@ -448,21 +435,9 @@ public class ExifParser {
     /**
      * When receiving {@link #EVENT_UNCOMPRESSED_STRIP}, call this function to
      * get the index of this strip.
-     *
-     * @see #getStripCount()
      */
     protected int getStripIndex() {
         return mImageEvent.stripIndex;
-    }
-
-    /**
-     * When receiving {@link #EVENT_UNCOMPRESSED_STRIP}, call this function to
-     * get the number of strip data.
-     *
-     * @see #getStripIndex()
-     */
-    protected int getStripCount() {
-        return mStripCount;
     }
 
     /**
@@ -766,9 +741,7 @@ public class ExifParser {
                     headerTail = dataStream.readShort();
                     length -= 6;
                     if (header == EXIF_HEADER && headerTail == EXIF_HEADER_TAIL) {
-                        mTiffStartPosition = dataStream.getReadByteCount();
                         mApp1End = length;
-                        mOffsetToApp1EndFromSOF = mTiffStartPosition + mApp1End;
                         return true;
                     }
                 }
@@ -780,14 +753,6 @@ public class ExifParser {
             marker = dataStream.readShort();
         }
         return false;
-    }
-
-    protected int getOffsetToExifEndFromSOF() {
-        return mOffsetToApp1EndFromSOF;
-    }
-
-    protected int getTiffStartPosition() {
-        return mTiffStartPosition;
     }
 
     /**

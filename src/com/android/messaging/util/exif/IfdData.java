@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ class IfdData {
 
     private final int mIfdId;
     private final Map<Short, ExifTag> mExifTags = new HashMap<>();
-    private int mOffsetToNextIfd = 0;
     private static final int[] sIfds = {
             IfdId.TYPE_IFD_0, IfdId.TYPE_IFD_1, IfdId.TYPE_IFD_EXIF,
             IfdId.TYPE_IFD_INTEROPERABILITY, IfdId.TYPE_IFD_GPS
@@ -88,36 +87,11 @@ class IfdData {
         return mExifTags.put(tag.getTagId(), tag);
     }
 
-    protected boolean checkCollision(short tagId) {
-        return mExifTags.get(tagId) != null;
-    }
-
-    /**
-     * Removes the tag of the given ID
-     */
-    protected void removeTag(short tagId) {
-        mExifTags.remove(tagId);
-    }
-
     /**
      * Gets the tags count in the IFD.
      */
     protected int getTagCount() {
         return mExifTags.size();
-    }
-
-    /**
-     * Sets the offset of next IFD.
-     */
-    protected void setOffsetToNextIfd(int offset) {
-        mOffsetToNextIfd = offset;
-    }
-
-    /**
-     * Gets the offset of next IFD.
-     */
-    protected int getOffsetToNextIfd() {
-        return mOffsetToNextIfd;
     }
 
     /**

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 class CountedDataInputStream extends FilterInputStream {
 
@@ -120,18 +119,6 @@ class CountedDataInputStream extends FilterInputStream {
 
     public long readUnsignedInt() throws IOException {
         return readInt() & 0xffffffffL;
-    }
-
-    public long readLong() throws IOException {
-        readOrThrow(mByteArray, 0 , 8);
-        mByteBuffer.rewind();
-        return mByteBuffer.getLong();
-    }
-
-    public String readString(int n) throws IOException {
-        byte[] buf = new byte[n];
-        readOrThrow(buf);
-        return new String(buf, StandardCharsets.UTF_8);
     }
 
     public String readString(int n, Charset charset) throws IOException {
