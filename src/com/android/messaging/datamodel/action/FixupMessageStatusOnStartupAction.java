@@ -49,8 +49,8 @@ public class FixupMessageStatusOnStartupAction extends Action implements Parcela
         // Now mark any messages in active sending or downloading state as inactive
         final DatabaseWrapper db = DataModel.get().getDatabase();
         db.beginTransaction();
-        int downloadFailedCnt = 0;
-        int sendFailedCnt = 0;
+        int downloadFailedCnt;
+        int sendFailedCnt;
         try {
             // For both sending and downloading messages, let's assume they failed.
             // For MMS sent/downloaded via platform, the sent/downloaded pending intent

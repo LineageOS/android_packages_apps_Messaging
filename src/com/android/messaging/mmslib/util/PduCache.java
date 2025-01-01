@@ -188,7 +188,7 @@ public final class PduCache extends AbstractCache<Uri, PduCacheEntry> {
      */
     private Uri normalizeKey(Uri uri) {
         int match = URI_MATCHER.match(uri);
-        Uri normalizedKey = null;
+        Uri normalizedKey;
 
         switch (match) {
             case MMS_ALL_ID:

@@ -22,7 +22,7 @@ public class GenericPdu {
     /**
      * The headers of pdu.
      */
-    PduHeaders mPduHeaders = null;
+    PduHeaders mPduHeaders;
 
     /**
      * Constructor.

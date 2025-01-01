@@ -47,9 +47,9 @@ public class SimSelectorItemView extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mNameTextView = (TextView) findViewById(R.id.name);
-        mDetailsTextView = (TextView) findViewById(R.id.details);
-        mSimIconView = (SimIconView) findViewById(R.id.sim_icon);
+        mNameTextView = findViewById(R.id.name);
+        mDetailsTextView = findViewById(R.id.details);
+        mSimIconView = findViewById(R.id.sim_icon);
         setOnClickListener(v -> mHost.onSimItemClicked(mData));
     }
 

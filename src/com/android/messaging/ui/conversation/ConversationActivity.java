@@ -71,7 +71,8 @@ public class ConversationActivity extends BugleActionBarActivity
 
         // Do our best to restore UI state from saved instance state.
         if (savedInstanceState != null) {
-            mUiState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_UI_STATE_KEY);
+            mUiState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_UI_STATE_KEY,
+                    ConversationActivityUiState.class);
         } else {
             if (intent.
                     getBooleanExtra(UIIntents.UI_INTENT_EXTRA_GOTO_CONVERSATION_LIST, false)) {
@@ -321,7 +322,7 @@ public class ConversationActivity extends BugleActionBarActivity
                         conversationFragment, ConversationFragment.FRAGMENT_TAG);
             }
             final MessageData draftData = intent.getParcelableExtra(
-                    UIIntents.UI_INTENT_EXTRA_DRAFT_DATA);
+                    UIIntents.UI_INTENT_EXTRA_DRAFT_DATA, MessageData.class);
             if (!needContactPickerFragment) {
                 // Once the user has committed the audience,remove the draft data from the
                 // intent to prevent reuse

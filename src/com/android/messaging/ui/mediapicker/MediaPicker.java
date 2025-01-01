@@ -210,7 +210,7 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
                 container,
                 false);
         mMediaPickerPanel.setMediaPicker(this);
-        mTabStrip = (LinearLayout) mMediaPickerPanel.findViewById(R.id.mediapicker_tabstrip);
+        mTabStrip = mMediaPickerPanel.findViewById(R.id.mediapicker_tabstrip);
         mTabStrip.setBackgroundColor(mThemeColor);
         for (final MediaChooser chooser : mChoosers) {
             chooser.onCreateTabButton(inflater, mTabStrip);
@@ -221,8 +221,8 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
             }
         }
 
-        mViewPager = (ViewPager) mMediaPickerPanel.findViewById(R.id.mediapicker_view_pager);
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager = mMediaPickerPanel.findViewById(R.id.mediapicker_view_pager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(
                     final int position,

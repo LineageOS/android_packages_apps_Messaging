@@ -52,8 +52,8 @@ public class AttachmentGridItemView extends FrameLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mAttachmentViewContainer = (FrameLayout) findViewById(R.id.attachment_container);
-        mCheckBox = (CheckBox) findViewById(R.id.checkbox);
+        mAttachmentViewContainer = findViewById(R.id.attachment_container);
+        mCheckBox = findViewById(R.id.checkbox);
         mCheckBox.setOnClickListener(v -> mHostInterface.onItemCheckedChanged(
                 AttachmentGridItemView.this, mAttachmentData));
         setOnClickListener(v -> mHostInterface.onItemClicked(AttachmentGridItemView.this,

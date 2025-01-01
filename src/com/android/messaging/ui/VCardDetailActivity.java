@@ -47,7 +47,7 @@ public class VCardDetailActivity extends BugleActionBarActivity
                                  @NonNull final Fragment fragment) {
         if (fragment instanceof VCardDetailFragment) {
             final Uri vCardUri =
-                    getIntent().getParcelableExtra(UIIntents.UI_INTENT_EXTRA_VCARD_URI);
+                    getIntent().getParcelableExtra(UIIntents.UI_INTENT_EXTRA_VCARD_URI, Uri.class);
             Assert.notNull(vCardUri);
             final VCardDetailFragment vCardDetailFragment = (VCardDetailFragment) fragment;
             vCardDetailFragment.setVCardUri(vCardUri);

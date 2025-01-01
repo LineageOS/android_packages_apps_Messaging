@@ -60,7 +60,7 @@ public class SimSelectorView extends FrameLayout implements SimSelectorItemView.
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mSimListView = (ListView) findViewById(R.id.sim_list);
+        mSimListView = findViewById(R.id.sim_list);
         mSimListView.setAdapter(mAdapter);
 
         // Clicking anywhere outside the switcher list should dismiss.

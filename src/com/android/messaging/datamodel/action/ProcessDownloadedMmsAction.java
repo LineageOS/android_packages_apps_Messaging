@@ -98,8 +98,9 @@ public class ProcessDownloadedMmsAction extends Action {
     // This is called when MMS lib API returns via PendingIntent
     public static void processMessageDownloaded(final int resultCode, final Bundle extras) {
         final String messageId = extras.getString(DownloadMmsAction.EXTRA_MESSAGE_ID);
-        final Uri contentUri = extras.getParcelable(DownloadMmsAction.EXTRA_CONTENT_URI);
-        final Uri notificationUri = extras.getParcelable(DownloadMmsAction.EXTRA_NOTIFICATION_URI);
+        final Uri contentUri = extras.getParcelable(DownloadMmsAction.EXTRA_CONTENT_URI, Uri.class);
+        final Uri notificationUri = extras.getParcelable(DownloadMmsAction.EXTRA_NOTIFICATION_URI,
+                Uri.class);
         final String conversationId = extras.getString(DownloadMmsAction.EXTRA_CONVERSATION_ID);
         final String participantId = extras.getString(DownloadMmsAction.EXTRA_PARTICIPANT_ID);
         Assert.notNull(messageId);
@@ -245,7 +246,7 @@ public class ProcessDownloadedMmsAction extends Action {
         if (downloadedByPlatform) {
             final int resultCode = actionParameters.getInt(KEY_RESULT_CODE);
             if (resultCode == Activity.RESULT_OK) {
-                final Uri contentUri = actionParameters.getParcelable(KEY_CONTENT_URI);
+                final Uri contentUri = actionParameters.getParcelable(KEY_CONTENT_URI, Uri.class);
                 final File downloadedFile = MmsFileProvider.getFile(contentUri);
                 byte[] downloadedData = null;
                 try {
@@ -273,7 +274,7 @@ public class ProcessDownloadedMmsAction extends Action {
                     if (retrieveConf != null) {
                         // Insert the downloaded MMS into telephony
                         final Uri notificationUri = actionParameters.getParcelable(
-                                KEY_NOTIFICATION_URI);
+                                KEY_NOTIFICATION_URI, Uri.class);
                         final String subPhoneNumber = actionParameters.getString(
                                 KEY_SUB_PHONE_NUMBER);
                         final boolean autoDownload = actionParameters.getBoolean(
@@ -313,7 +314,7 @@ public class ProcessDownloadedMmsAction extends Action {
             // In either case, we just need to copy the status to the response bundle.
             status = actionParameters.getInt(KEY_STATUS);
             rawStatus = actionParameters.getInt(KEY_RAW_STATUS);
-            mmsUri = actionParameters.getParcelable(KEY_MMS_URI);
+            mmsUri = actionParameters.getParcelable(KEY_MMS_URI, Uri.class);
         }
 
         final Bundle response = new Bundle();
@@ -335,7 +336,7 @@ public class ProcessDownloadedMmsAction extends Action {
 
         final int status = response.getInt(BUNDLE_REQUEST_STATUS);
         final int rawStatus = response.getInt(BUNDLE_RAW_TELEPHONY_STATUS);
-        final Uri messageUri = response.getParcelable(BUNDLE_MMS_URI);
+        final Uri messageUri = response.getParcelable(BUNDLE_MMS_URI, Uri.class);
         final boolean autoDownload = actionParameters.getBoolean(KEY_AUTO_DOWNLOAD);
         final String messageId = actionParameters.getString(KEY_MESSAGE_ID);
 
@@ -411,7 +412,8 @@ public class ProcessDownloadedMmsAction extends Action {
     private MessageData processResult(final int status, final int rawStatus, final Uri mmsUri) {
         final Context context = Factory.get().getApplicationContext();
         final String messageId = actionParameters.getString(KEY_MESSAGE_ID);
-        final Uri mmsNotificationUri = actionParameters.getParcelable(KEY_NOTIFICATION_URI);
+        final Uri mmsNotificationUri = actionParameters.getParcelable(KEY_NOTIFICATION_URI,
+                Uri.class);
         final String notificationConversationId = actionParameters.getString(KEY_CONVERSATION_ID);
         final String notificationParticipantId = actionParameters.getString(KEY_PARTICIPANT_ID);
         final int statusIfFailed = actionParameters.getInt(KEY_STATUS_IF_FAILED);
@@ -432,8 +434,8 @@ public class ProcessDownloadedMmsAction extends Action {
             mms = MmsUtils.loadMms(mmsUri);
         }
 
-        boolean messageInFocusedConversation = false;
-        boolean messageInObservableConversation = false;
+        boolean messageInFocusedConversation;
+        boolean messageInObservableConversation;
         String conversationId = null;
         MessageData message = null;
         final DatabaseWrapper db = DataModel.get().getDatabase();

@@ -86,13 +86,13 @@ public class ProcessSentMessageAction extends Action {
         params.putString(KEY_MESSAGE_ID, extras.getString(SendMessageAction.EXTRA_MESSAGE_ID));
         params.putParcelable(KEY_MESSAGE_URI, messageUri);
         params.putParcelable(KEY_UPDATED_MESSAGE_URI,
-                extras.getParcelable(SendMessageAction.EXTRA_UPDATED_MESSAGE_URI));
+                extras.getParcelable(SendMessageAction.EXTRA_UPDATED_MESSAGE_URI, Uri.class));
         params.putInt(KEY_SUB_ID,
                 extras.getInt(SendMessageAction.KEY_SUB_ID, ParticipantData.DEFAULT_SELF_SUB_ID));
         params.putInt(KEY_RESULT_CODE, resultCode);
         params.putInt(KEY_HTTP_STATUS_CODE, extras.getInt(SmsManager.EXTRA_MMS_HTTP_STATUS, 0));
         params.putParcelable(KEY_CONTENT_URI,
-                extras.getParcelable(SendMessageAction.EXTRA_CONTENT_URI));
+                extras.getParcelable(SendMessageAction.EXTRA_CONTENT_URI, Uri.class));
         params.putByteArray(KEY_RESPONSE, extras.getByteArray(SmsManager.EXTRA_MMS_DATA));
         params.putBoolean(KEY_RESPONSE_IMPORTANT,
                 extras.getBoolean(SendMessageAction.EXTRA_RESPONSE_IMPORTANT));
@@ -128,8 +128,9 @@ public class ProcessSentMessageAction extends Action {
     protected Object executeAction() {
         final Context context = Factory.get().getApplicationContext();
         final String messageId = actionParameters.getString(KEY_MESSAGE_ID);
-        final Uri messageUri = actionParameters.getParcelable(KEY_MESSAGE_URI);
-        final Uri updatedMessageUri = actionParameters.getParcelable(KEY_UPDATED_MESSAGE_URI);
+        final Uri messageUri = actionParameters.getParcelable(KEY_MESSAGE_URI, Uri.class);
+        final Uri updatedMessageUri = actionParameters.getParcelable(KEY_UPDATED_MESSAGE_URI,
+                Uri.class);
         final boolean isSms = actionParameters.getBoolean(KEY_SMS);
         final boolean sentByPlatform = actionParameters.getBoolean(KEY_SENT_BY_PLATFORM);
 
@@ -140,7 +141,7 @@ public class ProcessSentMessageAction extends Action {
 
         if (sentByPlatform) {
             // Delete temporary file backing the contentUri passed to MMS service
-            final Uri contentUri = actionParameters.getParcelable(KEY_CONTENT_URI);
+            final Uri contentUri = actionParameters.getParcelable(KEY_CONTENT_URI, Uri.class);
             Assert.isTrue(contentUri != null);
             final File tempFile = MmsFileProvider.getFile(contentUri);
             long messageSize = 0;

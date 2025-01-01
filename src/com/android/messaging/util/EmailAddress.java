@@ -272,5 +272,5 @@ public final class EmailAddress {
     protected boolean valid = false;
     protected String user = null;
     protected String host = null;
-    protected boolean allowI18n = false;
+    protected boolean allowI18n;
 }

@@ -95,10 +95,10 @@ public class PerSubscriptionSettingsActivity extends BugleActionBarActivity {
             addPreferencesFromResource(R.xml.preferences_per_subscription);
 
             mPhoneNumberKey = getString(R.string.mms_phone_number_pref_key);
-            mPhoneNumberPreference = (PhoneNumberPreference) findPreference(mPhoneNumberKey);
-            final PreferenceCategory advancedCategory = (PreferenceCategory)
+            mPhoneNumberPreference = findPreference(mPhoneNumberKey);
+            final PreferenceCategory advancedCategory =
                     findPreference(getString(R.string.advanced_category_pref_key));
-            final PreferenceCategory mmsCategory = (PreferenceCategory)
+            final PreferenceCategory mmsCategory =
                     findPreference(getString(R.string.mms_messaging_category_pref_key));
 
             mPhoneNumberPreference.setDefaultPhoneNumber(

@@ -195,8 +195,7 @@ public class ComposeMessageView extends LinearLayout
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mComposeEditText = (PlainTextEditText) findViewById(
-                R.id.compose_message_text);
+        mComposeEditText = findViewById(R.id.compose_message_text);
         mComposeEditText.setOnEditorActionListener(this);
         mComposeEditText.addTextChangedListener(this);
         mComposeEditText.setOnFocusChangeListener((v, hasFocus) -> {
@@ -216,7 +215,7 @@ public class ComposeMessageView extends LinearLayout
                 new LengthFilter(MmsConfig.get(ParticipantData.DEFAULT_SELF_SUB_ID)
                         .getMaxTextLimit()) });
 
-        mSelfSendIcon = (SimIconView) findViewById(R.id.self_send_icon);
+        mSelfSendIcon = findViewById(R.id.self_send_icon);
         mSelfSendIcon.setOnClickListener(v -> {
             boolean shown = mInputManager.toggleSimSelector(true /* animate */,
                     getSelfSubscriptionListEntry());
@@ -233,8 +232,7 @@ public class ComposeMessageView extends LinearLayout
             return true;
         });
 
-        mComposeSubjectText = (PlainTextEditText) findViewById(
-                R.id.compose_subject_text);
+        mComposeSubjectText = findViewById(R.id.compose_subject_text);
         // We need the listener to change the avatar to the send button when the user starts
         // typing a subject without a message.
         mComposeSubjectText.addTextChangedListener(this);
@@ -244,7 +242,7 @@ public class ComposeMessageView extends LinearLayout
                 new LengthFilter(MmsConfig.get(ParticipantData.DEFAULT_SELF_SUB_ID)
                         .getMaxSubjectLength())});
 
-        mDeleteSubjectButton = (ImageButton) findViewById(R.id.delete_subject_button);
+        mDeleteSubjectButton = findViewById(R.id.delete_subject_button);
         mDeleteSubjectButton.setOnClickListener(clickView -> {
             hideSubjectEditor();
             mComposeSubjectText.setText(null);
@@ -253,7 +251,7 @@ public class ComposeMessageView extends LinearLayout
 
         mSubjectView = findViewById(R.id.subject_view);
 
-        mSendButton = (ImageButton) findViewById(R.id.send_message_button);
+        mSendButton = findViewById(R.id.send_message_button);
         mSendButton.setOnClickListener(clickView ->
                 sendMessageInternal(true /* checkMessageSize */));
         mSendButton.setOnLongClickListener(arg0 -> {
@@ -284,18 +282,17 @@ public class ComposeMessageView extends LinearLayout
             }
         });
 
-        mAttachMediaButton =
-                (ImageButton) findViewById(R.id.attach_media_button);
+        mAttachMediaButton = findViewById(R.id.attach_media_button);
         mAttachMediaButton.setOnClickListener(clickView -> {
             // Showing the media picker is treated as starting to compose the message.
             mInputManager.showHideMediaPicker(true /* show */, true /* animate */);
         });
 
-        mAttachmentPreview = (AttachmentPreview) findViewById(R.id.attachment_draft_view);
+        mAttachmentPreview = findViewById(R.id.attachment_draft_view);
         mAttachmentPreview.setComposeMessageView(this);
 
-        mMessageBodySize = (TextView) findViewById(R.id.message_body_size);
-        mMmsIndicator = (TextView) findViewById(R.id.mms_indicator);
+        mMessageBodySize = findViewById(R.id.message_body_size);
+        mMmsIndicator = findViewById(R.id.mms_indicator);
     }
 
     private void hideAttachmentsWhenShowingSims(final boolean simPickerVisible) {
