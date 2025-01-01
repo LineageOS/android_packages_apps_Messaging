@@ -264,7 +264,7 @@ public class WidgetConversationService extends RemoteViewsService {
             int titleResId = -1;
             int statusResId = -1;
             boolean showInRed = false;
-            String statusText = null;
+            String statusText;
             switch(message.getStatus()) {
                 case MessageData.BUGLE_STATUS_INCOMING_AUTO_DOWNLOADING:
                 case MessageData.BUGLE_STATUS_INCOMING_MANUAL_DOWNLOADING:
@@ -327,7 +327,7 @@ public class WidgetConversationService extends RemoteViewsService {
                 case MessageData.BUGLE_STATUS_INCOMING_COMPLETE:
                 default:
                     if (!message.getCanClusterWithNextMessage()) {
-                        statusText = Dates.getWidgetTimeString(message.getReceivedTimeStamp(),
+                        Dates.getWidgetTimeString(message.getReceivedTimeStamp(),
                                 false /*abbreviated*/).toString();
                     }
                     break;

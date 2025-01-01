@@ -195,7 +195,7 @@ public class MmsHttpClient {
             final InputStream in = new BufferedInputStream(connection.getInputStream());
             final ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
             final byte[] buf = new byte[4096];
-            int count = 0;
+            int count;
             while ((count = in.read(buf)) > 0) {
                 byteOut.write(buf, 0, count);
             }
@@ -438,7 +438,7 @@ public class MmsHttpClient {
             if (!TextUtils.isEmpty(naiSuffix)) {
                 nai = nai + naiSuffix;
             }
-            byte[] encoded = null;
+            byte[] encoded;
             encoded = Base64.encode(nai.getBytes(StandardCharsets.UTF_8), Base64.NO_WRAP);
             return new String(encoded, StandardCharsets.UTF_8);
         }

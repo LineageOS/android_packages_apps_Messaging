@@ -59,7 +59,8 @@ public class ReceiveSmsMessageAction extends Action implements Parcelable {
     @Override
     protected Object executeAction() {
         final Context context = Factory.get().getApplicationContext();
-        final ContentValues messageValues = actionParameters.getParcelable(KEY_MESSAGE_VALUES);
+        final ContentValues messageValues = actionParameters.getParcelable(KEY_MESSAGE_VALUES,
+                ContentValues.class);
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
         // Get the SIM subscription ID

@@ -120,7 +120,7 @@ public class InsertNewMessageAction extends Action implements Parcelable {
      */
     @Override
     protected Object executeAction() {
-        MessageData message = actionParameters.getParcelable(KEY_MESSAGE);
+        MessageData message = actionParameters.getParcelable(KEY_MESSAGE, MessageData.class);
         if (message == null) {
             LogUtil.i(TAG, "InsertNewMessageAction: Creating MessageData with provided data");
             message = createMessage();

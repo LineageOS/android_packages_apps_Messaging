@@ -53,7 +53,7 @@ public class WriteDraftMessageAction extends Action implements Parcelable {
     protected Object executeAction() {
         final DatabaseWrapper db = DataModel.get().getDatabase();
         final String conversationId = actionParameters.getString(KEY_CONVERSATION_ID);
-        final MessageData message = actionParameters.getParcelable(KEY_MESSAGE);
+        final MessageData message = actionParameters.getParcelable(KEY_MESSAGE, MessageData.class);
         if (message.getSelfId() == null || message.getParticipantId() == null) {
             // This could happen when this occurs before the draft message is loaded
             // In this case, we just use the conversation's current self id as draft's

@@ -54,7 +54,7 @@ public class ConversationMessageBubbleView extends LinearLayout {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mBubbleBackground = (ViewGroup) findViewById(R.id.message_text_and_info);
+        mBubbleBackground = findViewById(R.id.message_text_and_info);
     }
 
     @Override

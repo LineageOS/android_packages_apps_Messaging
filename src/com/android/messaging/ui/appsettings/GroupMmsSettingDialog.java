@@ -66,10 +66,8 @@ public class GroupMmsSettingDialog {
         final LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rootView = inflater.inflate(R.layout.group_mms_setting_dialog, null, false);
-        final RadioButton disableButton = (RadioButton)
-                rootView.findViewById(R.id.disable_group_mms_button);
-        final RadioButton enableButton = (RadioButton)
-                rootView.findViewById(R.id.enable_group_mms_button);
+        final RadioButton disableButton = rootView.findViewById(R.id.disable_group_mms_button);
+        final RadioButton enableButton = rootView.findViewById(R.id.enable_group_mms_button);
         disableButton.setOnClickListener(view -> changeGroupMmsSettings(false));
         enableButton.setOnClickListener(view -> changeGroupMmsSettings(true));
         final boolean mmsEnabled = BuglePrefs.getSubscriptionPrefs(mSubId).getBoolean(

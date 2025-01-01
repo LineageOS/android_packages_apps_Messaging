@@ -214,9 +214,9 @@ public class SnackBar {
         mParentView = builder.mParentView;
         mInteractions = Objects.requireNonNullElseGet(builder.mInteractions, ArrayList::new);
 
-        mActionTextView = (TextView) mRootView.findViewById(R.id.snack_bar_action);
-        mMessageView = (TextView) mRootView.findViewById(R.id.snack_bar_message);
-        mMessageWrapper = (FrameLayout) mRootView.findViewById(R.id.snack_bar_message_wrapper);
+        mActionTextView = mRootView.findViewById(R.id.snack_bar_action);
+        mMessageView = mRootView.findViewById(R.id.snack_bar_message);
+        mMessageWrapper = mRootView.findViewById(R.id.snack_bar_message_wrapper);
 
         setUpButton();
         setUpTextLines();

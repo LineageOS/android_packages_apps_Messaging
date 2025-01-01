@@ -96,8 +96,8 @@ public class MediaPickerPanel extends ViewGroup {
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mTabStrip = (LinearLayout) findViewById(R.id.mediapicker_tabstrip);
-        mViewPager = (PagingAwareViewPager) findViewById(R.id.mediapicker_view_pager);
+        mTabStrip = findViewById(R.id.mediapicker_tabstrip);
+        mViewPager = findViewById(R.id.mediapicker_view_pager);
         mTouchHandler = new TouchHandler();
         setOnTouchListener(mTouchHandler);
         mViewPager.setOnTouchListener(mTouchHandler);

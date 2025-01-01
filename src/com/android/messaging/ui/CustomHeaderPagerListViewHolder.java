@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +52,7 @@ public abstract class CustomHeaderPagerListViewHolder extends BasePagerViewHolde
                 getLayoutResId(),
                 null /* root */,
                 false /* attachToRoot */);
-        final ListView listView = (ListView) view.findViewById(getListViewResId());
+        final ListView listView = view.findViewById(getListViewResId());
         listView.setAdapter(mListAdapter);
         listView.setOnScrollListener(new OnScrollListener() {
             @Override
@@ -90,11 +91,11 @@ public abstract class CustomHeaderPagerListViewHolder extends BasePagerViewHolde
      */
     private void maybeSetEmptyView() {
         if (mView != null && mListCursorInitialized) {
-            final ListEmptyView emptyView = (ListEmptyView) mView.findViewById(getEmptyViewResId());
+            final ListEmptyView emptyView = mView.findViewById(getEmptyViewResId());
             if (emptyView != null) {
                 emptyView.setTextHint(getEmptyViewTitleResId());
                 emptyView.setImageHint(getEmptyViewImageResId());
-                final ListView listView = (ListView) mView.findViewById(getListViewResId());
+                final ListView listView = mView.findViewById(getListViewResId());
                 listView.setEmptyView(emptyView);
             }
         }

@@ -243,7 +243,7 @@ public abstract class Action implements Parcelable {
      * Helper method to generate a unique operation index
      */
     protected static long getActionIdx() {
-        long idx = 0;
+        long idx;
         synchronized (sLock) {
             idx = ++sActionIdx;
         }

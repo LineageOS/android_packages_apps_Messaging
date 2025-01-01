@@ -196,7 +196,7 @@ public class ActionMonitor {
      * Return flag to indicate if action is complete
      */
     public boolean isComplete() {
-        boolean complete = false;
+        boolean complete;
         synchronized (mLock) {
             complete = (mState == STATE_COMPLETE);
         }
@@ -291,7 +291,7 @@ public class ActionMonitor {
      */
     private void complete(final Action action, final int expectedOldState, final Object result,
                           final boolean succeeded) {
-        ActionCompletedListener completedListener = null;
+        ActionCompletedListener completedListener;
         synchronized (mLock) {
             setState(action, expectedOldState, STATE_COMPLETE);
             completedListener = mCompletedListener;
@@ -357,7 +357,7 @@ public class ActionMonitor {
      */
     final void executed(final Action action,
             final int expectedOldState, final boolean hasBackgroundActions, final Object result) {
-        ActionExecutedListener executedListener = null;
+        ActionExecutedListener executedListener;
         synchronized (mLock) {
             if (hasBackgroundActions) {
                 setState(action, expectedOldState, STATE_BACKGROUND_ACTIONS_QUEUED);
@@ -432,7 +432,7 @@ public class ActionMonitor {
      * Find monitor associated with particular action
      */
     private static ActionMonitor lookupActionMonitor(final String actionKey) {
-        ActionMonitor monitor = null;
+        ActionMonitor monitor;
         synchronized (sActionMonitors) {
             monitor = sActionMonitors.get(actionKey);
         }

@@ -21,7 +21,7 @@ package android.support.v7.mms.pdu;
 import java.util.Vector;
 
 public class PduBody {
-    private Vector<PduPart> mParts = null;
+    private Vector<PduPart> mParts;
 
     /**
      * Constructor.
