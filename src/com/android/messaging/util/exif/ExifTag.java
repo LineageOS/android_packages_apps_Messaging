@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,11 @@ import androidx.annotation.NonNull;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * This class stores information of an EXIF tag. For more information about
- * defined EXIF tags, please read the Jeita EXIF 2.2 standard. Tags should be
- * instantiated using {@link ExifInterface#buildTag}.
+ * defined EXIF tags, please read the Jeita EXIF 2.2 standard.
  *
  * @see ExifInterface
  */
@@ -105,8 +102,6 @@ public class ExifTag {
     private Object mValue;
     // Value offset in exif header.
     private int mOffset;
-
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy:MM:dd kk:mm:ss");
 
     /**
      * Returns true if the given IFD is a valid IFD.
@@ -300,21 +295,6 @@ public class ExifTag {
     }
 
     /**
-     * Sets long values into this tag. This method should be used for tags of
-     * type {@link #TYPE_UNSIGNED_LONG}. This method will fail if:
-     * <ul>
-     * <li>The component type of this tag is not {@link #TYPE_UNSIGNED_LONG}.</li>
-     * <li>The value overflows.</li>
-     * <li>The component count in the definition for this tag is not 1.</li>
-     * </ul>
-     */
-    public boolean setValue(long value) {
-        return setValue(new long[] {
-                value
-        });
-    }
-
-    /**
      * Sets a string value into this tag. This method should be used for tags of
      * type {@link #TYPE_ASCII}. The string is converted to an ASCII string.
      * Characters that cannot be converted are replaced with '?'. The length of
@@ -383,25 +363,6 @@ public class ExifTag {
     }
 
     /**
-     * Sets a Rational value into this tag. This method should be used for tags
-     * of type {@link #TYPE_UNSIGNED_RATIONAL}, or {@link #TYPE_RATIONAL}. This
-     * method will fail if:
-     * <ul>
-     * <li>The component type of this tag is not {@link #TYPE_UNSIGNED_RATIONAL}
-     * or {@link #TYPE_RATIONAL}.</li>
-     * <li>The value overflows.</li>
-     * <li>The component count in the definition for this tag is not 1.</li>
-     * </ul>
-     *
-     * @see Rational
-     */
-    public boolean setValue(Rational value) {
-        return setValue(new Rational[] {
-                value
-        });
-    }
-
-    /**
      * Sets byte values into this tag. This method should be used for tags of
      * type {@link #TYPE_UNSIGNED_BYTE} or {@link #TYPE_UNDEFINED}. This method
      * will fail if:
@@ -433,219 +394,6 @@ public class ExifTag {
     }
 
     /**
-     * Sets byte value into this tag. This method should be used for tags of
-     * type {@link #TYPE_UNSIGNED_BYTE} or {@link #TYPE_UNDEFINED}. This method
-     * will fail if:
-     * <ul>
-     * <li>The component type of this tag is not {@link #TYPE_UNSIGNED_BYTE} or
-     * {@link #TYPE_UNDEFINED} .</li>
-     * <li>The component count in the definition for this tag is not 1.</li>
-     * </ul>
-     */
-    public boolean setValue(byte value) {
-        return setValue(new byte[] {
-                value
-        });
-    }
-
-    /**
-     * Sets the value for this tag using an appropriate setValue method for the
-     * given object. This method will fail if:
-     * <ul>
-     * <li>The corresponding setValue method for the class of the object passed
-     * in would fail.</li>
-     * <li>There is no obvious way to cast the object passed in into an EXIF tag
-     * type.</li>
-     * </ul>
-     */
-    public boolean setValue(Object obj) {
-        if (obj == null) {
-            return false;
-        } else if (obj instanceof Short) {
-            return setValue(((Short) obj).shortValue() & 0x0ffff);
-        } else if (obj instanceof String) {
-            return setValue((String) obj);
-        } else if (obj instanceof int[]) {
-            return setValue((int[]) obj);
-        } else if (obj instanceof long[]) {
-            return setValue((long[]) obj);
-        } else if (obj instanceof Rational) {
-            return setValue((Rational) obj);
-        } else if (obj instanceof Rational[]) {
-            return setValue((Rational[]) obj);
-        } else if (obj instanceof byte[]) {
-            return setValue((byte[]) obj);
-        } else if (obj instanceof Integer) {
-            return setValue(((Integer) obj).intValue());
-        } else if (obj instanceof Long) {
-            return setValue(((Long) obj).longValue());
-        } else if (obj instanceof Byte) {
-            return setValue(((Byte) obj).byteValue());
-        } else if (obj instanceof Short[]) {
-            // Nulls in this array are treated as zeroes.
-            Short[] arr = (Short[]) obj;
-            int[] fin = new int[arr.length];
-            for (int i = 0; i < arr.length; i++) {
-                fin[i] = (arr[i] == null) ? 0 : arr[i].shortValue() & 0x0ffff;
-            }
-            return setValue(fin);
-        } else if (obj instanceof Integer[]) {
-            // Nulls in this array are treated as zeroes.
-            Integer[] arr = (Integer[]) obj;
-            int[] fin = new int[arr.length];
-            for (int i = 0; i < arr.length; i++) {
-                fin[i] = (arr[i] == null) ? 0 : arr[i].intValue();
-            }
-            return setValue(fin);
-        } else if (obj instanceof Long[]) {
-            // Nulls in this array are treated as zeroes.
-            Long[] arr = (Long[]) obj;
-            long[] fin = new long[arr.length];
-            for (int i = 0; i < arr.length; i++) {
-                fin[i] = (arr[i] == null) ? 0 : arr[i].longValue();
-            }
-            return setValue(fin);
-        } else if (obj instanceof Byte[]) {
-            // Nulls in this array are treated as zeroes.
-            Byte[] arr = (Byte[]) obj;
-            byte[] fin = new byte[arr.length];
-            for (int i = 0; i < arr.length; i++) {
-                fin[i] = (arr[i] == null) ? 0 : arr[i].byteValue();
-            }
-            return setValue(fin);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Sets a timestamp to this tag. The method converts the timestamp with the
-     * format of "yyyy:MM:dd kk:mm:ss" and calls {@link #setValue(String)}. This
-     * method will fail if the data type is not {@link #TYPE_ASCII} or the
-     * component count of this tag is not 20 or undefined.
-     *
-     * @param time the number of milliseconds since Jan. 1, 1970 GMT
-     * @return true on success
-     */
-    public boolean setTimeValue(long time) {
-        // synchronized on TIME_FORMAT as SimpleDateFormat is not thread safe
-        synchronized (TIME_FORMAT) {
-            return setValue(TIME_FORMAT.format(new Date(time)));
-        }
-    }
-
-    /**
-     * Gets the value as a String. This method should be used for tags of type
-     * {@link #TYPE_ASCII}.
-     *
-     * @return the value as a String, or null if the tag's value does not exist
-     *         or cannot be converted to a String.
-     */
-    public String getValueAsString() {
-        if (mValue == null) {
-            return null;
-        } else if (mValue instanceof String) {
-            return (String) mValue;
-        } else if (mValue instanceof byte[]) {
-            return new String((byte[]) mValue, US_ASCII);
-        }
-        return null;
-    }
-
-    /**
-     * Gets the value as a String. This method should be used for tags of type
-     * {@link #TYPE_ASCII}.
-     *
-     * @param defaultValue the String to return if the tag's value does not
-     *            exist or cannot be converted to a String.
-     * @return the tag's value as a String, or the defaultValue.
-     */
-    public String getValueAsString(String defaultValue) {
-        String s = getValueAsString();
-        if (s == null) {
-            return defaultValue;
-        }
-        return s;
-    }
-
-    /**
-     * Gets the value as a byte array. This method should be used for tags of
-     * type {@link #TYPE_UNDEFINED} or {@link #TYPE_UNSIGNED_BYTE}.
-     *
-     * @return the value as a byte array, or null if the tag's value does not
-     *         exist or cannot be converted to a byte array.
-     */
-    public byte[] getValueAsBytes() {
-        if (mValue instanceof byte[]) {
-            return (byte[]) mValue;
-        }
-        return null;
-    }
-
-    /**
-     * Gets the value as a byte. If there are more than 1 bytes in this value,
-     * gets the first byte. This method should be used for tags of type
-     * {@link #TYPE_UNDEFINED} or {@link #TYPE_UNSIGNED_BYTE}.
-     *
-     * @param defaultValue the byte to return if tag's value does not exist or
-     *            cannot be converted to a byte.
-     * @return the tag's value as a byte, or the defaultValue.
-     */
-    public byte getValueAsByte(byte defaultValue) {
-        byte[] b = getValueAsBytes();
-        if (b == null || b.length < 1) {
-            return defaultValue;
-        }
-        return b[0];
-    }
-
-    /**
-     * Gets the value as an array of Rationals. This method should be used for
-     * tags of type {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL}.
-     *
-     * @return the value as as an array of Rationals, or null if the tag's value
-     *         does not exist or cannot be converted to an array of Rationals.
-     */
-    public Rational[] getValueAsRationals() {
-        if (mValue instanceof Rational[]) {
-            return (Rational[]) mValue;
-        }
-        return null;
-    }
-
-    /**
-     * Gets the value as a Rational. If there are more than 1 Rationals in this
-     * value, gets the first one. This method should be used for tags of type
-     * {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL}.
-     *
-     * @param defaultValue the Rational to return if tag's value does not exist
-     *            or cannot be converted to a Rational.
-     * @return the tag's value as a Rational, or the defaultValue.
-     */
-    public Rational getValueAsRational(Rational defaultValue) {
-        Rational[] r = getValueAsRationals();
-        if (r == null || r.length < 1) {
-            return defaultValue;
-        }
-        return r[0];
-    }
-
-    /**
-     * Gets the value as a Rational. If there are more than 1 Rationals in this
-     * value, gets the first one. This method should be used for tags of type
-     * {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL}.
-     *
-     * @param defaultValue the numerator of the Rational to return if tag's
-     *            value does not exist or cannot be converted to a Rational (the
-     *            denominator will be 1).
-     * @return the tag's value as a Rational, or the defaultValue.
-     */
-    public Rational getValueAsRational(long defaultValue) {
-        Rational defaultVal = new Rational(defaultValue, 1);
-        return getValueAsRational(defaultVal);
-    }
-
-    /**
      * Gets the value as an array of ints. This method should be used for tags
      * of type {@link #TYPE_UNSIGNED_SHORT}, {@link #TYPE_UNSIGNED_LONG}.
      *
@@ -667,82 +415,10 @@ public class ExifTag {
     }
 
     /**
-     * Gets the value as an int. If there are more than 1 ints in this value,
-     * gets the first one. This method should be used for tags of type
-     * {@link #TYPE_UNSIGNED_SHORT}, {@link #TYPE_UNSIGNED_LONG}.
-     *
-     * @param defaultValue the int to return if tag's value does not exist or
-     *            cannot be converted to an int.
-     * @return the tag's value as a int, or the defaultValue.
-     */
-    public int getValueAsInt(int defaultValue) {
-        int[] i = getValueAsInts();
-        if (i == null || i.length < 1) {
-            return defaultValue;
-        }
-        return i[0];
-    }
-
-    /**
-     * Gets the value as an array of longs. This method should be used for tags
-     * of type {@link #TYPE_UNSIGNED_LONG}.
-     *
-     * @return the value as as an array of longs, or null if the tag's value
-     *         does not exist or cannot be converted to an array of longs.
-     */
-    public long[] getValueAsLongs() {
-        if (mValue instanceof long[]) {
-            return (long[]) mValue;
-        }
-        return null;
-    }
-
-    /**
-     * Gets the value or null if none exists. If there are more than 1 longs in
-     * this value, gets the first one. This method should be used for tags of
-     * type {@link #TYPE_UNSIGNED_LONG}.
-     *
-     * @param defaultValue the long to return if tag's value does not exist or
-     *            cannot be converted to a long.
-     * @return the tag's value as a long, or the defaultValue.
-     */
-    public long getValueAsLong(long defaultValue) {
-        long[] l = getValueAsLongs();
-        if (l == null || l.length < 1) {
-            return defaultValue;
-        }
-        return l[0];
-    }
-
-    /**
      * Gets the tag's value or null if none exists.
      */
     public Object getValue() {
         return mValue;
-    }
-
-    /**
-     * Gets a long representation of the value.
-     *
-     * @param defaultValue value to return if there is no value or value is a
-     *            rational with a denominator of 0.
-     * @return the tag's value as a long, or defaultValue if no representation
-     *         exists.
-     */
-    public long forceGetValueAsLong(long defaultValue) {
-        long[] l = getValueAsLongs();
-        if (l != null && l.length >= 1) {
-            return l[0];
-        }
-        byte[] b = getValueAsBytes();
-        if (b != null && b.length >= 1) {
-            return b[0];
-        }
-        Rational[] r = getValueAsRationals();
-        if (r != null && r.length >= 1 && r[0].getDenominator() != 0) {
-            return (long) r[0].toDouble();
-        }
-        return defaultValue;
     }
 
     /**
@@ -782,9 +458,7 @@ public class ExifTag {
     /**
      * Gets the value for type {@link #TYPE_ASCII}, {@link #TYPE_LONG},
      * {@link #TYPE_UNDEFINED}, {@link #TYPE_UNSIGNED_BYTE},
-     * {@link #TYPE_UNSIGNED_LONG}, or {@link #TYPE_UNSIGNED_SHORT}. For
-     * {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL}, call
-     * {@link #getRational(int)} instead.
+     * {@link #TYPE_UNSIGNED_LONG}, or {@link #TYPE_UNSIGNED_SHORT}.
      *
      * @exception IllegalArgumentException if the data type is
      *                {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL}.
@@ -811,27 +485,6 @@ public class ExifTag {
                     + convertTypeToString(mDataType));
         }
         return new String((byte[]) mValue, US_ASCII);
-    }
-
-    /*
-     * Get the converted ascii byte. Used by ExifOutputStream.
-     */
-    protected byte[] getStringByte() {
-        return (byte[]) mValue;
-    }
-
-    /**
-     * Gets the {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL} data.
-     *
-     * @exception IllegalArgumentException If the type is NOT
-     *                {@link #TYPE_RATIONAL} or {@link #TYPE_UNSIGNED_RATIONAL}.
-     */
-    protected Rational getRational(int index) {
-        if ((mDataType != TYPE_RATIONAL) && (mDataType != TYPE_UNSIGNED_RATIONAL)) {
-            throw new IllegalArgumentException("Cannot get RATIONAL value from "
-                    + convertTypeToString(mDataType));
-        }
-        return ((Rational[]) mValue)[index];
     }
 
     /**
@@ -1009,5 +662,4 @@ public class ExifTag {
                 + convertTypeToString(mDataType) + "\ncount: " + mComponentCountActual
                 + "\noffset: " + mOffset + "\nvalue: " + forceGetValueAsString() + "\n";
     }
-
 }
