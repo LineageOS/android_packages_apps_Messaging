@@ -186,7 +186,7 @@ public class NotificationPlayer implements OnCompletionListener {
         @Override
         public void run() {
             while (true) {
-                Command cmd = null;
+                Command cmd;
 
                 synchronized (mCmdQueue) {
                     if (mDebug) {

@@ -54,7 +54,7 @@ public class PduParser {
     /**
      * The pdu data.
      */
-    private ByteArrayInputStream mPduDataStream = null;
+    private ByteArrayInputStream mPduDataStream;
 
     /**
      * Store pdu headers
@@ -526,7 +526,7 @@ public class PduParser {
                      * Value-length
                      * (Address-present-token Encoded-string-value | Insert-address-token)
                      */
-                    EncodedStringValue from = null;
+                    EncodedStringValue from;
                     parseValueLength(pduDataStream); /* parse value-length */
 
                     /* Address-present-token or Insert-address-token */
@@ -1025,7 +1025,7 @@ public class PduParser {
          */
         assert(null != pduDataStream);
         pduDataStream.mark(1);
-        EncodedStringValue returnValue = null;
+        EncodedStringValue returnValue;
         int charset = 0;
         int temp = pduDataStream.read();
         assert(-1 != temp);
@@ -1358,7 +1358,7 @@ public class PduParser {
         assert(length > 0);
 
         int startPos = pduDataStream.available();
-        int tempPos = 0;
+        int tempPos;
         int lastLen = length;
         while(0 < lastLen) {
             int param = pduDataStream.read();
@@ -1527,7 +1527,7 @@ public class PduParser {
          */
         assert(null != pduDataStream);
 
-        byte[] contentType = null;
+        byte[] contentType;
         pduDataStream.mark(1);
         int temp = pduDataStream.read();
         assert(-1 != temp);
@@ -1611,7 +1611,7 @@ public class PduParser {
          * contain the corresponding definitions.
          */
         int startPos = pduDataStream.available();
-        int tempPos = 0;
+        int tempPos;
         int lastLen = length;
         while(0 < lastLen) {
             int header = pduDataStream.read();
@@ -1666,7 +1666,7 @@ public class PduParser {
                             int len = parseValueLength(pduDataStream);
                             pduDataStream.mark(1);
                             int thisStartPos = pduDataStream.available();
-                            int thisEndPos = 0;
+                            int thisEndPos;
                             int value = pduDataStream.read();
 
                             if (value == PduPart.P_DISPOSITION_FROM_DATA ) {

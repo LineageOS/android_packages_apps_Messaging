@@ -220,7 +220,6 @@ public class DecodedImageResource extends ImageResource {
             } finally {
                 if (scaledBitmap != null && scaledBitmap != getBitmap()) {
                     scaledBitmap.recycle();
-                    scaledBitmap = null;
                 }
                 releaseLock();
                 release();

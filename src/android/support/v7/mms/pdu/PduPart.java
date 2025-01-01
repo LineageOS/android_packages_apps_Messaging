@@ -108,7 +108,11 @@ public class PduPart {
      /**
       * Header of part.
       */
+<<<<<<< PATCH SET (0d4fdf Messaging: Remove unused initializations)
+     private SparseArray<Object> mPartHeader;
+=======
      private Map<Integer, Object> mPartHeader = null;
+>>>>>>> BASE      (7f639e Messaging: Use MaterialComponents everywhere instead of AppC)
 
      /**
       * Data uri.

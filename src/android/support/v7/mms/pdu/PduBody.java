@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Vector;
 
 public class PduBody {
-    private Vector<PduPart> mParts = null;
+    private Vector<PduPart> mParts;
 
     private Map<String, PduPart> mPartMapByContentId = null;
     private Map<String, PduPart> mPartMapByContentLocation = null;

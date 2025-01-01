@@ -357,7 +357,7 @@ public class PduPersister {
                 Uri.parse("content://mms/" + msgId + "/part"),
                 PART_PROJECTION, null, null, null);
 
-        PduPart[] parts = null;
+        PduPart[] parts;
 
         try {
             if ((c == null) || (c.getCount() == 0)) {
@@ -544,7 +544,7 @@ public class PduPersister {
      */
     public GenericPdu load(final Uri uri) throws MmsException {
         GenericPdu pdu = null;
-        PduCacheEntry cacheEntry = null;
+        PduCacheEntry cacheEntry;
         int msgBox = 0;
         final long threadId = -1;
         try {
@@ -843,7 +843,7 @@ public class PduPersister {
         OutputStream os = null;
         InputStream is = null;
         DrmConvertSession drmConvertSession = null;
-        Uri dataUri = null;
+        Uri dataUri;
         String path = null;
 
         try {
@@ -920,7 +920,7 @@ public class PduPersister {
                     }
 
                     final byte[] buffer = new byte[8192];
-                    for (int len = 0; (len = is.read(buffer)) != -1; ) {
+                    for (int len; (len = is.read(buffer)) != -1; ) {
                         if (!isDrm) {
                             os.write(buffer, 0, len);
                         } else {
@@ -939,7 +939,6 @@ public class PduPersister {
                     if (!isDrm) {
                         os.write(data);
                     } else {
-                        dataUri = uri;
                         final byte[] convertedData = drmConvertSession.convert(data, data.length);
                         if (convertedData != null) {
                             os.write(convertedData, 0, convertedData.length);
@@ -1077,7 +1076,7 @@ public class PduPersister {
         PDU_CACHE_INSTANCE.purge(uri);
 
         final PduHeaders header = pdu.getPduHeaders();
-        PduBody body = null;
+        PduBody body;
         ContentValues values = new ContentValues();
 
         // Mark new messages as seen in the telephony database so that we don't have to

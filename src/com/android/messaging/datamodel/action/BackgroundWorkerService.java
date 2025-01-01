@@ -116,7 +116,7 @@ public class BackgroundWorkerService extends JobIntentService {
      */
     private void doBackgroundWork(final Action action, final int attempt) {
         action.markBackgroundWorkStarting();
-        Bundle response = null;
+        Bundle response;
         try {
             final LoggingTimer timer = new LoggingTimer(
                     TAG, action.getClass().getSimpleName() + "#doBackgroundWork");

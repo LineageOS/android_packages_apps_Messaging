@@ -321,7 +321,11 @@ public class PduHeaders {
     /**
      * The map contains the value of all headers.
      */
+<<<<<<< PATCH SET (0d4fdf Messaging: Remove unused initializations)
+    private SparseArray<Object> mHeaderMap;
+=======
     private HashMap<Integer, Object> mHeaderMap = null;
+>>>>>>> BASE      (7f639e Messaging: Use MaterialComponents everywhere instead of AppC)
 
     /**
      * Constructor of PduHeaders.

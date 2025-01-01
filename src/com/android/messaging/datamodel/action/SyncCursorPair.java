@@ -489,7 +489,7 @@ class SyncCursorPair {
 
         @Override
         public DatabaseMessage next() {
-            DatabaseMessage result = null;
+            DatabaseMessage result;
             if (mNextSms != null && mNextMms != null) {
                 if (mNextSms.getTimestampInMillis() >= mNextMms.getTimestampInMillis()) {
                     result = mNextSms;

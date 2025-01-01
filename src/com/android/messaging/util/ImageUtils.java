@@ -106,7 +106,6 @@ public class ImageUtils {
                 if (oomCount <= MAX_OOM_COUNT) {
                     Factory.get().reclaimMemory();
                 } else {
-                    done = true;
                     LogUtil.w(TAG, "Failed to convert bitmap to bytes. Out of Memory.");
                 }
                 throw e;

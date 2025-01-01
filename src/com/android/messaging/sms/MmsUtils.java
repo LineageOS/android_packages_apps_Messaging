@@ -1544,7 +1544,7 @@ public class MmsUtils {
 
     public static int bugleStatusForMms(final boolean isOutgoing, final boolean isNotification,
             final int messageBox) {
-        int bugleStatus = MessageData.BUGLE_STATUS_UNKNOWN;
+        int bugleStatus;
         // For a message we sync either
         if (isOutgoing) {
             if (messageBox == Mms.MESSAGE_BOX_OUTBOX || messageBox == Mms.MESSAGE_BOX_FAILED) {

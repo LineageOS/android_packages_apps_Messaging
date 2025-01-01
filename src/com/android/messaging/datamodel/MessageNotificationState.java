@@ -377,7 +377,7 @@ public abstract class MessageNotificationState extends NotificationState {
         @Override
         protected NotificationCompat.Style build(final Builder builder) {
             builder.setContentTitle(mTitle);
-            NotificationCompat.InboxStyle inboxStyle = null;
+            NotificationCompat.InboxStyle inboxStyle;
             inboxStyle = new NotificationCompat.InboxStyle(builder);
 
             final Context context = Factory.get().getApplicationContext();
@@ -507,7 +507,7 @@ public abstract class MessageNotificationState extends NotificationState {
             builder.setContentTitle(mTitle)
                 .setTicker(getTicker());
 
-            NotificationCompat.Style notifStyle = null;
+            NotificationCompat.Style notifStyle;
             final ConversationLineInfo convInfo = mConvList.mConvInfos.get(0);
             final List<NotificationLineInfo> lineInfos = convInfo.mLineInfos;
             final int messageCount = lineInfos.size();
