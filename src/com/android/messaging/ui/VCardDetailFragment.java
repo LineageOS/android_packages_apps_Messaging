@@ -77,7 +77,7 @@ public class VCardDetailFragment extends Fragment implements PersonItemDataListe
             final Bundle savedInstanceState) {
         Assert.notNull(mVCardUri);
         final View view = inflater.inflate(R.layout.vcard_detail_fragment, container, false);
-        mListView = (ExpandableListView) view.findViewById(R.id.list);
+        mListView = view.findViewById(R.id.list);
         mListView.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight,
                                              oldBottom) -> {
             mListView.setIndicatorBounds(mListView.getWidth() - getResources().

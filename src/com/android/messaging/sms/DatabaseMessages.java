@@ -476,7 +476,7 @@ public class DatabaseMessages {
             mParts = new ArrayList<>();
             mPartsProcessed = false;
             for (int i = 0; i < nParts; i++) {
-                mParts.add((MmsPart) in.readParcelable(getClass().getClassLoader()));
+                mParts.add(in.readParcelable(getClass().getClassLoader()));
             }
         }
 

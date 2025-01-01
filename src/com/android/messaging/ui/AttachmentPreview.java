@@ -70,10 +70,10 @@ public class AttachmentPreview extends ScrollView implements OnAttachmentClickLi
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mCloseButton = (ImageButton) findViewById(R.id.close_button);
+        mCloseButton = findViewById(R.id.close_button);
         mCloseButton.setOnClickListener(view -> mComposeMessageView.clearAttachments());
 
-        mAttachmentView = (FrameLayout) findViewById(R.id.attachment_view);
+        mAttachmentView = findViewById(R.id.attachment_view);
 
         // The attachment preview is a scroll view so that it can show the bottom portion of the
         // attachment whenever the space is tight (e.g. when in landscape mode). Per design

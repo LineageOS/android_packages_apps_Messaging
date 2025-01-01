@@ -113,7 +113,7 @@ public class VideoThumbnailView extends FrameLayout {
             mVideoView = null;
         }
 
-        mPlayButton = (ImageButton) findViewById(R.id.video_thumbnail_play_button);
+        mPlayButton = findViewById(R.id.video_thumbnail_play_button);
         if (loop) {
             mPlayButton.setVisibility(View.GONE);
         } else {
@@ -136,7 +136,7 @@ public class VideoThumbnailView extends FrameLayout {
             });
         }
 
-        mThumbnailImage = (AsyncImageView) findViewById(R.id.video_thumbnail_image);
+        mThumbnailImage = findViewById(R.id.video_thumbnail_image);
         if (mAllowCrop) {
             mThumbnailImage.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             mThumbnailImage.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;

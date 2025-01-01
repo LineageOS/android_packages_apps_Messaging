@@ -78,7 +78,7 @@ public class PeopleAndOptionsFragment extends Fragment
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.people_and_options_fragment, container, false);
-        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView = view.findViewById(android.R.id.list);
         mPeopleListAdapter = new PeopleListAdapter(getActivity());
         mOptionsListAdapter = new OptionsListAdapter();
         final CompositeAdapter compositeAdapter = new CompositeAdapter(getActivity());
@@ -304,7 +304,7 @@ public class PeopleAndOptionsFragment extends Fragment
                 view = LayoutInflater.from(getActivity()).inflate(
                         R.layout.people_and_options_section_header, parentView, false);
             }
-            final TextView text = (TextView) view.findViewById(R.id.header_text);
+            final TextView text = view.findViewById(R.id.header_text);
             final View divider = view.findViewById(R.id.divider);
             text.setText(mHeaderResId);
             divider.setVisibility(mNeedDivider ? View.VISIBLE : View.GONE);

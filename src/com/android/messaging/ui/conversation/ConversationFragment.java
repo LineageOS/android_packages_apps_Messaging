@@ -507,7 +507,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.conversation_fragment, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(android.R.id.list);
+        mRecyclerView = view.findViewById(android.R.id.list);
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         manager.setStackFromEnd(true);
         manager.setReverseLayout(false);
@@ -529,16 +529,14 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                         !data.getIsIncoming() &&
                         timeSinceSend < MESSAGE_ANIMATION_MAX_WAIT) {
                     final ConversationMessageBubbleView messageBubble =
-                            (ConversationMessageBubbleView) view
-                                    .findViewById(R.id.message_content);
+                            view.findViewById(R.id.message_content);
                     final Rect startRect = UiUtils.getMeasuredBoundsOnScreen(mComposeMessageView);
                     final View composeBubbleView = mComposeMessageView.findViewById(
                             R.id.compose_message_text);
                     final Rect composeBubbleRect =
                             UiUtils.getMeasuredBoundsOnScreen(composeBubbleView);
                     final AttachmentPreview attachmentView =
-                            (AttachmentPreview) mComposeMessageView.findViewById(
-                                    R.id.attachment_draft_view);
+                            mComposeMessageView.findViewById(R.id.attachment_draft_view);
                     final Rect attachmentRect = UiUtils.getMeasuredBoundsOnScreen(attachmentView);
                     if (attachmentView.getVisibility() == View.VISIBLE) {
                         startRect.top = attachmentRect.top;
@@ -594,7 +592,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         mRecyclerView.setAdapter(mAdapter);
 
         if (savedInstanceState != null) {
-            mListState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_LIST_VIEW_STATE_KEY);
+            mListState = savedInstanceState.getParcelable(SAVED_INSTANCE_STATE_LIST_VIEW_STATE_KEY,
+                    Parcelable.class);
         }
 
         mConversationComposeDivider = view.findViewById(R.id.conversation_compose_divider);
@@ -604,8 +603,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 UiUtils.isRtlMode() ? ConversationFastScroller.POSITION_LEFT_SIDE :
                     ConversationFastScroller.POSITION_RIGHT_SIDE);
 
-        mComposeMessageView = (ComposeMessageView)
-                view.findViewById(R.id.message_compose_view_container);
+        mComposeMessageView = view.findViewById(R.id.message_compose_view_container);
         // Bind the compose message view to the DraftMessageData
         mComposeMessageView.bind(DataModel.get().createDraftMessageData(
                 mBinding.getData().getConversationId()), this);
@@ -1436,7 +1434,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     @Override
     public SimSelectorView getSimSelectorView() {
-        return (SimSelectorView) getView().findViewById(R.id.sim_selector);
+        return getView().findViewById(R.id.sim_selector);
     }
 
     @Override
@@ -1516,8 +1514,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 actionBar.setCustomView(customView);
             }
 
-            final TextView conversationNameView =
-                    (TextView) customView.findViewById(R.id.conversation_title);
+            final TextView conversationNameView = customView.findViewById(R.id.conversation_title);
             final String conversationName = getConversationName();
             if (!TextUtils.isEmpty(conversationName)) {
                 // RTL : To format conversation title if it happens to be phone numbers.

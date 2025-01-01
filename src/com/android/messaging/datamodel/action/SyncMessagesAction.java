@@ -383,11 +383,12 @@ public class SyncMessagesAction extends Action implements Parcelable {
             } else {
                 // Succeeded
                 final ArrayList<SmsMessage> smsToAdd =
-                        response.getParcelableArrayList(BUNDLE_KEY_SMS_MESSAGES);
+                        response.getParcelableArrayList(BUNDLE_KEY_SMS_MESSAGES, SmsMessage.class);
                 final ArrayList<MmsMessage> mmsToAdd =
-                        response.getParcelableArrayList(BUNDLE_KEY_MMS_MESSAGES);
+                        response.getParcelableArrayList(BUNDLE_KEY_MMS_MESSAGES, MmsMessage.class);
                 final ArrayList<LocalDatabaseMessage> messagesToDelete =
-                        response.getParcelableArrayList(BUNDLE_KEY_MESSAGES_TO_DELETE);
+                        response.getParcelableArrayList(BUNDLE_KEY_MESSAGES_TO_DELETE,
+                                LocalDatabaseMessage.class);
 
                 final int messagesUpdated = smsToAdd.size() + mmsToAdd.size()
                         + messagesToDelete.size();

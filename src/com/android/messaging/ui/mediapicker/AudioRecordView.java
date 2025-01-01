@@ -114,11 +114,11 @@ public class AudioRecordView extends FrameLayout implements
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-        mSoundLevels = (SoundLevels) findViewById(R.id.sound_levels);
-        mRecordButtonVisual = (ImageView) findViewById(R.id.record_button_visual);
+        mSoundLevels = findViewById(R.id.sound_levels);
+        mRecordButtonVisual = findViewById(R.id.record_button_visual);
         mRecordButton = findViewById(R.id.record_button);
-        mHintTextView = (TextView) findViewById(R.id.hint_text);
-        mTimerTextView = (PausableChronometer) findViewById(R.id.timer_text);
+        mHintTextView = findViewById(R.id.hint_text);
+        mTimerTextView = findViewById(R.id.timer_text);
         mSoundLevels.setLevelSource(mMediaRecorder.getLevelSource());
         mRecordButton.setOnTouchListener((v, event) -> {
             final int action = event.getActionMasked();

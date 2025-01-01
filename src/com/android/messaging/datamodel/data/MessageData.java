@@ -837,7 +837,8 @@ public class MessageData implements Parcelable {
         mParts = new ArrayList<>();
         final int partCount = in.readInt();
         for (int i = 0; i < partCount; i++) {
-            mParts.add((MessagePartData) in.readParcelable(MessagePartData.class.getClassLoader()));
+            mParts.add(in.readParcelable(MessagePartData.class.getClassLoader(),
+                    MessagePartData.class));
         }
     }
 

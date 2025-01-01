@@ -94,7 +94,7 @@ public class ShareIntentActivity extends BaseBugleActivity implements
         }
 
         if (Intent.ACTION_SEND.equals(action)) {
-            final Uri contentUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+            final Uri contentUri = intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri.class);
             if (UriUtil.isFileUri(contentUri)) {
                 LogUtil.i(
                     LogUtil.BUGLE_TAG,
@@ -134,7 +134,8 @@ public class ShareIntentActivity extends BaseBugleActivity implements
         } else if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
             final String contentType = intent.getType();
             // Handle sharing multiple contents.
-            final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+            final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM,
+                    Uri.class);
             if (uris != null && !uris.isEmpty()) {
                 ArrayMap<Uri, String> uriMap = new ArrayMap<>();
                 StringBuffer strBuffer = new StringBuffer();

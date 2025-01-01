@@ -56,7 +56,7 @@ public class ProcessDeliveryReportAction extends Action implements Parcelable {
 
     @Override
     protected Object executeAction() {
-        final Uri smsMessageUri = actionParameters.getParcelable(KEY_URI);
+        final Uri smsMessageUri = actionParameters.getParcelable(KEY_URI, Uri.class);
         final int status = actionParameters.getInt(KEY_STATUS);
 
         final DatabaseWrapper db = DataModel.get().getDatabase();
