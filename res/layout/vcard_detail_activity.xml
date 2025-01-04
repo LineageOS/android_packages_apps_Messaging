@@ -15,9 +15,9 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<fragment
+<androidx.fragment.app.FragmentContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    class="com.android.messaging.ui.VCardDetailFragment"
+    android:name="com.android.messaging.ui.VCardDetailFragment"
     android:id="@+id/vcard_detail_fragment"
     android:theme="@style/Theme.MaterialComponents.Light.DarkActionBar"
     android:layout_width="match_parent"
