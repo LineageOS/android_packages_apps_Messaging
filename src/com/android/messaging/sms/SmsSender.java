@@ -269,7 +269,7 @@ public class SmsSender {
                         partId,
                         getSendStatusIntent(context, SendStatusReceiver.MESSAGE_DELIVERED_ACTION,
                                 messageUri, partId, subId),
-                        PendingIntent.FLAG_IMMUTABLE));
+                        PendingIntent.FLAG_MUTABLE));
             } else {
                 deliveryIntents.add(null);
             }
