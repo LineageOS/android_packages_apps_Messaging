@@ -16,6 +16,24 @@
       "message": "https://wiki.lineageos.org/how-to/translate/",
       "revId": "3351224c1ac4a4188fed1d328554ba1f71d182ec",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b22953aa_eac683da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 34752
+      },
+      "writtenOn": "2025-01-26T10:03:10Z",
+      "side": 1,
+      "message": "\u003e https://wiki.lineageos.org/how-to/translate/\n\nSorry, I didn\u0027t read the wiki carefully",
+      "parentUuid": "20d3646e_dc3b6e6d",
+      "revId": "3351224c1ac4a4188fed1d328554ba1f71d182ec",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ],
   "submitRequirementResults": []
