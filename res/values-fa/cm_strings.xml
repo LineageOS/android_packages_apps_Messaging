@@ -15,9 +15,9 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Desliza a la derecha para borrar una conversación</string>
-    <string name="show_emoticons_pref_title">Acceso de emoticonos</string>
-    <string name="show_emoticons_pref_summary">Mostrar el botón de emoticonos en el teclado</string>
-    <string name="notification_channel_messages_title">Mensajes</string>
+    <string name="swipe_to_delete_conversation_pref_title">برای حذف بکشید</string>
+    <string name="swipe_to_delete_conversation_pref_summary">برای حذف گفتگو به سمت راست بکشید</string>
+    <string name="show_emoticons_pref_title">دسترسی به شکلک‌ها</string>
+    <string name="show_emoticons_pref_summary">نمایش کلید شکلک ها بر روی کیبورد</string>
+    <string name="notification_channel_messages_title">پیام‌ها</string>
 </resources>
