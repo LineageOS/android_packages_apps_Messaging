@@ -157,7 +157,7 @@
                         android:layout_width="@dimen/conversation_message_contact_icon_size"
                         android:layout_height="@dimen/conversation_message_contact_icon_size"
                         android:importantForAccessibility="no"
-                        app:iconSize="normal"
+                        app:contactIconSize="normal"
                         app:reveal="true"
                         android:clickable="true" />
                     <ImageButton

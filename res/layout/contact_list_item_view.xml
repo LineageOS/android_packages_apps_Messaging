@@ -44,7 +44,7 @@
             android:layout_width="@dimen/contact_list_icon_size"
             android:layout_height="@dimen/contact_list_icon_size"
             android:importantForAccessibility="no"
-            app:iconSize="normal"
+            app:contactIconSize="normal"
             android:clickable="true" />
 
         <ImageView

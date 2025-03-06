@@ -81,7 +81,7 @@
                     android:layout_height="@dimen/conversation_list_contact_icon_size"
                     android:importantForAccessibility="no"
                     android:contentDescription="@null"
-                    app:iconSize="large"
+                    app:contactIconSize="large"
                     android:clickable="true"
                     android:background="@android:color/transparent" />
                 <ImageView

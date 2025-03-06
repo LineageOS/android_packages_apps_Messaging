@@ -60,6 +60,6 @@
         android:importantForAccessibility="no"
         android:layout_gravity="center_vertical"
         android:elevation="3dp"
-        app:iconSize="normal" />
+        app:contactIconSize="normal" />
 
 </com.android.messaging.ui.conversation.SimSelectorItemView>
