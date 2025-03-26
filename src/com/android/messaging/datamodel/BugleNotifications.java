@@ -89,7 +89,7 @@ import java.util.Set;
 /**
  * Handle posting, updating and removing all conversation notifications.
  *
- * There are currently two main classes of notification and their rules: <p>
+ * There is currently one main class of notification and rules: <p>
  * 1) Messages - {@link MessageNotificationState}. Only one message notification.
  * Unread messages across senders and conversations are coalesced.<p>
  *
