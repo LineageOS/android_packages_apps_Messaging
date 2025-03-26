@@ -886,7 +886,7 @@ public class BugleNotifications {
         NotificationsUtil.createNotificationChannel(context,
                 NotificationsUtil.DEFAULT_CHANNEL_ID,
                 R.string.notification_channel_messages_title,
-                NotificationManager.IMPORTANCE_DEFAULT,
+                NotificationManager.IMPORTANCE_HIGH,
                 NotificationsUtil.CONVERSATION_GROUP_NAME);
         notificationManager.notify(notificationTag, type, notification);
 
