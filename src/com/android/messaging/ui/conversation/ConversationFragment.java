@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,11 @@
 package com.android.messaging.ui.conversation;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -36,6 +37,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v7.mms.pdu.ContentType;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
@@ -1295,16 +1297,22 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
 
         protected void onExecute() {
-            final File appDir = new File(Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES),
-                    mContext.getResources().getString(R.string.app_name));
-            final File downloadDir = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS);
+            final String appDir = Environment.DIRECTORY_PICTURES
+                    + File.separator
+                    + mContext.getResources().getString(R.string.app_name);
+            final String downloadDir = Environment.DIRECTORY_DOWNLOADS;
+            final ContentResolver resolver = mContext.getContentResolver();
             for (final AttachmentToSave attachment : mAttachmentsToSave) {
                 final boolean isImageOrVideo = ContentType.isImageType(attachment.contentType)
                         || ContentType.isVideoType(attachment.contentType);
-                attachment.persistedUri = UriUtil.persistContent(attachment.uri,
-                        isImageOrVideo ? appDir : downloadDir, attachment.contentType);
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.MediaColumns.MIME_TYPE, attachment.contentType);
+                values.put(MediaStore.MediaColumns.RELATIVE_PATH, isImageOrVideo ?
+                        appDir : downloadDir);
+                attachment.persistedUri = resolver.insert(isImageOrVideo
+                        ? MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        : MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
+                UriUtil.persistContent(mContext, attachment.uri, attachment.persistedUri);
            }
         }
 
@@ -1319,35 +1327,12 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                    continue;
                 }
 
-                // Inform MediaScanner about the new file
-                final Intent scanFileIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                scanFileIntent.setData(attachment.persistedUri);
-                mContext.sendBroadcast(scanFileIntent);
-
                 if (ContentType.isImageType(attachment.contentType)) {
                     imageCount++;
                 } else if (ContentType.isVideoType(attachment.contentType)) {
                     videoCount++;
                 } else {
                     otherCount++;
-                    // Inform DownloadManager of the file so it will show in the "downloads" app
-                    final DownloadManager downloadManager =
-                            (DownloadManager) mContext.getSystemService(
-                                    Context.DOWNLOAD_SERVICE);
-                    final String filePath = attachment.persistedUri.getPath();
-                    final File file = new File(filePath);
-
-                    if (file.exists()) {
-                        downloadManager.addCompletedDownload(
-                                file.getName() /* title */,
-                                mContext.getString(
-                                        R.string.attachment_file_description) /* description */,
-                                        true /* isMediaScannerScannable */,
-                                        attachment.contentType,
-                                        file.getAbsolutePath(),
-                                        file.length(),
-                                        false /* showNotification */);
-                    }
                 }
             }
 
