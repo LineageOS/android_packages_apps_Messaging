@@ -257,13 +257,21 @@ public class UriUtil {
     }
 
     /**
-     * Persist a piece of content from the given sourceUri, byte by byte to the
-     * specified output directory.
-     * @return the output Uri if the operation succeeded, or null if failed.
+     * Persist a piece of content from the given input stream, byte by byte to the specified
+     * directory.
      */
     @DoesNotRunOnMainThread
-    public static Uri persistContent(
-            final Uri sourceUri, final File outputDir, final String contentType) {
+    public static void persistContent(final InputStream inputStream, final Uri targetUri) {
+        final Context context = Factory.get().getApplicationContext();
+        copyContent(context, inputStream, targetUri);
+    }
+
+    /**
+     * Persist a piece of content from the given sourceUri, byte by byte to the
+     * specified destinationUri.
+     */
+    @DoesNotRunOnMainThread
+    public static void persistContent(final Uri sourceUri, final Uri destinationUri) {
         InputStream inputStream = null;
         final Context context = Factory.get().getApplicationContext();
         try {
@@ -273,13 +281,12 @@ public class UriUtil {
                 // The content is remote. Download it.
                 inputStream = getInputStreamFromRemoteUri(sourceUri);
                 if (inputStream == null) {
-                    return null;
+                    return;
                 }
             }
-            return persistContent(inputStream, outputDir, contentType);
+            persistContent(inputStream, destinationUri);
         } catch (final Exception ex) {
             LogUtil.e(LogUtil.BUGLE_TAG, "Error while retrieving media ", ex);
-            return null;
         } finally {
             if (inputStream != null) {
                 try {
