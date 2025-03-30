@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74699680_772edc50",
+        "filename": "src/com/android/messaging/ui/conversation/ConversationFragment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1315,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2025-03-30T17:35:08Z",
+      "side": 1,
+      "message": "pass the context here please",
+      "revId": "6352fd5839776c80cd50b8c961115b3802d52246",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
