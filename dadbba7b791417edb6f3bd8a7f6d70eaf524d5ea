@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0de6dc9a_79d69833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2025-03-30T16:26:34Z",
+      "side": 1,
+      "message": "Uploaded to 22.1, can be fast-forwarded once merged there",
+      "revId": "dadbba7b791417edb6f3bd8a7f6d70eaf524d5ea",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
