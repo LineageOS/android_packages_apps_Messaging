@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e0e55e3_7abb0383",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2025-04-03T18:38:25Z",
+      "side": 1,
+      "message": "looks better ty",
+      "revId": "ef1864ee06728e538acb89fd5e8d50ed92378a37",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac6b563c_aea3fc25",
+        "filename": "src/com/android/messaging/util/UriUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2025-04-03T18:38:25Z",
+      "side": 1,
+      "message": "```suggestion\n            final Context context, final Uri sourceUri, final Uri targetUri) {\n```",
+      "range": {
+        "startLine": 265,
+        "startChar": 66,
+        "endLine": 265,
+        "endChar": 80
+      },
+      "revId": "ef1864ee06728e538acb89fd5e8d50ed92378a37",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
