@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,13 +32,10 @@ import com.android.messaging.util.LogUtil;
 public class NotificationReceiver extends BroadcastReceiver {
     // Logging
     public static final String TAG = LogUtil.BUGLE_TAG;
-    public static final boolean VERBOSE = false;
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if (VERBOSE) {
-            LogUtil.v(TAG, "NotificationReceiver.onReceive: intent " + intent);
-        }
+        LogUtil.v(TAG, "NotificationReceiver.onReceive: intent " + intent);
         if (intent.getAction().equals(UIIntents.ACTION_RESET_NOTIFICATIONS)) {
             final String conversationIdSetString =
                     intent.getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID_SET);

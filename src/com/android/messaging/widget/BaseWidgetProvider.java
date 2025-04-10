@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,9 +52,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "onReceive intent: " + intent + " for " + this.getClass());
-        }
+        LogUtil.v(TAG, "onReceive intent: " + intent + " for " + this.getClass());
         final String action = intent.getAction();
 
         // The base class AppWidgetProvider's onReceive handles the normal widget intents. Here
@@ -68,10 +66,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
 
             if (appWidgetIds.length > 0) {
                 // We need to update all Bugle app widgets on the home screen.
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "onReceive notifyAppWidgetViewDataChanged listId: " +
-                            getListId() + " first widgetId: " + appWidgetIds[0]);
-                }
+                LogUtil.v(TAG, "onReceive notifyAppWidgetViewDataChanged listId: " +
+                        getListId() + " first widgetId: " + appWidgetIds[0]);
                 appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, getListId());
             }
         } else {
@@ -95,9 +91,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     protected abstract void updateWidget(Context context, int appWidgetId);
 
     private int getWidgetSize(AppWidgetManager appWidgetManager, int appWidgetId) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize");
-        }
+        LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize");
 
         // Get the dimensions
         final Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
@@ -110,10 +104,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
         final int rows = getCellsForSize(minHeight);
         final int columns = getCellsForSize(minWidth);
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize row: " + rows
-                    + " columns: " + columns);
-        }
+        LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize row: " + rows
+                + " columns: " + columns);
 
         int size = SIZE_MEDIUM;
         if (rows == 1) {
@@ -132,10 +124,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
             // The size changed. We have to force the widget to rebuild the list.
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, getListId());
 
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize old size: " + savedSize
-                                + " new size saved: " + size);
-            }
+            LogUtil.v(TAG, "BaseWidgetProvider.getWidgetSize old size: " + savedSize
+                            + " new size saved: " + size);
         }
 
         return size;
@@ -159,11 +149,8 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
             int appWidgetId, Bundle newOptions) {
 
         final int widgetSize = getWidgetSize(appWidgetManager, appWidgetId);
-
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "BaseWidgetProvider.onAppWidgetOptionsChanged new size: " +
-                    widgetSize);
-        }
+        LogUtil.v(TAG, "BaseWidgetProvider.onAppWidgetOptionsChanged new size: " +
+                widgetSize);
 
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
@@ -177,10 +164,7 @@ public abstract class BaseWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDeleted(Context context, int[] appWidgetIds) {
         super.onDeleted(context, appWidgetIds);
-
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "BaseWidgetProvider.onDeleted");
-        }
+        LogUtil.v(TAG, "BaseWidgetProvider.onDeleted");
 
         for (final int widgetId : appWidgetIds) {
             deletePreferences(widgetId);

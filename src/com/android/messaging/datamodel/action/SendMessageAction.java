@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -235,11 +235,9 @@ public class SendMessageAction extends Action implements Parcelable {
                     // To prevent Sync seeing inconsistent state must write to DB on this thread
                     updateMessageUri(messageId, updatedMessageUri);
 
-                    if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                        LogUtil.v(TAG, "SendMessageAction: Updated message " + messageId
-                                + " with new uri " + messageUri);
-                    }
-                 }
+                    LogUtil.v(TAG, "SendMessageAction: Updated message " + messageId
+                            + " with new uri " + messageUri);
+                }
             }
             if (messageUri != null) {
                 // Actually send the MMS
@@ -378,11 +376,9 @@ public class SendMessageAction extends Action implements Parcelable {
             }
         }
         if (updatedTelephony) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "SendMessageAction: Updated " + (isSms ? "SMS" : "MMS")
-                        + " message " + message.getMessageId()
-                        + " in telephony (" + message.getSmsMessageUri() + ")");
-            }
+            LogUtil.v(TAG, "SendMessageAction: Updated " + (isSms ? "SMS" : "MMS")
+                    + " message " + message.getMessageId()
+                    + " in telephony (" + message.getSmsMessageUri() + ")");
         } else {
             LogUtil.w(TAG, "SendMessageAction: Failed to update " + (isSms ? "SMS" : "MMS")
                     + " message " + message.getMessageId()
@@ -414,11 +410,9 @@ public class SendMessageAction extends Action implements Parcelable {
                         values);
             }
             db.setTransactionSuccessful();
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "SendMessageAction: Updated " + (isSms ? "SMS" : "MMS")
-                        + " message " + message.getMessageId() + " in local db. Timestamp = "
-                        + message.getReceivedTimeStamp());
-            }
+            LogUtil.v(TAG, "SendMessageAction: Updated " + (isSms ? "SMS" : "MMS")
+                    + " message " + message.getMessageId() + " in local db. Timestamp = "
+                    + message.getReceivedTimeStamp());
         } finally {
             db.endTransaction();
         }
