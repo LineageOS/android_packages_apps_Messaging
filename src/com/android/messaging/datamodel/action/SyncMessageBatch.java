@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,11 +98,9 @@ class SyncMessageBatch {
                     messageListToIds(mMessagesToDelete));
 
             for (final LocalDatabaseMessage message : mMessagesToDelete) {
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "SyncMessageBatch: Deleted message " + message.getLocalId()
-                            + " for SMS/MMS " + message.getUri() + " with timestamp "
-                            + message.getTimestampInMillis());
-                }
+                LogUtil.v(TAG, "SyncMessageBatch: Deleted message " + message.getLocalId()
+                        + " for SMS/MMS " + message.getUri() + " with timestamp "
+                        + message.getTimestampInMillis());
             }
 
             // Update conversation state for imported messages, like snippet,
@@ -185,11 +183,9 @@ class SyncMessageBatch {
                     conversationId, selfId, participantId);
         }
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "SyncMessageBatch: Inserted new message " + message.getMessageId()
-                    + " for SMS " + message.getSmsMessageUri() + " received at "
-                    + message.getReceivedTimeStamp());
-        }
+        LogUtil.v(TAG, "SyncMessageBatch: Inserted new message " + message.getMessageId()
+                + " for SMS " + message.getSmsMessageUri() + " received at "
+                + message.getReceivedTimeStamp());
 
         // Keep track of updated conversation for later updating the conversation snippet, etc.
         mConversationsToUpdate.add(conversationId);
@@ -273,11 +269,9 @@ class SyncMessageBatch {
                     conversationId, selfId, participantId);
         }
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "SyncMessageBatch: Inserted new message " + message.getMessageId()
-                    + " for MMS " + message.getSmsMessageUri() + " received at "
-                    + message.getReceivedTimeStamp());
-        }
+        LogUtil.v(TAG, "SyncMessageBatch: Inserted new message " + message.getMessageId()
+                + " for MMS " + message.getSmsMessageUri() + " received at "
+                + message.getReceivedTimeStamp());
 
         // Keep track of updated conversation for later updating the conversation snippet, etc.
         mConversationsToUpdate.add(conversationId);

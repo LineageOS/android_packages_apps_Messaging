@@ -210,14 +210,12 @@ public class AsyncImageView extends AppCompatImageView implements
                 }
             }
 
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                if (mImageResource instanceof GifImageResource) {
-                    LogUtil.v(TAG, "setImage size unknown -- it's a GIF");
-                } else {
-                    LogUtil.v(TAG, "setImage size: " + mImageResource.getMediaSize() +
-                            " width: " + mImageResource.getBitmap().getWidth() +
-                            " heigh: " + mImageResource.getBitmap().getHeight());
-                }
+            if (mImageResource instanceof GifImageResource) {
+                LogUtil.v(TAG, "setImage size unknown -- it's a GIF");
+            } else {
+                LogUtil.v(TAG, "setImage size: " + mImageResource.getMediaSize() +
+                        " width: " + mImageResource.getBitmap().getWidth() +
+                        " heigh: " + mImageResource.getBitmap().getHeight());
             }
         }
         invalidate();

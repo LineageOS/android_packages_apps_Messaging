@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -297,12 +297,10 @@ public class PoolableImageCache extends MediaCache<ImageResource> {
                             final long timeSinceLastRef = SystemClock.elapsedRealtime() -
                                     imageToUse.getLastRefAddTimestamp();
                             if (timeSinceLastRef < MIN_TIME_IN_POOL) {
-                                if (LogUtil.isLoggable(LogUtil.BUGLE_IMAGE_TAG, LogUtil.VERBOSE)) {
-                                    LogUtil.v(LogUtil.BUGLE_IMAGE_TAG, "Not reusing reusing " +
-                                            "first available bitmap from the pool because it " +
-                                            "has not been in the pool long enough. " +
-                                            "timeSinceLastRef=" + timeSinceLastRef);
-                                }
+                                LogUtil.v(LogUtil.BUGLE_IMAGE_TAG, "Not reusing reusing " +
+                                        "first available bitmap from the pool because it " +
+                                        "has not been in the pool long enough. " +
+                                        "timeSinceLastRef=" + timeSinceLastRef);
                                 // Put back the image and return no reuseable bitmap.
                                 images.addLast(imageToUse);
                                 return null;

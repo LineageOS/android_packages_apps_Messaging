@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,9 +61,7 @@ public class WidgetConversationService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "onGetViewFactory intent: " + intent);
-        }
+        LogUtil.v(TAG, "onGetViewFactory intent: " + intent);
         return new WidgetConversationFactory(getApplicationContext(), intent);
     }
 
@@ -78,18 +76,14 @@ public class WidgetConversationService extends RemoteViewsService {
             super(context, intent);
 
             mConversationId = intent.getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID);
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "BugleFactory intent: " + intent + "widget id: " + mAppWidgetId);
-            }
+            LogUtil.v(TAG, "BugleFactory intent: " + intent + "widget id: " + mAppWidgetId);
             mIconSize = (int) context.getResources()
                     .getDimension(R.dimen.contact_icon_view_normal_size);
         }
 
         @Override
         public void onCreate() {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "onCreate");
-            }
+            LogUtil.v(TAG, "onCreate");
             super.onCreate();
 
             // If the conversation for this widget has been removed, we want to update the widget to
@@ -167,13 +161,11 @@ public class WidgetConversationService extends RemoteViewsService {
                 if (cursorCount > MAX_ITEMS_TO_SHOW) {
                     scrollToPosition += cursorCount - MAX_ITEMS_TO_SHOW;
                 }
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "getViewAt position: " + originalPosition +
-                            " computed position: " + position +
-                            " scrollToPosition: " + scrollToPosition +
-                            " cursorCount: " + cursorCount +
-                            " MAX_ITEMS_TO_SHOW: " + MAX_ITEMS_TO_SHOW);
-                }
+                LogUtil.v(TAG, "getViewAt position: " + originalPosition +
+                        " computed position: " + position +
+                        " scrollToPosition: " + scrollToPosition +
+                        " cursorCount: " + cursorCount +
+                        " MAX_ITEMS_TO_SHOW: " + MAX_ITEMS_TO_SHOW);
 
                 intent.putExtra(UIIntents.UI_INTENT_EXTRA_MESSAGE_POSITION, scrollToPosition);
                 if (message.hasAttachments()) {
@@ -214,10 +206,8 @@ public class WidgetConversationService extends RemoteViewsService {
 
                 // Avatar
                 final Bundle options = mAppWidgetManager.getAppWidgetOptions(mAppWidgetId);
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "getViewAt BugleWidgetProvider.WIDGET_SIZE_KEY: " +
-                            options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY));
-                }
+                LogUtil.v(TAG, "getViewAt BugleWidgetProvider.WIDGET_SIZE_KEY: " +
+                        options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY));
 
                 boolean includeAvatar = options.getInt(BugleWidgetProvider.WIDGET_SIZE_KEY)
                         == BugleWidgetProvider.SIZE_LARGE;
@@ -460,9 +450,7 @@ public class WidgetConversationService extends RemoteViewsService {
          */
         @Override
         protected RemoteViews getViewMoreItemsView() {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "getViewMoreConversationsView");
-            }
+            LogUtil.v(TAG, "getViewMoreConversationsView");
             final RemoteViews view = new RemoteViews(mContext.getPackageName(),
                     R.layout.widget_loading);
             view.setTextViewText(

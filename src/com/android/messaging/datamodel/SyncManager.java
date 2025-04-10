@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -167,10 +167,8 @@ public class SyncManager {
      * @return - true if sync should start
      */
     public synchronized boolean shouldSync(final boolean full, final long startTimestamp) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "SyncManager: Checking shouldSync " + (full ? "full " : "")
-                    + "at " + startTimestamp);
-        }
+        LogUtil.v(TAG, "SyncManager: Checking shouldSync " + (full ? "full " : "")
+                + "at " + startTimestamp);
 
         if (full) {
             final long delayUntilFullSync = delayUntilFullSync(startTimestamp);
@@ -342,11 +340,9 @@ public class SyncManager {
         @Override
         public void onChange(final boolean selfChange, final Uri uri) {
             // Handle change.
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "SyncManager: Sms/Mms DB changed @" + System.currentTimeMillis()
-                        + " for " + (uri == null ? "<unk>" : uri.toString()) + " "
-                        + mSyncOnChanges + "/" + mNotifyOnChanges);
-            }
+            LogUtil.v(TAG, "SyncManager: Sms/Mms DB changed @" + System.currentTimeMillis()
+                    + " for " + (uri == null ? "<unk>" : uri.toString()) + " "
+                    + mSyncOnChanges + "/" + mNotifyOnChanges);
 
             if (mSyncOnChanges) {
                 // If sync is already running this will do nothing - but at end of each sync
