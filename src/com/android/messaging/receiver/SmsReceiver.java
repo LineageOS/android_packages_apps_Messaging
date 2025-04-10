@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,26 +75,19 @@ public final class SmsReceiver extends BroadcastReceiver {
         boolean smsReceiverEnabled = OsUtil.isSecondaryUser();
 
         final PackageManager packageManager = context.getPackageManager();
-        final boolean logv = LogUtil.isLoggable(TAG, LogUtil.VERBOSE);
         if (smsReceiverEnabled) {
-            if (logv) {
-                LogUtil.v(TAG, "Enabling SMS message receiving");
-            }
+            LogUtil.v(TAG, "Enabling SMS message receiving");
             packageManager.setComponentEnabledSetting(
                     new ComponentName(context, SmsReceiver.class),
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
         } else {
-            if (logv) {
-                LogUtil.v(TAG, "Disabling SMS message receiving");
-            }
+            LogUtil.v(TAG, "Disabling SMS message receiving");
             packageManager.setComponentEnabledSetting(
                     new ComponentName(context, SmsReceiver.class),
                     PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         }
-        if (logv) {
-            LogUtil.v(TAG, "Enabling respond via message intent");
-        }
+        LogUtil.v(TAG, "Enabling respond via message intent");
         packageManager.setComponentEnabledSetting(
                 new ComponentName(context, NoConfirmationSmsSendService.class),
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);

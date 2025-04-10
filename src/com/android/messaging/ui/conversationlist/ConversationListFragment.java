@@ -68,7 +68,6 @@ public class ConversationListFragment extends Fragment implements ConversationLi
         ConversationListItemView.HostInterface {
     private static final String BUNDLE_ARCHIVED_MODE = "archived_mode";
     private static final String BUNDLE_FORWARD_MESSAGE_MODE = "forward_message_mode";
-    private static final boolean VERBOSE = false;
 
     private MenuItem mShowBlockedMenuItem;
     private boolean mArchiveMode;
@@ -241,9 +240,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     @Override
     public void onAttach(@NonNull final Context context) {
         super.onAttach(context);
-        if (VERBOSE) {
-            LogUtil.v(LogUtil.BUGLE_TAG, "Attaching List");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, "Attaching List");
         final Bundle arguments = getArguments();
         if (arguments != null) {
             mArchiveMode = arguments.getBoolean(BUNDLE_ARCHIVED_MODE, false);

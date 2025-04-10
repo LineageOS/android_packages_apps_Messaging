@@ -262,10 +262,8 @@ public class MediaResourceManager {
                     bindableRequest.onMediaResourceLoadError(bindableRequest, mException);
                 } else {
                     Assert.isTrue(bindableRequest == null || !bindableRequest.isBound());
-                    if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                        LogUtil.v(TAG, "media request not processed, no longer bound; key=" +
-                                LogUtil.sanitizePII(mediaRequest.getKey()) /* key with phone# */);
-                    }
+                    LogUtil.v(TAG, "media request not processed, no longer bound; key=" +
+                            LogUtil.sanitizePII(mediaRequest.getKey()) /* key with phone# */);
                 }
             });
         });
@@ -278,10 +276,8 @@ public class MediaResourceManager {
         final MediaCache<T> mediaCache = mediaRequest.getMediaCache();
         if (mediaCache != null) {
             mediaCache.addResourceToCache(mediaRequest.getKey(), mediaResource);
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "added media resource to " + mediaCache.getName() + ". key=" +
-                        LogUtil.sanitizePII(mediaRequest.getKey()) /* key can contain phone# */);
-            }
+            LogUtil.v(TAG, "added media resource to " + mediaCache.getName() + ". key=" +
+                    LogUtil.sanitizePII(mediaRequest.getKey()) /* key can contain phone# */);
         }
     }
 
