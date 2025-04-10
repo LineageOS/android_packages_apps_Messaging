@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@
 package com.android.messaging.util;
 
 import android.os.SystemClock;
+
+import java.util.Locale;
 
 /**
  * A utility timer that logs the execution time of operations
@@ -58,7 +60,8 @@ public class LoggingTimer {
     public void stopAndLog() {
         final long elapsedMs = SystemClock.elapsedRealtime() - mStartMillis;
 
-        final String logMessage = String.format("Used %dms for %s", elapsedMs, mName);
+        final String logMessage = String.format(Locale.getDefault(), "Used %dms for %s",
+                elapsedMs, mName);
 
         if (mWarnLimitMillis != NO_WARN_LIMIT && elapsedMs > mWarnLimitMillis) {
             LogUtil.w(mTag, logMessage);
