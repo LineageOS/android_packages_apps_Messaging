@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -628,12 +628,13 @@ public class PhoneUtils {
         if (mccmnc == null || mccmnc.length != 2) {
             return "000000";
         }
-        return String.format("%03d%03d", mccmnc[0], mccmnc[1]);
+        return String.format(Locale.getDefault(), "%03d%03d", mccmnc[0], mccmnc[1]);
     }
 
     public static String canonicalizeMccMnc(final String mcc, final String mnc) {
         try {
-            return String.format("%03d%03d", Integer.parseInt(mcc), Integer.parseInt(mnc));
+            return String.format(Locale.getDefault(), "%03d%03d", Integer.parseInt(mcc),
+                    Integer.parseInt(mnc));
         } catch (final NumberFormatException e) {
             // Return invalid as is
             LogUtil.w(TAG, "canonicalizeMccMnc: invalid mccmnc:" + mcc + " ," + mnc);
