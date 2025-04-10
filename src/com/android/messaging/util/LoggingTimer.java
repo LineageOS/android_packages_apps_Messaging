@@ -47,10 +47,7 @@ public class LoggingTimer {
      */
     public void start() {
         mStartMillis = SystemClock.elapsedRealtime();
-
-        if (LogUtil.isLoggable(mTag, LogUtil.VERBOSE)) {
-            LogUtil.v(mTag, "Timer start for " + mName);
-        }
+        LogUtil.v(mTag, "Timer start for " + mName);
     }
 
     /**
@@ -65,7 +62,7 @@ public class LoggingTimer {
 
         if (mWarnLimitMillis != NO_WARN_LIMIT && elapsedMs > mWarnLimitMillis) {
             LogUtil.w(mTag, logMessage);
-        } else if (LogUtil.isLoggable(mTag, LogUtil.VERBOSE)) {
+        } else {
             LogUtil.v(mTag, logMessage);
         }
     }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,23 +53,16 @@ public class NoConfirmationSmsSendService extends IntentService {
 
     @Override
     protected void onHandleIntent(final Intent intent) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "NoConfirmationSmsSendService onHandleIntent");
-        }
+        LogUtil.v(TAG, "NoConfirmationSmsSendService onHandleIntent");
 
         final String action = intent.getAction();
         if (!TelephonyManager.ACTION_RESPOND_VIA_MESSAGE.equals(action)) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "NoConfirmationSmsSendService onHandleIntent wrong action: " +
-                    action);
-            }
+            LogUtil.v(TAG, "NoConfirmationSmsSendService onHandleIntent wrong action: " + action);
             return;
         }
         final Bundle extras = intent.getExtras();
         if (extras == null) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "Called to send SMS but no extras");
-            }
+            LogUtil.v(TAG, "Called to send SMS but no extras");
             return;
         }
 
@@ -87,9 +80,7 @@ public class NoConfirmationSmsSendService extends IntentService {
         final String recipients = UriUtil.parseRecipientsFromSmsMmsUri(intent.getData());
 
         if (TextUtils.isEmpty(recipients) && TextUtils.isEmpty(conversationId)) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "Both conversationId and recipient(s) cannot be empty");
-            }
+            LogUtil.v(TAG, "Both conversationId and recipient(s) cannot be empty");
             return;
         }
 
@@ -97,9 +88,7 @@ public class NoConfirmationSmsSendService extends IntentService {
             startActivity(new Intent(this, ConversationListActivity.class));
         } else {
             if (TextUtils.isEmpty(message)) {
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "Message cannot be empty");
-                }
+                LogUtil.v(TAG, "Message cannot be empty");
                 return;
             }
 
@@ -111,17 +100,13 @@ public class NoConfirmationSmsSendService extends IntentService {
             } else {
                 MessageData messageData;
                 if (requiresMms) {
-                    if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                        LogUtil.v(TAG, "Auto-sending MMS message in conversation: " +
-                                conversationId);
-                    }
+                    LogUtil.v(TAG, "Auto-sending MMS message in conversation: " +
+                            conversationId);
                     messageData = MessageData.createDraftMmsMessage(conversationId, selfId, message,
                             subject);
                 } else {
-                    if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                        LogUtil.v(TAG, "Auto-sending SMS message in conversation: " +
-                                conversationId);
-                    }
+                    LogUtil.v(TAG, "Auto-sending SMS message in conversation: " +
+                            conversationId);
                     messageData = MessageData.createDraftSmsMessage(conversationId, selfId,
                             message);
                 }

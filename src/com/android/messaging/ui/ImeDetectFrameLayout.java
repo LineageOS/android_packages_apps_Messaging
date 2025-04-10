@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,11 +34,9 @@ public class ImeDetectFrameLayout extends FrameLayout {
         final int measuredHeight = getMeasuredHeight();
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, "ImeDetectFrameLayout " +
-                    "measuredHeight: " + measuredHeight + " getMeasuredHeight(): " +
-                    getMeasuredHeight());
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, "ImeDetectFrameLayout " +
+                "measuredHeight: " + measuredHeight + " getMeasuredHeight(): " +
+                getMeasuredHeight());
 
         if (measuredHeight != getMeasuredHeight() && getContext() instanceof ImeUtil.ImeStateHost) {
             ((ImeUtil.ImeStateHost) getContext()).onDisplayHeightChanged(heightMeasureSpec);
