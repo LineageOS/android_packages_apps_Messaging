@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,6 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class ImageUtils {
     private static final String TAG = LogUtil.BUGLE_TAG;
@@ -603,7 +604,7 @@ public class ImageUtils {
                 sampleSize = sampleSize * 2;
                 // Note that recodeImage may try using mSampleSize * 2. Hence we use the factor of 4
                 if (sampleSize >= (Integer.MAX_VALUE / 4)) {
-                    LogUtil.w(LogUtil.BUGLE_IMAGE_TAG, String.format(
+                    LogUtil.w(LogUtil.BUGLE_IMAGE_TAG, String.format(Locale.getDefault(),
                             "Cannot resize image: widthLimit=%d heightLimit=%d byteLimit=%d " +
                             "imageWidth=%d imageHeight=%d", mWidthLimit, mHeightLimit, mByteLimit,
                             mWidth, mHeight));
