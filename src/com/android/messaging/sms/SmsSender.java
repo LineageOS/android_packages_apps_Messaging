@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -148,10 +148,8 @@ public class SmsSender {
                 UiUtils.showToastAtBottom(getSendErrorToastMessage(context, subId, errorCode));
             }
         } else {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "SmsSender: received sent result. " + " requestId=" + requestId
-                        + " partId=" + partId + " resultCode=" + resultCode);
-            }
+            LogUtil.v(TAG, "SmsSender: received sent result. " + " requestId=" + requestId
+                    + " partId=" + partId + " resultCode=" + resultCode);
         }
         if (requestId != null) {
             final SendResult result = sPendingMessageMap.get(requestId);
@@ -183,13 +181,11 @@ public class SmsSender {
     public static SendResult sendMessage(final Context context, final int subId, String dest,
             String message, final String serviceCenter, final boolean requireDeliveryReport,
             final Uri messageUri) throws Exception {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "SmsSender: sending message. " +
-                    "dest=" + dest + " message=" + message +
-                    " serviceCenter=" + serviceCenter +
-                    " requireDeliveryReport=" + requireDeliveryReport +
-                    " requestId=" + messageUri);
-        }
+        LogUtil.v(TAG, "SmsSender: sending message. " +
+                "dest=" + dest + " message=" + message +
+                " serviceCenter=" + serviceCenter +
+                " requireDeliveryReport=" + requireDeliveryReport +
+                " requestId=" + messageUri);
         if (TextUtils.isEmpty(message)) {
             throw new Exception("SmsSender: empty text message");
         }
@@ -242,10 +238,8 @@ public class SmsSender {
         }
         // Either we timed out or have all the results (success or failure)
         sPendingMessageMap.remove(messageUri);
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "SmsSender: sending completed. " +
-                    "dest=" + dest + " message=" + message + " result=" + pendingResult);
-        }
+        LogUtil.v(TAG, "SmsSender: sending completed. " +
+                "dest=" + dest + " message=" + message + " result=" + pendingResult);
         return pendingResult;
     }
 

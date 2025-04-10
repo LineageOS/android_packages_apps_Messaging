@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,9 +115,7 @@ public class ParticipantRefresh {
         @Override
         public void onChange(final boolean selfChange) {
             super.onChange(selfChange);
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "Contacts changed");
-            }
+            LogUtil.v(TAG, "Contacts changed");
             mContactChanged = true;
         }
 
@@ -143,11 +141,9 @@ public class ParticipantRefresh {
     public static void refreshParticipantsIfNeeded() {
         if (ParticipantRefresh.getNeedFullRefresh() &&
                 sFullRefreshScheduled.compareAndSet(false, true)) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "Started full participant refresh");
-            }
+            LogUtil.v(TAG, "Started full participant refresh");
             Executors.newSingleThreadExecutor().execute(sFullRefreshRunnable);
-        } else if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
+        } else {
             LogUtil.v(TAG, "Skipped full participant refresh");
         }
     }
@@ -200,24 +196,20 @@ public class ParticipantRefresh {
      */
      static void refreshParticipants(final int refreshMode) {
         Assert.inRange(refreshMode, REFRESH_MODE_FULL, REFRESH_MODE_SELF_ONLY);
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            switch (refreshMode) {
-                case REFRESH_MODE_FULL:
-                    LogUtil.v(TAG, "Start full participant refresh");
-                    break;
-                case REFRESH_MODE_INCREMENTAL:
-                    LogUtil.v(TAG, "Start partial participant refresh");
-                    break;
-                case REFRESH_MODE_SELF_ONLY:
-                    LogUtil.v(TAG, "Start self participant refresh");
-                    break;
-            }
+        switch (refreshMode) {
+            case REFRESH_MODE_FULL:
+                LogUtil.v(TAG, "Start full participant refresh");
+                break;
+            case REFRESH_MODE_INCREMENTAL:
+                LogUtil.v(TAG, "Start partial participant refresh");
+                break;
+            case REFRESH_MODE_SELF_ONLY:
+                LogUtil.v(TAG, "Start self participant refresh");
+                break;
         }
 
         if (!ContactUtil.hasReadContactsPermission() || !OsUtil.hasPhonePermission()) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "Skipping participant referesh because of permissions");
-            }
+            LogUtil.v(TAG, "Skipping participant referesh because of permissions");
             return;
         }
 
@@ -281,9 +273,7 @@ public class ParticipantRefresh {
             }
         }
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "Number of participants refreshed:" + changedParticipants.size());
-        }
+        LogUtil.v(TAG, "Number of participants refreshed:" + changedParticipants.size());
 
         // Refresh conversations for participants that are changed.
         if (changedParticipants.size() > 0) {

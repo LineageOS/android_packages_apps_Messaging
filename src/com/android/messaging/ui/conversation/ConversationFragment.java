@@ -901,11 +901,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             // Are we coming from a widget click where we're told to scroll to a particular item?
             final int scrollToPos = getScrollToMessagePosition();
             if (scrollToPos >= 0) {
-                if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(LogUtil.BUGLE_TAG, "onConversationMessagesCursorUpdated " +
-                            " scrollToPos: " + scrollToPos +
-                            " cursorCount: " + cursor.getCount());
-                }
+                LogUtil.v(LogUtil.BUGLE_TAG, "onConversationMessagesCursorUpdated " +
+                        " scrollToPos: " + scrollToPos +
+                        " cursorCount: " + cursor.getCount());
                 scrollToPosition(scrollToPos, true /*smoothScroll*/);
                 clearScrollToMessagePosition();
             }

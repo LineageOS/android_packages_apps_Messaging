@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,9 +69,7 @@ public class BugleActionBarActivity extends AppCompatActivity implements ImeUtil
         }
 
         mLastScreenHeight = getResources().getDisplayMetrics().heightPixels;
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onCreate");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onCreate");
 
         getWindow().setStatusBarColor(getResources().getColor(R.color.action_bar_background_color,
                 getTheme()));
@@ -80,42 +78,32 @@ public class BugleActionBarActivity extends AppCompatActivity implements ImeUtil
     @Override
     protected void onStart() {
         super.onStart();
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onStart");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onStart");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onRestart");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onRestart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onResume");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onResume");
         BugleActivityUtil.onActivityResume(this, BugleActionBarActivity.this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onPause");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onStop");
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onStop");
     }
 
     private boolean mDestroyed;
@@ -151,11 +139,9 @@ public class BugleActionBarActivity extends AppCompatActivity implements ImeUtil
         final boolean imeWasOpen = mImeOpen;
         mImeOpen = screenHeight - height > 100;
 
-        if (LogUtil.isLoggable(LogUtil.BUGLE_TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onDisplayHeightChanged " +
-                    "imeWasOpen: " + imeWasOpen + " mImeOpen: " + mImeOpen + " screenHeight: " +
-                    screenHeight + " height: " + height);
-        }
+        LogUtil.v(LogUtil.BUGLE_TAG, this.getLocalClassName() + ".onDisplayHeightChanged " +
+                "imeWasOpen: " + imeWasOpen + " mImeOpen: " + mImeOpen + " screenHeight: " +
+                screenHeight + " height: " + height);
 
         if (imeWasOpen != mImeOpen) {
             for (final ImeUtil.ImeStateObserver observer : mImeStateObservers) {

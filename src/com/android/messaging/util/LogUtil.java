@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
  */
 
 package com.android.messaging.util;
+
+import android.util.Log;
 
 /**
  * Log utility class.
@@ -43,7 +45,9 @@ public class LogUtil {
      * @param msg The message you would like logged.
      */
     public static void v(final String tag, final String msg) {
-        println(android.util.Log.VERBOSE, tag, msg);
+        if (isLoggable(tag, VERBOSE)) {
+            println(VERBOSE, tag, msg);
+        }
     }
 
     /**
@@ -54,8 +58,7 @@ public class LogUtil {
      * @param tr An exception to log
      */
     public static void v(final String tag, final String msg, final Throwable tr) {
-        println(android.util.Log.VERBOSE, tag, msg + '\n'
-                + android.util.Log.getStackTraceString(tr));
+        println(VERBOSE, tag, msg + '\n' + Log.getStackTraceString(tr));
     }
 
     /**
@@ -65,7 +68,7 @@ public class LogUtil {
      * @param msg The message you would like logged.
      */
     public static void d(final String tag, final String msg) {
-        println(android.util.Log.DEBUG, tag, msg);
+        println(DEBUG, tag, msg);
     }
 
     /**
@@ -76,8 +79,7 @@ public class LogUtil {
      * @param tr An exception to log
      */
     public static void d(final String tag, final String msg, final Throwable tr) {
-        println(android.util.Log.DEBUG, tag, msg + '\n'
-                + android.util.Log.getStackTraceString(tr));
+        println(DEBUG, tag, msg + '\n' + Log.getStackTraceString(tr));
     }
 
     /**
@@ -87,7 +89,7 @@ public class LogUtil {
      * @param msg The message you would like logged.
      */
     public static void i(final String tag, final String msg) {
-        println(android.util.Log.INFO, tag, msg);
+        println(INFO, tag, msg);
     }
 
     /**
@@ -98,8 +100,7 @@ public class LogUtil {
      * @param tr An exception to log
      */
     public static void i(final String tag, final String msg, final Throwable tr) {
-        println(android.util.Log.INFO, tag, msg + '\n'
-                + android.util.Log.getStackTraceString(tr));
+        println(INFO, tag, msg + '\n' + Log.getStackTraceString(tr));
     }
 
     /**
@@ -109,7 +110,7 @@ public class LogUtil {
      * @param msg The message you would like logged.
      */
     public static void w(final String tag, final String msg) {
-        println(android.util.Log.WARN, tag, msg);
+        println(WARN, tag, msg);
     }
 
     /**
@@ -120,8 +121,8 @@ public class LogUtil {
      * @param tr An exception to log
      */
     public static void w(final String tag, final String msg, final Throwable tr) {
-        println(android.util.Log.WARN, tag, msg);
-        println(android.util.Log.WARN, tag, android.util.Log.getStackTraceString(tr));
+        println(WARN, tag, msg);
+        println(WARN, tag, android.util.Log.getStackTraceString(tr));
     }
 
     /**
@@ -131,7 +132,7 @@ public class LogUtil {
      * @param msg The message you would like logged.
      */
     public static void e(final String tag, final String msg) {
-        println(android.util.Log.ERROR, tag, msg);
+        println(ERROR, tag, msg);
     }
 
     /**
@@ -142,8 +143,8 @@ public class LogUtil {
      * @param tr An exception to log
      */
     public static void e(final String tag, final String msg, final Throwable tr) {
-        println(android.util.Log.ERROR, tag, msg);
-        println(android.util.Log.ERROR, tag, android.util.Log.getStackTraceString(tr));
+        println(ERROR, tag, msg);
+        println(ERROR, tag, Log.getStackTraceString(tr));
     }
 
     /**
@@ -158,7 +159,7 @@ public class LogUtil {
     public static void wtf(final String tag, final String msg) {
         // Make sure this goes into our log buffer
         println(android.util.Log.ASSERT, tag, "wtf\n" + msg);
-        android.util.Log.wtf(tag, msg, new Exception());
+        wtf(tag, msg, new Exception());
     }
 
     /**
@@ -174,8 +175,8 @@ public class LogUtil {
     public static void wtf(final String tag, final String msg, final Throwable tr) {
         // Make sure this goes into our log buffer
         println(android.util.Log.ASSERT, tag, "wtf\n" + msg + '\n' +
-                android.util.Log.getStackTraceString(tr));
-        android.util.Log.wtf(tag, msg, tr);
+                Log.getStackTraceString(tr));
+        Log.wtf(tag, msg, tr);
     }
 
     /**
@@ -186,7 +187,7 @@ public class LogUtil {
      * @param msg The message you would like logged.
      */
     private static void println(final int level, final String tag, final String msg) {
-        android.util.Log.println(level, tag, msg);
+        Log.println(level, tag, msg);
     }
 
     /**
@@ -194,7 +195,7 @@ public class LogUtil {
      * See {@link android.util.Log#isLoggable(String, int)} for more discussion.
      */
     public static boolean isLoggable(final String tag, final int level) {
-        return android.util.Log.isLoggable(tag, level);
+        return Log.isLoggable(tag, level);
     }
 
     /**
@@ -207,7 +208,7 @@ public class LogUtil {
             return null;
         }
 
-        if (android.util.Log.isLoggable(BUGLE_TAG, android.util.Log.DEBUG)) {
+        if (Log.isLoggable(BUGLE_TAG, DEBUG)) {
             return text;
         } else {
             return "Redacted-" + text.length();
