@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,6 @@ import android.widget.ImageButton;
 import android.widget.ScrollView;
 
 import com.android.messaging.R;
-import com.android.messaging.annotation.VisibleForAnimation;
 import com.android.messaging.datamodel.data.DraftMessageData;
 import com.android.messaging.datamodel.data.MediaPickerMessagePartData;
 import com.android.messaging.datamodel.data.MessagePartData;
@@ -277,7 +276,6 @@ public class AttachmentPreview extends ScrollView implements OnAttachmentClickLi
         }
     }
 
-    @VisibleForAnimation
     public void setAnimatedHeight(final int animatedHeight) {
         if (mAnimatedHeight != animatedHeight) {
             mAnimatedHeight = animatedHeight;
