@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +43,6 @@ import androidx.core.text.TextDirectionHeuristicsCompat;
 
 import com.android.messaging.Factory;
 import com.android.messaging.R;
-import com.android.messaging.annotation.VisibleForAnimation;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.UpdateConversationArchiveStatusAction;
 import com.android.messaging.datamodel.data.ConversationListItemData;
@@ -519,12 +518,10 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         return mHostInterface.isSwipeAnimatable();
     }
 
-    @VisibleForAnimation
     public float getSwipeTranslationX() {
         return mSwipeableContainer.getTranslationX();
     }
 
-    @VisibleForAnimation
     public void setSwipeTranslationX(final float translationX) {
         mSwipeableContainer.setTranslationX(translationX);
         if (translationX == 0) {
