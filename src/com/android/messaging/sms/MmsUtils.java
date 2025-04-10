@@ -469,12 +469,10 @@ public class MmsUtils {
             return 0;
         }
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "addPicturePart size: " + imageSize + " width: "
-                    + width + " widthLimit: " + widthLimit
-                    + " height: " + height
-                    + " heightLimit: " + heightLimit);
-        }
+        LogUtil.v(TAG, "addPicturePart size: " + imageSize + " width: "
+                + width + " widthLimit: " + widthLimit
+                + " height: " + height
+                + " heightLimit: " + heightLimit);
 
         PduPart part;
         // Check if we're already within the limits - in which case we don't need to resize.
@@ -487,9 +485,7 @@ public class MmsUtils {
                 height <= heightLimit &&
                 (orientation == androidx.exifinterface.media.ExifInterface.ORIENTATION_UNDEFINED ||
                 orientation == androidx.exifinterface.media.ExifInterface.ORIENTATION_NORMAL)) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "addPicturePart - already sized");
-            }
+            LogUtil.v(TAG, "addPicturePart - already sized");
             part = new PduPart();
             part.setDataUri(imageUri);
             part.setContentType(contentType.getBytes());
@@ -508,9 +504,7 @@ public class MmsUtils {
 
         pb.addPart(index, part);
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "addPicturePart size: " + imageSize);
-        }
+        LogUtil.v(TAG, "addPicturePart size: " + imageSize);
 
         return imageSize;
     }
@@ -538,9 +532,7 @@ public class MmsUtils {
 
         addPartForUri(context, pb, srcName, vcardUri, contentType);
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "addVCardPart size: " + vcardSize);
-        }
+        LogUtil.v(TAG, "addVCardPart size: " + vcardSize);
 
         return vcardSize;
     }
@@ -554,9 +546,7 @@ public class MmsUtils {
         final Uri attachmentUri = messagePart.getContentUri();
         String contentType = messagePart.getContentType();
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "addPart attachmentUrl: " + attachmentUri.toString());
-        }
+        LogUtil.v(TAG, "addPart attachmentUrl: " + attachmentUri.toString());
 
         if (TextUtils.isEmpty(contentType)) {
             contentType = ContentType.VIDEO_3G2;
@@ -571,9 +561,7 @@ public class MmsUtils {
         final Uri attachmentUri = messagePart.getContentUri();
         final String contentType = messagePart.getContentType();
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "addPart attachmentUrl: " + attachmentUri.toString());
-        }
+        LogUtil.v(TAG, "addPart attachmentUrl: " + attachmentUri.toString());
 
         final int dataSize = (int) getMediaFileSize(attachmentUri);
 
@@ -671,9 +659,7 @@ public class MmsUtils {
         final byte[] data = ImageResizer.getResizedImageData(width, height, orientation,
                 widthLimit, heightLimit, byteLimit, imageUri, context, contentType);
         if (data == null) {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "Resize image failed.");
-            }
+            LogUtil.v(TAG, "Resize image failed.");
             return null;
         }
 

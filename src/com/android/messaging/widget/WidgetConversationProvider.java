@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,9 +56,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     @Override
     protected void updateWidget(final Context context, final int appWidgetId) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "updateWidget appWidgetId: " + appWidgetId);
-        }
+        LogUtil.v(TAG, "updateWidget appWidgetId: " + appWidgetId);
         if (OsUtil.hasRequiredPermissions()) {
             rebuildWidget(context, appWidgetId);
         } else {
@@ -78,9 +76,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
     }
 
     public static void rebuildWidget(final Context context, final int appWidgetId) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "WidgetConversationProvider.rebuildWidget appWidgetId: " + appWidgetId);
-        }
+        LogUtil.v(TAG, "WidgetConversationProvider.rebuildWidget appWidgetId: " + appWidgetId);
         final RemoteViews remoteViews = new RemoteViews(context.getPackageName(),
                 R.layout.widget_conversation);
         PendingIntent clickIntent;
@@ -100,10 +96,8 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
             clickIntent = uiIntents.getWidgetPendingIntentForConversationListActivity(context);
             remoteViews.setOnClickPendingIntent(R.id.widget_header, clickIntent);
 
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "WidgetConversationProvider.rebuildWidget appWidgetId: " +
-                        appWidgetId + " going into configure state");
-            }
+            LogUtil.v(TAG, "WidgetConversationProvider.rebuildWidget appWidgetId: " +
+                    appWidgetId + " going into configure state");
         } else {
             remoteViews.setViewVisibility(R.id.widget_label, View.VISIBLE);
             remoteViews.setViewVisibility(R.id.message_list, View.VISIBLE);
@@ -164,9 +158,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      * update and reflect the changes
      */
     public static void notifyMessagesChanged(final Context context, final String conversationId) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "notifyMessagesChanged");
-        }
+        LogUtil.v(TAG, "notifyMessagesChanged");
         final Intent intent = new Intent(ACTION_NOTIFY_MESSAGES_CHANGED);
         intent.putExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID, conversationId);
         context.sendBroadcast(intent);
@@ -179,9 +171,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     public static void notifyConversationDeleted(final Context context,
             final String conversationId) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "notifyConversationDeleted convId: " + conversationId);
-        }
+        LogUtil.v(TAG, "notifyConversationDeleted convId: " + conversationId);
 
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         for (final int appWidgetId : appWidgetManager.getAppWidgetIds(new ComponentName(context,
@@ -205,9 +195,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
      */
     public static void notifyConversationRenamed(final Context context,
             final String conversationId) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "notifyConversationRenamed convId: " + conversationId);
-        }
+        LogUtil.v(TAG, "notifyConversationRenamed convId: " + conversationId);
 
         final AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         for (final int appWidgetId : appWidgetManager.getAppWidgetIds(new ComponentName(context,
@@ -224,9 +212,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "WidgetConversationProvider onReceive intent: " + intent);
-        }
+        LogUtil.v(TAG, "WidgetConversationProvider onReceive intent: " + intent);
         final String action = intent.getAction();
 
         // The base class AppWidgetProvider's onReceive handles the normal widget intents. Here
@@ -239,9 +225,7 @@ public class WidgetConversationProvider extends BaseWidgetProvider {
                     this.getClass()));
 
             if (appWidgetIds.length == 0) {
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "WidgetConversationProvider onReceive no widget ids");
-                }
+                LogUtil.v(TAG, "WidgetConversationProvider onReceive no widget ids");
                 return;
             }
             // Normally the conversation id points to a specific conversation and we only update

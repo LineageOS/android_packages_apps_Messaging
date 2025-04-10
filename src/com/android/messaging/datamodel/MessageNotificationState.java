@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -817,9 +817,7 @@ public abstract class MessageNotificationState extends NotificationState {
                     null);
 
             if (convMessageCursor != null && convMessageCursor.moveToFirst()) {
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "MessageNotificationState: Found unseen message notifications.");
-                }
+                LogUtil.v(TAG, "MessageNotificationState: Found unseen message notifications.");
                 final ConversationMessageData convMessageData =
                         new ConversationMessageData();
 

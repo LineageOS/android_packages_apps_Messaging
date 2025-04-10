@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -375,10 +375,8 @@ class SyncCursorPair {
                 throws SQLiteException {
             mDatabase = database;
             try {
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "SyncCursorPair: Querying for local messages; selection = "
-                            + selection);
-                }
+                LogUtil.v(TAG, "SyncCursorPair: Querying for local messages; selection = "
+                        + selection);
                 mCursor = mDatabase.query(
                         DatabaseHelper.MESSAGES_TABLE,
                         LocalMessageQuery.PROJECTION,
@@ -440,10 +438,8 @@ class SyncCursorPair {
             mMmsCursor = null;
             try {
                 final Context context = Factory.get().getApplicationContext();
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "SyncCursorPair: Querying for remote SMS; selection = "
-                            + smsSelection);
-                }
+                LogUtil.v(TAG, "SyncCursorPair: Querying for remote SMS; selection = "
+                        + smsSelection);
                 mSmsCursor = SqliteWrapper.query(
                         context,
                         context.getContentResolver(),
@@ -457,10 +453,8 @@ class SyncCursorPair {
                             + "need to cancel sync");
                     throw new RuntimeException("Null cursor from remote SMS query");
                 }
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    LogUtil.v(TAG, "SyncCursorPair: Querying for remote MMS; selection = "
-                            + mmsSelection);
-                }
+                LogUtil.v(TAG, "SyncCursorPair: Querying for remote MMS; selection = "
+                        + mmsSelection);
                 mMmsCursor = SqliteWrapper.query(
                         context,
                         context.getContentResolver(),

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,12 +90,10 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
             // return true.
             final ProcessPendingMessagesAction action = new ProcessPendingMessagesAction();
             if (action.queueActions(processingAction)) {
-                if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                    if (processingAction.hasBackgroundActions()) {
-                        LogUtil.v(TAG, "ProcessPendingMessagesAction: Action queued");
-                    } else {
-                        LogUtil.v(TAG, "ProcessPendingMessagesAction: No actions to queue");
-                    }
+                if (processingAction.hasBackgroundActions()) {
+                    LogUtil.v(TAG, "ProcessPendingMessagesAction: Action queued");
+                } else {
+                    LogUtil.v(TAG, "ProcessPendingMessagesAction: No actions to queue");
                 }
                 // Have queued next action if needed, nothing more to do
                 return;
@@ -175,10 +173,8 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
         final ProcessPendingMessagesAction action = new ProcessPendingMessagesAction();
         action.schedule(PENDING_INTENT_BASE_REQUEST_CODE + subId, Long.MAX_VALUE);
 
-        if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            LogUtil.v(TAG, "ProcessPendingMessagesAction: Unregistering for connectivity changed "
-                    + "events and clearing scheduled alarm for subId " + subId);
-        }
+        LogUtil.v(TAG, "ProcessPendingMessagesAction: Unregistering for connectivity changed "
+                + "events and clearing scheduled alarm for subId " + subId);
     }
 
     private static void setRetry(final int retryAttempt, int subId) {
@@ -293,9 +289,7 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
                 scheduleProcessPendingMessagesAction(true /* failed */, this);
             }
         } else {
-            if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-                LogUtil.v(TAG, "ProcessPendingMessagesAction: Not default SMS app; rescheduling");
-            }
+            LogUtil.v(TAG, "ProcessPendingMessagesAction: Not default SMS app; rescheduling");
             scheduleProcessPendingMessagesAction(true /* failed */, this);
         }
 
