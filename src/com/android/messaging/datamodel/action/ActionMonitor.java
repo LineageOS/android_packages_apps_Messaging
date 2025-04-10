@@ -28,6 +28,7 @@ import com.android.messaging.util.ThreadUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -273,7 +274,8 @@ public class ActionMonitor {
             newMonitorState = monitor.mState;
         }
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",
+                    Locale.getDefault());
             df.setTimeZone(TimeZone.getTimeZone("UTC"));
             LogUtil.v(TAG, "Operation-" + action.actionKey + ": @" + df.format(new Date())
                     + "UTC State = " + oldMonitorState + " - " + newMonitorState);
@@ -341,7 +343,8 @@ public class ActionMonitor {
             unregisterActionMonitorIfComplete(action.actionKey, monitor);
         }
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",
+                    Locale.getDefault());
             df.setTimeZone(TimeZone.getTimeZone("UTC"));
             LogUtil.v(TAG, "Operation-" + action.actionKey + ": @" + df.format(new Date())
                     + "UTC State = " + oldMonitorState + " - " + STATE_COMPLETE);
@@ -399,7 +402,8 @@ public class ActionMonitor {
             monitor.executed(action, expectedOldState, hasBackgroundActions, result);
         }
         if (LogUtil.isLoggable(TAG, LogUtil.VERBOSE)) {
-            final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS",
+                    Locale.getDefault());
             df.setTimeZone(TimeZone.getTimeZone("UTC"));
             LogUtil.v(TAG, "Operation-" + action.actionKey + ": @" + df.format(new Date())
                     + "UTC State = " + oldMonitorState + " - EXECUTED");

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ import android.text.format.Formatter;
 import com.google.common.base.Stopwatch;
 
 import java.io.File;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,7 +52,8 @@ public class GifTranscoder {
         final float compression = (inputSize > 0) ? ((float) outputSize / inputSize) : 0;
 
         if (success) {
-            LogUtil.i(TAG, String.format("Resized GIF (%s) in %d ms, %s => %s (%.0f%%)",
+            LogUtil.i(TAG, String.format(Locale.getDefault(),
+                    "Resized GIF (%s) in %d ms, %s => %s (%.0f%%)",
                     LogUtil.sanitizePII(filePath),
                     elapsedMs,
                     Formatter.formatShortFileSize(context, inputSize),

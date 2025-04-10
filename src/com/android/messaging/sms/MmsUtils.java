@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -327,7 +327,8 @@ public class MmsUtils {
                 final String extension = ContentType.getExtensionFromMimeType(contentType);
                 if (ContentType.isImageType(contentType)) {
                     if (extension != null) {
-                        srcName = String.format("image%06d.%s", index, extension);
+                        srcName = String.format(Locale.getDefault(), "image%06d.%s", index,
+                                extension);
                     } else {
                         // There's a good chance that if we selected the image from our media picker
                         // the content type is image/*. Fix the content type here for gifs so that
@@ -335,35 +336,37 @@ public class MmsUtils {
                         // checks will only have to do a string comparison which is much cheaper.
                         final boolean isGif = ImageUtils.isGif(contentType, part.getContentUri());
                         contentType = isGif ? ContentType.IMAGE_GIF : contentType;
-                        srcName = String.format(isGif ? "image%06d.gif" : "image%06d.jpg", index);
+                        srcName = String.format(Locale.getDefault(),
+                                isGif ? "image%06d.gif" : "image%06d.jpg", index);
                     }
                     smilBody.append(String.format(sSmilImagePart, srcName));
                     totalLength += addPicturePart(context, pb, index, part,
                             widthLimit, heightLimit, bytesPerImage, srcName, contentType);
                     hasVisualAttachment = true;
                 } else if (ContentType.isVideoType(contentType)) {
-                    srcName = String.format("video%06d.%s", index,
+                    srcName = String.format(Locale.getDefault(), "video%06d.%s", index,
                             extension != null ? extension : "mp4");
                     final int length = addVideoPart(context, pb, part, srcName);
                     totalLength += length;
-                    smilBody.append(String.format(sSmilVideoPart, srcName,
+                    smilBody.append(String.format(Locale.getDefault(), sSmilVideoPart, srcName,
                             getMediaDurationMs(context, part, DEFAULT_DURATION)));
                     hasVisualAttachment = true;
                 } else if (ContentType.isVCardType(contentType)) {
-                    srcName = String.format("contact%06d.vcf", index);
+                    srcName = String.format(Locale.getDefault(), "contact%06d.vcf", index);
                     totalLength += addVCardPart(context, pb, part, srcName);
                     smilBody.append(String.format(sSmilPart, srcName));
                     hasNonVisualAttachment = true;
                 } else if (ContentType.isAudioType(contentType)) {
-                    srcName = String.format("recording%06d.%s",
+                    srcName = String.format(Locale.getDefault(), "recording%06d.%s",
                             index, extension != null ? extension : "amr");
                     totalLength += addOtherPart(context, pb, part, srcName);
                     final int duration = getMediaDurationMs(context, part, -1);
                     Assert.isTrue(duration != -1);
-                    smilBody.append(String.format(sSmilAudioPart, srcName, duration));
+                    smilBody.append(String.format(Locale.getDefault(), sSmilAudioPart, srcName,
+                            duration));
                     hasNonVisualAttachment = true;
                 } else {
-                    srcName = String.format("other%06d.dat", index);
+                    srcName = String.format(Locale.getDefault(), "other%06d.dat", index);
                     totalLength += addOtherPart(context, pb, part, srcName);
                     smilBody.append(String.format(sSmilPart, srcName));
                 }
@@ -375,7 +378,7 @@ public class MmsUtils {
         }
 
         if (hasText) {
-            final String srcName = String.format("text.%06d.txt", index);
+            final String srcName = String.format(Locale.getDefault(), "text.%06d.txt", index);
             final String text = message.getMessageText();
             totalLength += addTextPart(context, pb, text, srcName);
 

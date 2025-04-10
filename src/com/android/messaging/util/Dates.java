@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -170,9 +170,9 @@ public class Dates {
             final String format24, final String format12) {
         SimpleDateFormat formatter;
         if ((flags & FORCE_24_HOUR) == FORCE_24_HOUR) {
-            formatter = new SimpleDateFormat(format24);
+            formatter = new SimpleDateFormat(format24, Locale.getDefault());
         } else {
-            formatter = new SimpleDateFormat(format12);
+            formatter = new SimpleDateFormat(format12, Locale.getDefault());
         }
         return formatter.format(new Date(time));
     }
