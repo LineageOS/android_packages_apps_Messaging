@@ -234,14 +234,6 @@ public abstract class MessageNotificationState extends NotificationState {
             mParticipantCount = participantCount;
         }
 
-        public int getLatestMessageNotificationType() {
-            final MessageLineInfo messageLineInfo = getLatestMessageLineInfo();
-            if (messageLineInfo == null) {
-                return BugleNotifications.LOCAL_SMS_NOTIFICATION;
-            }
-            return messageLineInfo.mNotificationType;
-        }
-
         public String getLatestMessageId() {
             final MessageLineInfo messageLineInfo = getLatestMessageLineInfo();
             if (messageLineInfo == null) {
@@ -362,7 +354,6 @@ public abstract class MessageNotificationState extends NotificationState {
                 if (!(convInfo.mLineInfos.get(0) instanceof MessageLineInfo)) {
                     continue;
                 }
-                setPeopleForConversation(convInfo.mConversationId);
                 final ConversationInfoList list = new ConversationInfoList(
                         convInfo.mTotalMessageCount, Lists.newArrayList(convInfo));
                 mChildren.add(new BundledMessageNotificationState(list, i));
@@ -452,8 +443,6 @@ public abstract class MessageNotificationState extends NotificationState {
             super(convList);
             // This conversation has been accepted.
             final ConversationLineInfo convInfo = convList.mConvInfos.get(0);
-            setAvatarUrlsForConversation(convInfo.mConversationId);
-            setPeopleForConversation(convInfo.mConversationId);
 
             final Context context = Factory.get().getApplicationContext();
             MessageLineInfo messageInfo = (MessageLineInfo) convInfo.mLineInfos.get(0);
@@ -476,7 +465,7 @@ public abstract class MessageNotificationState extends NotificationState {
                 final String attachment = context.getString(message);
                 final SpannableStringBuilder spanBuilder = new SpannableStringBuilder();
                 if (!TextUtils.isEmpty(mContent)) {
-                    spanBuilder.append(mContent).append(System.getProperty("line.separator"));
+                    spanBuilder.append(mContent).append(System.lineSeparator());
                 }
                 final int start = spanBuilder.length();
                 spanBuilder.append(attachment);
@@ -917,7 +906,7 @@ public abstract class MessageNotificationState extends NotificationState {
                                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             if (!TextUtils.isEmpty(text)) {
                                 // Now add the actual message text below the subject header.
-                                spanBuilder.append(System.getProperty("line.separator") + text);
+                                spanBuilder.append(System.lineSeparator() + text);
                             }
                             text = spanBuilder;
                         }
@@ -1057,18 +1046,6 @@ public abstract class MessageNotificationState extends NotificationState {
 
     protected String getTitle() {
         return mTitle;
-    }
-
-    @Override
-    public int getLatestMessageNotificationType() {
-        // This function is called to determine whether the most recent notification applies
-        // to an sms conversation or a hangout conversation. We have different ringtone/vibrate
-        // settings for both types of conversations.
-        if (mConvList.mConvInfos.size() > 0) {
-            final ConversationLineInfo convInfo = mConvList.mConvInfos.get(0);
-            return convInfo.getLatestMessageNotificationType();
-        }
-        return BugleNotifications.LOCAL_SMS_NOTIFICATION;
     }
 
     protected CharSequence getTicker() {

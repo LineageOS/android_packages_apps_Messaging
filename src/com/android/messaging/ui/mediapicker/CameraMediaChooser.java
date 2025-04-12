@@ -105,11 +105,6 @@ class CameraMediaChooser extends MediaChooser {
     }
 
     @Override
-    public View destroyView() {
-        return super.destroyView();
-    }
-
-    @Override
     protected View createView(final ViewGroup container) {
         final LayoutInflater inflater = getLayoutInflater();
         final View view = inflater.inflate(

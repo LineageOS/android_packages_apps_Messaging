@@ -280,15 +280,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        for (final MediaChooser chooser : mEnabledChoosers) {
-            chooser.onResume();
-        }
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         mBinding.unbind();
@@ -545,7 +536,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
             mListenerHandler.post(() -> mListener.onOpened());
         }
         if (mSelectedChooser != null) {
-            mSelectedChooser.onFullScreenChanged(false);
             mSelectedChooser.onOpenedChanged(true);
         }
     }
@@ -565,9 +555,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
         setHasOptionsMenu(fullScreen);
         if (mListener != null) {
             mListenerHandler.post(() -> mListener.onFullScreenChanged(fullScreen));
-        }
-        if (mSelectedChooser != null) {
-            mSelectedChooser.onFullScreenChanged(fullScreen);
         }
     }
 
@@ -641,9 +628,6 @@ public class MediaPicker extends Fragment implements DraftMessageSubscriptionDat
     @Override
     public void onCreateOptionsMenu(@NonNull final Menu menu,
                                     @NonNull final MenuInflater inflater) {
-        if (mSelectedChooser != null) {
-            mSelectedChooser.onCreateOptionsMenu(inflater, menu);
-        }
     }
 
     @Override
