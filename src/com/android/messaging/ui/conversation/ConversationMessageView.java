@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,7 +175,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         // the max leftover space because we want the message bubble to extend no further than the
         // starting position of the message bubble in the opposite direction.
         final int maxLeftoverSpace = horizontalSpace - mContactIconView.getMeasuredWidth() * 2
-                - arrowWidth - getPaddingLeft() - getPaddingRight();
+                - arrowWidth - getPaddingStart() - getPaddingEnd();
         final int messageContentWidthMeasureSpec = MeasureSpec.makeMeasureSpec(maxLeftoverSpace,
                 MeasureSpec.AT_MOST);
 
@@ -194,7 +194,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         final int iconWidth = mContactIconView.getMeasuredWidth();
         final int iconHeight = mContactIconView.getMeasuredHeight();
         final int iconTop = getPaddingTop();
-        final int contentWidth = (right -left) - iconWidth - getPaddingLeft() - getPaddingRight();
+        final int contentWidth = (right -left) - iconWidth - getPaddingStart() - getPaddingEnd();
         final int contentHeight = mMessageBubble.getMeasuredHeight();
         final int contentTop = iconTop;
 
@@ -202,18 +202,18 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         final int contentLeft;
         if (mData.getIsIncoming()) {
             if (isRtl) {
-                iconLeft = (right - left) - getPaddingRight() - iconWidth;
+                iconLeft = (right - left) - getPaddingEnd() - iconWidth;
                 contentLeft = iconLeft - contentWidth;
             } else {
-                iconLeft = getPaddingLeft();
+                iconLeft = getPaddingStart();
                 contentLeft = iconLeft + iconWidth;
             }
         } else {
             if (isRtl) {
-                iconLeft = getPaddingLeft();
+                iconLeft = getPaddingStart();
                 contentLeft = iconLeft + iconWidth;
             } else {
-                iconLeft = (right - left) - getPaddingRight() - iconWidth;
+                iconLeft = (right - left) - getPaddingEnd() - iconWidth;
                 contentLeft = iconLeft - contentWidth;
             }
         }
@@ -755,7 +755,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         }
 
         // Update the message row and message bubble views
-        setPadding(getPaddingLeft(), messageTopPadding, getPaddingRight(), 0);
+        setPadding(getPaddingStart(), messageTopPadding, getPaddingEnd(), 0);
         mMessageBubble.setGravity(gravity);
         updateMessageAttachmentsAppearance(gravity);
 

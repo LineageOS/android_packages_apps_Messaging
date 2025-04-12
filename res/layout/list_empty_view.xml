@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2025 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -35,8 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/list_empty_text_left_right_margin"
-        android:layout_marginRight="@dimen/list_empty_text_left_right_margin"
+        android:layout_marginStart="@dimen/list_empty_text_left_right_margin"
+        android:layout_marginEnd="@dimen/list_empty_text_left_right_margin"
         android:layout_marginTop="@dimen/list_empty_text_top_margin"
         style="@style/ListEmptyText"/>
 </com.android.messaging.ui.ListEmptyView>

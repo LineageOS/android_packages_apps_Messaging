@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2025 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -26,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/widget_header_height"
         android:orientation="horizontal"
-        android:paddingLeft="8dip"
+        android:paddingStart="8dip"
         android:background="@drawable/widget_top_background"
         android:gravity="center_vertical">
         <TextView
@@ -45,7 +46,7 @@
             android:src="@drawable/ic_add_white"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/widget_new_conversation_content_description"
-            android:paddingRight="8dip"
+            android:paddingEnd="8dip"
             android:paddingBottom="4dip" />
     </LinearLayout>
     <ImageView
