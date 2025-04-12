@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +18,15 @@
 package com.android.messaging.sms;
 
 import android.content.ContentValues;
-import android.provider.Telephony;
 
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
-import com.google.common.collect.Maps;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.Map;
 
 /*
  * XML processor for the following files:
@@ -37,46 +34,14 @@ import java.util.Map;
  * 2. res/xml/mms_config.xml (or related overlay files)
  */
 class ApnsXmlProcessor {
-    public interface ApnHandler {
-        void process(ContentValues apnValues);
-    }
-
     public interface MmsConfigHandler {
         void process(String mccMnc, String key, String value, String type);
     }
 
     private static final String TAG = LogUtil.BUGLE_TAG;
 
-    private static final Map<String, String> APN_ATTRIBUTE_MAP = Maps.newHashMap();
-    static {
-        APN_ATTRIBUTE_MAP.put("mcc", Telephony.Carriers.MCC);
-        APN_ATTRIBUTE_MAP.put("mnc", Telephony.Carriers.MNC);
-        APN_ATTRIBUTE_MAP.put("carrier", Telephony.Carriers.NAME);
-        APN_ATTRIBUTE_MAP.put("apn", Telephony.Carriers.APN);
-        APN_ATTRIBUTE_MAP.put("mmsc", Telephony.Carriers.MMSC);
-        APN_ATTRIBUTE_MAP.put("mmsproxy", Telephony.Carriers.MMSPROXY);
-        APN_ATTRIBUTE_MAP.put("mmsport", Telephony.Carriers.MMSPORT);
-        APN_ATTRIBUTE_MAP.put("type", Telephony.Carriers.TYPE);
-        APN_ATTRIBUTE_MAP.put("user", Telephony.Carriers.USER);
-        APN_ATTRIBUTE_MAP.put("password", Telephony.Carriers.PASSWORD);
-        APN_ATTRIBUTE_MAP.put("authtype", Telephony.Carriers.AUTH_TYPE);
-        APN_ATTRIBUTE_MAP.put("mvno_match_data", Telephony.Carriers.MVNO_MATCH_DATA);
-        APN_ATTRIBUTE_MAP.put("mvno_type", Telephony.Carriers.MVNO_TYPE);
-        APN_ATTRIBUTE_MAP.put("protocol", Telephony.Carriers.PROTOCOL);
-        APN_ATTRIBUTE_MAP.put("bearer", Telephony.Carriers.BEARER);
-        APN_ATTRIBUTE_MAP.put("server", Telephony.Carriers.SERVER);
-        APN_ATTRIBUTE_MAP.put("roaming_protocol", Telephony.Carriers.ROAMING_PROTOCOL);
-        APN_ATTRIBUTE_MAP.put("proxy", Telephony.Carriers.PROXY);
-        APN_ATTRIBUTE_MAP.put("port", Telephony.Carriers.PORT);
-        APN_ATTRIBUTE_MAP.put("carrier_enabled", Telephony.Carriers.CARRIER_ENABLED);
-    }
-
-    private static final String TAG_APNS = "apns";
-    private static final String TAG_APN = "apn";
     private static final String TAG_MMS_CONFIG = "mms_config";
 
-    // Handler to process one apn
-    private ApnHandler mApnHandler;
     // Handler to process one mms_config key/value pair
     private MmsConfigHandler mMmsConfigHandler;
 
@@ -86,18 +51,12 @@ class ApnsXmlProcessor {
 
     private ApnsXmlProcessor(XmlPullParser parser) {
         mInputParser = parser;
-        mApnHandler = null;
         mMmsConfigHandler = null;
     }
 
     public static ApnsXmlProcessor get(XmlPullParser parser) {
         Assert.notNull(parser);
         return new ApnsXmlProcessor(parser);
-    }
-
-    public ApnsXmlProcessor setApnHandler(ApnHandler handler) {
-        mApnHandler = handler;
-        return this;
     }
 
     public ApnsXmlProcessor setMmsConfigHandler(MmsConfigHandler handler) {
@@ -131,22 +90,8 @@ class ApnsXmlProcessor {
             // an apn element
             final ContentValues values = new ContentValues();
             String tagName = mInputParser.getName();
-            // Top level tag can be "apns" (apns.xml)
-            // or "mms_config" (mms_config.xml)
-            if (TAG_APNS.equals(tagName)) {
-                // For "apns", there could be "apn" or both "apn" and "mms_config"
-                for (;;) {
-                    if (advanceToNextEvent(XmlPullParser.START_TAG) != XmlPullParser.START_TAG) {
-                        break;
-                    }
-                    tagName = mInputParser.getName();
-                    if (TAG_APN.equals(tagName)) {
-                        processApn(values);
-                    } else if (TAG_MMS_CONFIG.equals(tagName)) {
-                        processMmsConfig();
-                    }
-                }
-            } else if (TAG_MMS_CONFIG.equals(tagName)) {
+            // Top level tag can be "mms_config" (mms_config.xml)
+            if (TAG_MMS_CONFIG.equals(tagName)) {
                 // mms_config.xml resource
                 processMmsConfig();
             }
@@ -155,28 +100,6 @@ class ApnsXmlProcessor {
         } catch (XmlPullParserException e) {
             LogUtil.e(TAG, "ApnsXmlProcessor: parsing failure " + e, e);
         }
-    }
-
-    private Integer parseInt(String text, Integer defaultValue, String logHint) {
-        Integer value = defaultValue;
-        try {
-            value = Integer.parseInt(text);
-        } catch (Exception e) {
-            LogUtil.e(TAG,
-                    "Invalid value " + text + "for" + logHint + " @" + xmlParserDebugContext());
-        }
-        return value;
-    }
-
-    private Boolean parseBoolean(String text, Boolean defaultValue, String logHint) {
-        Boolean value = defaultValue;
-        try {
-            value = Boolean.parseBoolean(text);
-        } catch (Exception e) {
-            LogUtil.e(TAG,
-                    "Invalid value " + text + "for" + logHint + " @" + xmlParserDebugContext());
-        }
-        return value;
     }
 
     private static String xmlParserEventString(int event) {
@@ -217,51 +140,6 @@ class ApnsXmlProcessor {
             }
         }
         return "Unknown";
-    }
-
-    /**
-     * Process one apn
-     *
-     * @param apnValues Where we store the parsed apn
-     */
-    private void processApn(ContentValues apnValues) throws IOException, XmlPullParserException {
-        Assert.notNull(apnValues);
-        apnValues.clear();
-        // Collect all the attributes
-        for (int i = 0; i < mInputParser.getAttributeCount(); i++) {
-            final String key = APN_ATTRIBUTE_MAP.get(mInputParser.getAttributeName(i));
-            if (key != null) {
-                apnValues.put(key, mInputParser.getAttributeValue(i));
-            }
-        }
-        // Set numeric to be canonicalized mcc/mnc like "310120", always 6 digits
-        final String canonicalMccMnc = PhoneUtils.canonicalizeMccMnc(
-                apnValues.getAsString(Telephony.Carriers.MCC),
-                apnValues.getAsString(Telephony.Carriers.MNC));
-        apnValues.put(Telephony.Carriers.NUMERIC, canonicalMccMnc);
-        // Some of the values should not be string type, converting them to desired types
-        final String authType = apnValues.getAsString(Telephony.Carriers.AUTH_TYPE);
-        if (authType != null) {
-            apnValues.put(Telephony.Carriers.AUTH_TYPE, parseInt(authType, -1, "apn authtype"));
-        }
-        final String carrierEnabled = apnValues.getAsString(Telephony.Carriers.CARRIER_ENABLED);
-        if (carrierEnabled != null) {
-            apnValues.put(Telephony.Carriers.CARRIER_ENABLED,
-                    parseBoolean(carrierEnabled, null, "apn carrierEnabled"));
-        }
-        final String bearer = apnValues.getAsString(Telephony.Carriers.BEARER);
-        if (bearer != null) {
-            apnValues.put(Telephony.Carriers.BEARER, parseInt(bearer, 0, "apn bearer"));
-        }
-        // We are at the end tag
-        if (mInputParser.next() != XmlPullParser.END_TAG) {
-            throw new XmlPullParserException("Apn: expecting end tag @"
-                    + xmlParserDebugContext());
-        }
-        // We are done parsing one APN, call the handler
-        if (mApnHandler != null) {
-            mApnHandler.process(apnValues);
-        }
     }
 
     /**
