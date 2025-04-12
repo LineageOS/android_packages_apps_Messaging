@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
-    Copyright (C) 2024 The LineageOS Project
+    Copyright (C) 2024-2025 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -55,10 +55,6 @@
     <string name="mediapicker_gallery_title">Choose media</string>
     <string name="mediapicker_gallery_item_selected_content_description">The media is selected.</string>
     <string name="mediapicker_gallery_item_unselected_content_description">The media is unselected.</string>
-    <string name="mediapicker_gallery_title_selection"><xliff:g id="count">%d</xliff:g> selected</string>
-    <!-- example: "image January 17 2015 1 59 pm" -->
-    <string name="mediapicker_gallery_image_item_description">image <xliff:g id="date">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g></string>
-    <string name="mediapicker_gallery_image_item_description_no_date">image</string>
     <string name="mediapicker_audio_title">Record audio</string>
     <string name="mediapicker_contact_title">Choose a contact</string>
     <!-- Hint text on the contact picker -->
@@ -172,13 +168,6 @@
         <item quantity="other"><xliff:g id="messages">%d</xliff:g> new messages</item>
     </plurals>
 
-    <string name="camera_error_opening">Camera not available</string>
-    <string name="camera_error_unknown">Camera not available</string>
-    <string name="camera_error_video_init_fail">Video capture not available</string>
-    <!-- Error message when we are unable to write a picture or video file because of an error writing to storage (usually because insufficient space) -->
-    <string name="camera_error_storage_fail">Can\'t save media</string>
-    <string name="camera_error_failure_taking_picture">Can\'t take picture</string>
-
     <!-- Content description text for Back button on the action bar -->
     <string name="back">Back</string>
     <!-- Action menu title for showing archived conversations -->
@@ -215,10 +204,6 @@
 
     <!-- Hint text for the recipient chips text box when it's empty -->
     <string name="recipient_hint">To</string>
-    <!-- Action menu title for multiple selection in gallery image picker -->
-    <string name="action_multiselect">Select multiple images</string>
-    <!-- Action menu title for confirming multiple selection in gallery image picker -->
-    <string name="action_confirm_multiselect">Confirm selection</string>
     <!-- Text for showing there are more items in the attachments than is shown (e.g. "+2") -->
     <string name="attachment_more_items">+<xliff:g id="count">%d</xliff:g></string>
     <!-- Failed to start recording audio -->
@@ -311,15 +296,6 @@
     <!-- Accessibility : text read on the small X icon on the subject editor -->
     <string name="delete_subject_content_description">Delete subject</string>
 
-    <string name="camera_switch_to_video_mode">Capture video</string>
-    <string name="camera_switch_to_still_mode">Capture a still image</string>
-    <string name="camera_take_picture">Take picture</string>
-    <string name="camera_start_recording">Start recording video</string>
-    <string name="camera_switch_full_screen">Switch to full screen camera</string>
-    <string name="camera_switch_camera_facing">Switch between front and back camera</string>
-    <string name="camera_stop_recording">Stop recording and attach video</string>
-    <string name="camera_cancel_recording">Stop recording video</string>
-
     <string name="photo_view_activity_title">Messaging photos</string>
     <plurals name="photos_saved_to_album">
         <item quantity="one"><xliff:g id="quantity">%d</xliff:g> photo saved to \"<xliff:g id="albumName">%s</xliff:g>\" album</item>
@@ -345,8 +321,6 @@
         <item quantity="one">Couldn\'t save <xliff:g id="quantity">%d</xliff:g> attachment</item>
         <item quantity="other">Couldn\'t save <xliff:g id="quantity">%d</xliff:g> attachments</item>
     </plurals>
-    <!-- Description shown in the download manager for an attachment that the user manually saved -->
-    <string name="attachment_file_description">Saved MMS attachment</string>
 
     <!-- Title for the preferences/settings activity -->
     <string name="settings_activity_title">Settings</string>
@@ -356,8 +330,6 @@
     <string name="mms_messaging_category_pref_title">MMS</string>
     <!-- Preference category: Advanced -->
     <string name="advanced_category_pref_title">Advanced</string>
-    <!-- Preference category: Debug -->
-    <string name="debug_category_pref_title">Debug</string>
     <!-- Title for the preference for whether or to notify the user of new messages -->
     <string name="notifications_pref_title">Notifications</string>
     <!-- Title for the preference for whether or not to request/show delivery reports for SMS -->
@@ -379,16 +351,6 @@
     <string name="unknown_phone_number_pref_display_value">Unknown</string>
     <!-- Title for the preference for playing a message send sound -->
     <string name="send_sound_pref_title">Outgoing message sounds</string>
-
-    <string name="dump_sms_pref_title">Dump SMS</string>
-    <string name="dump_sms_pref_summary">Dump received SMS raw data into external storage file</string>
-    <string name="dump_mms_pref_title">Dump MMS</string>
-    <string name="dump_mms_pref_summary">Dump received MMS raw data into external storage file</string>
-    <!-- Strings for dump sms/mms dialog -->
-    <string name="email_sms_mms_dump_file_subject" translatable="false">SMS dump file</string>
-    <string name="email_sms_mms_dump_file_chooser_title" translatable="false">Email SMS dump</string>
-    <string name="load_sms_mms_from_dump_file_dialog_title" translatable="false">Load dump file</string>
-    <string name="email_sms_mms_from_dump_file_dialog_title" translatable="false">Email dump file</string>
 
     <!-- Menu item to copy message text -->
     <string name="message_context_menu_copy_text">Copy text</string>
@@ -445,8 +407,6 @@
     <string name="video_thumbnail_view_play_button_content_description">Play video</string>
     <!-- Option menu item in the conversation view that lets user view list of conversation participants and change options -->
     <string name="action_people_and_options">People &amp; options</string>
-    <!-- Option menu item in the conversation list view and conversation view that shows debug menu -->
-    <string name="action_debug_options">Debug</string>
     <!-- Title for the "People and Options" activity -->
     <string name="people_and_options_activity_title">People &amp; options</string>
     <!-- Title for the general settings section in the "People and options" activity -->
@@ -565,7 +525,6 @@
         <item quantity="other">Invalid contacts</item>
     </plurals>
     <!-- Error toast message shown when a camera image failed to attach to the message -->
-    <string name="camera_media_failure">Couldn\'t load camera image</string>
 
     <!-- A message in conversation list view to indicate that the snipit text and preview is from an unsent draft. -->
     <string name="conversation_list_item_view_draft_message">Draft</string>
@@ -674,8 +633,6 @@
 
     <!-- Text for a toast message notifying the user that we can't find an appropriate application to handle their request -->
     <string name="activity_not_found_message">Could not find an appropriate application</string>
-
-    <string name="debug_sub_id_spinner_text" translatable="false">SUB Id</string>
 
     <!-- Accessibility : Content description for deleting a recipient chip. -->
     <string name="chips_delete_content_description">Remove recipient</string>
@@ -788,11 +745,6 @@
 
     <!-- Toast message telling the user a conversation with a recipient could not be found or created -->
     <string name="conversation_creation_failure">Could not start conversation</string>
-
-    <!-- When converting html to text link urls are inlined.  This specifies how the link should be
-    displayed.  For example, a link "click here" which navigates to "www.google.com" would have
-    text="click here" and url="www.google.com", using the below format to create "click here (www.google.com)" -->
-    <string name="link_display_format"><xliff:g id="text">%1$s</xliff:g> (<xliff:g id="url">%2$s</xliff:g>)</string>
 
     <!-- The accessibility text read when the sim chooser pops up to read the current selected sim -->
     <string name="selected_sim_content_message"><xliff:g id="selected_sim">%s</xliff:g> selected</string>
