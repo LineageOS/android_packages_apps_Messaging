@@ -279,14 +279,6 @@ public class ConversationActivity extends BugleActionBarActivity
     }
 
     @Override // From ConversationFragmentHost
-    public void onConversationMessagesUpdated(final int numberOfMessages) {
-    }
-
-    @Override // From ConversationFragmentHost
-    public void onConversationParticipantDataLoaded(final int numberOfParticipants) {
-    }
-
-    @Override // From ConversationFragmentHost
     public boolean isActiveAndFocused() {
         return !mIsPaused && hasWindowFocus();
     }

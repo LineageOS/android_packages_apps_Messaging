@@ -249,10 +249,6 @@ public class VCardRequest implements MediaRequest<VCardResource> {
         }
 
         @Override
-        public void onStart() {
-        }
-
-        @Override
         @DoesNotRunOnMainThread
         public void onEntryCreated(final CustomVCardEntry entry) {
             Assert.isNotMainThread();

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.os.UserManager;
 
-import com.android.messaging.Factory;
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
 
@@ -41,7 +40,6 @@ public class BugleActivityUtil {
      */
     public static boolean onActivityResume(Context context, Activity activity) {
         DataModel.get().onActivityResume();
-        Factory.get().onActivityResume();
 
         // Validate all requirements to run are met
         return checkHasSmsPermissionsForUser(context, activity);
