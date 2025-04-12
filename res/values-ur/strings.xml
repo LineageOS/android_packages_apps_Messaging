@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"تصویر منتخب کریں"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"میڈیا منتخب کردہ ہے۔"</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"میڈیا غیر منتخب کردہ ہے۔"</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> کو منتخب کیا گیا"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"تصویر <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"تصویر"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"آڈیو ریکارڈ کریں"</string>
     <string name="action_share" msgid="2143483844803153871">"اشتراک کریں"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"ابھی ابھی"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"بھیجا نہیں گیا۔ دوبارہ کوشش کی جا رہی ہے…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"دوبارہ بھیجیں یا حذف کریں"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"براہ کرم ہنگامی سروسز کیلئے ایک صوتی کال کریں۔ آپ کا متنی پیغام اس وقت ڈیلیور نہیں کیا جا سکا۔"</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"ناکام"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"‏ڈاؤن لوڈ کرنے کیلئے نیا MMS پیغام"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"‏نیا MMS پیغام"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"ڈاؤن لوڈ نہیں کیا جا سکا"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"ڈاؤن لوڈ ہو رہا ہے…"</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"پیغام کی میعاد ختم ہو گئی یا دستیاب نہیں ہے"</string>
     <string name="mms_info" msgid="3402311750134118165">"سائز: <xliff:g id="MESSAGESIZE">%1$s</xliff:g>، اختتامی میعاد: <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"بھیجا نہیں جا سکتا۔ وصول کنندہ درست نہیں ہے۔"</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"نیٹ ورک پر سروس فعال نہیں ہے"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"نیٹ ورک کے مسئلہ کی وجہ سے نہیں بھیجا جا سکا"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"پیغام کی میعاد ختم ہو گئی یا دستیاب نہیں ہے"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(بلا عنوان)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"نامعلوم ارسال کنندہ"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"ڈیلیور ہو گیا"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"پیغام <xliff:g id="SUBJECT">%1$s</xliff:g> کو <xliff:g id="FROM">%2$s</xliff:g> سے ڈاؤن لوڈ نہیں کیا جا سکا۔"</string>
-    <string name="low_memory" msgid="5300743415198486619">"کم میموری کی وجہ سے ڈیٹا بیس کی کارروائی مکمل نہیں ہو سکی"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"پیغام نہیں بھیجا گیا"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"پیغام رسانی میں کچھ پیغامات کو نہیں بھیجا گیا"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> نئے پیغامات</item>
       <item quantity="one">نیا پیغام</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"شروع کریں"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"کیمرہ دستیاب نہیں ہے"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"کیمرہ دستیاب نہیں ہے"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"ویڈیو کیپچر دستیاب نہیں ہے"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"میڈیا کو محفوظ نہیں کیا جا سکتا ہے"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"تصویر نہیں لی جا سکتی"</string>
     <string name="back" msgid="1477626055115561645">"واپس جائیں"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"آرکائیو کردہ"</string>
     <string name="action_delete" msgid="4076795795307486019">"حذف کریں"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"حذف کریں"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"منسوخ کریں"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"بنام"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"متعدد تصاویر منتخب کریں"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"انتخاب کی توثیق کریں"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"‎+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"آڈیو کو ریکارڈ نہیں کیا جا سکتا ہے۔ دوبارہ کوشش کریں۔"</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"آڈیو کو چلایا نہیں جا سکتا ہے۔ دوبارہ کوشش کریں۔"</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"رابطہ کو غیر مسدود کر دیا گیا اور آرکائیو سے نکال دیا گیا"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"<xliff:g id="COUNT">%d</xliff:g> کو آرکائیو کر دیا گیا"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"<xliff:g id="COUNT">%d</xliff:g> کو آرکائیو سے نکال دیا گیا"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"اطلاعات آف کر دی گئیں"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"اطلاعات آن کر دی گئیں"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"سب ٹھیک ہے۔ بھیجیں کو دوبارہ ٹچ کریں۔"</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"‏پیغام رسانی کامیابی سے بطور ڈیفالٹ SMS ایپ سیٹ ہو گئی۔"</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"ناکام پیغام بنام <xliff:g id="GROUP">%1$s</xliff:g>: <xliff:g id="MESSAGE">%2$s</xliff:g>۔ وقت: <xliff:g id="TIME">%3$s</xliff:g>۔"</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"پیغام بنام <xliff:g id="GROUP">%1$s</xliff:g>: <xliff:g id="MESSAGE">%2$s</xliff:g>۔ وقت: <xliff:g id="TIME">%3$s</xliff:g>۔"</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"ناکام پیغام۔ دوبارہ کوشش کرنے کیلئے ٹچ کریں۔"</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> کے ساتھ گفتگو"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"موضوع حذف کریں"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"ویڈیو کیپچر کریں"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"ایک ساکت تصویر کیپچر کریں"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"تصویر لیں"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"ویڈیو ریکارڈ کرنا شروع کریں"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"پوری اسکرین کے کیمرہ پر سوئچ کریں"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"سامنے اور پیچھے کے کیمرے کے درمیان سوئچ کریں"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"ریکارڈنگ بند کریں اور ویڈیو منسلک کریں"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"ویڈیو ریکارڈ کرنے کو روکیں"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"پیغام رسانی تصاویر"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> تصاویر \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" البم میں محفوظ ہو گئیں</item>
@@ -223,16 +193,11 @@
       <item quantity="other"> <xliff:g id="QUANTITY_1">%d</xliff:g> منسلکہ جات کو محفوظ نہیں کیا جا سکا</item>
       <item quantity="one"> <xliff:g id="QUANTITY_0">%d</xliff:g> منسلکہ کو محفوظ نہیں کیا جا سکا</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"‏MMS منسلکہ کو محفوظ کر دیا گیا"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"ترتیبات"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"آرکائیو کردہ"</string>
-    <string name="action_close" msgid="1840519376200478419">"بند کریں"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"جدید ترین"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"ڈیبگ کریں"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"اطلاعات"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"خاموش"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"مسدود"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"‏SMS ڈیلیوری کی رپورٹس"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"‏اپنے ذریعہ بھیجے جانے والے ہر SMS کی ایک ڈیلیوری رپورٹ کی درخواست کریں"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"خودکار طور پر بازیافت کریں"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"رومنگ کے وقت خود کار بازیابی"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"‏رومنگ میں رہتے ہوئے MMS کی خود کار طور پر بازيابی کریں"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"گروپ پیغام رسانی"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"‏متعدد وصول کنندگان ہونے کی صورت میں ایک پیغام بھیجنے کیلئے MMS استعمال کریں"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"‏ڈیفالٹ SMS ایپ"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"آپ کا فون نمبر"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"نامعلوم"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"آؤٹ گوئنگ پیغامات کی آوازیں"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"‏SMS کو ڈمپ کریں"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"‏وصول کردہ SMS خام ڈیٹا کو خارجی اسٹوریج فائل میں ڈمپ کریں"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"‏MMS کو ڈمپ کریں"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"‏وصول کردہ MMS خام ڈیٹا کو خارجی اسٹوریج فائل میں ڈمپ کریں"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"وائرلیس الرٹس"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"پیغام کے اختیارات"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"متن کاپی کریں"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"تفصیلات دیکھیں"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"حذف کریں"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"فارورڈ کریں"</string>
     <string name="message_details_title" msgid="8451487656255395372">"پیغام کی تفصیلات"</string>
     <string name="message_type_label" msgid="6442873901113487978">"قسم: "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"SIM <xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>‎"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"ارسال کنندہ کا پتہ مخفی کر دیا گیا"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"منسلکات کو لوڈ کرتے وقت پیغام نہیں بھیجا جا سکتا۔"</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"منسلکہ کو لوڈ نہیں کیا جا سکتا۔ دوبارہ کوشش کریں۔"</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"نیٹ ورک تیار نہیں ہے۔ دوبارہ کوشش کریں۔"</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"متن کو حذف کریں"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"متن اور اعداد درج کرنے کے بیچ سوئچ کریں"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"اس آئٹم کو منتخب کریں"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"ویڈیو چلائیں"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"لوگ اور اختیارات"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"ڈیبگ کریں"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"لوگ اور اختیارات"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"عام"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"اس گفتگو میں موجود لوگ"</string>
@@ -316,14 +271,9 @@
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> منسلکہ جات بھیجنے کیلئے تیار</item>
       <item quantity="one">ایک منسلکہ بھیجنے کیلئے تیار</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"تاثرات بھیجیں"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"‏Google Play اسٹور میں دیکھیں"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"ورژن کی معلومات"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"‏ورژن ‎%1$s"</string>
     <string name="menu_license" msgid="1157954180701135202">"اوپن سورس لائسنسز"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"اطلاعات"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"منسلکہ کی حد تک پہنچ گئے"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"منسلکہ لوڈ کرنے میں ناکام۔"</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"رابطوں میں شامل کریں؟"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"رابطہ شامل کریں"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"موضوع"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"سالگرہ"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"نوٹس"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"پیغام فارورڈ کریں"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"جواب دیں"</string>
     <string name="plus_one" msgid="9010288417554932581">"‎+1‎"</string>
     <string name="plus_n" msgid="8961547034116059566">"‎+%d‎"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"‏SMS غیر فعال ہے"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"‏بھیجنے کیلئے پیغام رسانی کو بطور ڈیفالٹ SMS ایپ سیٹ کریں"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"‏پیغام رسانی کو بطور ڈیفالٹ SMS ایپ سیٹ کریں"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"تبدیل کریں"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"‏پیغامات موصول کرنے کیلئے پیغام رسانی کو بطور ڈیفالٹ SMS ایپ سیٹ کریں"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"‏SMS پیغامات بھیجنے کیلئے کوئی ترجیحی SIM منتخب نہیں کیا گیا"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"آلہ کے مالک نے اس ایپ کی اجازت نہیں دی ہے۔"</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"ٹھیک ہے"</string>
@@ -356,9 +304,6 @@
       <item quantity="other">غلط رابطے</item>
       <item quantity="one">غلط رابطہ</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"کیمرے کی تصویر کو لوڈ نہیں کیا جا سکا"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"آپ: "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"‎<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>:‎ "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"مسودہ"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"کوئی نئی گفتگو شروع کرنے پر، آپ اسے یہاں مندرج دیکھیں گے"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"آرکائیو کردہ گفتگوئیں یہاں ظاہر ہوتی ہیں"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"آپ کو اس نمبر سے پیغامات موصول ہوتے رہیں گے لیکن مزید مطلع نہیں کیا جائے گا۔ اس گفتگو کو آرکائیو کر دیا جائے گا۔"</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"مسدود رابطے"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"غیر مسدود کریں"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"مسدود رابطے"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"دستاویز لائبریری سے تصویر منتخب کریں"</string>
     <string name="sending_message" msgid="6363584950085384929">"پیغام بھیجا جا رہا ہے"</string>
     <string name="send_message_success" msgid="4088006261869323324">"پیغام بھیج دیا گیا"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"سیلولر ڈیٹا آف ہے۔ اپنی ترتیبات چیک کریں۔"</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"وصول کنندہ کو ہٹائیں"</string>
     <string name="share_new_message" msgid="2135955613694195483">"نیا پیغام"</string>
     <string name="share_cancel" msgid="6666929391961668469">"منسوخ کریں"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"رسائی کی جگہ میں ترمیم کریں"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"سیٹ نہیں ہے"</string>
-    <string name="apn_name" msgid="1572691851070894985">"نام"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"‏MMS پراکسی"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"‏MMS پورٹ"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"‏APN قسم"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"‏APN کو حذف کریں"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"‏نیا APN"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"محفوظ کریں"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"مسترد کریں"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"نام کی فیلڈ خالی نہیں رہ سکتی-"</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"‏APN خالی نہيں رہ سکتا۔"</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"‏MCC فیلڈ میں 3 ہندسے ہونا ضروری ہے۔"</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"‏MNC فیلڈ میں 2 یا 3 ہندسے ہونا ضروری ہے-"</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"‏ڈیفالٹ APN ترتیبات بحال ہو رہی ہیں-"</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"ڈیفالٹ پر دوبارہ ترتیب دیں"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"‏ڈیفالٹ APN ترتیبات کو دوبارہ ترتیب دینے کا عمل مکمل ہو گیا-"</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"بلا عنوان"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"رسائی کی جگہ کے نام"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APNs"</string>
-    <string name="menu_new" msgid="8286285392706532511">"‏نیا APN"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"رسائی کی جگہ کے نام کی ترتیبات اس صارف کیلئے دستیاب نہیں ہیں"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"کلپ بورڈ پر کاپی کریں؟"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"کاپی کریں"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"<xliff:g id="SIM_NAME">%s</xliff:g> پر"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"آڈیو ریکارڈ کرنے کیلئے ٹچ کریں اور پکڑ کر رکھیں"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"نئی گفتگو شروع کریں"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"پیغام رسانی"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"پیغام رسانی کی فہرست"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"پیغام رسانی"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"نیا پیغام"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"گفتگو کی فہرست"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"گفتگوئیں لوڈ ہو رہی ہیں"</string>
     <string name="loading_messages" msgid="3894765818932489665">"پیغامات لوڈ ہو رہے ہیں"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"پیغام رسانی منسلکہ کو لوڈ کرنے میں ناکام رہی۔"</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"بہر صورت بھیجیں"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"گفتگو شروع نہیں کی جا سکی"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> منتخب کردہ"</string>
 </resources>
