@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2025 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -20,8 +21,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="16dp"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
     android:singleLine="true"
     android:maxLines="1"
     android:hint="@string/enter_phone_number_hint"
