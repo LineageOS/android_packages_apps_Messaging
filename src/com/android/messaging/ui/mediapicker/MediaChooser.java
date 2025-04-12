@@ -107,9 +107,6 @@ abstract class MediaChooser extends BasePagerViewHolder
         return LayoutInflater.from(getContext());
     }
 
-    /** Allows the chooser to handle full screen change */
-    void onFullScreenChanged(final boolean fullScreen) {}
-
     /** Allows the chooser to handle the chooser being opened or closed */
     void onOpenedChanged(final boolean open) {
         mOpen = open;
@@ -176,9 +173,6 @@ abstract class MediaChooser extends BasePagerViewHolder
         return false;
     }
 
-    public void onCreateOptionsMenu(final MenuInflater inflater, final Menu menu) {
-    }
-
     public boolean onOptionsItemSelected(final MenuItem item) {
         return false;
     }
@@ -204,5 +198,4 @@ abstract class MediaChooser extends BasePagerViewHolder
 
     /** Optional activity life-cycle methods to be overridden by subclasses */
     public void onPause() { }
-    public void onResume() { }
 }

@@ -28,11 +28,6 @@ public class CustomVCardEntryConstructor implements VCardInterpreter {
 
     public interface EntryHandler {
         /**
-         * Called when the parsing started.
-         */
-        void onStart();
-
-        /**
          * The method called when one vCard entry is created. Children come before their parent in
          * nested vCard files.
          *
@@ -86,9 +81,6 @@ public class CustomVCardEntryConstructor implements VCardInterpreter {
 
     @Override
     public void onVCardStarted() {
-        for (EntryHandler entryHandler : mEntryHandlers) {
-            entryHandler.onStart();
-        }
     }
 
     @Override

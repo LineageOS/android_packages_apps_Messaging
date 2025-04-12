@@ -94,22 +94,12 @@ public abstract class NotificationState {
      */
     protected abstract NotificationCompat.Style build(NotificationCompat.Builder builder);
 
-    protected void setAvatarUrlsForConversation(final String conversationId) {
-    }
-
-    protected void setPeopleForConversation(final String conversationId) {
-    }
-
     /**
      * Reserves request codes for this notification type. By default 2 codes are reserved, one for
      * the main intent and another for the cancel intent. Override this function to reserve more.
      */
     public int getNumRequestCodesNeeded() {
         return NUM_REQUEST_CODES_NEEDED;
-    }
-
-    public int getContentIntentRequestCode() {
-        return mBaseRequestCode + CONTENT_INTENT_REQUEST_CODE_OFFSET;
     }
 
     public int getClearIntentRequestCode() {
@@ -120,14 +110,6 @@ public abstract class NotificationState {
      * Gets the appropriate icon needed for notifications.
      */
     public abstract int getIcon();
-
-    /**
-     * @return the type of notification that should be used from {@link RealTimeChatNotifications}
-     * so that the proper ringtone and vibrate settings can be used.
-     */
-    public int getLatestMessageNotificationType() {
-        return BugleNotifications.LOCAL_SMS_NOTIFICATION;
-    }
 
     /**
      * @return the notification priority level for this notification.

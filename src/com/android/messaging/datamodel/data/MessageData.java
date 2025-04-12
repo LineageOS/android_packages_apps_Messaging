@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -660,7 +660,7 @@ public class MessageData implements Parcelable {
     }
 
     public final String getMessageText() {
-        final String separator = System.getProperty("line.separator");
+        final String separator = System.lineSeparator();
         final StringBuilder text = new StringBuilder();
         for (final MessagePartData part : mParts) {
             if (!part.isAttachment() && !TextUtils.isEmpty(part.getText())) {
@@ -678,7 +678,7 @@ public class MessageData implements Parcelable {
      * appends a text part
      */
     public final void consolidateText() {
-        final String separator = System.getProperty("line.separator");
+        final String separator = System.lineSeparator();
         final StringBuilder captionText = new StringBuilder();
         MessagePartData firstTextPart = null;
         int firstTextPartIndex = -1;
