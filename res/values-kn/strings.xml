@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"ಫೋಟೋ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"ಮಾಧ್ಯಮ ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"ಮಾಧ್ಯಮ ಆಯ್ಕೆ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"ಚಿತ್ರ <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"ಚಿತ್ರ"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"ಆಡಿಯೋ ರೆಕಾರ್ಡ್‌ ಮಾಡಿ"</string>
     <string name="action_share" msgid="2143483844803153871">"ಹಂಚಿಕೊಳ್ಳಿ"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"ಈಗ ತಾನೇ"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"ಕಳುಹಿಸಲಾಗಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಲಾಗುತ್ತಿದೆ…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"ಮರುಕಳುಹಿಸಿ ಅಥವಾ ಅಳಿಸಿ"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"ತುರ್ತು ಸೇವೆಗಳಿಗೆ ದಯವಿಟ್ಟು ಧ್ವನಿ ಕರೆಗಳನ್ನು ಮಾಡಿ. ಈ ಸಮಯದಲ್ಲಿ ನಿಮ್ಮ ಪಠ್ಯ ಸಂದೇಶವನ್ನು ತಲುಪಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"ವಿಫಲವಾಗಿದೆ"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಹೊಸ MMS ಸಂದೇಶ"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"ಹೊಸ MMS ಸಂದೇಶ"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"ಡೌನ್‌ಲೋಡ್‌ ಮಾಡಲಾಗುತ್ತಿದೆ…"</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"ಸಂದೇಶ ಅವಧಿ ಮೀರಿದೆ ಅಥವಾ ಲಭ್ಯವಿಲ್ಲ"</string>
     <string name="mms_info" msgid="3402311750134118165">"ಗಾತ್ರ: <xliff:g id="MESSAGESIZE">%1$s</xliff:g>, ಮುಕ್ತಾಯ: <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"ಕಳುಹಿಸಲಾಗುವುದಿಲ್ಲ. ಸ್ವೀಕರಿಸುವವರು ಮಾನ್ಯವಾಗಿಲ್ಲ."</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"ನೆಟ್‌ವರ್ಕ್‌ನಲ್ಲಿ ಸೇವೆಯು ಸಕ್ರಿಯಗೊಂಡಿಲ್ಲ"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"ನೆಟ್‌ವರ್ಕ್‌ ಸಮಸ್ಯೆಯಿಂದಾಗಿ  ಕಳುಹಿಸಲಾಗಲಿಲ್ಲ"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"ಸಂದೇಶ ಅವಧಿ ಮೀರಿದೆ ಅಥವಾ ಲಭ್ಯವಿಲ್ಲ"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(ವಿಷಯ ಇಲ್ಲ)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"ಕಳುಹಿಸಿದವರು ತಿಳಿದಿಲ್ಲ"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"ತಲುಪಿಸಲಾಗಿದೆ"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"<xliff:g id="FROM">%2$s</xliff:g> ರಿಂದ <xliff:g id="SUBJECT">%1$s</xliff:g> ಸಂದೇಶವನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
-    <string name="low_memory" msgid="5300743415198486619">"ಕಡಿಮೆ ಮೆಮೊರಿಯ ಕಾರಣ ಡೇಟಾಬೇಸ್ ಕಾರ್ಯಾಚರಣೆಯನ್ನು ಪೂರ್ಣಗೊಳಿಸಲು ಸಾಧ್ಯವಾಗುತ್ತಿಲ್ಲ"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿಲ್ಲ"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯಲ್ಲಿ ಕೆಲವು ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲಾಗಿಲ್ಲ"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="one"><xliff:g id="MESSAGES">%d</xliff:g> ಹೊಸ ಸಂದೇಶಗಳು</item>
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> ಹೊಸ ಸಂದೇಶಗಳು</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"ಪ್ರಾರಂಭಿಸು"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"ಕ್ಯಾಮರಾ ಲಭ್ಯವಿಲ್ಲ"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"ಕ್ಯಾಮರಾ ಲಭ್ಯವಿಲ್ಲ"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"ವಿಡಿಯೋ ಸೆರೆಹಿಡಿಯುವಿಕೆ ಲಭ್ಯವಿಲ್ಲ"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"ಮಾಧ್ಯಮ ಉಳಿಸಲಾಗಲಿಲ್ಲ"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"ಫೋಟೋ ತೆಗೆದುಕೊಳ್ಳಲು ಸಾಧ್ಯವಿಲ್ಲ"</string>
     <string name="back" msgid="1477626055115561645">"ಹಿಂದೆ"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"ಆರ್ಕೈವ್ ಮಾಡಲಾಗಿದೆ"</string>
     <string name="action_delete" msgid="4076795795307486019">"ಅಳಿಸಿ"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"ಅಳಿಸಿ"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"ರದ್ದುಮಾಡು"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"ಇವರಿಗೆ"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"ಬಹು ಚಿತ್ರಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"ಆಯ್ಕೆ ಖಚಿತಪಡಿಸಿ"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"ಆಡಿಯೋ ರೆಕಾರ್ಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"ಆಡಿಯೋವನ್ನು ಪ್ಲೇ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"ಸಂಪರ್ಕವನ್ನು ಅನಿರ್ಬಂಧಿಸಲಾಗಿದೆ &amp; ಆರ್ಕೈವ್ ರದ್ದುಮಾಡಲಾಗಿದೆ"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"<xliff:g id="COUNT">%d</xliff:g> ಆರ್ಕೈವ್‌‌ ಮಾಡಲಾಗಿದೆ"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"<xliff:g id="COUNT">%d</xliff:g> ಅನ್‌ಆರ್ಕೈವ್‌ ಮಾಡಲಾಗಿದೆ"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"ಅಧಿಸೂಚನೆಗಳನ್ನು ಆಫ್ ಮಾಡಲಾಗಿದೆ"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"ಅಧಿಸೂಚನೆಗಳನ್ನು ಆನ್ ಮಾಡಲಾಗಿದೆ"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"ಎಲ್ಲವನ್ನೂ ಹೊಂದಿಸಲಾಗಿದೆ. ಮತ್ತೆ ಕಳುಹಿಸಲು ಸ್ಪರ್ಶಿಸಿ."</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಡೀಫಾಲ್ಟ್ SMS ಅಪ್ಲಿಕೇಶನ್‌ನಂತೆ ಹೊಂದಿಸಲಾಗಿದೆ."</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"<xliff:g id="GROUP">%1$s</xliff:g> ಗೆ ಸಂದೇಶ ವಿಫಲವಾಗಿದೆ : <xliff:g id="MESSAGE">%2$s</xliff:g>. ಸಮಯ: <xliff:g id="TIME">%3$s</xliff:g>."</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"<xliff:g id="GROUP">%1$s</xliff:g> ಗೆ ಸಂದೇಶ: <xliff:g id="MESSAGE">%2$s</xliff:g>. ಸಮಯ: <xliff:g id="TIME">%3$s</xliff:g>."</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"ಸಂದೇಶ ವಿಫಲವಾಗಿದೆ. ಮರುಪ್ರಯತ್ನಿಸಲು ಸ್ಪರ್ಶಿಸಿ."</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> ಅವರೊಂದಿಗೆ ಸಂಭಾಷಣೆ"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"ವಿಷಯವನ್ನು ಅಳಿಸಿ"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"ವೀಡಿಯೊ ಸೆರೆಹಿಡಿಯಿರಿ"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"ಸ್ಥಿರ ಚಿತ್ರವನ್ನು ಸೆರೆಹಿಡಿಯಿರಿ"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"ಫೋಟೋ ತೆಗೆಯಿರಿ"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"ವೀಡಿಯೊ ರೆಕಾರ್ಡಿಂಗ್ ಪ್ರಾರಂಭಿಸಿ"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"ಪೂರ್ಣ ಪರದೆ ಕ್ಯಾಮರಾಗೆ ಬದಲಿಸಿ"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"ಮುಂದಿನ ಮತ್ತು ಹಿಂದಿನ ಕ್ಯಾಮರಾ ನಡುವೆ ಬದಲಾಯಿಸಿ"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ ಮತ್ತು ವೀಡಿಯೊ ಲಗತ್ತಿಸಿ"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"ವೀಡಿಯೊ ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"ಫೋಟೋಗಳ ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="one">\"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" ಆಲ್ಬಮ್‌ಗೆ <xliff:g id="QUANTITY_2">%d</xliff:g> ಫೋಟೋಗಳನ್ನು ಉಳಿಸಲಾಗಿದೆ</item>
@@ -223,16 +193,11 @@
       <item quantity="one"><xliff:g id="QUANTITY_1">%d</xliff:g> ಲಗತ್ತುಗಳನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</item>
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g> ಲಗತ್ತುಗಳನ್ನು ಉಳಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS ಲಗತ್ತನ್ನು ಉಳಿಸಲಾಗಿದೆ"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"ಸೆಟ್ಟಿಂಗ್‌ಗಳು"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"ಆರ್ಕೈವ್ ಮಾಡಲಾಗಿದೆ"</string>
-    <string name="action_close" msgid="1840519376200478419">"ಮುಚ್ಚು"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"ಸುಧಾರಿತ"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"ಡೀಬಗ್ ಮಾಡು"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"ಅಧಿಸೂಚನೆಗಳು"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"ಶಾಂತ"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"ನಿರ್ಬಂಧಿಸಲಾಗಿದೆ"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"SMS ವಿತರಣಾ ವರದಿಗಳು"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"ನೀವು ಕಳುಹಿಸುವ ಪ್ರತಿ SMS ಗೂ ವಿತರಣೆ ವರದಿಯನ್ನು ವಿನಂತಿಸಿ"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"ಸ್ವಯಂ-ಹಿಂಪಡೆಯುವಿಕೆ"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"ರೋಮಿಂಗ್‌‌ನಲ್ಲಿರುವಾಗ ಸ್ವಯಂ-ಹಿಂಪಡೆಯುವಿಕೆ"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"ರೋಮಿಂಗ್‌ನಲ್ಲಿರುವಾಗ ಸ್ವಯಂಚಾಲಿತವಾಗಿ MMS ಹಿಂಪಡೆಯಿರಿ"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"ಗುಂಪು ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"ಅನೇಕ ಸ್ವೀಕೃತದಾರರು ಇರುವಾಗ ಒಂದೇ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು MMS ಬಳಸಿ"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"ಡೀಫಾಲ್ಟ್ SMS ಅಪ್ಲಿಕೇಶನ್"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"ನಿಮ್ಮ ಫೋನ್‌ ಸಂಖ್ಯೆ"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"ಅಪರಿಚಿತ"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"ಹೊರಹೋಗುವ ಸಂದೇಶಕ್ಕೆ ಧ್ವನಿಗಳು"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"ಡಂಪ್ SMS"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆ ಫೈಲ್‌ಗೆ SMS ಕಚ್ಛಾ ಡೇಟಾವನ್ನು ಡಂಪ್ ಸ್ವೀಕರಿಸಿದೆ"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"ಡಂಪ್ MMS"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"ಬಾಹ್ಯ ಸಂಗ್ರಹಣೆ ಫೈಲ್‌ಗೆ MMS ಕಚ್ಛಾ ಡೇಟಾವನ್ನು ಡಂಪ್ ಸ್ವೀಕರಿಸಿದೆ"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"ವೈರ್‌ಲೆಸ್ ಎಚ್ಚರಿಕೆಗಳು"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"ಸಂದೇಶ ಆಯ್ಕೆಗಳು"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"ಪಠ್ಯ ನಕಲಿಸು"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಿ"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"ಅಳಿಸಿ"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"ಫಾರ್ವರ್ಡ್ ಮಾಡು"</string>
     <string name="message_details_title" msgid="8451487656255395372">"ಸಂದೇಶ ವಿವರಗಳು"</string>
     <string name="message_type_label" msgid="6442873901113487978">"ಪ್ರಕಾರ: "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"SIM <xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"ಮರೆಮಾಡಲಾಗಿರುವ ಕಳುಹಿಸುವವರ ವಿಳಾಸ"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"ಲಗತ್ತುಗಳನ್ನು ಲೋಡ್ ಮಾಡುತ್ತಿರುವಾಗ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ."</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"ನೆಟ್‌ವರ್ಕ್ ಸಿದ್ಧವಾಗಿಲ್ಲ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ."</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"ಪಠ್ಯ ಅಳಿಸಿ"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"ಪಠ್ಯ ಮತ್ತು ಸಂಖ್ಯೆಗಳ ನಡುವೆ ನಮೂದಿಸುವುದನ್ನು ಬದಲಾಯಿಸಿ"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"ಈ ಐಟಂ ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"ವೀಡಿಯೊ ಪ್ಲೇ ಮಾಡಿ"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"ಜನರು &amp; ಆಯ್ಕೆಗಳು"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"ಡೀಬಗ್ ಮಾಡು"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"ಜನರು &amp; ಆಯ್ಕೆಗಳು"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"ಸಾಮಾನ್ಯ"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"ಈ ಸಂವಾದದಲ್ಲಿರುವ ಜನರು"</string>
@@ -316,14 +271,9 @@
       <item quantity="one"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> ಕಳುಹಿಸಲು ಲಗತ್ತುಗಳು ಸಿದ್ಧವಾಗಿವೆ</item>
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> ಕಳುಹಿಸಲು ಲಗತ್ತುಗಳು ಸಿದ್ಧವಾಗಿವೆ</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಿ"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"Google Play Store ನಲ್ಲಿ ವೀಕ್ಷಿಸಿ"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"ಆವೃತ್ತಿ ಮಾಹಿತಿ"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"ಆವೃತ್ತಿ %1$s"</string>
     <string name="menu_license" msgid="1157954180701135202">"ಮುಕ್ತ ಮೂಲ ಪರವಾನಗಿಗಳು"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"ಅಧಿಸೂಚನೆಗಳು"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"ಲಗತ್ತು ಮಿತಿಯನ್ನು ತಲುಪಿದೆ"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ."</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"ಸಂಪರ್ಕಗಳಿಗೆ ಸೇರಿಸುವುದೇ?"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"ಸಂಪರ್ಕ ಸೇರಿಸು"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"ವಿಷಯ"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"ಜನ್ಮದಿನ"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"ಟಿಪ್ಪಣಿಗಳು"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"ಸಂದೇಶವನ್ನು ಫಾರ್ವರ್ಡ್ ಮಾಡು"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"ಪ್ರತ್ಯುತ್ತರ ನೀಡು"</string>
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"SMS ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"ಕಳುಹಿಸಲು, ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ಡೀಫಾಲ್ಟ್ SMS ಅಪ್ಲಿಕೇಶನ್‌ನಂತೆ ಹೊಂದಿಸಿ"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ಡೀಫಾಲ್ಟ್ SMS ಅಪ್ಲಿಕೇಶನ್‌ನಂತೆ ಹೊಂದಿಸಿ"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"ಬದಲಾಯಿಸು"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸಲು, ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯನ್ನು ಡೀಫಾಲ್ಟ್ SMS ಅಪ್ಲಿಕೇಶನ್‌ನಂತೆ ಹೊಂದಿಸಿ"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"SMS ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸಲು ಯಾವುದೇ ಪ್ರಾಶಸ್ತ್ಯದ ಸಿಮ್ ಆಯ್ಕೆಮಾಡಲಾಗಿಲ್ಲ"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"ಸಾಧನದ ಮಾಲೀಕರಿಂದ ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಅನುಮತಿಸಲಾಗಿಲ್ಲ"</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"ಸರಿ"</string>
@@ -356,9 +304,6 @@
       <item quantity="one">ಅಮಾನ್ಯ ಸಂಪರ್ಕಗಳು</item>
       <item quantity="other">ಅಮಾನ್ಯ ಸಂಪರ್ಕಗಳು</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"ಕ್ಯಾಮರಾ ಚಿತ್ರವನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"ನೀವು: "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"ಡ್ರಾಫ್ಟ್‌"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"ನೀವು ಒಮ್ಮೆ ಹೊಸ ಸಂವಾದ ಪ್ರಾರಂಭಿಸಿದರೆ, ಅದು ಇಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಲಾಗಿರುವುದನ್ನು ನೋಡುತ್ತೀರಿ"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"ಆರ್ಕೈವ್‌ ಮಾಡಲಾದ ಸಂವಾದಗಳು ಇಲ್ಲಿ ಗೋಚರಿಸುತ್ತವೆ"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"ಈ ಸಂಖ್ಯೆಯಿಂದ ಸಂದೇಶಗಳನ್ನು ಸ್ವೀಕರಿಸಲು ನೀವು ಮುಂದುವರೆಸುತ್ತೀರಿ ಆದರೆ ಇನ್ನು ಮುಂದೆ ಸೂಚನೆ ನೀಡುವುದಿಲ್ಲ. ಈ ಸಂವಾದವನ್ನು ಆರ್ಕೈವ್‌ ಮಾಡಲಾಗುವುದು."</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"ನಿರ್ಬಂಧಿಸಲಾದ ಸಂಪರ್ಕಗಳು"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"ಅನಿರ್ಬಂಧಿಸು"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"ನಿರ್ಬಂಧಿಸಲಾದ ಸಂಪರ್ಕಗಳು"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"ಡಾಕ್ಯುಮೆಂಟ್ ಲೈಬ್ರರಿಯಿಂದ ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ"</string>
     <string name="sending_message" msgid="6363584950085384929">"ಸಂದೇಶ ಕಳುಹಿಸಲಾಗುತ್ತಿದೆ"</string>
     <string name="send_message_success" msgid="4088006261869323324">"ಸಂದೇಶ ಕಳುಹಿಸಲಾಗಿದೆ"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"ಸೆಲ್ಯುಲಾರ್ ಡೇಟಾ ಆಫ್ ಮಾಡಲಾಗಿದೆ. ನಿಮ್ಮ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಪರೀಕ್ಷಿಸಿ."</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"ಸ್ವೀಕೃತಿದಾರರನ್ನು ತೆಗೆದುಹಾಕಿ"</string>
     <string name="share_new_message" msgid="2135955613694195483">"ಹೊಸ ಸಂದೇಶ"</string>
     <string name="share_cancel" msgid="6666929391961668469">"ರದ್ದುಮಾಡು"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"ಪ್ರವೇಶ ಬಿಂದು ಸಂಪಾದನೆ"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"ಹೊಂದಿಸಿಲ್ಲ"</string>
-    <string name="apn_name" msgid="1572691851070894985">"ಹೆಸರು"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"MMS ಪ್ರಾಕ್ಸಿ"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"MMS ಪೋರ್ಟ್"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"APN ಪ್ರಕಾರ"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"APN ಅಳಿಸು"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"ಹೊಸ APN"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"ಉಳಿಸು"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"ತಿರಸ್ಕರಿಸು"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"ಹೆಸರಿನ ಕ್ಷೇತ್ರವು ಖಾಲಿ ಇರುವಂತಿಲ್ಲ."</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"APN ಖಾಲಿ ಇರುವಂತಿಲ್ಲ."</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"MCC ಕ್ಷೇತ್ರವು 3 ಅಂಕಿಗಳಾಗಿರಬೇಕು."</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"MNC ಕ್ಷೇತ್ರವು 2 ಅಥವಾ 3 ಅಂಕಿಗಳಾಗಿರಬೇಕು."</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"ಡೀಫಾಲ್ಟ್ APN ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ."</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"ಡೀಫಾಲ್ಟ್‌ಗೆ  ಮರುಹೊಂದಿಸು"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"ಡೀಫಾಲ್ಟ್ APN ಸೆಟ್ಟಿಂಗ್‌ಗಳ ಮರುಹೊಂದಿಕೆಯು ಪೂರ್ಣಗೊಂಡಿದೆ."</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"ಶೀರ್ಷಿಕೆರಹಿತ"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"ಪ್ರವೇಶಿಸುವಿಕೆ ಕೇಂದ್ರದ ಹೆಸರುಗಳು"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APN ಗಳು"</string>
-    <string name="menu_new" msgid="8286285392706532511">"ಹೊಸ APN"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"ಪ್ರವೇಶ ಬಿಂದು ಹೆಸರಿನ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಈ ಬಳಕೆದಾರರಿಗೆ ಲಭ್ಯವಿಲ್ಲ"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"ಕ್ಲಿಪ್‌ಬೋರ್ಡ್‌ಗೆ ನಕಲಿಸುವುದೇ?"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"ನಕಲಿಸು"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"<xliff:g id="SIM_NAME">%s</xliff:g> ಗೆ"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"ಆಡಿಯೋ ಅನ್ನು ರೆಕಾರ್ಡ್ ಮಾಡಲು ಸ್ಪರ್ಶಿಸಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"ಹೊಸ ಸಂವಾದವನ್ನು ಪ್ರಾರಂಭಿಸಿ"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ ಪಟ್ಟಿ"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆ"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"ಹೊಸ ಸಂದೇಶ"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"ಸಂವಾದ ಪಟ್ಟಿ"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"ಸಂವಾದಗಳನ್ನು ಲೋಡ್‌ ಮಾಡಲಾಗುತ್ತಿದೆ"</string>
     <string name="loading_messages" msgid="3894765818932489665">"ಸಂದೇಶಗಳನ್ನು ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"ಸಂದೇಶ ಕಳುಹಿಸುವಿಕೆಯು ಲಗತ್ತನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"ಹೇಗಾದರೂ ಕಳುಹಿಸು"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"ಸಂವಾದವನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> ಆಯ್ಕೆಮಾಡಲಾಗಿದೆ"</string>
 </resources>

@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Rasmni tanlang"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"Media tanlandi."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"Mediani tanlash bekor qilindi."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> ta tanlandi"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"tasvir <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"tasvir"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Audio yozish"</string>
     <string name="action_share" msgid="2143483844803153871">"Ulashish"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Hozir"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"Yuborilmadi. Qayta urinilmoqda…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"Qayta yuboring yoki o‘chirib tashlang"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"Favqulodda xizmatlarga ovozli qo‘ng‘iroq qiling. Favqulodda xizmat raqamlariga yuborilgan SMS xabarlarni hozirda yetkazib bo‘lmaydi."</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"Xabar yuborilmadi"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"Yuklab olish uchun yangi MMS xabari"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"Yangi MMS xabari"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"Yuklab olinmadi"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"Yuklab olinmoqda…"</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"Xabar eskirgan yoki mavjud emas"</string>
     <string name="mms_info" msgid="3402311750134118165">"hajmi: <xliff:g id="MESSAGESIZE">%1$s</xliff:g>, tugash muddati: <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"Yuborib bo‘lmadi. Qabul qiluvchi noto‘g‘ri ko‘rsatilgan."</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"Xizmat tarmoqda faollashtirilmagan"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"Tarmoqdagi muammo tufayli yuborib bo‘lmadi"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"Xabar eskirgan yoki mavjud emas"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(Mavzu yo‘q)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"Noma’lum yuboruvchi"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"Yetkazildi"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"“<xliff:g id="SUBJECT">%1$s</xliff:g>” to‘g‘risidagi xabarni (yuboruvchi: <xliff:g id="FROM">%2$s</xliff:g>) yuklab bo‘lmadi."</string>
-    <string name="low_memory" msgid="5300743415198486619">"Xotirada kam joy qolganligi sababli ma’lumotlar bazasi amalini bajarib bo‘lmaydi"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"Xabar yuborilmadi"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"SMS/MMS xizmatidagi ayrim xabarlar yuborilmadi"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> ta yangi xabar</item>
       <item quantity="one">Yangi xabar</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"Boshlash"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"Kamera tayyor emas"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"Kamera tayyor emas"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"Videoga olib bo‘lmaydi"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Media faylni saqlab bo‘lmadi"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Rasmga olib bo‘lmadi"</string>
     <string name="back" msgid="1477626055115561645">"Orqaga"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Arxivlangan"</string>
     <string name="action_delete" msgid="4076795795307486019">"O‘chirish"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"O‘chirish"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Bekor qilish"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Kimga:"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Bir nechta rasm tanlash"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Tanlovni tasdiqlash"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g> ta"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Audioni yozib bo‘lmadi. Qaytadan urining."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Audioni ijro qilib bo‘lmadi. Qaytadan urining."</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"Kontakt blokdan va arxivdan chiqarildi"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"<xliff:g id="COUNT">%d</xliff:g> ta qayd arxivlandi"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"<xliff:g id="COUNT">%d</xliff:g> ta qayd arxivdan chiqarildi"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"Bildirishnomalar o‘chirib qo‘yildi"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"Bildirishnomalar yoqildi"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"Hammasi tayyor. Endi “Yuborish” tugmasini bosing."</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"SMS/MMS xizmati birlamchi SMS ilovasi sifatida o‘rnatildi."</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"<xliff:g id="GROUP">%1$s</xliff:g> guruhiga yuborilgan muvaffaqiyatsiz xabar: <xliff:g id="MESSAGE">%2$s</xliff:g>. Vaqt: <xliff:g id="TIME">%3$s</xliff:g>"</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"<xliff:g id="GROUP">%1$s</xliff:g> guruhiga xabar: <xliff:g id="MESSAGE">%2$s</xliff:g>. Vaqt: <xliff:g id="TIME">%3$s</xliff:g>"</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"Muvaffaqiyatsiz xabar. Qayta urinish uchun bosing."</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> bilan suhbat"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Mavzuni o‘chirish"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Video tasvirga olish"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Harakatsiz rasmni suratga olish"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Rasmga olish"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Video tasvirga olishni boshlash"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"To‘liq ekranli kameraga o‘tish"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Old va orqa kamera o‘rtasida almashish"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Tasvirga olishni to‘xtatish va faylni biriktirish"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Videoga olishni to‘xtatish"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"SMS/MMS rasmlari"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> ta rasm “<xliff:g id="ALBUMNAME_3">%s</xliff:g>” albomiga saqlandi</item>
@@ -223,16 +193,11 @@
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g> ta biriktirmani saqlab bo’lmadi</item>
       <item quantity="one"><xliff:g id="QUANTITY_0">%d</xliff:g> ta biriktirmani saqlab bo’lmadi</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS fayli saqlandi"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Sozlamalar"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Arxivlangan"</string>
-    <string name="action_close" msgid="1840519376200478419">"Yopish"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Qo‘shimcha"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Tuzatish"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Bildirishnomalar"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"Ovozsiz"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"Bloklandi"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"SMS xabarlarning yetkazilganlik hisobotlari"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"Yuborilgan har bir SMS uchun yetkazilganlik hisobotini talab qilish"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"Avtomatik yuklanish"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"Rouming vaqtida avtomatik yuklab olish"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"Rouming vaqtida MMS xabarlarni avtomatik yuklab olish"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"Guruh xabarlari"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"Bitta xabarni bir nechta qabul qiluvchiga yuborish uchun MMS xabardan foydalanilsin"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"Birlamchi SMS ilovasi"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"Telefon raqamingiz"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Noma’lum"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Chiquvchi xabar ovozlari"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"SMS xabarni o‘tkazish"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"SMS orqali olingan qayta ishlanmagan ma’lumotlarni tashqi xotiraga o‘tkazish"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"MMS xabarni o‘tkazish"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"MMS orqali olingan qayta ishlanmagan ma’lumotlarni tashqi xotiraga o‘tkazish"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"Aholini ogohlantirish"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"Xabar sozlamalari"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Matndan nusxa olish"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"Tafsilotlarni ko‘rish"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"O‘chirish"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"Qayta yo‘naltirish"</string>
     <string name="message_details_title" msgid="8451487656255395372">"Xabar tafsilotlari"</string>
     <string name="message_type_label" msgid="6442873901113487978">"Turi: "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"<xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>-SIM karta"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"Yuboruvchining manzili yashirilgan"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"Biriktirilgan fayllarni yuklab olayotganda xabar yuborib bo‘lmaydi."</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"Biriktirma faylini yuklab bo‘lmadi. Qaytadan urining."</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"Tarmoq hali tayyor emas. Qaytadan urining."</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"Matnni o‘chirish"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"Harf va raqam kiritish o‘rtasida almashish"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Ushbu variantni tanlash"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Videoni ijro qilish"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Odamlar va tanlamalar"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Tuzatish"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Odamlar va tanlamalar"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Umumiy"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Ushbu suhbat ishtirokchilari"</string>
@@ -316,14 +271,9 @@
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> ta biriktirma yuborishga tayyor</item>
       <item quantity="one">Biriktirma yuborishga tayyor</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"Fikr va mulohaza yuborish"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"Play Marketdan qidirish"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"Versiyasi"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"%1$s versiya"</string>
     <string name="menu_license" msgid="1157954180701135202">"Ochiq kodli DT litsenziyalari"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"Bildirishnomalar"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"Biriktirma chekloviga yetdi"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"Biriktirmani yuklab bo‘lmadi."</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"Kontaktlarga qo‘shilsinmi?"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"Kontakt qo‘shish"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"Mavzu"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"Tug‘ilgan kun"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"Qaydlar"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"Xabarni qayta yo‘naltirish"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"Javob berish"</string>
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"SMS o‘chirib qo‘yilgan"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"Yuborish uchun SMS/MMS xizmatini birlamchi SMS ilovasi sifatida o‘rnating"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"SMS/MMS xizmatini birlamchi SMS ilovasi sifatida o‘rnating"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"O‘zgartirish"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"Xabarlarni qabul qilish uchun SMS/MMS xizmatini birlamchi SMS ilovasi sifatida o‘rnating"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"SMS xabarlarni yuborish uchun ma’qul SIM-karta tanlanmagan"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"Qurilma egasi ushbu ilovadan foydalanishga ruxsat bermagan."</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"OK"</string>
@@ -356,9 +304,6 @@
       <item quantity="other">Kontaktlar topilmadi</item>
       <item quantity="one">Kontakt topilmadi</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Kameradagi rasmni yuklab bo‘lmadi"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Siz: "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Qoralama"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"Yangi suhbat boshlasangiz, u bu yerda ko‘rinadi"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"Arxivlangan suhbatlar bu yerda ko‘rinadi"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"Sizga ushbu raqamdan xabarlar kelishi mumkin, biroq bu haqda siz xabardor qilinmaysiz. Ushbu suhbat esa arxivlanadi."</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"Bloklangan kontaktlar"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"BLOKDAN CHIQARISH"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"Bloklangan kontaktlar"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"Hujjatlar kutubxonasidan rasm tanlang"</string>
     <string name="sending_message" msgid="6363584950085384929">"Xabar yuborilmoqda"</string>
     <string name="send_message_success" msgid="4088006261869323324">"Xabar yuborildi"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"Mobil internet o‘chirilgan. Sozlamalarni tekshiring."</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"Qabul qiluvchini o‘chirish"</string>
     <string name="share_new_message" msgid="2135955613694195483">"Yangi xabar"</string>
     <string name="share_cancel" msgid="6666929391961668469">"Bekor qilish"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"Ulanish nuqtasi sozlamalari"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"Sozlanmagan"</string>
-    <string name="apn_name" msgid="1572691851070894985">"Nomi"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"MMS proksi-serveri"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"MMS porti"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"APN turi"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"APNni o‘chirish"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"Yangi APN"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"Saqlash"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"Bekor qilish"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"APN nomi maydonchasini to‘ldirish shart."</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"APN maydonchasini to‘ldirish shart."</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"MCC 3 ta raqamdan iborat bo‘lishi shart."</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"MNC 2 yoki 3 ta raqamdan iborat bo‘lishi shart."</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"Standart APN sozlamalari qayta tiklanmoqda."</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"Standart sozlamalarni tiklash"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"Standart sozlamalar tiklandi."</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"Nomsiz"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"Ulanish nuqtalari"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APN"</string>
-    <string name="menu_new" msgid="8286285392706532511">"Yangi APN"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"Ushbu foydalanuvchi uchun Ulanish nuqtasi nomi (APN) sozlamalari mavjud emas"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"Vaqtinchalik xotiraga nusxa olinsinmi?"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"Nusxa olish"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"ushbu SIM-kartaga: <xliff:g id="SIM_NAME">%s</xliff:g>"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"Audio yozib olish uchun bosib turing"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"Yangi suhbat boshlash"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"SMS/MMS"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"SMS/MMS chatlari"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"SMS/MMS"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"Yangi xabar"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"Suhbatlar ro‘yxati"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"Suhbatlar yuklanmoqda"</string>
     <string name="loading_messages" msgid="3894765818932489665">"Xabarlar yuklanmoqda"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Biriktirmani yuklab bo‘lmadi."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Baribir yuborilsin"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Suhbatni boshlab bo‘lmadi"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> tanlandi"</string>
 </resources>
