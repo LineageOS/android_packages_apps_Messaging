@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,83 +17,7 @@
 
 package com.android.messaging.util;
 
-import android.os.Environment;
-
-import com.google.common.io.ByteStreams;
-
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
 public class DebugUtils {
-    private static final String TAG = "bugle.util.DebugUtils";
-
-    public static File getDebugFile(final String fileName, final boolean create) {
-        final File dir = getDebugFilesDir();
-        final File file = new File(dir, fileName);
-        if (create && file.exists()) {
-            file.delete();
-        }
-        return file;
-    }
-
-    public static File getDebugFilesDir() {
-        final File dir = Environment.getExternalStorageDirectory();
-        return dir;
-    }
-
-    /**
-     * Load MMS/SMS from the dump file
-     */
-    public static byte[] receiveFromDumpFile(final String dumpFileName) {
-        byte[] data = null;
-        try {
-            final File inputFile = getDebugFile(dumpFileName, false);
-            final FileInputStream fis = new FileInputStream(inputFile);
-            try (BufferedInputStream bis = new BufferedInputStream(fis)) {
-                // dump file
-                data = ByteStreams.toByteArray(bis);
-                if (data == null || data.length < 1) {
-                    LogUtil.e(LogUtil.BUGLE_TAG, "receiveFromDumpFile: empty data");
-                }
-            }
-        } catch (final IOException e) {
-            LogUtil.e(LogUtil.BUGLE_TAG, "receiveFromDumpFile: " + e, e);
-        }
-        return data;
-    }
-
-    public static void ensureReadable(final File file) {
-        if (file.exists()){
-            file.setReadable(true, false);
-        }
-    }
-
-    /**
-     * Logs the name of the method that is currently executing, e.g. "MyActivity.onCreate". This is
-     * useful for surgically adding logs for tracing execution while debugging.
-     * <p>
-     * NOTE: This method retrieves the current thread's stack trace, which adds runtime overhead.
-     * However, this method is only executed on eng builds if DEBUG logs are loggable.
-     */
-    public static void logCurrentMethod(String tag) {
-        if (!LogUtil.isLoggable(tag, LogUtil.DEBUG)) {
-            return;
-        }
-        StackTraceElement caller = getCaller(1);
-        if (caller == null) {
-            return;
-        }
-        String className = caller.getClassName();
-        // Strip off the package name
-        int lastDot = className.lastIndexOf('.');
-        if (lastDot > -1) {
-            className = className.substring(lastDot + 1);
-        }
-        LogUtil.d(tag, className + "." + caller.getMethodName());
-    }
-
     /**
      * Returns info about the calling method. The {@code depth} parameter controls how far back to
      * go. For example, if foo() calls bar(), and bar() calls getCaller(0), it returns info about

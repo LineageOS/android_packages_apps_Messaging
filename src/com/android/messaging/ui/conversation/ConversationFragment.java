@@ -131,14 +131,11 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         ActionMode startActionMode(ActionMode.Callback callback);
         void dismissActionMode();
         ActionMode getActionMode();
-        void onConversationMessagesUpdated(int numberOfMessages);
-        void onConversationParticipantDataLoaded(int numberOfParticipants);
         boolean isActiveAndFocused();
     }
 
     public static final String FRAGMENT_TAG = "conversation";
 
-    static final int REQUEST_CHOOSE_ATTACHMENTS = 2;
     private static final int JUMP_SCROLL_THRESHOLD = 15;
     // We animate the message from draft to message list, if we the message doesn't show up in the
     // list within this time limit, then we just do a fade in animation instead
@@ -896,8 +893,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
 
         if (cursor != null) {
-            mHost.onConversationMessagesUpdated(cursor.getCount());
-
             // Are we coming from a widget click where we're told to scroll to a particular item?
             final int scrollToPos = getScrollToMessagePosition();
             if (scrollToPos >= 0) {
@@ -1164,8 +1159,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             mHost.invalidateActionBar();
 
             mRecyclerView.setVisibility(View.VISIBLE);
-            mHost.onConversationParticipantDataLoaded
-                (mBinding.getData().getNumberOfParticipantsExcludingSelf());
         }
     }
 
@@ -1540,11 +1533,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     @Override
     public boolean shouldHideAttachmentsWhenSimSelectorShown() {
         return false;
-    }
-
-    @Override
-    public void showHideSimSelector(final boolean show) {
-        // no-op for now
     }
 
     @Override

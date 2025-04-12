@@ -200,10 +200,6 @@ class FactoryImpl extends Factory {
     }
 
     @Override
-    public void onActivityResume() {
-    }
-
-    @Override
     public MediaUtil getMediaUtil() {
         return mMediaUtil;
     }
