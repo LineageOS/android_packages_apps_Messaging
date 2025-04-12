@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,6 @@
 package android.support.v7.mms;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
@@ -27,8 +25,6 @@ import android.provider.Telephony;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
-
-import com.android.messaging.R;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -112,95 +108,6 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
         public void setSuccess() {
             // Do nothing
         }
-
-        public boolean equals(final BaseApn other) {
-            return TextUtils.equals(mMmsc, other.getMmsc()) &&
-                    TextUtils.equals(mMmsProxy, other.getMmsProxy()) &&
-                    mMmsProxyPort == other.getMmsProxyPort();
-        }
-    }
-
-    /**
-     * An in-memory implementation of an APN. These APNs are organized into an in-memory list.
-     * The order of the list can be changed by the setSuccess method.
-     */
-    private static class MemoryApn implements Apn {
-        /**
-         * Create an in-memory APN loaded from resources
-         *
-         * @param apns the in-memory APN list
-         * @param typesIn the APN type field
-         * @param mmscIn the APN mmsc field
-         * @param proxyIn the APN mmsproxy field
-         * @param portIn the APN mmsport field
-         * @return an in-memory APN instance, null if there is invalid parameter
-         */
-        public static MemoryApn from(final List<Apn> apns, final String typesIn,
-                final String mmscIn, final String proxyIn, final String portIn) {
-            if (apns == null) {
-                return null;
-            }
-            final BaseApn base = BaseApn.from(typesIn, mmscIn, proxyIn, portIn);
-            if (base == null) {
-                return null;
-            }
-            for (final Apn apn : apns) {
-                if (apn instanceof MemoryApn && ((MemoryApn) apn).equals(base)) {
-                    return null;
-                }
-            }
-            return new MemoryApn(apns, base);
-        }
-
-        private final List<Apn> mApns;
-        private final BaseApn mBase;
-
-        public MemoryApn(final List<Apn> apns, final BaseApn base) {
-            mApns = apns;
-            mBase = base;
-        }
-
-        @Override
-        public String getMmsc() {
-            return mBase.getMmsc();
-        }
-
-        @Override
-        public String getMmsProxy() {
-            return mBase.getMmsProxy();
-        }
-
-        @Override
-        public int getMmsProxyPort() {
-            return mBase.getMmsProxyPort();
-        }
-
-        @Override
-        public void setSuccess() {
-            // If this is being marked as a successful APN, move it to the top of the list so
-            // next time it will be tried first
-            boolean moved = false;
-            synchronized (mApns) {
-                if (mApns.get(0) != this) {
-                    mApns.remove(this);
-                    mApns.add(0, this);
-                    moved = true;
-                }
-            }
-            if (moved) {
-                Log.d(MmsService.TAG, "Set APN ["
-                        + "MMSC=" + getMmsc() + ", "
-                        + "PROXY=" + getMmsProxy() + ", "
-                        + "PORT=" + getMmsProxyPort() + "] to be first");
-            }
-        }
-
-        public boolean equals(final BaseApn other) {
-            if (other == null) {
-                return false;
-            }
-            return mBase.equals(other);
-        }
     }
 
     /**
@@ -221,14 +128,6 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
     private static final int COLUMN_MMSC         = 1;
     private static final int COLUMN_MMSPROXY     = 2;
     private static final int COLUMN_MMSPORT      = 3;
-
-    private static final String APN_MCC = "mcc";
-    private static final String APN_MNC = "mnc";
-    private static final String APN_APN = "apn";
-    private static final String APN_TYPE = "type";
-    private static final String APN_MMSC = "mmsc";
-    private static final String APN_MMSPROXY = "mmsproxy";
-    private static final String APN_MMSPORT = "mmsport";
 
     private final Context mContext;
 
@@ -263,16 +162,6 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
     private void loadLocked(final int subId, final String apnName, final List<Apn> apns) {
         // Try system APN table first
         loadFromSystem(subId, apnName, apns);
-        if (apns.size() > 0) {
-            return;
-        }
-        // Try loading from apns.xml in resources
-        loadFromResources(subId, apnName, apns);
-        if (apns.size() > 0) {
-            return;
-        }
-        // Try resources but without APN name
-        loadFromResources(subId, null/*apnName*/, apns);
     }
 
     /**
@@ -382,48 +271,6 @@ class DefaultApnSettingsLoader implements ApnSettingsLoader {
             throw e;
         }
         return null;
-    }
-
-    /**
-     * Find matching APNs using builtin APN list resource
-     *
-     * @param subId the SIM subId
-     * @param apnName the APN name to match
-     * @param apns the list for returning results
-     */
-    private void loadFromResources(final int subId, final String apnName, final List<Apn> apns) {
-        Log.i(MmsService.TAG, "Loading APNs from resources, apnName=" + apnName);
-        final int[] mccMnc = Utils.getMccMnc(mContext, subId);
-        if (mccMnc[0] == 0) {
-            Log.w(MmsService.TAG, "Can not get valid mcc/mnc from system");
-            return;
-        }
-        // MCC/MNC is good, loading/querying APNs from XML
-        try (XmlResourceParser xml = mContext.getResources().getXml(R.xml.apns)) {
-            new ApnsXmlParser(xml, apnValues -> {
-                final String mcc = trimWithNullCheck(apnValues.getAsString(APN_MCC));
-                final String mnc = trimWithNullCheck(apnValues.getAsString(APN_MNC));
-                final String apn = trimWithNullCheck(apnValues.getAsString(APN_APN));
-                try {
-                    if (mccMnc[0] == Integer.parseInt(mcc) &&
-                            mccMnc[1] == Integer.parseInt(mnc) &&
-                            (TextUtils.isEmpty(apnName) || apnName.equalsIgnoreCase(apn))) {
-                        final String type = apnValues.getAsString(APN_TYPE);
-                        final String mmsc = apnValues.getAsString(APN_MMSC);
-                        final String mmsproxy = apnValues.getAsString(APN_MMSPROXY);
-                        final String mmsport = apnValues.getAsString(APN_MMSPORT);
-                        final Apn newApn = MemoryApn.from(apns, type, mmsc, mmsproxy, mmsport);
-                        if (newApn != null) {
-                            apns.add(newApn);
-                        }
-                    }
-                } catch (final NumberFormatException e) {
-                    // Ignore
-                }
-            }).parse();
-        } catch (final Resources.NotFoundException e) {
-            Log.w(MmsService.TAG, "Can not get apns.xml " + e);
-        }
     }
 
     private static String trimWithNullCheck(final String value) {

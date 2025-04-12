@@ -32,7 +32,6 @@ import androidx.annotation.NonNull;
 
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.receiver.SmsReceiver;
-import com.android.messaging.sms.ApnDatabase;
 import com.android.messaging.sms.BugleApnSettingsLoader;
 import com.android.messaging.sms.BugleUserAgentInfoLoader;
 import com.android.messaging.sms.MmsConfig;
@@ -85,8 +84,6 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
 
         // Initialize MMS lib
         initMmsLib(context, carrierConfigValuesLoader);
-        // Initialize APN database
-        ApnDatabase.initializeAppContext(context);
         // Fixup messages in flight if we crashed and send any pending
         dataModel.onApplicationCreated();
         // Register carrier config change receiver
