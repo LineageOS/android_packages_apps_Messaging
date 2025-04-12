@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Ընտրել լուսանկար"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"Մեդիա ֆայլն ընտրված է:"</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"Մեդիա ֆայլն ապընտրված է:"</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> ընտրված"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"պատկեր <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"պատկեր"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Ձայնագրել ձայնանյութ"</string>
     <string name="action_share" msgid="2143483844803153871">"Տարածել"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Հենց հիմա"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"Չի ուղարկվել: Փորձում է կրկին…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"Կրկին ուղարկել թե ջնջել"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"Խնդրում ենք հեռախոսազանգ կատարել արտակարգ իրավիճակների ծառայություններին: Ձեր տեքստային հաղորդագրությունն այս պահին չի կարող առաքվել:"</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"Ձախողվեց"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"Նոր MMS հաղորդագրություն՝ ներբեռնելու հաար"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"Նոր MMS հաղորդագրություն"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"Չհաջողվեց ներբեռնել"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"Ներբեռնում…"</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"Հաղորդագրության ժամկետը սպառվել է կամ հասանելի չէ"</string>
     <string name="mms_info" msgid="3402311750134118165">"չափը՝ <xliff:g id="MESSAGESIZE">%1$s</xliff:g> , պիտանիությունը՝ <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"Հնարավոր չէ ուղարկել: Ստացողը վավեր չէ:"</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"Ծառայությունն ակտիվացված չէ ցանցում"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"Հնարավոր չէ ուղարկել ցանցային խնդրի պատճառով"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"Հաղորդագրության ժամկետը սպառվել է կամ հասանելի չէ"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(Անվերնագիր)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"Անհայտ ուղարկող"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"Առաքված է"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"Հնարավոր չէ ներբեռնել <xliff:g id="SUBJECT">%1$s</xliff:g> հաղորդագրությունը <xliff:g id="FROM">%2$s</xliff:g>-ից:"</string>
-    <string name="low_memory" msgid="5300743415198486619">"Չստացվեց ավարտել տվյալների շտեմարանի աշխատանքը՝ փոքր հիշողության պատճառով"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"Հաղորդագրությունը չի ուղարկվել"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"Հաղորդակցման որոշ հաղորդագրություններ չեն ուղարկվել"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="one"><xliff:g id="MESSAGES">%d</xliff:g> նոր հաղորդագրություն</item>
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> նոր հաղորդագրություն</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"Սկսել"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"Խցիկն անհասանելի է"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"Խցիկն անհասանելի է"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"Տեսանյութը հասանելի չէ"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Հնարավոր չէ պահել մեդիա ֆայլը"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Չհաջողվեց լուսանկարել"</string>
     <string name="back" msgid="1477626055115561645">"Հետ"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Արխիվացված"</string>
     <string name="action_delete" msgid="4076795795307486019">"Ջնջել"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"Ջնջել"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Չեղարկել"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Ստացող`"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Ընտրել մի քանի պատկեր"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Հաստատել ընտրությունը"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Հնարավոր չէ ձայնագրել: Կրկին փորձեք:"</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Հնարավոր չէ նվագարկել աուդիո ֆայլը: Կրկին փորձեք:"</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"Կոնտակտն արգելաբացվեց և ապաարխիվացվեց"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"Արխիվացվեց <xliff:g id="COUNT">%d</xliff:g> խոսակցություն"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"Ապաարխիվացվեց <xliff:g id="COUNT">%d</xliff:g> խոսակցություն"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"Ծանուցումներն անջատվեցին"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"Ծանուցումները միացվեցին"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"Սահմանված է: Հպեք Ուղարկել կրկին:"</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"Հաղորդակցումը դարձավ SMS-ների կանխադրված հավելված:"</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"<xliff:g id="GROUP">%1$s</xliff:g> խմբին չառաքված հաղորդագրություն՝ <xliff:g id="MESSAGE">%2$s</xliff:g>: Ժամանակ՝ <xliff:g id="TIME">%3$s</xliff:g>:"</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"<xliff:g id="GROUP">%1$s</xliff:g> խմբին հասցեագրված հաղորդագրություն՝ <xliff:g id="MESSAGE">%2$s</xliff:g>: Ժամանակ՝ <xliff:g id="TIME">%3$s</xliff:g>:"</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"Հաղորդագրությունը չի առաքվել: Հպեք՝ նորից փորձելու համար:"</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"Զրույց <xliff:g id="PARTICIPANTS">%s</xliff:g>-ի հետ"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Ջնջել վերնագիրը"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Տեսագրել"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Նկարահանել ստատիկ պատկեր"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Լուսանկարել"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Սկսել տեսաձայնագրումը"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"Անցնել լիաէկրան ֆոտոխցիկի"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Փոխարկել դիմացի և հետևի տեսախցիկները"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Կանգնեցնել ձայնագրումը և կցել տեսանյութը"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Դադարեցնել տեսանկարահանումը"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"Հաղորդակցման լուսանկարներ"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="one">«<xliff:g id="ALBUMNAME_3">%s</xliff:g>» ալբոմում պահվել է <xliff:g id="QUANTITY_2">%d</xliff:g> լուսանկար</item>
@@ -223,16 +193,11 @@
       <item quantity="one">Չհաջողվեց պահել <xliff:g id="QUANTITY_1">%d</xliff:g> կցորդ</item>
       <item quantity="other">Չհաջողվեց պահել <xliff:g id="QUANTITY_1">%d</xliff:g> կցորդ</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS կցորդը պահվեց"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Կարգավորումներ"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Արխիվացված"</string>
-    <string name="action_close" msgid="1840519376200478419">"Փակել"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Հավելյալ"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Կարգաբերում"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Ծանուցումներ"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"Լուռ"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"Արգելափակված է"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"SMS-ի առաքման հաշվետվություններ"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"Առաքման ծանուցում հայցել յուրաքանչյուր ուղարկվող հաղորդագրության համար"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"Ինքնաառբերում"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"Ավտոմատ առբերում ռոումինգում"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"Ինքնաշխատորեն առբերել MMS-ը ռոումինգում"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"Խմբային հաղորդագրություններ"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"Օգտագործել MMS՝ մեկ հաղորդագրությունը մի քանի ստացողների ուղարկելու համար"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"SMS-ների կանխադրված հավելված"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"Ձեր հեռախոսահամարը"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Անհայտ է"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Ելից հաղորդագրությունների ձայներ"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"Տեղափոխել SMS հաղորդագրությունները"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"Տեղափոխել ստացված SMS հաղորդագրությունների չմշակված տվյալները արտաքին հիշողության մեջ"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"Տեղափոխել MMS հաղորդագրությունները"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"Տեղափոխել ստացված MMS հաղորդագրությունների չմշակված տվյալները արտաքին հիշողության մեջ"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"Ծանուցումներ անլար կապի միջոցով"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"Հաղորդագրության ընտրանքներ"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Պատճենել տեքստը"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"Տեսնել մանրամասները"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"Ջնջել"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"Առաջ"</string>
     <string name="message_details_title" msgid="8451487656255395372">"Հաղորդագրության մանրամասները"</string>
     <string name="message_type_label" msgid="6442873901113487978">"Տեսակ՝ "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"SIM <xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"Թաքնված ուղարկողի հասցեն"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"Կցորդները բեռնելիս հնարավոր չէ ուղարկել հաղորդագրությունը:"</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"Հնարավոր չէ բեռնել կցորդը: Փորձեք կրկին:"</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"Ցանցը պատրաստ չէ: Նորից փորձեք:"</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"Ջնջել տեքստը"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"Փոխարկել թվեր և տեքստ մուտքագրելու ռեժիմների միջև"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Ընտրել այս նյութը"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Նվագարկել տեսանյութը"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Մարդիկ և ընտրանքներ"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Կարգաբերել"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Մարդիկ և ընտրանքներ"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Ընդհանուր"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Այս խոսակցության մասնակիցները"</string>
@@ -316,14 +271,9 @@
       <item quantity="one"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> կցորդ պատրաստ է ուղարկելու համար</item>
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> կցորդ պատրաստ է ուղարկելու համար</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"Ուղարկել կարծիք"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"Դիտել Google Play Store-ում"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"Տեղեկություններ տարբերակի մասին"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"Տարբերակ %1$s"</string>
     <string name="menu_license" msgid="1157954180701135202">"Բաց աղբյուրով ծրագրերի լիցենզիաներ"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"Ծանուցումներ"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"Կցորդի սահմանաչափը լրացել է"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"Չհաջողվեց բեռնել կցորդը:"</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"Ավելացնե՞լ կոնտակտներում"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"Ավելացնել կոնտակտ"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"Թեմա"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"Ծննդյան օր"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"Գրառումներ"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"Փոխանցել հաղորդագրությունը"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"Պատասխանել"</string>
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"SMS-ն անջատված է"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"Հաղորդագրություններ ուղարկելու համար դարձրեք Հաղորդակցումը SMS-ների կանխադրված հավելված"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"Դարձրեք Հաղորդակցումը SMS-ների կանխադրված հավելված"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"Փոխել"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"Հաղորդագրություններ ստանալու համար դարձրեք Հաղորդակցումը SMS-ների կանխադրված հավելված"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"Դուք չեք նշել նախընտրելի SIM քարտը՝ SMS հաղորդագրություններն ուղարկելու համար"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"Այս հավելվածը սարքի սեփականատիրոջ կողմից թույլատրված չէ:"</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"Լավ"</string>
@@ -356,9 +304,6 @@
       <item quantity="one">Անվավեր կոնտակտներ</item>
       <item quantity="other">Անվավեր կոնտակտներ</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Չհաջողվեց բեռնել տեսախցիկի պատկերը"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Դուք՝ "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>՝ "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Սևագիր"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"Հենց նոր զրույց սկսեք, այն կտեսնեք այս ցուցակում"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"Արխիվացված խոսակցությունները հայտնվում են այստեղ"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"Դուք կշարունակեք ստանալ հաղորդագրություններ այս հեռախոսահամարից, բայց չեք ծանուցվի դրանց մասին: Այս խոսակցությունը կարխիվացվի:"</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"Արգելափակված կոնտակտներ"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"ԱՐԳԵԼԱԲԱՑԵԼ"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"Արգելափակված կոնտակտներ"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"Ընտրեք պատկեր՝ փաստաթղթերի գրադարանից"</string>
     <string name="sending_message" msgid="6363584950085384929">"Հաղորդագրությունն ուղարկվում է"</string>
     <string name="send_message_success" msgid="4088006261869323324">"Հաղորդագրությունն ուղարկվել է"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"Բջջային տվյալների կապն անջատված է: Ստուգեք ձեր կարգավորումները:"</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"Հեռացնել ստացողին"</string>
     <string name="share_new_message" msgid="2135955613694195483">"Նոր հաղորդագրություն"</string>
     <string name="share_cancel" msgid="6666929391961668469">"Չեղարկել"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"Խմբագրել մուտքի կետը"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"Կարգավորված չէ"</string>
-    <string name="apn_name" msgid="1572691851070894985">"Անուն"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"MMS պրոքսի"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"MMS միացք"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"APN-ի տեսակը"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"Ջնջել APN-ը"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"Նոր APN"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"Պահել"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"Հրաժարվել"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"Անվանման դաշտը պետք է լրացված լինի:"</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"APN-ը չի կարող դատարկ լինել:"</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"MCC դաշտը պետք է 3 նիշ ունենա:"</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"MNC դաշտը պետք է լինի առնվազն 2 կամ 3 թվանշան:"</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"Լռելյայն APN կարգավորումների վերականգնում:"</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"Վերականգնել կանխադրվածը"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"Սկզբնական APN կարգավորումների վերակարգավորումն ավարտված է:"</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"Անվերնագիր"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"Մատչման կետերի անունները"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APN-ներ"</string>
-    <string name="menu_new" msgid="8286285392706532511">"Նոր APN"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"Մատչման կետի անվան կարգավորումները հասանելի չեն այս օգտվողին"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"Պատճենել սեղմատախտակին"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"Պատճենել"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"<xliff:g id="SIM_NAME">%s</xliff:g>-ին"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"Հպեք և պահեք՝ ձայնագրելու համար"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"Սկսել նոր խոսակցություն"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"Հաղորդակցում"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"Հաղորդակցման ցանկ"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"Հաղորդակցում"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"Նոր հաղորդագրություն"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"Խոսակցությունների ցանկ"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"Խոսակցությունները բեռնվում են"</string>
     <string name="loading_messages" msgid="3894765818932489665">"Հաղորդագրությունների բեռնում"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Կցորդը չբեռնվեց:"</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Ուղարկել ամեն դեպքում"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Չհաջողվեց սկսել խոսակցությունը"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"Ընտրված է <xliff:g id="SELECTED_SIM">%s</xliff:g> քարտը"</string>
 </resources>

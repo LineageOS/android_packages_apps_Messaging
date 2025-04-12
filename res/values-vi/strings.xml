@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Chọn ảnh"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"Phương tiện được chọn."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"Phương tiện không được chọn."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"Đã chọn <xliff:g id="COUNT">%d</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"hình ảnh <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"hình ảnh"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Ghi âm"</string>
     <string name="action_share" msgid="2143483844803153871">"Chia sẻ"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Vừa đăng"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"Không gửi được. Đang thử lại…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"Gửi lại hoặc xóa"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"Vui lòng thực hiện cuộc gọi thoại tới các dịch vụ khẩn cấp. Chúng tôi hiện không thể gửi tin nhắn văn bản của bạn."</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"Không thành công"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"Tin nhắn MMS mới cần tải xuống"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"Tin nhắn MMS mới"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"Không thể tải xuống"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"Đang tải xuống..."</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"Tin nhắn đã hết hạn hoặc không khả dụng"</string>
     <string name="mms_info" msgid="3402311750134118165">"kích thước: <xliff:g id="MESSAGESIZE">%1$s</xliff:g>, hết hạn: <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"Không thể gửi. Người nhận không hợp lệ."</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"Dịch vụ không được kích hoạt trên mạng"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"Không thể gửi do sự cố mạng"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"Tin nhắn đã hết hạn hoặc không khả dụng"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(Không có chủ đề)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"Người gửi không xác định"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"Đã gửi"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"Không thể tải xuống tin nhắn <xliff:g id="SUBJECT">%1$s</xliff:g> từ <xliff:g id="FROM">%2$s</xliff:g>."</string>
-    <string name="low_memory" msgid="5300743415198486619">"Không thể hoàn tất thao tác liên quan đến cơ sở dữ liệu do sắp hết bộ nhớ"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"Không gửi được tin nhắn"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"Không gửi được một số tin nhắn trong Nhắn tin"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> tin nhắn mới</item>
       <item quantity="one">Tin nhắn mới</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"Bắt đầu"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"Máy ảnh không khả dụng"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"Máy ảnh không khả dụng"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"Quay video không khả dụng"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Không thể lưu phương tiện"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Không thể chụp ảnh"</string>
     <string name="back" msgid="1477626055115561645">"Quay lại"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Đã lưu trữ"</string>
     <string name="action_delete" msgid="4076795795307486019">"Xóa"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"Xóa"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Hủy"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Đến"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Chọn nhiều hình ảnh"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Xác nhận lựa chọn"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Không thể ghi âm thanh. Hãy thử lại."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Không thể phát âm thanh. Hãy thử lại."</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"Đã bỏ chặn và hủy lưu trữ liên hệ"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"Đã lưu trữ <xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"Đã hủy lưu trữ <xliff:g id="COUNT">%d</xliff:g>"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"Đã tắt thông báo"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"Đã bật thông báo"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"Đã hoàn tất. Hãy chạm vào Gửi lần nữa."</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"Đã đặt thành công Nhắn tin là ứng dụng SMS mặc định."</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"Không gửi được tin nhắn tới  <xliff:g id="GROUP">%1$s</xliff:g>: <xliff:g id="MESSAGE">%2$s</xliff:g>. Thời gian: <xliff:g id="TIME">%3$s</xliff:g>."</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"Tin nhắn tới <xliff:g id="GROUP">%1$s</xliff:g>: <xliff:g id="MESSAGE">%2$s</xliff:g>. Thời gian: <xliff:g id="TIME">%3$s</xliff:g>."</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"Không gửi được tin nhắn. Hãy chạm để thử lại."</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"Cuộc trò chuyện với <xliff:g id="PARTICIPANTS">%s</xliff:g>"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Xóa chủ đề"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Quay video"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Chụp ảnh tĩnh"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Chụp ảnh"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Bắt đầu quay video"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"Chuyển sang máy ảnh toàn màn hình"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Chuyển đổi giữa máy ảnh trước và sau"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Dừng quay và đính kèm video"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Dừng ghi video"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"Ảnh trong Nhắn tin"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> ảnh đã được lưu vào album \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\"</item>
@@ -223,16 +193,11 @@
       <item quantity="other">Không thể lưu <xliff:g id="QUANTITY_1">%d</xliff:g> tệp đính kèm</item>
       <item quantity="one">Không thể lưu <xliff:g id="QUANTITY_0">%d</xliff:g> tệp đính kèm</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"Đã lưu tệp đính kèm MMS"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Cài đặt"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Đã lưu trữ"</string>
-    <string name="action_close" msgid="1840519376200478419">"Đóng"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Nâng cao"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Gỡ lỗi"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Thông báo"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"Im lặng"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"Đã chặn"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"Báo cáo gửi SMS"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"Yêu cầu báo cáo gửi cho mỗi SMS bạn gửi"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"Tự động truy xuất"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"Tự động truy xuất khi chuyển vùng"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"Tự động truy xuất MMS khi chuyển vùng"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"Nhắn tin theo nhóm"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"Sử dụng MMS để gửi một tin nhắn duy nhất khi có nhiều người nhận"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"Ứng dụng SMS mặc định"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"Số điện thoại của bạn"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Không xác định"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Âm thanh tin nhắn đi"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"Kết xuất SMS"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"Kết xuất dữ liệu thô SMS đã nhận vào tệp bộ nhớ ngoài"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"Kết xuất MMS"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"Kết xuất dữ liệu thô MMS đã nhận vào tệp bộ nhớ ngoài"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"Cảnh báo không dây"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"Tùy chọn tin nhắn"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Sao chép văn bản"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"Xem chi tiết"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"Xóa"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"Chuyển tiếp"</string>
     <string name="message_details_title" msgid="8451487656255395372">"Chi tiết tin nhắn"</string>
     <string name="message_type_label" msgid="6442873901113487978">"Loại: "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"SIM <xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"Địa chỉ người gửi bị ẩn"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"Không thể gửi tin nhắn trong khi tải tệp đính kèm."</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"Không thể tải tệp đính kèm. Hãy thử lại."</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"Mạng chưa sẵn sàng. Hãy thử lại."</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"Xóa văn bản"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"Chuyển đổi giữa nhập văn bản và số"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Chọn mục này"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Phát video"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Danh bạ và tùy chọn"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Gỡ lỗi"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Danh bạ và tùy chọn"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Chung"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Mọi người trong cuộc hội thoại này"</string>
@@ -316,14 +271,9 @@
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> tệp đính kèm đã sẵn sàng gửi</item>
       <item quantity="one">Một tệp đính kèm đã sẵn sàng gửi</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"Gửi phản hồi"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"Xem trong Cửa hàng Google Play"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"Thông tin phiên bản"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"Phiên bản %1$s"</string>
     <string name="menu_license" msgid="1157954180701135202">"Giấy phép nguồn mở"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"Thông báo"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"Đã đạt đến giới hạn tệp đính kèm"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"Không tải được tệp đính kèm."</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"Thêm vào Danh bạ?"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"Thêm liên hệ"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"Chủ đề"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"Ngày sinh"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"Ghi chú"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"Chuyển tiếp thư"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"Trả lời"</string>
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"Đã tắt tính năng nhắn tin SMS"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"Để gửi, hãy đặt Nhắn tin là ứng dụng SMS mặc định"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"Đặt Nhắn tin là ứng dụng SMS mặc định"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"Thay đổi"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"Để nhận tin nhắn, hãy đặt Nhắn tin là ứng dụng SMS mặc định"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"Không có SIM ưu tiên nào được chọn để gửi tin nhắn SMS"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"Ứng dụng này không được chủ sở hữu thiết bị cho phép."</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"OK"</string>
@@ -356,9 +304,6 @@
       <item quantity="other">Liên hệ không hợp lệ</item>
       <item quantity="one">Liên hệ không hợp lệ</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Không thể tải hình ảnh trong máy ảnh"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Bạn: "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Thư nháp"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"Sau khi bạn bắt đầu một cuộc trò chuyện mới, bạn sẽ thấy cuộc trò chuyện đó được liệt kê ở đây"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"Các cuộc trò chuyện đã lưu trữ xuất hiện ở đây"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"Bạn sẽ tiếp tục nhận tin nhắn từ số này nhưng bạn sẽ không được thông báo nữa. Cuộc trò chuyện này sẽ được lưu trữ."</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"Địa chỉ liên hệ bị chặn"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"BỎ CHẶN"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"Địa chỉ liên hệ bị chặn"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"Chọn hình ảnh từ thư viện tài liệu"</string>
     <string name="sending_message" msgid="6363584950085384929">"Đang gửi tin nhắn"</string>
     <string name="send_message_success" msgid="4088006261869323324">"Đã gửi tin nhắn"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"Dữ liệu di động đã bị tắt. Hãy kiểm tra cài đặt của bạn."</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"Xóa người nhận"</string>
     <string name="share_new_message" msgid="2135955613694195483">"Tin nhắn mới"</string>
     <string name="share_cancel" msgid="6666929391961668469">"Hủy"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"Chỉnh sửa điểm truy cập"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"Chưa đặt"</string>
-    <string name="apn_name" msgid="1572691851070894985">"Tên"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"Proxy của MMS"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"Cổng MMS"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"Loại APN"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"Xóa APN"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"APN mới"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"Lưu"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"Hủy"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"Không được để trống trường Tên."</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"Không được để trống APN."</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"Trường MCC phải có 3 chữ số."</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"Trường MNC phải có 2 hoặc 3 chữ số."</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"Đang khôi phục cài đặt APN mặc định."</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"Đặt lại về mặc định"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"Đặt lại cài đặt APN mặc định đã hoàn tất."</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"Không có tiêu đề"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"Tên điểm truy cập"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APN"</string>
-    <string name="menu_new" msgid="8286285392706532511">"APN mới"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"Cài đặt Tên điểm truy cập không khả dụng cho người dùng này"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"Sao chép vào khay nhớ tạm?"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"Sao chép"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"tới <xliff:g id="SIM_NAME">%s</xliff:g>"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"Chạm và giữ để ghi âm"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"Bắt đầu cuộc trò chuyện mới"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"Nhắn tin"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"Danh sách Nhắn tin"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"Nhắn tin"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"Tin nhắn mới"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"Danh sách cuộc hội thoại"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"Đang tải cuộc trò chuyện..."</string>
     <string name="loading_messages" msgid="3894765818932489665">"Đang tải thư"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Ứng dụng Nhắn tin không tải được tệp đính kèm."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Vẫn gửi"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Không thể bắt đầu cuộc trò chuyện"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"Đã chọn <xliff:g id="SELECTED_SIM">%s</xliff:g>"</string>
 </resources>

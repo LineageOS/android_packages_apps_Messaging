@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Escoller foto"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"O ficheiro multimedia está seleccionado."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"O ficheiro multimedia non está seleccionado."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> seleccionado"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"imaxe do <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"imaxe"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Gravar audio"</string>
     <string name="action_share" msgid="2143483844803153871">"Compartir"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Agora mesmo"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"Non se enviou. Tentando de novo…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"Reenviar ou eliminar"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"Realiza unha chamada de voz aos servizos de emerxencia. Non se puido entregar a túa mensaxe de texto neste momento."</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"Erro"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"Nova mensaxe MMS para descargar"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"Nova mensaxe MMS"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"Non se puido descargar"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"Descargando..."</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"A mensaxe caducou ou non está dispoñible"</string>
     <string name="mms_info" msgid="3402311750134118165">"tamaño: <xliff:g id="MESSAGESIZE">%1$s</xliff:g>, caducidade: <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"Non se pode enviar. O destinatario non é válido."</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"Servizo non activado na rede"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"Non se puido enviar debido a un problema de rede"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"A mensaxe caducou ou non está dispoñible"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(Sen asunto)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"Remitente descoñecido"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"Entregado"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"Non se puido descargar a mensaxe <xliff:g id="SUBJECT">%1$s</xliff:g> de <xliff:g id="FROM">%2$s</xliff:g>."</string>
-    <string name="low_memory" msgid="5300743415198486619">"Non se puido completar a operación da base de datos debido a que queda pouca memoria"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"Mensaxe non enviada"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"Hai mensaxes non enviadas en Mensaxería"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> mensaxes novas</item>
       <item quantity="one">Mensaxe nova</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"Iniciar"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"A cámara non está dispoñible"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"A cámara non está dispoñible"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"A captura de vídeo non está dispoñible"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Non se pode gardar o ficheiro multimedia"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Non se pode sacar a foto"</string>
     <string name="back" msgid="1477626055115561645">"Atrás"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Arquivadas"</string>
     <string name="action_delete" msgid="4076795795307486019">"Eliminar"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"Eliminar"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Cancelar"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Para"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Seleccionar varias imaxes"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Confirmar selección"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Non se pode gravar o audio. Téntao de novo."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Non se pode reproducir o audio. Téntao de novo."</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"Contacto desbloqueado e sen arquivar"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"<xliff:g id="COUNT">%d</xliff:g> arquivada/s"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"<xliff:g id="COUNT">%d</xliff:g> non arquivada/s"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"Notificacións desactivadas"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"Notificacións activadas"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"Todo listo. Toca Enviar de novo."</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"Mensaxería estableceuse correctamente como a aplicación de SMS predeterminada."</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"Erro ao enviar a mensaxe a <xliff:g id="GROUP">%1$s</xliff:g>: <xliff:g id="MESSAGE">%2$s</xliff:g>. Hora: <xliff:g id="TIME">%3$s</xliff:g>"</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"Mensaxe para <xliff:g id="GROUP">%1$s</xliff:g>: <xliff:g id="MESSAGE">%2$s</xliff:g>. Hora: <xliff:g id="TIME">%3$s</xliff:g>"</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"Erro na mensaxe. Toca para tentalo de novo."</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"Conversa con <xliff:g id="PARTICIPANTS">%s</xliff:g>"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Borrar asunto"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Capturar vídeo"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Capturar unha imaxe estática"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Sacar foto"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Comezar a gravar vídeo"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"Cambiar á cámara de pantalla completa"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Cambiar entre a cámara dianteira e traseira"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Deter a gravación e anexar vídeo"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Deter a gravación de vídeo"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"Fotos de Mensaxería"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other">Gardáronse <xliff:g id="QUANTITY_2">%d</xliff:g> fotos no álbum \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\"</item>
@@ -223,16 +193,11 @@
       <item quantity="other">Non se puideron gardar <xliff:g id="QUANTITY_1">%d</xliff:g> anexos</item>
       <item quantity="one">Non se puido gardar <xliff:g id="QUANTITY_0">%d</xliff:g> anexo</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"Anexo de MMS gardado"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Configuración"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Arquivadas"</string>
-    <string name="action_close" msgid="1840519376200478419">"Pechar"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Avanzado"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Depuración"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Notificacións"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"Silencio"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"Bloqueado"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"Informes de entrega de SMS"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"Solicita un informe de entrega cando envías un SMS"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"Recuperación automática"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"Recuperación automática en itinerancia"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"Recuperación automática de MMS en itinerancia"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"Mensaxería en grupo"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"Utiliza MMS para enviar unha soa mensaxe cando hai varios destinatarios"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"Aplicación de SMS predeterminada"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"O teu número de teléfono"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Descoñecido"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Sons de mensaxes saíntes"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"Pasar SMS"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"Pasa os datos recibidos de SMS sen procesar a un ficheiro de almacenamento externo"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"Pasar MMS"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"Pasa os datos recibidos de MMS sen procesar a un ficheiro de almacenamento externo"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"Alertas sen fíos"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"Opcións de mensaxes"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Copiar texto"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"Ver detalles"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"Eliminar"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"Reenviar"</string>
     <string name="message_details_title" msgid="8451487656255395372">"Detalles da mensaxe"</string>
     <string name="message_type_label" msgid="6442873901113487978">"Tipo: "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"SIM <xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"Enderezo do remitente oculto"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"Non é posible enviar a mensaxe ao cargar anexos."</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"Non se pode cargar o anexo. Téntao de novo."</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"A rede non está lista. Téntao de novo."</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"Eliminar texto"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"Cambiar entre introducir texto e números"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Selecciona este elemento"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Reproducir vídeo"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Persoas e opcións"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Depurar"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Persoas e opcións"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Xeral"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Persoas que participan nesta conversa"</string>
@@ -316,14 +271,9 @@
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> anexos listos para enviar</item>
       <item quantity="one">Un anexo listo para enviar</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"Dános a túa opinión"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"Ver en Google Play Store"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"Información da versión"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"Versión %1$s"</string>
     <string name="menu_license" msgid="1157954180701135202">"Licenzas de código aberto"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"Notificacións"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"Acadouse o límite para anexos"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"Non se puido cargar o anexo."</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"Queres engadir este número aos teus contactos?"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"Engadir contacto"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"Asunto"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"Aniversario"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"Notas"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"Reenviar mensaxe"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"Responder"</string>
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"SMS desactivadas"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"Establece Mensaxería como a aplicación de SMS predeterminada para enviar mensaxes"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"Establece Mensaxería como a aplicación de SMS predeterminada"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"Cambiar"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"Establece Mensaxería como a aplicación de SMS predeterminada para recibir mensaxes"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"Non se seleccionou unha SIM preferida para o envío de mensaxes SMS"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"O propietario do dispositivo non permite esta aplicación."</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"Aceptar"</string>
@@ -356,9 +304,6 @@
       <item quantity="other">Contactos non válidos</item>
       <item quantity="one">Contacto non válido</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Non se puido cargar a imaxe da cámara"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Ti: "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Borrador"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"Cando inicies unha nova conversa, aparecerá aquí"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"As conversas arquivadas aparecen aquí"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"Seguirás recibindo mensaxes deste número, pero xa non se notificarán. Arquivarase esta conversa."</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"Contactos bloqueados"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"DESBLOQUEAR"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"Contactos bloqueados"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"Escolle unha imaxe da biblioteca de documentos"</string>
     <string name="sending_message" msgid="6363584950085384929">"Enviando a mensaxe"</string>
     <string name="send_message_success" msgid="4088006261869323324">"Mensaxe enviada"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"Os datos móbiles están desactivados. Comproba a túa configuración."</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"Elimina o destinatario"</string>
     <string name="share_new_message" msgid="2135955613694195483">"Mensaxe nova"</string>
     <string name="share_cancel" msgid="6666929391961668469">"Cancelar"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"Editar punto de acceso"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"Sen configurar"</string>
-    <string name="apn_name" msgid="1572691851070894985">"Nome"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"Proxy MMS"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"Porto de MMS"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"Tipo de APN"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"Eliminar APN"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"Novo APN"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"Gardar"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"Descartar"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"O nome do campo non pode estar baleiro."</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"O APN non pode estar baleiro."</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"O campo MCC debe conter 3 díxitos."</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"O campo MNC debe conter 2 ou 3 díxitos."</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"Restaurando a configuración de APN predeterminada."</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"Restablecer aos valores predeterminados"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"Completouse o restablecemento da configuración de APN predeterminada."</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"Sen título"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"Nomes do punto de acceso"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APN"</string>
-    <string name="menu_new" msgid="8286285392706532511">"Novo APN"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"A configuración do nome do punto de acceso non está dispoñible para este usuario"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"Copiar no portapapeis?"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"Copiar"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"en <xliff:g id="SIM_NAME">%s</xliff:g>"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"Tocar e manter premido para gravar audio"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"Iniciar nova conversa"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"Mensaxería"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"Lista de Mensaxería"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"Mensaxería"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"Mensaxe nova"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"Lista de conversas"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"Cargando conversas"</string>
     <string name="loading_messages" msgid="3894765818932489665">"Cargando mensaxes"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Mensaxería non puido cargar o anexo."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Enviar igualmente"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Non se puido iniciar a conversa"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"Seleccionouse <xliff:g id="SELECTED_SIM">%s</xliff:g>"</string>
 </resources>
