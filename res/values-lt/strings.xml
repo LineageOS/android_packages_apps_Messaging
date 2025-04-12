@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Pasirinkti nuotrauką"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"Medija pasirinkta."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"Medija nepasirinkta."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"Pasirinkta: <xliff:g id="COUNT">%d</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"vaizdas: <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"vaizdas"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Įrašyti garsą"</string>
     <string name="action_share" msgid="2143483844803153871">"Bendrinimas"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Ką tik"</string>
@@ -123,11 +120,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> naujų pranešimų</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"Pradėti"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"Fotoaparatas negalimas"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"Fotoaparatas negalimas"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"Vaizdo įrašo fiksavimas negalimas"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Nepavyko išsaugoti medijos"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Negalima fotografuoti"</string>
     <string name="back" msgid="1477626055115561645">"Atgal"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Suarchyvuota"</string>
     <string name="action_delete" msgid="4076795795307486019">"Ištrinti"</string>
@@ -149,8 +141,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"Ištrinti"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Atšaukti"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Kam"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Pasirinkti kelis vaizdus"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Patvirtinti pasirinkimą"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"Dar <xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Nepavyko įrašyti garso. Bandykite dar kartą."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Nepavyko paleisti garso įrašo. Bandykite dar kartą."</string>
@@ -208,14 +198,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"Įvyko pranešimo klaida. Palieskite ir bandykite dar kartą."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"Pokalbis su <xliff:g id="PARTICIPANTS">%s</xliff:g>"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Pašalinti temą"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Filmuoti"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Fiksuoti nejudantį vaizdą"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Fotografuoti"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Pradėti filmuoti"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"Perjungti į viso ekrano režimu veikiantį fotoaparatą"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Perjungti priekinį ir užpakalinį fotoaparatus"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Sustabdyti įrašymą ir pridėti vaizdo įrašą"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Sustabdyti vaizdo įrašymą"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"Susirašinėjimo programos nuotraukos"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="one"><xliff:g id="QUANTITY_2">%d</xliff:g> nuotrauka išsaugota albume „<xliff:g id="ALBUMNAME_3">%s</xliff:g>“</item>
@@ -253,13 +235,11 @@
       <item quantity="many">Nepavyko išsaugoti <xliff:g id="QUANTITY_1">%d</xliff:g> priedo</item>
       <item quantity="other">Nepavyko išsaugoti <xliff:g id="QUANTITY_1">%d</xliff:g> priedų</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"Išsaugotas MMS priedas"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Nustatymai"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Suarchyvuota"</string>
     <string name="action_close" msgid="1840519376200478419">"Uždaryti"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Išplėstiniai"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Derinti"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Pranešimai"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"Tylus"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"Užblokuota"</string>
@@ -277,10 +257,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"Jūsų telefono numeris"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Nežinomas"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Siunčiamų pranešimų garsai"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"Pateikti SMS"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"Pateikti gautų SMS neapdorotus duomenis išorinės atminties faile"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"Pateikti MMS"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"Pateikti gautų MMS neapdorotus duomenis išorinės atminties faile"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"Belaidžiu ryšiu siunčiami įspėjimai"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"Pranešimo parinktys"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Kopijuoti tekstą"</string>
@@ -315,7 +291,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Pasirinkti šį elementą"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Leisti vaizdo įrašą"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Žmonės ir parinktys"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Derinti"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Žmonės ir parinktys"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Bendrieji"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Žmonės šiame pokalbyje"</string>
@@ -402,7 +377,6 @@
       <item quantity="many">Netinkami kontaktai</item>
       <item quantity="other">Netinkami kontaktai</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Nepavyko įkelti fotoaparato vaizdo"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Jūs: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Juodraštis"</string>
@@ -529,6 +503,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Susirašinėjimo programai nepavyko įkelti priedo."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Vis tiek siųsti"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Nepavyko pradėti pokalbio"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"Pasirinkta <xliff:g id="SELECTED_SIM">%s</xliff:g>"</string>
 </resources>

@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"ပုံရွေးရန်"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"မီဒီယာကိုရွေးချယ်ထားသည်။"</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"မီဒီယာကို မရွေးချယ်ထားပါ။"</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> ခု ရွေးချယ်ထား"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"ပုံ <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"ပုံ"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"အသံကို ဖမ်းရန်"</string>
     <string name="action_share" msgid="2143483844803153871">"မျှဝေရန်"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"ယခုလေးတင်"</string>
@@ -111,11 +108,6 @@
       <item quantity="one">စာအသစ်</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"စတင်ရန်"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"ကင်မရာ အသုံးမပြုနိုင်ပါ"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"ကင်မရာ အသုံးမပြုနိုင်ပါ"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"ဗွီဒီယို မရိုက်ယူနိုင်ပါ"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"မီဒီယာအား မသိမ်းဆည်းနိုင်ပါ"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"ဓာတ်ပုံရိုက်၍ မရနိုင်ပါ"</string>
     <string name="back" msgid="1477626055115561645">"နောက်သို့"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"မော်ကွန်းတင်ပြီး"</string>
     <string name="action_delete" msgid="4076795795307486019">"ဖျက်ရန်"</string>
@@ -135,8 +127,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"ဖျက်ရန်"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"ထားတော့"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"သို့"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"ပုံများစွာ ရွေးချယ်ရန်"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"ရွေးချယ်မှုကို အတည်ပြုရန်"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"အသံ ဖမ်းမရပါ။ ထပ်မံကြိုးစားပါ။"</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"အသံဖွင့်မရပါ။ ထပ်မံကြိုးစားပါ။"</string>
@@ -190,14 +180,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"စာတိုပို့ခြင်းမအောင်မြင်ပါ။ ပြန်လည်ကြိုးစားရန် ထိပါ။"</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g>နှင့် စကားဝိုင်းများ"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"အကြောင်းအရာကို ဖျက်ရန်"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"ဗီဒီယို ဖမ်းယူရန်"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"ပုံသေ တစ်ခုကို ရိုက်ယူရန်"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"ပုံ ရိုက်ယူရန်"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"ဗီဒီယို ဖမ်းယူမှု စတင်ရန်"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"မျက်နှာပြင် အပြည့် ကင်မရာသို့ ပြောင်းရန်"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"ကင်မရာ အရှေ့ဘက်နှင့် အနောက်ဘက် ပြောင်းရန်"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"မှတ်တမ်းတင်မှုရပ်ကာ ဗီဒီယို ချိတ်ရန်"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"ဗွီဒီယိုရိုက်ကူးခြင်း ရပ်ရန်"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"ဓာတ်ပုံများကို စာတိုပို့ခြင်း"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> ဓါတ်ပုံများကို \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" အယ်လ်ဘမ်သို့ သိမ်းဆည်းပြီးပါပြီ</item>
@@ -223,13 +205,11 @@
       <item quantity="other"> ပူးတွဲပါဖိုင် <xliff:g id="QUANTITY_1">%d</xliff:g> အား မသိမ်းဆည်းနိုင်ခဲ့ပါ</item>
       <item quantity="one"> ပူးတွဲပါဖိုင် <xliff:g id="QUANTITY_0">%d</xliff:g> ဖိုင်အား မသိမ်းဆည်းနိုင်ခဲ့ပါ</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"သိမ်းဆည်းထားသည့် MMS ပူးတွဲချက်"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"ဆက်တင်များ"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"မော်ကွန်းတင်ပြီး"</string>
     <string name="action_close" msgid="1840519376200478419">"ပိတ်ရန်"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"ရုပ်သံစာ"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"အဆင့်မြင့်"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"ဒီဘာဂ်"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"အကြောင်းကြားချက်များ"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"အသံတိတ်ရန်"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"ပိတ်ဆို့ထား"</string>
@@ -247,10 +227,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"သင့် ဖုန်းနံပါတ်"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"မသိရ"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"အပြင်သို့စာပေးပို့သည့် အသံများ"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"စိုစွတ် SMS"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"စိုစွတ် SMS အချက်လက်အကြမ်းများကို ပြင်ပသိုလှောင်မှုဖိုင် သို့လက်ခံ ရရှိပါသည်"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"စိုစွတ် MMS"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"စိုစွတ် MMS အချက်လက်အကြမ်းများကို ပြင်ပသိုလှောင်မှုဖိုင် သို့လက်ခံ ရရှိပါသည်"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"ကြိုးမဲ့ သတိပေးချက်များ"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"စာ အတွက် ရွေးစရာများ"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"စာကူးယူရန်"</string>
@@ -285,7 +261,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"ဒီအရာကို ရွေးရန်"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"ဗီဒီယို ဖွင့်ရန်"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"လူများ &amp; ရွေးစရာများ"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"ဒီဘာဂ်"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"လူများ &amp; ရွေးစရာများ"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"အထွေထွေ"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"ဒီစကားဝိုင်း ထဲက လူများ"</string>
@@ -356,7 +331,6 @@
       <item quantity="other">အဆက်အသွယ်များ မမှန်ကန်ပါ</item>
       <item quantity="one">အဆက်အသွယ် မမှန်ကန်ပါ</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"ကင်မရာ ပုံ မရယူနိုင်ပါ"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"သင်: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"မူကြမ်း"</string>
@@ -483,6 +457,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"စာတိုကိုပို့စဉ် ပူးတွဲချက်ကို တင် မရခဲ့ပါ။"</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"မည်သို့ပင်ဖြစ်စေ ပို့မည်"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"စကားဝိုင်းအား မစတင်နိုင်ပါ"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> ရွေးချယ်ပြီး၏"</string>
 </resources>

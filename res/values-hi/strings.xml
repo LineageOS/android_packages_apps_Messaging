@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"फ़ोटो चुनें"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"मीडिया को चुना है."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"मीडिया को नहीं चुना है."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> चुने गए"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"चित्र <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"चित्र"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"ऑडियो रिकॉर्ड करें"</string>
     <string name="action_share" msgid="2143483844803153871">"साझा करें"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"अभी-अभी"</string>
@@ -111,11 +108,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> नए संदेश</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"प्रारंभ करें"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"कैमरा उपलब्ध नहीं है"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"कैमरा उपलब्ध नहीं है"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"वीडियो कैप्‍चर उपलब्‍ध नहीं है"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"मीडिया सहेजा नहीं जा सकता"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"चित्र नहीं लिया जा सकता"</string>
     <string name="back" msgid="1477626055115561645">"पीछे"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"संग्रहीत"</string>
     <string name="action_delete" msgid="4076795795307486019">"हटाएं"</string>
@@ -135,8 +127,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"हटाएं"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"अभी नहीं"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"प्रति"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"एकाधिक चित्र चुनें"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"चयन की दुबारा पूछें"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"ऑडियो रिकॉर्ड नहीं किया जा सकता. पुनः प्रयास करें."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"ऑडियो नहीं चलाया जा सकता. पुन: प्रयास करें."</string>
@@ -190,14 +180,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"विफल रहा संदेश. पुन: प्रयास करने के लिए स्पर्श करें."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> के साथ बातचीत"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"विषय हटाएं"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"वीडियो कैप्चर करें"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"स्थिर चित्र कैप्चर करें"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"चित्र लें"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"वीडियो रिकॉर्ड करना प्रारंभ करें"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"पूर्ण स्क्रीन कैमरा पर स्विच करें"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"सामने और पीछे वाले कैमरे के बीच स्‍विच करें"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"रिकॉर्डिंग रोकें और वीडियो अटैच करें"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"वीडियो रिकॉर्ड करना बंद करें"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"संदेश सेवा फ़ोटो"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="one"><xliff:g id="QUANTITY_2">%d</xliff:g> फ़ोटो \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" एल्बम में सहेजी गईं</item>
@@ -223,13 +205,11 @@
       <item quantity="one"><xliff:g id="QUANTITY_1">%d</xliff:g> अटैचमेंट सहेजे नहीं जा सके</item>
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g> अटैचमेंट सहेजे नहीं जा सके</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS अटैचमेंट सहेजा गया"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"सेटिंग"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"संग्रहीत"</string>
     <string name="action_close" msgid="1840519376200478419">"बंद करें"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"अतिरिक्त सेटिंग"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"डीबग"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"नोटिफिकेशन"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"मौन"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"अवरोधित"</string>
@@ -247,10 +227,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"आपका फ़ोन नंबर"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"अज्ञात"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"आउटगोइंग संदेश ध्वनि"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"SMS डंप करें"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"बाहरी मेमोरी फ़ाइल में प्राप्त किया गया SMS अपरिष्कृत डेटा डंप करें"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"MMS डंप करें"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"बाहरी मेमोरी फ़ाइल में प्राप्त किया गया MMS अपरिष्कृत डेटा डंप करें"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"वायरलेस अलर्ट"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"संदेश के विकल्प"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"लेख की प्रतिलिपि बनाएं"</string>
@@ -285,7 +261,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"यह आइटम चुनें"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"वीडियो चलाएं"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"लोग और विकल्प"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"डीबग"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"लोग और विकल्प"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"सामान्य"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"इस वार्तालाप में लोग"</string>
@@ -356,7 +331,6 @@
       <item quantity="one">अमान्‍य संपर्क</item>
       <item quantity="other">अमान्‍य संपर्क</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"कैमरे का चित्र लोड नहीं किया जा सका"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"आप: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"ड्राफ़्ट"</string>
@@ -483,6 +457,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"संदेश सेवा अटैचमेंट लोड करने में विफल रही."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"फिर भी भेजें"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"बातचीत प्रारंभ नहीं की जा सकी"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> चुनी गई"</string>
 </resources>

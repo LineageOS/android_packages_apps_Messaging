@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"ఫోటోను ఎంచుకోండి"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"మీడియా ఎంచుకోబడింది."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"మీడియా ఎంపిక తీసివేయబడింది."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> ఎంచుకోబడింది"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"చిత్రం <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"చిత్రం"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"ఆడియోను రికార్డ్ చేయి"</string>
     <string name="action_share" msgid="2143483844803153871">"భాగస్వామ్యం చేయి"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"ఇప్పుడే"</string>
@@ -111,11 +108,6 @@
       <item quantity="one">కొత్త సందేశం</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"ప్రారంభించు"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"కెమెరా అందుబాటులో లేదు"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"కెమెరా అందుబాటులో లేదు"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"వీడియో సంగ్రహణ అందుబాటులో లేదు"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"మీడియాను సేవ్ చేయడం సాధ్యపడదు"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"చిత్రం తీయడం సాధ్యపడలేదు"</string>
     <string name="back" msgid="1477626055115561645">"వెనుకకు"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"ఆర్కైవ్ చేయబడినవి"</string>
     <string name="action_delete" msgid="4076795795307486019">"తొలగించు"</string>
@@ -135,8 +127,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"తొలగించు"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"రద్దు చేయి"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"వీరికి"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"బహుళ చిత్రాలను ఎంచుకోండి"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"ఎంపికను నిర్ధారించు"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"ఆడియోను రికార్డ్ చేయడం సాధ్యపడదు. మళ్లీ ప్రయత్నించండి."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"ఆడియోను ప్లే చేయడం సాధ్యపడదు. మళ్లీ ప్రయత్నించండి."</string>
@@ -190,14 +180,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"సందేశం పంపడం విఫలమైంది. మళ్లీ ప్రయత్నించడానికి తాకండి."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g>తో సంభాషణ"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"విషయాన్ని తొలగించండి"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"వీడియోను క్యాప్చర్ చేయండి"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"నిలకడగా ఉన్న చిత్రాన్ని క్యాప్చర్ చేయండి"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"చిత్రం తీయండి"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"వీడియో రికార్డింగ్‌ను ప్రారంభించండి"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"కెమెరాను పూర్తి స్క్రీన్‌కి మార్చండి"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"ముందు మరియు వెనుక కెమెరా మోడ్‌ల మధ్య మారండి"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"రికార్డింగ్‌ను ఆపివేసి, వీడియోను చేర్చండి"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"వీడియో రికార్డ్ చేయడాన్ని ఆపివేయండి"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"సందేశ సేవ ఫోటోలు"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> ఫోటోలు \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" ఆల్బమ్‌కి సేవ్ చేయబడ్డాయి</item>
@@ -223,13 +205,11 @@
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g> జోడింపులను సేవ్ చేయలేకపోయింది</item>
       <item quantity="one"><xliff:g id="QUANTITY_0">%d</xliff:g> జోడింపును సేవ్ చేయలేకపోయింది</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS జోడింపు సేవ్ చేయబడింది"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"సెట్టింగ్‌లు"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"ఆర్కైవ్ చేయబడింది"</string>
     <string name="action_close" msgid="1840519376200478419">"మూసివేయి"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"అధునాతనం"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"డీబగ్"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"నోటిఫికేషన్‌లు"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"నిశ్శబ్దం"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"బ్లాక్ చేయబడింది"</string>
@@ -247,10 +227,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"మీ ఫోన్ నంబర్"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"తెలియదు"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"అవుట్‌గోయింగ్ సందేశ ధ్వనులు"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"SMSను డంప్ చేయండి"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"స్వీకరించబడిన SMS ప్రాసెస్ చేయబడని డేటాను బాహ్య నిల్వ ఫైల్‌లోకి డంప్ చేయండి"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"MMSను డంప్ చేయండి"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"స్వీకరించబడిన MMS ప్రాసెస్ చేయబడని డేటాను బాహ్య నిల్వ ఫైల్‌లోకి డంప్ చేయండి"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"వైర్‌లెస్ హెచ్చరికలు"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"సందేశ ఎంపికలు"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"వచనాన్ని కాపీ చేయి"</string>
@@ -285,7 +261,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"ఈ అంశాన్ని ఎంచుకోండి"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"వీడియోను ప్లే చేయండి"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"వ్యక్తులు &amp; ఎంపికలు"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"డీబగ్"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"వ్యక్తులు &amp; ఎంపికలు"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"సాధారణం"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"ఈ సంభాషణలో పాల్గొన్న వ్యక్తులు"</string>
@@ -356,7 +331,6 @@
       <item quantity="other">పరిచయాలు చెల్లవు</item>
       <item quantity="one">పరిచయం చెల్లదు</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"కెమెరా చిత్రాన్ని లోడ్ చేయడం సాధ్యపడలేదు"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"మీరు: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"చిత్తుప్రతి"</string>
@@ -483,6 +457,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"సందేశ సేవ జోడింపును లోడ్ చేయడంలో విఫలమైంది."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"ఏదేమైనా పంపు"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"సంభాషణను ప్రారంభించలేరు"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> ఎంచుకోబడింది"</string>
 </resources>

@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"ഫോട്ടോ തിരഞ്ഞെടുക്കുക"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"മീഡിയ തിരഞ്ഞെടുത്തിരിക്കുന്നു."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"മീഡിയ തിരഞ്ഞെടുത്തത് മാറ്റി."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> എണ്ണം തിരഞ്ഞെടുത്തു"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"ചിത്രം <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"ചിത്രം"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"ഓഡിയോ റെക്കോർഡുചെയ്യുക"</string>
     <string name="action_share" msgid="2143483844803153871">"പങ്കിടുക"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"ഇപ്പോൾ"</string>
@@ -111,11 +108,6 @@
       <item quantity="one">പുതിയ സന്ദേശം</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"ആരംഭിക്കുക"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"ക്യാമറ ലഭ്യമല്ല"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"ക്യാമറ ലഭ്യമല്ല"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"വീഡിയോ എടുക്കൽ ലഭ്യമല്ല"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"മീഡിയ സംരക്ഷിക്കാനാവില്ല"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"ചിത്രമെടുക്കാനാവില്ല"</string>
     <string name="back" msgid="1477626055115561645">"മടങ്ങുക"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"ആർക്കൈവുചെയ്‌തവ"</string>
     <string name="action_delete" msgid="4076795795307486019">"ഇല്ലാതാക്കുക"</string>
@@ -135,8 +127,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"ഇല്ലാതാക്കുക"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"റദ്ദാക്കുക"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"സ്വീകര്‍ത്താവ്"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"ഒന്നിലധികം ചിത്രങ്ങൾ തിരഞ്ഞെടുക്കുക"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"തിരഞ്ഞെടുത്തവ സ്ഥിരീകരിക്കുക"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"<xliff:g id="COUNT">%d</xliff:g> എണ്ണം കൂടി"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"ഓഡിയോ റെക്കോർഡ് ചെയ്യാനായില്ല. വീണ്ടും ശ്രമിക്കുക."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"ഓഡിയോ പ്ലേ ചെയ്യാനായില്ല. വീണ്ടും ശ്രമിക്കുക."</string>
@@ -190,14 +180,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"സന്ദേശം പരാജയപ്പെട്ടു. വീണ്ടും ശ്രമിക്കുന്നതിന് സ്‌പർശിക്കുക."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> എന്നിവരുമായുള്ള സംഭാഷണം"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"വിഷയം ഇല്ലാതാക്കുക"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"വീഡിയോ എടുക്കുക"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"ഒരു സ്റ്റിൽ ചിത്രം എടുക്കുക"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"ചിത്രം എടുക്കുക"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"വീഡിയോ റെക്കോർഡുചെയ്യാൻ ആരംഭിക്കുക"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"പൂർണ്ണസ്ക്രീൻ ക്യാമറയിലേക്ക് മാറുക"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"മുന്നിലെയും പിന്നിലെയും ക്യാമറയ്‌ക്കിടയിൽ മാറുക"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"റെക്കോർഡുചെയ്യൽ നിർത്തി, വീഡിയോ അറ്റാച്ചുചെയ്യുക"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"വീഡിയോ റെക്കോർഡുചെയ്യൽ നിർത്തുക"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"സന്ദേശമയയ്ക്കൽ ഫോട്ടോകൾ"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> ഫോട്ടോകൾ \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" ആൽബത്തിലേക്ക് സംരക്ഷിച്ചു</item>
@@ -223,13 +205,11 @@
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g>അറ്റാച്ച്‌മെന്റുകൾ സംരക്ഷിക്കാനായില്ല</item>
       <item quantity="one"><xliff:g id="QUANTITY_0">%d</xliff:g> അറ്റാച്ച്‌മെന്റ് സംരക്ഷിക്കാനായില്ല</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS അറ്റാച്ചുമെന്റ് സംരക്ഷിച്ചു"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"ക്രമീകരണങ്ങൾ"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"ആർക്കൈവുചെയ്‌തവ"</string>
     <string name="action_close" msgid="1840519376200478419">"അടയ്‌ക്കുക"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"വിപുലം"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"ഡീബഗ്"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"അറിയിപ്പുകൾ"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"നിശബ്‌ദം"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"തടഞ്ഞിരിക്കുന്നു"</string>
@@ -247,10 +227,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"നിങ്ങളുടെ ഫോൺ നമ്പർ"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"അജ്ഞാതം"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"ഔട്ട്‌ഗോയിംഗ് സന്ദേശ ശബ്‌ദങ്ങൾ"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"SMS നൽകുക"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"ബാഹ്യ സംഭരണ ഫയലിലേക്ക് സ്വീകരിച്ച SMS റോ ഡാറ്റ നൽകുക"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"MMS നൽകുക"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"ബാഹ്യ സംഭരണ ഫയലിലേക്ക് സ്വീകരിച്ച MMS റോ ഡാറ്റ നൽകുക"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"വയർലെസ് അലേർട്ടുകൾ"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"സന്ദേശ ഓ‌പ്ഷനുകൾ"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"ടെക്‌‌സ്‌റ്റ് പകർത്തുക"</string>
@@ -285,7 +261,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"ഈ ഇനം തിരഞ്ഞെടുക്കുക"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"വീഡിയോ പ്ലേചെയ്യുക"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"ആളുകളും ഓപ്‌ഷനുകളും"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"ഡീബഗ്"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"ആളുകളും ഓപ്‌ഷനുകളും"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"പൊതുവായത്"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"ഈ സംഭാഷണത്തിലെ ആളുകൾ"</string>
@@ -356,7 +331,6 @@
       <item quantity="other">അസാധുവായ കോൺടാക്റ്റുകൾ</item>
       <item quantity="one">അസാധുവായ കോൺടാക്‌റ്റ്</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"ക്യാമറ ചിത്രം ലോഡുചെയ്യാനായില്ല"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"നിങ്ങൾ: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"ഡ്രാഫ്റ്റ്"</string>
@@ -483,6 +457,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"അറ്റാച്ച്മെന്റ് ലോഡുചെയ്യുന്നതിൽ സന്ദേശമയയ്‌ക്കൽ പരാജയപ്പെട്ടു."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"ഏതുവിധേനയും അയയ്‌ക്കുക"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"സംഭാഷണം ആരംഭിക്കാനായില്ല"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"തിരഞ്ഞെടുത്തത്, <xliff:g id="SELECTED_SIM">%s</xliff:g>"</string>
 </resources>

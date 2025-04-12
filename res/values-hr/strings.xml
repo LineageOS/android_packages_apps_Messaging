@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Odaberite fotografiju"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"Medij je odabran."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"Odabir medija poništen je."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"Odabrano: <xliff:g id="COUNT">%d</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"slika <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"slika"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Snimanje zvuka"</string>
     <string name="action_share" msgid="2143483844803153871">"Dijeljenje"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Upravo sada"</string>
@@ -117,11 +114,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> novih poruka</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"Započni"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"Fotoaparat nije dostupan"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"Fotoaparat nije dostupan"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"Snimanje videozapisa nije dostupno"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Medij nije spremljen"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Nije moguće snimiti sliku"</string>
     <string name="back" msgid="1477626055115561645">"Natrag"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Arhivirano"</string>
     <string name="action_delete" msgid="4076795795307486019">"Izbriši"</string>
@@ -142,8 +134,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"Izbriši"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Odustani"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Odredište"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Odaberi više slika"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Potvrdite odabir"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Audioporuka nije snimljena. Pokušajte ponovo."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Audioporuku nije moguće reproducirati. Pokušajte ponovo."</string>
@@ -199,14 +189,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"Poruka nije uspjela. Dodirnite za ponovni pokušaj."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"Razgovor sa sljedećima: <xliff:g id="PARTICIPANTS">%s</xliff:g>"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Brisanje predmeta"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Snimi videozapis"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Snimi fotografiju"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Snimi sliku"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Početak snimanja videozapisa"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"Prebacivanje na fotoaparat na punom zaslonu"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Prebacivanje između prednjeg i stražnjeg fotoaparata"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Zaustavi snimanje i priloži videozapis"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Zaustavi snimanje videozapisa"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"Fotografije Slanja poruka"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="one"><xliff:g id="QUANTITY_2">%d</xliff:g> fotografija spremljena je u album \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\"</item>
@@ -238,13 +220,11 @@
       <item quantity="few">Spremanje <xliff:g id="QUANTITY_1">%d</xliff:g> privitaka nije uspjelo</item>
       <item quantity="other">Spremanje <xliff:g id="QUANTITY_1">%d</xliff:g> privitaka nije uspjelo</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS privitak spremljen"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Postavke"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Arhivirano"</string>
     <string name="action_close" msgid="1840519376200478419">"Zatvori"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Napredno"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Otklanjanje pogrešaka"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Obavijesti"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"Bešumno"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"Blokirano"</string>
@@ -262,10 +242,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"Vaš telefonski broj"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Nepoznato"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Zvukovi odlazne poruke"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"Sigurnosno kopiraj SMS-ove"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"Sigurnosno kopiranje neobrađenih podataka primljenih SMS-ova u datoteku vanjske pohrane"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"Sigurnosno kopiraj MMS-ove"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"Sigurnosno kopiranje neobrađenih podataka primljenih MMS-ova u datoteku vanjske pohrane"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"Upozorenja putem mobilne mreže"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"Opcije poruka"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Kopiraj tekst"</string>
@@ -300,7 +276,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Odaberite ovu stavku"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Reproduciraj videozapis"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Osobe i opcije"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Otkloni pogreške"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Osobe i opcije"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Općenito"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Osobe u ovom razgovoru"</string>
@@ -379,7 +354,6 @@
       <item quantity="few">Nevažeći kontakti</item>
       <item quantity="other">Nevažeći kontakti</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Slika nije učitana"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Vi: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Skica"</string>
@@ -506,6 +480,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Slanje poruka nije uspjelo učitati privitak."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Svejedno pošalji"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Pokretanje razgovora nije uspjelo"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"Odabrani SIM: <xliff:g id="SELECTED_SIM">%s</xliff:g>"</string>
 </resources>

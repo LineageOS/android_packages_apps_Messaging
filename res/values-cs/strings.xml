@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"Vybrat fotku"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"Médium je vybráno."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"Výběr média je zrušen."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"Vybráno: <xliff:g id="COUNT">%d</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"obrázek <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"obrázek"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"Nahrávání zvuku"</string>
     <string name="action_share" msgid="2143483844803153871">"Sdílet"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"Právě teď"</string>
@@ -123,11 +120,6 @@
       <item quantity="one">Nová zpráva</item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"Spustit"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"Fotoaparát není k dispozici"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"Fotoaparát není k dispozici."</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"Záznam videa není k dispozici."</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"Média nelze uložit."</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"Nelze pořídit fotku"</string>
     <string name="back" msgid="1477626055115561645">"Zpět"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"Archivováno"</string>
     <string name="action_delete" msgid="4076795795307486019">"Smazat"</string>
@@ -149,8 +141,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"Smazat"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"Zrušit"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"Komu"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"Vybrat několik obrázků"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"Potvrďte výběr"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"Zvuk nelze zaznamenat. Zkuste to znovu."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"Zvuk nelze přehrát. Zkuste to znovu."</string>
@@ -208,14 +198,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"Neúspěšná zpráva. Klepnutím pokus opakujte."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"Konverzace s uživateli <xliff:g id="PARTICIPANTS">%s</xliff:g>"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"Smazat předmět"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"Natočit video"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"Pořídit statický snímek"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"Vyfotit"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"Začít natáčet video"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"Přepnout na fotoaparát na celou obrazovku"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"Přepnout mezi předním a zadním fotoaparátem"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"Zastavit nahrávání a připojit video"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"Zastavit záznam videa"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"Fotky z aplikace SMS a MMS"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="few"><xliff:g id="QUANTITY_2">%d</xliff:g> fotky byly uloženy do alba <xliff:g id="ALBUMNAME_3">%s</xliff:g>.</item>
@@ -253,13 +235,11 @@
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g> příloh se nepodařilo uložit</item>
       <item quantity="one"><xliff:g id="QUANTITY_0">%d</xliff:g> přílohu se nepodařilo uložit</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"Příloha MMS byla uložena"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"Nastavení"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"Archivováno"</string>
     <string name="action_close" msgid="1840519376200478419">"Zavřít"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"Rozšířená nastavení"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"Ladit"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"Oznámení"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"Tichý režim"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"Zablokováno"</string>
@@ -277,10 +257,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"Vaše telefonní číslo"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"Neznámé"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"Zvuky odchozích zpráv"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"Vypsání zpráv SMS"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"Vypsat nezpracovaná data přijatých zpráv SMS do souboru externího úložiště"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"Vypsání zpráv MMS"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"Vypsat nezpracovaná data přijatých zpráv MMS do souboru externího úložiště"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"Bezdrátová upozornění"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"Možnosti zprávy"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"Kopírovat text"</string>
@@ -315,7 +291,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"Vybrat tuto položku"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"Přehrát video"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"Lidé a možnosti"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"Ladit"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"Lidé a možnosti"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"Obecné"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"Lidé v této konverzaci"</string>
@@ -402,7 +377,6 @@
       <item quantity="other">Neplatné kontakty</item>
       <item quantity="one">Neplatný kontakt</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"Obraz z fotoaparátu nelze načíst."</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"Vy: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"Koncept"</string>
@@ -529,6 +503,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"Načtení přílohy v aplikaci SMS a MMS se nezdařilo."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"Přesto odeslat"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"Konverzaci nelze zahájit"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"Vybráno: <xliff:g id="SELECTED_SIM">%s</xliff:g>"</string>
 </resources>

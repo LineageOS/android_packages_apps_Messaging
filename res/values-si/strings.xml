@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"ඡායාරූපය තෝරන්න"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"මාධ්‍යය තෝරාගෙන තිබේ."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"මාධ්‍යය තෝරාගෙන නොතිබේ."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> ක් තෝරාගන්නා ලදි"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"රූපය <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"රූපය"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"ශ්‍රව්‍ය තැටිගත කරන්න"</string>
     <string name="action_share" msgid="2143483844803153871">"බෙදාගන්න"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"මේ දැන්"</string>
@@ -111,11 +108,6 @@
       <item quantity="other">නව පණිවිඩ <xliff:g id="MESSAGES">%d</xliff:g></item>
     </plurals>
     <string name="start_conversation" msgid="7984539515326392793">"ආරම්භ කරන්න"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"කැමරාව නොපවතී"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"කැමරාව නොපවතී"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"වීඩියෝව ගැනීම නොතිබේ"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"මාධ්‍ය සුරැකීම කළ නොහැක"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"පින්තූරය ලබාගත නොහැක"</string>
     <string name="back" msgid="1477626055115561645">"ආපසු"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"සංරක්ෂිත"</string>
     <string name="action_delete" msgid="4076795795307486019">"මකන්න"</string>
@@ -135,8 +127,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"මකන්න"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"අවලංගු කරන්න"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"වෙත"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"බහු පින්තූර තෝරන්න"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"තේරීම සහතික කරන්න"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"ශ්‍රව්‍ය පටිගත කළ නොහැක. නැවත උත්සාහ කරන්න."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"ශ්‍රව්‍ය ධාවනය කළ නොහැක. නැවත උත්සාහ කරන්න."</string>
@@ -190,14 +180,6 @@
     <string name="failed_message_content_description" msgid="7047161648867054936">"පණිවිඩය අසාර්ථක විය. නැවත උත්සාහ කිරීමට ස්පර්ශ කරන්න."</string>
     <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> සමඟ සංවාදය"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"කාරණය මකන්න"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"වීඩියෝව ග්‍රහණය කරගන්න"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"නිසල පින්තූරයක් ලබාගන්න"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"පින්තූරයක් ගන්න"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"වීඩියෝව පටිගත කිරීම ආරම්භ කරන්න"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"පූර්ණ තිර කැමරාව වෙත මාරු වෙන්න"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"ඉදිරිපස සහ පසුපස කාමර අතර මාරු නොවන්න"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"පටිගත කිරීම නවත්වා වීඩියෝව අමුණන්න"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"වීඩියෝ පටිගත කිරීම නැවත් වන්න"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"ඡායාරූප පණිවිඩ යැවීම"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="one">ඡායාරූප <xliff:g id="QUANTITY_2">%d</xliff:g> ක් \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" ඇල්බමය වෙත සුරකින ලදී</item>
@@ -223,13 +205,11 @@
       <item quantity="one">ඇමුණුම් <xliff:g id="QUANTITY_1">%d</xliff:g> ක් සුරැකීමට නොහැකි විය</item>
       <item quantity="other">ඇමුණුම් <xliff:g id="QUANTITY_1">%d</xliff:g> ක් සුරැකීමට නොහැකි විය</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"MMS ඇමුණුම සුරකින ලදි"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"සැකසීම්"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"සංරක්ෂිත"</string>
     <string name="action_close" msgid="1840519376200478419">"වසන්න"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"උසස්"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"නිදොස්කරණය"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"දැනුම්දීම්"</string>
     <string name="silent_ringtone" msgid="8073534180322059814">"නිහඬ"</string>
     <string name="blocked_pref_title" msgid="2560554234438548817">"අවහිර කරන ලදි"</string>
@@ -247,10 +227,6 @@
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"ඔබගේ දුරකථන අංකය"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"නොදනී"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"යන පණිවිඩ හඬ"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"SMS ගොඩ ගසන්න"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"ලැබුණු SMS අමු දත්ත බාහිර ආචයන ගොනුවකට ගොඩ ගසන්න"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"MMS ගොඩ ගසන්න"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"ලැබුණු MMS අමු දත්ත බාහිර ආචයන ගොනුවකට ගොඩ ගසන්න"</string>
     <string name="wireless_alerts_title" msgid="8218925605166939654">"නොරැහැන් ඇඟවීම්"</string>
     <string name="message_context_menu_title" msgid="5036023289586457642">"පණිවිඩ විකල්ප"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"පෙළ පිටපත් කරන්න"</string>
@@ -285,7 +261,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"මෙම අයිතමය තෝරන්න"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"වීඩියෝව ධාවනය කරන්න"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"පුද්ගලයින් සහ විකල්ප"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"නිදොස්කරණය"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"පුද්ගලයින් සහ විකල්ප"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"පොදු"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"මෙම සංවාදයේ සිටින පුද්ගලයින්"</string>
@@ -356,7 +331,6 @@
       <item quantity="one">වලංගු නොවන සම්බන්ධතා</item>
       <item quantity="other">වලංගු නොවන සම්බන්ධතා</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"කැමරා පින්තූරය පුර්ණය කළ නොහැක"</string>
     <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"ඔබ: "</string>
     <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"කටු සටහන"</string>
@@ -483,6 +457,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"පණිවිඩ යැවීම ඇමුණුම පූරණය කිරීමට අසමත් විය."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"කෙසේ වුවත් යවන්න"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"සංවාදය ඇරඹීමට නොහැකි විය"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> තෝරාගත්තේය"</string>
 </resources>
