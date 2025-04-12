@@ -545,7 +545,7 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                     startRect.top -= view.getPaddingTop();
                     startRect.bottom =
                             composeBubbleRect.bottom;
-                    startRect.left += view.getPaddingRight();
+                    startRect.left += view.getPaddingEnd();
 
                     view.setAlpha(0);
                     mPopupTransitionAnimation = new PopupTransitionAnimation(startRect, view);
