@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
@@ -39,12 +38,10 @@ import com.android.messaging.sms.BugleUserAgentInfoLoader;
 import com.android.messaging.sms.MmsConfig;
 import com.android.messaging.ui.ConversationDrawables;
 import com.android.messaging.util.BuglePrefsKeys;
-import com.android.messaging.util.DebugUtils;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.Trace;
 
-import java.io.File;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
@@ -83,8 +80,6 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         final DataModel dataModel = factory.getDataModel();
         final CarrierConfigValuesLoader carrierConfigValuesLoader =
                 factory.getCarrierConfigValuesLoader();
-
-        maybeStartProfiling();
 
         BugleApplication.updateAppConfig(context);
 
@@ -152,27 +147,6 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             handler.post(() -> sSystemUncaughtExceptionHandler.uncaughtException(thread, ex));
         } else {
             sSystemUncaughtExceptionHandler.uncaughtException(thread, ex);
-        }
-    }
-
-    private void maybeStartProfiling() {
-        // App startup profiling support. To use it:
-        //  adb shell setprop log.tag.BugleProfile DEBUG
-        //  #   Start the app, wait for a 30s, download trace file:
-        //  adb pull /data/data/com.android.messaging/cache/startup.trace /tmp
-        //  # Open trace file (using adt/tools/traceview)
-        if (android.util.Log.isLoggable(LogUtil.PROFILE_TAG, android.util.Log.DEBUG)) {
-            // Start method tracing with a big enough buffer and let it run for 30s.
-            // Note we use a logging tag as we don't want to wait for gservices to start up.
-            final File file = DebugUtils.getDebugFile("startup.trace", true);
-            android.os.Debug.startMethodTracing(file.getAbsolutePath(), 160 * 1024 * 1024);
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                android.os.Debug.stopMethodTracing();
-                // Allow world to see trace file
-                DebugUtils.ensureReadable(file);
-                LogUtil.d(LogUtil.PROFILE_TAG, "Tracing complete - "
-                        + file.getAbsolutePath());
-                }, 30000);
         }
     }
 

@@ -66,6 +66,4 @@ public abstract class Factory {
     public abstract BugleCarrierConfigValuesLoader getCarrierConfigValuesLoader();
     // Note this needs to run from any thread
     public abstract void reclaimMemory();
-
-    public abstract void onActivityResume();
 }

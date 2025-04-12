@@ -62,7 +62,6 @@ public class ConversationInputManager implements ConversationInput.ConversationI
         void onStartComposeMessage();
         SimSelectorView getSimSelectorView();
         MediaPicker createMediaPicker();
-        void showHideSimSelector(boolean show);
         int getSimSelectorItemLayoutId();
     }
 
@@ -493,15 +492,12 @@ public class ConversationInputManager implements ConversationInput.ConversationI
         @Override
         public boolean show(boolean animate) {
             final boolean result = super.show(animate);
-            mHost.showHideSimSelector(true /*show*/);
             return result;
         }
 
         @Override
         public boolean hide(boolean animate) {
-            final boolean result = super.hide(animate);
-            mHost.showHideSimSelector(false /*show*/);
-            return result;
+            return super.hide(animate);
         }
     }
 
