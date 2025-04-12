@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2025 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:paddingLeft="@dimen/fastscroll_preview_padding"
-    android:paddingRight="@dimen/fastscroll_preview_padding"
+    android:paddingStart="@dimen/fastscroll_preview_padding"
+    android:paddingEnd="@dimen/fastscroll_preview_padding"
     android:textColor="@color/fastscroll_preview_text_color"
     android:textSize="@dimen/fastscroll_preview_text_size" />
