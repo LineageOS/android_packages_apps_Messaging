@@ -40,9 +40,6 @@
     <string name="mediapicker_gallery_title" msgid="3169528536727885763">"படத்தைத் தேர்வுசெய்"</string>
     <string name="mediapicker_gallery_item_selected_content_description" msgid="2569545441879514283">"மீடியா தேர்ந்தெடுக்கப்பட்டது."</string>
     <string name="mediapicker_gallery_item_unselected_content_description" msgid="40021674722525910">"மீடியா தேர்வுநீக்கப்பட்டது."</string>
-    <string name="mediapicker_gallery_title_selection" msgid="3621616141966436510">"<xliff:g id="COUNT">%d</xliff:g> தேர்ந்தெடுக்கப்பட்டது"</string>
-    <string name="mediapicker_gallery_image_item_description" msgid="8812237405495409901">"படம் <xliff:g id="DATE">%1$tB %1$te %1$tY %1$tl %1$tM %1$tp</xliff:g>"</string>
-    <string name="mediapicker_gallery_image_item_description_no_date" msgid="8142175029053370662">"படம்"</string>
     <string name="mediapicker_audio_title" msgid="5455016591560739789">"ஆடியோவைப் பதிவுசெய்"</string>
     <string name="action_share" msgid="2143483844803153871">"பகிர்"</string>
     <string name="posted_just_now" msgid="6632467048088811568">"சற்றுமுன்"</string>
@@ -73,7 +70,6 @@
     <string name="message_status_send_retrying" msgid="650840088043267981">"அனுப்பவில்லை. மீண்டும் முயல்கிறது…"</string>
     <string name="message_status_resend" msgid="7718458416521355708">"மீண்டும் அனுப்பு அல்லது நீக்கு"</string>
     <string name="message_status_send_failed_emergency_number" msgid="1738854184297159948">"அவசரகால சேவைகளை அழைக்கவும். உங்கள் உரைச் செய்தியை தற்போது வழங்க முடியவில்லை."</string>
-    <string name="message_status_failed" msgid="8009695010381848311">"தோல்வி"</string>
     <string name="message_title_manual_download" msgid="2761223322277801061">"இறக்க, புதிய MMS செய்தி உள்ளது"</string>
     <string name="message_title_downloading" msgid="6418481644146460124">"புதிய MMS செய்தி"</string>
     <string name="message_title_download_failed" msgid="3867223594671090459">"இறக்க முடியவில்லை"</string>
@@ -83,15 +79,8 @@
     <string name="message_status_downloading" msgid="7159807805159805428">"இறக்குகிறது…"</string>
     <string name="message_status_download_error" msgid="6957738686287397519">"செய்தி காலாவதியானது அல்லது இல்லை"</string>
     <string name="mms_info" msgid="3402311750134118165">"அளவு: <xliff:g id="MESSAGESIZE">%1$s</xliff:g>, காலாவதியாகும் தேதி: <xliff:g id="MESSAGEEXPIRE">%2$s</xliff:g>"</string>
-    <string name="invalid_destination" msgid="8214889988397524630">"அனுப்ப முடியவில்லை. பெறுநர் விவரம் தவறாக உள்ளது."</string>
-    <string name="service_not_activated" msgid="5512558652052977817">"நெட்வொர்க்கில் சேவை இயக்கப்படவில்லை"</string>
-    <string name="service_network_problem" msgid="3765738916704013318">"நெட்வொர்க் சிக்கல் காரணமாக அனுப்ப முடியவில்லை"</string>
-    <string name="service_message_not_found" msgid="8350935323904134751">"செய்தி காலாவதியானது அல்லது இல்லை"</string>
-    <string name="no_subject" msgid="5587715902648568767">"(தலைப்பு இல்லை)"</string>
     <string name="unknown_sender" msgid="504272434917395677">"அறியப்படாத அனுப்புநர்"</string>
     <string name="delivered_status_content_description" msgid="3433965196058436991">"டெலிவரி செய்யப்பட்டது"</string>
-    <string name="dl_failure_notification" msgid="8744588243554006189">"<xliff:g id="FROM">%2$s</xliff:g> இலிருந்து <xliff:g id="SUBJECT">%1$s</xliff:g> செய்தியைப் பதிவிறக்க முடியவில்லை."</string>
-    <string name="low_memory" msgid="5300743415198486619">"குறைந்த நினைவகம் காரணமாகத் தரவுத்தளச் செயல்பாட்டை முடிக்க முடியவில்லை"</string>
     <string name="notification_send_failures_line1_singular" msgid="6783835440207655217">"செய்தி அனுப்பப்படவில்லை"</string>
     <string name="notification_send_failures_line1_plural" msgid="7228944748028969272">"செய்தியிடலில் சில செய்திகள் அனுப்பப்படவில்லை"</string>
     <plurals name="notification_send_failures" formatted="false" msgid="6938919932879650691">
@@ -110,12 +99,6 @@
       <item quantity="other"><xliff:g id="MESSAGES">%d</xliff:g> புதிய செய்திகள்</item>
       <item quantity="one">புதிய செய்தி</item>
     </plurals>
-    <string name="start_conversation" msgid="7984539515326392793">"தொடங்கு"</string>
-    <string name="camera_error_opening" msgid="2739332294400420426">"கேமரா இல்லை"</string>
-    <string name="camera_error_unknown" msgid="4283956364220459608">"கேமரா இல்லை"</string>
-    <string name="camera_error_video_init_fail" msgid="994632067015578879">"வீடியோ படமெடுக்க முடியாது"</string>
-    <string name="camera_error_storage_fail" msgid="5536300789483863989">"மீடியாவைச் சேமிக்க முடியவில்லை"</string>
-    <string name="camera_error_failure_taking_picture" msgid="4894133709734862250">"படமெடுக்க முடியாது"</string>
     <string name="back" msgid="1477626055115561645">"முந்தையது"</string>
     <string name="action_menu_show_archived" msgid="1628518043533374868">"காப்பகப்படுத்தப்பட்டன"</string>
     <string name="action_delete" msgid="4076795795307486019">"நீக்கு"</string>
@@ -135,8 +118,6 @@
     <string name="delete_conversation_confirmation_button" msgid="744574085809600863">"நீக்கு"</string>
     <string name="delete_conversation_decline_button" msgid="5470021965641900456">"ரத்துசெய்"</string>
     <string name="recipient_hint" msgid="1819710673158265515">"பெறுநர்"</string>
-    <string name="action_multiselect" msgid="1219683118692013380">"பல படங்களைத் தேர்ந்தெடு"</string>
-    <string name="action_confirm_multiselect" msgid="8283370294120913166">"தேர்வை உறுதிப்படுத்து"</string>
     <string name="attachment_more_items" msgid="2861573099241369958">"+<xliff:g id="COUNT">%d</xliff:g>"</string>
     <string name="audio_recording_start_failed" msgid="4442450764642560851">"ஆடியோவைப் பதிவு செய்ய இயலவில்லை. மீண்டும் முயலவும்."</string>
     <string name="audio_recording_replay_failed" msgid="3585760856463273828">"ஆடியோவை இயக்க முடியவில்லை. மீண்டும் முயலவும்."</string>
@@ -163,8 +144,6 @@
     <string name="unblocked_toast_message" msgid="4927617874263586622">"தொடர்பு தடைநீக்கப்பட்டுள்ளது &amp; பட்டியலில் தோன்றும்"</string>
     <string name="archived_toast_message" msgid="8109348891515322512">"<xliff:g id="COUNT">%d</xliff:g> காப்பகப்படுத்தப்பட்டன"</string>
     <string name="unarchived_toast_message" msgid="5010777423084203833">"<xliff:g id="COUNT">%d</xliff:g> பட்டியலில் தோன்றும்"</string>
-    <string name="notification_off_toast_message" msgid="5203458459139408265">"அறிவிப்புகள் முடக்கப்பட்டுள்ளன"</string>
-    <string name="notification_on_toast_message" msgid="1240626023754746310">"அறிவிப்புகள் இயக்கப்பட்டுள்ளன"</string>
     <string name="toast_after_setting_default_sms_app_for_message_send" msgid="2767997591700713113">"எல்லாம் முடிந்தது. மீண்டும் அனுப்பு என்பதைத் தொடவும்."</string>
     <string name="toast_after_setting_default_sms_app" msgid="2923745971897322476">"செய்தியிடல் இயல்பு SMS பயன்பாடாக அமைக்கப்பட்டது."</string>
     <plurals name="attachment_preview_close_content_description" formatted="false" msgid="5631719319690969981">
@@ -188,16 +167,7 @@
     <string name="group_outgoing_failed_message_prefix" msgid="5059983340377901592">"<xliff:g id="GROUP">%1$s</xliff:g>க்கு அனுப்பிய செய்தி தோல்வி: <xliff:g id="MESSAGE">%2$s</xliff:g>. நேரம்: <xliff:g id="TIME">%3$s</xliff:g>."</string>
     <string name="group_outgoing_successful_message_prefix" msgid="1593702642852987920">"<xliff:g id="GROUP">%1$s</xliff:g>க்கான செய்தி: <xliff:g id="MESSAGE">%2$s</xliff:g>. நேரம்: <xliff:g id="TIME">%3$s</xliff:g>."</string>
     <string name="failed_message_content_description" msgid="7047161648867054936">"செய்தி அனுப்புவதில் தோல்வி. மீண்டும் முயற்சிக்க, தொடவும்."</string>
-    <string name="group_conversation_description" msgid="2339270924401184182">"<xliff:g id="PARTICIPANTS">%s</xliff:g> உடனான உரையாடல்"</string>
     <string name="delete_subject_content_description" msgid="8910749398836396698">"தலைப்பை நீக்கு"</string>
-    <string name="camera_switch_to_video_mode" msgid="2926868205952641428">"வீடியோ எடு"</string>
-    <string name="camera_switch_to_still_mode" msgid="4419617715199157958">"ஸ்டில் படமெடு"</string>
-    <string name="camera_take_picture" msgid="2573317952200799489">"படமெடு"</string>
-    <string name="camera_start_recording" msgid="1736478301191221786">"வீடியோவைப் படமெடு"</string>
-    <string name="camera_switch_full_screen" msgid="6156039742035097276">"முழுத் திரை கேமராவிற்கு மாறு"</string>
-    <string name="camera_switch_camera_facing" msgid="1566112129296559159">"முன் மற்றும் பின்பக்க கேமராவிற்கு இடையே மாறு"</string>
-    <string name="camera_stop_recording" msgid="5331592576107271152">"பதிவுசெய்வதை நிறுத்தி வீடியோவை இணைக்கவும்"</string>
-    <string name="camera_cancel_recording" msgid="6431544304743145818">"வீடியோ பதிவு செய்வதை நிறுத்து"</string>
     <string name="photo_view_activity_title" msgid="6556006393051918135">"செய்தியிடல் படங்கள்"</string>
     <plurals name="photos_saved_to_album" formatted="false" msgid="7529478299745446838">
       <item quantity="other"><xliff:g id="QUANTITY_2">%d</xliff:g> படங்கள், \"<xliff:g id="ALBUMNAME_3">%s</xliff:g>\" ஆல்பத்தில் சேமிக்கப்பட்டன</item>
@@ -223,16 +193,11 @@
       <item quantity="other"><xliff:g id="QUANTITY_1">%d</xliff:g> இணைப்புகளைச் சேமிக்க முடியவில்லை</item>
       <item quantity="one"><xliff:g id="QUANTITY_0">%d</xliff:g> இணைப்பைச் சேமிக்க முடியவில்லை</item>
     </plurals>
-    <string name="attachment_file_description" msgid="3056972820372291694">"சேமித்த MMS இணைப்பு"</string>
     <string name="settings_activity_title" msgid="3380813834835334258">"அமைப்பு"</string>
     <string name="archived_activity_title" msgid="4738212324460451188">"காப்பகப்படுத்தப்பட்டன"</string>
-    <string name="action_close" msgid="1840519376200478419">"மூடு"</string>
     <string name="mms_messaging_category_pref_title" msgid="4816815152658525660">"MMS"</string>
     <string name="advanced_category_pref_title" msgid="6411454224069259687">"மேம்பட்டவை"</string>
-    <string name="debug_category_pref_title" msgid="8765138968242505061">"பிழைத்திருத்து"</string>
     <string name="notifications_pref_title" msgid="4127288731844373795">"அறிவிப்புகள்"</string>
-    <string name="silent_ringtone" msgid="8073534180322059814">"நிசப்தம்"</string>
-    <string name="blocked_pref_title" msgid="2560554234438548817">"தடுக்கப்பட்டது"</string>
     <string name="delivery_reports_pref_title" msgid="5115727259825309087">"SMS டெலிவரி அறிக்கைகள்"</string>
     <string name="delivery_reports_pref_summary" msgid="4272502420621500421">"நீங்கள் அனுப்பும் ஒவ்வொரு SMS க்கும் வழங்கல் அறிக்கையைக் கோரவும்"</string>
     <string name="auto_retrieve_mms_pref_title" msgid="1316094876978218980">"தானாக மீட்டெடு"</string>
@@ -240,22 +205,14 @@
     <string name="auto_retrieve_mms_when_roaming_pref_title" msgid="2918775628609759349">"ரோமிங்கில் தானாக மீட்டெடு"</string>
     <string name="auto_retrieve_mms_when_roaming_pref_summary" msgid="7347177867673486983">"ரோமிங்கின் போது தானாகவே MMSஐ மீட்டெடு"</string>
     <string name="group_mms_pref_title" msgid="6553612309209383106">"குழு மெசேஜ்"</string>
-    <string name="group_mms_pref_summary" msgid="3758710015912690629">"ஒரு செய்தியைப் பல பெறுநர்களுக்கு அனுப்புவதற்கு MMS ஐப் பயன்படுத்து"</string>
     <string name="sms_enabled_pref_title" msgid="2961457081888153323">"இயல்புநிலை SMS பயன்பாடு"</string>
     <!-- no translation found for default_sms_app (3907546126124760465) -->
     <skip />
     <string name="mms_phone_number_pref_title" msgid="5445275222817760638">"மொபைல் எண்"</string>
     <string name="unknown_phone_number_pref_display_value" msgid="5191326096424554297">"தெரியாதது"</string>
     <string name="send_sound_pref_title" msgid="6284747469983942370">"வெளிச்செல்லும் செய்தி ஒலிகள்"</string>
-    <string name="dump_sms_pref_title" msgid="4057657151746557281">"SMS ஐ நகலெடு"</string>
-    <string name="dump_sms_pref_summary" msgid="3694039770323225329">"பெற்ற SMS அசல் தரவை வெளிப்புறச் சேமிப்பகக் கோப்பில் நகலெடு"</string>
-    <string name="dump_mms_pref_title" msgid="6699074152055891680">"MMS ஐ நகலெடு"</string>
-    <string name="dump_mms_pref_summary" msgid="7901698352188687659">"பெற்ற MMS அசல் தரவை வெளிப்புறச் சேமிப்பகச் கோப்பில் நகலெடு"</string>
-    <string name="wireless_alerts_title" msgid="8218925605166939654">"வயர்லெஸ் விழிப்பூட்டல்கள்"</string>
-    <string name="message_context_menu_title" msgid="5036023289586457642">"செய்தி விருப்பங்கள்"</string>
     <string name="message_context_menu_copy_text" msgid="8241684826917957666">"உரையை நகலெடு"</string>
     <string name="message_context_menu_view_details" msgid="2077089491219912840">"விவரங்களைக் காட்டு"</string>
-    <string name="message_context_menu_delete_message" msgid="4924354182554857475">"நீக்கு"</string>
     <string name="message_context_menu_forward_message" msgid="4848326950037554575">"முன்னனுப்பு"</string>
     <string name="message_details_title" msgid="8451487656255395372">"செய்தி விவரங்கள்"</string>
     <string name="message_type_label" msgid="6442873901113487978">"வகை: "</string>
@@ -275,7 +232,6 @@
     <string name="sim_slot_identifier" msgid="5934005977415016295">"SIM <xliff:g id="SIM_SLOT_NUMBER">%s</xliff:g>"</string>
     <string name="hidden_sender_address" msgid="5054789216911282696">"மறைவிலிருக்கும் அனுப்புநர் முகவரி"</string>
     <string name="cant_send_message_while_loading_attachments" msgid="4301887223941009907">"இணைப்புகளை ஏற்றும் போது செய்தியை அனுப்ப முடியாது."</string>
-    <string name="fail_to_load_attachment" msgid="412233184776827353">"இணைப்பை ஏற்ற முடியவில்லை. மீண்டும் முயலவும்."</string>
     <string name="cant_send_message_without_active_subscription" msgid="7130532514190813716">"நெட்வொர்க் தயாராக இல்லை. மீண்டும் முயற்சிக்கவும்."</string>
     <string name="chips_text_delete_button_content_description" msgid="123760854728616068">"உரையை நீக்கு"</string>
     <string name="numeric_text_keyboard_toggle_button_content_description" msgid="1403198418131594073">"உரை மற்றும் எண்களை உள்ளிடுவதன் இடையே மாறு"</string>
@@ -285,7 +241,6 @@
     <string name="gallery_checkbox_content_description" msgid="2503122727700475428">"இதனைத் தேர்வுசெய்"</string>
     <string name="video_thumbnail_view_play_button_content_description" msgid="3506938388391260811">"வீடியோவை இயக்கு"</string>
     <string name="action_people_and_options" msgid="2748020184252106661">"நபர்களும் விருப்பங்களும்"</string>
-    <string name="action_debug_options" msgid="2440658410677323714">"பிழைத்திருத்து"</string>
     <string name="people_and_options_activity_title" msgid="5443749025829291736">"நபர்களும் விருப்பங்களும்"</string>
     <string name="general_settings_title" msgid="4465312111301728995">"பொது"</string>
     <string name="participant_list_title" msgid="8624855187574757110">"உரையாடலில் உள்ளவர்கள்"</string>
@@ -316,14 +271,9 @@
       <item quantity="other"><xliff:g id="ATTACHMENT_COUNT">%d</xliff:g> இணைப்புகள் அனுப்புவதற்குத் தயாராக உள்ளன</item>
       <item quantity="one">ஒரு இணைப்பு அனுப்புவதற்குத் தயாராக உள்ளது</item>
     </plurals>
-    <string name="menu_send_feedback" msgid="479412726781330278">"கருத்தை அனுப்பு"</string>
-    <string name="menu_view_in_store" msgid="3792488955421628684">"Google Play Store இல் காட்டு"</string>
-    <string name="menu_version_info" msgid="6122616816253404821">"பதிப்புத் தகவல்"</string>
-    <string name="subtitle_format_for_version_number" msgid="446082111129170749">"பதிப்பு %1$s"</string>
     <string name="menu_license" msgid="1157954180701135202">"ஓப்பன் சோர்ஸ் உரிமங்கள்"</string>
     <string name="notifications_enabled_conversation_pref_title" msgid="1492686092760478206">"அறிவிப்புகள்"</string>
     <string name="mms_attachment_limit_reached" msgid="8303890455085643301">"இணைப்பிற்கான வரம்பை அடைந்துவிட்டீர்கள்"</string>
-    <string name="mms_attachment_load_failed" msgid="5697191348996648727">"இணைப்பை ஏற்றுவதில் தோல்வி."</string>
     <string name="add_contact_confirmation_dialog_title" msgid="1898307408816625598">"தொடர்புகளில் சேர்க்கவா?"</string>
     <string name="add_contact_confirmation" msgid="1479380805406328264">"தொடர்பைச் சேர்"</string>
     <string name="compose_message_view_subject_hint_text" msgid="6076616675845705660">"தலைப்பு"</string>
@@ -340,14 +290,12 @@
     <string name="vcard_detail_birthday_label" msgid="7196021537629120021">"பிறந்தநாள்"</string>
     <string name="vcard_detail_notes_label" msgid="6104179009509800126">"குறிப்புகள்"</string>
     <string name="forward_message_activity_title" msgid="4689730643900226699">"செய்தியை முன்னனுப்பு"</string>
-    <string name="reply_activity_title" msgid="2967630094609648609">"பதிலளிக்கவும்"</string>
     <string name="plus_one" msgid="9010288417554932581">"+1"</string>
     <string name="plus_n" msgid="8961547034116059566">"+%d"</string>
     <string name="sms_disabled" msgid="4988773371061820432">"SMS முடக்கப்பட்டது"</string>
     <string name="requires_default_sms_app_to_send" msgid="171048611973157166">"அனுப்ப, இயல்பு SMS பயன்பாடாக செய்தியிடலை அமைக்கவும்"</string>
     <string name="requires_default_sms_app" msgid="7477365167876194810">"இயல்பு SMS பயன்பாடாக செய்தியிடலை அமைக்கவும்"</string>
     <string name="requires_default_sms_change_button" msgid="6717443481161057941">"மாற்று"</string>
-    <string name="recommend_set_default_sms_app" msgid="7769636305626277844">"செய்திகளைப் பெற, இயல்பு SMS பயன்பாடாக செய்தியிடலை அமைக்கவும்"</string>
     <string name="no_preferred_sim_selected" msgid="8583927728936521140">"SMS செய்திகளை அனுப்புவதற்கு விருப்பமான சிம் எதுவும் தேர்ந்தெடுக்கப்படவில்லை"</string>
     <string name="requires_sms_permissions_message" msgid="2179684358095980506">"சாதன உரிமையாளர் இந்தப் பயன்பாட்டை அனுமதிக்கவில்லை."</string>
     <string name="requires_sms_permissions_close_button" msgid="8601569832171759435">"சரி"</string>
@@ -356,9 +304,6 @@
       <item quantity="other">தவறான தொடர்புகள்</item>
       <item quantity="one">தவறான தொடர்பு</item>
     </plurals>
-    <string name="camera_media_failure" msgid="6532763214546593687">"கேமரா படத்தை ஏற்ற முடியவில்லை"</string>
-    <string name="conversation_list_item_view_sent_from_you_prefix" msgid="1735457801737604211">"நீங்கள்: "</string>
-    <string name="conversation_list_item_view_sent_from_other_prefix" msgid="9202622757034736175">"<xliff:g id="FIRSTNAMEOFSENDER">%s</xliff:g>: "</string>
     <string name="conversation_list_item_view_draft_message" msgid="3592923997082845035">"வரைவு"</string>
     <string name="conversation_list_empty_text" msgid="7505706551294769667">"புதிய உரையாடலைத் தொடங்கியதும், அது இங்கு பட்டியலிடப்படும்"</string>
     <string name="archived_conversation_list_empty_text" msgid="6109126963298874571">"காப்பகப்படுத்திய உரையாடல்கள் இங்கே தோன்றும்"</string>
@@ -378,8 +323,6 @@
     <string name="block_confirmation_message" msgid="185429978461824228">"தொடர்ந்து இந்த எண்ணில் இருந்து செய்திகளைப் பெறுவீர்கள், அது குறித்து இனி உங்களுக்கு அறிவிக்கப்படாது. உரையாடல் காப்பகப்படுத்தப்படும்."</string>
     <string name="blocked_contacts_title" msgid="7709164518967312281">"தடுக்கப்பட்ட தொடர்புகள்"</string>
     <string name="tap_to_unblock_message" msgid="1284284144816901647">"தடுப்பை நீக்கு"</string>
-    <string name="view_blocked_contacts_title" msgid="7417596291306885403">"தடுக்கப்பட்ட தொடர்புகள்"</string>
-    <string name="pick_image_from_document_library_content_description" msgid="132845956503874378">"ஆவண நூலகத்தில் இருந்து படத்தைத் தேர்வு செய்யவும்"</string>
     <string name="sending_message" msgid="6363584950085384929">"செய்தி அனுப்பப்படுகிறது"</string>
     <string name="send_message_success" msgid="4088006261869323324">"செய்தி அனுப்பப்பட்டது"</string>
     <string name="send_message_failure_no_data" msgid="7404080465234559802">"செல்லுலார் தரவு முடக்கப்பட்டுள்ளது. அமைப்புகளைச் சரிபார்க்கவும்."</string>
@@ -415,32 +358,6 @@
     <string name="chips_delete_content_description" msgid="4655699207140895492">"பெறுநரை அகற்று"</string>
     <string name="share_new_message" msgid="2135955613694195483">"புதிய செய்தி"</string>
     <string name="share_cancel" msgid="6666929391961668469">"ரத்துசெய்"</string>
-    <string name="apn_edit" msgid="2134993966166435648">"ஆக்சஸ் பாயிண்ட்டைத் திருத்து"</string>
-    <string name="apn_not_set" msgid="463728018542184151">"அமைக்கப்படவில்லை"</string>
-    <string name="apn_name" msgid="1572691851070894985">"பெயர்"</string>
-    <string name="apn_apn" msgid="1197541953189716999">"APN"</string>
-    <string name="apn_mmsc" msgid="2584154739440281747">"MMSC"</string>
-    <string name="apn_mms_proxy" msgid="4343743931563107100">"MMS ப்ராக்ஸி"</string>
-    <string name="apn_mms_port" msgid="6181253508404620479">"MMS போர்ட்"</string>
-    <string name="apn_mcc" msgid="8102023058623950736">"MCC"</string>
-    <string name="apn_mnc" msgid="1372437523197012866">"MNC"</string>
-    <string name="apn_type" msgid="8409755622399386584">"APN வகை"</string>
-    <string name="menu_delete_apn" msgid="4947391038600888284">"APNஐ நீக்கு"</string>
-    <string name="menu_new_apn" msgid="1564461309350814037">"புதிய APN"</string>
-    <string name="menu_save_apn" msgid="5445335896951613691">"சேமி"</string>
-    <string name="menu_discard_apn_change" msgid="310569150407968648">"நிராகரி"</string>
-    <string name="error_apn_name_empty" msgid="7770363665690646716">"பெயர் புலம் வெறுமையாக இருக்கக்கூடாது."</string>
-    <string name="error_apn_empty" msgid="6799644880052534839">"APN வெறுமையாக இருக்கக்கூடாது."</string>
-    <string name="error_mcc_not3" msgid="3693788817630985838">"MCC புலம் கண்டிப்பாக 3 இலக்கங்களில் இருக்க வேண்டும்."</string>
-    <string name="error_mnc_not23" msgid="3726130455168743554">"MNC புலம் கண்டிப்பாக 2 அல்லது 3 இலக்கங்களில் இருக்க வேண்டும்."</string>
-    <string name="restore_default_apn" msgid="7180447255249638396">"இயல்புநிலை APN அமைப்புகளை மீட்டமைக்கிறது."</string>
-    <string name="menu_restore_default_apn" msgid="6342935229867973523">"இயல்புநிலைக்கு மீட்டமை"</string>
-    <string name="restore_default_apn_completed" msgid="7421687541468349715">"இயல்புநிலை APN அமைப்புகளை மீட்டமைப்பது முடிந்தது."</string>
-    <string name="untitled_apn" msgid="3110576506102839465">"பெயரிடப்படாதது"</string>
-    <string name="sms_apns_title" msgid="1351513141821300879">"ஆக்சஸ் பாயிண்ட் நேம்கள்"</string>
-    <string name="apn_settings" msgid="3179955111000379490">"APNகள்"</string>
-    <string name="menu_new" msgid="8286285392706532511">"புதிய APN"</string>
-    <string name="apn_settings_not_available" msgid="5136389328322585717">"இவரால் ஆக்சஸ் பாயிண்ட் நேம் அமைப்புகளை மாற்ற முடியாது"</string>
     <string name="copy_to_clipboard_dialog_title" msgid="494269163973708182">"கிளிப்போர்டுக்கு நகலெடுக்கவா?"</string>
     <string name="copy_to_clipboard" msgid="1977083934277981786">"நகலெடு"</string>
     <string name="incoming_sim_name_text" msgid="4244076415705614525">"<xliff:g id="SIM_NAME">%s</xliff:g>"</string>
@@ -461,9 +378,7 @@
     <string name="audio_record_view_content_description" msgid="29401157183728655">"ஆடியோவைப் பதிவுசெய்ய, தொட்டுப் பிடித்திருக்கவும்"</string>
     <string name="widget_new_conversation_content_description" msgid="4214201569175733579">"புதிய உரையாடலைத் தொடங்கு"</string>
     <string name="widget_title_content_description" msgid="5802836840910466231">"செய்தியிடல்"</string>
-    <string name="widget_conversation_list_name" msgid="4005037639000611925">"செய்தியிடல் பட்டியல்"</string>
     <string name="widget_conversation_name" msgid="3900606239571892871">"செய்தியிடல்"</string>
-    <string name="widget_new_message_content_description" msgid="2706347689522691188">"புதிய செய்தி"</string>
     <string name="widget_conversation_list_content_description" msgid="4137121313374868821">"உரையாடல் பட்டியல்"</string>
     <string name="loading_conversations" msgid="2890879017729068514">"உரையாடல்களை ஏற்றுகிறது"</string>
     <string name="loading_messages" msgid="3894765818932489665">"செய்திகளை ஏற்றுகிறது"</string>
@@ -483,6 +398,5 @@
     <string name="attachment_load_failed_dialog_message" msgid="4917927407363303333">"செய்தியிடலால் இணைப்பை ஏற்ற முடியவில்லை."</string>
     <string name="attachment_limit_reached_send_anyway" msgid="2348790618093735551">"எப்படியேனும் அனுப்பு"</string>
     <string name="conversation_creation_failure" msgid="8597624563218724441">"உரையாடலைத் தொடங்க முடியவில்லை"</string>
-    <string name="link_display_format" msgid="8700344957248709584">"<xliff:g id="TEXT">%1$s</xliff:g> (<xliff:g id="URL">%2$s</xliff:g>)"</string>
     <string name="selected_sim_content_message" msgid="4504796674843354505">"<xliff:g id="SELECTED_SIM">%s</xliff:g> தேர்ந்தெடுக்கப்பட்டது"</string>
 </resources>

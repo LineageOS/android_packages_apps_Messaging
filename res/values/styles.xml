@@ -85,15 +85,6 @@
         <item name="android:windowNoDisplay">true</item>
     </style>
 
-    <style name="Translucent" parent="BugleBaseTheme">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowDisablePreview">true</item>
-    </style>
-
     <style name="BugleActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="height">@dimen/action_bar_height</item>
         <item name="displayOptions">showTitle</item>
@@ -175,10 +166,6 @@
 
     <style name="ContactListItemDetailType">
         <item name="android:paddingStart">12dp</item>
-    </style>
-
-    <style name="ContactListItemDrawableIndicator">
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="RecipientEditTextView">
@@ -265,10 +252,6 @@
         <item name="android:gravity">left</item>
     </style>
 
-    <style name="CameraChooserFrameStyle">
-        <item name="android:paddingStart">16dp</item>
-    </style>
-
     <style name="ComposeMessageViewAttachMediaButtonStyle">
         <item name="android:paddingLeft">@dimen/compose_message_attachment_padding_sides</item>
         <item name="android:paddingRight">@dimen/compose_message_attachment_padding_sides</item>
@@ -303,14 +286,6 @@
 
     <style name="ComposeMessageViewFrameLayoutStyle">
         <item name="android:paddingRight">@dimen/compose_message_send_button_padding_right</item>
-    </style>
-
-    <style name="ConversationListFragmentStartNewButtonStyle">
-        <item name="android:layout_marginRight">@dimen/fab_left_right_margin</item>
-    </style>
-
-    <style name="GalleryGridItemViewCheckBoxStyle">
-        <item name="android:paddingEnd">4dp</item>
     </style>
 
     <style name="AttachmentPreviewAttachmentStyle">
@@ -410,24 +385,6 @@
         <item name="android:layout_marginLeft">4dp</item>
     </style>
 
-    <style name="appTitleStyle">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="appVersionStyle">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
-    <style name="appCopyrightStyle">
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:ellipsize">end</item>
-    </style>
-
     <style name="ChipDeleteIconStyle">
         <item name="android:paddingLeft">8dp</item>
     </style>
@@ -490,11 +447,6 @@
         <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
-    <style name="DebugMmsConfigItemStyle">
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
-    </style>
-
     <style name="WidgetTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/action_bar_title_text_color</item>
         <item name="android:singleLine">true</item>
@@ -540,22 +492,12 @@
         <item name="android:layout_toLeftOf">@id/avatarFrame</item>
     </style>
 
-    <style name="WidgetConversationItemIncoming">
-        <item name="android:layout_marginRight">5dp</item>
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:layout_toLeftOf">@id/date</item>
-    </style>
-
     <style name="WidgetConversationItemIncomingAvatarShadow">
         <item name="android:layout_marginLeft">4dp</item>
     </style>
 
     <style name="WidgetConversationItemOutgoingAvatarShadow">
         <item name="android:layout_marginLeft">-4dp</item>
-    </style>
-
-    <style name="WidgetConversationAppIcon" parent="WidgetHeaderImage">
-        <item name="android:layout_marginLeft">-20dp</item>
     </style>
 
     <style name="WidgetConversationItemDate">
