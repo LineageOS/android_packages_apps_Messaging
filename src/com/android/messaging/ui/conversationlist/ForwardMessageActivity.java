@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,6 @@ package com.android.messaging.ui.conversationlist;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentOnAttachListener;
-
 import com.android.messaging.datamodel.data.ConversationListData;
 import com.android.messaging.datamodel.data.ConversationListItemData;
 import com.android.messaging.datamodel.data.MessageData;
@@ -36,27 +31,17 @@ import com.android.messaging.ui.conversationlist.ConversationListFragment.Conver
  * conversation list.
  */
 public class ForwardMessageActivity extends BaseBugleActivity
-    implements ConversationListFragmentHost, FragmentOnAttachListener {
+    implements ConversationListFragmentHost {
     private MessageData mDraftMessage;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportFragmentManager().addFragmentOnAttachListener(this);
         final ConversationListFragment fragment =
                 ConversationListFragment.createForwardMessageConversationListFragment();
         getSupportFragmentManager().beginTransaction().add(android.R.id.content, fragment).commit();
         mDraftMessage = getIntent().getParcelableExtra(UIIntents.UI_INTENT_EXTRA_DRAFT_DATA,
                 MessageData.class);
-    }
-
-    @Override
-    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
-                                 @NonNull Fragment fragment) {
-        if (fragment instanceof ConversationListFragment) {
-            final ConversationListFragment clf = (ConversationListFragment) fragment;
-            clf.setHost(this);
-        }
     }
 
     @Override
