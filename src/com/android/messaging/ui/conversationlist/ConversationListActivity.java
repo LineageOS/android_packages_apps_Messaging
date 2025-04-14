@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2025 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,22 +24,23 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentOnAttachListener;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.Trace;
 
-public class ConversationListActivity extends AbstractConversationListActivity implements FragmentOnAttachListener {
+public class ConversationListActivity extends AbstractConversationListActivity {
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Trace.beginSection("ConversationListActivity.onCreate");
         setTheme(R.style.BugleTheme_ConversationListActivity);
         super.onCreate(savedInstanceState);
-        getSupportFragmentManager().addFragmentOnAttachListener(this);
-        setContentView(R.layout.conversation_list_activity);
+        mConversationListFragment = ConversationListFragment.createConversationListFragment(null);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(android.R.id.content, mConversationListFragment)
+                .commit();
         Trace.endSection();
         invalidateActionBar();
     }
@@ -131,22 +132,10 @@ public class ConversationListActivity extends AbstractConversationListActivity i
     @Override
     public void onWindowFocusChanged(final boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        final ConversationListFragment conversationListFragment =
-                (ConversationListFragment) getSupportFragmentManager().findFragmentById(
-                        R.id.conversation_list_fragment);
         // When the screen is turned on, the last used activity gets resumed, but it gets
         // window focus only after the lock screen is unlocked.
-        if (hasFocus && conversationListFragment != null) {
-            conversationListFragment.setScrolledToNewestConversationIfNeeded();
-        }
-    }
-
-    @Override
-    public void onAttachFragment(@NonNull FragmentManager fragmentManager,
-                                 @NonNull Fragment fragment) {
-        if (fragment instanceof ConversationListFragment) {
-            mConversationListFragment = (ConversationListFragment) fragment;
-            mConversationListFragment.setHost(this);
+        if (hasFocus && mConversationListFragment != null) {
+            mConversationListFragment.setScrolledToNewestConversationIfNeeded();
         }
     }
 }

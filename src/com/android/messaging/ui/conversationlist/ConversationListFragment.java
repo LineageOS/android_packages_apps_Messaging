@@ -52,7 +52,6 @@ import com.android.messaging.ui.ListEmptyView;
 import com.android.messaging.ui.SnackBarInteraction;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.AccessibilityUtil;
-import com.android.messaging.util.Assert;
 import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
@@ -110,9 +109,11 @@ public class ConversationListFragment extends Fragment implements ConversationLi
 
     public static ConversationListFragment createConversationListFragment(String modeKeyName) {
         final ConversationListFragment fragment = new ConversationListFragment();
-        final Bundle bundle = new Bundle();
-        bundle.putBoolean(modeKeyName, true);
-        fragment.setArguments(bundle);
+        if (modeKeyName != null) {
+            final Bundle bundle = new Bundle();
+            bundle.putBoolean(modeKeyName, true);
+            fragment.setArguments(bundle);
+        }
         return fragment;
     }
 
@@ -130,7 +131,7 @@ public class ConversationListFragment extends Fragment implements ConversationLi
     public void onResume() {
         super.onResume();
 
-        Assert.notNull(mHost);
+        mHost = (ConversationListFragmentHost) getActivity();
         setScrolledToNewestConversationIfNeeded();
 
         updateUi();
@@ -263,14 +264,6 @@ public class ConversationListFragment extends Fragment implements ConversationLi
         super.onPause();
         mListState = mRecyclerView.getLayoutManager().onSaveInstanceState();
         mListBinding.getData().setScrolledToNewestConversation(false);
-    }
-
-    /**
-     * Call this immediately after attaching the fragment
-     */
-    public void setHost(final ConversationListFragmentHost host) {
-        Assert.isNull(mHost);
-        mHost = host;
     }
 
     @Override
