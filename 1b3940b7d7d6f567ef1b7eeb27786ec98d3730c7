@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f844ad43_7cb4bb30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2025-05-11T08:21:04Z",
+      "side": 1,
+      "message": "Whole chain running since a while here\nthis patch in particular is a bugfix, maybe we should merge it some day :D",
+      "revId": "1b3940b7d7d6f567ef1b7eeb27786ec98d3730c7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
