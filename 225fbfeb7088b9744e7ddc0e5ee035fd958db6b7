@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4152fda2_d9f43448",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 13028
+      },
+      "writtenOn": "2025-05-11T08:42:21Z",
+      "side": 1,
+      "message": "No need to get the fragment via tag when we already have a variable containing it",
+      "revId": "225fbfeb7088b9744e7ddc0e5ee035fd958db6b7",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    }
+  ]
+}
