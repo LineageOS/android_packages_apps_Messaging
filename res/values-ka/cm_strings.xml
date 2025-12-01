@@ -18,4 +18,5 @@
     <string name="swipe_to_delete_conversation_pref_title">გადასმით წაშლა</string>
     <string name="swipe_to_delete_conversation_pref_summary">თითის მარჯვნივ გადასმა, საუბრის წასაშლელად</string>
     <string name="notification_channel_messages_title">შეტყობინებები</string>
+    <string name="start_chat">მიმოწერის დაწყება</string>
 </resources>
