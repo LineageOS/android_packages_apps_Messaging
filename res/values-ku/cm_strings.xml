@@ -15,8 +15,8 @@
     limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="swipe_to_delete_conversation_pref_title">Usap untuk menghapus</string>
-    <string name="swipe_to_delete_conversation_pref_summary">Usap ke kanan untuk menghapus percakapan</string>
-    <string name="notification_channel_messages_title">Pesan</string>
-    <string name="start_chat">Mulai obrolan</string>
+    <string name="swipe_to_delete_conversation_pref_title">لادان بۆ سڕینەوە</string>
+    <string name="swipe_to_delete_conversation_pref_summary">لادان بەلای ڕاستا بۆ سڕینەوەی گفتوگۆ</string>
+    <string name="notification_channel_messages_title">پەیامەکان</string>
+    <string name="start_chat">دەستپێکردنی چات</string>
 </resources>
