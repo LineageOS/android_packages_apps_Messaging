@@ -18,5 +18,5 @@
     <string name="swipe_to_delete_conversation_pref_title">لادان بۆ سڕینەوە</string>
     <string name="swipe_to_delete_conversation_pref_summary">لادان بەلای ڕاستا بۆ سڕینەوەی گفتوگۆ</string>
     <string name="notification_channel_messages_title">پەیامەکان</string>
-    <string name="start_chat">دەستپێکردنی چات</string>
+    <string name="start_chat">دەستپێکردنی گفتوگۆ</string>
 </resources>
