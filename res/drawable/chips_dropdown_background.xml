@@ -18,5 +18,5 @@
     <item android:drawable="@color/chips_dropdown_background_activated"
           android:state_activated="true"/>
     <item android:drawable="@color/chips_dropdown_background_pressed" android:state_pressed="true"/>
-    <item android:drawable="@android:color/white"/>
+    <item android:drawable="@color/window_background"/>
 </selector>

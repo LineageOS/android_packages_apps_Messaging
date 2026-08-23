@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:minHeight="@dimen/compose_message_contacts_height"
-                android:popupBackground="@drawable/contact_popup_background"
+                android:popupBackground="@color/window_background"
                 android:dropDownWidth="match_parent"
                 android:hint="@string/recipient_hint"
                 app:avatarPosition="start"
