@@ -539,7 +539,7 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
                 mCrossSwipeArchiveLeftImageView.setVisibility(GONE);
                 mCrossSwipeArchiveRightImageView.setVisibility(VISIBLE);
             }
-            mSwipeableContainer.setBackgroundResource(R.drawable.swipe_shadow_drag);
+            mSwipeableContainer.setBackgroundResource(R.color.window_background);
         }
     }
 

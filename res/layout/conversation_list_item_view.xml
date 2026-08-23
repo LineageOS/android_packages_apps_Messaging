@@ -29,7 +29,7 @@
         android:layout_height="match_parent"
         android:gravity="center_vertical|start"
         android:baselineAligned="false"
-        android:background="@drawable/swipe_shadow"
+        android:background="@color/window_background"
         android:visibility="gone"
         android:padding="@dimen/conversation_list_item_view_padding">
         <ImageView
