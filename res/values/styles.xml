@@ -23,6 +23,7 @@
         <item name="android:forceDarkAllowed">true</item>
         <item name="android:navigationBarColor">@color/navigation_bar_bg</item>
         <item name="android:windowLightNavigationBar">@bool/light_navigation_bar</item>
+        <item name="android:elegantTextHeight">true</item>
     </style>
 
     <!-- Application theme. -->
@@ -41,6 +42,7 @@
     <style name="LaunchTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
          <item name="colorPrimary">@color/action_bar_background_color</item>
          <item name="colorPrimaryDark">@color/action_bar_background_color_dark</item>
+         <item name="android:elegantTextHeight">true</item>
     </style>
 
     <style name="BugleTheme.ConversationActivity"
@@ -60,6 +62,7 @@
         <item name="android:windowNoTitle">false</item>
         <item name="android:background">@color/window_background</item>
         <item name="android:dialogCornerRadius">28dp</item>
+        <item name="android:elegantTextHeight">true</item>
     </style>
 
     <style name="BugleTheme.ConversationListActivity" parent="BugleTheme">
