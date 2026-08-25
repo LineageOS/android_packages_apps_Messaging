@@ -76,6 +76,7 @@ import com.google.common.base.Predicate;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The view for a single entry in a conversation.
@@ -238,13 +239,16 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      *
      * @param cursor The cursor from a MessageList that this view is in, pointing to its entry.
      * @param oneOnOne Whether this is a 1:1 conversation
+     * @param selectedMessageIds The set of currently selected message ids, or null if none
      */
-    public void bind(final Cursor cursor, final boolean oneOnOne, final String selectedMessageId) {
+    public void bind(final Cursor cursor, final boolean oneOnOne,
+            final Set<String> selectedMessageIds) {
         mOneOnOne = oneOnOne;
 
         // Update our UI model
         mData.bind(cursor);
-        setSelected(TextUtils.equals(mData.getMessageId(), selectedMessageId));
+        setSelected(selectedMessageIds != null
+                && selectedMessageIds.contains(mData.getMessageId()));
 
         // Update text and image content for the view.
         updateViewContent();
