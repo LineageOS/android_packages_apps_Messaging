@@ -24,4 +24,10 @@
 
     <!-- Start new chat button on the main screen -->
     <string name="start_chat">Start chat</string>
+
+    <!-- Alert dialog title to accept or decline deleting selected message(s) in conversation. -->
+    <plurals name="delete_messages_confirmation_dialog_title">
+        <item quantity="one">Delete this message?</item>
+        <item quantity="other">Delete these messages?</item>
+    </plurals>
 </resources>
