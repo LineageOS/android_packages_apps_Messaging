@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.android.messaging.datamodel.BugleNotifications;
+import com.android.messaging.datamodel.action.MarkAsReadAction;
 import com.android.messaging.datamodel.action.MarkAsSeenAction;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.util.ConversationIdSet;
@@ -36,7 +37,13 @@ public class NotificationReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
         LogUtil.v(TAG, "NotificationReceiver.onReceive: intent " + intent);
-        if (intent.getAction().equals(UIIntents.ACTION_RESET_NOTIFICATIONS)) {
+        if (intent.getAction().equals(UIIntents.ACTION_MARK_AS_READ)) {
+            final String conversationId =
+                    intent.getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID);
+            if (conversationId != null) {
+                MarkAsReadAction.markAsRead(conversationId);
+            }
+        } else if (intent.getAction().equals(UIIntents.ACTION_RESET_NOTIFICATIONS)) {
             final String conversationIdSetString =
                     intent.getStringExtra(UIIntents.UI_INTENT_EXTRA_CONVERSATION_ID_SET);
             final int notificationTargets = intent.getIntExtra(

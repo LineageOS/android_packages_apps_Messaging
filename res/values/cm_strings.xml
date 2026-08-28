@@ -24,4 +24,7 @@
 
     <!-- Start new chat button on the main screen -->
     <string name="start_chat">Start chat</string>
+
+    <!-- Notification action label for marking a conversation as read -->
+    <string name="notification_mark_as_read">Mark as read</string>
 </resources>

@@ -94,7 +94,8 @@ public abstract class MessageNotificationState extends NotificationState {
     private static final int MAX_CHARACTERS_IN_GROUP_NAME = 30;
 
     private static final int REPLY_INTENT_REQUEST_CODE_OFFSET = 0;
-    private static final int NUM_EXTRA_REQUEST_CODES_NEEDED = 1;
+    private static final int MARK_AS_READ_INTENT_REQUEST_CODE_OFFSET = 1;
+    private static final int NUM_EXTRA_REQUEST_CODES_NEEDED = 2;
     protected String mTickerSender = null;
     protected CharSequence mTickerText = null;
     protected String mTitle = null;
@@ -318,6 +319,10 @@ public abstract class MessageNotificationState extends NotificationState {
         return getBaseExtraRequestCode() + REPLY_INTENT_REQUEST_CODE_OFFSET;
     }
 
+    public int getMarkAsReadIntentRequestCode() {
+        return getBaseExtraRequestCode() + MARK_AS_READ_INTENT_REQUEST_CODE_OFFSET;
+    }
+
     @Override
     public PendingIntent getClearIntent() {
         return UIIntents.get().getPendingIntentForClearingNotifications(
@@ -347,8 +352,9 @@ public abstract class MessageNotificationState extends NotificationState {
                     convList.mMessageCount, convList.mMessageCount);
             mTickerText = state.mContent;
 
-            // Create child notifications for each conversation,
-            // which will be displayed (only) on a wearable device.
+            // Create one child notification per conversation. This is what's actually shown on
+            // the phone (the summary above is only visible once there are 2+ conversations);
+            // wearables show them bundled together in a group.
             for (int i = 0; i < convList.mConvInfos.size(); i++) {
                 final ConversationLineInfo convInfo = convList.mConvInfos.get(i);
                 if (!(convInfo.mLineInfos.get(0) instanceof MessageLineInfo)) {
@@ -356,7 +362,17 @@ public abstract class MessageNotificationState extends NotificationState {
                 }
                 final ConversationInfoList list = new ConversationInfoList(
                         convInfo.mTotalMessageCount, Lists.newArrayList(convInfo));
-                mChildren.add(new BundledMessageNotificationState(list, i));
+                final BundledMessageNotificationState child =
+                        new BundledMessageNotificationState(list, i);
+                if (convInfo.mAvatarUri != null) {
+                    child.mParticipantAvatarsUris = new ArrayList<>(1);
+                    child.mParticipantAvatarsUris.add(convInfo.mAvatarUri);
+                }
+                if (convInfo.mContactUri != null) {
+                    child.mParticipantContactUris = new ArrayList<>(1);
+                    child.mParticipantContactUris.add(convInfo.mContactUri);
+                }
+                mChildren.add(child);
             }
         }
 
@@ -1009,29 +1025,14 @@ public abstract class MessageNotificationState extends NotificationState {
         if (convList == null || convList.mConvInfos.size() == 0) {
             LogUtil.v(TAG, "MessageNotificationState: No unseen notifications");
         } else {
-            final ConversationLineInfo convInfo = convList.mConvInfos.get(0);
-            state = new MultiMessageNotificationState(convList);
-
-            if (convList.mConvInfos.size() > 1) {
-                // We've got notifications across multiple conversations. Pass in the notification
-                // we just built of the most recent notification so we can use that to show the
-                // user the new message in the ticker.
-                state = new MultiConversationNotificationState(convList, state);
-            } else {
-                // For now, only show avatars for notifications for a single conversation.
-                if (convInfo.mAvatarUri != null) {
-                    if (state.mParticipantAvatarsUris == null) {
-                        state.mParticipantAvatarsUris = new ArrayList<>(1);
-                    }
-                    state.mParticipantAvatarsUris.add(convInfo.mAvatarUri);
-                }
-                if (convInfo.mContactUri != null) {
-                    if (state.mParticipantContactUris == null) {
-                        state.mParticipantContactUris = new ArrayList<>(1);
-                    }
-                    state.mParticipantContactUris.add(convInfo.mContactUri);
-                }
-            }
+            // Always build the notification as a group (summary + one child per conversation),
+            // even for a single conversation. This keeps a conversation's notification anchored to
+            // its own key (":sms::<id>") for its whole lifetime, so marking a different
+            // conversation as read just cancels that one child and never disturbs - or re-alerts -
+            // the others. Android hides the summary until there are 2+ children, so a single
+            // conversation still looks like one plain notification.
+            final MessageNotificationState singleState = new MultiMessageNotificationState(convList);
+            state = new MultiConversationNotificationState(convList, singleState);
         }
         if (state != null) {
             LogUtil.v(TAG, "MessageNotificationState: Notification state created"
