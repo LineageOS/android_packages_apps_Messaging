@@ -540,12 +540,11 @@ public abstract class MessageNotificationState extends NotificationState {
                     .bigText(mContent);
                 }
             } else {
-                // We've got multiple messages for the same sender.
-                // Starting with the oldest new message, display the full text of each message.
-                // Begin a line for each subsequent message.
+                // We've got multiple messages for the same sender. Display the full text of each
+                // message, newest first (lineInfos is ordered newest to oldest), one per line.
                 final SpannableStringBuilder buf = new SpannableStringBuilder();
 
-                for (int i = lineInfos.size() - 1; i >= 0; --i) {
+                for (int i = 0; i < lineInfos.size(); i++) {
                     final NotificationLineInfo info = lineInfos.get(i);
                     final MessageLineInfo messageLineInfo = (MessageLineInfo) info;
                     mAttachmentUri = messageLineInfo.mAttachmentUri;
@@ -561,10 +560,10 @@ public abstract class MessageNotificationState extends NotificationState {
                             text = BugleNotifications.buildSpaceSeparatedMessage(
                                     null, text, mAttachmentUri, mAttachmentType);
                         }
-                        buf.append(text);
-                        if (i > 0) {
+                        if (buf.length() > 0) {
                             buf.append('\n');
                         }
+                        buf.append(text);
                     }
                 }
 
