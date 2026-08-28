@@ -76,6 +76,7 @@ import com.google.common.base.Predicate;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The view for a single entry in a conversation.
@@ -87,6 +88,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 Rect imageBounds, boolean longPress);
         SubscriptionListEntry getSubscriptionEntryForSelfParticipant(String selfParticipantId,
                 boolean excludeDefault);
+        /** True while the user is selecting messages (multi-select action mode). */
+        boolean isMessageSelectionMode();
     }
 
     private final ConversationMessageData mData;
@@ -113,6 +116,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     private TextView mSimNameView;
 
     private boolean mOneOnOne;
+    private boolean mInMultiSelect;
     private ConversationMessageViewHost mHost;
 
     public ConversationMessageView(final Context context, final AttributeSet attrs) {
@@ -238,13 +242,19 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      *
      * @param cursor The cursor from a MessageList that this view is in, pointing to its entry.
      * @param oneOnOne Whether this is a 1:1 conversation
+     * @param selectedMessageIds Ids of every message currently selected (may be null/empty)
      */
-    public void bind(final Cursor cursor, final boolean oneOnOne, final String selectedMessageId) {
+    public void bind(final Cursor cursor, final boolean oneOnOne,
+            final Set<String> selectedMessageIds) {
         mOneOnOne = oneOnOne;
 
         // Update our UI model
         mData.bind(cursor);
-        setSelected(TextUtils.equals(mData.getMessageId(), selectedMessageId));
+        setSelected(selectedMessageIds != null
+                && selectedMessageIds.contains(mData.getMessageId()));
+        // Free-form text selection only makes sense when a single message is selected; while
+        // multiple messages are selected a tap must toggle selection instead.
+        mInMultiSelect = selectedMessageIds != null && selectedMessageIds.size() > 1;
 
         // Update text and image content for the view.
         updateViewContent();
@@ -697,7 +707,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 textBottomPadding = textBottomPaddingDefault;
                 textLeftPadding = messageTextLeftRightPadding;
                 textRightPadding = messageTextLeftRightPadding;
-                mMessageTextView.setTextIsSelectable(isSelected());
+                mMessageTextView.setTextIsSelectable(isSelected() && !mInMultiSelect);
             } else {
                 // Attachment(s) only
                 contentLeftPadding = incoming ? arrowWidth : 0;
@@ -723,7 +733,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             textTopMargin = 0;
             textTopPadding = textTopPaddingDefault;
             textBottomPadding = textBottomPaddingDefault;
-            mMessageTextView.setTextIsSelectable(isSelected());
+            mMessageTextView.setTextIsSelectable(isSelected() && !mInMultiSelect);
             textLeftPadding = messageTextLeftRightPadding;
             textRightPadding = messageTextLeftRightPadding;
         }
@@ -1009,6 +1019,10 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             // Currently the only object that would make a tag of a string is a youtube preview
             // image
             UIIntents.get().launchBrowserForUrl(getContext(), (String) tag);
+        } else if (view == mMessageTextView && mHost != null && mHost.isMessageSelectionMode()) {
+            // The message text view swallows taps (it has this as an OnClickListener for links).
+            // While selecting messages, forward the tap to the row so it toggles this message.
+            performClick();
         }
     }
 

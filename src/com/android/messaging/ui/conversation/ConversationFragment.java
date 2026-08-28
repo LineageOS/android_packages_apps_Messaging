@@ -270,38 +270,73 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     private final ActionMode.Callback mMessageActionModeCallback = new ActionMode.Callback() {
         @Override
         public boolean onCreateActionMode(final ActionMode actionMode, final Menu menu) {
-            if (mSelectedMessage == null) {
+            if (mAdapter.getSelectedMessageCount() == 0) {
                 return false;
             }
-            final ConversationMessageData data = mSelectedMessage.getData();
             final MenuInflater menuInflater = getActivity().getMenuInflater();
             menuInflater.inflate(R.menu.conversation_fragment_select_menu, menu);
-            menu.findItem(R.id.action_download).setVisible(data.getShowDownloadMessage());
-            menu.findItem(R.id.action_send).setVisible(data.getShowResendMessage());
-
-            // ShareActionProvider does not work with ActionMode. So we use a normal menu item.
-            menu.findItem(R.id.share_message_menu).setVisible(data.getCanForwardMessage());
-            menu.findItem(R.id.save_attachment).setVisible(mSelectedAttachment != null);
-            menu.findItem(R.id.forward_message_menu).setVisible(data.getCanForwardMessage());
-
-            // TODO: We may want to support copying attachments in the future, but it's
-            // unclear which attachment to pick when we make this context menu at the message level
-            // instead of the part level
-            menu.findItem(R.id.copy_text).setVisible(data.getCanCopyMessageToClipboard());
-
+            prepareSelectionMenu(menu);
             return true;
         }
 
         @Override
         public boolean onPrepareActionMode(final ActionMode actionMode, final Menu menu) {
+            if (mAdapter.getSelectedMessageCount() == 0) {
+                return false;
+            }
+            // onPrepareActionMode can run (via invalidateActionBar) before onCreateActionMode
+            // has inflated the menu, in which case findItem() returns null; prepareSelectionMenu
+            // is null-safe and onCreateActionMode will set the final state once inflated.
+            prepareSelectionMenu(menu);
             return true;
+        }
+
+        private void prepareSelectionMenu(final Menu menu) {
+            // Delete works on any number of selected messages. Every other action only makes
+            // sense for a single message, so hide those once more than one is selected.
+            final ConversationMessageData data =
+                    (mAdapter.getSelectedMessageCount() == 1 && mSelectedMessage != null)
+                            ? mSelectedMessage.getData() : null;
+            setMenuItemVisible(menu, R.id.action_delete_message, true);
+            setMenuItemVisible(menu, R.id.action_download,
+                    data != null && data.getShowDownloadMessage());
+            setMenuItemVisible(menu, R.id.action_send,
+                    data != null && data.getShowResendMessage());
+            // ShareActionProvider does not work with ActionMode. So we use a normal menu item.
+            setMenuItemVisible(menu, R.id.share_message_menu,
+                    data != null && data.getCanForwardMessage());
+            setMenuItemVisible(menu, R.id.save_attachment,
+                    data != null && mSelectedAttachment != null);
+            setMenuItemVisible(menu, R.id.forward_message_menu,
+                    data != null && data.getCanForwardMessage());
+            // TODO: We may want to support copying attachments in the future, but it's
+            // unclear which attachment to pick when we make this context menu at the message level
+            // instead of the part level
+            setMenuItemVisible(menu, R.id.copy_text,
+                    data != null && data.getCanCopyMessageToClipboard());
+            setMenuItemVisible(menu, R.id.details_menu, data != null);
+        }
+
+        private void setMenuItemVisible(final Menu menu, final int itemId, final boolean visible) {
+            final MenuItem item = menu.findItem(itemId);
+            if (item != null) {
+                item.setVisible(visible);
+            }
         }
 
         @Override
         public boolean onActionItemClicked(final ActionMode actionMode, final MenuItem menuItem) {
+            final int itemId = menuItem.getItemId();
+            if (itemId == R.id.action_delete_message) {
+                deleteSelectedMessages();
+                return true;
+            }
+            // Every remaining action operates on exactly one message.
+            if (mSelectedMessage == null) {
+                return false;
+            }
             final ConversationMessageData data = mSelectedMessage.getData();
             final String messageId = data.getMessageId();
-            int itemId = menuItem.getItemId();
             if (itemId == R.id.save_attachment) {
                 final SaveAttachmentTask saveAttachmentTask = new SaveAttachmentTask(
                         getActivity());
@@ -312,11 +347,6 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 if (saveAttachmentTask.getAttachmentCount() > 0) {
                     saveAttachmentTask.execute();
                     mHost.dismissActionMode();
-                }
-                return true;
-            } else if (itemId == R.id.action_delete_message) {
-                if (mSelectedMessage != null) {
-                    deleteMessage(messageId);
                 }
                 return true;
             } else if (itemId == R.id.action_download) {
@@ -669,16 +699,64 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     private void selectMessage(final ConversationMessageView messageView,
             final MessagePartData attachment) {
-        mSelectedMessage = messageView;
-        if (mSelectedMessage == null) {
-            mAdapter.setSelectedMessage(null);
-            mHost.dismissActionMode();
+        if (messageView == null) {
+            mSelectedMessage = null;
             mSelectedAttachment = null;
+            mAdapter.clearSelectedMessages();
+            mHost.dismissActionMode();
             return;
         }
+        if (mHost.getActionMode() != null) {
+            // Already selecting - a second long-press just adds/removes this message.
+            toggleMessageSelection(messageView);
+            return;
+        }
+        mSelectedMessage = messageView;
         mSelectedAttachment = attachment;
         mAdapter.setSelectedMessage(messageView.getData().getMessageId());
         mHost.startActionMode(mMessageActionModeCallback);
+    }
+
+    /** Adds or removes {@code messageView} from the current multi-selection. */
+    private void toggleMessageSelection(final ConversationMessageView messageView) {
+        final String messageId = messageView.getData().getMessageId();
+        final boolean nowSelected = mAdapter.toggleSelectedMessage(messageId);
+        final int count = mAdapter.getSelectedMessageCount();
+        if (count == 0) {
+            selectMessage(null);
+            return;
+        }
+        mSelectedAttachment = null;
+        if (nowSelected) {
+            mSelectedMessage = messageView;
+        } else if (count == 1) {
+            // Re-anchor the single-message actions on whatever is still selected.
+            mSelectedMessage = findMessageViewForId(
+                    mAdapter.getSelectedMessageIds().iterator().next());
+        } else {
+            mSelectedMessage = null;
+        }
+        final ActionMode actionMode = mHost.getActionMode();
+        if (actionMode != null) {
+            actionMode.invalidate();
+        }
+    }
+
+    private ConversationMessageView findMessageViewForId(final String messageId) {
+        if (messageId == null) {
+            return null;
+        }
+        for (int i = 0; i < mRecyclerView.getChildCount(); i++) {
+            final View child = mRecyclerView.getChildAt(i);
+            if (child instanceof ConversationMessageView) {
+                final ConversationMessageView messageView = (ConversationMessageView) child;
+                if (messageView.getData() != null && TextUtils.equals(
+                        messageId, messageView.getData().getMessageId())) {
+                    return messageView;
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -1109,14 +1187,25 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
     }
 
-    void deleteMessage(final String messageId) {
+    void deleteSelectedMessages() {
+        final ArrayList<String> messageIds =
+                new ArrayList<>(mAdapter.getSelectedMessageIds());
+        if (messageIds.isEmpty()) {
+            return;
+        }
         if (isReadyForDeleteAction()) {
+            final int count = messageIds.size();
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                    .setTitle(R.string.delete_message_confirmation_dialog_title)
+                    .setTitle(getResources().getQuantityString(
+                            R.plurals.delete_selected_messages_confirmation_dialog_title,
+                            count, count))
                     .setMessage(R.string.delete_message_confirmation_dialog_text)
                     .setPositiveButton(R.string.delete_message_confirmation_button,
-                            (dialog, which) ->
-                                    mBinding.getData().deleteMessage(mBinding, messageId))
+                            (dialog, which) -> {
+                                for (final String messageId : messageIds) {
+                                    mBinding.getData().deleteMessage(mBinding, messageId);
+                                }
+                            })
                     .setNegativeButton(android.R.string.cancel, null);
             builder.setOnDismissListener(dialog -> mHost.dismissActionMode());
             builder.create().show();
@@ -1198,8 +1287,18 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     }
 
     @Override
+    public boolean isMessageSelectionMode() {
+        return mHost.getActionMode() != null;
+    }
+
+    @Override
     public boolean onAttachmentClick(final ConversationMessageView messageView,
             final MessagePartData attachment, final Rect imageBounds, final boolean longPress) {
+        if (mHost.getActionMode() != null) {
+            // While selecting, tapping or long-pressing an attachment toggles its message.
+            toggleMessageSelection(messageView);
+            return true;
+        }
         if (longPress) {
             selectMessage(messageView, attachment);
             return true;
@@ -1220,28 +1319,26 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
     }
 
     private void handleMessageClick(final ConversationMessageView messageView) {
-        if (messageView != mSelectedMessage) {
-            final ConversationMessageData data = messageView.getData();
-            final boolean isReadyToSend = isReadyForAction();
-            if (data.getOneClickResendMessage()) {
-                // Directly resend the message on tap if it's failed
-                retrySend(data.getMessageId());
-                selectMessage(null);
-            } else if (data.getShowResendMessage() && isReadyToSend) {
-                // Select the message to show the resend/download/delete options
-                selectMessage(messageView);
-            } else if (data.getShowDownloadMessage() && isReadyToSend) {
-                // Directly download the message on tap
-                retryDownload(data.getMessageId());
-            } else {
-                // Let the toast from warnOfMissingActionConditions show and skip
-                // selecting
-                warnOfMissingActionConditions(false /*sending*/,
-                        null /*commandToRunAfterActionConditionResolved*/);
-                selectMessage(null);
-            }
+        if (mHost.getActionMode() != null) {
+            // In selection mode a tap toggles this message in or out of the selection.
+            toggleMessageSelection(messageView);
+            return;
+        }
+        final ConversationMessageData data = messageView.getData();
+        final boolean isReadyToSend = isReadyForAction();
+        if (data.getOneClickResendMessage()) {
+            // Directly resend the message on tap if it's failed
+            retrySend(data.getMessageId());
+        } else if (data.getShowResendMessage() && isReadyToSend) {
+            // Select the message to show the resend/download/delete options
+            selectMessage(messageView);
+        } else if (data.getShowDownloadMessage() && isReadyToSend) {
+            // Directly download the message on tap
+            retryDownload(data.getMessageId());
         } else {
-            selectMessage(null);
+            // Let the toast from warnOfMissingActionConditions show and skip selecting
+            warnOfMissingActionConditions(false /*sending*/,
+                    null /*commandToRunAfterActionConditionResolved*/);
         }
     }
 

@@ -18,10 +18,14 @@ package com.android.messaging.ui.conversation;
 
 import android.content.Context;
 import android.database.Cursor;
+import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Collections;
+import java.util.Set;
 
 import com.android.messaging.R;
 import com.android.messaging.ui.CursorRecyclerAdapter;
@@ -41,7 +45,7 @@ public class ConversationMessageAdapter extends
     private final View.OnClickListener mViewClickListener;
     private final View.OnLongClickListener mViewLongClickListener;
     private boolean mOneOnOne;
-    private String mSelectedMessageId;
+    private final Set<String> mSelectedMessageIds = new ArraySet<>();
 
     public ConversationMessageAdapter(final Context context, final Cursor cursor,
         final ConversationMessageViewHost host,
@@ -62,7 +66,7 @@ public class ConversationMessageAdapter extends
         Assert.isTrue(holder.mView instanceof ConversationMessageView);
         final ConversationMessageView conversationMessageView =
                 (ConversationMessageView) holder.mView;
-        conversationMessageView.bind(cursor, mOneOnOne, mSelectedMessageId);
+        conversationMessageView.bind(cursor, mOneOnOne, mSelectedMessageIds);
     }
 
     @Override
@@ -77,9 +81,45 @@ public class ConversationMessageAdapter extends
                             mViewClickListener, mViewLongClickListener);
     }
 
+    /** Replaces the whole selection with the single given message (or clears it if null). */
     public void setSelectedMessage(final String messageId) {
-        mSelectedMessageId = messageId;
+        mSelectedMessageIds.clear();
+        if (messageId != null) {
+            mSelectedMessageIds.add(messageId);
+        }
         notifyDataSetChanged();
+    }
+
+    /** Adds or removes the given message from the selection. Returns its new selected state. */
+    public boolean toggleSelectedMessage(final String messageId) {
+        final boolean nowSelected;
+        if (mSelectedMessageIds.remove(messageId)) {
+            nowSelected = false;
+        } else {
+            mSelectedMessageIds.add(messageId);
+            nowSelected = true;
+        }
+        notifyDataSetChanged();
+        return nowSelected;
+    }
+
+    public void clearSelectedMessages() {
+        if (!mSelectedMessageIds.isEmpty()) {
+            mSelectedMessageIds.clear();
+            notifyDataSetChanged();
+        }
+    }
+
+    public Set<String> getSelectedMessageIds() {
+        return Collections.unmodifiableSet(mSelectedMessageIds);
+    }
+
+    public int getSelectedMessageCount() {
+        return mSelectedMessageIds.size();
+    }
+
+    public boolean isMessageSelected(final String messageId) {
+        return mSelectedMessageIds.contains(messageId);
     }
 
     public void setOneOnOne(final boolean oneOnOne, final boolean invalidate) {

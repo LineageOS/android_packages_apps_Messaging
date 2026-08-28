@@ -25,6 +25,12 @@
     <!-- Start new chat button on the main screen -->
     <string name="start_chat">Start chat</string>
 
+    <!-- Alert dialog title to accept or decline deleting the selected message(s). -->
+    <plurals name="delete_selected_messages_confirmation_dialog_title">
+        <item quantity="one">Delete this message?</item>
+        <item quantity="other">Delete <xliff:g id="count">%d</xliff:g> messages?</item>
+    </plurals>
+
     <!-- Notification action label for marking a conversation as read -->
     <string name="notification_mark_as_read">Mark as read</string>
 </resources>
