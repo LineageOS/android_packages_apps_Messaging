@@ -71,6 +71,9 @@ public abstract class UIIntents {
     public static final String ACTION_RESET_NOTIFICATIONS =
             "com.android.messaging.reset_notifications";
 
+    public static final String ACTION_MARK_AS_READ =
+            "com.android.messaging.mark_as_read";
+
     // Sending VCard uri to VCard detail activity
     public static final String UI_INTENT_EXTRA_VCARD_URI = "vcard_uri";
 
@@ -294,6 +297,13 @@ public abstract class UIIntents {
     public abstract PendingIntent getPendingIntentForClearingNotifications(final Context context,
             final int updateTargets, final ConversationIdSet conversationIdSet,
             final int requestCode);
+
+    /**
+     * Get a PendingIntent for the notification "Mark as read" action, which marks the given
+     * conversation as read (and dismisses its notification).
+     */
+    public abstract PendingIntent getPendingIntentForMarkingAsRead(final Context context,
+            final String conversationId, final int requestCode);
 
     /**
      * Get a PendingIntent for showing a new message to a secondary user.

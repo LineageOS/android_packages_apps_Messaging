@@ -233,6 +233,8 @@
     <string name="notification_vcard">Contact card</string>
     <!-- Notification action label for download MMS when set to manual downloads. [CHAR LIMIT=15] -->
     <string name="notification_download_mms">Download</string>
+    <!-- Notification action label for marking a conversation as read. [CHAR LIMIT=15] -->
+    <string name="notification_mark_as_read">Mark as read</string>
     <!-- Notification action label for SMS reply (visible on wearable device only). [CHAR LIMIT=15] -->
     <string name="notification_reply_via_sms">Reply via SMS</string>
     <!-- Notification action label for MMS reply (visible on wearable device only). [CHAR LIMIT=15] -->

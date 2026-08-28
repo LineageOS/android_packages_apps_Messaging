@@ -389,6 +389,22 @@ public class UIIntentsImpl extends UIIntents {
                 PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
     }
 
+    @Override
+    public PendingIntent getPendingIntentForMarkingAsRead(final Context context,
+            final String conversationId, final int requestCode) {
+        final Intent intent = new Intent(context, NotificationReceiver.class);
+        intent.setAction(ACTION_MARK_AS_READ);
+        intent.putExtra(UI_INTENT_EXTRA_CONVERSATION_ID, conversationId);
+        // Keep the PendingIntent distinct per conversation (extras are ignored for matching).
+        intent.setData(new Uri.Builder()
+                .scheme("bugle")
+                .authority("mark-as-read")
+                .appendQueryParameter("conversation", conversationId)
+                .build());
+        return PendingIntent.getBroadcast(context, requestCode, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
     /**
      * Gets a PendingIntent associated with an Intent to start an Activity. All notifications
      * that starts an Activity must use this method to get a PendingIntent, which achieves two
