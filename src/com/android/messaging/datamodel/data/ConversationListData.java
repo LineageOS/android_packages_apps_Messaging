@@ -26,7 +26,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
 import com.android.messaging.datamodel.BoundCursorLoader;
-import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseHelper.ParticipantColumns;
 import com.android.messaging.datamodel.MessagingContentProvider;
@@ -179,8 +178,11 @@ public class ConversationListData extends BindableData
     }
 
     public void handleMessagesSeen() {
-        BugleNotifications.markAllMessagesAsSeen();
-
+        // Note: we deliberately do NOT mark every message as "seen" (which would dismiss all
+        // message notifications) just because the conversation list is on screen. Notifications
+        // are cleared per-conversation when that conversation is opened (MarkAsReadAction), or
+        // all at once when the user swipes the notification away. This keeps unread notifications
+        // around after the user merely glances at the app.
         SmsReceiver.cancelSecondaryUserNotification();
     }
 

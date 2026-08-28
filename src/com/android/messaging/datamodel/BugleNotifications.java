@@ -373,13 +373,11 @@ public class BugleNotifications {
         }
         state.mBaseRequestCode = state.mType;
 
-        // Set the delete intent (except for bundled wearable notifications, which are dismissed
-        // as a group, either from the wearable or when the summary notification is dismissed from
-        // the host device).
-        if (!(state instanceof BundledMessageNotificationState)) {
-            final PendingIntent clearIntent = state.getClearIntent();
-            notifBuilder.setDeleteIntent(clearIntent);
-        }
+        // Set the delete intent so that swiping the notification away marks its conversation(s)
+        // as seen. Per-conversation children get their own (conversation-scoped) clear intent so
+        // dismissing one doesn't affect the others and it doesn't reappear on the next update.
+        final PendingIntent clearIntent = state.getClearIntent();
+        notifBuilder.setDeleteIntent(clearIntent);
 
         updateBuilderAudioVibrate(state, notifBuilder, silent, conversationId);
 

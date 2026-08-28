@@ -374,6 +374,15 @@ public class UIIntentsImpl extends UIIntents {
         if (conversationIdSet != null) {
             intent.putExtra(UI_INTENT_EXTRA_CONVERSATION_ID_SET,
                     conversationIdSet.getDelimitedString());
+            // PendingIntent equality ignores extras, so without a distinguishing data uri the
+            // summary and every per-conversation child would share a single delete PendingIntent
+            // (dismissing one child would then clear the wrong conversation). Encode the target
+            // conversation set into the intent data to keep them distinct.
+            intent.setData(new Uri.Builder()
+                    .scheme("bugle")
+                    .authority("reset-notifications")
+                    .appendQueryParameter("conversations", conversationIdSet.getDelimitedString())
+                    .build());
         }
         return PendingIntent.getBroadcast(context,
                 requestCode, intent,
