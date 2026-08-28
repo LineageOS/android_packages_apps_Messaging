@@ -543,12 +543,17 @@ public class BugleNotifications {
             }
             return;
         }
+        // Only the conversation that actually received a new message should alert (sound,
+        // vibration, heads-up). Anything else we (re-)post here is just a refresh and must stay
+        // silent - otherwise an older conversation's notification pops up again as a fresh
+        // heads-up whenever a new message arrives in a different conversation.
+        state.mSuppressAlert = silent || !isAlertingConversation(state, conversationId);
         processAndSend(state, silent, softSound);
 
-        // The rest of the logic here is for supporting Android Wear devices, specifically for when
-        // we are notifying about multiple conversations. In that case, the Inbox-style summary
-        // notification (which we already processed above) appears on the phone (as it always has),
-        // but wearables show per-conversation notifications, bundled together in a group.
+        // When we are notifying about multiple conversations, the Inbox-style summary above is
+        // shown collapsed on the phone; in addition we post one notification per conversation so
+        // each one can be expanded, actioned and dismissed individually (wearables show these
+        // too, bundled together in a group).
 
         // It is valid to replace a notification group with another group with fewer conversations,
         // or even with one notification for a single conversation. In either case, we need to
@@ -559,20 +564,40 @@ public class BugleNotifications {
             cancelStaleGroupChildren(oldGroupChildIds, state);
         }
 
-        // Send per-conversation notifications (if there are multiple conversations).
+        // Send per-conversation notifications (only when there are multiple conversations).
         final ConversationIdSet groupChildIds = new ConversationIdSet();
         if (state instanceof MultiConversationNotificationState) {
             for (final NotificationState child :
                 ((MultiConversationNotificationState) state).mChildren) {
+                final String childConversationId = child.mConversationIds != null
+                        ? child.mConversationIds.first() : null;
+                child.mSuppressAlert = silent
+                        || childConversationId == null
+                        || !childConversationId.equals(conversationId);
                 processAndSend(child, true /* silent */, softSound);
-                if (child.mConversationIds != null) {
-                    groupChildIds.add(child.mConversationIds.first());
+                if (childConversationId != null) {
+                    groupChildIds.add(childConversationId);
                 }
             }
         }
 
         // Record the new set of group children.
         writeGroupChildIds(context, groupChildIds);
+    }
+
+    /**
+     * Returns true if {@code conversationId} is the conversation that just received a new message
+     * and {@code state} represents (only) that conversation - i.e. this notification should alert.
+     * The summary notification for multiple conversations never alerts on its own; its per-
+     * conversation child notifications do.
+     */
+    private static boolean isAlertingConversation(final NotificationState state,
+            final String conversationId) {
+        if (conversationId == null || state.mConversationIds == null
+                || state instanceof MultiConversationNotificationState) {
+            return false;
+        }
+        return state.mConversationIds.contains(conversationId);
     }
 
     private static void updateBuilderAudioVibrate(final NotificationState state,
@@ -715,7 +740,7 @@ public class BugleNotifications {
                 context.getTheme()));
 
         final WearableExtender wearableExtender = new WearableExtender();
-        setWearableGroupOptions(notifBuilder, notificationState);
+        setGroupOptions(notifBuilder, notificationState);
 
         if (notificationState instanceof MultiMessageNotificationState) {
             if (attachmentBitmap != null) {
@@ -745,12 +770,18 @@ public class BugleNotifications {
         doNotify(notifBuilder.build(), notificationState);
     }
 
-    private static void setWearableGroupOptions(final NotificationCompat.Builder notifBuilder,
+    private static void setGroupOptions(final NotificationCompat.Builder notifBuilder,
             final NotificationState notificationState) {
         final String groupKey = "groupkey";
-        LogUtil.v(TAG, "Group key (for wearables)=" + groupKey);
+        LogUtil.v(TAG, "Group key=" + groupKey);
         if (notificationState instanceof MultiConversationNotificationState) {
-            notifBuilder.setGroup(groupKey).setGroupSummary(true);
+            // The summary itself never alerts - the per-conversation child that received the new
+            // message does (GROUP_ALERT_CHILDREN). setOnlyAlertOnce keeps the summary quiet when
+            // it is refreshed as messages come in.
+            notifBuilder.setGroup(groupKey)
+                    .setGroupSummary(true)
+                    .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
+                    .setOnlyAlertOnce(true);
         } else if (notificationState instanceof BundledMessageNotificationState) {
             final int order = ((BundledMessageNotificationState) notificationState).mGroupOrder;
             // Convert the order to a zero-padded string ("00", "01", "02", etc).
@@ -758,6 +789,15 @@ public class BugleNotifications {
             // by the sort key, hence the need for zeroes to preserve the ordering.
             final String sortKey = String.format(Locale.US, "%02d", order);
             notifBuilder.setGroup(groupKey).setSortKey(sortKey);
+            if (notificationState.mSuppressAlert) {
+                // This conversation did not get the new message; add it to the group silently by
+                // deferring all alerting to the (silent) summary.
+                notifBuilder.setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_SUMMARY)
+                        .setOnlyAlertOnce(true);
+            }
+        } else if (notificationState.mSuppressAlert) {
+            // Single, ungrouped conversation notification that is only being refreshed.
+            notifBuilder.setOnlyAlertOnce(true);
         }
     }
 

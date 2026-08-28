@@ -64,6 +64,13 @@ public abstract class NotificationState {
     public NotificationCompat.Style mNotificationStyle;
     public NotificationCompat.Builder mNotificationBuilder;
     public boolean mCanceled;
+    /**
+     * When true, this notification is posted without alerting (no sound, vibration or heads-up)
+     * even on a high-importance channel. Used when we are merely refreshing a notification - e.g.
+     * group children for conversations that did not receive the new message - so that an older
+     * conversation does not re-alert every time a message arrives in a different conversation.
+     */
+    public boolean mSuppressAlert;
     public int mType;
     public int mBaseRequestCode;
     public ArrayList<Uri> mParticipantAvatarsUris = null;
