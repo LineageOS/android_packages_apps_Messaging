@@ -139,11 +139,14 @@ public abstract class DataModel {
     /**
      * If a new message is received in the specified conversation, will the user be able to
      * observe it in some UI within the app?
+     *
+     * Only true when that exact conversation is open on screen. Having the conversation list
+     * visible is not enough - the user still wants a notification for a message in a conversation
+     * they aren't currently reading, even while the app is in the foreground.
      * @param conversationId conversation with the new incoming message
      */
     public boolean isNewMessageObservable(final String conversationId) {
-        return isConversationListScrolledToNewestConversation()
-                || isFocusedConversation(conversationId);
+        return isFocusedConversation(conversationId);
     }
 
     public abstract void onApplicationCreated();
