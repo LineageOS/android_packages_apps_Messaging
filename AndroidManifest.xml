@@ -92,6 +92,7 @@
         <activity
             android:name=".ui.conversationlist.ConversationListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:enableOnBackInvokedCallback="true"
             android:exported="true"
             android:screenOrientation="user"
             android:theme="@style/LaunchTheme">

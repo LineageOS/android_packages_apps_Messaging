@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 
@@ -31,11 +32,24 @@ import com.android.messaging.util.Trace;
 
 public class ConversationListActivity extends AbstractConversationListActivity {
 
+    // This activity opts into the predictive back gesture (see the manifest), which means the
+    // platform no longer calls onBackPressed(). Route "Back exits multi-select" through the
+    // dispatcher instead, keeping the callback disabled while nothing is selected so the
+    // predictive-back preview stays available.
+    private final OnBackPressedCallback mExitMultiSelectOnBack =
+            new OnBackPressedCallback(false /* enabled */) {
+                @Override
+                public void handleOnBackPressed() {
+                    exitMultiSelectState();
+                }
+            };
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         Trace.beginSection("ConversationListActivity.onCreate");
         setTheme(R.style.BugleTheme_ConversationListActivity);
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, mExitMultiSelectOnBack);
         mConversationListFragment = ConversationListFragment.createConversationListFragment(null);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -43,6 +57,18 @@ public class ConversationListActivity extends AbstractConversationListActivity {
                 .commit();
         Trace.endSection();
         invalidateActionBar();
+    }
+
+    @Override
+    protected void startMultiSelectActionMode() {
+        super.startMultiSelectActionMode();
+        mExitMultiSelectOnBack.setEnabled(true);
+    }
+
+    @Override
+    protected void exitMultiSelectState() {
+        mExitMultiSelectOnBack.setEnabled(false);
+        super.exitMultiSelectState();
     }
 
     @Override
@@ -64,15 +90,6 @@ public class ConversationListActivity extends AbstractConversationListActivity {
         // while not in the app (e.g. Talkback enabled/disable affects new conversation
         // button)
         supportInvalidateOptionsMenu();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (isInConversationListSelectMode()) {
-            exitMultiSelectState();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
