@@ -54,6 +54,9 @@ android_app {
     // sources" refers to the same list by construction.
     srcs: [":messaging-srcs"],
 
+    jni_libs: ["libmlsopenmlsbridge"],
+    use_embedded_native_libs: true,
+
     defaults: ["messaging_defaults"],
 
     static_libs: [
@@ -84,6 +87,7 @@ android_app {
         // The RCS provider contract (IRcsProvider + callback + parcelables),
         // consumed by the rcs/ client classes. See aidl/.
         "messaging-rcs-contract-aidl",
+        "messaging-mls-engine",
         // JAIN-SIP reference implementation (javax.sip.* + gov.nist.*) for the
         // Dual-Registration (DR) carrier-RCS stack (design §6.3, D6): the app-owned
         // SIP-REGISTER-over-IMS-APN path in rcs/carrier/** (CarrierRcsTransport +
@@ -348,5 +352,557 @@ cc_library_shared {
     arch: { arm64: { enabled: true } },
     system_ext_specific: true,
     // One bridge and one engine java_library means one set of JNI symbols and no drift.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+// ============================================================================
+// THE MLS ENGINE.
+//
+// The Java half of the MLS implementation, kept in its own library because a
+// provider app links the same classes and the same JNI bridge.
+//
+// The package name com.android.messaging.rcs.engine.mls is LOAD-BEARING: the
+// JNI symbols exported by libmlsopenmlsbridge are derived from it
+// (Java_com_android_messaging_rcs_engine_mls_OpenMlsNative_*). Renaming the
+// package means regenerating the C bridge symbols in lockstep — never do one
+// without the other.
+// ============================================================================
+java_library {
+    name: "messaging-mls-engine",
+    srcs: ["engine/src/**/*.java"],
+    sdk_version: "system_current",
+    // Transport-neutral MLS crypto only (MlsEngine/OpenMls*/MlsIdentity/MlsGroupArtifacts).
+    // The carrier/lab glue that needs BouncyCastle (MlsCredential/RcsKdsClient/MlsTrustAnchors)
+    // lives in com.android.messaging.rcs.e2ee, NOT here — so no BC dep.
+    //
+    // There is ONE copy of these classes. An out-of-tree RCS provider that needs to
+    // link them should be added to visibility here rather than forking them: two
+    // implementations of one protocol contract drift, and the drift is silent.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+// MLS recovery DECISIONS + the RCC.16 spec crypto (gate deadline, era tie-break + bounded yield,
+// resync-failure action; commitments, VerifiableDerivedContent, Annex C.2/C.3 file encryption).
+// PURE JAVA, no Android and no engine deps, so the host tests exercise the SAME code production
+// calls. These rules only fire in failures the fleet cannot produce on demand, and the spec crypto
+// cannot be verified against a peer we are unable to ask — unit tests are the only honest coverage.
+java_library_host {
+    name: "messaging-mls-policy-host",
+    srcs: [
+        // In the SHARED engine module so the app that owns MLS and the provider that
+        // carries it run ONE copy of these decisions — the counter/AAD drift the migration exists to
+        // end was exactly two copies of one contract.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRecoveryPolicy.java",
+        // WHO advances an era and WHEN a non-advancer may stop waiting for one that is never coming
+        // for. Split out of MlsRecoveryPolicy rather than added to it because it
+        // answers a question that class deliberately does not: weAreEraAdvancer is a pure function of
+        // two numbers, while this one weighs LIVENESS EVIDENCE, and mixing the two would put a local,
+        // asymmetric input into the decision every member must derive identically.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAdvancerElection.java",
+        // What ONE PASS of the self-heal ladder costs, and how many looks it records.
+        // Host-listed because it is the class that stops MlsAdvancerElection.takeoverReachableWithin
+        // being decorative: its enclosingSelfHealAttempts COMPUTES that predicate's argument from
+        // the charge a look makes, so the assertion is about production rather than about a literal
+        // somebody typed into a test. It also holds the ONE look-accounting arithmetic both yield
+        // paths run, which used to be reconciled by a comment saying "do NOT record the look here".
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSelfHealPass.java",
+        // The PROACTIVE half, kept separate from MlsRecoveryPolicy on purpose: Google Messages'
+        // membership-delta gate applies ONLY to the maintenance refresh, and recovery is structurally
+        // exempt. Two classes make it hard to consult the wrong one by accident.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMaintenancePolicy.java",
+        // The UPGRADE guard set — Google Messages' own preconditions, all ELEVEN of which are
+        // silent skips there. Separate from the two policies above because it answers a different
+        // question: not "should we refresh" or "should we recover", but "may this conversation
+        // become MLS at all".
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsUpgradePolicy.java",
+        // The KeyPackages ONE upgrade claimed, carried from the count to the create.
+        // Host-listed because it is what stops the count and the create being two spends: the type
+        // is the difference between "a counter that consumes what it counts" and a claim that is
+        // made once and used. Its three states — refused / claimed-but-empty / not-covered — must
+        // stay distinguishable, and that is a property a host test can hold still.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsUpgradeClaim.java",
+        // Whether a re-establish is a FIRST create or a RE-creation every member must re-join by
+        // Welcome. Separate from MlsRecoveryPolicy because it decides what an operation
+        // COSTS A PEER rather than whether to attempt it, and because the obvious predicate — "is a
+        // GroupInfo carry present" — is wrong for the two shapes that matter (a 1:1 rebuild and a
+        // REJOIN both re-create with no carry). Host-tested so that stays written down.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsReestablishPolicy.java",
+        // The question AFTER the line above: a charge is already spent in this recovery
+        // episode — does THIS door need its own? Separate because the first is a measurement about
+        // the server and this is bookkeeping about what we did a hundred milliseconds ago, and
+        // conflating them is how one re-creation gets billed twice by two methods that each believe
+        // they are the only one counting. Event E1 had four doors, three reconciled by a boolean, a
+        // local and an ordering comment, and one — eraAdvance -> the INCORRECT_ERA rebuild — by
+        // nothing.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRecreationEpisode.java",
+        // Why G2 may be charged ABOVE the era-advance mode branch. The preserving modes
+        // send welcome=new byte[0] and re-Welcome nobody as source shape, which reads as an
+        // over-charge — but §9.2 makes them illegal and the engine refuses to BUILD them, so they
+        // take BUILD_FAILED into the legacy create in the same call. The funnel charge is EXACT,
+        // and this is where that stops being an emergent property of a branch 100 lines below it.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEraAdvanceCharge.java",
+        // WHICH of G1/G2/G4/G6 an MLS state change must pass, and in what order. The arithmetic
+        // was already here — MlsEraBudgetRecord, MlsPeerHealthRecord — but the COMPOSITION was four
+        // MlsPeerGuard methods calling each other, so "which budgets apply to this operation" was
+        // not a value anywhere and nothing could assert it. Three separate changes each got exactly
+        // one row of that table wrong and not one of the three was a wrong answer from a budget.
+        // MlsPeerGuard keeps the store, the sysprops, the
+        // redaction and the refusal lines; it needs a Context and stays off this classpath.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsStateChangeGate.java",
+        // WHEN our PUBLISHED KeyPackage pool is refreshed — the periodic tick, the drain signal and
+        // the unopenable-Welcome repair, which are three different questions the transport's own
+        // comment had confused with each other twice. Host-listed
+        // because the estimate these bounds run on is structurally an UPPER BOUND, never a count,
+        // and the device measurement that proved it — three devices believing they had 7, 7 and 9
+        // while two pools were empty — is not one anybody wants to repeat to check an interval.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsKeyPackagePolicy.java",
+        // Participant-key derivation for the lab (open5gs) IMS setup. Host-listed because
+        // the point of the class is that two processes reach the SAME bytes, which a host
+        // test can assert directly (byte-identical SPKI/PKCS#8) and a device cannot check at
+        // all — a mismatch there surfaces as an opaque refusal that names neither side.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsParticipantKeyDerivation.java",
+        // WHEN our own leaf key rotates, how the two sides are STAGGERED so they do not duel over
+        // it, and where the counter lands when a rotation is refused. Host-listed because the
+        // stagger is the fix for a device-observed wedge — era 13 -> 17
+        // in one bidirectional run — and the fix is arithmetic over two numbers, which is the one
+        // shape that can be asserted without a second device. It is deliberately NOT a knob: the
+        // sysprop that would arm it is off-limits as a commit trigger.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRekeyPolicy.java",
+        // The application-message wire details both owners must agree on byte-for-byte.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAppMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResentMessage.java",
+        // The §11.3a receiver ORDERING. Separate from MlsResentMessage because it
+        // answers a different question — that class holds the wire details, this one holds the
+        // order the checks run in and what each outcome is allowed to do. The order is the
+        // correctness property, it lived in MlsProviderTransport where no host test could reach
+        // it, and it did not survive there: a guard twenty lines above the selector made the
+        // selector unreachable and routed every group resend into §10 recovery.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResendReceive.java",
+        // What a REFUSAL is allowed to do. Same reason as the line above and the same
+        // defect one level over: two arms whose comments said the message DECRYPTED both returned
+        // null, which the router reads as "did not decrypt" — so a detected impersonation triggered
+        // a self-heal, a FALSE §7.7.2.2 report, and after three of them a conversation rebuild. The
+        // three predicates are false for every reason and a host test walks the enum, so a refusal
+        // added later cannot inherit wire effects by omission.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsInboundRefusal.java",
+        // The off-thread seam. Pure Java by design: it was a private nested interface
+        // in MlsProviderTransport, where no host test could reach it because that class needs a
+        // Context and a bound provider. Here it is testable on its own terms.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsOffThread.java",
+        // Per-member group delivery coverage — pure Java so the coverage rule is
+        // host-tested rather than verified by reading logcat on three devices.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupDeliveryLedger.java",
+        // The CPIM reaction envelope — pure string/byte parsing, host-tested against a
+        // real captured Google Messages reaction.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccCpimReaction.java",
+        // RCC.16 Annex C.1 commitments (icon/subject) — pure spec crypto, host-testable.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccCommitment.java",
+        // RCC.16 A.4.1 participant identity — the SAN<->queried-MSISDN equality comparison. Pure
+        // and shared with the Rust validator, so both spellings of "the same number" are pinned here.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccIdentity.java",
+        // RCC.16 Annex C.5 identity verification — the "safety number" §5.5 makes
+        // a user-facing shall. Pure spec crypto, and the ONLY honest coverage: there is no peer
+        // we can ask to check a code against, and C.5 leaves HASH_TO_DIGITS undefined, so the
+        // host tests pin the framing and the deliberate refusal to guess the digits.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccIdentityVerification.java",
+        // The health state machine: 16 states, 127 legal transitions, transcribed from the
+        // adjacency table in the RCC.16 state model. Pure and exhaustively host-testable — the
+        // cheapest high-value piece of
+        // the rework, and the only part of it fully checkable without a device.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthStates.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTrace.java",
+        // The metrics port and the 16-counter catalogue. The create_client preconditions and the
+        // log2 state-size bucket are pure decisions, and the preconditions in particular are the
+        // difference between "provisioning is broken" and "the engine is broken" — which the
+        // engine reported as one undifferentiated zero handle before rework 13.3.
+        // Stage D (Phase 2): the ONE persisted per-conversation record — §4.8's normative 18-field
+        // list, its whole-blob codec, the nullable pending-operation field that replaces four
+        // disjoint in-memory sets, and the self-heal-kind axis that is NOT derivable from health.
+        // Pure Java: the record type and its serializer are engine-module work, the store is not.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsConversationRecord.java",
+        // Is the server's anchor a point on OUR chain, when our epoch is ABOVE the server's
+        // (the mirror of the BEHIND check). Host-listed for the reason its own javadoc gives: five of
+        // its seven verdicts are ways of NOT knowing, only one is evidence of a fork, and the
+        // damage runs in BOTH directions — a manufactured fork demotes a healthy AHEAD to DIVERGED
+        // and aborts its maintenance pass, while a swallowed one lets a fork walk into the add arm
+        // and spend an era advance. Neither shows up on a device as anything but a plausible log
+        // line, so the table is asserted here and the wiring is asserted by a source scan beside it.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAheadChainCheck.java",
+        // Stage E (Phase 3): the health state machine over the 127-pair table — the 32 edges with
+        // their SEPARATE telemetry numbering, decide(), and §5.5's guard order. Pure by necessity,
+        // not just by preference: §19.2-10 says there is no clock read on the transition path at
+        // all, so the current moment is passed in and this is exhaustively host-testable.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthEdge.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthMachine.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPendingOperation.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSelfHealKind.java",
+        // Stage F (Phase 4): the result vocabulary and the bounded fixed point. Pure because the
+        // loop consults NOTHING but the status its pass returned — that is invariant 55 ("re-drive
+        // on the result, never on a state predicate") expressed as a type, and it is the reason
+        // termination is checkable on the host at all. The cap metric is the CI-assertable form of
+        // "this should never happen".
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResultStatus.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupSnapshot.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHostAction.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsDriveLoop.java",
+        // The bound on the SCARCE resource, which the drive loop's iteration cap is not.
+        // Host-listed because its whole content is arithmetic over counts — "may this pass
+        // spend a look-up", "which retry rung clears the measured throttle window" — and the fault
+        // it prevents is unreproducible on demand: it needs a conversation stuck BEHIND, ten passes
+        // that cannot converge, and a server willing to answer RESOURCE_EXHAUSTED. That combination
+        // cost a device session to observe once and cannot be asked for again.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchBudget.java",
+        // The LEDGER for the same resource, one layer out. MlsFetchBudget rations LOOKS
+        // INSIDE ONE DRIVE and is charged at one call site; this counts the GetMlsGroupInfo RPCs
+        // themselves, per conversation, across all twenty-odd callers that spend one — including the
+        // four PRIMITIVES the plan's own resource table had collapsed into one. Host-listed for the
+        // same reason as the line above and one more: the per-caller rations, the shared ceiling and
+        // the window arithmetic are exactly the kind of cross-policy interaction that nothing
+        // could assert before.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchLedger.java",
+        // Its durable counters. The throttle it respects lives on Tachyon's side and does not care
+        // that we restarted, so unlike MlsFetchBudget's per-drive int[] this one must outlive the
+        // process — which means encode/decode, an UNREADABLE-is-not-ABSENT posture, and
+        // ageing by MlsMonotonicAge rather than the wall clock. All of that is arithmetic and all of
+        // it is host-testable.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchLedgerRecord.java",
+        // WHICH of that ledger's refusal arms anything has ever exercised, and on what.
+        // Host-listed because it is the class that stops "unreachable from adb" being a
+        // comment: the rows are read by MlsFetchLedgerCoverageGuardTest, which holds each claim to a
+        // call-site count taken from the source, a host test that must exist, and a falsifier that
+        // goes red when the fact the claim rests on stops being true. Off the classpath it is a
+        // table nothing reads, which is the shape it was written to replace.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchLedgerCoverage.java",
+        // The ledger for the OTHER scarce resource of invariant I2: a claim against a PEER'S
+        // published KeyPackage pool. Same method as the two lines above and
+        // two deliberate departures, both dictated by the resource rather than by taste — it is
+        // keyed on the PEER, because a peer has one pool and a per-conversation ledger would give it
+        // one allowance per conversation; and its unrefusable arms still CHARGE, because a claim
+        // removes a consumable from somebody else's device and a claim that happened uncounted makes
+        // every later answer wrong. Host-listed because the rations, the ceiling and the
+        // UNREADABLE-is-not-ABSENT posture are arithmetic.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsClaimLedger.java",
+        // Its durable counters, per peer. Durable for a stronger reason than the fetch ledger's: a
+        // crash loop is a burst whose accountant resets, and here the packages are actually gone.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsClaimLedgerRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsProcStatus.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSchedulingType.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRetryPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTransportDisposition.java",
+        // The OTHER question about the same verdict integer: not "may we try
+        // again" but "did the SERVER apply our commit". Host-listed because the partition and the
+        // era/epoch arithmetic are the whole repair, and the method that consults them lives in the
+        // transport, which has no host test at all.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCommitApplication.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRequestContext.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContentRoute.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRendezvous.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHeaderGate.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSealedMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsInvariantScan.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsStateTransition.java",
+        // The Stage C boundary (Phase 1). Pure by construction — that is the whole claim being
+        // made, so it had better be checkable here: the three-valued read contract, the six ports
+        // and no seventh, the 9-field MessageContent, and the message-id generator.
+        "engine/src/com/android/messaging/rcs/engine/mls/StoreRead.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPorts.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMessageContent.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMessageId.java",
+        // The §10.3 precondition: how long send-side replay material lives. In the SHARED module
+        // because "a group receipt is not terminal" is a rule both owners must apply the same way.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSendRetentionPolicy.java",
+        // Count WITHIN A WINDOW, mirroring Google Messages' paired count/time bounds. Shared because a
+        // cap that never expires turns a short bug into a permanently degraded conversation.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResendBudget.java",
+        // The ESCALATION rung, which used to BE the line above. Separate class and
+        // separate value on purpose: an escalation rung derived from a resend allowance means
+        // raising the allowance silently moves the threshold at which a repeated failure becomes an
+        // era advance, which is exactly the tie MlsFetchBudget refused to make between
+        // RECOVERY_LOOKS and DEFAULT_MAX_ITERATIONS. Also holds the report-class table — one
+        // ledger, two counting
+        // rules, opposite terminal actions — so the split is a walk over an enum rather than prose.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFtdEscalation.java",
+        // The DURABLE form of MlsPeerGuard's two guards — G2's era budget and G4's
+        // peer-health streak. Here rather than beside the guard because the property that matters
+        // is that a charge SURVIVES A PROCESS RESTART and that no clock move refills it, and the
+        // guard itself needs a Context and system properties, so on a device that property costs a
+        // crash loop to observe and on the host it costs an encode/decode. MlsMonotonicAge holds
+        // the clock rule both records age by: elapsedRealtime, never the wall clock, and every
+        // answer a LOWER bound so a jump can retain a spent budget but never refill one.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMonotonicAge.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEraBudgetRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPeerHealthRecord.java",
+        // The third durable window, and the one that was left on the wall clock when the two above
+        // moved off it. Shared by MlsRebuildLimiter (3 per 6h, our own bound on a
+        // rebuild loop) and MlsExternalCommitBudget (RCC.16 §11.2.2's 50 per day) — sharing the
+        // RECORD, not the counter: they live in different preference files, so spending one still
+        // cannot spend the other. Here for the same reason as its two siblings: both owners need a
+        // Context, and the properties that matter are the codec, the roll, and the fact that no
+        // clock reading refills a spent window.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRebuildWindowRecord.java",
+        // The fourth and fifth durable guards, which the first enumeration of them missed: the
+        // rebuild EPISODE suppressor and the 1:1 re-establish cooldown. Both were a bare field and a
+        // bare HashMap in the transport, both bound an operation on a crash-capable path, and both
+        // handed their whole allowance back on every restart — the same argument as the records
+        // above, on the counters that enumeration never reached. One record because they are one
+        // shape (a stamp plus a window);
+        // different key spaces, so spending one cannot spend the other.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCooldownRecord.java",
+        // Why a rebuild did not repair a conversation. rebuildConversation answered a
+        // boolean, so nine situations shared one false and reconcileAction printed "did not
+        // converge or was rate-limited" for all of them. Here because needsAPerson() is the
+        // predicate that decides whether a fail-closed guard reaches a human, and a constant added
+        // later with its flags out of step must be a TEST FAILURE rather than a silent stop.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRebuildOutcome.java",
+        // Why a rebuild has no server pack — the same defect as the row above, one
+        // level down, in the method that feeds the rebuild: serverPackForRebuild's null covered a
+        // 1:1, a group we hold no state for, our own fetch ledger refusing, and the server having
+        // nothing. Here because spentALook() is the fact whose misreading produced a WRONG DEVICE
+        // FIXTURE, and a fact quoted into a fixture belongs where a host test can hold it.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerPackOutcome.java",
+        // ONE rolling-window allowance policy for the two budgets that were the same shape with
+        // different constants. Here because the thing that
+        // actually differed between them was the POSTURE — what each does when it cannot read its
+        // own record — and a divergence nothing can assert about is the defect, not the divergence.
+        // MlsRebuildLimiter and MlsExternalCommitBudget need a Context and stay provider-side as
+        // store adapters.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWindowBudget.java",
+        // The AHEAD fixture's decision and measurement, the mirror of MlsInboundHold.
+        // Host-tested for the same reason that one is, and one more: its release is a purely LOCAL
+        // undo, so nothing but restoredCleanly() notices if the restore silently fails to land.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsOutboundHold.java",
+        // The malformed-payload INSTRUMENT used by the interop probes. In the shared module
+        // so its tests run with the rest of the engine — an instrument that silently produces a
+        // VALID payload would make a probe report a negative result about nothing.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPayloadCorruptor.java",
+        // One lock per (identity, group) and the enforced "never across transport I/O" rule.
+        // Pure java.util.concurrent, so the mutual-exclusion and reentrancy properties the whole
+        // durability argument rests on are checkable on the host rather than inferred on a device.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupLocks.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTelemetry.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMetrics.java",
+        // Pulled in only because MlsMetrics' create_client preconditions inspect one. Pure Java
+        // (a name, three byte[] and two lists) — no Android, nothing to stub.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsIdentity.java",
+        // Every MLS behavioural knob, resolved once per instance instead of re-read from device
+        // system properties at the call site. Pure by construction — that is the whole point of the
+        // Source seam (rework 14.4), since anything gated on SystemProperties is unreachable from a
+        // host test, which is what kept the state machine out of the engine module.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsConfig.java",
+        // RCC.16's 30-day REMAINING-lifetime floor applied to a roster, and the server refusal that
+        // enforces it. Host-listed because both are arithmetic and string
+        // reading over data the engine already produces, and because the defect they close was a
+        // judgement made without them: the client asked "already expired" where the rule asks "has
+        // 30 days left", and answered every credential refusal by re-minting OUR identity without
+        // reading the MSISDN the server had named. Neither half is reproducible on a device
+        // without waiting a month for a certificate to age.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCredentialFloor.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTimeValidationRefusal.java",
+        // WHEN A REFUSED CERTIFICATE UPDATE MAY BE OFFERED AGAIN. Host-listed because both
+        // halves are decisions rather than I/O, and because
+        // the state that proves them is unreachable on a healthy device: the defect it closes
+        // was measured on a line forked three epochs behind its own group, and the everyday
+        // case it protects — a peer's Commit landing a millisecond before ours — cannot be
+        // staged on demand either. Pure functions of a moment and a verdict; no clock.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCredentialUpdateSeal.java",
+        // The ONE repair for a group the floor above has already wedged. Host-listed
+        // for the same reason as MlsCredentialFloor and one more: the decision it encodes is a
+        // REFUSAL to spend — an era advance re-Welcomes every member and cannot be partial — and
+        // the states that must stay distinguishable (a member who has not republished, a package
+        // we could not date, a roster we could not read) are exactly the ones a device cannot be
+        // made to exhibit on demand. It has no clock and no Android; the claim it judges happens
+        // in the transport.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFloorRebuild.java",
+        // ONE RE-DIAL WITH A FRESH GROUP CONTEXT BEFORE THE DESTRUCTIVE REBUILD. Host-listed
+        // for the same reason as MlsFloorRebuild above and one sharper one: the
+        // state it judges is a server that answers gRPC OK and then does not move, which no device
+        // can be made to exhibit on demand and which reads as success in every log. It also encodes
+        // WHY the obvious fix is wrong — MlsFloorRebuild.leverRefusal proceeds only when both levers
+        // are set, and the fleet runs neither, so wiring the automatic callers to it would disable
+        // every automatic era advance. Pure decision + its sentences; no Android, no clock.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFreshContextRetry.java",
+        // OUR leaf's credential in a group vs the one the client holds — the record the
+        // §9.5.3 certificate update is decided from. The DECODE is here; the engine call that fills
+        // it is JNI and stays out.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSelfLeafStatus.java",
+        // One leaf of the SERVER's ratchet tree — index, whose it is, its certificate window.
+        // Same split as MlsSelfLeafStatus above: the DECODE and the remaining-days
+        // arithmetic are here where they can be host-tested, and the engine call that fills it is
+        // JNI and stays out. Host-testable matters because the states it must keep apart — a leaf
+        // that is unreadable versus one that is simply expired — are the ones a device cannot be
+        // made to exhibit on demand.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTreeLeaf.java",
+        // Whose state a fetched GroupInfo describes — the server's, or the anchor we asked
+        // from. Pure arithmetic and its operator sentence, here because its
+        // SAME_EPOCH outcome has never fired on a device and a branch taken only in tests is
+        // where a wrong answer survives.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAnchorProvenance.java",
+        // Which RCC.16 revision the transport speaks. Its own type, with no Android and
+        // no JNI behind it, precisely so the DEFAULT can be pinned here: v3.0 is the only revision
+        // with wire evidence, and a v4.0 default would change bytes on a working path silently.
+        "engine/src/com/android/messaging/rcs/engine/mls/Rcc16Version.java",
+        // RCC.16 §7.6.3 VerifiableDerivedContent — what an MLS-signed IMDN actually signs.
+        "engine/src/com/android/messaging/rcs/engine/mls/VerifiableDerivedContent.java",
+        // RCC.16 Annex C.2/C.3 file encryption — the primitive the E2EE group icon and subject are
+        // built on (§9.7.1). Pure spec crypto over javax.crypto, so it is host-testable, which is the
+        // only place the byte-level construction can be pinned against a peer we cannot ask.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccFileCrypto.java",
+        // RCC.16 §7.8.1 FileInfo — the proto that carries the icon/subject content key to the
+        // group. Pure proto encoding, so the field numbers and wire types can be pinned on the
+        // host, which is the only place they can be checked against a peer we cannot ask.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccFileInfo.java",
+        // Sealing a CHAT ATTACHMENT — thin over RccFileInfo, and here for what it
+        // REFUSES: it carries the two-step order (the §7.8.1 key delivery is produced and sent
+        // FIRST, and the FT-HTTP descriptor embeds what that step returned) and it deliberately
+        // exposes no <mls-file> payload and no message id, because both are unread. Host-testable
+        // so those refusals can be pinned by a test rather than a comment.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccMediaSeal.java",
+        // The minimal protobuf codec the RCC.16 wire protos share. Extracted from RccFileInfo when
+        // the §7.10/§7.13 protos arrived and would have needed a second copy — and a second copy is
+        // how the fixed32-vs-varint distinction gets fixed in one place only, invisibly below 128B.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccProto.java",
+        // §10.6's boundary — WHICH arm a relayed control blob is, and what MLSMessages are inside
+        // it. Host-listed because the input it is given is the whole correctness property and
+        // nothing on a device could see it go wrong: fed one protobuf level too high it
+        // reported arm 2 for every kind=5 message, including the server ACKs that are arm 4, and
+        // the only symptom was a successful send looking like a broken one. The provider's
+        // MlsControlEnvelopeTest pins that coupling against real captured envelopes, which is why
+        // these three are reachable from a host classpath at all.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerBundle.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWireScan.java",
+        // §7.10.4 EpochIdentifier — the request body for the Enhanced GroupInfo pull, and the
+        // three-part name for a point in a group's history. Host-tested because the always-empty
+        // reading of this field turned on whether we ever SENT one.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccEpochIdentifier.java",
+        // §7.10.5 MlsEnhancedGroupInfo. The repeated committed_control_messages field is the whole
+        // point ("apply in sequential order"), so its parsing is pinned here.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccEnhancedGroupInfo.java",
+        // §7.13.4 GroupMetadataKeys — how BOTH the continuity token and the icon/subject keys reach
+        // a peer, as an encrypted PrivateMessage the server cannot read.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccGroupMetadataKeys.java",
+        // §7.11.12 continuity token: the RefHash construction (note the "MLS 1.0 " prefix, which
+        // Annex C.1 does NOT have) and the §8.3.1.2/.3 decision, whose failure mode is downgrading
+        // a conversation — so its inputs get enumerated on the host, not inferred on a phone.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContinuityToken.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContinuityPolicy.java",
+        // §10.5 — the v3.0 obligation we were failing AND the v4.0 request/response protocol.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMetadataKeysPolicy.java",
+        // §10.1.2 Enhanced Self-Heal: a cheaper repair than the External Commit resync that is our
+        // only one today. The abort-on-any-failure rule is a correctness property, not tidiness.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEnhancedSelfHeal.java",
+        // §10.1.1 participant-key resync — a v3.0 obligation, unimplemented until now, whose v4.0
+        // form needs the ServerRemove body that v4.0 finally published.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsParticipantKeyResync.java",
+        // Where that resync's currentKey COMES FROM. Host-listed because no single
+        // roster reading can answer it — a roster is a set, and leaf index is not add order — so
+        // the decision is a fold over successive readings, and its failure mode (naming a
+        // superseded key as current) removes a participant from a group while producing the same
+        // log line as naming the right one.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsParticipantKeyLedger.java",
+        // §7.13 Encrypted Group Metadata over CPM/SIP. The CARRIER leg — Tachyon's equivalent is
+        // ChangeGroupProfile — but pure string/DOM work, so the two details that are easy to get
+        // wrong (deletion is an EMPTY STRING not an absent element; the icon carries a URL where
+        // the subject carries ciphertext) are checkable here, as is the XXE hardening.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccGroupData.java",
+        // The 0xF010/0xF011 pair and which way round it goes — its own class because we had it
+        // REVERSED in four places, and a 33-byte value is a 32-byte hash framed as opaque<V>, so
+        // the length alone said it was the commitment.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContinuityCodePoints.java",
+        // Inbound content-type dispatch — pure string logic, host-tested because its DEFAULT is what
+        // decides whether an unrouted payload reaches the user as a chat bubble.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccContentDisposition.java",
+        // RCC.16 §7.7.2.2 negative-delivery IMDN — the "I am diverged, re-Welcome me" signal. Shared
+        // because BOTH owners touch it: the provider frames and parses the XML on the wire, the app
+        // decides the remedy. One definition of the five reason codes, and host-tested because the
+        // XML spelling (failed-to-decrypt) differs from the binary enum (failure_to_decrypt) and a
+        // peer silently ignores a report that gets it wrong.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccNegativeDeliveryImdn.java",
+        // Stage I (Phase 7) item 7.4: one row of the resend register. The SQL lives in the app
+        // (MlsResendLedger) and needs a device; the ARITHMETIC is here, because max(siblings)+1 is
+        // what drives the escalation ladder and a counter that dips is the failure mode — a chain
+        // with an evicted row must keep climbing, not restart.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResendRecord.java",
+        // Stage H (Phase 6) item 6.6: the Map<contextId, List<Action>> demux and its three
+        // THROWING guards. Pure, and host-tested precisely because the guards throw — the
+        // conditions they catch (no results at all, our own context missing, two groups in one
+        // list) are unreachable from a device test without provoking the engine into a state we
+        // do not have a lever for.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResultBundle.java",
+        // The repeated-result WIRE FORMAT between the Rust engine and the Java host. Encoded in
+        // Rust, decoded here, so the definition exists twice whatever we do — pinning the
+        // normative statement on the host-testable side means a mismatch fails a test instead of
+        // presenting as an empty list on a phone.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEngineResult.java",
+        // Stage K (Phase 9) item 9.6: INV-KP, the WelcomeAction discriminator, and invariant
+        // 25/26's GroupInfo gate. Pure, and host-tested because all three are ASSERTIONS —
+        // the value is in what they refuse, and a refusal is far cheaper to prove here than by
+        // provoking a server into sending a truncated GroupInfo.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAdvancePurpose.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWelcomeAction.java",
+        // May an inbound Welcome REPLACE live group state? Pure, and host-tested
+        // because the value is in what it REFUSES — a downgrade
+        // guard may only be touched by something strictly stronger, and "nothing the old rule
+        // refused becomes accepted without the server saying so" is an exhaustive assertion
+        // over the era pairs that can only be made here.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWelcomeAdmission.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupInfoGate.java",
+        // The engine→host artifact bundle, and the three slots that carry the engine's
+        // OWN answer (era, welcomeAction, admitted members) now that it derives the era instead of
+        // being told one. Host-tested for the same reason MlsEngineResult is — the layout is
+        // positional and its two halves are compiled separately -- the Java side here, the Rust
+        // side in rust/rcs_mls_ffi -- so a layout disagreement must fail a test rather than
+        // present as a wrong era on a phone.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsArtifactBundle.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupArtifacts.java",
+        // Stage M (Phase 11): downgrade / end-MLS. Every piece here is pure BY NECESSITY rather
+        // than by preference, and that is the whole reason M is host-checkable at all — the
+        // behaviour being pinned is a set of membership tests, a guard ORDER, a 21-row table with
+        // two constructor invariants, and an integer backoff whose 32-bit intermediate is the
+        // specification. None of that needs a group, a peer or a device, and none of it could be
+        // verified on one: the failures M prevents (a conversation silently re-encrypted after a
+        // peer deliberately downgraded it) are precisely the ones that leave no trace on the
+        // device that suffers them.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthPredicates.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsDowngradeReason.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsDowngradeLadder.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAdvanceEraKind.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsReupgradeState.java",
+        // Stage H item 6.7: the out-of-order queue. Host-testable BY DESIGN and not by
+        // convenience — §10.8 calls its admission predicate "the single most correctness-critical
+        // branch in the inbound path", and it is a ten-way conflict against what we had. Every one
+        // of the ten is an assertion here rather than something inferred from a device's behaviour.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPendingQueue.java",
+        // Pulled in with the queue (6.7): the pending path's FIRST validation is the MLSMessage
+        // variant tag, and its bucket key needs the epoch — both read here. The epoch read is the
+        // one worth host-testing: it sits past a variable-length group-id vector, and decoding that
+        // prefix as one byte unconditionally takes the epoch from the MIDDLE of the group id, which
+        // yields a plausible number rather than an error.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWireScan.java",
+        // The BEHIND fixture's decision half — which inbound control is held back to
+        // open a controllable epoch gap, and how big the gap actually is. Host-listed because a
+        // fixture that is wrong produces experiments that are wrong and NOTHING reports an error:
+        // the classification (commit vs proposal vs Welcome, read off the wire without decrypting)
+        // and the gap arithmetic are the two places that can silently lie, and neither is
+        // observable on a device except as a recovery run that behaves oddly.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsInboundHold.java",
+        // Stage L item 10.5: outbound positive/display receipts. Host-testable because the whole
+        // item is a byte-shape question — which headers, in which order, with which omitted — and
+        // §12.7 makes the header set a HARD ADMISSION GATE, so getting it wrong means every receipt
+        // is silently discarded by the peer rather than degraded.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsReceiptMetadata.java",
+        // Stage H item 6.8: the ONE outer-variant select §10.6 requires of the host.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerMessage.java",
+        // Stage H item 6.8, the other half: what is IN the bundle. MlsServerMessage answers "which
+        // arm" and stops, so everything below it — which MLSMessages, in what order, and whether the
+        // whole blob must be forwarded because a Welcome's ratchet_tree rides alongside it — was the
+        // host byte-scanning. Host-tested because it is a RECOGNITION whose failures are all quiet:
+        // dropping the second message of a metadata commit loses the subject key with the epoch
+        // change still applied, forwarding a Welcome without its blob drops a legitimate join, and
+        // BOTH look on a device like a peer that sent something odd. Fixtures here are hand-built
+        // bundles, so the nesting depths and the Welcome rule are asserted rather than inferred from
+        // whether a phone happened to join.
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerBundle.java",
+    ],
     visibility: ["//packages/apps/Messaging"],
 }
