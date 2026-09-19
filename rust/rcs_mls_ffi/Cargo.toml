@@ -1,0 +1,63 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+[package]
+name = "rcs_mls_ffi"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib", "rlib"]
+
+[dependencies]
+zeroize = "1"
+getrandom = "0.2"
+der = "0.7"
+x509-cert = "0.2"
+sha2 = "0.10"
+p256 = { version = "0.13", features = ["ecdsa"] }
+
+# The mls-rs crates under external/mls-rs, the same ones Soong compiles, named through its
+# android/cargo/ tree: symlinks to the fork's own crates, with the releases vendored in
+# android/vendor/ in place of the repository's mls-rs-codec, mls-rs-codec-derive and
+# mls-rs-crypto-rustcrypto. Android.bp names the Soong modules; change both together. See
+# docs/mls/rust-core.md.
+[dependencies.mls-rs]
+path = "../../../../../external/mls-rs/android/cargo/mls-rs"
+features = [
+    "last_resort_key_package_ext",
+    "self_remove_proposal",
+    "export_key_generation",
+    "secret_tree_access",
+    "prior_epoch_membership_key",
+    "gsma_rcs_e2ee_feature",
+]
+
+[dependencies.mls-rs-core]
+path = "../../../../../external/mls-rs/android/cargo/mls-rs-core"
+
+[dependencies.mls-rs-crypto-rustcrypto]
+path = "../../../../../external/mls-rs/android/cargo/mls-rs-crypto-rustcrypto"
+features = ["x509"]
+
+[dependencies.mls-rs-identity-x509]
+path = "../../../../../external/mls-rs/android/cargo/mls-rs-identity-x509"
+
+# The vendored mls-rs-crypto-rustcrypto and mls-rs-codec name their mls-rs dependencies by
+# version; these send them to the same paths, so each crate resolves once.
+[patch.crates-io]
+mls-rs-codec.path = "../../../../../external/mls-rs/android/cargo/mls-rs-codec"
+mls-rs-codec-derive.path = "../../../../../external/mls-rs/android/cargo/mls-rs-codec-derive"
+mls-rs-core.path = "../../../../../external/mls-rs/android/cargo/mls-rs-core"
+mls-rs-crypto-hpke.path = "../../../../../external/mls-rs/android/cargo/mls-rs-crypto-hpke"
+mls-rs-crypto-traits.path = "../../../../../external/mls-rs/android/cargo/mls-rs-crypto-traits"
+mls-rs-identity-x509.path = "../../../../../external/mls-rs/android/cargo/mls-rs-identity-x509"
+
+[profile.release]
+panic = "abort"
+lto = true
+codegen-units = 1
+opt-level = "z"
+strip = true
