@@ -105,3 +105,158 @@ prebuilt_etc {
     sub_dir: "sysconfig",
     src: "com.android.messaging.allowlist.xml",
 }
+
+// Host libraries and tests for the pure-Java carrier pieces; see docs/testing.md.
+
+// The provider/app AIDL contract's ordinal-layout decision, JDK only.
+java_library_host {
+    name: "messaging-rcs-contract-layout-host",
+    srcs: ["aidl/src/java/org/lineageos/rcs/provider/RcsContractLayout.java"],
+}
+
+java_test_host {
+    name: "messaging-rcs-contract-host-tests",
+    srcs: [
+        "tests/src/org/lineageos/rcs/provider/**/*.java",
+        // RcsIncomingFile's parcel order, round-tripped through host stand-ins for android.os.
+        "aidl/src/java/org/lineageos/rcs/provider/RcsIncomingFile.java",
+        "tests/hoststubs/android/os/Parcel.java",
+        "tests/hoststubs/android/os/Parcelable.java",
+        "tests/hoststubs/android/os/ParcelFileDescriptor.java",
+        "tests/hoststubs/androidx/annotation/Nullable.java",
+    ],
+    static_libs: [
+        "messaging-rcs-contract-layout-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
+}
+
+// Pure-Java MSRP framing (RFC 4975).
+java_library_host {
+    name: "messaging-rcs-msrp-host",
+    srcs: ["src/com/android/messaging/rcs/carrier/msrp/*.java"],
+}
+
+// Android-free carrier glue.
+java_library_host {
+    name: "messaging-rcs-carrier-bridge-host",
+    srcs: [
+        "src/com/android/messaging/rcs/carrier/Message.java",
+        "src/com/android/messaging/rcs/carrier/Transport.java",
+        "src/com/android/messaging/rcs/carrier/RcsImsConfig.java",
+        "src/com/android/messaging/rcs/carrier/CarrierSipRegistrarState.java",
+        "src/com/android/messaging/rcs/carrier/CarrierTransportBridge.java",
+    ],
+}
+
+// MSRP chat-session layer; the JAIN-SIP-coupled CarrierMsrpSessionManager stays on-device.
+java_library_host {
+    name: "messaging-rcs-msrp-session-host",
+    srcs: [
+        "src/com/android/messaging/rcs/carrier/msrp/session/SdpOffer.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/SdpAnswer.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/SdpParseException.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/MsrpSessionInfo.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/MsrpChatSession.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/MsrpTlsConnection.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/CarrierMsrpSessionSender.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/CarrierMsrpSessionReceiver.java",
+    ],
+    static_libs: [
+        "messaging-rcs-msrp-host",
+        "messaging-rcs-carrier-bridge-host",
+    ],
+}
+
+// SIP, CPIM and IMDN wire shapes; the JAIN-SIP sender and receiver stay on-device.
+java_library_host {
+    name: "messaging-rcs-sip-host",
+    srcs: [
+        "src/com/android/messaging/rcs/carrier/sip/CpimMessage.java",
+        "src/com/android/messaging/rcs/carrier/sip/CpimParseException.java",
+        "src/com/android/messaging/rcs/carrier/sip/CpimDateTime.java",
+        "src/com/android/messaging/rcs/carrier/sip/ImdnNotification.java",
+        "src/com/android/messaging/rcs/carrier/sip/ImdnParseException.java",
+        "src/com/android/messaging/rcs/carrier/sip/IsComposingNotification.java",
+    ],
+}
+
+// The phone-number mask for log lines (plain JDK); the app compiles it from src/.
+java_library_host {
+    name: "messaging-log-mask-host",
+    srcs: ["src/com/android/messaging/rcs/log/LogMask.java"],
+}
+
+// RFC 2617 MD5 SIP Digest helper (plain JDK).
+java_library_host {
+    name: "messaging-rcs-sip-digest-auth-host",
+    srcs: ["src/com/android/messaging/rcs/carrier/SipDigestAuth.java"],
+}
+
+java_test_host {
+    name: "messaging-rcs-carrier-host-tests",
+    // Scoped to the carrier package: a tests/src/** glob would also pick up the other host suites.
+    srcs: [
+        "tests/src/com/android/messaging/rcs/carrier/**/*.java",
+        // For the source-scan halves of the carrier guards.
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+        // The registrar's bearer and P-CSCF decision; the SystemProperties read stays in
+        // CarrierSipRegistrar.
+        "src/com/android/messaging/rcs/carrier/CarrierSipPlane.java",
+    ],
+    static_libs: [
+        "messaging-rcs-msrp-host",
+        "messaging-rcs-msrp-session-host",
+        "messaging-rcs-sip-host",
+        "messaging-rcs-sip-digest-auth-host",
+        "messaging-rcs-carrier-bridge-host",
+        "messaging-log-mask-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
+}
+
+// The terminal-status decision for TRANSPORT_RCS rows, split out of its Android-coupled callers
+// so it can be host-tested.
+java_library_host {
+    name: "messaging-rcs-send-status-host",
+    srcs: ["src/com/android/messaging/rcs/RcsSendStatus.java"],
+}
+
+// Checks onCreate's fresh schema against the onUpgrade chain.
+java_test_host {
+    name: "messaging-db-schema-host-tests",
+    srcs: [
+        "tests/src/com/android/messaging/datamodel/DatabaseSchemaGuardTest.java",
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+    ],
+    static_libs: ["junit-host"],
+    test_suites: ["general-tests"],
+}
+
+java_test_host {
+    name: "messaging-rcs-send-status-host-tests",
+    srcs: [
+        "tests/src/com/android/messaging/rcs/sendstatus/**/*.java",
+        "tests/src/com/android/messaging/rcs/RcsContractKeepRuleGuardTest.java",
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+        // Module-wide: no source, test, doc or file name uses the retired test-network name.
+        "tests/src/com/android/messaging/rcs/TestNetworkWordGuardTest.java",
+        // The padlock decision and what it reads.
+        "src/com/android/messaging/rcs/RcsEarlyStatusPark.java",
+        // The send path's wait for a settling RCS state.
+        "src/com/android/messaging/rcs/RcsSendReadiness.java",
+        // How a received file is stored and drawn; which displayed receipts a read sends.
+        "src/com/android/messaging/rcs/RcsFileAttachment.java",
+        "src/com/android/messaging/rcs/RcsDisplayedReceipts.java",
+        "src/com/android/messaging/rcs/e2ee/E2eeObservation.java",
+        "src/com/android/messaging/rcs/e2ee/EncryptionProtocolBits.java",
+        "src/com/android/messaging/rcs/e2ee/RcsE2eeScheme.java",
+    ],
+    static_libs: [
+        "messaging-rcs-send-status-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
+}
