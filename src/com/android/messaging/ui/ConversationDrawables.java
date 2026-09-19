@@ -52,6 +52,8 @@ public class ConversationDrawables {
     private int mIncomingErrorBubbleColor;
     private int mIncomingAudioButtonColor;
     private int mSelectedBubbleColor;
+    private int mRcsOutgoingBubbleColor;
+    private int mRcsIncomingBubbleColor;
     private int mThemeColor;
     private TypedArray mColors;
 
@@ -104,6 +106,10 @@ public class ConversationDrawables {
         mIncomingAudioButtonColor =
                 resources.getColor(R.color.message_audio_button_color_incoming, theme);
         mSelectedBubbleColor = resources.getColor(R.color.message_bubble_color_selected, theme);
+        mRcsOutgoingBubbleColor =
+                resources.getColor(R.color.message_bubble_color_outgoing_rcs, theme);
+        mRcsIncomingBubbleColor =
+                resources.getColor(R.color.message_bubble_color_incoming_rcs, theme);
         mThemeColor = resources.getColor(R.color.primary_color, theme);
         mColors = resources.obtainTypedArray(R.array.letter_tile_colors);
     }
@@ -134,6 +140,27 @@ public class ConversationDrawables {
             }
         } else {
             color = mOutgoingBubbleColor;
+        }
+
+        return ImageUtils.getTintedDrawable(mContext, protoDrawable, color);
+    }
+
+    /**
+     * As {@link #getBubbleDrawable}, with the RCS tint. Selection and incoming-error states
+     * take precedence over the tint.
+     */
+    public Drawable getRcsBubbleDrawable(final boolean selected, final boolean incoming,
+                                         final boolean isError) {
+        final Drawable protoDrawable = incoming
+                ? mIncomingBubbleNoArrowDrawable : mOutgoingBubbleNoArrowDrawable;
+
+        final int color;
+        if (selected) {
+            color = mSelectedBubbleColor;
+        } else if (incoming) {
+            color = isError ? mIncomingErrorBubbleColor : mRcsIncomingBubbleColor;
+        } else {
+            color = mRcsOutgoingBubbleColor;
         }
 
         return ImageUtils.getTintedDrawable(mContext, protoDrawable, color);

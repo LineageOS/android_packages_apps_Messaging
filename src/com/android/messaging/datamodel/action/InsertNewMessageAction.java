@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024-2025 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,9 +26,16 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import org.lineageos.rcs.provider.IRcsProvider;
+import org.lineageos.rcs.provider.RcsOutgoingMessage;
+import org.lineageos.rcs.provider.RcsSendResult;
+
+import android.content.ContentValues;
+
 import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.SyncManager;
@@ -36,13 +43,24 @@ import com.android.messaging.datamodel.data.ConversationListItemData;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
+import com.android.messaging.rcs.ProviderRegistry;
+import com.android.messaging.rcs.ProviderTransport;
+import com.android.messaging.rcs.RcsCallbackRouter;
+import com.android.messaging.rcs.RcsConstants;
+import com.android.messaging.rcs.RcsFileAttachment;
+import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.RcsSendStatus;
+import com.android.messaging.rcs.RcsTransport;
+import com.android.messaging.rcs.RouteSelector;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Action used to convert a draft message to an outgoing message. Its writes SMS messages to
@@ -73,6 +91,16 @@ public class InsertNewMessageAction extends Action implements Parcelable {
     }
 
     /**
+     * Inserts a message and sends it over SMS, skipping the RCS forks. Used only by the user's
+     * "Send as SMS" on a failed RCS message; never an automatic fallback.
+     */
+    public static void insertNewSmsMessage(final MessageData message) {
+        final InsertNewMessageAction action = new InsertNewMessageAction(message);
+        action.actionParameters.putBoolean(KEY_FORCE_SMS, true);
+        action.start();
+    }
+
+    /**
      * Insert message (no listener)
      */
     public static void insertNewMessage(final int subId, final String recipients,
@@ -91,6 +119,8 @@ public class InsertNewMessageAction extends Action implements Parcelable {
     private static final String KEY_RECIPIENTS = "recipients";
     private static final String KEY_MESSAGE_TEXT = "message_text";
     private static final String KEY_SUBJECT_TEXT = "subject_text";
+    // Set only by "Send as SMS": skip the RCS forks.
+    private static final String KEY_FORCE_SMS = "force_sms";
 
     private InsertNewMessageAction(final MessageData message) {
         this(message, ParticipantData.DEFAULT_SELF_SUB_ID);
@@ -154,6 +184,64 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         final int subId = self.getSubId();
         LogUtil.i(TAG, "InsertNewMessageAction: inserting new message for subId " + subId);
         actionParameters.putInt(KEY_SUB_ID, subId);
+
+        // RCS forks; see docs/rcs/architecture.md. Anything they do not accept falls through to
+        // the SMS/MMS path unchanged.
+        final boolean forceSms = actionParameters.getBoolean(KEY_FORCE_SMS, false);
+
+        // Group text: only a conversation that already has an rcs_group_id, set by the "New
+        // group" flow, takes this fork, whatever the draft's protocol (every multi-recipient
+        // draft is MMS-shaped). Attachments and plain group MMS fall through.
+        final boolean convIsRcsGroup = !TextUtils.isEmpty(
+                BugleDatabaseOperations.getConversationRcsGroupId(db, conversationId));
+        if (!forceSms
+                && convIsRcsGroup
+                && isTextOnlyMessage(message)
+                && !TextUtils.isEmpty(message.getMessageText())
+                && tryInsertSendingRcsGroupMessage(message, subId, recipients,
+                        timestamp, conversationId)) {
+            BugleDatabaseOperations.updateDraftMessageData(db, conversationId,
+                    null /* message */, BugleDatabaseOperations.UPDATE_MODE_CLEAR_DRAFT);
+            MessagingContentProvider.notifyConversationListChanged();
+            return message;
+        }
+
+        // Group media: an established RCS group with one media part.
+        if (!forceSms
+                && convIsRcsGroup
+                && firstMediaAttachment(message) != null
+                && tryInsertSendingRcsGroupFile(message, subId, timestamp, conversationId)) {
+            BugleDatabaseOperations.updateDraftMessageData(db, conversationId,
+                    null /* message */, BugleDatabaseOperations.UPDATE_MODE_CLEAR_DRAFT);
+            MessagingContentProvider.notifyConversationListChanged();
+            return message;
+        }
+
+        if (!forceSms
+                && message.getProtocol() == MessageData.PROTOCOL_SMS
+                && recipients.size() == 1
+                && !TextUtils.isEmpty(message.getMessageText())
+                && tryInsertSendingRcsMessage(message, subId, recipients.get(0),
+                        timestamp, conversationId)) {
+            // Can now clear draft from conversation (deleting attachments if necessary)
+            BugleDatabaseOperations.updateDraftMessageData(db, conversationId,
+                    null /* message */, BugleDatabaseOperations.UPDATE_MODE_CLEAR_DRAFT);
+            MessagingContentProvider.notifyConversationListChanged();
+            // No ProcessPendingMessagesAction: the RCS send already happened.
+            return message;
+        }
+
+        // 1:1 media: the provider gets a content URI, never inline bytes (binder size limit).
+        if (!forceSms
+                && recipients.size() == 1
+                && firstMediaAttachment(message) != null
+                && tryInsertSendingRcsFile(message, subId, recipients.get(0),
+                        timestamp, conversationId)) {
+            BugleDatabaseOperations.updateDraftMessageData(db, conversationId,
+                    null /* message */, BugleDatabaseOperations.UPDATE_MODE_CLEAR_DRAFT);
+            MessagingContentProvider.notifyConversationListChanged();
+            return message;
+        }
 
         // TODO: Work out whether to send with SMS or MMS (taking into account recipients)?
         final boolean isSms = (message.getProtocol() == MessageData.PROTOCOL_SMS);
@@ -417,6 +505,437 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         }
 
         return message;
+    }
+
+    /**
+     * Sends a 1:1 text over RCS and, if accepted, inserts the RCS row. Returns false without
+     * touching the database for every case that should fall back to SMS. The send precedes the
+     * insert so a rejection leaves no orphan row; {@code rcs_message_id} carries the client-minted
+     * id that status callbacks correlate on.
+     */
+    private boolean tryInsertSendingRcsMessage(final MessageData content, final int subId,
+            final String recipient, final long timestamp, final String conversationId) {
+        final Context context = Factory.get().getApplicationContext();
+
+        final RouteSelector routeSelector;
+        try {
+            routeSelector = RcsCallbackRouter.getInstance(context).getRouteSelector();
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "InsertNewMessageAction: RCS transport unavailable", t);
+            return false;
+        }
+        // A send can start this process and run before the transport reports its state; it waits
+        // for the state, bounded, rather than routing SMS.
+        if (!routeSelector.awaitRcsAvailableForSub(subId)) {
+            return false;
+        }
+
+        // The transport selected for this subscription, else the ProviderTransport singleton. Read
+        // after the wait: the selection is committed when the state arrives.
+        final RcsTransport transport;
+        try {
+            final ProviderRegistry registry = ProviderRegistry.peek();
+            final RcsTransport selected = (registry != null)
+                    ? registry.getActiveTransport(subId) : null;
+            transport = (selected != null) ? selected : ProviderTransport.getInstance(context);
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "InsertNewMessageAction: RCS transport unavailable", t);
+            return false;
+        }
+
+        // Peer capability: CAP_SMS_ONLY skips RCS; CAP_UNKNOWN proceeds and lets the send result
+        // decide. Must run off the main thread. The destination is canonicalized to E.164, which
+        // the provider requires.
+        final String canonical = PhoneUtils.getDefault().getCanonicalBySimLocale(recipient);
+        final String dest = TextUtils.isEmpty(canonical) ? recipient : canonical;
+
+        final int peerCap = transport.lookupRcsCapability(subId, dest);
+        if (peerCap == IRcsProvider.CAP_SMS_ONLY) {
+            if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
+                LogUtil.d(TAG, "InsertNewMessageAction: peer not RCS-capable (cap="
+                        + peerCap + "); using SMS");
+            }
+            return false;
+        }
+
+        final String messageText = content.getMessageText();
+        if (TextUtils.isEmpty(messageText)) {
+            return false;
+        }
+
+        final String rcsMessageId = UUID.randomUUID().toString();
+
+        {
+            final RcsSendResult result = transport.sendMessage(new RcsOutgoingMessage(
+                    subId, rcsMessageId, dest,
+                    "text/plain;charset=UTF-8",
+                    messageText.getBytes(StandardCharsets.UTF_8),null,
+                    /*groupId=*/ null));
+
+            if (result == null || !result.accepted) {
+                LogUtil.i(TAG, "InsertNewMessageAction: RCS send not accepted (reason="
+                        + (result != null ? result.reasonCode : -1)
+                        + "); falling back to SMS");
+                // Teach the per-recipient cache, so the next send skips RCS up front.
+                if (result != null && result.reasonCode == RcsSendResult.REASON_PEER_NOT_RCS) {
+                    routeSelector.notePeerNotRcs(recipient);
+                }
+                return false;
+            }
+        }
+
+        sLastSentMessageTimestamp = timestamp;
+
+        final SyncManager syncManager = DataModel.get().getSyncManager();
+        syncManager.onNewMessageInserted(timestamp);
+
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        db.beginTransaction();
+        try {
+            final MessageData message = MessageData.createOutgoingRcsMessage(
+                    conversationId, content.getSelfId(), messageText);
+            // No telephony Uri: RCS rows are SMS-shaped without one.
+            message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+
+            BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+
+            // The RCS metadata, plus Path 1b's synchronous outcome when there was one, mapped as
+            // UpdateRcsMessageStatusAction maps the matching callback. It reports the send, not
+            // delivery: a later IMDN still upgrades the row.
+            final ContentValues rcsVals =
+                    RcsMessageStore.rcsMetaValues(rcsMessageId, RcsConstants.RCS_STATUS_NONE);
+            BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), rcsVals);
+
+            BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                    conversationId, message.getMessageId(), timestamp,
+                    false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+
+            db.setTransactionSuccessful();
+
+            if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
+                LogUtil.d(TAG, "InsertNewMessageAction: Inserted RCS message "
+                        + message.getMessageId() + " (rcsId=" + rcsMessageId
+                        + ", timestamp = " + timestamp + ")");
+            }
+        } finally {
+            db.endTransaction();
+        }
+        UpdateRcsMessageStatusAction.applyParkedStatus(db, rcsMessageId);
+
+        MessagingContentProvider.notifyMessagesChanged(conversationId);
+        MessagingContentProvider.notifyPartsChanged();
+        return true;
+    }
+
+    /** True when the message has no attachment parts. */
+    private static boolean isTextOnlyMessage(final MessageData message) {
+        for (final MessagePartData part : message.getParts()) {
+            if (part.isAttachment()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Returns the first media part of a draft, or null. */
+    private static MessagePartData firstMediaAttachment(final MessageData message) {
+        for (final MessagePartData part : message.getParts()) {
+            if (part.isAttachment() && part.getContentUri() != null) {
+                return part;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Sends a 1:1 media message over RCS and, if accepted, inserts the RCS row; returns false
+     * for every case that should fall back to MMS. The provider gets a content URI and opens it
+     * itself.
+     */
+    private boolean tryInsertSendingRcsFile(final MessageData content, final int subId,
+            final String recipient, final long timestamp, final String conversationId) {
+        final Context context = Factory.get().getApplicationContext();
+
+        final MessagePartData media = firstMediaAttachment(content);
+        if (media == null || media.getContentUri() == null
+                || TextUtils.isEmpty(media.getContentType())) {
+            return false;
+        }
+
+        // E.164, as for text.
+        final String canonical = PhoneUtils.getDefault().getCanonicalBySimLocale(recipient);
+        final String dest = TextUtils.isEmpty(canonical) ? recipient : canonical;
+
+        // sendFile exists only on ProviderTransport: the selected transport if it is one, else
+        // the singleton.
+        final ProviderTransport transport;
+        try {
+            final ProviderRegistry registry = ProviderRegistry.peek();
+            final RcsTransport selected = (registry != null)
+                    ? registry.getActiveTransport(subId) : null;
+            transport = (selected instanceof ProviderTransport)
+                    ? (ProviderTransport) selected : ProviderTransport.getInstance(context);
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "tryInsertSendingRcsFile: RCS transport unavailable", t);
+            return false;
+        }
+
+        if (!transport.getRouteSelector().awaitRcsAvailableForSub(subId)) {
+            return false;
+        }
+
+        final int peerCap = transport.lookupRcsCapability(subId, dest);
+        if (peerCap == IRcsProvider.CAP_SMS_ONLY) {
+            return false;
+        }
+
+        // The caption: the text typed with the file and the media part's own text. The provider
+        // sends it with the file, so the typed text is not lost.
+        final String caption =
+                RcsFileAttachment.outgoingCaption(media.getText(), content.getMessageText());
+        final Uri contentUri = media.getContentUri();
+        final String contentType = media.getContentType();
+        // No original file name; the provider derives one.
+        final String fileName = null;
+
+        final String rcsMessageId = UUID.randomUUID().toString();
+
+        // Synchronous, on the action thread, before any database write.
+        final RcsSendResult result = transport.sendFile(subId, rcsMessageId, dest,
+                contentUri, contentType, fileName, MessagePartData.UNSPECIFIED_SIZE, caption);
+
+        if (result == null || !result.accepted) {
+            LogUtil.i(TAG, "tryInsertSendingRcsFile: RCS file send not accepted (reason="
+                    + (result != null ? result.reasonCode : -1) + "); falling back to MMS");
+            if (result != null && result.reasonCode == RcsSendResult.REASON_PEER_NOT_RCS) {
+                transport.notePeerNotRcs(recipient);
+            }
+            return false;
+        }
+
+        sLastSentMessageTimestamp = timestamp;
+
+        final SyncManager syncManager = DataModel.get().getSyncManager();
+        syncManager.onNewMessageInserted(timestamp);
+
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        db.beginTransaction();
+        try {
+            final MessageData message = MessageData.createOutgoingRcsMediaMessage(
+                    conversationId, content.getSelfId(), contentType, contentUri, caption);
+            message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+
+            BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+
+            BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(),
+                    RcsMessageStore.rcsMetaValues(rcsMessageId, RcsConstants.RCS_STATUS_NONE));
+
+            BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                    conversationId, message.getMessageId(), timestamp,
+                    false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+
+            db.setTransactionSuccessful();
+            LogUtil.i(TAG, "tryInsertSendingRcsFile: inserted RCS media message "
+                    + message.getMessageId() + " (rcsId=" + rcsMessageId + ", mime="
+                    + contentType + ")");
+        } finally {
+            db.endTransaction();
+        }
+        UpdateRcsMessageStatusAction.applyParkedStatus(db, rcsMessageId);
+
+        MessagingContentProvider.notifyMessagesChanged(conversationId);
+        MessagingContentProvider.notifyPartsChanged();
+        return true;
+    }
+
+    /**
+     * Sends a group media message over RCS to the conversation's group id and inserts the RCS
+     * row; returns false to fall back to group MMS.
+     */
+    private boolean tryInsertSendingRcsGroupFile(final MessageData content,
+            final int subId, final long timestamp, final String conversationId) {
+        final Context context = Factory.get().getApplicationContext();
+
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+        final String groupId =
+                BugleDatabaseOperations.getConversationRcsGroupId(db, conversationId);
+        if (TextUtils.isEmpty(groupId)) {
+            return false;
+        }
+
+        final MessagePartData media = firstMediaAttachment(content);
+        if (media == null || media.getContentUri() == null
+                || TextUtils.isEmpty(media.getContentType())) {
+            return false;
+        }
+
+        // sendFile exists only on ProviderTransport.
+        final ProviderTransport transport;
+        try {
+            final ProviderRegistry registry = ProviderRegistry.peek();
+            final RcsTransport selected = (registry != null)
+                    ? registry.getActiveTransport(subId) : null;
+            transport = (selected instanceof ProviderTransport)
+                    ? (ProviderTransport) selected : ProviderTransport.getInstance(context);
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "tryInsertSendingRcsGroupFile: RCS transport unavailable", t);
+            return false;
+        }
+
+        if (!transport.getRouteSelector().awaitGroupRcsAvailableForSub(subId)) {
+            return false;
+        }
+
+        // As for a 1:1 file: the typed text rides as the caption.
+        final String caption =
+                RcsFileAttachment.outgoingCaption(media.getText(), content.getMessageText());
+        final Uri contentUri = media.getContentUri();
+        final String contentType = media.getContentType();
+        final String fileName = null;
+
+        final String rcsMessageId = UUID.randomUUID().toString();
+
+        // Synchronous, before any database write.
+        final RcsSendResult result = transport.sendFile(subId, rcsMessageId,
+                /*toUri=*/ null, contentUri, contentType, fileName,
+                MessagePartData.UNSPECIFIED_SIZE, caption, groupId);
+
+        if (result == null || !result.accepted) {
+            LogUtil.i(TAG, "tryInsertSendingRcsGroupFile: send not accepted (reason="
+                    + (result != null ? result.reasonCode : -1) + "); using MMS");
+            return false;
+        }
+
+        sLastSentMessageTimestamp = timestamp;
+        final SyncManager syncManager = DataModel.get().getSyncManager();
+        syncManager.onNewMessageInserted(timestamp);
+
+        db.beginTransaction();
+        try {
+            final MessageData message = MessageData.createOutgoingRcsMediaMessage(
+                    conversationId, content.getSelfId(), contentType, contentUri, caption);
+            message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+            BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+            BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(),
+                    RcsMessageStore.rcsMetaValues(rcsMessageId, RcsConstants.RCS_STATUS_NONE));
+            BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                    conversationId, message.getMessageId(), timestamp,
+                    false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+            db.setTransactionSuccessful();
+            LogUtil.i(TAG, "tryInsertSendingRcsGroupFile: inserted RCS group media message "
+                    + message.getMessageId() + " (rcsId=" + rcsMessageId + ", groupId="
+                    + groupId + ", mime=" + contentType + ")");
+        } finally {
+            db.endTransaction();
+        }
+        UpdateRcsMessageStatusAction.applyParkedStatus(db, rcsMessageId);
+
+        MessagingContentProvider.notifyMessagesChanged(conversationId);
+        MessagingContentProvider.notifyPartsChanged();
+        return true;
+    }
+
+    /**
+     * Sends a group text over RCS, creating the group on first send if needed. Returns false to
+     * fall back to MMS; see docs/rcs/groups.md.
+     */
+    private boolean tryInsertSendingRcsGroupMessage(final MessageData content,
+            final int subId, final ArrayList<String> recipients, final long timestamp,
+            final String conversationId) {
+        final Context context = Factory.get().getApplicationContext();
+
+        // createGroup exists only on ProviderTransport.
+        final ProviderTransport transport;
+        try {
+            final ProviderRegistry registry = ProviderRegistry.peek();
+            final RcsTransport selected = (registry != null)
+                    ? registry.getActiveTransport(subId) : null;
+            transport = (selected instanceof ProviderTransport)
+                    ? (ProviderTransport) selected : ProviderTransport.getInstance(context);
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "tryInsertSendingRcsGroupMessage: RCS transport unavailable", t);
+            return false;
+        }
+
+        if (!transport.getRouteSelector().awaitGroupRcsAvailableForSub(subId)) {
+            return false;
+        }
+
+        final String messageText = content.getMessageText();
+        if (TextUtils.isEmpty(messageText)) {
+            return false;
+        }
+
+        final DatabaseWrapper db = DataModel.get().getDatabase();
+
+        // No group id yet: create the group and map it onto this conversation.
+        String groupId = BugleDatabaseOperations.getConversationRcsGroupId(db, conversationId);
+        if (TextUtils.isEmpty(groupId)) {
+            // The provider adds self to the members.
+            final ArrayList<String> memberE164s = new ArrayList<>(recipients.size());
+            for (final String r : recipients) {
+                final String canonical = PhoneUtils.getDefault().getCanonicalBySimLocale(r);
+                memberE164s.add(TextUtils.isEmpty(canonical) ? r : canonical);
+            }
+            // 32 lowercase hex characters; the server echoes it.
+            final String desiredGroupId =
+                    UUID.randomUUID().toString().replace("-", "").toLowerCase();
+            final org.lineageos.rcs.provider.RcsGroupInfo info = transport.createGroup(subId,
+                    desiredGroupId, "" /* groupName */, memberE164s,
+                    0 /* groupType=DEFAULT */);
+            if (info == null || TextUtils.isEmpty(info.groupId)) {
+                LogUtil.i(TAG, "tryInsertSendingRcsGroupMessage: createGroup failed; using MMS");
+                return false;
+            }
+            groupId = info.groupId;
+            BugleDatabaseOperations.setConversationRcsGroupId(db, conversationId, groupId);
+        }
+
+        final String rcsMessageId = UUID.randomUUID().toString();
+
+        {
+            final RcsSendResult result = transport.sendGroupMessage(subId, groupId, messageText,
+                    rcsMessageId);
+            if (result == null || !result.accepted) {
+                LogUtil.i(TAG, "tryInsertSendingRcsGroupMessage: send not accepted (reason="
+                        + (result != null ? result.reasonCode : -1) + "); using MMS");
+                return false;
+            }
+        }
+
+        sLastSentMessageTimestamp = timestamp;
+        final SyncManager syncManager = DataModel.get().getSyncManager();
+        syncManager.onNewMessageInserted(timestamp);
+
+        db.beginTransaction();
+        try {
+            final MessageData message = MessageData.createOutgoingRcsMessage(
+                    conversationId, content.getSelfId(), messageText);
+            message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+            BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+            // No status callback follows a group send, so record the outcome now; see
+            // docs/rcs/architecture.md.
+            final ContentValues groupVals = RcsMessageStore.rcsMetaValues(rcsMessageId,
+                    RcsSendStatus.rcsStatusForMeasuredHandoff(true));
+            groupVals.put(DatabaseHelper.MessageColumns.STATUS,
+                    RcsSendStatus.bugleStatusForMeasuredHandoff(true));
+            BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), groupVals);
+            BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                    conversationId, message.getMessageId(), timestamp,
+                    false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+            db.setTransactionSuccessful();
+            if (LogUtil.isLoggable(TAG, LogUtil.DEBUG)) {
+                LogUtil.d(TAG, "tryInsertSendingRcsGroupMessage: inserted RCS group message "
+                        + message.getMessageId() + " (rcsId=" + rcsMessageId + ", groupId="
+                        + groupId + ")");
+            }
+        } finally {
+            db.endTransaction();
+        }
+
+        MessagingContentProvider.notifyMessagesChanged(conversationId);
+        MessagingContentProvider.notifyPartsChanged();
+        return true;
     }
 
     /**

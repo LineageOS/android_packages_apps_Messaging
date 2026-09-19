@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/rbm_chip_spacing"
+    android:layout_marginTop="@dimen/rbm_chip_spacing"
+    android:paddingLeft="@dimen/rbm_chip_padding_h"
+    android:paddingRight="@dimen/rbm_chip_padding_h"
+    android:paddingTop="@dimen/rbm_chip_padding_v"
+    android:paddingBottom="@dimen/rbm_chip_padding_v"
+    android:background="@drawable/rbm_suggestion_chip_background"
+    android:textColor="@color/rbm_chip_text"
+    android:textSize="14sp"
+    android:maxLines="1"
+    android:ellipsize="end"
+    android:clickable="true"
+    android:focusable="true" />

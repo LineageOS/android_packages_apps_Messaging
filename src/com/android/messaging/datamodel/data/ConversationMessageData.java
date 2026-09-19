@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,10 +26,14 @@ import android.text.format.DateUtils;
 
 import androidx.annotation.NonNull;
 
+import com.android.messaging.rcs.rbm.RbmBotMessage;
+import com.android.messaging.rcs.rbm.RbmBotParser;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
 import com.android.messaging.datamodel.DatabaseHelper.ParticipantColumns;
+import com.android.messaging.rcs.RcsConstants;
+import com.android.messaging.rcs.RcsFileAttachment;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.Dates;
@@ -76,6 +80,39 @@ public class ConversationMessageData {
     private long mSenderContactId;
     private String mSenderContactLookupKey;
     private String mSelfParticipantId;
+    private int mTransportType;
+    private int mRcsStatus;
+    private long mRcsDeliveredTimestamp;
+    private long mRcsDisplayedTimestamp;
+    private int mRcsGroupReadCount;
+    private int mRcsGroupDeliveredCount;
+    private int mRcsGroupMemberCount;
+    private int mRcsReactionCount;
+    // The row's wire id, which a reaction we send targets, and its reaction chips.
+    private String mRcsMessageId;
+    /** E2EE scheme id, or null or empty for plaintext. */
+    private String mRcsE2eeSchemeId;
+    private List<ReactionAggregate> mReactionAggregates = Collections.emptyList();
+
+    // Business-messaging rows store the raw bot JSON; parsed lazily once per bind.
+    private boolean mRbmParsed;
+    private RbmBotMessage mRbmBotMessage;
+
+    // Location shares, parsed the same way.
+    private boolean mGeoParsed;
+    private GeoLoc mGeoLoc;
+
+    /** A parsed RCS location share. */
+    public static final class GeoLoc {
+        public final double lat;
+        public final double lon;
+        public final String label;   // nullable
+        GeoLoc(final double lat, final double lon, final String label) {
+            this.lat = lat;
+            this.lon = lon;
+            this.label = label;
+        }
+    }
 
     /** Are we similar enough to the previous/next messages that we can cluster them? */
     private boolean mCanClusterWithPreviousMessage;
@@ -90,6 +127,9 @@ public class ConversationMessageData {
         mParticipantId = cursor.getString(INDEX_PARTICIPANT_ID);
         mPartsCount = cursor.getInt(INDEX_PARTS_COUNT);
 
+        // An RCS caption is its media part's text. MMS rows keep upstream's parts.
+        final boolean keepCaptions =
+                cursor.getInt(INDEX_TRANSPORT_TYPE) == RcsConstants.TRANSPORT_RCS;
         mParts = makeParts(
                 cursor.getString(INDEX_PARTS_IDS),
                 cursor.getString(INDEX_PARTS_CONTENT_TYPES),
@@ -98,7 +138,8 @@ public class ConversationMessageData {
                 cursor.getString(INDEX_PARTS_HEIGHTS),
                 cursor.getString(INDEX_PARTS_TEXTS),
                 mPartsCount,
-                mMessageId);
+                mMessageId,
+                keepCaptions);
 
         mSentTimestamp = cursor.getLong(INDEX_SENT_TIMESTAMP);
         mReceivedTimestamp = cursor.getLong(INDEX_RECEIVED_TIMESTAMP);
@@ -120,6 +161,25 @@ public class ConversationMessageData {
         mSenderContactId = cursor.getLong(INDEX_SENDER_CONTACT_ID);
         mSenderContactLookupKey = cursor.getString(INDEX_SENDER_CONTACT_LOOKUP_KEY);
         mSelfParticipantId = cursor.getString(INDEX_SELF_PARTICIPIANT_ID);
+        mTransportType = cursor.getInt(INDEX_TRANSPORT_TYPE);
+        mRcsStatus = cursor.getInt(INDEX_RCS_STATUS);
+        mRcsDeliveredTimestamp = cursor.getLong(INDEX_RCS_DELIVERED_TIMESTAMP);
+        mRcsDisplayedTimestamp = cursor.getLong(INDEX_RCS_DISPLAYED_TIMESTAMP);
+        mRcsGroupReadCount = cursor.getInt(INDEX_RCS_GROUP_READ_COUNT);
+        mRcsGroupDeliveredCount = cursor.getInt(INDEX_RCS_GROUP_DELIVERED_COUNT);
+        mRcsGroupMemberCount = cursor.getInt(INDEX_RCS_GROUP_MEMBER_COUNT);
+        mRcsReactionCount = cursor.getInt(INDEX_RCS_REACTION_COUNT);
+        mRcsMessageId = cursor.getString(INDEX_RCS_MESSAGE_ID);
+        mRcsE2eeSchemeId = cursor.getString(INDEX_RCS_E2EE_SCHEME_ID);
+        mReactionAggregates = mRcsReactionCount > 0
+                ? parseReactionBlob(cursor.getString(INDEX_REACTIONS_BLOB))
+                : Collections.<ReactionAggregate>emptyList();
+
+        // Reset the per-bind parses for a recycled view.
+        mRbmParsed = false;
+        mRbmBotMessage = null;
+        mGeoParsed = false;
+        mGeoLoc = null;
 
         if (!cursor.isFirst() && cursor.moveToPrevious()) {
             mCanClusterWithPreviousMessage = canClusterWithMessage(cursor);
@@ -136,6 +196,11 @@ public class ConversationMessageData {
     }
 
     private boolean canClusterWithMessage(final Cursor cursor) {
+        // Group event lines never cluster, with each other or with messages.
+        if (mTransportType == RcsConstants.TRANSPORT_RCS_SYSTEM
+                || cursor.getInt(INDEX_TRANSPORT_TYPE) == RcsConstants.TRANSPORT_RCS_SYSTEM) {
+            return false;
+        }
         final String otherParticipantId = cursor.getString(INDEX_PARTICIPANT_ID);
         if (!TextUtils.equals(getParticipantId(), otherParticipantId)) {
             return false;
@@ -249,7 +314,8 @@ public class ConversationMessageData {
             final String contentWidth,
             final String contentHeight,
             final String text,
-            final String messageId) {
+            final String messageId,
+            final boolean keepCaptions) {
         if (ContentType.isTextType(contentType)) {
             final MessagePartData textPart = MessagePartData.createTextMessagePart(text);
             textPart.updatePartId(partId);
@@ -259,8 +325,11 @@ public class ConversationMessageData {
             final Uri contentUri = Uri.parse(contentUriString);
             final int width = Integer.parseInt(contentWidth);
             final int height = Integer.parseInt(contentHeight);
-            final MessagePartData attachmentPart = MessagePartData.createMediaMessagePart(
-                    contentType, contentUri, width, height);
+            final MessagePartData attachmentPart = keepCaptions
+                    ? MessagePartData.createMediaMessagePart(text, contentType, contentUri, width,
+                            height)
+                    : MessagePartData.createMediaMessagePart(contentType, contentUri, width,
+                            height);
             attachmentPart.updatePartId(partId);
             attachmentPart.updateMessageId(messageId);
             return attachmentPart;
@@ -275,7 +344,8 @@ public class ConversationMessageData {
             final String rawHeights,
             final String rawTexts,
             final int partsCount,
-            final String messageId) {
+            final String messageId,
+            final boolean keepCaptions) {
         final List<MessagePartData> parts = new LinkedList<>();
         if (partsCount == 1) {
             parts.add(makePartData(
@@ -285,7 +355,8 @@ public class ConversationMessageData {
                     rawWidths,
                     rawHeights,
                     rawTexts,
-                    messageId));
+                    messageId,
+                    keepCaptions));
         } else {
             unpackMessageParts(
                     parts,
@@ -296,7 +367,8 @@ public class ConversationMessageData {
                     splitUnquotedString(rawHeights),
                     splitQuotedString(rawTexts),
                     partsCount,
-                    messageId);
+                    messageId,
+                    keepCaptions);
         }
         return parts;
     }
@@ -310,7 +382,8 @@ public class ConversationMessageData {
             final String[] contentHeights,
             final String[] texts,
             final int partsCount,
-            final String messageId) {
+            final String messageId,
+            final boolean keepCaptions) {
 
         Assert.equals(partsCount, ids.length);
         Assert.equals(partsCount, contentTypes.length);
@@ -327,7 +400,8 @@ public class ConversationMessageData {
                     contentWidths[i],
                     contentHeights[i],
                     texts[i],
-                    messageId));
+                    messageId,
+                    keepCaptions));
         }
 
         if (parts.size() != partsCount) {
@@ -408,6 +482,144 @@ public class ConversationMessageData {
             // More than one
             return sb.toString();
         }
+    }
+
+    /**
+     * What the bubble shows: {@link #getText()}, then on an RCS row the caption of each part a
+     * media view draws, which shows none itself.
+     */
+    public String getBubbleText() {
+        return RcsFileAttachment.withCaptions(getText(), getRcsMediaCaptions());
+    }
+
+    /** Whether the bubble has text: a text part, or an RCS media part's caption. */
+    public boolean hasBubbleText() {
+        if (hasText()) {
+            return true;
+        }
+        for (final String caption : getRcsMediaCaptions()) {
+            if (!TextUtils.isEmpty(caption)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * The captions of an RCS row's parts that a media view draws (image, video, audio, vCard). A
+     * file row draws its own; see {@link RcsFileAttachment#rendersAsFile}.
+     */
+    private List<String> getRcsMediaCaptions() {
+        final List<String> captions = new ArrayList<>();
+        if (!getIsRcs()) {
+            return captions;
+        }
+        for (final MessagePartData part : mParts) {
+            final String uri = part.getContentUri() == null
+                    ? null : part.getContentUri().toString();
+            if (part.isAttachment() && !RcsFileAttachment.rendersAsFile(part.isMedia(), uri)) {
+                captions.add(part.getText());
+            }
+        }
+        return captions;
+    }
+
+    /** Suffix of a business-messaging agent address. */
+    private static final String RBM_BOT_SUFFIX = "@rbm.goog";
+
+    /** True for an inbound business-messaging agent message. */
+    public boolean getIsBotMessage() {
+        if (!getIsIncoming()) {
+            return false;
+        }
+        final String dest = mSenderNormalizedDestination;
+        return dest != null && dest.endsWith(RBM_BOT_SUFFIX);
+    }
+
+    /** The agent id of a bot row, else null. */
+    public String getBotId() {
+        return getIsBotMessage() ? mSenderNormalizedDestination : null;
+    }
+
+    /**
+     * The parsed bot message of a bot row, or null for other rows and for a body that is not
+     * bot JSON (rendered as text). Cached per {@link #bind}.
+     */
+    public RbmBotMessage getRbmBotMessage() {
+        if (!mRbmParsed) {
+            mRbmParsed = true;
+            mRbmBotMessage = null;
+            if (getIsBotMessage()) {
+                final String body = getText();
+                if (!TextUtils.isEmpty(body)) {
+                    try {
+                        mRbmBotMessage = RbmBotParser.parse(body);
+                    } catch (final RbmBotParser.RbmParseException e) {
+                        // A plain agent text line.
+                        mRbmBotMessage = null;
+                    }
+                }
+            }
+        }
+        return mRbmBotMessage;
+    }
+
+    private static final java.util.regex.Pattern GEO_PATTERN =
+            java.util.regex.Pattern.compile(
+                    "maps\\.google\\.com/\\?q=(-?\\d+(?:\\.\\d+)?),(-?\\d+(?:\\.\\d+)?)");
+
+    /**
+     * The location of one of our rendered location-share bodies (a pin and a map link), or null.
+     * Cached per {@link #bind}.
+     */
+    public GeoLoc getGeoLocation() {
+        if (!mGeoParsed) {
+            mGeoParsed = true;
+            mGeoLoc = null;
+            final String body = getText();
+            if (body != null
+                    && body.startsWith("📍")) {                final java.util.regex.Matcher m =
+                    GEO_PATTERN.matcher(body);
+                if (m.find()) {
+                    try {
+                        final double lat = Double.parseDouble(m.group(1));
+                        final double lon = Double.parseDouble(m.group(2));
+                        String label = null;
+                        final int nl = body.indexOf('\n');
+                        if (nl > 0) {
+                            label = body.substring(0, nl).replace("📍", "").trim();
+                            // Our placeholder label counts as none, so the card shows the address.
+                            if (label.isEmpty()
+                                    || "Shared location".equalsIgnoreCase(label)) {
+                                label = null;
+                            }
+                        }
+                        mGeoLoc = new GeoLoc(lat, lon, label);
+                    } catch (final NumberFormatException ignore) {
+                        mGeoLoc = null;
+                    }
+                }
+            }
+        }
+        return mGeoLoc;
+    }
+
+    /** Notification preview text: a summary for a bot message, else the message text. */
+    public String getNotificationPreviewText() {
+        if (getIsBotMessage()) {
+            return com.android.messaging.rcs.RbmSummary.of(getRbmBotMessage(), null);
+        }
+        return getText();
+    }
+
+    /**
+     * True for the local echo of a tapped suggestion chip, written by
+     * {@link com.android.messaging.datamodel.action.InsertRbmPostbackEchoAction}.
+     */
+    public boolean getIsBotPostbackEcho() {
+        return !getIsIncoming() && getIsRcs()
+                && com.android.messaging.rcs.RcsConstants.RBM_POSTBACK_ECHO_MARKER
+                        .equals(mRcsMessageId);
     }
 
     public boolean hasAttachments() {
@@ -503,6 +715,139 @@ public class ConversationMessageData {
         return mSelfParticipantId;
     }
 
+    /**
+     * {@link RcsConstants#TRANSPORT_DEFAULT} for SMS/MMS, else the RCS transport. RCS rows are
+     * SMS-shaped and distinguished only by this column.
+     */
+    public final int getTransportType() {
+        return mTransportType;
+    }
+
+    /** True if this message was carried over RCS. */
+    public final boolean getIsRcs() {
+        return mTransportType == RcsConstants.TRANSPORT_RCS;
+    }
+
+    /** True for a received RCS file whose bytes await the user's accept. */
+    public final boolean getIsRcsFilePending() {
+        return getIsRcs() && mRcsStatus == RcsConstants.RCS_FILE_PENDING;
+    }
+
+    /** True for a received RCS file the provider reported it can no longer download. */
+    public final boolean getIsRcsFileUnavailable() {
+        return getIsRcs() && mRcsStatus == RcsConstants.RCS_FILE_UNAVAILABLE;
+    }
+
+    /** True for a group event row, rendered as a centered status line. */
+    public final boolean getIsRcsSystem() {
+        return mTransportType == RcsConstants.TRANSPORT_RCS_SYSTEM;
+    }
+
+    /** IMDN delivery-receipt timestamp (ms), or 0 if not yet delivered. */
+    public final long getRcsDeliveredTimestamp() {
+        return mRcsDeliveredTimestamp;
+    }
+
+    /** IMDN display-receipt timestamp (ms), or 0 if not yet read. */
+    public final long getRcsDisplayedTimestamp() {
+        return mRcsDisplayedTimestamp;
+    }
+
+    /** Distinct group members who displayed this sent message; 0 outside groups. */
+    public final int getRcsGroupReadCount() {
+        return mRcsGroupReadCount;
+    }
+
+    /** Distinct group members who received this sent message; 0 outside groups. */
+    public final int getRcsGroupDeliveredCount() {
+        return mRcsGroupDeliveredCount;
+    }
+
+    /** Other members of this RCS group (participant_count); 0 when not an RCS group. */
+    public final int getRcsGroupMemberCount() {
+        return mRcsGroupMemberCount;
+    }
+
+    /** The message's wire id, which a reaction we send references; null for SMS/MMS. */
+    public final String getRcsMessageId() {
+        return mRcsMessageId;
+    }
+
+    public final boolean isE2eeEncrypted() {
+        return !android.text.TextUtils.isEmpty(mRcsE2eeSchemeId);
+    }
+
+    /** Reaction chips, one per emoji, in first-seen order; empty without reactions. */
+    public final List<ReactionAggregate> getReactionAggregates() {
+        return mReactionAggregates;
+    }
+
+    /** Our reaction emoji, or null. There is at most one per reactor. */
+    public final String getSelfReactionEmoji() {
+        for (final ReactionAggregate r : mReactionAggregates) {
+            if (r.reactedBySelf) {
+                return r.emoji;
+            }
+        }
+        return null;
+    }
+
+    /** One reaction chip: the emoji, its count, whether we reacted, and the reactors. */
+    public static final class ReactionAggregate {
+        public final String emoji;
+        public final int count;
+        public final boolean reactedBySelf;
+        public final List<String> reactorUris;
+
+        ReactionAggregate(final String emoji, final int count,
+                final boolean reactedBySelf, final List<String> reactorUris) {
+            this.emoji = emoji;
+            this.count = count;
+            this.reactedBySelf = reactedBySelf;
+            this.reactorUris = reactorUris;
+        }
+    }
+
+    // Separators emitted by the reactions_blob projection.
+    private static final char REACTION_RECORD_SEP = '\u001e';
+    private static final char REACTION_UNIT_SEP = '\u001f';
+
+    /**
+     * Parses {@code reactions_blob} ({@code emoji<US>reactor<RS>…}, ordered by time) into
+     * per-emoji chips. Skips malformed records.
+     */
+    private static List<ReactionAggregate> parseReactionBlob(final String blob) {
+        if (TextUtils.isEmpty(blob)) {
+            return Collections.emptyList();
+        }
+        final java.util.LinkedHashMap<String, List<String>> byEmoji =
+                new java.util.LinkedHashMap<>();
+        for (final String record : blob.split(String.valueOf(REACTION_RECORD_SEP), -1)) {
+            final int sep = record.indexOf(REACTION_UNIT_SEP);
+            if (sep <= 0) {
+                continue; // malformed / empty record
+            }
+            final String emoji = record.substring(0, sep);
+            final String reactor = record.substring(sep + 1);
+            List<String> reactors = byEmoji.get(emoji);
+            if (reactors == null) {
+                reactors = new ArrayList<>(2);
+                byEmoji.put(emoji, reactors);
+            }
+            if (!reactors.contains(reactor)) {
+                reactors.add(reactor);
+            }
+        }
+        final List<ReactionAggregate> out = new ArrayList<>(byEmoji.size());
+        for (final java.util.Map.Entry<String, List<String>> e : byEmoji.entrySet()) {
+            final List<String> reactors = e.getValue();
+            final boolean self =
+                    reactors.contains(com.android.messaging.rcs.RcsMessageStore.SELF_REACTOR_URI);
+            out.add(new ReactionAggregate(e.getKey(), reactors.size(), self, reactors));
+        }
+        return out;
+    }
+
     public boolean getIsIncoming() {
         return (mStatus >= MessageData.BUGLE_STATUS_FIRST_INCOMING);
     }
@@ -576,8 +921,13 @@ public class ConversationMessageData {
                 (!getIsIncoming() || mStatus == MessageData.BUGLE_STATUS_INCOMING_COMPLETE));
     }
 
+    /**
+     * Whether a tap on this bubble resends it. RCS rows are not resent over RCS; "Send as SMS"
+     * stays on every failed RCS row.
+     */
     public boolean getOneClickResendMessage() {
-        return MessageData.getOneClickResendMessage(mStatus, mRawTelephonyStatus);
+        return MessageData.getOneClickResendMessage(mStatus, mRawTelephonyStatus)
+                && !getIsRcs();
     }
 
     /**
@@ -757,7 +1107,56 @@ public class ConversationMessageData {
             + DatabaseHelper.PARTICIPANTS_TABLE + '.' + ParticipantColumns.CONTACT_ID
             + " as " + ConversationMessageViewColumns.SENDER_CONTACT_ID + ", "
             + DatabaseHelper.PARTICIPANTS_TABLE + '.' + ParticipantColumns.LOOKUP_KEY
-            + " as " + ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY + " ";
+            + " as " + ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY + ", "
+            // RCS columns; 0 or null for SMS/MMS rows.
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.TRANSPORT_TYPE
+            + " as " + ConversationMessageViewColumns.TRANSPORT_TYPE + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_STATUS
+            + " as " + ConversationMessageViewColumns.RCS_STATUS + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_DELIVERED_TIMESTAMP
+            + " as " + ConversationMessageViewColumns.RCS_DELIVERED_TIMESTAMP + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_DISPLAYED_TIMESTAMP
+            + " as " + ConversationMessageViewColumns.RCS_DISPLAYED_TIMESTAMP + ", "
+            // Group receipt aggregate: distinct members who displayed, who received, and the
+            // other-member count. 0 outside groups.
+            + "(SELECT COUNT(*) FROM " + DatabaseHelper.RCS_GROUP_RECEIPTS_TABLE + " gr"
+            + " WHERE gr." + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns._ID
+            + " AND gr." + DatabaseHelper.RcsGroupReceiptColumns.DISPLAYED_TIMESTAMP + " > 0)"
+            + " as " + ConversationMessageViewColumns.RCS_GROUP_READ_COUNT + ", "
+            + "(SELECT COUNT(*) FROM " + DatabaseHelper.RCS_GROUP_RECEIPTS_TABLE + " gr"
+            + " WHERE gr." + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns._ID
+            + " AND gr." + DatabaseHelper.RcsGroupReceiptColumns.DELIVERED_TIMESTAMP + " > 0)"
+            + " as " + ConversationMessageViewColumns.RCS_GROUP_DELIVERED_COUNT + ", "
+            + "(SELECT c." + DatabaseHelper.ConversationColumns.PARTICIPANT_COUNT
+            + " FROM " + DatabaseHelper.CONVERSATIONS_TABLE + " c"
+            + " WHERE c." + DatabaseHelper.ConversationColumns._ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.CONVERSATION_ID
+            + " AND c." + DatabaseHelper.ConversationColumns.RCS_GROUP_ID + " IS NOT NULL)"
+            + " as " + ConversationMessageViewColumns.RCS_GROUP_MEMBER_COUNT + ", "
+            // Whether the message has reactions, by its wire id.
+            + "(SELECT COUNT(*) FROM " + DatabaseHelper.RCS_REACTIONS_TABLE + " rr"
+            + " WHERE rr." + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " AND " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " IS NOT NULL)"
+            + " as " + ConversationMessageViewColumns.RCS_REACTION_COUNT + ", "
+            // The reactions, "emoji char(31) reactor" joined by char(30) in first-seen order,
+            // so the bubble renders without a main-thread query.
+            + "(SELECT group_concat(rr." + DatabaseHelper.RcsReactionColumns.EMOJI
+            + " || char(31) || rr." + DatabaseHelper.RcsReactionColumns.REACTOR_URI
+            + ", char(30)) FROM " + DatabaseHelper.RCS_REACTIONS_TABLE + " rr"
+            + " WHERE rr." + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " AND " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " IS NOT NULL"
+            + " ORDER BY rr." + DatabaseHelper.RcsReactionColumns.TIMESTAMP + ")"
+            + " as " + ConversationMessageViewColumns.REACTIONS_BLOB + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " as " + ConversationMessageViewColumns.RCS_MESSAGE_ID + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_E2EE_SCHEME_ID
+            + " as " + ConversationMessageViewColumns.RCS_E2EE_SCHEME_ID + " ";
 
     private static final String CONVERSATION_MESSAGES_QUERY_FROM_WHERE_SQL =
             " FROM " + DatabaseHelper.MESSAGES_TABLE
@@ -830,6 +1229,18 @@ public class ConversationMessageData {
         String PARTS_WIDTHS = "parts_widths";
         String PARTS_HEIGHTS = "parts_heights";
         String PARTS_TEXTS = "parts_texts";
+        String TRANSPORT_TYPE = MessageColumns.TRANSPORT_TYPE;
+        String RCS_STATUS = MessageColumns.RCS_STATUS;
+        String RCS_DELIVERED_TIMESTAMP = MessageColumns.RCS_DELIVERED_TIMESTAMP;
+        String RCS_DISPLAYED_TIMESTAMP = MessageColumns.RCS_DISPLAYED_TIMESTAMP;
+        // Computed group receipt columns.
+        String RCS_GROUP_READ_COUNT = "rcs_group_read_count";
+        String RCS_GROUP_DELIVERED_COUNT = "rcs_group_delivered_count";
+        String RCS_GROUP_MEMBER_COUNT = "rcs_group_member_count";
+        String RCS_REACTION_COUNT = "rcs_reaction_count";
+        String REACTIONS_BLOB = "reactions_blob";
+        String RCS_MESSAGE_ID = MessageColumns.RCS_MESSAGE_ID;
+        String RCS_E2EE_SCHEME_ID = MessageColumns.RCS_E2EE_SCHEME_ID;
     }
 
     private static int sIndexIncrementer = 0;
@@ -867,6 +1278,17 @@ public class ConversationMessageData {
     private static final int INDEX_SENDER_PROFILE_PHOTO_URI      = sIndexIncrementer++;
     private static final int INDEX_SENDER_CONTACT_ID             = sIndexIncrementer++;
     private static final int INDEX_SENDER_CONTACT_LOOKUP_KEY     = sIndexIncrementer++;
+    private static final int INDEX_TRANSPORT_TYPE                = sIndexIncrementer++;
+    private static final int INDEX_RCS_STATUS                    = sIndexIncrementer++;
+    private static final int INDEX_RCS_DELIVERED_TIMESTAMP       = sIndexIncrementer++;
+    private static final int INDEX_RCS_DISPLAYED_TIMESTAMP       = sIndexIncrementer++;
+    private static final int INDEX_RCS_GROUP_READ_COUNT          = sIndexIncrementer++;
+    private static final int INDEX_RCS_GROUP_DELIVERED_COUNT     = sIndexIncrementer++;
+    private static final int INDEX_RCS_GROUP_MEMBER_COUNT        = sIndexIncrementer++;
+    private static final int INDEX_RCS_REACTION_COUNT            = sIndexIncrementer++;
+    private static final int INDEX_REACTIONS_BLOB                = sIndexIncrementer++;
+    private static final int INDEX_RCS_MESSAGE_ID                = sIndexIncrementer++;
+    private static final int INDEX_RCS_E2EE_SCHEME_ID            = sIndexIncrementer++;
 
 
     private static final String[] sProjection = {
@@ -902,6 +1324,17 @@ public class ConversationMessageData {
         ConversationMessageViewColumns.SENDER_PROFILE_PHOTO_URI,
         ConversationMessageViewColumns.SENDER_CONTACT_ID,
         ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY,
+        ConversationMessageViewColumns.TRANSPORT_TYPE,
+        ConversationMessageViewColumns.RCS_STATUS,
+        ConversationMessageViewColumns.RCS_DELIVERED_TIMESTAMP,
+        ConversationMessageViewColumns.RCS_DISPLAYED_TIMESTAMP,
+        ConversationMessageViewColumns.RCS_GROUP_READ_COUNT,
+        ConversationMessageViewColumns.RCS_GROUP_DELIVERED_COUNT,
+        ConversationMessageViewColumns.RCS_GROUP_MEMBER_COUNT,
+        ConversationMessageViewColumns.RCS_REACTION_COUNT,
+        ConversationMessageViewColumns.REACTIONS_BLOB,
+        ConversationMessageViewColumns.RCS_MESSAGE_ID,
+        ConversationMessageViewColumns.RCS_E2EE_SCHEME_ID,
     };
 
     public static String[] getProjection() {

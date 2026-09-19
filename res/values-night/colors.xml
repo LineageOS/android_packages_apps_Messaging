@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="chips_dropdown_background_pressed">@android:color/system_neutral1_800</color>
+
+    <color name="rbm_chip_text">@android:color/system_accent1_200</color>
+    <color name="rbm_chip_stroke">@android:color/system_accent1_300</color>
+    <color name="rbm_carousel_card_bg">@android:color/system_neutral1_800</color>
+    <color name="rbm_card_text_primary">#FFFFFFFF</color>
+    <color name="rbm_card_text_secondary">#B3FFFFFF</color>
+
+    <color name="rcs_status_label">@android:color/system_accent1_200</color>
+    <color name="rcs_status_value_connected">#81C995</color>
+    <color name="rcs_status_value_neutral">#9AA0A6</color>
 </resources>

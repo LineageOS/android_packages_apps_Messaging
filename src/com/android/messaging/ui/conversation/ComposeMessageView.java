@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -134,8 +134,36 @@ public class ComposeMessageView extends LinearLayout
     private final Context mOriginalContext;
     private int mSendWidgetMode = SEND_WIDGET_MODE_SELF_AVATAR;
 
+    // Capability lookups run off the main thread; the handler repaints the send button.
+    private final ExecutorService mRcsCapabilityExecutor = Executors.newSingleThreadExecutor();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+
+    // Outbound typing indicator: active=true on the first keystroke of an idle period,
+    // active=false after TYPING_IDLE_MS of quiet, on send, and on clear or detach. Sent only to
+    // an RCS 1:1 peer or an RCS group.
+    private static final long TYPING_IDLE_MS = 10_000L;
+    // Between active=true and its active=false.
+    private boolean mTypingActiveSent;
+    // Target of the current active=true, so the active=false reaches the same peer.
+    @androidx.annotation.Nullable private String mTypingPeerE164;
+    private int mTypingSubId = -1;
+    private final Runnable mTypingIdleRunnable = this::onTypingIdle;
+
+    // The group typing session, independent of the 1:1 one.
+    private boolean mGroupTypingActiveSent;
+    @androidx.annotation.Nullable private String mGroupTypingGroupId;
+    private int mGroupTypingSubId = -1;
+    private final Runnable mGroupTypingIdleRunnable = this::onTypingIdle;
+
     // Shared data model object binding from the conversation.
     private ImmutableBindingRef<ConversationData> mConversationDataModel;
+
+    // Whether this is an established RCS group, warmed off the main thread; its draft is
+    // MMS-shaped but sends over RCS.
+    private volatile boolean mIsRcsGroup;
+
+    // The conversation's rcs_group_id, for group typing.
+    @androidx.annotation.Nullable private volatile String mRcsGroupId;
 
     // Centrally manages all the mutual exclusive UI components accepting user input, i.e.
     // media picker, IME keyboard and SIM selector.
@@ -145,12 +173,18 @@ public class ComposeMessageView extends LinearLayout
         @Override
         public void onConversationMetadataUpdated(ConversationData data) {
             mConversationDataModel.ensureBound(data);
+            // Participants may arrive after the first load; re-warm (idempotent).
+            maybePrimeRcsCapability();
+            maybePrimeRcsGroup();
             updateVisualsOnDraftChanged();
         }
 
         @Override
         public void onConversationParticipantDataLoaded(ConversationData data) {
             mConversationDataModel.ensureBound(data);
+            // Warm the capability cache so the first paint shows the right transport.
+            maybePrimeRcsCapability();
+            maybePrimeRcsGroup();
             updateVisualsOnDraftChanged();
         }
 
@@ -158,6 +192,8 @@ public class ComposeMessageView extends LinearLayout
         public void onSubscriptionListDataLoaded(ConversationData data) {
             mConversationDataModel.ensureBound(data);
             updateOnSelfSubscriptionChange();
+            // The cache is keyed by (sub, peer).
+            maybePrimeRcsCapability();
             updateVisualsOnDraftChanged();
         }
     };
@@ -187,6 +223,8 @@ public class ComposeMessageView extends LinearLayout
      * Host calls this to unbind view
      */
     public void unbind() {
+        // Leaving the thread ends typing.
+        stopTypingIfActive();
         mBinding.unbind();
         mHost = null;
         mInputManager.onDetach();
@@ -314,6 +352,10 @@ public class ComposeMessageView extends LinearLayout
     public void setConversationDataModel(final ImmutableBindingRef<ConversationData> refDataModel) {
         mConversationDataModel = refDataModel;
         mConversationDataModel.getData().addConversationDataListener(mDataListener);
+        // Reset so a reused view does not keep the previous thread's verdict.
+        mIsRcsGroup = false;
+        mRcsGroupId = null;
+        maybePrimeRcsGroup();
     }
 
     ImmutableBindingRef<DraftMessageData> getDraftDataModel() {
@@ -349,6 +391,8 @@ public class ComposeMessageView extends LinearLayout
     private void sendMessageInternal(final boolean checkMessageSize) {
         LogUtil.i(LogUtil.BUGLE_TAG, "UI initiated message sending in conversation " +
                 mBinding.getData().getConversationId());
+        // A send ends typing.
+        stopTypingIfActive();
         if (mBinding.getData().isCheckingDraft()) {
             // Don't send message if we are currently checking draft for sending.
             LogUtil.w(LogUtil.BUGLE_TAG, "Message can't be sent: still checking draft");
@@ -703,14 +747,36 @@ public class ComposeMessageView extends LinearLayout
                     // the send button.
                     UiUtils.revealOrHideViewWithAnimation(mSelfSendIcon, GONE, null);
                 }
-                mMmsIndicator.setVisibility(draftMessageData.getIsMms() ? VISIBLE : INVISIBLE);
+                if (draftMessageData.getIsMms() && mIsRcsGroup) {
+                    // An RCS group sends over RCS although its draft is MMS-shaped.
+                    mMmsIndicator.setText(R.string.rcs_compose_send_label_rcs);
+                    mMmsIndicator.setVisibility(VISIBLE);
+                } else if (draftMessageData.getIsMms()) {
+                    // A 1:1 attachment-only draft goes over RCS to a known RCS peer.
+                    if (draftMessageData.getIsMmsDueToAttachmentOnly()
+                            && currentDraftRcsCap()
+                                    == org.lineageos.rcs.provider.IRcsProvider.CAP_RCS) {
+                        mMmsIndicator.setText(R.string.rcs_compose_send_label_rcs);
+                    } else {
+                        mMmsIndicator.setText(R.string.mms_text);
+                    }
+                    mMmsIndicator.setVisibility(VISIBLE);
+                } else {
+                    // Text draft: "RCS" or "SMS" once the peer's capability is known.
+                    mMmsIndicator.setVisibility(
+                            updateSendButtonTransportLabel(draftMessageData));
+                }
                 sendWidgetMode = SEND_WIDGET_MODE_SEND_BUTTON;
+                // Transport in the send button's accessibility label.
+                updateSendButtonTransportHint(draftMessageData);
             } else {
                 mSelfSendIcon.setImageResourceUri(selfSendButtonUri);
                 if (isOverriddenAvatarAGroup()) {
                     UiUtils.revealOrHideViewWithAnimation(mSelfSendIcon, VISIBLE, null);
                 }
                 UiUtils.revealOrHideViewWithAnimation(mSendButton, GONE, null);
+                // Restore the MMS text for a later MMS draft.
+                mMmsIndicator.setText(R.string.mms_text);
                 mMmsIndicator.setVisibility(INVISIBLE);
                 if (shouldShowSimSelector(mConversationDataModel.getData())) {
                     sendWidgetMode = SEND_WIDGET_MODE_SIM_SELECTOR;
@@ -725,13 +791,21 @@ public class ComposeMessageView extends LinearLayout
             mSendWidgetMode = sendWidgetMode;
         }
 
+        // Padlock in the compose box when E2EE is active.
+        updateE2eeComposeAffordance();
+
         // Update the text hint on the message box depending on the attachment type.
         final int attachmentCount = attachments.size();
         if (attachmentCount == 0) {
             final SubscriptionListEntry subscriptionListEntry =
                     mConversationDataModel.getData().getSubscriptionEntryForSelfParticipant(
                             mBinding.getData().getSelfId(), false /* excludeDefault */);
-            if (subscriptionListEntry == null) {
+            // Transport tag on the hint for a 1:1 text thread; null keeps the multi-SIM hint.
+            final CharSequence transportHint =
+                    resolveComposeTransportHint(subscriptionListEntry);
+            if (transportHint != null) {
+                mComposeEditText.setHint(transportHint);
+            } else if (subscriptionListEntry == null) {
                 mComposeEditText.setHint(R.string.compose_message_view_hint_text);
             } else {
                 mComposeEditText.setHint(Html.fromHtml(getResources().getString(
@@ -820,6 +894,239 @@ public class ComposeMessageView extends LinearLayout
         }
     }
 
+    /**
+     * Sets the send button's accessibility label from the cached peer capability. Main-thread
+     * cache read; unknown keeps the default label.
+     */
+    private void updateSendButtonTransportHint(final DraftMessageData draftMessageData) {
+        final int cap = currentDraftRcsCap();
+        int label = R.string.sendButtonContentDescription;
+        if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_RCS || mIsRcsGroup) {
+            label = R.string.sendButtonContentDescriptionRcs;
+        } else if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_SMS_ONLY) {
+            label = R.string.sendButtonContentDescriptionSms;
+        }
+        mSendButton.setContentDescription(getResources().getString(label));
+    }
+
+    /**
+     * Shows "RCS" or "SMS" in {@code mms_indicator} for a text draft when the peer's capability
+     * is known, and hides it otherwise.
+     *
+     * @return the visibility for {@code mMmsIndicator}
+     */
+    private int updateSendButtonTransportLabel(final DraftMessageData draftMessageData) {
+        final int cap = currentDraftRcsCap();
+        if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_RCS) {
+            mMmsIndicator.setText(R.string.rcs_compose_send_label_rcs);
+            return VISIBLE;
+        }
+        if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_SMS_ONLY) {
+            mMmsIndicator.setText(R.string.rcs_compose_send_label_sms);
+            return VISIBLE;
+        }
+        // Unknown: restore the MMS text and hide.
+        mMmsIndicator.setText(R.string.mms_text);
+        return INVISIBLE;
+    }
+
+    /** Shows the compose-box padlock when E2EE is active for the conversation. */
+    private void updateE2eeComposeAffordance() {
+        boolean e2ee = false;
+        try {
+            e2ee = mConversationDataModel != null
+                    && mConversationDataModel.isBound()
+                    && mConversationDataModel.getData().isE2eeEncrypted();
+        } catch (final Throwable t) {
+            e2ee = false;
+        }
+        mComposeEditText.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                e2ee ? R.drawable.ic_e2ee_lock : 0, 0, 0, 0);
+        if (e2ee) {
+            mComposeEditText.setCompoundDrawablePadding(getResources()
+                    .getDimensionPixelSize(R.dimen.compose_message_text_box_padding_side));
+        }
+    }
+
+    @androidx.annotation.Nullable
+    /**
+     * The compose hint for a text draft with the transport tag when the capability is known,
+     * else the neutral hint. Null when there is a multi-SIM name to show instead.
+     */
+    private CharSequence resolveComposeTransportHint(
+            @androidx.annotation.Nullable final SubscriptionListEntry subEntry) {
+        // Keep the multi-SIM hint, which names the SIM.
+        if (subEntry != null) {
+            return null;
+        }
+        if (mIsRcsGroup) {
+            return getResources().getText(R.string.rcs_compose_hint_rcs);
+        }
+        final int cap = currentDraftRcsCap();
+        if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_RCS) {
+            return getResources().getText(R.string.rcs_compose_hint_rcs);
+        }
+        if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_SMS_ONLY) {
+            return getResources().getText(R.string.rcs_compose_hint_sms);
+        }
+        return getResources().getText(R.string.rcs_compose_hint_neutral);
+    }
+
+    /**
+     * The 1:1 peer's number in E.164, the capability cache key, or null for anything other than
+     * a 1:1 conversation.
+     */
+    @androidx.annotation.Nullable
+    private String getCanonicalRecipientForRcs() {
+        if (mConversationDataModel == null || !mConversationDataModel.isBound()) {
+            return null;
+        }
+        final ConversationData data = mConversationDataModel.getData();
+        if (data == null || !data.getParticipantsLoaded()
+                || data.getNumberOfParticipantsExcludingSelf() != 1) {
+            return null;
+        }
+        final String raw = data.getParticipantPhoneNumber();
+        if (TextUtils.isEmpty(raw)) {
+            return null;
+        }
+        try {
+            final String e164 = PhoneUtils.getDefault().getCanonicalBySimLocale(raw);
+            return !TextUtils.isEmpty(e164) ? e164 : raw.trim();
+        } catch (final Throwable t) {
+            return raw.trim();
+        }
+    }
+
+    /**
+     * The cached transport for the current draft: {@code CAP_RCS}, {@code CAP_SMS_ONLY} or
+     * {@code CAP_UNKNOWN}. Unknown for an MMS draft (except a 1:1 attachment-only one), a group,
+     * or an unavailable provider. Never blocks.
+     */
+    private int currentDraftRcsCap() {
+        try {
+            final DraftMessageData draft =
+                    (mBinding != null && mBinding.isBound()) ? mBinding.getData() : null;
+            if (draft == null) {
+                return org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN;
+            }
+            // Except a 1:1 attachment-only draft, which may go over RCS.
+            if (draft.getIsMms() && !draft.getIsMmsDueToAttachmentOnly()) {
+                return org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN;
+            }
+            final com.android.messaging.rcs.ProviderTransport transport =
+                    com.android.messaging.rcs.ProviderTransport.peekInstance();
+            final String e164 = getCanonicalRecipientForRcs();
+            if (transport == null || e164 == null) {
+                return org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN;
+            }
+            // Resolve DEFAULT_SELF_SUB_ID to the concrete subscription the provider tracks.
+            final int subId = com.android.messaging.util.PhoneUtils.getDefault()
+                    .getEffectiveSubId(draft.getSelfSubId());
+            final com.android.messaging.rcs.RouteSelector rs = transport.getRouteSelector();
+            final boolean avail = rs.isRcsAvailableForSub(subId);
+            final int cachedCap = rs.isPeerRcsCapable(subId, e164);
+            if (!avail) {
+                return org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN;
+            }
+            // Anything other than an explicit verdict is unknown.
+            if (cachedCap == org.lineageos.rcs.provider.IRcsProvider.CAP_RCS
+                    || cachedCap == org.lineageos.rcs.provider.IRcsProvider.CAP_SMS_ONLY) {
+                return cachedCap;
+            }
+            return org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN;
+        } catch (final Throwable t) {
+            // Never let an RCS read affect compose.
+            return org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN;
+        }
+    }
+
+    /**
+     * Warms the capability cache for a 1:1 conversation off the main thread, then repaints.
+     */
+    private void maybePrimeRcsCapability() {
+        final com.android.messaging.rcs.ProviderTransport transport =
+                com.android.messaging.rcs.ProviderTransport.peekInstance();
+        if (transport == null || mBinding == null || !mBinding.isBound()) {
+            return;
+        }
+        final int subId = com.android.messaging.util.PhoneUtils.getDefault()
+                .getEffectiveSubId(mBinding.getData().getSelfSubId());
+        final boolean avail = transport.getRouteSelector().isRcsAvailableForSub(subId);
+        final String e164 = getCanonicalRecipientForRcs();
+        final int cached = (e164 == null) ? org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN
+                : transport.getRouteSelector().isPeerRcsCapable(subId, e164);
+        if (!avail) {
+            return;
+        }
+        if (e164 == null) {
+            return;
+        }
+        if (cached != org.lineageos.rcs.provider.IRcsProvider.CAP_UNKNOWN) {
+            return;
+        }
+        mRcsCapabilityExecutor.execute(() -> {
+            // Fills the RouteSelector cache.
+            transport.lookupRcsCapability(subId, e164);
+            mHandler.post(() -> {
+                if (mConversationDataModel != null && mConversationDataModel.isBound()) {
+                    updateVisualsOnDraftChanged();
+                }
+            });
+        });
+    }
+
+    /**
+     * Warms {@link #mIsRcsGroup} off the main thread: true when the conversation has an
+     * rcs_group_id and group RCS is available for the subscription.
+     */
+    private void maybePrimeRcsGroup() {
+        if (mBinding == null || !mBinding.isBound()) {
+            return;
+        }
+        final String conversationId = (mConversationDataModel != null
+                && mConversationDataModel.isBound())
+                ? mConversationDataModel.getData().getConversationId() : null;
+        if (conversationId == null) {
+            return;
+        }
+        final int subId = com.android.messaging.util.PhoneUtils.getDefault()
+                .getEffectiveSubId(mBinding.getData().getSelfSubId());
+        mRcsCapabilityExecutor.execute(() -> {
+            boolean isRcsGroup = false;
+            String resolvedGroupId = null;
+            try {
+                final com.android.messaging.rcs.ProviderTransport transport =
+                        com.android.messaging.rcs.ProviderTransport.peekInstance();
+                final com.android.messaging.datamodel.DatabaseWrapper db =
+                        com.android.messaging.datamodel.DataModel.get().getDatabase();
+                final String groupId =
+                        com.android.messaging.datamodel.BugleDatabaseOperations
+                                .getConversationRcsGroupId(db, conversationId);
+                isRcsGroup = !TextUtils.isEmpty(groupId)
+                        && transport != null
+                        && transport.getRouteSelector().isGroupRcsAvailableForSub(subId);
+                if (isRcsGroup) {
+                    resolvedGroupId = groupId;
+                }
+            } catch (final Throwable t) {
+                isRcsGroup = false;
+                resolvedGroupId = null;
+            }
+            final boolean verdict = isRcsGroup;
+            final String groupIdVerdict = resolvedGroupId;
+            mHandler.post(() -> {
+                mRcsGroupId = groupIdVerdict;
+                if (mIsRcsGroup != verdict) {
+                    mIsRcsGroup = verdict;
+                    if (mConversationDataModel != null && mConversationDataModel.isBound()) {
+                        updateVisualsOnDraftChanged();
+                    }
+                }
+            });
+        });
+    }
+
     private String getSimContentDescription() {
         final SubscriptionListEntry sub = getSelfSubscriptionListEntry();
         if (sub != null) {
@@ -883,6 +1190,130 @@ public class ComposeMessageView extends LinearLayout
 
         mBinding.ensureBound();
         updateVisualsOnDraftChanged();
+        // Typing indicator, RCS threads only.
+        onComposeTextChangedForTyping(s);
+    }
+
+    /**
+     * Keystroke hook for the outbound typing indicator; see {@link #TYPING_IDLE_MS}. Nothing is
+     * sent unless the peer is {@code CAP_RCS} or the thread is an RCS group.
+     */
+    private void onComposeTextChangedForTyping(final CharSequence s) {
+        try {
+            // Typing indicators off: never send.
+            if (!com.android.messaging.rcs.RcsFeatureSettings.isTypingIndicatorsEnabled()) {
+                stopTypingIfActive();
+                return;
+            }
+            final boolean hasText = s != null && TextUtils.getTrimmedLength(s) > 0;
+            if (!hasText) {
+                stopTypingIfActive();
+                return;
+            }
+            // RCS group: group typing to the group id, same cadence as 1:1.
+            final String groupId = mRcsGroupId;
+            if (mIsRcsGroup && !TextUtils.isEmpty(groupId)) {
+                final int gSubId = (mBinding != null && mBinding.isBound())
+                        ? mBinding.getData().getSelfSubId() : mGroupTypingSubId;
+                if (!mGroupTypingActiveSent) {
+                    sendGroupTyping(gSubId, groupId, true /* active */);
+                    mGroupTypingActiveSent = true;
+                    mGroupTypingGroupId = groupId;
+                    mGroupTypingSubId = gSubId;
+                }
+                mHandler.removeCallbacks(mGroupTypingIdleRunnable);
+                mHandler.postDelayed(mGroupTypingIdleRunnable, TYPING_IDLE_MS);
+                return;
+            }
+            if (currentDraftRcsCap() != org.lineageos.rcs.provider.IRcsProvider.CAP_RCS) {
+                // Not an RCS peer: end any session left from a capability change.
+                stopTypingIfActive();
+                return;
+            }
+            final String peer = getCanonicalRecipientForRcs();
+            if (TextUtils.isEmpty(peer)) {
+                stopTypingIfActive();
+                return;
+            }
+            final int subId = (mBinding != null && mBinding.isBound())
+                    ? mBinding.getData().getSelfSubId() : mTypingSubId;
+            if (!mTypingActiveSent) {
+                sendTyping(subId, peer, true /* active */);
+                mTypingActiveSent = true;
+                mTypingPeerE164 = peer;
+                mTypingSubId = subId;
+            }
+            mHandler.removeCallbacks(mTypingIdleRunnable);
+            mHandler.postDelayed(mTypingIdleRunnable, TYPING_IDLE_MS);
+        } catch (final Throwable t) {
+            // Advisory.
+        }
+    }
+
+    /** Idle timer: the user paused. */
+    private void onTypingIdle() {
+        stopTypingIfActive();
+    }
+
+    /**
+     * Sends active=false for the current typing session, if any, and clears the idle timer.
+     * Idempotent.
+     */
+    private void stopTypingIfActive() {
+        stopGroupTypingIfActive();
+        mHandler.removeCallbacks(mTypingIdleRunnable);
+        if (!mTypingActiveSent) {
+            return;
+        }
+        mTypingActiveSent = false;
+        try {
+            sendTyping(mTypingSubId, mTypingPeerE164, false /* active */);
+        } catch (final Throwable t) {
+            // Advisory.
+        }
+        mTypingPeerE164 = null;
+    }
+
+    /** As {@link #stopTypingIfActive}, for the group session. */
+    private void stopGroupTypingIfActive() {
+        mHandler.removeCallbacks(mGroupTypingIdleRunnable);
+        if (!mGroupTypingActiveSent) {
+            return;
+        }
+        mGroupTypingActiveSent = false;
+        try {
+            sendGroupTyping(mGroupTypingSubId, mGroupTypingGroupId, false /* active */);
+        } catch (final Throwable t) {
+            // Advisory.
+        }
+        mGroupTypingGroupId = null;
+    }
+
+    /** Sends group typing off the main thread; a no-op when unbound or without a group id. */
+    private void sendGroupTyping(final int subId, final String groupId,
+            final boolean active) {
+        if (TextUtils.isEmpty(groupId)) {
+            return;
+        }
+        final com.android.messaging.rcs.ProviderTransport transport =
+                com.android.messaging.rcs.ProviderTransport.peekInstance();
+        if (transport == null) {
+            return;
+        }
+        transport.sendGroupTyping(subId, groupId, active);
+    }
+
+    /** Sends typing off the main thread; a no-op when unbound. */
+    private void sendTyping(final int subId, final String peerE164, final boolean active) {
+        if (TextUtils.isEmpty(peerE164)) {
+            return;
+        }
+        final com.android.messaging.rcs.ProviderTransport transport =
+                com.android.messaging.rcs.ProviderTransport.peekInstance();
+        if (transport == null) {
+            return;
+        }
+        transport.sendTyping(subId, peerE164, active);
     }
 
     @Override

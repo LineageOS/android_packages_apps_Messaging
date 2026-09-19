@@ -296,6 +296,102 @@ public class MessageData implements Parcelable {
     }
 
     /**
+     * Creates an incoming RCS text message. It is SMS-shaped (PROTOCOL_SMS, no telephony Uri);
+     * ReceiveRcsMessageAction writes the RCS columns after the insert.
+     */
+    public static MessageData createReceivedRcsMessage(final String conversationId,
+            final String participantId, final String selfId, final String messageText,
+            final long sent, final long received, final boolean seen, final boolean read) {
+        final MessageData message = new MessageData();
+        message.mConversationId = conversationId;
+        message.mParticipantId = participantId;
+        message.mSelfId = selfId;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mStatus = BUGLE_STATUS_INCOMING_COMPLETE;
+        message.mReceivedTimestamp = received;
+        message.mSentTimestamp = sent;
+        message.mParts.add(MessagePartData.createTextMessagePart(messageText));
+        message.mSeen = seen;
+        message.mRead = read;
+        return message;
+    }
+
+    /**
+     * As {@link #createReceivedRcsMessage}, with a media part for the {@code content://} URI of
+     * the file the provider downloaded, and the caption as a text part when non-empty. Sizes are
+     * left unspecified for the attachment renderer to measure.
+     */
+    public static MessageData createReceivedRcsMediaMessage(final String conversationId,
+            final String participantId, final String selfId, final String contentType,
+            final Uri contentUri, final String caption, final long sent, final long received,
+            final boolean seen, final boolean read) {
+        final MessageData message = new MessageData();
+        message.mConversationId = conversationId;
+        message.mParticipantId = participantId;
+        message.mSelfId = selfId;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mStatus = BUGLE_STATUS_INCOMING_COMPLETE;
+        message.mReceivedTimestamp = received;
+        message.mSentTimestamp = sent;
+        if (TextUtils.isEmpty(caption)) {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        } else {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    caption, contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        }
+        message.mSeen = seen;
+        message.mRead = read;
+        return message;
+    }
+
+    /**
+     * Creates an outgoing RCS text message, SMS-shaped. The caller moves it to
+     * OUTGOING_YET_TO_SEND with {@link #updateSendingMessage} before the insert and writes the
+     * RCS columns after it.
+     */
+    public static MessageData createOutgoingRcsMessage(final String conversationId,
+            final String selfId, final String messageText) {
+        final MessageData message = new MessageData();
+        message.mStatus = BUGLE_STATUS_OUTGOING_DRAFT;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mConversationId = conversationId;
+        message.mParticipantId = selfId;
+        message.mSelfId = selfId;
+        message.mParts.add(MessagePartData.createTextMessagePart(messageText));
+        message.mReceivedTimestamp = System.currentTimeMillis();
+        return message;
+    }
+
+    /**
+     * As {@link #createOutgoingRcsMessage}, with a media part for the attachment's
+     * {@code content://} URI and an optional caption part. The provider uploads the file.
+     */
+    public static MessageData createOutgoingRcsMediaMessage(final String conversationId,
+            final String selfId, final String contentType, final Uri contentUri,
+            final String caption) {
+        final MessageData message = new MessageData();
+        message.mStatus = BUGLE_STATUS_OUTGOING_DRAFT;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mConversationId = conversationId;
+        message.mParticipantId = selfId;
+        message.mSelfId = selfId;
+        if (TextUtils.isEmpty(caption)) {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        } else {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    caption, contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        }
+        message.mReceivedTimestamp = System.currentTimeMillis();
+        return message;
+    }
+
+    /**
      * Create a message not yet associated with a particular conversation
      */
     public static MessageData createSharedMessage(final String messageText,

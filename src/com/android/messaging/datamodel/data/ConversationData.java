@@ -459,6 +459,11 @@ public class ConversationData extends BindableData {
         return mConversationMetadata.getName();
     }
 
+    /** True when an E2EE scheme is active for this conversation. */
+    public boolean isE2eeEncrypted() {
+        return mConversationMetadata != null && mConversationMetadata.isE2eeEncrypted();
+    }
+
     public boolean getIsArchived() {
         return mConversationMetadata.getIsArchived();
     }
@@ -600,6 +605,17 @@ public class ConversationData extends BindableData {
                 }
             }
         }
+    }
+
+    /**
+     * As {@link #sendMessage}, but always over SMS. Backs "Send as SMS" on a failed RCS message;
+     * never an automatic fallback.
+     */
+    public void sendMessageAsSms(final BindingBase<ConversationData> binding,
+            final MessageData message) {
+        Assert.isTrue(TextUtils.equals(mConversationId, message.getConversationId()));
+        Assert.isTrue(binding.getData() == this);
+        InsertNewMessageAction.insertNewSmsMessage(message);
     }
 
     public void downloadMessage(final BindingBase<ConversationData> binding,
