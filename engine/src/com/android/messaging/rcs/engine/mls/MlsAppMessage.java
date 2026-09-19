@@ -4,6 +4,9 @@
  */
 package com.android.messaging.rcs.engine.mls;
 
+import java.util.List;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.PendingKeyUpdate;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Group;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -171,5 +174,111 @@ public final class MlsAppMessage {
             return "(era=" + Integer.toUnsignedString(era)
                     + " epoch=" + Long.toUnsignedString(epoch) + ")";
         }
+    }
+
+    /** The message's epoch with the group's era: without an {@code Era-ID}, same-era is assumed. */
+    public static MlsAppMessage.Moment inboundMoment(final byte[] mlsBytes,
+            final MlsAppMessage.Moment group) {
+        final long epoch = MlsWireScan.epochOf(mlsBytes);
+        if (epoch < 0) return null;                 // "epoch present" fails at the store validation
+        final int era = group == null ? 0 : group.era;
+        return new MlsAppMessage.Moment(era, epoch);
+    }
+
+    public static byte[] encryptDispatching(final MlsShellPort shell, final MlsLogSink log,
+            final Group g, final String conversationKey,
+            final byte[] plaintext, final byte[] aad, final String messageId,
+            final PendingKeyUpdate[] outPending) {
+        // Staggered by the era-gap tie-break so the two sides do not rotate together and duel.
+        final boolean weGoFirst = MlsRecoveryPolicy.weAreEraAdvancer(shell.selfE164(), g.peerE164);
+        final boolean wantKeyUpdate =
+                MlsRekeyPolicy.rotationDueOnNextSend(g.sendsSinceLeafRotation, weGoFirst);
+        final java.util.List<MlsEngineResult> results;
+        try {
+            results = shell.session().encryptResults(g.groupId, plaintext, aad,
+                    "send:" + conversationKey + ":" + messageId, wantKeyUpdate);
+        } catch (final RuntimeException decodeFailed) {
+            log.e("MlsAppMessage: could not read the engine's encrypt result list — "
+                    + "this is a .so/Java build skew, not a bad message: "
+                    + decodeFailed.getMessage() + ". Falling back to the single-result encrypt.");
+            return shell.session().encryptWithAad(g.groupId, plaintext, aad);
+        }
+        if (results.isEmpty()) {
+            // A failed encrypt consumed no generation, so one retry is safe; returns directly so it
+            // cannot combine with the retry below.
+            return shell.session().encryptWithAad(g.groupId, plaintext, aad);
+        }
+        byte[] ct = null;
+        int commits = 0;
+        // The pre-commit snapshot (status OTHER), to roll back a rotation the server refuses.
+        byte[] rollback = null;
+        for (final MlsEngineResult r : results) {
+            if (r.status == MlsProcStatus.OTHER && r.payload().length > 0) rollback = r.payload();
+        }
+        // Dispatch every element before returning any.
+        for (final MlsEngineResult r : results) {
+            if (r.status == MlsProcStatus.APP) {
+                if (ct == null) ct = r.payload();
+                continue;
+            }
+            if (r.status == MlsProcStatus.COMMIT) {
+                commits++;
+                final byte[] commit = r.payload();
+                // The piggybacked self-update, already applied by the engine. No network call under
+                // the conversation lock: the caller sends it after unlock.
+                final long prevEra = g.era;
+                final byte[] prevEpochAuth = g.epochAuth;
+                final int prevSends = g.sendsThisEpoch;
+                final int prevSinceRotation = g.sendsSinceLeafRotation;
+
+                g.sendsThisEpoch = 0;
+                g.sendsSinceLeafRotation = 0;
+                final byte[] ee = shell.session().eraEpoch(g.groupId);
+                final int newEra = MlsAppMessage.eraFrom(ee);
+                if (newEra >= 0) g.era = newEra;
+                g.epochAuth = shell.session().epochAuth(g.groupId);
+                shell.putGroup(conversationKey, g);
+
+                if (outPending != null && outPending.length > 0 && outPending[0] == null) {
+                    outPending[0] = new PendingKeyUpdate(commit, rollback, g.groupId,
+                            conversationKey, g.peerE164, g.rcsGroupId,
+                            /*baseEpochAuth=*/ prevEpochAuth,
+                            prevEra, prevEpochAuth, prevSends, prevSinceRotation);
+                }
+                log.i("MlsAppMessage: piggybacked key update for "
+                        + MlsConversationKey.forLog(conversationKey)
+                        + " (" + commit.length + "B) — engine applied locally, era " + prevEra
+                        + "→" + g.era + "; round-trip deferred to off-lock dispatch");
+                continue;
+            }
+            log.w("MlsAppMessage: encrypt returned an unhandled result status "
+                    + MlsProcStatus.nameOf(r.status) + " for " + MlsMessageId.forLog(messageId)
+                    + " — dispatched nothing "
+                    + "for it. An arm is missing rather than a message being bad.");
+        }
+        if (ct == null || ct.length == 0) {
+            // One immediate re-encrypt: no generation was consumed, and straight-line code cannot
+            // repeat it.
+            log.w("MlsAppMessage: encrypt produced no ciphertext for "
+                    + MlsMessageId.forLog(messageId)
+                    + " — taking the ONE immediate re-encrypt RCC.16 §11.3a allows. Nothing is cached and "
+                    + "no generation was consumed, so this is not a second encrypt of a live "
+                    + "ciphertext.");
+            ct = shell.session().encryptWithAad(g.groupId, plaintext, aad);
+            if (ct == null || ct.length == 0) {
+                log.e("MlsAppMessage: the immediate re-encrypt for "
+                        + MlsMessageId.forLog(messageId)
+                        + " also produced nothing. NOT trying again — the retry RCC.16 §11.3a grants is "
+                        + "spent, and a third attempt is how a failing encrypt becomes a loop.");
+            }
+        }
+        if (wantKeyUpdate && commits == 0) {
+            // Not fatal: the counter stays high, so the next send asks again.
+            log.w("MlsAppMessage: asked the engine for a key update on "
+                    + MlsConversationKey.forLog(conversationKey)
+                    + " and it returned none. Still on the old key; the next send "
+                    + "will ask again.");
+        }
+        return ct;
     }
 }

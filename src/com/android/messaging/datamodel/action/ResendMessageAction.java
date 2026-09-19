@@ -33,6 +33,7 @@ import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.rcs.RcsSendStatus;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
@@ -78,14 +79,11 @@ public class ResendMessageAction extends Action implements Parcelable {
 
         final MessageData message = BugleDatabaseOperations.readMessage(db, messageId);
 
-        // An RCS row never reaches the code below, which hands the row to a queue that excludes
-        // TRANSPORT_RCS.
+        // An RCS row is resent over RCS and never reaches the code below, which hands the row to
+        // a queue that excludes TRANSPORT_RCS.
         final RcsMessageStore.RcsMeta rcsMeta = RcsMessageStore.readByLocalId(db, messageId);
         if (rcsMeta != null && rcsMeta.isRcs()) {
-            LogUtil.i(TAG, "ResendMessageAction: " + messageId + " is an RCS row; the SMS/MMS "
-                    + "resend below would park it at \"Sending...\" rather than resend it. "
-                    + "Leaving it FAILED; \"Send as SMS\" still applies.");
-            return null;
+            return resendOverRcs(db, messageId, message, rcsMeta);
         }
 
         // Check message can be resent
@@ -128,6 +126,78 @@ public class ResendMessageAction extends Action implements Parcelable {
         }
 
         return null;
+    }
+
+    /**
+     * Resends a failed RCS row through {@code MlsProviderTransport.resendByUser}, the machinery a
+     * peer-reported resend uses: a fresh generation under a fresh wire id, recorded in the resend
+     * ledger. The row keeps its original id; the new id's receipt resolves back to it. The
+     * outcome is synchronous and written directly. See docs/rcs/architecture.md.
+     */
+    private Object resendOverRcs(final DatabaseWrapper db, final String messageId,
+            final MessageData message, final RcsMessageStore.RcsMeta rcsMeta) {
+        // Only from FAILED. The RCS branch runs before the SMS path's check, so it is repeated.
+        if (message == null || !message.canResendMessage()) {
+            LogUtil.w(TAG, "ResendMessageAction: not resending RCS message " + messageId
+                    + " — status is "
+                    + (message == null ? "<row not found>"
+                            : MessageData.getStatusDescription(message.getStatus()))
+                    + ", and a manual resend is only offered from FAILED.");
+            return null;
+        }
+        // Refused rows have no wire id: they never reached the wire, and keep "Send as SMS".
+        final String rcsMessageId = rcsMeta.rcsMessageId;
+        if (TextUtils.isEmpty(rcsMessageId)) {
+            LogUtil.i(TAG, "ResendMessageAction: RCS row " + messageId + " carries no "
+                    + "rcs_message_id — it never reached the wire (a refused send), so there is "
+                    + "nothing to resend. Leaving it FAILED; \"Send as SMS\" still applies.");
+            return null;
+        }
+
+        final String conversationId = message.getConversationId();
+        final String rcsGroupId =
+                BugleDatabaseOperations.getConversationRcsGroupId(db, conversationId);
+        String peerE164 = null;
+        if (TextUtils.isEmpty(rcsGroupId)) {
+            // Our own rows carry SELF as the sender, so the peer comes from the conversation's
+            // participants, canonicalized to E.164 as in InsertNewMessageAction.
+            final ArrayList<String> recipients =
+                    BugleDatabaseOperations.getRecipientsForConversation(db, conversationId);
+            if (recipients.isEmpty()) {
+                LogUtil.w(TAG, "ResendMessageAction: conversation " + conversationId
+                        + " has no recipients, so there is nobody to resend " + messageId + " to.");
+                return null;
+            }
+            final String canonical =
+                    PhoneUtils.getDefault().getCanonicalBySimLocale(recipients.get(0));
+            peerE164 = TextUtils.isEmpty(canonical) ? recipients.get(0) : canonical;
+        }
+
+        final int subId = PhoneUtils.getDefault()
+                .getEffectiveSubId(ParticipantData.DEFAULT_SELF_SUB_ID);
+        boolean sent;
+        try {
+            sent = MlsProviderTransport.get(Factory.get().getApplicationContext(), subId)
+                    .resendByUser(rcsGroupId, peerE164, rcsMessageId);
+        } catch (final Throwable t) {
+            // The row stays FAILED.
+            LogUtil.e(TAG, "ResendMessageAction: the MLS transport threw resending " + messageId,
+                    t);
+            sent = false;
+        }
+
+        // The outcome, mapped as UpdateRcsMessageStatusAction maps the matching callback; a later
+        // IMDN, naming the resend's id, still upgrades the row. The row's rcsMessageId is kept.
+        final ContentValues values = RcsMessageStore.rcsMetaValues(rcsMessageId,
+                RcsSendStatus.rcsStatusForMeasuredHandoff(sent));
+        values.put(MessageColumns.STATUS, RcsSendStatus.bugleStatusForMeasuredHandoff(sent));
+        BugleDatabaseOperations.updateMessageRow(db, messageId, values);
+        MessagingContentProvider.notifyMessagesChanged(conversationId);
+        LogUtil.i(TAG, "ResendMessageAction: over-RCS resend of " + messageId + " (rcsId="
+                + rcsMessageId + ") -> " + (sent ? "SENT" : "FAILED")
+                + "; the row keeps its original rcs_message_id and the receipt for the resend's "
+                + "fresh id will root-resolve back to it.");
+        return sent ? message : null;
     }
 
     private ResendMessageAction(final Parcel in) {

@@ -103,4 +103,27 @@ public final class MlsDowngradeLadder {
             default:              return null;
         }
     }
+
+    /**
+     * The engine-to-host downgrade funnel, run after every real health move. Only four statuses map
+     * to a reason ({@link MlsDowngradeReason#forEngineHealthStatus}); a reason outside the engine
+     * whitelist throws before anything else, because it is a routing bug.
+     */
+    public static void downgradeFromEngineStatus(final MlsShellPort shell, final MlsLogSink log,
+            final String key, final int status) {
+        final MlsDowngradeReason reason = MlsDowngradeReason.forEngineHealthStatus(status);
+        if (reason == null) return;              // this status calls for no host downgrade
+        // First, and throwing.
+        MlsDowngradeReason.requireEngineFunnelReason(reason);
+        if (status == MlsHealthStates.CANNOTHEALDURINGENDMLS) {
+            // For the wedge the app always downgrades locally: leaving it offering encryption the
+            // engine has given up on would be a split brain.
+            log.w("MlsDowngradeLadder: " + MlsConversationKey.forLog(key) + " is WEDGED in end-mls "
+                    + "(CannotHealDuringEndMls) — downgrading locally. Some peers gate this behind "
+                    + "a server flag and do nothing "
+                    + "when it is off; we always downgrade, because the alternative is a split-brain "
+                    + "where the app offers encryption the engine has given up on.");
+        }
+        shell.downgradeLocally(key, reason, MlsDowngradeReason.eagerFor(reason));
+    }
 }

@@ -17,6 +17,7 @@ import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.rcs.RcsInboundConfirmation;
 import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.e2ee.MlsResendLedger;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
@@ -24,7 +25,8 @@ import com.android.messaging.util.PhoneUtils;
  * Writes one reaction change to {@code rcs_reactions} and refreshes the target's conversation.
  * Serves both an inbound reaction (the real reactor) and our own, recorded before the send with
  * {@link RcsMessageStore#SELF_REACTOR_URI}. Rows are keyed by the target's wire id, so a reaction
- * may arrive before its target.
+ * may arrive before its target; the key is the resend chain root, since that is the id the chat
+ * row carries.
  */
 public class UpdateRcsReactionAction extends Action implements Parcelable {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
@@ -81,7 +83,17 @@ public class UpdateRcsReactionAction extends Action implements Parcelable {
             return null;
         }
 
-        final String targetRcsId = reportedTargetRcsId;
+        // A peer names the id it saw, which may be a resend's; the row and the render join use the
+        // chain root. Rooted once so the write and the notify lookup below agree. rootOf is the
+        // identity for an id that is not a resend. A reaction to both an original and its resend
+        // now collapses to one row.
+        final String targetRcsId = MlsResendLedger.rootOf(reportedTargetRcsId);
+        if (!TextUtils.equals(targetRcsId, reportedTargetRcsId)) {
+            LogUtil.i(TAG, "UpdateRcsReactionAction: " + reportedTargetRcsId + " is a RESEND; "
+                    + "keying this reaction on its chain root " + targetRcsId + " instead, which "
+                    + "is the id the message's row carries and the one the chip query joins on "
+                    + ".");
+        }
 
         final DatabaseWrapper db = DataModel.get().getDatabase();
         // Canonicalize a member URI so the per-reactor key matches stored participant URIs; the

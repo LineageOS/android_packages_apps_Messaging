@@ -8,7 +8,9 @@ package com.android.messaging.rcs;
  * Which {@code message_status} an RCS row may hold, and from what evidence. See
  * docs/rcs/architecture.md.
  *
- * <p>Pure Java, with the status values copied ({@code RcsSendStatusMirrorTest} checks them).
+ * <p>Pure Java, with the status values copied ({@code RcsSendStatusMirrorTest} checks them). It
+ * must stay outside {@code rcs.e2ee} and import nothing from the engine, or
+ * {@code MlsGateCounterDurabilityGuardTest} would treat it and its importers as MLS layer.
  */
 public final class RcsSendStatus {
 
@@ -47,7 +49,7 @@ public final class RcsSendStatus {
 
     /**
      * True for a status nothing moves on a {@code TRANSPORT_RCS} row: the pair the pending-message
-     * queue selects while excluding RCS rows. {@code RcsSendStatusGuardTest} pins that query.
+     * queue selects while excluding RCS rows. {@code RcsSendStatusStrandGuardTest} pins that query.
      */
     public static boolean strandedOnRcsTransport(final int bugleStatus) {
         return bugleStatus == BUGLE_STATUS_OUTGOING_YET_TO_SEND

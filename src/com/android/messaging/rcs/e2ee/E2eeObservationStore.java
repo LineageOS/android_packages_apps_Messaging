@@ -68,7 +68,10 @@ public final class E2eeObservationStore {
 
     private static void applyToConversation(final DatabaseWrapper db,
             final String conversationId, final E2eeObservation.Outcome o) {
-        if (conversationId == null || o.scytale == E2eeObservation.BitChange.NONE) return;
+        if (conversationId == null
+                || (o.scytale == E2eeObservation.BitChange.NONE && !o.setMls)) {
+            return;
+        }
         final EncryptionProtocolBits prior = EncryptionProtocolBits.fromColumnValue(
                 BugleDatabaseOperations.getConversationEncryptionProtocol(db, conversationId));
         final EncryptionProtocolBits next = E2eeObservation.apply(prior, o);

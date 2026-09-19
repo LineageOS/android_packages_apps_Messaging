@@ -4910,7 +4910,8 @@ mod tests {
         let dir = format!("{}/anchor_{}", std::env::temp_dir().display(), std::process::id());
         let _ = std::fs::remove_dir_all(&dir);
         let s = ProdSession::start_no_revocation(&td("pki2_leaf_pa.der"), &[td("pki2_ica.der")],
-            &td("pki2_leaf_pa_priv.bin"), &td("pki2_leaf_pa_pub.bin"), &[td("pki2_root.der")], &dir).unwrap();
+            &td("pki2_leaf_pa_priv.bin"), &td("pki2_leaf_pa_pub.bin"), &[td("pki2_root.der")], &dir)
+            .unwrap();
         let now = wall_clock_secs();
         let a = s.leaf_lifetime_anchor().expect("a readable clock must yield an anchor, not None");
         let secs = a.seconds_since_epoch();
@@ -5773,4 +5774,315 @@ fn era_of(g: &Group<ProdConfig>) -> Option<u32> {
         .and_then(|e| e.extension_data.get(0..4)
             .map(|b| u32::from_be_bytes([b[0], b[1], b[2], b[3]])))
         .unwrap_or(1))
+}
+
+// ---- RCC.16 certificate encoding (rcc16_build.rs) ----
+// One call per encoder, so neither side needs framing or a DER reader. Private-key operations stay
+// in Java: `rcs_mls_rcc16_tbs_der` returns the bytes to sign and `rcs_mls_rcc16_ext4_der` takes the
+// signature. A null return means the encoder refused: a hard failure, never an empty value.
+
+/// `Name` with one `CN=<cn>` RDN as UTF8String. Null on failure.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_subject_der(cn: *const u8, cn_len: usize) -> RcsBytes {
+    let s = match core::str::from_utf8(unsafe { slice(cn, cn_len) }) {
+        Ok(s) => s,
+        Err(_) => return NULL_BYTES,
+    };
+    match crate::rcc16_build::name_cn_utf8(s) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_build: subject: {e}"); NULL_BYTES }
+    }
+}
+
+/// `GeneralNames` with one `uniformResourceIdentifier`. Null on failure.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_san_der(uri: *const u8, uri_len: usize) -> RcsBytes {
+    let s = match core::str::from_utf8(unsafe { slice(uri, uri_len) }) {
+        Ok(s) => s,
+        Err(_) => return NULL_BYTES,
+    };
+    match crate::rcc16_build::san_uri(s) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_build: san: {e}"); NULL_BYTES }
+    }
+}
+
+/// The validity sequence `{ notBefore, notAfter }`. Null when the window is empty or inverted.
+#[no_mangle]
+pub extern "C" fn rcs_mls_rcc16_validity_der(not_before: u64, not_after: u64) -> RcsBytes {
+    match crate::rcc16_build::validity(not_before, not_after) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_build: validity: {e}"); NULL_BYTES }
+    }
+}
+
+/// `tbsParticipantInfo`, the bytes the caller signs with the participant key.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_tbs_der(
+    subject: *const u8, subject_len: usize,
+    vendor_id: u64,
+    validity: *const u8, validity_len: usize,
+    leaf_spki: *const u8, leaf_spki_len: usize,
+    san: *const u8, san_len: usize,
+) -> RcsBytes {
+    let (s, v, k, a) = unsafe {
+        (slice(subject, subject_len), slice(validity, validity_len),
+         slice(leaf_spki, leaf_spki_len), slice(san, san_len))
+    };
+    if s.is_empty() || v.is_empty() || k.is_empty() || a.is_empty() {
+        alog!("rcc16_build: tbs: an element is empty (subject={} validity={} spki={} san={})",
+              s.len(), v.len(), k.len(), a.len());
+        return NULL_BYTES;
+    }
+    to_bytes(crate::rcc16_build::tbs_participant_info(s, vendor_id, v, k, a))
+}
+
+/// The `.4 ParticipantInformation` value around a signature over `rcs_mls_rcc16_tbs_der`.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_ext4_der(
+    vendor_id: u64,
+    validity: *const u8, validity_len: usize,
+    pop_sig: *const u8, pop_sig_len: usize,
+    participant_spki: *const u8, participant_spki_len: usize,
+) -> RcsBytes {
+    let (v, g, k) = unsafe {
+        (slice(validity, validity_len), slice(pop_sig, pop_sig_len),
+         slice(participant_spki, participant_spki_len))
+    };
+    if v.is_empty() || g.is_empty() || k.is_empty() {
+        alog!("rcc16_build: ext4: an element is empty (validity={} sig={} spki={})",
+              v.len(), g.len(), k.len());
+        return NULL_BYTES;
+    }
+    match crate::rcc16_build::ext4(vendor_id, v, g, k) {
+        Ok(out) => to_bytes(out),
+        Err(e) => { alog!("rcc16_build: ext4: {e}"); NULL_BYTES }
+    }
+}
+
+// ---- RCC.16 self-test PKI (rcc16_mint.rs) ----
+// Test scaffolding, not a CA: these return a TBS for the caller to sign with JCE, and
+// `rcs_mls_rcc16_certificate` assembles the result.
+
+/// A CA certificate's TBS; for a self-signed root pass `issuer == subject` and `aki == ski`.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref, clippy::too_many_arguments)]
+pub extern "C" fn rcs_mls_rcc16_tbs_ca(
+    issuer: *const u8, issuer_len: usize,
+    subject: *const u8, subject_len: usize,
+    spki: *const u8, spki_len: usize,
+    serial: *const u8, serial_len: usize,
+    not_before: u64, not_after: u64,
+    ski: *const u8, ski_len: usize,
+    aki: *const u8, aki_len: usize,
+    vendor_id: u64,
+) -> RcsBytes {
+    let (i, s, k, n, sk, ak) = unsafe {
+        (slice(issuer, issuer_len), slice(subject, subject_len), slice(spki, spki_len),
+         slice(serial, serial_len), slice(ski, ski_len), slice(aki, aki_len))
+    };
+    match crate::rcc16_mint::tbs_ca(i, s, k, n, not_before, not_after, sk, ak, vendor_id) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_mint: tbs_ca: {e}"); NULL_BYTES }
+    }
+}
+
+/// A client leaf's TBS. `san` and `ext4` are embedded verbatim, since the `.4` signature covers
+/// them as encoded.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref, clippy::too_many_arguments)]
+pub extern "C" fn rcs_mls_rcc16_tbs_leaf(
+    issuer: *const u8, issuer_len: usize,
+    subject: *const u8, subject_len: usize,
+    spki: *const u8, spki_len: usize,
+    serial: *const u8, serial_len: usize,
+    not_before: u64, not_after: u64,
+    ski: *const u8, ski_len: usize,
+    aki: *const u8, aki_len: usize,
+    san: *const u8, san_len: usize,
+    ext4: *const u8, ext4_len: usize,
+    vendor_id: u64,
+) -> RcsBytes {
+    let (i, s, k, n, sk, ak, sa, e4) = unsafe {
+        (slice(issuer, issuer_len), slice(subject, subject_len), slice(spki, spki_len),
+         slice(serial, serial_len), slice(ski, ski_len), slice(aki, aki_len),
+         slice(san, san_len), slice(ext4, ext4_len))
+    };
+    match crate::rcc16_mint::tbs_leaf(i, s, k, n, not_before, not_after, sk, ak, sa, e4,
+            vendor_id) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_mint: tbs_leaf: {e}"); NULL_BYTES }
+    }
+}
+
+/// A certificate: `{ tbsCertificate, signatureAlgorithm, signature }`.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_certificate(
+    tbs: *const u8, tbs_len: usize,
+    sig: *const u8, sig_len: usize,
+) -> RcsBytes {
+    let (t, g) = unsafe { (slice(tbs, tbs_len), slice(sig, sig_len)) };
+    match crate::rcc16_mint::certificate(t, g) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_mint: certificate: {e}"); NULL_BYTES }
+    }
+}
+
+/// `Name` with `O=<org>, CN=<cn>` as PrintableString, the CA subject form; the client subject
+/// (`rcs_mls_rcc16_subject_der`) is UTF8String.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_ca_name_der(
+    org: *const u8, org_len: usize,
+    cn: *const u8, cn_len: usize,
+) -> RcsBytes {
+    let (o, c) = unsafe { (slice(org, org_len), slice(cn, cn_len)) };
+    let (o, c) = match (core::str::from_utf8(o), core::str::from_utf8(c)) {
+        (Ok(a), Ok(b)) => (a, b),
+        _ => return NULL_BYTES,
+    };
+    match crate::rcc16_build::name_o_cn_printable(o, c) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_build: ca name: {e}"); NULL_BYTES }
+    }
+}
+
+/// Flips one bit of a `.4` PoP signature for a negative fixture. Test scaffolding.
+#[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
+pub extern "C" fn rcs_mls_rcc16_corrupt_pop(ext4: *const u8, ext4_len: usize) -> RcsBytes {
+    match crate::rcc16_mint::corrupt_pop_signature(unsafe { slice(ext4, ext4_len) }) {
+        Ok(v) => to_bytes(v),
+        Err(e) => { alog!("rcc16_mint: corrupt_pop: {e}"); NULL_BYTES }
+    }
+}
+
+// Decrypted message content must not reach logcat. A source scan: the property is what a log
+// line may reference, which no runtime test can enumerate. The scan stops at this module, whose
+// own literals name the forbidden forms.
+#[cfg(test)]
+mod no_plaintext_log_tests {
+    const SRC: &str = include_str!("ffi.rs");
+
+    /// Every `alog!(…)` before this module: (line, raw arguments, [`code_view`] of them), both
+    /// with whitespace removed.
+    fn alog_args() -> Vec<(usize, String, String)> {
+        let prod = &SRC[..SRC.find("mod no_plaintext_log_tests").expect("this module")];
+        let b = prod.as_bytes();
+        let mut out = Vec::new();
+        let mut from = 0;
+        while let Some(off) = prod[from..].find("alog!(") {
+            let start = from + off + "alog!(".len();
+            let (mut i, mut depth, mut in_str) = (start, 1i32, false);
+            while depth > 0 {
+                let c = b[i];
+                if in_str {
+                    if c == b'\\' { i += 1; } else if c == b'"' { in_str = false; }
+                } else if c == b'"' {
+                    in_str = true;
+                } else if c == b'(' {
+                    depth += 1;
+                } else if c == b')' {
+                    depth -= 1;
+                }
+                i += 1;
+            }
+            let line = prod[..start].matches('\n').count() + 1;
+            let raw = &prod[start..i - 1];
+            let squash = |t: &str| -> String { t.chars().filter(|c| !c.is_whitespace()).collect() };
+            out.push((line, squash(raw), squash(&code_view(raw))));
+            from = i;
+        }
+        out
+    }
+
+    /// The macro arguments with each string literal replaced by the names it interpolates
+    /// (`"a {pt} b {}"` becomes `pt`), so literal prose such as `plaintext={}B` is not a
+    /// reference while an inline `{pt}` still is.
+    fn code_view(args: &str) -> String {
+        let mut out = String::new();
+        let mut chars = args.chars().peekable();
+        while let Some(c) = chars.next() {
+            if c != '"' {
+                out.push(c);
+                continue;
+            }
+            let mut lit = String::new();
+            while let Some(d) = chars.next() {
+                if d == '\\' { if let Some(e) = chars.next() { lit.push(e); } continue; }
+                if d == '"' { break; }
+                lit.push(d);
+            }
+            let mut names = Vec::new();
+            let mut rest = lit.as_str();
+            while let Some(o) = rest.find('{') {
+                let tail = &rest[o + 1..];
+                let close = tail.find('}').unwrap_or(tail.len());
+                let name: String = tail[..close].split(':').next().unwrap_or("").to_string();
+                if !name.is_empty() && !name.starts_with('{') { names.push(name); }
+                rest = &tail[close.min(tail.len())..];
+            }
+            out.push_str("\"\"");
+            for n in names { out.push(','); out.push_str(&n); }
+        }
+        out
+    }
+
+    /// True when `name` appears as a whole identifier not followed by `.len()`.
+    fn references_content(args: &str, name: &str) -> bool {
+        let b = args.as_bytes();
+        let ident = |c: u8| c.is_ascii_alphanumeric() || c == b'_';
+        let mut from = 0;
+        while let Some(off) = args[from..].find(name) {
+            let at = from + off;
+            let end = at + name.len();
+            let whole = (at == 0 || (!ident(b[at - 1]) && b[at - 1] != b'.'))
+                && (end == b.len() || !ident(b[end]));
+            if whole && !args[end..].starts_with(".len()") {
+                return true;
+            }
+            from = end;
+        }
+        false
+    }
+
+    #[test]
+    fn no_plaintext_reaches_the_log() {
+        let all = alog_args();
+        // Zero hits must fail: the receive-side diagnostic has to be found, or the scan is
+        // looking at nothing.
+        assert!(all.iter().any(|(_, raw, _)| raw.contains("recv-diag:sender_leaf=")),
+            "the recv-diag line was not found — update this guard rather than let it scan nothing");
+        let mut leaks = Vec::new();
+        for (line, raw, code) in &all {
+            if raw.contains("plaintext_hex")
+                || code.contains("pt.iter(")
+                || code.contains(".data()")
+                || ["pt", "plaintext", "plain"].iter().any(|n| references_content(code, n))
+            {
+                leaks.push(format!("ffi.rs:{line}: alog!({raw})"));
+            }
+        }
+        assert!(leaks.is_empty(),
+            "decrypted message content reaches logcat; log its length:\n{}",
+            leaks.join("\n"));
+    }
+
+    /// The scan must be able to fail: a hex dump of the plaintext, through the same predicate.
+    #[test]
+    fn the_scan_catches_the_line_it_replaced() {
+        let old: String = code_view("\"recv-diag: plaintext_hex={hex}\"")
+            .chars().filter(|c| !c.is_whitespace()).collect();
+        assert!(!old.contains("plaintext_hex"), "prose is not a reference");
+        // Hence `plaintext_hex` is matched on the raw arguments, and identifiers on this view.
+        assert!(references_content(&code_view("\"x={}\", pt"), "pt"));
+        assert!(references_content(&code_view("\"x={pt:?}\""), "pt"));
+        assert!(!references_content(&code_view("\"plaintext={}B\", pt.len()"), "pt"));
+        assert!(!references_content(&code_view("\"plaintext={}B\", pt.len()"), "plaintext"));
+    }
 }

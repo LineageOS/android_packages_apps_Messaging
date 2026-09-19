@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 /**
  * Shared source-reading helpers for the source-scan guards. Not a test class; compiled by path into
- * the send-status and database-schema suites, hence {@code public}. Guards built on it key
+ * the engine, send-status and database-schema suites, hence {@code public}. Guards built on it key
  * on invoked method names and fail on zero hits. See docs/testing.md.
  */
 public final class SourceScan {
@@ -27,6 +27,14 @@ public final class SourceScan {
      */
     private static final Pattern METHOD_DECL = Pattern.compile(
             "(?m)^    (?:public|private|protected)\\s[^\\n=;]*?\\b([A-Za-z_]\\w*)\\s*\\(");
+
+    public static final String TRANSPORT =
+            "src/com/android/messaging/rcs/e2ee/MlsProviderTransport.java";
+
+    /** The transport, comments and string contents blanked. See {@link #codeOnly}. */
+    public static String transport() throws IOException {
+        return codeOnly(read(TRANSPORT));
+    }
 
     /** A source file relative to the module, from the module dir, the tree root or one below. */
     public static String read(final String rel) throws IOException {
@@ -351,6 +359,149 @@ public final class SourceScan {
             }
         }
         return new String(out);
+    }
+
+    /** The engine class of that simple name if it is on the host classpath, else {@code null}. */
+    public static Class<?> engineClass(final String simpleName) {
+        try {
+            return Class.forName("com.android.messaging.rcs.engine.mls." + simpleName);
+        } catch (final ClassNotFoundException e) {
+            return null;
+        }
+    }
+
+    /** Does {@code owner} declare {@code member} as a method, a field or a nested type? */
+    public static boolean declaresMember(final Class<?> owner, final String member) {
+        for (final java.lang.reflect.Method m : owner.getDeclaredMethods()) {
+            if (m.getName().equals(member)) return true;
+        }
+        for (final java.lang.reflect.Field f : owner.getDeclaredFields()) {
+            if (f.getName().equals(member)) return true;
+        }
+        for (final Class<?> c : owner.getDeclaredClasses()) {
+            if (c.getSimpleName().equals(member)) return true;
+        }
+        for (final Object o : owner.isEnum() ? owner.getEnumConstants() : new Object[0]) {
+            if (String.valueOf(o).equals(member)) return true;
+        }
+        return false;
+    }
+
+    /**
+     * The app sources, the {@code "PROVIDER"} half of the two-package locator: engine classes
+     * resolve by reflection, app classes by source under this directory, since they import {@code
+     * android}. A symbol missing from one half must be looked up in the other, never skipped.
+     */
+    public static final String PROVIDER_SRC = "src";
+
+    /** {@code simpleName -> code-only source}, for the provider classes already read. */
+    private static final java.util.Map<String, String> PROVIDER_SOURCES =
+            new java.util.HashMap<>();
+
+    /**
+     * Every {@code .java} under a module-relative directory, recursively; throws when there are
+     * none.
+     */
+    public static List<File> javaSourcesUnder(final String relDir) throws IOException {
+        File root = null;
+        for (final String c
+                : new String[] {relDir, "packages/apps/Messaging/" + relDir, "../" + relDir}) {
+            final File f = new File(c);
+            if (f.isDirectory()) { root = f; break; }
+        }
+        if (root == null) {
+            throw new IOException(relDir + " not found from " + new File(".").getAbsolutePath());
+        }
+        final List<File> out = new ArrayList<>();
+        final java.util.Deque<File> stack = new java.util.ArrayDeque<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            final File[] kids = stack.pop().listFiles();
+            if (kids == null) continue;
+            for (final File k : kids) {
+                if (k.isDirectory()) stack.push(k);
+                else if (k.getName().endsWith(".java")) out.add(k);
+            }
+        }
+        java.util.Collections.sort(out);
+        if (out.isEmpty()) throw new IOException("no .java sources under " + root.getPath());
+        return out;
+    }
+
+    /**
+     * The {@link #codeOnly} source of the app class of that simple name, searched recursively, or
+     * {@code null}.
+     */
+    public static synchronized String providerClassSource(final String simpleName) throws IOException {
+        if (PROVIDER_SOURCES.isEmpty()) {
+            for (final File f : javaSourcesUnder(PROVIDER_SRC)) {
+                final String n = f.getName();
+                PROVIDER_SOURCES.put(n.substring(0, n.length() - ".java".length()),
+                        codeOnly(new String(Files.readAllBytes(f.toPath()),
+                                StandardCharsets.UTF_8)));
+            }
+        }
+        return PROVIDER_SOURCES.get(simpleName);
+    }
+
+    /** {@code "ENGINE"}, {@code "PROVIDER"} or {@code null} when the name is in neither. */
+    public static String ownerPackageOf(final String simpleName) throws IOException {
+        if (engineClass(simpleName) != null) return "ENGINE";
+        return providerClassSource(simpleName) != null ? "PROVIDER" : null;
+    }
+
+    /**
+     * Whether {@code simpleName} declares {@code member}; {@code null} when the class is in neither
+     * half.
+     */
+    public static Boolean declaresMemberAnywhere(final String simpleName, final String member)
+            throws IOException {
+        final Class<?> engine = engineClass(simpleName);
+        if (engine != null) return Boolean.valueOf(declaresMember(engine, member));
+        final String provider = providerClassSource(simpleName);
+        if (provider == null) return null;
+        return Boolean.valueOf(sourceDeclaresMember(provider, member));
+    }
+
+    /**
+     * Whether {@link #codeOnly} source declares {@code member} as a method, field, enum constant or
+     * type.
+     */
+    public static boolean sourceDeclaresMember(final String code, final String member) {
+        final String m = Pattern.quote(member);
+        // A modifier-prefixed declaration: `private final long fooMs =`, `public enum Primitive {`.
+        if (Pattern.compile("(?m)^[ \\t]+(?:(?:public|private|protected|static|final|abstract"
+                + "|synchronized|native|volatile|transient|default|strictfp)[ \\t]+)+"
+                + "[\\w.<>\\[\\], ?&]*\\b" + m + "[ \\t]*[(=;{]").matcher(code).find()) {
+            return true;
+        }
+        // An enum constant: an upper-case name starting its line, followed by , ; ( or {.
+        return member.equals(member.toUpperCase(java.util.Locale.ROOT))
+                && Pattern.compile("(?m)^[ \\t]+" + m + "[ \\t]*[,;({]").matcher(code).find();
+    }
+
+    /**
+     * The class declaring the {@code static final} scalar {@code name}, searched in both halves, as
+     * {@code {simpleName, "ENGINE"|"PROVIDER"}}, or {@code null}.
+     */
+    public static String[] declaringOwnerOfScalar(final String name) throws IOException {
+        for (final File f : javaSourcesUnder("engine/src/com/android/messaging/rcs/engine/mls")) {
+            final String simple = f.getName().substring(0, f.getName().length() - 5);
+            if (scalarConstantsDeclaredIn(codeOnly(
+                    new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8)))
+                    .contains(name)) {
+                return new String[] {simple, "ENGINE"};
+            }
+        }
+        for (final File f : javaSourcesUnder(PROVIDER_SRC)) {
+            final String simple = f.getName().substring(0, f.getName().length() - 5);
+            if (scalarConstantsDeclaredIn(codeOnly(
+                    new String(Files.readAllBytes(f.toPath()), StandardCharsets.UTF_8)))
+                    .contains(name)) {
+                return new String[] {simple, "PROVIDER"};
+            }
+        }
+        return null;
     }
 
     /** How many {@code @Test} methods {@code testClass} declares. */

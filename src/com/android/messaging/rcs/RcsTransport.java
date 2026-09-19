@@ -48,10 +48,30 @@ public interface RcsTransport {
     /** Send a 1:1 text; a synchronous accept or reject, never a throw. */
     RcsSendResult sendMessage(RcsOutgoingMessage msg);
 
+    /** Whether this transport can carry app-sealed MLS now; only the carrier transport says yes. */
+    default boolean isMlsReady(int subId) {
+        return false;
+    }
+
+    /**
+     * Send an MLS 1:1 message that the send gate has already routed here. The transport owns the
+     * MLS flow; the terminal status arrives as a status callback correlated by {@code messageId}.
+     *
+     * @param toUri {@code tel:+E164} of the peer
+     * @param framedBody an RCC.16 MIME entity from {@code RccMlsBody.frame} or {@code frameText}
+     * @return true if the transport took the send, false if it cannot carry MLS
+     */
+    default boolean sendMlsMessage(int subId, String toUri, byte[] framedBody, String messageId) {
+        return false;
+    }
+
     /** Send a delivered or displayed receipt ({@code IRcsProviderCallback.IMDN_*}). */
     void sendImdn(String originalMessageId, String toUri, int imdnType);
 
-    /** As {@link #sendImdn}, naming the group the message arrived in. */
+    /**
+     * As {@link #sendImdn}, naming the group the message arrived in; on MLS the group id selects
+     * which group state stamps the receipt.
+     */
     default void sendImdn(String originalMessageId, String toUri, int imdnType,
             String rcsGroupId) {
         sendImdn(originalMessageId, toUri, imdnType);

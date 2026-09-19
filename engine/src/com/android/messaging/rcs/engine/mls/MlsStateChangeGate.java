@@ -5,8 +5,11 @@
 package com.android.messaging.rcs.engine.mls;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Op;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Group;
+import com.android.messaging.rcs.log.LogMask;
 /**
  * Which guards an MLS state change must pass, and in what order. {@link #guardsFor} is the tier
  * table and {@link #decide} is pure; {@code MlsPeerGuard} gathers the facts, persists records and
@@ -571,5 +574,213 @@ public final class MlsStateChangeGate {
                 // A guard missing from this switch does not pass.
                 return unanswerable(guard, Reason.TIER_NOT_CLASSIFIED);
         }
+    }
+
+    /**
+     * Whether a serialized GroupInfo carries {@code end_mls} (0xF002), decoded exactly rather than
+     * byte-scanned (a false positive would refuse to heal a healthy group). Covers a downgrade a
+     * remote peer made while we were offline, which {@code endMlsPresent()} cannot see.
+     */
+    public static boolean groupInfoHasEndMls(final MlsSession session, final MlsLogSink log,
+            final byte[] groupInfo) {
+        if (groupInfo == null || groupInfo.length == 0) return false;
+        final byte[] types = session.groupInfoExtTypes(groupInfo);
+        if (types == null) {
+            // A guard that cannot see says so rather than silently voting no.
+            log.w("MlsStateChangeGate: end_mls guard could NOT decode the fetched "
+                    + "GroupInfo (" + groupInfo.length + "B) — answering 'no end_mls' blindly");
+            return false;
+        }
+        // Logs the extension list read, for comparison with other GroupInfo readers.
+        final StringBuilder seen = new StringBuilder();
+        boolean endMls = false;
+        for (int i = 0; i + 3 < types.length; i += 4) {
+            final int t = ((types[i] & 0xFF) << 8) | (types[i + 1] & 0xFF);
+            final int len = ((types[i + 2] & 0xFF) << 8) | (types[i + 3] & 0xFF);
+            seen.append(String.format(" 0x%04X=%dB", t, len));
+            if (t == 0xF002) endMls = true;
+        }
+        log.i("MlsStateChangeGate: end_mls guard read the SELF-HEAL FETCH GroupInfo ("
+                + groupInfo.length + "B):" + (seen.length() == 0 ? " <none>" : seen)
+                + " → end_mls=" + endMls
+                + "  [compare against the groupexts dump's SERVER GroupInfo]");
+        return endMls;
+    }
+
+    public static void dropUnhonourableProposal(final MlsShellPort shell, final MlsLogSink log,
+            final String conversationId, final String fromE164, final int proposalType) {
+        final String what;
+        if (proposalType == MlsSession.PROP_SERVER_REMOVE) {
+            what = "server_remove (0xF004) — its body names WHO to remove (v4.0 §7.11.9: uint32 "
+                    + "to_remove, and mls-rs validates it for us now), but naming is not authority: "
+                    + "§9.5.1 puts the removal decision with the accompanying RCS NOTIFY, not with "
+                    + "the proposal. Dropped on POLICY, not because the body is unreadable";
+        } else if (proposalType < 0) {
+            // -1 means the engine stated no type (e.g. called on a commit), not a type 0xffffffff.
+            what = "a proposal whose TYPE the engine did not state — so we cannot tell an "
+                    + "honourable one from an unhonourable one, and a cached proposal blocks every "
+                    + "send until it is committed";
+        } else {
+            what = "an unimplemented proposal type 0x" + Integer.toHexString(proposalType)
+                    + " — we advertise a range wider than we implement";
+        }
+        // Never clear when a commit is owed or when we left. The clear drops the whole proposal
+        // cache: an owed commit would lose the proposal it exists to honour (a peer's self_remove
+        // would silently keep them a member), and after our own leave it would drop our SelfRemove
+        // and un-leave us. The leave claims no pending operation, hence the separate test. An owed
+        // commit sweeps this proposal too, consuming it without effect, which is tolerable.
+        if (MlsRecordState.weLeft(shell, log, conversationId)) {
+            log.w("MlsStateChangeGate: " + LogMask.number(fromE164) + " sent " + what
+                    + ". NOT dropped: WE LEFT " + MlsConversationKey.forLog(conversationId)
+                    + ", and the drop lever clears the "
+                    + "WHOLE proposal cache — it would take our own SelfRemove with it and put us "
+                    + "back in a group we left. This proposal is simply not honoured; the "
+                    + "conversation is already terminal and there is nothing left to wedge.");
+            return;
+        }
+        final MlsPendingOperation owed = MlsPendingOperation.pendingOp(shell, log, conversationId);
+        final boolean commitOwed = owed != null
+                && (owed.kind == MlsPendingOperation.Kind.COMMIT_PENDING_PROPOSALS
+                    || owed.kind == MlsPendingOperation.Kind.END_MLS);
+        if (commitOwed) {
+            log.w("MlsStateChangeGate: " + LogMask.number(fromE164) + " sent " + what
+                    + ". NOT dropped: " + MlsConversationKey.forLog(conversationId)
+                    + " already owes a " + owed.kind
+                    + " commit, and the drop lever clears the WHOLE proposal cache — it would take "
+                    + "the proposal that commit exists to honour with it. The owed commit sweeps "
+                    + "this one as well, which consumes it and changes nothing; that is the "
+                    + "tolerable outcome, where losing a peer's departure is not.");
+            return;
+        }
+        final Group g = shell.getGroup(conversationId);
+        final boolean cleared = (g != null && g.groupId != null)
+                && shell.session().clearPendingProposals(g.groupId);
+        log.w("MlsStateChangeGate: " + LogMask.number(fromE164) + " sent " + what
+                + ". DROPPED rather than committed — committing it would consume the proposal and "
+                + "report success while changing nothing, and leaving it cached would wedge "
+                + MlsConversationKey.forLog(conversationId)
+                + " (a pending proposal blocks all sends). cleared=" + cleared);
+        MlsPendingOperation.clearPendingOp(shell, log, conversationId);
+    }
+
+    /**
+     * Drop the cached by-reference proposals on a conversation: the manual recovery lever for a
+     * conversation wedged by a proposal it cannot commit. Refused after our own leave. Safe when
+     * nothing is pending.
+     *
+     * @return a short human-readable verdict
+     */
+    public static String dropPendingProposals(final MlsShellPort shell, final MlsLogSink log,
+            final String rcsGroupId, final String peerE164) {
+        if (!shell.ensureSession()) return "no session";
+        final String key = MlsConversationKey.canonicalKey(rcsGroupId, peerE164);
+        final Group g = (key == null) ? null : shell.getGroup(key);
+        if (g == null || g.groupId == null) return "no group for " + LogMask.number(peerE164);
+        // After a leave the cached proposal is our own SelfRemove; clearing it would rejoin us
+        // silently.
+        if (MlsRecordState.weLeft(shell, log, key)) {
+            return "key=" + MlsConversationKey.forLog(key)
+                    + " REFUSED: we LEFT this group (RCC.16 §9.4) and the cached "
+                    + "proposal is our own SelfRemove — dropping it would put us back in a group "
+                    + "the server has already removed us from. Use forget() to drop the local "
+                    + "group state instead.";
+        }
+        final boolean wasBlocked = shell.session().commitRequired(g.groupId);
+        final boolean cleared = shell.session().clearPendingProposals(g.groupId);
+        MlsPendingOperation.clearPendingOp(shell, log, key);
+        return "key=" + MlsConversationKey.forLog(key) + " wasBlocked=" + wasBlocked + " cleared="
+                + cleared
+                + " nowBlocked=" + shell.session().commitRequired(g.groupId);
+    }
+
+    /**
+     * Route an inbound by-reference proposal on its type. {@code self_remove} (0xF003) is queued
+     * for commit, since the leaver cannot commit its own removal. {@code end_mls} (0xF001) is
+     * committed together with the RCC.16 §7.11.2.2 GroupContext extension, since mls-rs treats it
+     * as opaque. {@code server_remove} (0xF004) and unknown types are dropped: RCC.16 §9.5.1 gives
+     * removal authority to the server's NOTIFY, not to a peer's proposal.
+     *
+     * <p>The drop is damage control: RFC 9420 §7.2 lets a peer rely on what we advertise, and we
+     * advertise more than we implement. Committing an unimplemented proposal changes nothing while
+     * reporting success, and leaving it cached blocks every application message.
+     */
+    public static void onInboundProposal(final MlsShellPort shell, final MlsLogSink log,
+            final String conversationId, final String fromE164,
+            final String rcsGroupId, final int proposalType) {
+        switch (proposalType) {
+            case MlsSession.PROP_SELF_REMOVE:
+                log.i("MlsStateChangeGate: " + LogMask.number(fromE164)
+                        + " proposed self_remove (0xF003)"
+                        + " — queued for commit (they cannot commit it themselves)");
+                MlsPendingOperation.claimPendingOp(shell, log, conversationId,
+                        MlsPendingOperation.Kind.COMMIT_PENDING_PROPOSALS,
+                        MlsPendingOperation.Origin.PROCESS_MESSAGE_API, fromE164);
+                break;
+            case MlsSession.PROP_END_MLS:
+                log.i("MlsStateChangeGate: " + LogMask.number(fromE164)
+                        + " proposed end_mls (0xF001) on "
+                        + MlsConversationKey.forLog(conversationId)
+                        + " — committing it with the §7.11.2.2 GroupContext extension");
+                // end_mls implies a commit is pending; one operation with a variant.
+                MlsPendingOperation.claimPendingOp(shell, log, conversationId,
+                        MlsPendingOperation.Kind.END_MLS,
+                        MlsPendingOperation.Origin.PROCESS_MESSAGE_API, fromE164);
+                break;
+            case MlsSession.PROP_SERVER_REMOVE:
+            default:
+                MlsStateChangeGate.dropUnhonourableProposal(shell, log, conversationId, fromE164,
+                        proposalType);
+                break;
+        }
+    }
+
+    public static boolean commitPendingProposals(final MlsShellPort shell, final MlsLogSink log,
+            final String rcsGroupId, final String peerE164) {
+        if (!shell.ensureSession()) return false;
+        final String key = MlsConversationKey.canonicalKey(rcsGroupId, peerE164);
+        final Group g = (key == null) ? null : shell.getGroup(key);
+        if (g == null || g.groupId == null) return false;
+        // Our own SelfRemove: mls-rs refuses to commit your own removal, and this runs per send and
+        // per server nudge.
+        if (MlsRecordState.weLeft(shell, log, key)) {
+            log.i("MlsStateChangeGate: " + MlsConversationKey.forLog(key)
+                    + " holds a cached proposal, but it is "
+                    + "OUR OWN SelfRemove — MLS forbids committing your own removal, so there is "
+                    + "nothing to commit here. A remaining member completes the departure.");
+            return false;
+        }
+        if (!shell.session().commitRequired(g.groupId)) {
+            MlsPendingOperation.clearPendingOp(shell, log, key);
+            return false;
+        }
+        // A pending end_mls is committed with the RCC.16 §7.11.2.2 extension; mls-rs sweeps the
+        // cached proposal into the same commit.
+        final MlsPendingOperation held = MlsPendingOperation.pendingOp(shell, log, key);
+        final boolean endMlsPending =
+                held != null && held.kind == MlsPendingOperation.Kind.END_MLS;
+        log.i("MlsStateChangeGate: " + MlsConversationKey.forLog(key)
+                + " holds a cached by-reference proposal → "
+                + "committing it (the proposer cannot)"
+                + (endMlsPending ? " WITH the end_mls GroupContext extension" : ""));
+        // Read the roster before the commit: a swept self_remove is a plain rekey, so the departure
+        // is found only by diffing the roster on both sides.
+        final java.util.List<String> rosterBefore =
+                MlsServerBundle.mlsRosterMsisdns(shell, log, g.groupId);
+        final int era = endMlsPending
+                ? MlsDowngradeFlow.endMls(shell, log, rcsGroupId, peerE164, /*resume=*/ false)
+                : shell.commitAndSend(rcsGroupId, peerE164, null, null, Op.REKEY,
+                        "commit-proposal");
+        final boolean ok = era >= 0;
+        if (ok) {
+            MlsPendingOperation.clearPendingOp(shell, log, key);
+            MlsMembership.applyDepartures(shell, log, key, g, rcsGroupId, rosterBefore);
+        } else {
+            // Count the failed attempt so the retry limit can be reached.
+            MlsPendingOperation.retryPendingOp(shell, log, key,
+                    "the proposal commit was refused (peer remains a member)");
+        }
+        log.i("MlsStateChangeGate: proposal commit → "
+                + (ok ? "ACCEPTED era=" + era : "FAILED (peer remains a member)"));
+        return ok;
     }
 }

@@ -27,11 +27,23 @@ public final class OpenMlsSession implements MlsSession {
         return OpenMlsNative.nativeGenerateLastResortKp(handle);
     }
 
+    /**
+     * The RFC 9420 {@code KeyPackageRef}, derived from the package bytes and so stable across
+     * restarts.
+     *
+     * @return the ref, or null/empty if the input was not a KeyPackage
+     */
+    @Override
     public byte[] keyPackageRef(final byte[] keyPackage) {
         if (keyPackage == null || keyPackage.length == 0) return null;
         return OpenMlsNative.nativeKeyPackageRef(handle, keyPackage);
     }
 
+    /**
+     * The KeyPackageRefs a Welcome is sealed to, one per added member. Callers cross off only the
+     * intersection with what they published.
+     */
+    @Override
     public java.util.List<byte[]> welcomeKeyPackageRefs(final byte[] welcome) {
         if (welcome == null || welcome.length == 0) return java.util.Collections.emptyList();
         final byte[] packed = OpenMlsNative.nativeWelcomeKeyPackageRefs(handle, welcome);
@@ -62,10 +74,22 @@ public final class OpenMlsSession implements MlsSession {
         return OpenMlsNative.nativeJoinWithTree(handle, welcome, ratchetTree);
     }
 
+    /**
+     * Joins from a Welcome with no {@code ratchet_tree} extension (optional in RFC 9420), splicing
+     * the tree from the member LeafNodes in {@code blob}, the whole inner payload. Returns the
+     * group id, or null.
+     */
+    @Override
     public byte[] joinTreelessWelcome(byte[] welcome, byte[] blob) {
         return OpenMlsNative.nativeJoinTreelessWelcome(handle, welcome, blob);
     }
 
+    /**
+     * Every member's certificate window, {@code leafIndex -> {notBefore, notAfter}} in seconds,
+     * from the local copy of the group; empty if unreadable. An unreadable member maps to zeros
+     * rather than being dropped.
+     */
+    @Override
     public java.util.Map<Integer, long[]> memberValidity(byte[] groupId) {
         final java.util.Map<Integer, long[]> out = new java.util.LinkedHashMap<>();
         final byte[] r = OpenMlsNative.nativeMemberValidity(handle, groupId);
@@ -81,6 +105,15 @@ public final class OpenMlsSession implements MlsSession {
         return out;
     }
 
+    /**
+     * Which leaf signed a GroupInfo, and its epoch; needs no loaded group. On the server's stored
+     * GroupInfo that is the committer of that epoch, unless the epoch equals ours, in which case it
+     * is our own anchor handed back.
+     *
+     * @return {@code {leafIndex, epoch}}, or {@code null} when unreadable (never {@code {0, 0}},
+     *     since 0 is a real leaf index)
+     */
+    @Override
     public long[] groupInfoSigner(final byte[] groupInfo) {
         if (groupInfo == null || groupInfo.length == 0) return null;
         final byte[] r = OpenMlsNative.nativeGroupInfoSigner(handle, groupInfo);
@@ -91,6 +124,12 @@ public final class OpenMlsSession implements MlsSession {
         return new long[] { idx, epoch };
     }
 
+    /**
+     * Every leaf's certificate window in a serialised ratchet tree, i.e. the server's copy, which
+     * may differ from the local one either way. Loads nothing. Empty means the engine returned
+     * nothing, not an empty roster.
+     */
+    @Override
     public java.util.List<MlsTreeLeaf> treeMemberValidity(final byte[] ratchetTree) {
         final java.util.List<MlsTreeLeaf> out = new java.util.ArrayList<>();
         if (ratchetTree == null || ratchetTree.length == 0) return out;
@@ -115,10 +154,25 @@ public final class OpenMlsSession implements MlsSession {
         return out;
     }
 
+    /**
+     * Our own leaf's credential in this group beside the one this client holds.
+     *
+     * @return the status, or {@code null} when unreadable, which does not mean the credential is
+     *     current
+     */
+    @Override
     public MlsSelfLeafStatus selfLeafStatus(byte[] groupId) {
         return MlsSelfLeafStatus.parse(OpenMlsNative.nativeSelfLeafStatus(handle, groupId));
     }
 
+    /**
+     * Per-leaf MSISDN and RCC.16 A.3.8 participant-key SPKI (hex), for
+     * {@link MlsParticipantKeyResync#plan}. An unparseable leaf has an empty key rather than being
+     * dropped, which {@code plan()} reads as "not looked at" and never removes.
+     *
+     * @return leaf index to {@code Leaf}, in roster order
+     */
+    @Override
     public java.util.Map<Integer, MlsParticipantKeyResync.Leaf> memberParticipantKeys(
             final byte[] groupId) {
         final java.util.Map<Integer, MlsParticipantKeyResync.Leaf> out =
@@ -251,7 +305,8 @@ public final class OpenMlsSession implements MlsSession {
                 aad == null ? new byte[0] : aad));
     }
     @Override public MlsGroupArtifacts selfLeave(byte[] groupId, byte[] aad) {
-        return artifactsFrom(OpenMlsNative.nativeSelfLeave(handle, groupId, aad == null ? new byte[0] : aad));
+        return artifactsFrom(
+                OpenMlsNative.nativeSelfLeave(handle, groupId, aad == null ? new byte[0] : aad));
     }
     @Override public boolean kpIsLastResort(byte[] keyPackage) {
         if (keyPackage == null || keyPackage.length == 0) return false;
@@ -468,7 +523,8 @@ public final class OpenMlsSession implements MlsSession {
     }
 
     @Override public MlsGroupArtifacts selfUpdate(byte[] groupId, byte[] aad) {
-        return artifactsFrom(OpenMlsNative.nativeSelfUpdate(handle, groupId, aad == null ? new byte[0] : aad));
+        return artifactsFrom(
+                OpenMlsNative.nativeSelfUpdate(handle, groupId, aad == null ? new byte[0] : aad));
     }
     @Override public MlsGroupArtifacts selfUpdateExtPub(byte[] groupId, byte[] aad) {
         return artifactsFrom(OpenMlsNative.nativeSelfUpdateExtPub(handle, groupId, aad == null
@@ -555,31 +611,10 @@ public final class OpenMlsSession implements MlsSession {
     static byte[] at(List<byte[]> l, int i) { return i < l.size() ? l.get(i) : new byte[0]; }
     /** Delegates to {@link MlsArtifactBundle#splitLenPrefixed}, which is host-tested. */
     public static List<byte[]> splitLenPrefixed(byte[] b) {
-        List<byte[]> out = new ArrayList<>();
-        int i = 0;
-        while (b != null && i + 4 <= b.length) {
-            int n = ((b[i] & 0xff) << 24) | ((b[i + 1] & 0xff) << 16) | ((b[i + 2] & 0xff) << 8) | (b[i + 3] & 0xff);
-            if (n < 0 || i + 4 + n > b.length) break;
-            byte[] rec = new byte[n];
-            System.arraycopy(b, i + 4, rec, 0, n);
-            out.add(rec);
-            i += 4 + n;
-        }
-        return out;
+        return MlsArtifactBundle.splitLenPrefixed(b);
     }
     /** Delegates to {@link MlsArtifactBundle#joinLenPrefixed}, which is host-tested. */
     public static byte[] joinLenPrefixed(List<byte[]> parts) {
-        int total = 0;
-        for (byte[] p : parts) total += 4 + (p == null ? 0 : p.length);
-        byte[] out = new byte[total];
-        int i = 0;
-        for (byte[] p : parts) {
-            int n = p == null ? 0 : p.length;
-            out[i] = (byte) (n >>> 24); out[i + 1] = (byte) (n >>> 16);
-            out[i + 2] = (byte) (n >>> 8); out[i + 3] = (byte) n;
-            if (n > 0) System.arraycopy(p, 0, out, i + 4, n);
-            i += 4 + n;
-        }
-        return out;
+        return MlsArtifactBundle.joinLenPrefixed(parts);
     }
 }

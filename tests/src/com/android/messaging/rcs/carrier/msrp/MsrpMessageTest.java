@@ -445,7 +445,7 @@ public class MsrpMessageTest {
         } catch (MsrpException expected) { /* ok */ }
     }
 
-    // ---- MsrpFrameReader (streaming)
+    // ---- FrameReader (streaming)
 
     @Test
     public void frameReader_emitsCompleteFramesAcrossSocketWrites() throws Exception {

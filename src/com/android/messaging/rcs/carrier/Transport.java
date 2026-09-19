@@ -14,8 +14,8 @@ public interface Transport {
         void onIncomingMessage(String fromUri, String body, String messageId);
 
         /**
-         * As the three-argument form, plus the E2EE scheme the body arrived under, or null for
-         * plaintext. The carrier hops override it so the scheme reaches
+         * As the three-argument form, plus the E2EE scheme the body was decrypted under, or null
+         * for plaintext. The carrier hops override it so the scheme reaches
          * {@code RcsIncomingMessage}.
          */
         default void onIncomingMessage(String fromUri, String body, String messageId,
@@ -25,7 +25,7 @@ public interface Transport {
 
         /**
          * A still-wrapped {@code message/cpim} envelope as bytes, which may carry a binary inner
-         * type. The default decodes it as UTF-8; the carrier transport
+         * type such as {@code message/mls}. The default decodes it as UTF-8; the carrier transport
          * overrides it.
          */
         default void onIncomingBytes(String fromUri, byte[] body, String messageId) {

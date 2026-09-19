@@ -60,9 +60,9 @@ public class PhoneNumberLogGuardTest {
 
     /** Debug receivers: onReceive returns first on a user build, so nothing below it runs. */
     private static final List<String> DEBUG_RECEIVERS = Arrays.asList(
-            "RcsDebugCarrierDriveReceiver", "RcsDebugComposeSendReceiver",
+            "MlsSendReceiver", "RcsDebugCarrierDriveReceiver", "RcsDebugComposeSendReceiver",
             "RcsDebugFtAcceptReceiver", "RcsDebugFtSendReceiver", "RcsDebugGroupReceiver",
-            "RcsDebugSendReceiver", "SipDelegateDebugReceiver");
+            "RcsDebugSendReceiver", "MlsEnrollDebugReceiver", "SipDelegateDebugReceiver");
 
     private static final Pattern LOG_CALL =
             Pattern.compile("\\b(?:LogUtil|Log|log|mLog)\\s*\\.\\s*(?:v|d|i|w|e|wtf)\\s*\\(");

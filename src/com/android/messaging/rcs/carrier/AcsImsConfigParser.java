@@ -44,6 +44,23 @@ public final class AcsImsConfigParser {
         @Nullable public String ftCsPwd;
         public long ftMaxSize;                     // MaxSizeFileTr; 0 when unset
 
+        // E2EE service parameters. The document is how the network names this infrastructure, so
+        // none of these is hard-coded.
+
+        /** {@code openrcs-kds-uri}: where to enrol for an MLS client certificate. */
+        @Nullable public String kdsUri;
+        /** {@code openrcs-trust-anchors-uri}: the generation-addressed trust-anchor list. */
+        @Nullable public String trustAnchorsUri;
+        /** {@code openrcs-trust-anchors-generation}: the generation to fetch. */
+        public long trustAnchorsGeneration;
+        /** {@code openrcs-trust-anchors-signer}: base64 P-256 SPKI of the list's signer. */
+        @Nullable public String trustAnchorsSigner;
+        /**
+         * {@code openrcs-encryption-identity-proof}: base64 {@code SignedEncryptionIdentityProof}
+         * (RCC.16 §7.12.1). Passed on verbatim, never parsed or re-encoded.
+         */
+        @Nullable public String encryptionIdentityProof;
+
         /**
          * P-CSCF, realm, IMPI and a sip: public identity are present. The password is checked
          * separately, since on AKA deployments the key stays on the SIM.
@@ -132,6 +149,11 @@ public final class AcsImsConfigParser {
         b.ftCsUser = s.ftCsUser;
         b.ftCsPassword = s.ftCsPwd;
         b.ftMaxSizeBytes = s.ftMaxSize;
+        b.acsEncryptionIdentityProof = s.encryptionIdentityProof;
+        b.kdsUri = s.kdsUri;
+        b.trustAnchorsUri = s.trustAnchorsUri;
+        b.trustAnchorsGeneration = s.trustAnchorsGeneration;
+        b.trustAnchorsSigner = s.trustAnchorsSigner;
         return b.build();
     }
 
@@ -176,6 +198,19 @@ public final class AcsImsConfigParser {
         } else if (eq(name, "MaxSizeFileTr") && value != null) {
             try { out.ftMaxSize = Long.parseLong(value.trim()); }
             catch (final NumberFormatException ignored) { /* leave 0 */ }
+        }
+        // Matched by name: the parameters appear in both the nested and the flat document forms.
+        if (eq(name, "openrcs-kds-uri")) {
+            out.kdsUri = value;
+        } else if (eq(name, "openrcs-trust-anchors-uri")) {
+            out.trustAnchorsUri = value;
+        } else if (eq(name, "openrcs-trust-anchors-generation") && value != null) {
+            try { out.trustAnchorsGeneration = Long.parseLong(value.trim()); }
+            catch (final NumberFormatException ignored) { /* leave 0 */ }
+        } else if (eq(name, "openrcs-trust-anchors-signer")) {
+            out.trustAnchorsSigner = value;
+        } else if (eq(name, "openrcs-encryption-identity-proof")) {
+            out.encryptionIdentityProof = value;
         }
         // Digest realm is the home domain when APPAUTH gives none.
         if ((eq(name, "Home_network_domain_Name") || eq(name, "Home_network_domain_name"))

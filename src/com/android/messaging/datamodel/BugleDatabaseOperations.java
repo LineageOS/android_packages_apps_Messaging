@@ -304,7 +304,8 @@ public class BugleDatabaseOperations {
 
     /**
      * Records whether we are still a member of this RCS group. Written only by
-     * {@code ReceiveRcsGroupEventAction}. See docs/rcs/groups.md.
+     * {@code ReceiveRcsGroupEventAction}; unrelated to {@code MlsConversationRecord.selfLeftAtMs}.
+     * See docs/rcs/groups.md.
      */
     @DoesNotRunOnMainThread
     public static void setConversationSelfLeft(final DatabaseWrapper dbWrapper,
@@ -409,6 +410,53 @@ public class BugleDatabaseOperations {
         }
         final ContentValues values = new ContentValues();
         values.put(ConversationColumns.ENCRYPTION_PROTOCOL, bits);
+        db.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
+                ConversationColumns._ID + "=?", new String[] { conversationId });
+    }
+
+    /**
+     * Returns a conversation's re-upgrade columns, or null for an unknown conversation. Callers
+     * must tell null apart from {@code MlsReupgradeState#NONE}: only an existing row may later be
+     * stamped.
+     */
+    @DoesNotRunOnMainThread
+    public static com.android.messaging.rcs.engine.mls.MlsReupgradeState getMlsReupgradeState(
+            final DatabaseWrapper dbWrapper, final String conversationId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return null;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] {
+                        ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE,
+                        ConversationColumns.MLS_REUPGRADE_ATTEMPTS,
+                        ConversationColumns.MLS_EAGERLY_DOWNGRADED },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return new com.android.messaging.rcs.engine.mls.MlsReupgradeState(
+                        cursor.getLong(0), cursor.getInt(1), cursor.getInt(2) != 0);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Writes all three re-upgrade columns in one update; a partial write would leave a backoff
+     * computed from a stale timestamp. See docs/mls/downgrade.md.
+     */
+    @DoesNotRunOnMainThread
+    public static void setMlsReupgradeState(final DatabaseWrapper db, final String conversationId,
+            final com.android.messaging.rcs.engine.mls.MlsReupgradeState state) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId) || state == null) {
+            return;
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE,
+                state.lastUnexpectedDowngradeMs);
+        values.put(ConversationColumns.MLS_REUPGRADE_ATTEMPTS, state.attemptCount);
+        values.put(ConversationColumns.MLS_EAGERLY_DOWNGRADED, state.eagerlyDowngraded ? 1 : 0);
         db.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
                 ConversationColumns._ID + "=?", new String[] { conversationId });
     }
@@ -782,7 +830,8 @@ public class BugleDatabaseOperations {
 
     /**
      * Whether the icon column holds a value the derived-avatar path did not write, such as a
-     * group icon. False on failure, so the derived avatar keeps working.
+     * group icon from {@link com.android.messaging.rcs.GroupIconApplier}. False on failure, so
+     * the derived avatar keeps working.
      */
     private static boolean ownsItsIcon(final DatabaseWrapper dbWrapper,
             final String conversationId) {

@@ -24,9 +24,12 @@ import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.rcs.ProviderRegistry;
 import com.android.messaging.rcs.ProviderTransport;
 import com.android.messaging.rcs.RcsTransport;
+import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.rcs.RcsSendStatus;
 import com.android.messaging.rcs.RouteSelector;
+import com.android.messaging.rcs.e2ee.MlsSendRouting;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
@@ -37,7 +40,8 @@ import java.util.UUID;
 /**
  * Sends a location share (geopush) to a 1:1 or group conversation through the provider, and on
  * acceptance inserts an outgoing row whose body is a maps link, rendered like an inbound share.
- * Runs off the main thread.
+ * Runs off the main thread. On a conversation presented as encrypted the share is refused and
+ * written as a failed row.
  */
 public class SendRcsLocationAction extends Action implements Parcelable {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
@@ -109,9 +113,29 @@ public class SendRcsLocationAction extends Action implements Parcelable {
             recipient = TextUtils.isEmpty(canonical) ? recips.get(0) : canonical;
         }
 
+        // Built before the send so a refused share lands the same body on its failed row.
         final String body = "📍 Shared location\n"
                 + String.format(Locale.US, "https://maps.google.com/?q=%.6f,%.6f", lat, lon);
-        final long timestamp = System.currentTimeMillis() * 1000L;
+        final long timestamp = System.currentTimeMillis() * 1000L;  // micros, matches RCS path
+
+        // A location share has no seal path, so only a PLAINTEXT verdict may send. The check is an
+        // allow-list on purpose: SEAL is a refusal here, and a verdict added later must not default
+        // to sending in the clear. A conversation with no MLS state and no latched MLS bit always
+        // gets PLAINTEXT. The verdict is owned by MlsProviderTransport (MlsSendRouting).
+        final MlsSendRouting.Verdict verdict = isGroup
+                ? MlsProviderTransport.groupSendVerdict(
+                        Factory.get().getApplicationContext(), subId, groupId, conversationId)
+                : MlsProviderTransport.oneToOneSendVerdict(
+                        Factory.get().getApplicationContext(), subId, recipient, conversationId);
+        if (verdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "SendRcsLocationAction: NOT sharing this location in the clear "
+                    + "(conversation " + conversationId + ", " + (isGroup ? "group" : "1-1")
+                    + ", verdict " + verdict + "). The app is presenting this thread as encrypted "
+                    + "and a location share cannot be sealed, so it is left unsent and visibly "
+                    + "FAILED rather than silently downgraded.");
+            insertRefusedLocationRow(db, conversationId, selfId, body, timestamp);
+            return null;
+        }
 
         final String rcsMessageId = UUID.randomUUID().toString();
         final Double acc = accuracy > 0 ? accuracy : null;
@@ -153,6 +177,44 @@ public class SendRcsLocationAction extends Action implements Parcelable {
         LogUtil.i(TAG, "SendRcsLocationAction: sent location to "
                 + (isGroup ? "group" : "1-1") + " conv=" + conversationId);
         return null;
+    }
+
+    /**
+     * Writes a refused share as a visibly failed outgoing row, so the user can tell a refusal from
+     * a slow send. {@code OUTGOING_FAILED} is terminal on an RCS row. No {@code rcs_message_id} is
+     * stamped because nothing reached the wire.
+     */
+    private void insertRefusedLocationRow(final DatabaseWrapper db, final String conversationId,
+            final String selfId, final String body, final long timestamp) {
+        try {
+            db.beginTransaction();
+            try {
+                final MessageData message =
+                        MessageData.createOutgoingRcsMessage(conversationId, selfId, body);
+                message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+                message.markMessageFailed(timestamp);
+                BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+                BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(),
+                        RcsMessageStore.rcsMetaValues(null /* rcsMessageId */,
+                                RcsConstants.RCS_STATUS_NONE));
+                BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                        conversationId, message.getMessageId(), timestamp,
+                        false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+                db.setTransactionSuccessful();
+                LogUtil.w(TAG, "insertRefusedLocationRow: landed " + message.getMessageId()
+                        + " as OUTGOING_FAILED on conversation " + conversationId
+                        + " — the location was NOT shared, in any form");
+            } finally {
+                db.endTransaction();
+            }
+            MessagingContentProvider.notifyMessagesChanged(conversationId);
+            MessagingContentProvider.notifyConversationListChanged();
+        } catch (final Throwable t) {
+            // The refusal stands even if the row cannot be written.
+            LogUtil.e(TAG, "insertRefusedLocationRow: could not land the refused share on "
+                    + conversationId + " — it is NOT being sent and leaves no trace in the thread.",
+                    t);
+        }
     }
 
     private SendRcsLocationAction(final Parcel in) {

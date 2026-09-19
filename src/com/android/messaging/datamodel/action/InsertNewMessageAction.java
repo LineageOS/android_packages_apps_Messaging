@@ -37,6 +37,11 @@ import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseWrapper;
+import com.android.messaging.rcs.e2ee.E2eeSendGate;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
+import com.android.messaging.rcs.engine.mls.RccMlsBody;
+import com.android.messaging.rcs.e2ee.MlsSendRouting;
+import com.android.messaging.rcs.e2ee.RcsE2eeScheme;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.SyncManager;
 import com.android.messaging.datamodel.data.ConversationListItemData;
@@ -565,12 +570,63 @@ public class InsertNewMessageAction extends Action implements Parcelable {
 
         final String rcsMessageId = UUID.randomUUID().toString();
 
-        {
+        // Resolve the conversation's E2EE scheme (never throws; degrades to plaintext). MLS goes
+        // through one of the MLS paths below. A provider-layer scheme is stamped only when the
+        // provider reports applying it, on STATUS_SENT.
+        final String e2eeScheme = E2eeSendGate.get().resolveForSend(
+                conversationId, subId, dest, false /* isGroup */);
+
+        final boolean isMls = RcsE2eeScheme.MLS.equals(e2eeScheme);
+        boolean dispatchedViaMls = false;
+        // Path 1: MLS over the in-app carrier transport. All three MLS paths frame the body with
+        // RccMlsBody; the generation counter is stamped at encrypt time.
+        if (isMls && transport.isMlsReady(subId)) {
+            dispatchedViaMls = transport.sendMlsMessage(subId,
+                    dest.startsWith("tel:") ? dest : "tel:" + dest,
+                    RccMlsBody.frameText(messageText), rcsMessageId);
+        }
+
+        // Path 1b: MLS sealed by this app and carried by the provider. Must precede Path 2, which
+        // asks the provider to encrypt: both would be owners of one ratchet.
+        boolean appOwnedFailed = false;
+        // The outcome of Path 1b, the one arm whose result is known synchronously; null when it
+        // did not decide the row, in which case a status callback owns it.
+        Boolean appOwnedAccepted = null;
+        if (isMls && !dispatchedViaMls) {
+            // The chat row's rcs_message_id is the wire id, so a reported resend can find it.
+            final MlsProviderTransport.SendOutcome outcome = MlsProviderTransport.sendAppOwned(
+                    Factory.get().getApplicationContext(), subId, conversationId, dest,
+                    RccMlsBody.frameText(messageText), rcsMessageId);
+            if (outcome == MlsProviderTransport.SendOutcome.SENT) {
+                dispatchedViaMls = true;
+                appOwnedAccepted = Boolean.TRUE;
+            } else if (outcome == MlsProviderTransport.SendOutcome.FAILED) {
+                // A generation is already consumed: neither let the provider re-encrypt nor
+                // downgrade to plaintext. Leave it unsent and retryable.
+                appOwnedFailed = true;
+                appOwnedAccepted = Boolean.FALSE;
+                LogUtil.w(TAG, "InsertNewMessageAction: app-owned MLS send FAILED for "
+                        + rcsMessageId
+                        + " — not re-encrypting via the provider and not downgrading");
+            }
+            // NOT_APPLICABLE (no adopted identity) falls through to Path 2.
+        }
+
+        if (!dispatchedViaMls && !appOwnedFailed) {
+            // Path 2: the provider encrypts. For MLS the RCC.16 body is framed here and the scheme
+            // tagged; otherwise plaintext, which the provider may encrypt itself.
+            final byte[] outBody = isMls
+                    ? RccMlsBody.frameText(messageText)
+                    : messageText.getBytes(StandardCharsets.UTF_8);
             final RcsSendResult result = transport.sendMessage(new RcsOutgoingMessage(
                     subId, rcsMessageId, dest,
-                    "text/plain;charset=UTF-8",
-                    messageText.getBytes(StandardCharsets.UTF_8),null,
+                    isMls ? "message/mls" : "text/plain;charset=UTF-8",
+                    outBody,
+                    isMls ? RcsE2eeScheme.MLS : null,
                     /*groupId=*/ null));
+            if (isMls && result != null && result.accepted) {
+                dispatchedViaMls = true;
+            }
 
             if (result == null || !result.accepted) {
                 LogUtil.i(TAG, "InsertNewMessageAction: RCS send not accepted (reason="
@@ -583,6 +639,9 @@ public class InsertNewMessageAction extends Action implements Parcelable {
                 return false;
             }
         }
+
+        // The scheme for our own row's padlock: MLS if it was actually sealed.
+        final String stampedScheme = dispatchedViaMls ? RcsE2eeScheme.MLS : null;
 
         sLastSentMessageTimestamp = timestamp;
 
@@ -602,9 +661,22 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             // The RCS metadata, plus Path 1b's synchronous outcome when there was one, mapped as
             // UpdateRcsMessageStatusAction maps the matching callback. It reports the send, not
             // delivery: a later IMDN still upgrades the row.
-            final ContentValues rcsVals =
-                    RcsMessageStore.rcsMetaValues(rcsMessageId, RcsConstants.RCS_STATUS_NONE);
+            final ContentValues rcsVals = RcsMessageStore.rcsMetaValues(rcsMessageId,
+                    appOwnedAccepted == null
+                            ? RcsConstants.RCS_STATUS_NONE
+                            : RcsSendStatus.rcsStatusForMeasuredHandoff(appOwnedAccepted));
+            if (appOwnedAccepted != null) {
+                rcsVals.put(DatabaseHelper.MessageColumns.STATUS,
+                        RcsSendStatus.bugleStatusForMeasuredHandoff(appOwnedAccepted));
+            }
             BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), rcsVals);
+
+            // Stamp a sealed send so outgoing bubbles show the padlock too.
+            if (stampedScheme != null) {
+                final ContentValues e2eeVals = new ContentValues();
+                e2eeVals.put(DatabaseHelper.MessageColumns.RCS_E2EE_SCHEME_ID, stampedScheme);
+                BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), e2eeVals);
+            }
 
             BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
                     conversationId, message.getMessageId(), timestamp,
@@ -651,20 +723,43 @@ public class InsertNewMessageAction extends Action implements Parcelable {
      * Sends a 1:1 media message over RCS and, if accepted, inserts the RCS row; returns false
      * for every case that should fall back to MMS. The provider gets a content URI and opens it
      * itself.
+     *
+     * <p>An MLS refusal returns true: the attachment must not reach MMS either, so a failed row
+     * is written by {@link #insertRefusedRcsMediaMessage}. The gate therefore runs ahead of every
+     * other {@code return false}.
      */
     private boolean tryInsertSendingRcsFile(final MessageData content, final int subId,
             final String recipient, final long timestamp, final String conversationId) {
         final Context context = Factory.get().getApplicationContext();
 
+        // Ahead of the MLS gate, which must precede every fall-through to MMS.
         final MessagePartData media = firstMediaAttachment(content);
         if (media == null || media.getContentUri() == null
                 || TextUtils.isEmpty(media.getContentType())) {
+            // Must stay ahead of the gate: refusing a draft with no media would land an empty
+            // failed bubble.
             return false;
         }
 
-        // E.164, as for text.
+        // E.164, as for text. It is also the key the gate reads: the national form would answer
+        // NO_MLS_STATE for a conversation we hold state for, failing open.
         final String canonical = PhoneUtils.getDefault().getCanonicalBySimLocale(recipient);
         final String dest = TextUtils.isEmpty(canonical) ? recipient : canonical;
+
+        // Refuse rather than degrade. The verdict comes from MlsProviderTransport (see
+        // MlsSendRouting). Only PLAINTEXT may send: there is no encrypted media send, and SEAL
+        // says only that the conversation could be sealed. A non-MLS conversation always gets
+        // PLAINTEXT.
+        final MlsSendRouting.Verdict mlsVerdict =
+                MlsProviderTransport.oneToOneSendVerdict(context, subId, dest, conversationId);
+        if (mlsVerdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "tryInsertSendingRcsFile: NOT uploading this attachment in the clear "
+                    + "(conversation " + conversationId + ", verdict " + mlsVerdict + "). The app "
+                    + "is presenting this thread as encrypted and we cannot seal the file, so it is "
+                    + "left unsent and failed rather than silently downgraded -- an unencrypted "
+                    + "upload would sit at a URL on a content server.");
+            return insertRefusedRcsMediaMessage(content, timestamp, conversationId, media);
+        }
 
         // sendFile exists only on ProviderTransport: the selected transport if it is one, else
         // the singleton.
@@ -750,12 +845,15 @@ public class InsertNewMessageAction extends Action implements Parcelable {
 
     /**
      * Sends a group media message over RCS to the conversation's group id and inserts the RCS
-     * row; returns false to fall back to group MMS.
+     * row; returns false to fall back to group MMS. An MLS refusal returns true after
+     * {@link #insertRefusedRcsMediaMessage}, and the gate runs ahead of every other
+     * {@code return false}.
      */
     private boolean tryInsertSendingRcsGroupFile(final MessageData content,
             final int subId, final long timestamp, final String conversationId) {
         final Context context = Factory.get().getApplicationContext();
 
+        // Ahead of the MLS gate, which must precede every fall-through to MMS.
         final DatabaseWrapper db = DataModel.get().getDatabase();
         final String groupId =
                 BugleDatabaseOperations.getConversationRcsGroupId(db, conversationId);
@@ -766,7 +864,21 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         final MessagePartData media = firstMediaAttachment(content);
         if (media == null || media.getContentUri() == null
                 || TextUtils.isEmpty(media.getContentType())) {
+            // Ahead of the gate: refusing a draft with no media would land an empty failed bubble.
             return false;
+        }
+
+        // Refuse rather than degrade, as in tryInsertSendingRcsFile: only PLAINTEXT may send
+        // an attachment.
+        final MlsSendRouting.Verdict mlsVerdict =
+                MlsProviderTransport.groupSendVerdict(context, subId, groupId, conversationId);
+        if (mlsVerdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "tryInsertSendingRcsGroupFile: NOT uploading this attachment in the "
+                    + "clear (conversation " + conversationId + ", groupId " + groupId
+                    + ", verdict " + mlsVerdict + "). The app is presenting this thread as "
+                    + "encrypted and we cannot seal the file, so it is left unsent and failed "
+                    + "rather than silently downgraded.");
+            return insertRefusedRcsMediaMessage(content, timestamp, conversationId, media);
         }
 
         // sendFile exists only on ProviderTransport.
@@ -891,9 +1003,42 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             BugleDatabaseOperations.setConversationRcsGroupId(db, conversationId, groupId);
         }
 
+        // Refuse rather than degrade: an unsealable send on a conversation presented as
+        // encrypted must not go out. MlsProviderTransport decides; see docs/rcs/groups.md.
+        final MlsSendRouting.Verdict mlsVerdict =
+                MlsProviderTransport.groupSendVerdict(context, subId, groupId, conversationId);
+        if (mlsVerdict != MlsSendRouting.Verdict.SEAL
+                && mlsVerdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "tryInsertSendingRcsGroupMessage: NOT sending this group text in the "
+                    + "clear (conversation " + conversationId + ", groupId " + groupId
+                    + ", verdict " + mlsVerdict + "). The app is presenting this thread as "
+                    + "encrypted and we cannot seal it, so the message is left unsent and failed "
+                    + "rather than silently downgraded.");
+            return insertRefusedRcsGroupMessage(content, timestamp, conversationId);
+        }
+
+        // Sent before any database write so a rejection leaves no orphan row.
         final String rcsMessageId = UUID.randomUUID().toString();
 
-        {
+        if (mlsVerdict == MlsSendRouting.Verdict.SEAL) {
+            // The 3-argument sendToGroup binds the wire id to this row's rcs_message_id, so
+            // receipts correlate and a resend replays rather than re-seals. It frames and seals.
+            boolean sealed;
+            try {
+                sealed = MlsProviderTransport.get(context, subId)
+                        .sendToGroup(groupId, messageText, rcsMessageId);
+            } catch (final Throwable t) {
+                LogUtil.e(TAG, "tryInsertSendingRcsGroupMessage: the MLS group send threw for "
+                        + rcsMessageId, t);
+                sealed = false;
+            }
+            if (!sealed) {
+                // Never fall back to plaintext: a generation may already be consumed.
+                LogUtil.e(TAG, "tryInsertSendingRcsGroupMessage: the MLS group send FAILED for "
+                        + rcsMessageId + " on " + groupId + " — NOT retrying it in the clear");
+                return insertRefusedRcsGroupMessage(content, timestamp, conversationId);
+            }
+        } else {
             final RcsSendResult result = transport.sendGroupMessage(subId, groupId, messageText,
                     rcsMessageId);
             if (result == null || !result.accepted) {
@@ -902,6 +1047,8 @@ public class InsertNewMessageAction extends Action implements Parcelable {
                 return false;
             }
         }
+        // Both arms are synchronous, so reaching here means the send was accepted.
+        final boolean sealedForMls = mlsVerdict == MlsSendRouting.Verdict.SEAL;
 
         sLastSentMessageTimestamp = timestamp;
         final SyncManager syncManager = DataModel.get().getSyncManager();
@@ -919,6 +1066,10 @@ public class InsertNewMessageAction extends Action implements Parcelable {
                     RcsSendStatus.rcsStatusForMeasuredHandoff(true));
             groupVals.put(DatabaseHelper.MessageColumns.STATUS,
                     RcsSendStatus.bugleStatusForMeasuredHandoff(true));
+            // Padlock on a sealed send.
+            if (sealedForMls) {
+                groupVals.put(DatabaseHelper.MessageColumns.RCS_E2EE_SCHEME_ID, RcsE2eeScheme.MLS);
+            }
             BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), groupVals);
             BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
                     conversationId, message.getMessageId(), timestamp,
@@ -935,6 +1086,91 @@ public class InsertNewMessageAction extends Action implements Parcelable {
 
         MessagingContentProvider.notifyMessagesChanged(conversationId);
         MessagingContentProvider.notifyPartsChanged();
+        return true;
+    }
+
+    /**
+     * Writes a refused group text as a failed RCS row and returns true, even if the insert
+     * fails: returning false would fall through to MMS and send the text in the clear. FAILED,
+     * because the SMS queue never picks up an RCS row. No {@code rcs_message_id}: nothing was
+     * sent.
+     */
+    private boolean insertRefusedRcsGroupMessage(final MessageData content, final long timestamp,
+            final String conversationId) {
+        try {
+            final DatabaseWrapper db = DataModel.get().getDatabase();
+            db.beginTransaction();
+            try {
+                final MessageData message = MessageData.createOutgoingRcsMessage(
+                        conversationId, content.getSelfId(), content.getMessageText());
+                message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+                message.markMessageFailed(timestamp);
+                BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+                BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(),
+                        RcsMessageStore.rcsMetaValues(null /* rcsMessageId */,
+                                RcsConstants.RCS_STATUS_NONE));
+                BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                        conversationId, message.getMessageId(), timestamp,
+                        false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+                db.setTransactionSuccessful();
+                LogUtil.w(TAG, "insertRefusedRcsGroupMessage: landed message "
+                        + message.getMessageId() + " as OUTGOING_FAILED on conversation "
+                        + conversationId + " — it was NOT sent, in any form");
+            } finally {
+                db.endTransaction();
+            }
+            MessagingContentProvider.notifyMessagesChanged(conversationId);
+            MessagingContentProvider.notifyPartsChanged();
+        } catch (final Throwable t) {
+            // Still true: a lost message is better than cleartext over MMS.
+            LogUtil.e(TAG, "insertRefusedRcsGroupMessage: could not land the refused message on "
+                    + conversationId + " — it is NOT being sent and its text is lost from the "
+                    + "thread. Still refusing rather than falling through to MMS.", t);
+        }
+        return true;
+    }
+
+    /**
+     * The media counterpart of {@link #insertRefusedRcsGroupMessage}. Takes the part the caller
+     * was about to upload rather than re-deriving it, so the row describes the refused file.
+     * Written terminal because no status callback will follow.
+     */
+    private boolean insertRefusedRcsMediaMessage(final MessageData content, final long timestamp,
+            final String conversationId, final MessagePartData media) {
+        try {
+            final DatabaseWrapper db = DataModel.get().getDatabase();
+            db.beginTransaction();
+            try {
+                // The row keeps the typed text, as a sent file's row does.
+                final MessageData message = MessageData.createOutgoingRcsMediaMessage(
+                        conversationId, content.getSelfId(), media.getContentType(),
+                        media.getContentUri(), RcsFileAttachment.outgoingCaption(
+                                media.getText(), content.getMessageText()));
+                message.updateSendingMessage(conversationId, null /* messageUri */, timestamp);
+                message.markMessageFailed(timestamp);
+                BugleDatabaseOperations.insertNewMessageInTransaction(db, message);
+                BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(),
+                        RcsMessageStore.rcsMetaValues(null /* rcsMessageId */,
+                                RcsConstants.RCS_STATUS_NONE));
+                BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
+                        conversationId, message.getMessageId(), timestamp,
+                        false /* senderBlocked */, false /* shouldAutoSwitchSelfId */);
+                db.setTransactionSuccessful();
+                LogUtil.w(TAG, "insertRefusedRcsMediaMessage: landed message "
+                        + message.getMessageId() + " as OUTGOING_FAILED on conversation "
+                        + conversationId + " (mime=" + media.getContentType() + ") — the file was "
+                        + "NOT uploaded and NOT sent, in any form");
+            } finally {
+                db.endTransaction();
+            }
+            MessagingContentProvider.notifyMessagesChanged(conversationId);
+            MessagingContentProvider.notifyPartsChanged();
+        } catch (final Throwable t) {
+            // Still true: a lost attachment is better than cleartext over MMS.
+            LogUtil.e(TAG, "insertRefusedRcsMediaMessage: could not land the refused attachment on "
+                    + conversationId + " — it is NOT being sent and it is gone from the thread. "
+                    + "Still refusing rather than falling through to MMS.", t);
+        }
         return true;
     }
 

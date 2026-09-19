@@ -530,6 +530,18 @@
             </intent-filter>
         </receiver>
 
+        <!-- Actions on the stalled-encryption notification. Not exported: one of them turns
+             off end-to-end encryption for a conversation. -->
+        <receiver
+            android:name=".rcs.e2ee.MlsStalledActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.messaging.rcs.e2ee.MLS_STALLED_RETRY" />
+                <action android:name="com.android.messaging.rcs.e2ee.MLS_STALLED_DOWNGRADE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only receivers below: exported for adb, inert on a user build -->
         <receiver
             android:name=".rcs.RcsDebugSendReceiver"
             android:exported="true">
@@ -547,6 +559,14 @@
         </receiver>
 
         <receiver
+            android:name=".rcs.e2ee.MlsEnrollDebugReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.MLS_ENROLL" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
             android:name=".rcs.RcsDebugCarrierDriveReceiver"
             android:exported="true">
             <intent-filter>
@@ -554,6 +574,14 @@
                 <action android:name="com.android.messaging.debug.CARRIER_WARM" />
                 <action android:name="com.android.messaging.debug.CARRIER_SEND" />
                 <action android:name="com.android.messaging.debug.CARRIER_PLAIN" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.MlsSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.MLS_SEND" />
             </intent-filter>
         </receiver>
 

@@ -29,6 +29,38 @@ extern int rcs_mls_last_message_id_mismatch(void);
 extern RcsBytes rcs_mls_last_message_id_mismatch_detail(void);
 extern int rcs_mls_set_next_resent_component(const unsigned char *, size_t);
 extern RcsBytes rcs_mls_last_sender_msisdn(void);
+
+/* RCC.16 certificate encoders (rcc16_build.rs). A NULL return means the encoder refused: a hard
+ * failure, never an empty result. */
+extern RcsBytes rcs_mls_rcc16_subject_der(const unsigned char *, size_t);
+extern RcsBytes rcs_mls_rcc16_san_der(const unsigned char *, size_t);
+extern RcsBytes rcs_mls_rcc16_validity_der(unsigned long long, unsigned long long);
+extern RcsBytes rcs_mls_rcc16_tbs_der(const unsigned char *, size_t, unsigned long long,
+                                      const unsigned char *, size_t,
+                                      const unsigned char *, size_t,
+                                      const unsigned char *, size_t);
+extern RcsBytes rcs_mls_rcc16_ext4_der(unsigned long long,
+                                       const unsigned char *, size_t,
+                                       const unsigned char *, size_t,
+                                       const unsigned char *, size_t);
+
+/* Self-test PKI (rcc16_mint.rs); test scaffolding, not a CA. */
+extern RcsBytes rcs_mls_rcc16_tbs_ca(const unsigned char *, size_t, const unsigned char *, size_t,
+                                     const unsigned char *, size_t, const unsigned char *, size_t,
+                                     unsigned long long, unsigned long long,
+                                     const unsigned char *, size_t, const unsigned char *, size_t,
+                                     unsigned long long);
+extern RcsBytes rcs_mls_rcc16_tbs_leaf(const unsigned char *, size_t, const unsigned char *, size_t,
+                                       const unsigned char *, size_t, const unsigned char *, size_t,
+                                       unsigned long long, unsigned long long,
+                                       const unsigned char *, size_t, const unsigned char *, size_t,
+                                       const unsigned char *, size_t, const unsigned char *, size_t,
+                                       unsigned long long);
+extern RcsBytes rcs_mls_rcc16_certificate(const unsigned char *, size_t,
+                                          const unsigned char *, size_t);
+extern RcsBytes rcs_mls_rcc16_ca_name_der(const unsigned char *, size_t,
+                                          const unsigned char *, size_t);
+extern RcsBytes rcs_mls_rcc16_corrupt_pop(const unsigned char *, size_t);
 extern RcsBytes rcs_mls_generate_key_packages(RcsMlsSession *, unsigned int count);
 extern RcsBytes rcs_mls_generate_last_resort_kp(RcsMlsSession *);
 extern RcsBytes rcs_mls_key_package_ref(RcsMlsSession *, const unsigned char *, size_t);
@@ -691,4 +723,135 @@ JNIEXPORT jbyteArray JNICALL JNI_FN(nativeProcess)(JNIEnv *e, jclass c, jlong h,
 }
 JNIEXPORT void JNICALL JNI_FN(nativeSessionClose)(JNIEnv *e, jclass c, jlong h) {
     (void)e; (void)c; if (h) rcs_mls_session_close((RcsMlsSession *)(intptr_t)h);
+}
+
+/* ---- RCC.16 certificate encoding ----
+ * Stateless. Private-key operations stay in Java: nativeRcc16TbsDer returns the bytes to sign and
+ * nativeRcc16Ext4Der takes the finished signature. */
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16SubjectDer)(
+        JNIEnv *e, jclass c, jbyteArray cn) {
+    (void)c;
+    size_t n; unsigned char *b = jba(e, cn, &n);
+    RcsBytes r = rcs_mls_rcc16_subject_der(b, n);
+    free(b);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16SanDer)(
+        JNIEnv *e, jclass c, jbyteArray uri) {
+    (void)c;
+    size_t n; unsigned char *b = jba(e, uri, &n);
+    RcsBytes r = rcs_mls_rcc16_san_der(b, n);
+    free(b);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16ValidityDer)(
+        JNIEnv *e, jclass c, jlong notBefore, jlong notAfter) {
+    (void)c;
+    return rb_to_jba(e, rcs_mls_rcc16_validity_der((unsigned long long)notBefore,
+                                                   (unsigned long long)notAfter));
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16TbsDer)(
+        JNIEnv *e, jclass c, jbyteArray subject, jlong vendorId,
+        jbyteArray validity, jbyteArray leafSpki, jbyteArray san) {
+    (void)c;
+    size_t sl, vl, kl, al;
+    unsigned char *s = jba(e, subject, &sl);
+    unsigned char *v = jba(e, validity, &vl);
+    unsigned char *k = jba(e, leafSpki, &kl);
+    unsigned char *a = jba(e, san, &al);
+    RcsBytes r = rcs_mls_rcc16_tbs_der(s, sl, (unsigned long long)vendorId,
+                                       v, vl, k, kl, a, al);
+    free(s); free(v); free(k); free(a);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16Ext4Der)(
+        JNIEnv *e, jclass c, jlong vendorId, jbyteArray validity,
+        jbyteArray popSig, jbyteArray participantSpki) {
+    (void)c;
+    size_t vl, gl, kl;
+    unsigned char *v = jba(e, validity, &vl);
+    unsigned char *g = jba(e, popSig, &gl);
+    unsigned char *k = jba(e, participantSpki, &kl);
+    RcsBytes r = rcs_mls_rcc16_ext4_der((unsigned long long)vendorId, v, vl, g, gl, k, kl);
+    free(v); free(g); free(k);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16TbsCa)(
+        JNIEnv *e, jclass c, jbyteArray issuer, jbyteArray subject, jbyteArray spki,
+        jbyteArray serial, jlong notBefore, jlong notAfter, jbyteArray ski, jbyteArray aki,
+        jlong vendorId) {
+    (void)c;
+    size_t il, sl, kl, nl, skl, akl;
+    unsigned char *i = jba(e, issuer, &il);
+    unsigned char *s = jba(e, subject, &sl);
+    unsigned char *k = jba(e, spki, &kl);
+    unsigned char *n = jba(e, serial, &nl);
+    unsigned char *sk = jba(e, ski, &skl);
+    unsigned char *ak = jba(e, aki, &akl);
+    RcsBytes r = rcs_mls_rcc16_tbs_ca(i, il, s, sl, k, kl, n, nl,
+                                      (unsigned long long)notBefore,
+                                      (unsigned long long)notAfter,
+                                      sk, skl, ak, akl, (unsigned long long)vendorId);
+    free(i); free(s); free(k); free(n); free(sk); free(ak);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16TbsLeaf)(
+        JNIEnv *e, jclass c, jbyteArray issuer, jbyteArray subject, jbyteArray spki,
+        jbyteArray serial, jlong notBefore, jlong notAfter, jbyteArray ski, jbyteArray aki,
+        jbyteArray san, jbyteArray ext4, jlong vendorId) {
+    (void)c;
+    size_t il, sl, kl, nl, skl, akl, sal, e4l;
+    unsigned char *i = jba(e, issuer, &il);
+    unsigned char *s = jba(e, subject, &sl);
+    unsigned char *k = jba(e, spki, &kl);
+    unsigned char *n = jba(e, serial, &nl);
+    unsigned char *sk = jba(e, ski, &skl);
+    unsigned char *ak = jba(e, aki, &akl);
+    unsigned char *sa = jba(e, san, &sal);
+    unsigned char *e4 = jba(e, ext4, &e4l);
+    RcsBytes r = rcs_mls_rcc16_tbs_leaf(i, il, s, sl, k, kl, n, nl,
+                                        (unsigned long long)notBefore,
+                                        (unsigned long long)notAfter,
+                                        sk, skl, ak, akl, sa, sal, e4, e4l,
+                                        (unsigned long long)vendorId);
+    free(i); free(s); free(k); free(n); free(sk); free(ak); free(sa); free(e4);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16Certificate)(
+        JNIEnv *e, jclass c, jbyteArray tbs, jbyteArray sig) {
+    (void)c;
+    size_t tl, gl;
+    unsigned char *t = jba(e, tbs, &tl);
+    unsigned char *g = jba(e, sig, &gl);
+    RcsBytes r = rcs_mls_rcc16_certificate(t, tl, g, gl);
+    free(t); free(g);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16CaNameDer)(
+        JNIEnv *e, jclass c, jbyteArray org, jbyteArray cn) {
+    (void)c;
+    size_t ol, cl;
+    unsigned char *o = jba(e, org, &ol);
+    unsigned char *n = jba(e, cn, &cl);
+    RcsBytes r = rcs_mls_rcc16_ca_name_der(o, ol, n, cl);
+    free(o); free(n);
+    return rb_to_jba(e, r);
+}
+
+JNIEXPORT jbyteArray JNICALL JNI_FN(nativeRcc16CorruptPop)(
+        JNIEnv *e, jclass c, jbyteArray ext4) {
+    (void)c;
+    size_t n; unsigned char *b = jba(e, ext4, &n);
+    RcsBytes r = rcs_mls_rcc16_corrupt_pop(b, n);
+    free(b);
+    return rb_to_jba(e, r);
 }

@@ -52,6 +52,9 @@ public class DatabaseUpgradeHelper {
         if (currentVersion < 3) {
             currentVersion = upgradeToVersion3(db);
         }
+        if (currentVersion < 4) {
+            currentVersion = upgradeToVersion4(db);
+        }
         // Rebuild all the views
         final Context context = Factory.get().getApplicationContext();
         DatabaseHelper.dropAllViews(db);
@@ -67,8 +70,8 @@ public class DatabaseUpgradeHelper {
         return 2;
     }
 
-    // The RCS client's schema additions. Frozen once shipped: additive only, so a failure
-    // part-way leaves the database readable at its version.
+    // The RCS client's schema additions. Frozen once shipped (see upgradeToVersion4): additive
+    // only, so a failure part-way leaves the database readable at its version.
     private int upgradeToVersion3(final SQLiteDatabase db) {
         {   // the RCS columns and index on messages
             final String t = DatabaseHelper.MESSAGES_TABLE;
@@ -144,6 +147,45 @@ public class DatabaseUpgradeHelper {
         }
         LogUtil.i(TAG, "Upgraded database to version 3");
         return 3;
+    }
+
+    // The MLS schema additions; a device may sit at version 3 without MLS. The statements are
+    // spelled out rather than shared with DatabaseHelper so a later schema change cannot alter
+    // what this shipped upgrade does.
+    private int upgradeToVersion4(final SQLiteDatabase db) {
+        {   // the resend side table
+            db.execSQL("CREATE TABLE " + DatabaseHelper.MLS_RESENDS_TABLE + " ("
+                    + DatabaseHelper.MlsResendColumns.RCS_MESSAGE_ID
+                    + " TEXT PRIMARY KEY NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.MANUAL_RESEND_OF + " TEXT NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.RECIPIENT_ADDRESS + " TEXT, "
+                    + DatabaseHelper.MlsResendColumns.RECIPIENT_CLIENT_ID + " TEXT, "
+                    + DatabaseHelper.MlsResendColumns.FTD_RESEND_COUNT
+                    + " INT DEFAULT(0) NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.CONVERSATION_KEY + " TEXT, "
+                    + DatabaseHelper.MlsResendColumns.TIMESTAMP + " INT DEFAULT(0) NOT NULL"
+                    + ");");
+            db.execSQL("CREATE INDEX index_" + DatabaseHelper.MLS_RESENDS_TABLE + "_original ON "
+                    + DatabaseHelper.MLS_RESENDS_TABLE + "("
+                    + DatabaseHelper.MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + ")");
+            db.execSQL("CREATE INDEX index_" + DatabaseHelper.MLS_RESENDS_TABLE + "_recipient ON "
+                    + DatabaseHelper.MLS_RESENDS_TABLE + "("
+                    + DatabaseHelper.MlsResendColumns.RECIPIENT_ADDRESS + ")");
+        }
+        {   // the re-upgrade counters
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE
+                    + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.MLS_REUPGRADE_ATTEMPTS
+                    + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.MLS_EAGERLY_DOWNGRADED
+                    + " INT DEFAULT(0)");
+        }
+        LogUtil.i(TAG, "Upgraded database to version 4");
+        return 4;
     }
 
     /**

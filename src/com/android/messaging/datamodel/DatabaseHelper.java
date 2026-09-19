@@ -69,6 +69,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public static final String RCS_REACTIONS_TABLE = "rcs_reactions";
 
+    /**
+     * MLS resend register (RCC.16 §11.1): one row per resend, never for the original send. See
+     * docs/mls/health-and-recovery.md.
+     */
+    public static final String MLS_RESENDS_TABLE = "mls_resends";
+
     // Views
     static final String DRAFT_PARTS_VIEW = "draft_parts_view";
 
@@ -162,7 +168,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Latched EncryptionProtocolBits; 0 is plaintext.
         public static final String ENCRYPTION_PROTOCOL = "encryption_protocol";
 
-        // 1 when we are no longer a member of this RCS group; see docs/rcs/groups.md.
+        // Re-upgrade state after a downgrade; see docs/mls/downgrade.md.
+
+        /**
+         * ms since epoch; 0 = never. Written when a downgrade reason has {@code expected=false}.
+         */
+        public static final String MLS_LAST_UNEXPECTED_DOWNGRADE = "mls_last_unexpected_downgrade";
+        /** Re-upgrade attempts since the last reset; feeds a clamped backoff exponent. */
+        public static final String MLS_REUPGRADE_ATTEMPTS = "mls_reupgrade_attempts";
+        /** 1 when the app downgraded its own state ahead of the engine. */
+        public static final String MLS_EAGERLY_DOWNGRADED = "mls_eagerly_downgraded";
+
+        // 1 when we are no longer a member of this RCS group. Unrelated to
+        // MlsConversationRecord.selfLeftAtMs; see docs/rcs/groups.md.
         public static final String RCS_SELF_LEFT = "rcs_self_left";
     }
 
@@ -199,6 +217,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + ConversationColumns.RCS_GROUP_ID + " TEXT, "
                     + ConversationColumns.NEEDS_ROSTER_REFILL + " INT DEFAULT(0), "
                     + ConversationColumns.ENCRYPTION_PROTOCOL + " INT DEFAULT(0), "
+                    + ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE + " INT DEFAULT(0), "
+                    + ConversationColumns.MLS_REUPGRADE_ATTEMPTS + " INT DEFAULT(0), "
+                    + ConversationColumns.MLS_EAGERLY_DOWNGRADED + " INT DEFAULT(0), "
                     + ConversationColumns.RCS_SELF_LEFT + " INT DEFAULT(0)"
                     + ");";
 
@@ -373,6 +394,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String TIMESTAMP = "timestamp";
     }
 
+    public static class MlsResendColumns {
+        /* the resend's new wire id (primary key) */
+        public static final String RCS_MESSAGE_ID = "rcs_message_id";
+        /* the chain root: the message the user sent */
+        public static final String ORIGINAL_RCS_MESSAGE_ID = "original_rcs_message_id";
+        /* the id this attempt replaces */
+        public static final String MANUAL_RESEND_OF = "manual_resend_of_rcs_message";
+        /* the member this resend is for; bookkeeping, not an address */
+        public static final String RECIPIENT_ADDRESS = "resend_recipient_address";
+        /* that member's client id, or empty */
+        public static final String RECIPIENT_CLIENT_ID = "resend_recipient_client_id";
+        /* max(siblings)+1, computed at insert */
+        public static final String FTD_RESEND_COUNT = "ftd_resend_count";
+        /* the conversation key, to scope a repair's clear */
+        public static final String CONVERSATION_KEY = "conversation_key";
+        /* ms timestamp recorded; minus the retirement time once the chain was delivered */
+        public static final String TIMESTAMP = "timestamp";
+    }
+
     private static final String CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL =
             "CREATE TABLE " + RCS_GROUP_RECEIPTS_TABLE + " ("
                     + RcsGroupReceiptColumns.MESSAGE_ID + " INT NOT NULL, "
@@ -404,6 +444,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE INDEX index_" + RCS_REACTIONS_TABLE + "_target ON "
                     + RCS_REACTIONS_TABLE + "("
                     + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + ")";
+
+    // No foreign key on ORIGINAL_RCS_MESSAGE_ID: messages.rcs_message_id is not unique (status
+    // rows keep a signature there), and SQLite requires a unique parent key.
+    private static final String CREATE_MLS_RESENDS_TABLE_SQL =
+            "CREATE TABLE " + MLS_RESENDS_TABLE + " ("
+                    + MlsResendColumns.RCS_MESSAGE_ID + " TEXT PRIMARY KEY NOT NULL, "
+                    + MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + MlsResendColumns.MANUAL_RESEND_OF + " TEXT NOT NULL, "
+                    + MlsResendColumns.RECIPIENT_ADDRESS + " TEXT, "
+                    + MlsResendColumns.RECIPIENT_CLIENT_ID + " TEXT, "
+                    + MlsResendColumns.FTD_RESEND_COUNT + " INT DEFAULT(0) NOT NULL, "
+                    + MlsResendColumns.CONVERSATION_KEY + " TEXT, "
+                    + MlsResendColumns.TIMESTAMP + " INT DEFAULT(0) NOT NULL"
+                    + ");";
+
+    // The sibling-max query runs on every resend.
+    private static final String MLS_RESENDS_TABLE_ORIGINAL_INDEX_SQL =
+            "CREATE INDEX index_" + MLS_RESENDS_TABLE + "_original ON "
+                    + MLS_RESENDS_TABLE + "("
+                    + MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + ")";
+
+    // Counted per peer on every negative receipt.
+    private static final String MLS_RESENDS_TABLE_RECIPIENT_INDEX_SQL =
+            "CREATE INDEX index_" + MLS_RESENDS_TABLE + "_recipient ON "
+                    + MLS_RESENDS_TABLE + "("
+                    + MlsResendColumns.RECIPIENT_ADDRESS + ")";
 
     // Parts table schema
     // A part may contain text or a media url, but not both.
@@ -634,6 +700,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CREATE_CONVERSATION_PARTICIPANTS_TABLE_SQL,
         CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL,
         CREATE_RCS_REACTIONS_TABLE_SQL,
+        CREATE_MLS_RESENDS_TABLE_SQL,
     };
 
     // List of all our indices
@@ -649,6 +716,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CONVERSATION_PARTICIPANTS_TABLE_CONVERSATION_ID_INDEX_SQL,
         RCS_GROUP_RECEIPTS_TABLE_MESSAGE_ID_INDEX_SQL,
         RCS_REACTIONS_TABLE_TARGET_INDEX_SQL,
+        MLS_RESENDS_TABLE_ORIGINAL_INDEX_SQL,
+        MLS_RESENDS_TABLE_RECIPIENT_INDEX_SQL,
     };
 
     // List of all our SQL triggers

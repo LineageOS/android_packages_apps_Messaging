@@ -6,7 +6,7 @@ package com.android.messaging.rcs;
 
 import android.os.SystemProperties;
 
-/** The one app-side test for a debug build. */
+/** The one app-side test for a debug build. The engine's is {@code MlsSysProps.debuggableBuild}. */
 public final class RcsDebug {
 
     private RcsDebug() {}
