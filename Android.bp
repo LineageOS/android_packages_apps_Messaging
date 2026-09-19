@@ -224,11 +224,15 @@ java_test_host {
         "tests/src/com/android/messaging/rcs/carrier/**/*.java",
         // For the source-scan halves of the carrier guards.
         "tests/src/com/android/messaging/rcs/SourceScan.java",
+        // App-side and pure Java; used to build real framed payloads for the binary-safety test.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccMlsBody.java",
         // The registrar's bearer and P-CSCF decision; the SystemProperties read stays in
         // CarrierSipRegistrar.
         "src/com/android/messaging/rcs/carrier/CarrierSipPlane.java",
     ],
     static_libs: [
+        // For RccContentDisposition: messaging-mls-engine is a device library.
+        "messaging-mls-policy-host",
         "messaging-rcs-msrp-host",
         "messaging-rcs-msrp-session-host",
         "messaging-rcs-sip-host",
@@ -277,6 +281,8 @@ java_test_host {
         "src/com/android/messaging/rcs/e2ee/E2eeSchemeGate.java",
         "src/com/android/messaging/rcs/e2ee/EncryptionProtocolBits.java",
         "src/com/android/messaging/rcs/e2ee/MlsCapabilities.java",
+        // Whether an inbound MLS message is a redelivery of a stored one.
+        "src/com/android/messaging/rcs/e2ee/MlsInboundRedelivery.java",
         "src/com/android/messaging/rcs/e2ee/RcsE2eeScheme.java",
         "tests/hoststubs/android/os/SystemProperties.java",
         "tests/hoststubs/android/text/TextUtils.java",
@@ -286,53 +292,6 @@ java_test_host {
         "junit-host",
     ],
     test_suites: ["general-tests"],
-}
-
-// The Rust MLS core (mls-rs), linked into the JNI bridge; see docs/mls/rust-core.md.
-rust_ffi_static {
-    name: "librcs_mls_ffi",
-    crate_name: "rcs_mls_ffi",
-    srcs: ["rust/rcs_mls_ffi/src/lib.rs"],
-    edition: "2021",
-    enabled: false,
-    arch: { arm64: { enabled: true } },
-    compile_multilib: "first",
-    // The relaxed lint set: the platform set adds -D missing-docs and -D unsafe_op_in_unsafe_fn,
-    // which this FFI crate does not meet. "vendor" still runs clippy and denies warnings.
-    lints: "vendor",
-    clippy_lints: "vendor",
-    rustlibs: [
-        "libmls_rs_fork",
-        "libmls_rs_core_mls_rs",
-        "libmls_rs_crypto_rustcrypto",
-        "libmls_rs_identity_x509",
-        "libzeroize_mls_rs",
-        "libgetrandom_mls_rs",
-        "libder_mls_rs",
-        "libx509_cert_mls_rs",
-        "libsha2",
-        "libp256",
-    ],
-    system_ext_specific: true,
-    // Plain C ABI so more than one JNI bridge can link it.
-    visibility: ["//packages/apps/Messaging"],
-}
-
-cc_library_shared {
-    name: "libmlsopenmlsbridge",
-    srcs: ["jni/mls_openmls_bridge.c"],
-    header_libs: ["jni_headers"],
-    whole_static_libs: ["librcs_mls_ffi"],
-    shared_libs: ["liblog"],
-    compile_multilib: "64",
-    enabled: false,
-    arch: { arm64: { enabled: true } },
-    system_ext_specific: true,
-    visibility: [
-        "//packages/apps/Messaging",
-        // The self-test APK under selftest/.
-        "//packages/apps/Messaging:__subpackages__",
-    ],
 }
 
 // The MLS engine; see docs/mls/overview.md. The package name fixes the JNI symbol names
@@ -536,4 +495,69 @@ java_library_host {
         // The self-test APK under selftest/.
         "//packages/apps/Messaging:__subpackages__",
     ],
+}
+
+// The Rust MLS core (mls-rs), linked into the JNI bridge; see docs/mls/rust-core.md.
+rust_ffi_static {
+    name: "librcs_mls_ffi",
+    crate_name: "rcs_mls_ffi",
+    srcs: ["rust/rcs_mls_ffi/src/lib.rs"],
+    edition: "2021",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    compile_multilib: "first",
+    // The relaxed lint set: the platform set adds -D missing-docs and -D unsafe_op_in_unsafe_fn,
+    // which this FFI crate does not meet. "vendor" still runs clippy and denies warnings.
+    lints: "vendor",
+    clippy_lints: "vendor",
+    rustlibs: [
+        "libmls_rs_fork",
+        "libmls_rs_core_mls_rs",
+        "libmls_rs_crypto_rustcrypto",
+        "libmls_rs_identity_x509",
+        "libzeroize_mls_rs",
+        "libgetrandom_mls_rs",
+        "libder_mls_rs",
+        "libx509_cert_mls_rs",
+        "libsha2",
+        "libp256",
+    ],
+    system_ext_specific: true,
+    // Plain C ABI so more than one JNI bridge can link it.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+cc_library_shared {
+    name: "libmlsopenmlsbridge",
+    srcs: ["jni/mls_openmls_bridge.c"],
+    header_libs: ["jni_headers"],
+    whole_static_libs: ["librcs_mls_ffi"],
+    shared_libs: ["liblog"],
+    compile_multilib: "64",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    system_ext_specific: true,
+    visibility: [
+        "//packages/apps/Messaging",
+        // The self-test APK under selftest/.
+        "//packages/apps/Messaging:__subpackages__",
+    ],
+}
+
+// Host tests for the MLS engine's pure-Java pieces; see docs/testing.md.
+java_test_host {
+    name: "messaging-mls-engine-host-tests",
+    srcs: [
+        "tests/src/com/android/messaging/rcs/engine/**/*.java",
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+        // App-side pure classes, compiled here rather than promoted into the engine library.
+        "engine/src/com/android/messaging/rcs/engine/mls/RccMlsBody.java",
+        "src/com/android/messaging/rcs/e2ee/MlsSendRouting.java",
+        "src/com/android/messaging/rcs/e2ee/MlsCarrierTrust.java",
+    ],
+    static_libs: [
+        "messaging-mls-policy-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
 }
