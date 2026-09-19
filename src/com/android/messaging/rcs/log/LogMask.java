@@ -12,7 +12,8 @@ import java.util.Collection;
  * line that a debug build alone writes. Unlike {@code LogUtil.sanitizePII}, which a log-tag
  * property can switch off on a user build, this has no switch.
  *
- * <p>Pure Java, so the host tests compile it as {@code messaging-log-mask-host}.
+ * <p>Pure Java and a module of its own ({@code messaging-log-mask}), so the MLS engine, which
+ * cannot see the app's classes, uses the same one.
  */
 public final class LogMask {
 
