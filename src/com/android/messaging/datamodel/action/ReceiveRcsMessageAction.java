@@ -4,7 +4,6 @@
  */
 package com.android.messaging.datamodel.action;
 
-import com.android.messaging.rcs.RcsContentDisposition;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
@@ -32,6 +31,7 @@ import com.android.messaging.rcs.ProviderTransport;
 import com.android.messaging.rcs.RcsIosTapback;
 import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.sms.MmsSmsUtils;
+import com.android.messaging.rcs.engine.mls.RccContentDisposition;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 
@@ -56,15 +56,15 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
 
     /**
      * @param msg an inbound message whose {@code contentType} and {@code body} are already the
-     *     inner content, with any framing removed by the producer
+     *     inner content, with any RCC.16 framing removed by the producer
      */
     public ReceiveRcsMessageAction(final RcsIncomingMessage msg) {
         actionParameters.putInt(KEY_SUB_ID, msg.subId);
         actionParameters.putString(KEY_RCS_MESSAGE_ID, msg.messageId);
         actionParameters.putString(KEY_FROM_URI, msg.fromUri);
-        // The producer owns unframing; contentType and body are taken verbatim. Parsing twice is
-        // not safe: a text message that begins with something frame-shaped would be consumed by
-        // the second pass.
+        // The producer owns RCC.16 unframing; contentType and body are taken verbatim. Do not call
+        // RccMlsBody.parse here: parsing twice is not safe, since a text message that begins with
+        // something frame-shaped would be consumed by the second pass.
         actionParameters.putString(KEY_CONTENT_TYPE, msg.contentType);
         actionParameters.putByteArray(KEY_BODY, msg.body);
         actionParameters.putLong(KEY_SERVER_TS_USEC, msg.serverTimestampUsec);
@@ -131,7 +131,7 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
             case MEDIA: {
                 // MIME types are case-insensitive (RFC 2045 §5.1) and the renderers compare
                 // case-sensitively, so normalise before any use.
-                final String mediaType = RcsContentDisposition.canonicalType(contentType);
+                final String mediaType = RccContentDisposition.canonicalType(contentType);
                 mediaUri = stageBytesToScratch(context, body, mediaType);
                 if (mediaUri != null) {
                     mediaMime = mediaType;
@@ -244,7 +244,7 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
                     BugleDatabaseOperations.getOrCreateParticipantInTransaction(db, self);
 
             if (mediaUri != null) {
-                // Inline media carries no caption.
+                // Inline MLS media carries no caption.
                 message = MessageData.createReceivedRcsMediaMessage(conversationId, participantId,
                         selfId, mediaMime, mediaUri, /*caption=*/ null, sent, received, seen, read);
             } else {
@@ -292,7 +292,7 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
         return message;
     }
 
-    /** {@code groupId} is null for a 1:1. */
+    /** The group id selects which MLS group state stamps the receipt; null uses the 1:1. */
     private static void sendDeliveredReceipt(final String rcsMessageId, final String fromUri,
             @Nullable final String groupId) {
         final ProviderTransport transport = ProviderTransport.peekInstance();
@@ -306,19 +306,19 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
     private enum Disposition { TEXT, MEDIA, FT, LOCATION, DROP }
 
     /**
-     * Maps the content type to a disposition via {@link RcsContentDisposition}. Unknown types are
+     * Maps the content type to a disposition via {@link RccContentDisposition}. Unknown types are
      * dropped, never rendered as text.
      */
     private static Disposition classify(final String contentType) {
-        final int d = RcsContentDisposition.classify(contentType);
+        final int d = RccContentDisposition.classify(contentType);
         switch (d) {
-            case RcsContentDisposition.MEDIA:    return Disposition.MEDIA;
-            case RcsContentDisposition.FT:       return Disposition.FT;
-            case RcsContentDisposition.LOCATION: return Disposition.LOCATION;
-            case RcsContentDisposition.TEXT:     return Disposition.TEXT;
+            case RccContentDisposition.MEDIA:    return Disposition.MEDIA;
+            case RccContentDisposition.FT:       return Disposition.FT;
+            case RccContentDisposition.LOCATION: return Disposition.LOCATION;
+            case RccContentDisposition.TEXT:     return Disposition.TEXT;
             default:
                 LogUtil.i(TAG, "ReceiveRcsMessageAction: dropping contentType=" + contentType
-                        + " (" + RcsContentDisposition.name(d) + ") — not rendered as a message");
+                        + " (" + RccContentDisposition.name(d) + ") — not rendered as a message");
                 return Disposition.DROP;
         }
     }
@@ -345,7 +345,7 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
         }
     }
 
-    /** Best-effort file extension for a MIME (MediaScratchFileProvider keys files by it). */
+    /** Best-effort file extension for a MIME (MediaScratch keys files by it). */
     private static String extensionFor(final String mime) {
         final String ext = TextUtils.isEmpty(mime) ? null
                 : android.webkit.MimeTypeMap.getSingleton().getExtensionFromMimeType(mime);
@@ -376,10 +376,11 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
         } catch (final Throwable t) {
             LogUtil.w(TAG, "ReceiveRcsMessageAction: FT descriptor parse failed", t);
         }
-        final StringBuilder sb = new StringBuilder("📎 ");        sb.append(!TextUtils.isEmpty(name)
-                ? name : "Attachment");
+        final StringBuilder sb = new StringBuilder("📎 ");
+        sb.append(!TextUtils.isEmpty(name) ? name : "Attachment");
         if (!TextUtils.isEmpty(size)) {
-            sb.append(" · ").append(size);        }
+            sb.append(" · ").append(size);
+        }
         return sb.toString();
     }
 
@@ -394,14 +395,15 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
             if (m.find()) {
                 final double lat = Double.parseDouble(m.group(1));
                 final double lon = Double.parseDouble(m.group(2));
-                return "📍 Shared location\n"                        + String.format(
-                                java.util.Locale.US,
+                return "📍 Shared location\n"
+                        + String.format(java.util.Locale.US,
                                 "https://maps.google.com/?q=%.6f,%.6f", lat, lon);
             }
         } catch (final Throwable t) {
             LogUtil.w(TAG, "ReceiveRcsMessageAction: location parse failed", t);
         }
-        return "📍 Shared location";    }
+        return "📍 Shared location";
+    }
 
     /** Compact human byte size (e.g. "1.2 MB") for the FT placeholder. */
     private static String humanSize(final long bytes) {

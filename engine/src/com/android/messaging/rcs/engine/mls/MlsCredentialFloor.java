@@ -4,6 +4,7 @@
  */
 package com.android.messaging.rcs.engine.mls;
 
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Group;
 import com.android.messaging.rcs.log.LogMask;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -150,5 +151,27 @@ public final class MlsCredentialFloor {
             final long floorDays) {
         if (notAfterSecs <= 0L) return false;
         return notAfterSecs - nowSecs < floorDays * 86400L;
+    }
+
+    /**
+     * How many of this group's members have expired certificates.
+     *
+     * @return the count, or -1 if validity cannot be read (distinct from zero)
+     */
+    public static int expiredMemberCount(final MlsSession session, final Group g) {
+        if (session == null || g == null || g.groupId == null) return -1;
+        final java.util.Map<Integer, long[]> v = session.memberValidity(g.groupId);
+        if (v == null || v.isEmpty()) return -1;
+        final long now = System.currentTimeMillis() / 1000L;
+        int expired = 0;
+        for (final java.util.Map.Entry<Integer, long[]> e : v.entrySet()) {
+            final long nb = e.getValue()[0];
+            final long na = e.getValue()[1];
+            // An unreadable leaf is not expired; counting it would era-advance the group over a
+            // parse failure.
+            if (nb == 0 && na == 0) continue;
+            if (na <= now) expired++;
+        }
+        return expired;
     }
 }

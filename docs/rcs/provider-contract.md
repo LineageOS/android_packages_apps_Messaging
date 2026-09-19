@@ -38,8 +38,8 @@ parcelables below.
 | Wake broadcast (provider to app) | `org.lineageos.rcs.provider.action.WAKE_FOR_INBOUND`, received by `RcsProviderWakeReceiver`, which requires the same permission from the sender |
 | Status broadcast action | `org.lineageos.rcs.provider.action.TRANSPORT_STATUS` (`RcsConstants`) |
 
-The permission gating the provider's service is part of the contract's security, not a
-convenience: every method acts on the user's messaging identity.
+Some methods return key material (`exportMlsIdentity`), so the permission gating the provider's
+service is part of the contract's security, not a convenience.
 
 ## Session
 
@@ -65,17 +65,20 @@ built against the old order does not fail, it lands on a different method with a
 parcel. Therefore:
 
 * New methods are appended at the end of the interface. Never inserted, never reordered.
-* A changed parameter list is a new method, appended: widening an existing method would leave an
-  older caller marshalling a shorter parcel into a reader expecting a longer one.
+* A changed parameter list is a new method, appended. `sendMlsGroupImdn` exists beside
+  `sendMlsImdn` for this reason: widening `sendMlsImdn` would leave an older caller marshalling a
+  shorter parcel into a reader expecting a longer one.
 * The one exception: a one-way callback may gain a trailing `@nullable` parameter in place, as
   `onMessageStatus` gained `e2eeSchemeId`. The generated reader takes a missing trailing argument as
   null and does not check for an extra one, a one-way call returns nothing, and the parameter is
   defined so that null is the conservative answer; an older peer on either side therefore
   under-claims rather than misreads. Ordinal and name are unchanged, so the layout digest is too. A
   synchronous method, or a parameter whose null is not the safe answer, still needs a new method.
+* The MLS methods form one block at the end of each interface; new MLS methods go at the end of that
+  block.
 * The rule applies to both interfaces, each in its own direction: the app dials `IRcsProvider`, the
-  provider dials `IRcsProviderCallback`, and a skew in the callback mis-delivers inbound messages
-  and receipts onto the wrong handler.
+  provider dials `IRcsProviderCallback`, and a skew in the callback mis-delivers inbound messages,
+  receipts and MLS control onto the wrong handler.
 
 Appending keeps an older peer working for everything it already knows; it fails only on the call it
 does not have.
@@ -156,8 +159,9 @@ Every parcelable is a flat, hand-written `Parcelable` with public final fields. 
 * `writeToParcel` and the parcel constructor must agree field for field; a mismatch is silent.
 * A new field is appended after the last one. Fields added this way are nullable or have a neutral
   default, and constructors are added as overloads so older call sites keep compiling. Both sides
-  are still expected to come from the same source; `RcsIncomingFile` additionally reads its
-  trailing `e2eeSchemeId` only when `Parcel.dataAvail() > 0`, defaulting to null.
+  are still expected to come from the same source; `RcsMlsPeerCaps` additionally reads its trailing
+  `lookupState` only when `Parcel.dataAvail() > 0`, defaulting to `LOOKUP_UNKNOWN`, and
+  `RcsIncomingFile` its trailing `e2eeSchemeId`, defaulting to null.
 
 | Parcelable | Direction | Content |
 |---|---|---|
@@ -173,6 +177,11 @@ Every parcelable is a flat, hand-written `Parcelable` with public final fields. 
 | `RcsBotBrand` | provider to app | Business-messaging brand: name, description, colour, logo and hero URLs, verification, contact fields |
 | `RcsIncomingBotMessage` | provider to app | `botId`, `contentType`, unparsed `jsonBody`, `fallbackText` |
 | `RcsE2eeInfo` | provider to app | `available`, `enabled`, opaque `schemeId`, human `schemeLabel` |
+| `RcsMlsPeerCaps` | provider to app | Parallel `names`/`values` arrays of the peer's advertised MLS feature tags, and `lookupState` |
+| `RcsMlsControlResult` | provider to app | `verdict`, opaque `response`, diagnostic `detail` |
+| `RcsMlsClaimResult` | provider to app | `outcome`, length-prefixed `keyPackages`, diagnostic `detail` |
+| `RcsMlsTransportProfile` | provider to app | `serverArbitratesEra`, `requiresConvergenceAck`, `acceptsMemberExternalCommit`, `hasServerGroupInfo` |
+| `RcsMlsIdentity` | provider to app | `e164`, `leafDer`, `chainDer`, `subjectPriv`, `subjectPub`, `roots`, `revokedSerials` (revoked intermediate-CA serials; leaf certificates are not revocable, so this is the only revocation lever; empty, or null, is the normal state) |
 
 Notes that constrain implementers:
 
@@ -185,21 +194,74 @@ Notes that constrain implementers:
   user accepts the download; the second `onIncomingMedia` carries the file. The app uses a non-empty
   `contentUri` as is and closes the redundant descriptor; with no URI it copies the descriptor into
   its own scratch storage. Thumbnails are handled the same way.
-* **Encryption schemes are strings, not an enum.** `RcsE2eeInfo.schemeId` is a reverse-DNS
-  identifier the implementation chooses, compared like a MIME type, so a new scheme needs no
-  contract change. `getE2eeInfo` reports encryption done inside the provider; the app only reads its
-  availability and the per-message `e2eeSchemeId` tag. `RcsE2eeScheme` holds the scheme ids the app
-  recognises.
+* **E2EE schemes are strings, not an enum.** `RcsE2eeInfo.schemeId` is a reverse-DNS identifier
+  the implementation chooses; the app's MLS scheme is `gsma.rcs-e2ee.mls`. A new scheme needs no
+  contract change. `getE2eeInfo` reports encryption done inside the provider; app-layer MLS is the
+  app's own and is composed with it above this struct. `RcsE2eeScheme` holds the scheme ids the app
+  recognises and the MLS capability tags it reads from a peer's capability map.
+* **Peer capabilities are an open map.** Vendors advertise different subsets of the MLS tags, so
+  typed fields would freeze one subset. An empty map means "nothing known", never "not capable".
+  `lookupState` is kept out of the map because it is a fact about the lookup, not about the peer:
+  `LOOKUP_UNKNOWN` (the lookup failed; says nothing), `LOOKUP_REGISTERED`, `LOOKUP_NOT_REGISTERED`
+  (the only value a caller may treat as a negative).
+* **Length-prefixed byte lists.** Where a method returns several byte strings in one `byte[]`
+  (`claimPeerKeyPackages`, `RcsMlsClaimResult.keyPackages`, `fetchMissedCommits`,
+  `getMlsTrustAnchors`, the `onMlsControlBundle` payload) the packing is repeated
+  `[u32 big-endian length][bytes]` records, in order.
+
+### The vocabulary firewall
+
+`RcsMlsControlResult.verdict` and `RcsMlsClaimResult.outcome` are spec-level. The provider
+translates its backend's statuses into these constants before they cross, so no backend error code
+or status string reaches the app, and a different provider (for example a carrier CPM/MSRP one) can
+report the same verdicts from a different protocol. `detail` is for logs and may contain backend
+text; callers branch on the constant and never parse `detail`.
+
+| `RcsMlsControlResult` | Meaning |
+|---|---|
+| `VERDICT_OK` (0) | Succeeded. |
+| `VERDICT_ERA_GAP` (1) | The group's era diverged from the server's. |
+| `VERDICT_EXTERNAL_COMMIT_REFUSED` (2) | An existing member attempted an external commit (RFC 9420 §12.4.3.2 restricts `ExternalInit` to non-members). |
+| `VERDICT_GROUP_ID_CHANGED` (3) | A fresh group id was offered for a conversation the server already holds. |
+| `VERDICT_NOT_REGISTERED` (4) | Not registered or provisioned right now. |
+| `VERDICT_TRANSPORT_FAILED` (5) | No verdict: the request never completed. Retryable; not a rejection. |
+| `VERDICT_REJECTED` (6) | Evaluated and refused, with no dedicated verdict. |
+| `VERDICT_NOT_IN_GROUP` (7) | The server does not count this line as a member. The local membership is stale; retrying cannot help. |
+
+| `RcsMlsClaimResult` | Meaning |
+|---|---|
+| `OUTCOME_SERVED` (0) | At least one package returned. Says nothing about whether the packages are usable; only their certificate windows can. |
+| `OUTCOME_PEER_HAS_NONE` (1) | The only outcome that is a fact about the peer's pool. |
+| `OUTCOME_NOT_AUTHORIZED` (2) | The service refused us; says nothing about the peer. |
+| `OUTCOME_REFUSED` (3) | Refused for another stated reason. |
+| `OUTCOME_TRANSPORT_FAILED` (4) | No answer. |
+| `OUTCOME_NOT_ATTEMPTED` (5) | Nothing was dialled. |
+
+`OUTCOME_PEER_HAS_NONE` is the only outcome that blames the peer, so a provider must reach it only
+when the server answered that the pool is empty. A transport status never maps onto it: a
+not-found answer is the shape of asking the wrong server, not of an empty pool, and "no server
+answered" is `OUTCOME_TRANSPORT_FAILED`. Nothing in this repository can check a provider's
+translation; `MlsKeyPackageClaimLedgerGuardTest#theProviderBlameGuardActuallyFails` holds a detector
+that a provider's own suite can run against its sources, together with an enumeration of the
+provider's own callers of its claimer.
+
 `RcsSendResult.reasonCode`: `REASON_OK` (0), `REASON_NOT_REGISTERED` (1), `REASON_NOT_PROVISIONED`
 (2), `REASON_PEER_NOT_RCS` (3, teaches the app's capability cache), `REASON_RATE_LIMITED` (4),
 `REASON_INTERNAL_ERROR` (5), `REASON_NOT_IN_GROUP` (6, stale local membership, not an internal
 error; always on a send that was not accepted). An unknown non-OK value must be treated as a
-failure.
+failure. Separately, an accepted MLS send is not proof of delivery.
+
+`RcsMlsTransportProfile` describes a transport instance, not a family, and adapts the app's recovery
+policy to it. `getMlsTransportProfile` never returns null; an implementation that has not
+characterised itself returns `conservativeDefault()` (all false), chosen so a missing profile cannot
+hang a send: with `requiresConvergenceAck` false the app never opens a send gate that no signal
+could close.
 
 ## `IRcsProvider`
 
 Ordinals are fixed by the ordering rule and listed here because they are the ABI. Methods that can
-reach the network block and must be called off the main thread; `getE2eeInfo` reads cached state.
+reach the network block and must be called off the main thread; `getE2eeInfo` and `isMlsReady` read
+cached state.
 
 | # | Method | Purpose |
 |---|---|---|
@@ -221,7 +283,7 @@ reach the network block and must be called off the main thread; `getE2eeInfo` re
 | 16 | `getGroupInfo` | A group's current name, conference URI and members, or null. |
 | 17 | `getGroupIds` | Newline-separated ids of groups that list this client, or null. Distinct from `getGroupInfo`: membership rather than existence. |
 | 18 | `addGroupUsers` | Add members; true when accepted. |
-| 19 | `removeGroupUsers` | Remove members (also used to leave a group); true when accepted. |
+| 19 | `removeGroupUsers` | Remove members (also used to leave a plaintext group); true when accepted. |
 | 20 | `renameGroup` | Change the group's name; true when accepted. |
 | 21 | `sendGroupMessage` | Text to a group; the server fans out. |
 | 22 | `sendLocation` | Location share (`application/vnd.gsma.rcspushlocation+xml`), 1:1 or group; `accuracyMeters <= 0` sends a point, otherwise a circle. |
@@ -237,6 +299,68 @@ reach the network block and must be called off the main thread; `getE2eeInfo` re
 | 32 | `canServeSub` | Pre-flight eligibility (`LINE_*`). |
 | 33 | `rejectIncomingFile` | Decline an offered file (a session transport sends a SIP 603). Idempotent. |
 | 34 | `ackInboundMessages` | Confirm inbound messages were applied; see below. |
+| 35 | `lookupPeerMlsCaps` | A peer's MLS tags, verbatim. The eligibility decision is the app's. |
+| 36 | `isMlsReady` | This line holds a current MLS certificate and has published KeyPackages: the same predicate that decides whether MLS is advertised at registration. |
+| 37 | `createMlsConversation` | Establish a 1:1 MLS conversation from app-built artifacts. |
+| 38 | `applyMlsControl` | Deliver a commit for an existing conversation. |
+| 39 | `getMlsGroupInfo` | The server's GroupInfo for a peer's conversation, opaque. |
+| 40 | `claimPeerKeyPackage` | Deprecated: one package, and null for every failure. Superseded by 42; it stays because removing a method renumbers every method after it. |
+| 41 | `claimPeerKeyPackages` | All of a peer's packages, one per device, length-prefixed. |
+| 42 | `claimPeerKeyPackagesWithOutcome` | As 41, with an `RcsMlsClaimResult`; never null. Preferred wherever the result is reported or recorded. |
+| 43 | `mlsForgetConversation` | Drop the provider's peer-to-group record for a 1:1. Local only. |
+| 44 | `mlsForgetGroupConversation` | Drop the provider's record for a group; returns the postcondition "no record remains" (true also when there was none). Local only. |
+| 45 | `uploadKeyPackages` | Publish KeyPackages the app generated (the private keys must live in the app's engine), plus a last-resort package, which must carry the `last_resort` extension (0x000A); a plain KeyPackage is rejected in that slot. |
+| 46 | `getMlsServerEraEpoch` | `[era, epoch]` from the server, or null. What a divergence means is the app's decision. |
+| 47 | `exportMlsIdentity` | Leaf certificate, chain, private key and trust roots. A permanent channel: the provider refreshes the certificate and the app must pick the new one up. |
+| 48 | `getMlsTransportProfile` | `RcsMlsTransportProfile`. |
+| 49 | `sendMlsCiphertext` | Send an app-sealed 1:1 application message verbatim. |
+| 50 | `sendGroupMlsCiphertext` | The group form of 49. |
+| 51 | `getMlsGroupIdForPeer` | The MLS group id the provider holds for a peer, or null. |
+| 52 | `sendReconciliationReceipt` | A plaintext delivery receipt used when a peer believes an MLS conversation exists that we hold no group for. |
+| 53 | `addGroupUsersMls` | Add members and carry the Add commit and Welcome in the same request. |
+| 54 | `removeGroupUsersMls` | Remove members and carry the Remove commit in the same request. |
+| 55 | `selfLeaveGroupMls` | Leave, carrying a SelfRemove proposal (RCC.16 §7.11.8.1) for a remaining member to commit. A cached SelfRemove makes the engine require a commit before any further send, and that persists across restarts, so a refused leave must restore the pre-proposal snapshot. |
+| 56 | `fetchMissedCommits` | The commits after our epoch, in order, length-prefixed; empty when current, null on failure. |
+| 57 | `fetchServerEpochAuthenticator` | The server's 32-byte epoch authenticator, or null. |
+| 58 | `changeGroupSubjectMls` | The encrypted subject, its RCC.16 commitment, the commit and the key delivery (a PrivateMessage at the post-commit epoch) in one request: the commitment is validated against the encrypted content in the same request, and the key is expected there too. |
+| 59 | `sendMlsNegativeDeliveryImdn` | RCC.16 §7.7.2.2 negative-delivery receipt, signed by the app. |
+| 60 | `sendMlsImdn` | Delivered/displayed receipt on an MLS conversation with the RCC.16 §12.1 headers. A receipt with a null signature is still sent, and logged; peers drop it, but it reaches the wire for diagnosis. |
+| 61 | `sendMlsGroupImdn` | As 60 for a message received in a group; a non-null group id routes to the group and stamps from its state. |
+| 62 | `getMlsGroupInfoForGroup` | The server's GroupInfo addressed by group id, opaque. The app needs this form, with its `external_pub` extension, to build a resync external commit. |
+| 63 | `changeGroupIconMls` | Encrypted icon: the provider uploads the ciphertext, then sends the reference, commit and key delivery in one request. An upload failure aborts the change. |
+| 64 | `getMlsTrustAnchors` | A second, separately fetched and verified trust-anchor set, length-prefixed. Replaces the caller's set of that kind; never merged, so a withdrawn anchor stays withdrawn. The `uri`, `generation` and `signerSpkiB64` arguments exist because on a carrier deployment the configuration document reaches the app, not the provider; the provider fetches and verifies the list. Any of them may be null or 0 to use what the provider holds, and without a signer no remote list is installed (the provider falls back to its cache or bundled set). |
+
+Rules common to the MLS block (35 to 64):
+
+* Every `byte[]` argument is an artifact the app's engine built. The provider places it in the
+  request and dials; it does not parse, validate, reorder, re-frame or re-encrypt it.
+* The app supplies the stamps that must come from the group state that sealed a message: era,
+  epoch authenticator, signatures, and the message or control id bound into the MLS
+  AuthenticatedData. The provider never mints them, because an id it generated could not match the
+  one bound at encryption time.
+* A membership or metadata change carries its commit in the same request as the RCS operation;
+  the two cannot be ordered separately. The app has already applied the commit locally, so any
+  verdict other than `VERDICT_OK` means restore the pre-commit snapshot.
+
+Two app-side wrappers in `ProviderTransport` carry rules of their own:
+
+* `claimPeerKeyPackages(subId, e164, outcomeSink)` writes the sink only when an outcome is actually
+  known; otherwise it keeps the caller's initial value, and an uninitialised `int` reads
+  `OUTCOME_SERVED`, which blames nobody. Nothing defaults to `OUTCOME_PEER_HAS_NONE`. It falls back
+  to the older claim methods only when no request was made (`OUTCOME_NOT_ATTEMPTED`); after any
+  request, including one that ended in a `RemoteException`, it does not claim again, because each
+  claim consumes a one-time KeyPackage from the peer's pool.
+* `sendImdn` on an MLS conversation mints the receipt's era, epoch authenticator and
+  MLS-Derived-Content-Signature from one group state (`MlsProviderTransport.imdnStampsFor`) and
+  sends through `sendMlsGroupImdn`, falling back to `sendMlsImdn` only for a 1:1 receipt; a group
+  receipt is dropped rather than sent through the 1:1 form when the provider lacks the group
+  method. With no stamps it sends the plain receipt, which a peer uses to reconcile a stale belief
+  that the conversation is on MLS.
+
+What the app does with these calls is described in
+[../mls/transport-and-port.md](../mls/transport-and-port.md),
+[../mls/group-lifecycle.md](../mls/group-lifecycle.md) and
+[../mls/credentials.md](../mls/credentials.md).
 
 ## `IRcsProviderCallback`
 
@@ -266,6 +390,20 @@ on its own; that is `ackInboundMessages`.
 | 14 | `onIncomingReaction` | A reaction on a message id; the reaction is not also delivered as a message. |
 | 15 | `onIncomingBotMessage` | A business-messaging message; not also delivered as a message. |
 | 16 | `onE2eeStateChanged` | New `RcsE2eeInfo`. |
+| 17 | `onEncryptedGroupSubject` | An encrypted subject's content type and ciphertext; the app holds the key. |
+| 18 | `onEncryptedGroupIcon` | An encrypted icon reference as two strings: `first` is the content type, `second` the URL. |
+| 19 | `onMlsControlBundle` | MLS messages that must be applied in the given order, length-prefixed, with a convergence flag and the outer-envelope era, epoch authenticator and original message id. |
+| 20 | `onMlsNegativeDelivery` | A peer reports that one of our messages failed on its side, with an `MLS_FAIL_*` reason. |
+| 21 | `onMlsControl` | One inbound MLS control payload. |
+| 22 | `onMlsCiphertext` | An inbound MLS application message, still sealed, with the outer-envelope headers. |
+| 23 | `onMlsIdentityChanged` | The provider replaced the MLS credential; the app must re-read it and republish KeyPackages. |
+| 24 | `onEncryptedGroupIconContent` | The downloaded ciphertext behind an icon reference, when the fetch succeeded and the content is within the provider's size cap (256 KB by default). An oversize icon is dropped with a log line while `onEncryptedGroupIcon` still fires, so a missing icon shows as a reference without content. |
+
+`MLS_FAIL_*` are the binary codes of RCC.16 §7.6.3.2 for the five failure reasons of RCC.16
+§7.7.2.3: `UNKNOWN` (0), `MESSAGE_FROM_NON_MEMBER` (1), `INVALID_CREDENTIAL` (2), `INVALID_COMMIT`
+(3), `FAILED_TO_DECRYPT` (4), `COMMIT_IN_PRIVATEMESSAGE` (5). The XML element for code 4 is
+`<failed-to-decrypt>` while the binary enum name is `failure_to_decrypt`; mixing the two produces a
+report a peer ignores.
 
 `GROUP_OP_*` carry the wire operation numbers 7 to 12: `CREATE`, `ADD_USERS`, `KICK_USERS`,
 `CHANGE_PROFILE`, `CHANGE_ROLE`, `CHANGE_INFO`.
@@ -282,15 +420,19 @@ upstream until the app confirms it; a message that is never confirmed is offered
   too: "tried and did not apply" is a final answer, while an unconfirmed message is re-offered until
   the provider gives up on it.
 * Unknown or already-confirmed ids are ignored, so confirming a redelivery twice is harmless.
-* No inbound kind this app receives requires it: the provider acknowledges every kind it delivers
-  when it hands it off, so the app does not call it.
-* A message is redelivered when the app dies during the provider's call, before the hand-off
-  returns. The receive actions therefore look up its `rcs_message_id` (the sender's Message-ID,
-  across conversations) and store nothing when a row already has it; `ReceiveRcsMessageAction`
-  still sends the delivered receipt.
+* In this app `RcsCallbackRouter.confirmApplied` confirms MLS control bundles and MLS ciphertext.
+  Other kinds are acknowledged by the provider when it hands them off.
+* While the app is not bound, a confirmation is dropped with a log line; the message is simply
+  redelivered.
+* A message is redelivered, too, when the app dies during the provider's call. The receive actions
+  therefore look up its `rcs_message_id` (the sender's Message-ID, across conversations) and store
+  nothing when a row already has it; `ReceiveRcsMessageAction` still sends the delivered receipt.
 
 ## Size limits
 
-Binder transactions are capped at about 1 MB per process, so files cross as descriptors. The app
-copies an inbound file descriptor into its own storage up to 100 MiB, the file-transfer limit
-carriers advertise, and drops a larger one.
+Binder transactions are capped at about 1 MB per process. Files therefore cross as descriptors. An
+encrypted group icon is uploaded by the provider rather than passed as a URL, and an inbound icon's
+ciphertext is size-capped by the provider before it crosses; the sender scales the image before
+`ManageRcsGroupAction.changeIcon` for the same reason. The app copies an inbound file descriptor
+into its own storage up to 100 MiB, the file-transfer limit carriers advertise, and drops a larger
+one.

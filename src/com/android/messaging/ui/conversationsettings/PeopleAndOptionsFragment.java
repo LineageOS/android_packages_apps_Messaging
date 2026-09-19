@@ -63,6 +63,7 @@ import com.android.messaging.ui.conversation.ConversationActivity;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.NotificationsUtil;
 import com.android.messaging.util.PhoneUtils;
+import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.UiUtils;
 
 import java.util.ArrayList;
@@ -87,6 +88,14 @@ public class PeopleAndOptionsFragment extends Fragment
 
     // Picks a contact to add to the group.
     private static final int REQUEST_PICK_CONTACT_TO_ADD = 7301;
+    /** Picks an image for the group icon. */
+    private static final int REQUEST_PICK_GROUP_ICON = 7302;
+    /**
+     * Longest edge in px, and JPEG quality, of the picked group icon: well inside the
+     * receiver's 256 KB inbound icon cap ({@code debug.rcs.mls_icon_max_bytes}).
+     */
+    private static final int ICON_MAX_EDGE_PX = 512;
+    private static final int ICON_JPEG_QUALITY = 85;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -164,6 +173,7 @@ public class PeopleAndOptionsFragment extends Fragment
         if (mMembershipResolving || TextUtils.isEmpty(mRcsGroupId)) {
             return;
         }
+        final String groupId = mRcsGroupId;
         mMembershipResolving = true;
         final PeopleAndOptionsData membershipData = mBinding.getData();
         final String membershipConvId =
@@ -171,13 +181,36 @@ public class PeopleAndOptionsFragment extends Fragment
         new Thread(() -> {
             boolean left = false;
             try {
-                left = com.android.messaging.datamodel.BugleDatabaseOperations
-                        .getConversationSelfLeft(
-                                com.android.messaging.datamodel.DataModel.get().getDatabase(),
-                                membershipConvId);
+                final int subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+                left = com.android.messaging.rcs.e2ee.MlsProviderTransport
+                        .get(com.android.messaging.Factory.get().getApplicationContext(), subId)
+                        .haveWeLeft(groupId, /*peerE164=*/ null);
             } catch (final Throwable t) {
+                // Leave the rows offered: a wrong offer ends in a refusal, not damage.
+            }
+            // ORed with rcs_self_left, which covers a plaintext leave and removal by someone
+            // else; a failure on either side contributes false.
+            if (!left) {
+                try {
+                    left = com.android.messaging.datamodel.BugleDatabaseOperations
+                            .getConversationSelfLeft(
+                                    com.android.messaging.datamodel.DataModel.get().getDatabase(),
+                                    membershipConvId);
+                } catch (final Throwable t) {
+                }
+            }
+            boolean iconRoutes = false;
+            try {
+                final int subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+                iconRoutes = com.android.messaging.rcs.e2ee.MlsProviderTransport
+                        .get(com.android.messaging.Factory.get().getApplicationContext(), subId)
+                        .groupPlane(groupId, "icon offer")
+                        == com.android.messaging.rcs.engine.mls.MlsTransportTypes.GroupPlane.MLS;
+            } catch (final Throwable t) {
+                // Hide the row: an icon change that cannot be classified is refused.
             }
             final boolean resolved = left;
+            final boolean iconResolved = iconRoutes;
             final android.app.Activity activity = getActivity();
             if (activity == null) {
                 mMembershipResolving = false;
@@ -185,10 +218,11 @@ public class PeopleAndOptionsFragment extends Fragment
             }
             activity.runOnUiThread(() -> {
                 mMembershipResolving = false;
-                if (mWeLeftGroup == resolved) {
+                if (mWeLeftGroup == resolved && mIconChangeRoutes == iconResolved) {
                     return;
                 }
                 mWeLeftGroup = resolved;
+                mIconChangeRoutes = iconResolved;
                 if (mGroupActionsAdapter != null) {
                     mGroupActionsAdapter.notifyDataSetChanged();
                 }
@@ -242,6 +276,7 @@ public class PeopleAndOptionsFragment extends Fragment
                     if (mPeopleListAdapter != null) {
                         mPeopleListAdapter.notifyDataSetChanged();
                     }
+                    resolveMembership();
                 }
             });
         }, "rcs-people-groupid").start();
@@ -256,10 +291,18 @@ public class PeopleAndOptionsFragment extends Fragment
     }
 
     /**
-     * Whether we have left this group: {@code conversations.rcs_self_left}. Starts false, so the
-     * rows stay offered until the answer arrives and after a failed read. See docs/rcs/groups.md.
+     * Whether we have left this group: {@code MlsProviderTransport.haveWeLeft} ORed with
+     * {@code conversations.rcs_self_left}. Starts false, so the rows stay offered until the
+     * answer arrives and after a failed read. See docs/rcs/groups.md.
      */
     private volatile boolean mWeLeftGroup;
+
+    /**
+     * Whether a group icon change would be carried: only an MLS group has an icon path
+     * ({@code MlsMembership.iconChangeRouting}). Starts false, so the row stays hidden until the
+     * answer arrives and after a failed read.
+     */
+    private volatile boolean mIconChangeRoutes;
 
     /** True when group RCS is available on the default SMS subscription. */
     private boolean isGroupRcsAvailable() {
@@ -521,6 +564,8 @@ public class PeopleAndOptionsFragment extends Fragment
     private static final int GROUP_ACTION_ADD_PEOPLE = 1;
     /** Leave the group. */
     private static final int GROUP_ACTION_LEAVE = 2;
+    /** Set the group icon (RCC.16 §9.7.1.4). */
+    private static final int GROUP_ACTION_CHANGE_ICON = 3;
 
     /**
      * The group section's action rows. Empty unless this is a manageable RCS group, which hides
@@ -528,22 +573,28 @@ public class PeopleAndOptionsFragment extends Fragment
      */
     private class GroupActionsAdapter extends BaseAdapter {
         // Leave stays last.
-        private final int[] mActions = { GROUP_ACTION_RENAME, GROUP_ACTION_ADD_PEOPLE,
-                GROUP_ACTION_LEAVE };
+        private final int[] mActions = { GROUP_ACTION_RENAME, GROUP_ACTION_CHANGE_ICON,
+                GROUP_ACTION_ADD_PEOPLE, GROUP_ACTION_LEAVE };
+        private final int[] mActionsWithoutIcon = { GROUP_ACTION_RENAME,
+                GROUP_ACTION_ADD_PEOPLE, GROUP_ACTION_LEAVE };
+
+        private int[] actions() {
+            return mIconChangeRoutes ? mActions : mActionsWithoutIcon;
+        }
 
         @Override
         public int getCount() {
-            return isManageableRcsGroup() ? mActions.length : 0;
+            return isManageableRcsGroup() ? actions().length : 0;
         }
 
         @Override
         public Object getItem(final int position) {
-            return mActions[position];
+            return actions()[position];
         }
 
         @Override
         public long getItemId(final int position) {
-            return mActions[position];
+            return actions()[position];
         }
 
         @Override
@@ -555,10 +606,12 @@ public class PeopleAndOptionsFragment extends Fragment
                 row = (TextView) LayoutInflater.from(getActivity())
                         .inflate(android.R.layout.simple_list_item_1, parent, false);
             }
-            final int action = mActions[position];
+            final int action = actions()[position];
             final int label;
             if (action == GROUP_ACTION_RENAME) {
                 label = R.string.rcs_group_action_rename;
+            } else if (action == GROUP_ACTION_CHANGE_ICON) {
+                label = R.string.rcs_group_action_change_icon;
             } else if (action == GROUP_ACTION_ADD_PEOPLE) {
                 label = R.string.rcs_group_action_add_people;
             } else {
@@ -568,6 +621,8 @@ public class PeopleAndOptionsFragment extends Fragment
             row.setOnClickListener(v -> {
                 if (action == GROUP_ACTION_RENAME) {
                     showRenameGroupDialog();
+                } else if (action == GROUP_ACTION_CHANGE_ICON) {
+                    launchGroupIconPicker();
                 } else if (action == GROUP_ACTION_ADD_PEOPLE) {
                     launchAddPeoplePicker();
                 } else {
@@ -627,8 +682,72 @@ public class PeopleAndOptionsFragment extends Fragment
         }
     }
 
+    /**
+     * Picks an image for the group icon (RCC.16 §9.7.1.4), with {@code ACTION_GET_CONTENT} to
+     * match the other picker's result handling.
+     */
+    private void launchGroupIconPicker() {
+        if (!isManageableRcsGroup() || !mIconChangeRoutes) {
+            return;
+        }
+        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT).setType("image/*");
+        try {
+            startActivityForResult(intent, REQUEST_PICK_GROUP_ICON);
+        } catch (final android.content.ActivityNotFoundException e) {
+            UiUtils.showToast(R.string.rcs_group_icon_failed);
+        }
+    }
+
+    /**
+     * Reads and scales the picked image on a background thread while this activity still holds
+     * the URI grant, then queues the change. The scale keeps the icon within the receiver's cap
+     * and the binder transaction limit.
+     */
+    private void onGroupIconPicked(final Uri picked) {
+        final String conversationId = mBinding.getData().getConversationId();
+        final String groupId = mRcsGroupId;
+        final android.content.ContentResolver cr = getActivity().getContentResolver();
+        new Thread(() -> {
+            byte[] scaled = null;
+            try (java.io.InputStream in = cr.openInputStream(picked)) {
+                final android.graphics.Bitmap bmp =
+                        android.graphics.BitmapFactory.decodeStream(in);
+                if (bmp != null) {
+                    final int longEdge = Math.max(bmp.getWidth(), bmp.getHeight());
+                    final android.graphics.Bitmap out = longEdge <= ICON_MAX_EDGE_PX ? bmp
+                            : android.graphics.Bitmap.createScaledBitmap(bmp,
+                                    Math.max(1, bmp.getWidth() * ICON_MAX_EDGE_PX / longEdge),
+                                    Math.max(1, bmp.getHeight() * ICON_MAX_EDGE_PX / longEdge),
+                                    /*filter=*/ true);
+                    final java.io.ByteArrayOutputStream bos = new java.io.ByteArrayOutputStream();
+                    out.compress(android.graphics.Bitmap.CompressFormat.JPEG, ICON_JPEG_QUALITY,
+                            bos);
+                    scaled = bos.toByteArray();
+                }
+            } catch (final Throwable t) {
+                LogUtil.w(LogUtil.BUGLE_TAG, "PeopleAndOptionsFragment: could not read the picked "
+                        + "group photo", t);
+            }
+            if (scaled == null || scaled.length == 0) {
+                UiUtils.showToast(R.string.rcs_group_icon_read_failed);
+                return;
+            }
+            LogUtil.i(LogUtil.BUGLE_TAG, "PeopleAndOptionsFragment: group photo picked → "
+                    + scaled.length + "B JPEG for " + groupId);
+            ManageRcsGroupAction.changeIcon(conversationId, groupId, scaled, "image/jpeg",
+                    op -> UiUtils.showToast(R.string.rcs_group_icon_failed));
+        }, "rcs-group-icon-scale").start();
+    }
+
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (requestCode == REQUEST_PICK_GROUP_ICON) {
+            if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null
+                    && isManageableRcsGroup()) {
+                onGroupIconPicked(data.getData());
+            }
+            return;
+        }
         if (requestCode == REQUEST_PICK_CONTACT_TO_ADD) {
             if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null
                     && isManageableRcsGroup()) {

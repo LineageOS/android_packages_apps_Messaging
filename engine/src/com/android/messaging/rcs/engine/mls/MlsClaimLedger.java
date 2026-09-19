@@ -4,8 +4,11 @@
  */
 package com.android.messaging.rcs.engine.mls;
 
+import java.util.List;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.PeerClaim;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.ClaimOutcomeSink;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Claim;
 import com.android.messaging.rcs.log.LogMask;
-
 /**
  * Per-peer ledger for KeyPackage claims, charged before the claim is sent: a claim consumes the
  * peer's pool, which we cannot give back. Each {@link Caller} has a ration under a shared per-peer
@@ -344,4 +347,251 @@ public final class MlsClaimLedger {
     private static String safe(final String s) {
         return (s == null || s.isEmpty()) ? "<no peer>" : LogMask.number(s);
     }
+
+    public static String claimLedgerPrefKey(final String peer) {
+        return "mls_claim_ledger_" + (peer == null || peer.isEmpty() ? "<none>" : peer);
+    }
+
+    /**
+     * Null when unreadable, which callers treat as fully spent; {@link #spendOneClaim} refuses once
+     * and then discards the record ({@link #discardUnreadable}).
+     */
+    public static MlsClaimLedgerRecord claimLedgerFor(final MlsShellPort shell,
+            final MlsLogSink log, final String peer) {
+        final String raw;
+        try {
+            raw = shell.prefs()
+                    .getString(MlsClaimLedger.claimLedgerPrefKey(peer), null);
+        } catch (final Throwable t) {
+            log.w("MlsClaimLedger: could not READ the claim ledger for " + LogMask.number(peer)
+                    + " — treating the peer as having spent its shared allowance, which is the "
+                    + "strict direction for a pool that is not ours.", t);
+            return null;
+        }
+        final MlsClaimLedgerRecord r = MlsClaimLedgerRecord.decode(raw);
+        if (r == null) {
+            log.w("MlsClaimLedger: the claim ledger for " + LogMask.number(peer) + " is STORED and "
+                    + "UNREADABLE (" + (raw == null ? 0 : raw.length()) + " chars). Treating the "
+                    + "peer as having spent its shared allowance rather than as unspent — an "
+                    + "unreadable record read as 'no charges' hands back a full allowance on the "
+                    + "strength of a parse failure.");
+        }
+        return r;
+    }
+
+    /**
+     * Removes a stored record that does not parse, after it has refused one claim: leaving it would
+     * refuse every later claim, since nothing else rewrites it. Re-reads first, so a record another
+     * caller wrote since is kept; a store that cannot be read is left alone.
+     *
+     * @return whether the record was removed
+     */
+    static boolean discardUnreadable(final MlsShellPort shell, final MlsLogSink log,
+            final String peer) {
+        try {
+            final MlsPrefs p = shell.prefs();
+            final String k = MlsClaimLedger.claimLedgerPrefKey(peer);
+            final String raw = p.getString(k, null);
+            if (raw == null || MlsClaimLedgerRecord.decode(raw) != null) return false;
+            return p.edit().remove(k).commit();
+        } catch (final Throwable t) {
+            log.w("MlsClaimLedger: could not DISCARD the unreadable claim ledger for "
+                    + LogMask.number(peer), t);
+            return false;
+        }
+    }
+
+    /**
+     * Writes with {@code commit()}: the charge is on disk before the claim it pays for, since a
+     * claim spends the peer's KeyPackage whether or not this process survives to record it.
+     */
+    public static void storeClaimLedger(final MlsShellPort shell, final MlsLogSink log,
+            final String peer, final MlsClaimLedgerRecord r) {
+        if (r == null) return;
+        try {
+            if (!shell.prefs().edit()
+                    .putString(MlsClaimLedger.claimLedgerPrefKey(peer), r.encode()).commit()) {
+                log.w("MlsClaimLedger: commit() FAILED writing the claim ledger for "
+                        + LogMask.number(peer) + " — this charge may not survive a restart.");
+            }
+        } catch (final Throwable t) {
+            log.w("MlsClaimLedger: could not WRITE the claim ledger for " + LogMask.number(peer)
+                    + " — this charge will not be counted against the next caller.", t);
+        }
+    }
+
+    /** Refunds a claim never sent; re-reads the record so interleaved charges survive. */
+    public static <T> Claim<T> notAttemptedAfterCharge(final MlsShellPort shell,
+            final MlsLogSink log, final MlsClaimLedger.Caller caller,
+            final String peer, final long now, final int ceiling, final ClaimOutcomeSink outcome) {
+        final MlsClaimLedgerRecord current = MlsClaimLedger.claimLedgerFor(shell, log, peer);
+        final int spentAfterRefund;
+        if (current == null) {
+            log.w("MlsClaimLedger: the claim ledger for " + LogMask.number(peer) + " became "
+                    + "UNREADABLE between the charge and the refund, so a claim that was NEVER SENT "
+                    + "stays charged against this peer. Writing our own view over a record we "
+                    + "cannot read would release every OTHER caller's charge too, which is the "
+                    + "direction claimLedgerFor refuses on purpose, so nothing is written here. "
+                    + "The next claim on this peer refuses once and discards the record.");
+            spentAfterRefund = MlsClaimLedger.NO_COUNT;
+        } else {
+            final MlsClaimLedgerRecord refunded = current.refunded(caller, now);
+            MlsClaimLedger.storeClaimLedger(shell, log, peer, refunded);
+            spentAfterRefund = refunded.spentAgainstCeiling(now);
+        }
+        final String why = MlsClaimLedger.describeNotAttempted(
+                caller, peer, spentAfterRefund, ceiling, outcome.detail);
+        log.w("MlsClaimLedger: " + why);
+        return Claim.notAttempted(outcome.attribution, why);
+    }
+
+    /** Read live, so an override applies without a restart. */
+    public static int claimLedgerCeiling(final MlsShellPort shell) {
+        return shell.sysprops().getInt(
+                "debug.rcs.mls_claim_ceiling", MlsClaimLedger.SHARED_CEILING);
+    }
+
+    /** As below, with a sink the supplier fills with the provider's outcome. */
+    public static <T> Claim<T> spendOneClaim(final MlsShellPort shell, final MlsLogSink log,
+            final MlsClaimLedger.Caller caller, final String peer,
+            final ClaimOutcomeSink outcome, final PeerClaim<T> doIt) {
+        final long now = shell.elapsedRealtime();
+        final int ceiling = MlsClaimLedger.claimLedgerCeiling(shell);
+        final MlsClaimLedgerRecord before = MlsClaimLedger.claimLedgerFor(shell, log, peer);
+        if (before == null) {
+            if (caller != null && caller.isUnrefusable()) {
+                log.w("MlsClaimLedger: " + MlsClaimLedger.describeUnrefusable(
+                        caller, peer, 0, ceiling) + " THE LEDGER IS UNREADABLE, so this charge "
+                        + "could not be recorded and the count above is short by at least one.");
+                final T unrefusedAnswer = doIt.claim();
+                if (outcome.notAttempted) {
+                    final String why = MlsClaimLedger.describeNotAttempted(caller, peer,
+                            MlsClaimLedger.NO_COUNT, ceiling, outcome.detail);
+                    log.w("MlsClaimLedger: " + why);
+                    return Claim.notAttempted(outcome.attribution, why);
+                }
+                return Claim.asked(unrefusedAnswer, outcome.attribution);
+            }
+            // Refuse once, then discard, so a format skew costs one claim rather than all of them.
+            final boolean discarded = MlsClaimLedger.discardUnreadable(shell, log, peer);
+            final String why = "MLS claim ledger REFUSED a KeyPackage claim for " + caller + " on "
+                    + LogMask.number(peer)
+                    + ": this peer's ledger is stored and UNREADABLE, and an unreadable "
+                    + "ledger is read as SPENT rather than as unspent. NOTHING WAS CLAIMED — this "
+                    + "is not the peer having no key packages. "
+                    + (discarded ? "The record is now DISCARDED, so the next claim starts from an "
+                            + "empty ledger."
+                            : "The record could NOT be discarded, so later claims are refused too "
+                            + "until it is replaced.");
+            log.w("MlsClaimLedger: " + why);
+            return Claim.refusedByLedger(why);
+        }
+        final int mine = before.spentBy(caller, now);
+        final int shared = before.spentAgainstCeiling(now);
+        final MlsClaimLedger.Verdict v = MlsClaimLedger.mayClaim(caller, mine, shared, ceiling);
+        if (!v.permitted()) {
+            final String why =
+                    MlsClaimLedger.describeRefusal(caller, v, mine, shared, ceiling, peer);
+            log.w("MlsClaimLedger: " + why);
+            return Claim.refusedByLedger(why);
+        }
+        final MlsClaimLedgerRecord after = before.charged(caller, now);
+        MlsClaimLedger.storeClaimLedger(shell, log, peer, after);
+        final int sharedAfter = after.spentAgainstCeiling(now);
+        if (v == MlsClaimLedger.Verdict.SPEND_UNREFUSABLE) {
+            log.i("MlsClaimLedger: " + MlsClaimLedger.describeUnrefusable(
+                    caller, peer, sharedAfter, ceiling));
+        } else {
+            log.i("MlsClaimLedger: " + MlsClaimLedger.describeCharge(
+                    caller, peer, after.spentBy(caller, now), sharedAfter, ceiling));
+        }
+        final T answer = doIt.claim();
+        if (outcome.notAttempted) {
+            return MlsClaimLedger.notAttemptedAfterCharge(shell, log, caller, peer, now, ceiling,
+                    outcome);
+        }
+        if (answer == null || (answer instanceof java.util.List
+                && ((java.util.List<?>) answer).isEmpty())) {
+            log.w("MlsClaimLedger: " + MlsClaimLedger.describeEmptyClaim(
+                    caller, peer, shared, outcome.attribution, outcome.detail));
+        }
+        return Claim.asked(answer, outcome.attribution);
+    }
+
+    /** The charge point; a refusal cannot be mistaken for an empty pool. */
+    public static <T> Claim<T> spendOneClaim(final MlsShellPort shell, final MlsLogSink log,
+            final MlsClaimLedger.Caller caller, final String peer, final PeerClaim<T> doIt) {
+        return MlsClaimLedger.spendOneClaim(shell, log, caller, peer, new ClaimOutcomeSink(), doIt);
+    }
+
+    /** An empty {@code OUTCOME_SERVED} is a fault on our side, so not about the peer. */
+    public static MlsClaimLedger.Attribution attributionOf(final int outcome) {
+        return outcome == MlsProviderRpc.ClaimResult.OUTCOME_PEER_HAS_NONE
+                ? MlsClaimLedger.Attribution.PEER_HAS_NONE
+                : MlsClaimLedger.Attribution.NOT_ABOUT_THE_PEER;
+    }
+
+    // The two AIDL spellings are one spend point: both claim every device's package, and the
+    // singular form discards the rest afterwards. The claim ledger outlives the conversation: a
+    // peer does not get its packages back because we dropped a conversation, and a rebuild claims
+    // again immediately. See docs/mls/budgets.md.
+
+    /**
+     * {@code claimPeerKeyPackage}, charged: one package back, every device's package spent (the
+     * provider discards the rest).
+     */
+    public static Claim<byte[]> claimOne(final MlsShellPort shell, final MlsLogSink log,
+            final MlsClaimLedger.Caller caller, final String peer) {
+        // Ask for the outcome as well as the bytes, so "the peer published nothing" and "the KDS
+        // would not talk to us" differ. The provider maps its transport status to spec-level terms
+        // first; `detail` is for logs only and must not be parsed.
+        final ClaimOutcomeSink outcome = new ClaimOutcomeSink();
+        return MlsClaimLedger.spendOneClaim(shell, log, caller, peer, outcome, () -> {
+            final MlsProviderRpc.ClaimResult r = shell.rpc("claimPeerKeyPackagesWithOutcome")
+                    .claimPeerKeyPackagesWithOutcome(peer);
+            outcome.attribution = MlsClaimLedger.attributionOf(r.outcome);
+            outcome.detail = r.detail;
+            // Refund only the outcome that asserts nothing was dialled (unbound provider, null
+            // reply). An empty reply is not that: a NOT_AUTHORIZED also returns
+            // empty and did dial.
+            outcome.notAttempted = r.outcome == MlsProviderRpc.ClaimResult.OUTCOME_NOT_ATTEMPTED;
+            return MlsClaimLedger.firstClaimedPackage(r.keyPackages);
+        });
+    }
+
+    /** The first KeyPackage of the {@code [u32 BE len][bytes]…} reply, or null. */
+    static byte[] firstClaimedPackage(final byte[] packed) {
+        final List<byte[]> all = MlsArtifactBundle.splitLenPrefixed(packed);
+        return all.isEmpty() ? null : all.get(0);
+    }
+
+    /**
+     * {@code claimPeerKeyPackages}, charged: every device's package back, at the same cost as
+     * {@link #claimOne}.
+     */
+    public static Claim<List<byte[]>> claimAll(final MlsShellPort shell, final MlsLogSink log,
+            final MlsClaimLedger.Caller caller, final String peer) {
+        final ClaimOutcomeSink outcome = new ClaimOutcomeSink();
+        return MlsClaimLedger.spendOneClaim(shell, log, caller, peer, outcome, () -> {
+            // Pre-filled with a non-outcome: the shim writes the sink only when an outcome is known
+            // and leaves it untouched when the provider cannot say. Never pass an unwritten
+            // sink to attributionOf, whose 0 would read as OUTCOME_SERVED.
+            final int[] sink = { NO_CLAIM_OUTCOME };
+            final List<byte[]> kps =
+                    shell.rpc("claimPeerKeyPackages").claimPeerKeyPackages(peer, sink);
+            if (sink[0] != NO_CLAIM_OUTCOME) {
+                outcome.attribution = MlsClaimLedger.attributionOf(sink[0]);
+            }
+            // Through the plural shim NOT_ATTEMPTED means only an unbound provider; other paths
+            // fall back to an older spelling that does dial, so no refund.
+            outcome.notAttempted = sink[0] == MlsProviderRpc.ClaimResult.OUTCOME_NOT_ATTEMPTED;
+            return kps;
+        });
+    }
+
+    /**
+     * Pre-fill for the outcome sink, meaning "the provider has not said"; outside the claim
+     * outcomes' 0..5 so it cannot collide with {@code OUTCOME_SERVED}.
+     */
+    static final int NO_CLAIM_OUTCOME = -1;
 }

@@ -4,6 +4,7 @@
  */
 package com.android.messaging.rcs.engine.mls;
 
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Look;
 import java.security.SecureRandom;
 import java.util.Base64;
 
@@ -173,5 +174,82 @@ public final class MlsFreshContextRetry {
             if (!ok) return false;
         }
         return true;
+    }
+
+    /**
+     * One re-dial of the same create with a freshly minted context id, called from
+     * {@link MlsEraAdvance#eraAdvanceLocked} before the rollback and the rebuild. Costs one RPC and
+     * one {@link MlsFetchLedger.Caller#ERA_ADVANCE} look (a failing advance then spends exactly its
+     * ration of 4).
+     *
+     * @param eraWasReadBack        whether the first create's era read reached the server
+     * @param eraAfterFirstCreate   what that read returned, or {@code null}
+     * @return {@code null} to fall through; a refused {@link Look} when the re-dial was accepted
+     *         and its result is unreadable (the caller reports the advance unverified); otherwise
+     *         the server's era/epoch after a granted re-dial
+     */
+    public static Look<long[]> freshContextIdRetry(final MlsShellPort shell, final MlsLogSink log,
+            final MlsProviderRpc pt, final String key,
+            final String rcsGroupId, final String peerE164, final MlsGroupArtifacts art,
+            final int newEra, final MlsProviderRpc.ControlResult firstCreate,
+            final boolean eraWasReadBack, final long[] eraAfterFirstCreate) {
+        if (pt == null || art == null || art.groupId == null) return null;
+        final boolean isGroup = rcsGroupId != null && !rcsGroupId.isEmpty();
+        final String mode =
+                shell.sysprops().get("debug.rcs.mls_advance_fresh_ctxid", "off");
+        final MlsFreshContextRetry.Decision d = MlsFreshContextRetry.decide(
+                /*createAccepted=*/ firstCreate != null && firstCreate.ok(),
+                eraWasReadBack,
+                /*eraMoved=*/ eraAfterFirstCreate != null && eraAfterFirstCreate.length > 0
+                        && eraAfterFirstCreate[0] == newEra,
+                isGroup, mode,
+                shell.sysprops().getBoolean(MlsFreshContextRetry.KEY_RETRY, true));
+        if (d != MlsFreshContextRetry.Decision.RETRY) {
+            log.i("MlsFreshContextRetry: "
+                    + MlsFreshContextRetry.skipLine(d, key, newEra, mode));
+            return null;
+        }
+        final String minted = MlsFreshContextRetry.mintContextId(new java.security.SecureRandom());
+        log.w("MlsFreshContextRetry: "
+                + MlsFreshContextRetry.retryingLine(key, newEra, mode));
+        // The only field that changes.
+        final MlsProviderRpc.ControlResult again = pt.createMlsConversation(peerE164, art.groupId,
+                art.welcome, art.commit, art.groupInfo, art.tag, art.ratchetTree, newEra, minted,
+                rcsGroupId);
+        MlsDriveLoop.noteControlVerdict(shell, key, again);
+        if (again == null || !again.ok()) {
+            log.w("MlsFreshContextRetry: the fresh-contextId re-dial for "
+                    + MlsConversationKey.forLog(key)
+                    + " was REFUSED → " + again + ". That is a DIFFERENT outcome from the silent "
+                    + "non-advance above — a refusal arrives on the channel refusals use — and it "
+                    + "is worth reading before the fallback below runs. Falling through to the path "
+                    + "that would have run anyway.");
+            return null;
+        }
+        final Look<long[]> post =
+                shell.lookServerEraEpoch(MlsFetchLedger.Caller.ERA_ADVANCE, key, peerE164,
+                        rcsGroupId);
+        if (post.refused()) return post;
+        final long[] now = post.orNull();
+        final long reached = (now == null || now.length == 0) ? -1L : now[0];
+        if (now != null && reached == newEra) {
+            log.i("MlsFreshContextRetry: "
+                    + MlsFreshContextRetry.grantedLine(key, newEra, minted));
+            return Look.asked(now);
+        }
+        log.w("MlsFreshContextRetry: "
+                + MlsFreshContextRetry.notGrantedLine(key, newEra, minted, reached));
+        return null;
+    }
+
+    /**
+     * Will a group re-create go out under the context id the server already holds? Yes while the
+     * provider sends the engine's group id for groups ({@code debug.rcs.mls_ctxid_group_engine_id},
+     * default 1): that id is the RCS group id, the same at every era. With it off the answer is
+     * "not certainly", i.e. false; see {@link MlsReestablishPolicy#reCreateWouldNotTake}. Read
+     * live.
+     */
+    public static boolean groupReCreateReusesTheServersContextId(final MlsShellPort shell) {
+        return shell.sysprops().getInt("debug.rcs.mls_ctxid_group_engine_id", 1) != 0;
     }
 }

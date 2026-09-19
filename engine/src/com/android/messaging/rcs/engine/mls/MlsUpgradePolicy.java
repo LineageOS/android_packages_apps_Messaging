@@ -20,11 +20,13 @@ public final class MlsUpgradePolicy {
         DUMMY_TOKEN("DUMMY destination token encountered, skipping MLS upgrade."),
         ALREADY_MLS("Skip conversation update because conversation is already MLS."),
         NO_METADATA("Skip conversation update because conversation metadata could not be fetched."),
-        NO_SELF_KEY_PACKAGES("Skip conversation update because self has not uploaded key packages."),
+        NO_SELF_KEY_PACKAGES(
+                "Skip conversation update because self has not uploaded key packages."),
         NULL_GROUP_ID("The group ID is null. Skip updating conversation to MLS."),
         INITIALIZING("The group is initializing. Skip updating conversation to MLS."),
         NOT_ENOUGH_KEY_PACKAGES(null),      // formatted: names two counts
-        GROUP_EXISTS("Group already exists in the Google MLS engine. Skip updating conversation to MLS."),
+        GROUP_EXISTS(
+                "Group already exists in the Google MLS engine. Skip updating conversation to MLS."),
         /**
          * Our own line, not other clients': the claim ledger refused the key-package probe, so
          * nothing was claimed and nothing is known about the participants' pools.
@@ -143,5 +145,31 @@ public final class MlsUpgradePolicy {
         }
         if (claimedKeyPackages < remoteParticipants) return Decision.NOT_ENOUGH_KEY_PACKAGES;
         return Decision.PROCEED;
+    }
+
+    /**
+     * Undo an engine-side create the server did not take. With a snapshot, restore it so we do not
+     * drift an era further per attempt. Without one, keep what the engine built: that state makes a
+     * later create plan as {@link MlsWelcomeAction#NEW_ERA_EXISTING_GROUP} rather than
+     * {@link MlsWelcomeAction#NEW_GROUP}, which cannot succeed for a group the server holds.
+     * Failures are logged, not thrown.
+     */
+    public static boolean rollBackDiscardedCreate(final MlsSession session, final MlsLogSink log,
+            final byte[] groupId, final byte[] snapshot) {
+        if (groupId == null) return false;
+        if (snapshot == null) {
+            log.i("MlsUpgradePolicy: nothing to roll back to — the engine held no "
+                    + "group before this create. KEEPING what it built rather than deleting it: "
+                    + "the GROUP_EXISTS upgrade guard skips a group the engine already holds, "
+                    + "and that retained state is what makes a later create "
+                    + "classify as an ERA ADVANCE instead of a fresh group.");
+            return false;
+        }
+        try {
+            return session.restoreGroupSnapshot(groupId, snapshot);
+        } catch (final Throwable t) {
+            log.w("MlsUpgradePolicy: rolling back a discarded create threw", t);
+            return false;
+        }
     }
 }

@@ -29,6 +29,16 @@ oneway interface IRcsProviderCallback {
     const int IMDN_DELIVERED = 1;
     const int IMDN_DISPLAYED = 2;
 
+    // MLS client failure reasons: the binary codes of RCC.16 §7.6.3.2 for the values of
+    // RCC.16 §7.7.2.3. Code 4 is spelled <failed-to-decrypt> in XML but failure_to_decrypt in the
+    // binary enum; mixing the two produces a report peers ignore.
+    const int MLS_FAIL_UNKNOWN                  = 0;
+    const int MLS_FAIL_MESSAGE_FROM_NON_MEMBER  = 1;
+    const int MLS_FAIL_INVALID_CREDENTIAL       = 2;
+    const int MLS_FAIL_INVALID_COMMIT           = 3;
+    const int MLS_FAIL_FAILED_TO_DECRYPT        = 4;
+    const int MLS_FAIL_COMMIT_IN_PRIVATEMESSAGE = 5;
+
     // onRegistrationStateChanged() state.
     const int REG_UNREGISTERED = 0;
     const int REG_REGISTERING  = 1;
@@ -47,7 +57,8 @@ oneway interface IRcsProviderCallback {
     // onCarrierTosStateChanged() tosState.
     const int TOS_NONE     = 0;  // no terms to accept
     const int TOS_REQUIRED = 1;  // provisioning waits for consent
-    const int TOS_ACCEPTED = 2;    const int TOS_DECLINED = 3;  // the line stays SMS-only
+    const int TOS_ACCEPTED = 2;
+    const int TOS_DECLINED = 3;  // the line stays SMS-only
 
     // onGroupEvent() op: the wire operation numbers 7 to 12.
     const int GROUP_OP_CREATE         = 7;
@@ -147,4 +158,83 @@ oneway interface IRcsProviderCallback {
     /** Provider-layer encryption state or availability changed. */
     void onE2eeStateChanged(int subId, in RcsE2eeInfo info);
 
+    // MLS (RFC 9420, RCC.16). This block stays last: new MLS callbacks go at its end. The provider
+    // delivers MLS payloads verbatim and decrypts nothing.
+
+
+    /**
+     * An encrypted group subject (RCC.16 §9.7.1.5); the app decrypts it with the key from the
+     * commit's key delivery.
+     *
+     * @param contentType the RCC.16 Annex C.2 encrypted type, {@code message/mls-ft}
+     */
+    void onEncryptedGroupSubject(int subId, @nullable String groupId, @nullable String fromE164,
+            @nullable String contentType, in byte[] ciphertext);
+
+    /**
+     * An encrypted group icon reference (RCC.16 §9.7.1.4): {@code first} is the content type
+     * ({@code message/mls-ft}), {@code second} the URL. The send side builds the same order, and a
+     * swap is silent on the wire.
+     */
+    void onEncryptedGroupIcon(int subId, @nullable String groupId, @nullable String fromE164,
+            @nullable String first, @nullable String second);
+
+    /**
+     * MLS messages that must be applied in the given order, such as a metadata commit and the key
+     * delivery encrypted at its post-commit epoch. One call, so order does not depend on thread
+     * scheduling. {@code eraId} ({@code -1} when absent), {@code epochAuthenticator} and
+     * {@code originalMessageId} are the outer-envelope headers (RCC.16 §7.9), readable before
+     * decryption.
+     *
+     * @param packedMessages {@code [u32 BE len][bytes]} records in application order
+     */
+    void onMlsControlBundle(int subId, @nullable String fromE164, @nullable String messageId,
+            in byte[] packedMessages, boolean convergenceAck, @nullable String groupId,
+            long eraId, in @nullable byte[] epochAuthenticator,
+            @nullable String originalMessageId);
+
+    /**
+     * A peer reports that one of our messages failed on its side (RCC.16 §7.7.2.2). For
+     * {@link #MLS_FAIL_FAILED_TO_DECRYPT} the remedy is to advance to the latest epoch and resend.
+     *
+     * @param messageId     our message that failed
+     * @param groupId       the group, or null for 1:1
+     * @param failureReason one of MLS_FAIL_*
+     */
+    void onMlsNegativeDelivery(int subId, String messageId, @nullable String fromUri,
+            @nullable String groupId, int failureReason);
+
+    /**
+     * One inbound MLS control payload, as the transport delivered it. The app must not block the
+     * calling thread.
+     */
+    void onMlsControl(int subId, String fromE164, String messageId, in byte[] payload,
+            @nullable String groupId);
+
+    /**
+     * An inbound MLS application message, still sealed, with the outer-envelope headers of
+     * {@link #onMlsControlBundle}; {@code originalMessageId} marks a resend. The app must not block
+     * the calling thread.
+     */
+    void onMlsCiphertext(int subId, String fromE164, String messageId, in byte[] ciphertext,
+            @nullable String groupId, long eraId, in @nullable byte[] epochAuthenticator,
+            @nullable String originalMessageId);
+
+    /**
+     * The provider replaced this line's MLS credential, so published KeyPackages carry a stale one.
+     * The app re-reads the identity and republishes, off the calling thread.
+     *
+     * @param reason a short loggable cause
+     */
+    void onMlsIdentityChanged(int subId, String reason);
+
+    /**
+     * The downloaded ciphertext behind an {@link #onEncryptedGroupIcon} reference, sent only when
+     * the fetch succeeded and the content is within the provider's size cap.
+     *
+     * @param contentType the literal {@code message/mls-ft}; the image type is in the key
+     *     delivery's RCC.16 §7.8.1 FileInfo
+     */
+    void onEncryptedGroupIconContent(int subId, @nullable String groupId,
+            @nullable String fromE164, @nullable String contentType, in byte[] ciphertext);
 }

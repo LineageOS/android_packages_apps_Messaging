@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * RFC 3862 CPIM builder and parser, with the RFC 5438 imdn namespace: CPIM
+ * RFC 3862 CPIM builder and parser, with the RFC 5438 imdn and RCC.16 §7.9 mls namespaces: CPIM
  * headers, a blank line, inner MIME headers, a blank line, the payload. Carried in pager-mode SIP
  * messages and MSRP SENDs. Instances are immutable; the builder is not thread-safe. Headers are
  * UTF-8 (RFC 3862 §3).
@@ -46,6 +46,39 @@ public final class CpimMessage {
     public static final String CT_FT_HTTP_XML     = "application/vnd.gsma.rcs-ft-http+xml";
     public static final String CT_VND_GOOGLE_RCS_ENCRYPTED =
             "application/vnd.google.rcs.encrypted";
+
+    // MLS content types: inner types of a message/cpim body, never an MSRP Content-Type. The
+    // RCC.16 §7.9 types and the ones other clients use are all recognised.
+    /** Application-message ciphertext. */
+    public static final String CT_MLS = "message/mls";
+    /** RCC.16 §7.9 client control: Commit and Proposal. */
+    public static final String CT_MLS_RCS_CLIENT = "message/mls-rcs-client";
+    /** Server control: Welcome and Commit maintenance. */
+    public static final String CT_MLS_RCS_SERVER = "message/mls-rcs-server";
+    /** File-transfer ciphertext, as other clients send it. */
+    public static final String CT_MLS_FT = "message/mls-ft";
+    /** File-transfer metadata XML in the MLS plane, as other clients send it. */
+    public static final String CT_MLS_RCS_FILE_INFO = "message/mls-rcs-file-info";
+    /** Server eviction, as other clients send it. */
+    public static final String CT_MLS_RCS_SERVER_KICK = "message/mls-rcs-server-kick";
+
+    /** RCC.16 §7.9. */
+    public static final String MLS_NAMESPACE_PREFIX = "mls";
+    public static final String MLS_NAMESPACE_URI    = "http://www.gsma.com/rcs/mls";
+    /** Both are required on an MLS body; the receiver drops a body missing either. */
+    public static final String HDR_MLS_ERA_ID       = MLS_NAMESPACE_PREFIX + ".Era-ID";
+    public static final String HDR_MLS_EPOCH_AUTH   = MLS_NAMESPACE_PREFIX + ".Epoch-Authenticator";
+
+    /** Case-insensitive. */
+    public static boolean isMlsContentType(final String ct) {
+        if (ct == null) {
+            return false;
+        }
+        final String c = ct.trim().toLowerCase(java.util.Locale.ROOT);
+        return c.equals(CT_MLS) || c.equals(CT_MLS_RCS_CLIENT) || c.equals(CT_MLS_RCS_SERVER)
+                || c.equals(CT_MLS_FT) || c.equals(CT_MLS_RCS_FILE_INFO)
+                || c.equals(CT_MLS_RCS_SERVER_KICK);
+    }
 
     /** RFC 5438 §3.1. */
     public static final String DISPO_POSITIVE_DELIVERY = "positive-delivery";
@@ -332,6 +365,37 @@ public final class CpimMessage {
     }
 
     /**
+     * An MLS body: {@code wire} is an MLSMessage under an inner {@code message/mls*} type, with the
+     * RCC.16 §7.9 {@code mls.Era-ID} (decimal era) and {@code mls.Epoch-Authenticator} (standard
+     * base64, 32 bytes) headers.
+     */
+    public static CpimMessage newMls(String fromUri, String toUri, String messageId,
+            String dateTime, String contentType, byte[] wire, String eraId, String epochAuthB64) {
+        final Builder b = newBuilder()
+                .from(fromUri)
+                .to(toUri)
+                .addImdnNamespace()
+                .addMlsNamespace()
+                .messageId(messageId)
+                .dateTime(dateTime)
+                // RCC.16 §7.7.2.2: a peer that cannot decrypt answers with a negative-delivery
+                // IMDN, which is how the sender learns the group diverged (RCC.16 §10). Under
+                // RFC 5438 a disposition that was not requested is unsolicited, so it must be
+                // requested.
+                .dispositionNotification(DISPO_POSITIVE_DELIVERY, DISPO_NEGATIVE_DELIVERY,
+                        DISPO_DISPLAY);
+        if (eraId != null) {
+            b.cpimHeader(HDR_MLS_ERA_ID, eraId);
+        }
+        if (epochAuthB64 != null) {
+            b.cpimHeader(HDR_MLS_EPOCH_AUTH, epochAuthB64);
+        }
+        return b.contentType(contentType)
+                .payload(wire == null ? new byte[0] : wire)
+                .build();
+    }
+
+    /**
      * An IMDN body with {@code Content-Disposition: notification} (RFC 5438 §3). It requests no
      * receipt of its own.
      *
@@ -381,9 +445,15 @@ public final class CpimMessage {
             return addNamespace(IMDN_NAMESPACE_PREFIX + " <" + IMDN_NAMESPACE_URI + ">");
         }
 
+        /** {@code NS: mls <http://www.gsma.com/rcs/mls>} (RCC.16 §7.9). */
+        public Builder addMlsNamespace() {
+            return addNamespace(MLS_NAMESPACE_PREFIX + " <" + MLS_NAMESPACE_URI + ">");
+        }
+
         /**
          * Declares a namespace. NS is the one repeatable header (RFC 3862 §3.1), so it bypasses the
-         * name-keyed map. Adding the same declaration twice emits it once.
+         * name-keyed map; an MLS message that also requests receipts needs both. Adding the same
+         * declaration twice emits it once.
          */
         public Builder addNamespace(String declaration) {
             if (declaration == null) throw new IllegalArgumentException("null NS declaration");

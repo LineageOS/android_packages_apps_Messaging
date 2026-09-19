@@ -31,7 +31,7 @@ public class RcsContractSignatureTest {
     private static final String AIDL_DIR = "aidl/src/aidl/org/lineageos/rcs/provider/";
 
     /** The callback layout digest before and after onMessageStatus gained e2eeSchemeId. */
-    private static final String CALLBACK_DIGEST = "de622dee3dfe";
+    private static final String CALLBACK_DIGEST = "f0f650b242f3";
 
     @Test
     public void onMessageStatus_hasTheTrailingSchemeParameter() throws IOException {
@@ -47,6 +47,12 @@ public class RcsContractSignatureTest {
         assertEquals("onMessageStatus", names[1]);
         assertEquals(RcsContractLayout.CALLBACK_ANCHOR_METHOD, names[0]);
         assertEquals(CALLBACK_DIGEST, RcsContractLayout.digest(names));
+    }
+
+    @Test
+    public void providerOrdinal64_isGetMlsTrustAnchors() throws IOException {
+        final String[] names = methodNames(aidl("IRcsProvider.aidl"));
+        assertEquals("getMlsTrustAnchors", names[64 - RcsContractLayout.FIRST_ORDINAL]);
     }
 
     @Test

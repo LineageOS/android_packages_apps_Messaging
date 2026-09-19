@@ -1,0 +1,40 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+// The MLS self-test harness: mints a throwaway RCC.16 PKI on the device and runs a full 1:1 MLS
+// round trip in its own process, with no network and no second device. It is kept out of the app
+// because it carries a local CA and exported debug receivers.
+//
+// Not listed in any PRODUCT_PACKAGES, so it is never part of an image; it is built by name and
+// installed with adb. MlsCredential is shared with the app as a source filegroup.
+android_app {
+    name: "MessagingMlsSelfTest",
+
+    srcs: [
+        "src/**/*.java",
+        ":messaging-mls-credential-srcs",
+    ],
+
+    static_libs: [
+        "messaging-mls-engine",
+    ],
+
+    jni_libs: [
+        "libmlsopenmlsbridge",
+    ],
+
+    // libmlsopenmlsbridge is system_ext_specific; embed it so an adb install to /data can load it.
+    use_embedded_native_libs: true,
+
+    // The bridge is a platform cc_library with no sdk variant, so this cannot set sdk_version.
+    platform_apis: true,
+
+    optimize: {
+        enabled: false,
+    },
+}

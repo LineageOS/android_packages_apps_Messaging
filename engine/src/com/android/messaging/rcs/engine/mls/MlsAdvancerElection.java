@@ -4,6 +4,11 @@
  */
 package com.android.messaging.rcs.engine.mls;
 
+import java.util.HashMap;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Look;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Group;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.EraYield;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.ConvState;
 import com.android.messaging.rcs.log.LogMask;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -179,5 +184,188 @@ public final class MlsAdvancerElection {
                 break;
         }
         return presenceLooks + (rank - 1) * baseLooks;
+    }
+
+    /** Renders a 4-byte era extension as {@code <decimal> (0x…)}, or why it could not be read. */
+    public static String eraExtOf(final byte[] v) {
+        if (v == null || v.length == 0) return "ABSENT";
+        if (v.length != 4) return "UNEXPECTED-LENGTH(" + v.length + "B)";
+        final long be = ((long) (v[0] & 0xFF) << 24) | ((v[1] & 0xFF) << 16)
+                | ((v[2] & 0xFF) << 8) | (v[3] & 0xFF);
+        return be + " (0x" + String.format("%08X", be) + ")";
+    }
+
+    /** A count, not a duration, so a device asleep for a week wakes with its budget intact. */
+    public static int eraYieldMaxObservations(final MlsConfig cfg) { return cfg.eraYieldLooks; }
+
+    /** Creates no state for a conversation without one. */
+    public static void clearEraYield(final MlsShellPort shell, final String key) {
+        final ConvState s = shell.convIfAny(key);
+        if (s != null) synchronized (s) { s.eraYield = null; }
+    }
+
+    /**
+     * Records that we heard from {@code fromE164}, including undecryptable bytes and failure
+     * reports. This is presence, not health: do not clear {@code MlsPeerGuard}'s failure streak
+     * from here.
+     */
+    public static void noteHeardFrom(final MlsShellPort shell, final String key,
+            final String fromE164) {
+        if (key == null || fromE164 == null || fromE164.isEmpty()) return;
+        final String self = shell.selfE164();
+        if (self != null && self.equals(fromE164)) return;
+        final ConvState s = shell.conv(key);
+        synchronized (s) {
+            s.heardSeq++;
+            s.heardAtSeq.put(fromE164, Long.valueOf(s.heardSeq));
+        }
+    }
+
+    /** Logs, never throws, when the yield about to start can never end. */
+    public static void reportTakeoverReachability(final MlsConfig cfg, final MlsLogSink log,
+            final String key, final String what, final MlsAdvancerElection.Decision d) {
+        final MlsSelfHealPass.Reach reach = MlsSelfHealPass.reach(
+                d, MlsAdvancerElection.eraYieldMaxObservations(cfg), cfg.selfHealRetryLimit);
+        if (reach.why == null) return;
+        final String line = "MlsAdvancerElection: yielding " + what + " on "
+                + MlsConversationKey.forLog(key) + " — " + reach
+                + ": " + reach.why + " (" + d + ", eraYieldLooks="
+                + MlsAdvancerElection.eraYieldMaxObservations(cfg)
+                + ", selfHealRetries=" + cfg.selfHealRetryLimit + ")";
+        if (reach.isACollision) log.w(line); else log.i(line);
+    }
+
+    /**
+     * Re-evaluates a live yield from local state, with no fetch and no self-heal charge. Returns
+     * {@code -1} while still yielding, or {@code null} to run the full ladder.
+     */
+    public static Integer relookLiveYield(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String key) {
+        final ConvState s = shell.convIfAny(key);
+        if (s == null) return null;
+        final EraYield held;
+        final java.util.Map<String, Long> heard;
+        synchronized (s) {
+            held = s.eraYield;
+            heard = new java.util.HashMap<>(s.heardAtSeq);
+        }
+        if (held == null || held.electorate == null || held.electorate.isEmpty()) return null;
+        final Group g = shell.getGroup(key);
+        if (g == null || g.groupId == null) return null;
+        final MlsAppMessage.Moment now =
+                MlsAppMessage.Moment.from(shell.session().eraEpoch(g.groupId));
+        if (now == null) return null;      // cannot read the moment; do not guess
+        if (MlsRecoveryPolicy.eraYieldSatisfied(held.at, now)) {
+            log.i("MlsAdvancerElection: the group moved (" + held.at + " → " + now
+                    + ") while yielding " + MlsConversationKey.forLog(key)
+                    + " — the yield worked; running the full ladder to "
+                    + "apply what moved it.");
+            MlsAdvancerElection.clearEraYield(shell, key);
+            return null;
+        }
+        final MlsAdvancerElection.Decision d = MlsAdvancerElection.decide(
+                shell.selfE164(), held.electorate, heard, held.heardSeqAtStart,
+                MlsAdvancerElection.eraYieldMaxObservations(cfg));
+        if (d.weAdvanceNow()) return null;       // we are the advancer now; the ladder must run
+        final MlsSelfHealPass.Look look = MlsSelfHealPass.look(held.observations, d.looks);
+        if (!look.recorded) return null;
+        synchronized (s) {
+            s.eraYield = new EraYield(held.at, look.number, held.heardSeqAtStart, held.electorate);
+        }
+        log.i("MlsAdvancerElection: still yielding " + MlsConversationKey.forLog(key) + " — look "
+                + look.number
+                + "/" + d.looks + ", group unmoved at " + now + " (" + d
+                + "). Re-looked from local state:"
+                + " no fetch and no self-heal attempt charged.");
+        return Integer.valueOf(-1);
+    }
+
+    /**
+     * The bounded era yield; returns true when we should stop yielding and act. Caller holds the
+     * conversation lock (read-modify-write on {@code ConvState.eraYield}).
+     *
+     * @param maxLooks from {@link #looksBeforeTakeover}; {@code <= 0} means yield forever
+     */
+    public static boolean eraYieldExhausted(final MlsShellPort shell, final MlsLogSink log,
+            final String key, final String what, final int maxLooks,
+            final java.util.List<String> electorate) {
+        // The engine's moment, not the record's: the record is written only on health transitions
+        // and can be stale.
+        final MlsConversationRecord rec = MlsRecordState.recordFor(shell, log, key);
+        final Group yg = shell.getGroup(key);
+        MlsAppMessage.Moment now = (yg == null || yg.groupId == null)
+                ? null : MlsAppMessage.Moment.from(shell.session().eraEpoch(yg.groupId));
+        if (now == null) {
+            now = (rec == null) ? null : rec.moment;
+        }
+        final ConvState s = shell.conv(key);
+        final EraYield held;
+        synchronized (s) { held = s.eraYield; }
+        if (held == null) {
+            synchronized (s) { s.eraYield = new EraYield(now, 1, s.heardSeq, electorate); }
+            log.i("MlsAdvancerElection: yielding " + what + " at " + now);
+            return false;
+        }
+        if (MlsRecoveryPolicy.eraYieldSatisfied(held.at, now)) {
+            log.i("MlsAdvancerElection: the group moved (" + held.at + " → " + now
+                    + ") while yielding " + what + " — the yield worked; not acting");
+            synchronized (s) { s.eraYield = null; }
+            return false;
+        }
+        final MlsSelfHealPass.Look look = MlsSelfHealPass.look(held.observations, maxLooks);
+        if (look.exhausted) {
+            // A duel is self-limiting (whoever lands first wins), a deadlock is not.
+            log.w("MlsAdvancerElection: era yield EXHAUSTED after " + look.number + "/"
+                    + maxLooks + " looks with the group still at " + now
+                    + " — TAKING OVER the era advance. Was yielding " + what);
+            shell.telemetry().count(MlsMetrics.ADVANCER_TAKEOVER, 1);
+            synchronized (s) { s.eraYield = null; }
+            return true;
+        }
+        synchronized (s) {
+            s.eraYield = new EraYield(held.at, look.number, held.heardSeqAtStart, held.electorate);
+        }
+        log.i("MlsAdvancerElection: still yielding " + what + " — look " + look.number
+                + "/" + maxLooks + ", group unmoved at " + now);
+        return false;
+    }
+
+    /** Whether we advance now or yield; {@code members} includes ourselves, in any order. */
+    public static boolean advanceOrYield(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String key, final String selfE164,
+            final java.util.Collection<String> members, final String what) {
+        final ConvState s = shell.conv(key);
+        final long startedAt;
+        final java.util.Map<String, Long> heard;
+        synchronized (s) {
+            startedAt = (s.eraYield == null) ? s.heardSeq : s.eraYield.heardSeqAtStart;
+            heard = new java.util.HashMap<>(s.heardAtSeq);
+        }
+        final MlsAdvancerElection.Decision d = MlsAdvancerElection.decide(
+                selfE164, members, heard, startedAt,
+                MlsAdvancerElection.eraYieldMaxObservations(cfg));
+        if (d.weAdvanceNow()) {
+            MlsAdvancerElection.clearEraYield(shell, key);
+            return true;
+        }
+        MlsAdvancerElection.reportTakeoverReachability(cfg, log, key, what, d);
+        return MlsAdvancerElection.eraYieldExhausted(shell, log, key, what
+                + " (we are not the designated advancer: " + LogMask.number(selfE164)
+                + " > " + LogMask.number(d.designated) + "; " + d + ")", d.looks,
+                MlsAdvancerElection.order(members));
+    }
+
+    /**
+     * On an era gap, whether we advance or yield to the peer. Neither RFC 9420 nor RCC.16 defines a
+     * tie-break, so the lower E.164 advances.
+     */
+    public static boolean shouldAdvanceEra(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String key, final String selfE164, final String peerE164) {
+        shell.lock(key);
+        try {
+        return MlsAdvancerElection.advanceOrYield(cfg, shell, log, key, selfE164,
+                java.util.Arrays.asList(selfE164, peerE164),
+                "the era advance to " + LogMask.number(peerE164));
+        } finally { shell.unlock(key); }
     }
 }

@@ -18,8 +18,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Records a member's departure (our own leave) by dispatching a KICK group event with requester ==
- * affected == the leaver, so it de-duplicates against the server's echo. See docs/rcs/groups.md.
+ * Records a member's departure (an MLS {@code self_remove}, RCC.16 §9.4, or our own plaintext
+ * leave) by dispatching a KICK group event with requester == affected == the leaver, so it
+ * de-duplicates against the server's echo. See docs/rcs/groups.md.
  */
 public final class GroupDepartureApplier {
 
@@ -43,7 +44,7 @@ public final class GroupDepartureApplier {
                     BugleDatabaseOperations.getExistingGroupConversation(db, rcsGroupId);
             if (TextUtils.isEmpty(conversationId)) {
                 LogUtil.w(TAG, "GroupDepartureApplier: " + LogMask.number(departedE164)
-                        + " left group "
+                        + " left MLS group "
                         + rcsGroupId + ", which we hold no conversation for — nothing to update");
                 return false;
             }
@@ -57,15 +58,15 @@ public final class GroupDepartureApplier {
                     /*members=*/ new ArrayList<String>(),
                     new ArrayList<>(Collections.singletonList(departedE164)))
                     .start();
-            LogUtil.i(TAG, "GroupDepartureApplier: " + LogMask.number(departedE164) + " left group "
-                    + rcsGroupId
-                    + " (conversation " + conversationId
+            LogUtil.i(TAG, "GroupDepartureApplier: " + LogMask.number(departedE164)
+                    + " left MLS group "
+                    + rcsGroupId + " (conversation " + conversationId
                     + ") — dispatched as a KICK group event so "
                     + "the participant list, the status line and the de-dup are the same ones the "
                     + "RCS echo would use");
             return true;
         } catch (final Throwable t) {
-            // Never throw into the caller; the leave has already been accepted.
+            // Never throw into the inbound control path; the MLS commit has already landed.
             LogUtil.w(TAG, "GroupDepartureApplier: failed to apply the departure of "
                     + LogMask.number(departedE164)
                     + " from " + rcsGroupId, t);

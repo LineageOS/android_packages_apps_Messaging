@@ -125,4 +125,17 @@ public final class MlsMetrics {
     private static boolean isEmpty(final byte[] b) { return b == null || b.length == 0; }
 
     private MlsMetrics() {}
+
+    /**
+     * Record {@link #ZINNIA_STATE_SIZE} for whatever the last engine call wrote. The read clears
+     * the engine's counter, so a call that wrote nothing records nothing.
+     */
+    public static void noteStateWrite(final MlsShellPort shell) {
+        final MlsSession s = shell.session();
+        if (s == null) return;
+        final long bytes = s.takeStateWriteBytes();
+        if (bytes > 0L) {
+            shell.telemetry().count(MlsMetrics.ZINNIA_STATE_SIZE, MlsMetrics.log2Bucket(bytes));
+        }
+    }
 }

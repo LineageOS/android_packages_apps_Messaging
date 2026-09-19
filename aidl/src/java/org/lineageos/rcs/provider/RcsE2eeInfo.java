@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 /**
  * Encryption state of a line as the provider implements it. The scheme is an opaque reverse-DNS
  * string the implementation chooses, compared like a MIME type, so a new scheme needs no contract
- * change.
+ * change. App-layer MLS ({@code "gsma.rcs-e2ee.mls"}) is composed with this above the struct.
  */
 public final class RcsE2eeInfo implements Parcelable {
 

@@ -176,6 +176,9 @@ public final class CarrierImsService extends Service {
                 case CarrierImsSeam.MSG_DEBUG_PLAIN_MESSAGE:
                     handleDebugPlain(data);
                     break;
+                case CarrierImsSeam.MSG_SEND_MLS:
+                    handleSendMls(data);
+                    break;
                 default:
                     LogUtil.w(TAG, SUBTAG + ": unknown control what=" + msg.what);
             }
@@ -193,8 +196,9 @@ public final class CarrierImsService extends Service {
         mSubId = sub.subId;
         mMsisdn = sub.msisdn;
         mMccMnc = sub.mccMnc;
-        // supersede any pending retry
-        mResolvedFrom = null;        mProbeAttempts = 0;        mProbeGeneration++;
+        mResolvedFrom = null;
+        mProbeAttempts = 0;
+        mProbeGeneration++;   // supersede any pending retry
         // Watch the pulled configuration for a carrier terms gate; replays the last one.
         try {
             ShannonRcsConfigTrigger.getInstance(getApplicationContext())
@@ -605,6 +609,30 @@ public final class CarrierImsService extends Service {
         mWorker.post(() -> mDrDriver.sendPlainDebug(subId, from, toUri, text, mid));
     }
 
+    private void handleSendMls(@Nullable final Bundle data) {
+        if (data == null) {
+            return;
+        }
+        final int subId = data.getInt(CarrierImsSeam.KEY_SUB_ID, mSubId);
+        final RcsOutgoingMessage out = data.getParcelable(CarrierImsSeam.KEY_OUT_MSG);
+        if (out == null) {
+            LogUtil.w(TAG, SUBTAG + ": sendMls missing KEY_OUT_MSG");
+            return;
+        }
+        final String toUri = telOnly(out.toUri);
+        final byte[] framedBody = out.body;
+        final String mid = out.messageId;
+        final String from = resolveFromTel(subId);
+        // Refuse rather than fall back to text: an unframed body would be unreadable to peers.
+        if (TextUtils.isEmpty(toUri) || framedBody == null || framedBody.length == 0) {
+            LogUtil.w(TAG, SUBTAG + ": sendMls missing to/body (toUri="
+                    + (TextUtils.isEmpty(toUri) ? "absent" : "present") + " body="
+                    + (framedBody == null ? "null" : framedBody.length + "B") + ")");
+            return;
+        }
+        mWorker.post(() -> mDrDriver.sendMls(subId, from, toUri, framedBody, mid));
+    }
+
     private void handleRejectFile(@Nullable final Bundle data) {
         if (data == null) {
             return;
@@ -824,8 +852,8 @@ public final class CarrierImsService extends Service {
         // fromUri must not be null.
         final String from = !TextUtils.isEmpty(fromE164) ? fromE164 : "sip:anonymous@unknown";
         // Bodies arrive already unframed with their real type; do not parse again, since an
-        // unframed image has no frame either and would be relabelled as text. e2eeSchemeId is the
-        // scheme the body arrived under.
+        // unframed image has no frame either and would be relabelled as text. e2eeSchemeId marks a
+        // body decrypted from MLS.
         final RcsIncomingMessage in = new RcsIncomingMessage(
                 subId,
                 messageId,

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.android.messaging.mls.selftest">
+
+    <application android:label="MLS self-test">
+
+        <!-- Mints a local RCC.16 PKI and runs a full 1:1 MLS round trip in this process:
+             no network, no KDS, no second device. Exported so adb can reach it; this APK
+             is never part of an image, so there is no user build to gate against. -->
+        <receiver
+            android:name="com.android.messaging.rcs.e2ee.MlsSelfTestReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.MLS_SELFTEST" />
+                <action android:name="com.android.messaging.debug.MLS_DUMP_PKI" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

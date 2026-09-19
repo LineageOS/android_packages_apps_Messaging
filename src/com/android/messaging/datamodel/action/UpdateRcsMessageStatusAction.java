@@ -24,6 +24,7 @@ import com.android.messaging.rcs.RcsEarlyStatusPark;
 import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.rcs.e2ee.E2eeObservation;
 import com.android.messaging.rcs.e2ee.E2eeObservationStore;
+import com.android.messaging.rcs.e2ee.MlsResendLedger;
 import com.android.messaging.util.LogUtil;
 
 /**
@@ -97,28 +98,48 @@ public class UpdateRcsMessageStatusAction extends Action implements Parcelable {
         final DatabaseWrapper db = DataModel.get().getDatabase();
         String localId = RcsMessageStore.findLocalIdByRcsMessageId(db, rcsMessageId);
 
-        if (localId == null && kind == KIND_STATUS) {
-            // A status can overtake the insert of its row. Park it for the insert path, then
-            // look again: whichever side runs second applies it, once.
-            RcsEarlyStatusPark.get().park(rcsMessageId, value,
-                    value == IRcsProviderCallback.STATUS_SENT,
-                    actionParameters.getString(KEY_E2EE_SCHEME_ID),
-                    actionParameters.getString(KEY_SOURCE), System.currentTimeMillis());
-            LogUtil.i(TAG, "UpdateRcsMessageStatusAction: no local row yet for rcsId="
-                    + rcsMessageId + "; parked status " + value + " for the insert path.");
-            applyParkedStatus(db, rcsMessageId);
-            return null;
-        }
+        // A resend goes out under a fresh id recorded only in the resend ledger; the chat row keeps
+        // the original id. When the exact lookup misses, resolve through the chain root. The exact
+        // lookup runs first, so a receipt that resolved directly is unaffected.
         if (localId == null) {
-            LogUtil.w(TAG, "UpdateRcsMessageStatusAction: no local row for rcsId=" + rcsMessageId
-                    + "; nothing to update. The row was deleted, or this outcome is for a message "
-                    + "this device did not originate.");
-            return null;
+            final String root = MlsResendLedger.rootOf(rcsMessageId);
+            if (!TextUtils.equals(root, rcsMessageId)) {
+                localId = RcsMessageStore.findLocalIdByRcsMessageId(db, root);
+                if (localId != null) {
+                    LogUtil.i(TAG, "UpdateRcsMessageStatusAction: rcsId=" + rcsMessageId
+                            + " is a RESEND; resolved it through the §10.3 ledger to its chain root "
+                            + root + " and will update that row.");
+                } else {
+                    LogUtil.w(TAG, "UpdateRcsMessageStatusAction: no local row for rcsId="
+                            + rcsMessageId + " NOR for its chain root " + root
+                            + " — the ledger has "
+                            + "the chain but the originating row is gone (deleted conversation?).");
+                    return null;
+                }
+            } else if (kind == KIND_STATUS) {
+                // A status can overtake the insert of its row. Park it for the insert path, then
+                // look again: whichever side runs second applies it, once.
+                RcsEarlyStatusPark.get().park(rcsMessageId, value,
+                        value == IRcsProviderCallback.STATUS_SENT,
+                        actionParameters.getString(KEY_E2EE_SCHEME_ID),
+                        actionParameters.getString(KEY_SOURCE), System.currentTimeMillis());
+                LogUtil.i(TAG, "UpdateRcsMessageStatusAction: no local row yet for rcsId="
+                        + rcsMessageId + "; parked status " + value + " for the insert path.");
+                applyParkedStatus(db, rcsMessageId);
+                return null;
+            } else {
+                LogUtil.w(TAG, "UpdateRcsMessageStatusAction: no local row for rcsId="
+                        + rcsMessageId
+                        + " (the §10.3 ledger has no resend chain for it either, so this is not a "
+                        + "resend whose root we could have found).");
+                return null;
+            }
         }
 
         // Every kind below is about a message we sent. In a group each member stores its received
         // copy under the sender's id, so a lookup can hit a received row; rewriting it as delivered
-        // would make it look outgoing. Drop the update; the originator owns it.
+        // would make it look outgoing and eligible as resend material. Drop the update; the
+        // originator owns it.
         if (RcsMessageStore.isIncomingLocalId(db, localId)) {
             LogUtil.i(TAG, "UpdateRcsMessageStatusAction: rcsId=" + rcsMessageId
                     + " resolves to an "

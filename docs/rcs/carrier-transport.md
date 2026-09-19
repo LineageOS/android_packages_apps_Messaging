@@ -10,9 +10,9 @@ carrier's IMS core) from inside this app, without a provider app. It is one `Rcs
 others and is selected per subscription by `RouteSelector`; see
 [architecture.md](architecture.md#route-selection).
 
-Scope: 1:1 text, delivery and display receipts, and typing indicators. Groups, reactions, business
-messaging and location are not implemented on this transport, and file transfer does not cross into
-the main process.
+Scope: 1:1 text, delivery and display receipts, typing indicators, and app-sealed MLS over MSRP
+sessions. Groups, reactions, business messaging and location are not implemented on this transport,
+and file transfer does not cross into the main process.
 
 ## Two processes
 
@@ -38,10 +38,11 @@ and `sendTyping` do not set the key, so receipts and typing always take that fal
 |---|---|
 | `MSG_START_FOR_SUB` (`RcsSubInfo`), `MSG_STOP_FOR_SUB` | `EVT_REG_STATE` (`REG_*`, reason) |
 | `MSG_SEND_MESSAGE` (`RcsOutgoingMessage`) | `EVT_PROV_STATE` (`PROV_*`, caps) |
-| `MSG_WARM_PEER` | `EVT_INCOMING_MESSAGE` (`RcsIncomingMessage`) |
-| `MSG_SEND_IMDN`, `MSG_SEND_TYPING` | `EVT_MESSAGE_STATUS` (`STATUS_*`, reason) |
-| `MSG_SUBMIT_OTP` (ignored: no OTP on this transport) | `EVT_TOS_STATE` (`TOS_*`, `RcsTosPrompt`) |
-| `MSG_REJECT_FILE` | `EVT_SESSION_WARM`, `EVT_SESSION_COLD` |
+| `MSG_SEND_MLS` (`RcsOutgoingMessage`, framed MLS body) | `EVT_INCOMING_MESSAGE` (`RcsIncomingMessage`) |
+| `MSG_WARM_PEER` | `EVT_MESSAGE_STATUS` (`STATUS_*`, reason) |
+| `MSG_SEND_IMDN`, `MSG_SEND_TYPING` | `EVT_TOS_STATE` (`TOS_*`, `RcsTosPrompt`) |
+| `MSG_SUBMIT_OTP` (ignored: no OTP on this transport) | `EVT_SESSION_WARM`, `EVT_SESSION_COLD` |
+| `MSG_REJECT_FILE` | |
 
 A `Messenger` has no synchronous return and cannot carry a `ParcelFileDescriptor` cleanly. That is
 why `sendMessage` answers locally (below), why `getCapabilitiesForSub` returns the static caps once
@@ -60,6 +61,7 @@ is unaffected.
 | `supportedTransports` | `TRANSPORT_CARRIER_MSRP` |
 | `canServeSub` | Always `LINE_MAYBE`: eligibility depends on live modem and IMS state, which only `startForSub` can probe. |
 | `isAttached` | The `:ims` conduit is bound. |
+| `isMlsReady` | `isAttached`, on a debug build only (`MlsCarrierTrust.readyInApp`); see below. |
 
 ## Registration modes
 
@@ -112,7 +114,8 @@ in-flight message id: a 2xx Status is `DELIVERED`, any other Status fails the se
 (`MsrpReportStatus`). A peer BYE is answered with a 200, which the framework does not send.
 
 Delivery and display receipts and typing indicators go out in pager mode, as one SIP MESSAGE each
-(`CpmSipMessageBuilder`), not on a session.
+(`CpmSipMessageBuilder`), not on a session. MLS sends always go to the DR driver
+(`CarrierImsService.handleSendMls`), whatever mode the probe chose.
 
 **SIP requests on this path.** Both builders write the request as text for the framework's
 `SipMessage`, which puts no separator between the start line and the headers, so every start line
@@ -158,6 +161,7 @@ same pull, and each document received is handed to `setAcsConfig`.
 |---|---|
 | `APPAUTH` `Realm`, `UserName`, `UserPwd`, `AuthType` | Also accepted as the aliases `AAuthRealm`, `AAuthName`, `AAuthSecret` and `AAuthType`. An `AuthType` or `AAuthType` containing `HA1` marks the secret as a precomputed HA1. Other clients read only the four standard names and honour `AuthType` only as `Digest`, so a document carrying an HA1 is specific to this client. |
 | `Home_network_domain_Name` | The Digest realm when `APPAUTH` gives none. |
+| `openrcs-kds-uri`, `openrcs-trust-anchors-uri`, `openrcs-trust-anchors-generation`, `openrcs-trust-anchors-signer`, `openrcs-encryption-identity-proof` | The MLS parameters (see [MLS on this transport](#mls-on-this-transport)). A configuration server carries them in its service-provider extension characteristic, in the nested document, the flat one or both, so they are matched by name in any scope. |
 | `ftHTTPCSURI`, `ftHTTPDLURI`, `ftHTTPCSUser`, `ftHTTPCSPwd`, `MaxSizeFileTr` | File transfer. |
 
 A configuration is usable (`CarrierTransportBridge.isConfigUsable`) when it has a P-CSCF address, a
@@ -260,12 +264,14 @@ instance, so every pager message from one registration carries the same pair.
 order, with the `NS` declarations placed immediately before the first prefixed header, which gives
 `From`, `To`, `NS: imdn <urn:ietf:params:imdn>`, `imdn.Message-ID` (the app's message id, which is
 how receipts correlate), `DateTime` (RFC 3339, UTC), `imdn.Disposition-Notification`, the order
-peers send. `NS` is repeatable and kept in its own list, so one message can declare several
-namespaces. Then come the inner MIME headers and payload. The inner type is
+peers send. `NS` is repeatable and kept in its own list, so one message can declare both the `imdn`
+and `mls` namespaces. Then come the inner MIME headers and payload. The inner type is
 `text/plain;charset=UTF-8` for chat, `message/imdn+xml` with `Content-Disposition: notification`
 for a receipt, and `application/im-iscomposing+xml` for typing. A chat message requests
-`positive-delivery, display`; a receipt requests nothing. The session path also wraps its body in
-CPIM, because the MSRP SEND declares `message/cpim`.
+`positive-delivery, display`; a receipt requests nothing. An MLS message (`newMls`) also requests
+`negative-delivery`: the negative-delivery receipt of RCC.16 §7.7.2.2 is how a sender learns that a
+peer could not decrypt, and RFC 5438 treats a disposition that was not requested as unsolicited.
+The session path also wraps its body in CPIM, because the MSRP SEND declares `message/cpim`.
 
 **Receipts** (`ImdnNotification`, RFC 5438 XML). Inbound, `CarrierMessageReceiver` answers the
 MESSAGE with 200 OK, unwraps CPIM and maps an IMDN to `DELIVERED`, `DISPLAYED` or `FAILED`
@@ -343,7 +349,7 @@ reaches a terminal state through the peer's IMDN.
 
 `CarrierImsService.emitIncoming` builds the `RcsIncomingMessage`: sender as `+E164` (with
 `sip:anonymous@unknown` when it cannot be parsed, because `fromUri` must not be null), both receipt
-flags set, no group id, and the E2EE scheme id the body arrived under, if any. Bodies arrive
+flags set, no group id, and the E2EE scheme id when the body was decrypted from MLS. Bodies arrive
 already unframed with their real content type; the service must not parse them again, because an
 unframed image has no frame either and would be relabelled as text.
 
@@ -351,7 +357,7 @@ The DR inbound chain carries bytes. `Transport.Listener` has two byte forms:
 
 | Method | Carries | Default |
 |---|---|---|
-| `onIncomingBytes` | A still-wrapped `message/cpim` envelope, which may hold a binary inner type. | Decodes the bytes as UTF-8 and calls the String form. |
+| `onIncomingBytes` | A still-wrapped `message/cpim` envelope, which may hold a binary inner type such as `message/mls`. | Decodes the bytes as UTF-8 and calls the String form. |
 | `onIncomingContent` | The final content of one message with its real, unframed content type; the only form that can carry bytes that are not UTF-8 text. | The lossy String form, for text-only listeners. |
 
 Every hop between `CarrierMessageReceiver` and `CarrierImsService` overrides `onIncomingContent`.
@@ -367,11 +373,65 @@ only) `debug.rcs.dr.user`.
 ## Terms of service
 
 When a configuration document arrives, `CarrierImsService.onRcsConfig` looks for a carrier
-terms gate: a `characteristic` of type `MSG` (or a terms element). It extracts title, message and
+terms gate: a `characteristic` of type `MSG` (or a `TERMS` element). It extracts title, message and
 button labels from either the `<parm name value>` or the element form, emits `TOS_REQUIRED` with an
 `RcsTosPrompt` of kind `KIND_CARRIER_TOS`, and emits `TOS_NONE` once the gate disappears. Repeated
 identical states are suppressed. The UI path is the same as for a provider's prompt
 (`RcsCarrierTosReceiver`, `RcsCarrierTosActivity`).
+
+## MLS on this transport
+
+The DR stack carries app-sealed MLS over its MSRP sessions: `CarrierImsTransport.sendMlsMessage`
+forwards an `RcsOutgoingMessage` with content type `message/mls` and the RCC.16-framed body, and
+`CarrierRcsTransport` wraps the MLS message in CPIM with the `mls.Era-ID` and
+`mls.Epoch-Authenticator` headers. `MlsCarrierTransport` runs in `:ims` beside it. See
+[../mls/transport-and-port.md](../mls/transport-and-port.md).
+
+**Provisioning.** `CarrierRcsTransport` creates its MLS layer when the stack first reaches
+`REGISTERED`, and the layer provisions itself once, off-thread: it enrols for a client certificate
+and publishes a KeyPackage pool. Both go to the key server named by the configuration's
+`openrcs-kds-uri`, falling back, on a debug build only, to the test network's; the trust-anchor
+list and the encryption identity proof come from the other `openrcs-*` parameters. With no trust
+anchor or no KDS the layer is not created and MLS is off on this transport, which is the state of a
+user build without the provider's anchors (see
+[../mls/credentials.md](../mls/credentials.md#trust-anchors-carrier-path)).
+
+**Outbound framing.** The carrier send leg carries bytes end to end. The caller frames the payload
+(`RccMlsBody.frame`); `MlsCarrierTransport.encryptForSend` stamps the generation at encrypt time,
+because only the encrypt path knows it:
+
+* The RCC.16 body header's bytes 4..7 must equal the message's `sender_data.generation`, which
+  peers cross-check. `MlsRecoveryPolicy.stampBodyGeneration` writes `nextAppGen` there before
+  encrypting. A leg that framed without stamping would emit generation 0 for every message and be
+  refused after the first message of each epoch. An unavailable generation is logged and the
+  message is sent unstamped.
+* The ciphertext is sealed against the same message id the envelope carries (the RCC.16 §7.5.3.1
+  AAD and envelope cross-check). With no id supplied, a fallback
+  `mls-<conversationId>-e<era>p<epoch>-<generation>` is synthesised; it includes the epoch and
+  generation so it differs per message, since an id constant within an era would make every AAD in
+  it identical.
+* `RccMlsBody.frame` appends `;charset=UTF-8` only to textual types, by
+  `RccContentDisposition.takesCharset`: `text/*`, `message/*` (key-delivery bodies are binary but
+  keep the charset they have always been sent with), `application/xml`, `application/json` and
+  `+xml`/`+json` suffixes. Binary types (image, video, audio, other `application/*`) get none. The
+  test is case-insensitive (RFC 2045 §5.1) on the trimmed type, the emitted value keeps the
+  caller's case, and a type that already has parameters gets nothing appended.
+  `takesCharset` is kept separate from the classification: anything classified as media never
+  carries a charset, which is containment rather than equality.
+
+**Inbound.** `CarrierMessageReceiver` applies `MlsHeaderGate` before decryption: an MLS body
+without `Era-ID` and `Epoch-Authenticator` is dropped silently (a log line; no receipt, failure
+report or health request). `MlsCarrierTransport.onInboundCpim` decrypts, then compares the message
+id in the AAD (`lastInboundAad`) with the envelope's `imdn.Message-ID` and drops a mismatch. An
+absent or unparseable AAD, or an envelope with no message id, passes. The receiver unframes the
+plaintext with `RccMlsBody` at the hop that decrypted it and passes bytes and the real content type
+through `onIncomingContent`; unframing precedes any String conversion because the frame's var-int
+length can hold a byte above 0x7F even when the text is ASCII.
+
+**Transport profile.** In `RcsMlsTransportProfile` terms this peer-to-peer path answers false to all
+four questions: no server arbitrates the era (it is client-managed from 1), the Welcome travels
+over MSRP directly so there is no convergence signal to await, there is no server to accept a
+member's external commit, and there is no authoritative GroupInfo to fetch.
 
 ## File transfer
 
@@ -380,6 +440,12 @@ identical states are suppressed. The UI path is the same as for a provider's pro
 descriptor; inbound descriptors are downloaded the same way. Only single-shot upload is implemented,
 not the resumable form. The main process cannot send or receive files over this transport;
 `rejectIncomingFile` is forwarded and does nothing, because inbound file INVITEs are not routed.
+
+An encrypted attachment (`RccMediaSeal`) is two messages in order: first the RCC.16 §7.8.1
+`FileInfo` key delivery (`message/mls-rcs-file-info`), then the upload of the Annex C.2 ciphertext
+and the file-transfer descriptor, whose `<mls-file>` carries what the key-delivery send returned.
+`RccMediaSeal.Plan` therefore builds neither `<mls-file>` nor the message ids; the caller takes both
+from the key-delivery step. A thumbnail has its own `FileInfo` and ciphertext.
 
 ## Debug properties
 
