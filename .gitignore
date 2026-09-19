@@ -1,0 +1,19 @@
+# Cargo build output. 8,826 files / 3.66 GB were tracked here because nothing stopped
+# `git add` from taking them; the repo had no .gitignore at all.
+target/
+**/target/
+
+# Rust/native build products. The Soong build produces these; they are not sources.
+*.a
+*.rlib
+*.so
+*.d
+
+# Editor and OS noise
+*.swp
+*~
+.DS_Store
+
+# Python bytecode from the classifier in tools/mls/
+__pycache__/
+*.pyc
