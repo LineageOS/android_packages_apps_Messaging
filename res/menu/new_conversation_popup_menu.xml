@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_new_conversation"
+        android:title="@string/menu_new_conversation" />
+
+    <item
+        android:id="@+id/action_new_group"
+        android:title="@string/menu_new_group" />
+
+</menu>

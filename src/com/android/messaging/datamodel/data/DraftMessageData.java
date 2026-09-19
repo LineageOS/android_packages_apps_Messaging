@@ -239,6 +239,31 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
         return getIsMms() && mIsGroupConversation;
     }
 
+    /**
+     * True when this draft is MMS only because of an attachment, so a 1:1 draft may go over
+     * RCS. {@link #getIsMms()} is unaffected. Recipient capability is not considered.
+     */
+    public boolean getIsMmsDueToAttachmentOnly() {
+        final int selfSubId = getSelfSubId();
+        if (mAttachments.isEmpty()) {
+            return false;
+        }
+        // Any other MMS trigger makes it a real MMS.
+        if (MmsSmsUtils.getRequireMmsForEmailAddress(mIncludeEmailAddress, selfSubId)
+                || (mIsGroupConversation && MmsUtils.groupMmsEnabled(selfSubId))
+                || mMessageTextStats.getMessageLengthRequiresMms()
+                || !TextUtils.isEmpty(mMessageSubject)) {
+            return false;
+        }
+        // As InsertNewMessageAction.firstMediaAttachment: an attachment with a content URI.
+        for (final MessagePartData attachment : mAttachments) {
+            if (attachment.isAttachment() && attachment.getContentUri() != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getSelfId() {
         return mSelfId;
     }

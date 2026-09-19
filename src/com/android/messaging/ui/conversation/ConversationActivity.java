@@ -30,9 +30,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.MessagingContentProvider;
+import com.android.messaging.datamodel.action.ActionMonitor;
+import com.android.messaging.datamodel.action.CreateRcsGroupAction;
+import com.android.messaging.datamodel.action.GetOrCreateConversationAction;
 import com.android.messaging.datamodel.data.MessageData;
+import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.contact.ContactPickerFragment;
@@ -61,6 +67,9 @@ public class ConversationActivity extends BugleActionBarActivity
     // Tracks whether onPause is called.
     private boolean mIsPaused;
 
+    // Launched in RCS group mode.
+    private boolean mNewGroupMode;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +77,9 @@ public class ConversationActivity extends BugleActionBarActivity
         setContentView(R.layout.conversation_activity);
 
         final Intent intent = getIntent();
+
+        mNewGroupMode = intent.getBooleanExtra(
+                UIIntents.UI_INTENT_EXTRA_NEW_GROUP_MODE, false);
 
         // Do our best to restore UI state from saved instance state.
         if (savedInstanceState != null) {
@@ -262,6 +274,65 @@ public class ConversationActivity extends BugleActionBarActivity
         mUiState.onAddMoreParticipants();
     }
 
+    @Override // From ContactPickerFragmentHost
+    public void onCreateRcsGroup(final String groupName,
+            final ArrayList<String> recipientE164s) {
+        // Off the main thread: the provider calls block. Opens the group on success, else falls
+        // back to group MMS with a toast.
+        CreateRcsGroupAction.createRcsGroup(this, groupName, recipientE164s,
+                new CreateRcsGroupAction.CreateRcsGroupListener() {
+                    @Override
+                    public void onRcsGroupCreated(final String conversationId) {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        finish();
+                        UIIntents.get().launchConversationActivity(
+                                ConversationActivity.this, conversationId, null);
+                    }
+
+                    @Override
+                    public void onRcsGroupFallbackToMms(
+                            final ArrayList<String> recipients) {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        UiUtils.showToast(R.string.rcs_group_fallback_to_mms);
+                        // Fall back to a plain multi-recipient conversation.
+                        final ArrayList<ParticipantData> participants =
+                                new ArrayList<>();
+                        for (final String recipient : recipients) {
+                            if (recipient != null && !recipient.trim().isEmpty()) {
+                                participants.add(ParticipantData
+                                        .getFromRawPhoneBySystemLocale(recipient.trim()));
+                            }
+                        }
+                        GetOrCreateConversationAction.getOrCreateConversation(
+                                participants, null, mGroupMmsFallbackListener);
+                    }
+                });
+    }
+
+    // Opens the group MMS conversation when an RCS group create falls back.
+    private final GetOrCreateConversationAction.GetOrCreateConversationActionListener
+            mGroupMmsFallbackListener =
+            new GetOrCreateConversationAction.GetOrCreateConversationActionListener() {
+        @Override
+        public void onGetOrCreateConversationSucceeded(final ActionMonitor monitor,
+                final Object data, final String conversationId) {
+            if (isFinishing() || isDestroyed()) {
+                return;
+            }
+            mUiState.onGetOrCreateConversation(conversationId);
+        }
+
+        @Override
+        public void onGetOrCreateConversationFailed(final ActionMonitor monitor,
+                final Object data) {
+            LogUtil.e(LogUtil.BUGLE_TAG, "onCreateRcsGroup MMS fallback failed");
+        }
+    };
+
 
     @Override
     public void onParticipantCountChanged(final boolean canAddMoreParticipants) {
@@ -338,6 +409,11 @@ public class ConversationActivity extends BugleActionBarActivity
                         contactPickerFragment, ContactPickerFragment.FRAGMENT_TAG);
             }
             contactPickerFragment.setHost(this);
+            contactPickerFragment.setGroupCreationMode(mNewGroupMode);
+            // Deferred start mode for a new conversation's initial pick only.
+            contactPickerFragment.setUnifiedStartMode(!mNewGroupMode
+                    && mUiState.getDesiredContactPickingMode()
+                            == ContactPickerFragment.MODE_PICK_INITIAL_CONTACT);
             contactPickerFragment.setContactPickingMode(mUiState.getDesiredContactPickingMode(),
                     animate);
         } else if (contactPickerFragment != null) {

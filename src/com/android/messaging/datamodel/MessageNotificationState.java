@@ -210,6 +210,9 @@ public abstract class MessageNotificationState extends NotificationState {
         // Number of participants
         final int mParticipantCount;
 
+        // True if the latest message in this conversation is an RCS message (transport_type == 1).
+        final boolean mIsRcs;
+
         public ConversationLineInfo(final String conversationId,
                 final boolean isGroup,
                 final String groupConversationName,
@@ -219,7 +222,8 @@ public abstract class MessageNotificationState extends NotificationState {
                 final Uri avatarUri,
                 final Uri contactUri,
                 final int subId,
-                final int participantCount) {
+                final int participantCount,
+                final boolean isRcs) {
             mConversationId = conversationId;
             mIsGroup = isGroup;
             mGroupConversationName = groupConversationName;
@@ -232,6 +236,7 @@ public abstract class MessageNotificationState extends NotificationState {
             mContactUri = contactUri;
             mSubId = subId;
             mParticipantCount = participantCount;
+            mIsRcs = isRcs;
         }
 
         public String getLatestMessageId() {
@@ -669,7 +674,8 @@ public abstract class MessageNotificationState extends NotificationState {
 
                 final String authorFullName = convMessageData.getSenderFullName();
                 final String authorFirstName = convMessageData.getSenderFirstName();
-                String text = convMessageData.getText();
+                // Bot cards show a human summary, never the raw botmessage JSON.
+                String text = convMessageData.getNotificationPreviewText();
 
                 final boolean isSmsPushNotification = convMessageData.getIsMmsNotification();
 
@@ -821,7 +827,8 @@ public abstract class MessageNotificationState extends NotificationState {
                     // First figure out if this is a valid message.
                     String authorFullName = convMessageData.getSenderFullName();
                     String authorFirstName = convMessageData.getSenderFirstName();
-                    final String messageText = convMessageData.getText();
+                    // Bot cards show a human summary, never the raw botmessage JSON.
+                    final String messageText = convMessageData.getNotificationPreviewText();
 
                     final String convId = convMessageData.getConversationId();
                     final String messageId = convMessageData.getMessageId();
@@ -857,7 +864,8 @@ public abstract class MessageNotificationState extends NotificationState {
                                 avatarUri,
                                 convMessageData.getSenderContactLookupUri(),
                                 subId,
-                                convData.getParticipantCount());
+                                convData.getParticipantCount(),
+                                convMessageData.getIsRcs());
                         convLineInfos.put(convId, currConvInfo);
                     }
                     // Prepare the message line

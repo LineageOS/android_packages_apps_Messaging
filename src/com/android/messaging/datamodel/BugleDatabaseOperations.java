@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024-2025 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -237,6 +237,387 @@ public class BugleDatabaseOperations {
     }
 
     /**
+     * Returns the conversation mapped to an RCS group id, or null. See docs/rcs/groups.md.
+     */
+    @DoesNotRunOnMainThread
+    public static String getExistingGroupConversation(final DatabaseWrapper dbWrapper,
+            final String rcsGroupId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(rcsGroupId)) {
+            return null;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns._ID },
+                ConversationColumns.RCS_GROUP_ID + "=?", new String[] { rcsGroupId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(0);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the RCS group id a conversation maps to, or null for SMS/MMS and 1:1 RCS.
+     */
+    @DoesNotRunOnMainThread
+    public static String getConversationRcsGroupId(final DatabaseWrapper dbWrapper,
+            final String conversationId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return null;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns.RCS_GROUP_ID },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(0);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Whether we left, or were removed from, this RCS group. Read from the table because
+     * {@code conversation_list_view} does not project it.
+     *
+     * <p>False on failure, so an unreadable row still offers the group-management actions.
+     */
+    @DoesNotRunOnMainThread
+    public static boolean getConversationSelfLeft(final DatabaseWrapper dbWrapper,
+            final String conversationId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return false;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns.RCS_SELF_LEFT },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getInt(0) != 0;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Records whether we are still a member of this RCS group. Written only by
+     * {@code ReceiveRcsGroupEventAction}. See docs/rcs/groups.md.
+     */
+    @DoesNotRunOnMainThread
+    public static void setConversationSelfLeft(final DatabaseWrapper dbWrapper,
+            final String conversationId, final boolean selfLeft) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return;
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.RCS_SELF_LEFT, selfLeft ? 1 : 0);
+        dbWrapper.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
+                ConversationColumns._ID + "=?", new String[] { conversationId });
+    }
+
+    /** Returns a group conversation's stored name, or null or empty if unset. */
+    @DoesNotRunOnMainThread
+    public static String getGroupConversationName(final DatabaseWrapper dbWrapper,
+            final String conversationId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return null;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns.NAME },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getString(0);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the (groupId, conversationId) pairs of RCS groups flagged
+     * {@code needs_roster_refill}.
+     */
+    @DoesNotRunOnMainThread
+    public static List<String[]> getConversationsNeedingRosterRefill(
+            final DatabaseWrapper dbWrapper) {
+        Assert.isNotMainThread();
+        final ArrayList<String[]> out = new ArrayList<>();
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns._ID, ConversationColumns.RCS_GROUP_ID },
+                ConversationColumns.NEEDS_ROSTER_REFILL + "=1 AND "
+                        + ConversationColumns.RCS_GROUP_ID + " IS NOT NULL",
+                null, null, null, null)) {
+            while (cursor != null && cursor.moveToNext()) {
+                final String convId = cursor.getString(0);
+                final String groupId = cursor.getString(1);
+                if (!TextUtils.isEmpty(convId) && !TextUtils.isEmpty(groupId)) {
+                    out.add(new String[] { convId, groupId });
+                }
+            }
+        }
+        return out;
+    }
+
+    /** Maps an existing conversation to an RCS group id. */
+    @DoesNotRunOnMainThread
+    public static void setConversationRcsGroupId(final DatabaseWrapper db,
+            final String conversationId, final String rcsGroupId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return;
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.RCS_GROUP_ID, rcsGroupId);
+        db.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
+                ConversationColumns._ID + "=?", new String[] { conversationId });
+    }
+
+    /**
+     * Returns a conversation's {@code encryption_protocol} bits ({@code EncryptionProtocolBits}),
+     * or 0 for an unknown conversation.
+     */
+    @DoesNotRunOnMainThread
+    public static int getConversationEncryptionProtocol(final DatabaseWrapper dbWrapper,
+            final String conversationId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return 0;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns.ENCRYPTION_PROTOCOL },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return cursor.getInt(0);
+            }
+        }
+        return 0;
+    }
+
+    /** Stores a conversation's {@code encryption_protocol} bitset. */
+    @DoesNotRunOnMainThread
+    public static void setConversationEncryptionProtocol(final DatabaseWrapper db,
+            final String conversationId, final int bits) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return;
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.ENCRYPTION_PROTOCOL, bits);
+        db.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
+                ConversationColumns._ID + "=?", new String[] { conversationId });
+    }
+
+    /**
+     * Finds or creates the conversation for an RCS group and adds missing members; self is
+     * filtered out. See docs/rcs/groups.md.
+     *
+     * @return the conversation id
+     */
+    @DoesNotRunOnMainThread
+    public static String getOrCreateGroupConversation(final DatabaseWrapper db,
+            final String rcsGroupId, final String groupName, final int subId,
+            final List<String> memberE164s) {
+        return getOrCreateGroupConversation(db, rcsGroupId, groupName, subId, memberE164s,
+                false /* rosterIncomplete */);
+    }
+
+    /**
+     * As {@link #getOrCreateGroupConversation}; {@code rosterIncomplete} flags a partial member
+     * list so a later bind refills it, and {@code false} clears the flag. A supplied
+     * {@code groupName} wins; without one an existing name is kept.
+     */
+    @DoesNotRunOnMainThread
+    public static String getOrCreateGroupConversation(final DatabaseWrapper db,
+            final String rcsGroupId, final String groupName, final int subId,
+            final List<String> memberE164s, final boolean rosterIncomplete) {
+        Assert.isNotMainThread();
+        Assert.isTrue(!TextUtils.isEmpty(rcsGroupId));
+
+        // The self participant has no normalized destination, so self comes from the SIM.
+        String selfNormalized = null;
+        try {
+            selfNormalized = com.android.messaging.util.PhoneUtils.get(subId)
+                    .getCanonicalForSelf(true /* allowOverride */);
+        } catch (final Throwable ignored) {
+        }
+
+        final ArrayList<ParticipantData> participants = new ArrayList<>();
+        if (memberE164s != null) {
+            for (final String member : memberE164s) {
+                if (TextUtils.isEmpty(member)) {
+                    continue;
+                }
+                final ParticipantData p =
+                        ParticipantData.getFromRawPhoneBySimLocale(member, subId);
+                // createConversationInTransaction requires non-self participants.
+                if (selfNormalized != null
+                        && selfNormalized.equals(p.getNormalizedDestination())) {
+                    continue;
+                }
+                participants.add(p);
+            }
+        }
+
+        String conversationId = getExistingGroupConversation(db, rcsGroupId);
+        db.beginTransaction();
+        try {
+            if (conversationId == null) {
+                final long syntheticThreadId = syntheticThreadIdForGroup(rcsGroupId);
+                final String selfId = getOrCreateParticipantInTransaction(
+                        db, ParticipantData.getSelfParticipant(
+                                ParticipantData.DEFAULT_SELF_SUB_ID));
+                final String name = !TextUtils.isEmpty(groupName) ? groupName
+                        : ConversationListItemData.generateConversationName(participants);
+                conversationId = createConversationInTransaction(db, syntheticThreadId,
+                        name, selfId, participants, false /* archived */);
+                final ContentValues groupValues = new ContentValues();
+                groupValues.put(ConversationColumns.RCS_GROUP_ID, rcsGroupId);
+                groupValues.put(ConversationColumns.NEEDS_ROSTER_REFILL,
+                        rosterIncomplete ? 1 : 0);
+                if (!TextUtils.isEmpty(groupName)) {
+                    groupValues.put(ConversationColumns.NAME, groupName);
+                }
+                db.update(DatabaseHelper.CONVERSATIONS_TABLE, groupValues,
+                        ConversationColumns._ID + "=?", new String[] { conversationId });
+            } else {
+                final java.util.Set<String> existing = new java.util.HashSet<>();
+                for (final ParticipantData p : getParticipantsForConversation(db, conversationId)) {
+                    if (!p.isSelf() && p.getNormalizedDestination() != null) {
+                        existing.add(p.getNormalizedDestination());
+                    }
+                }
+                boolean added = false;
+                for (final ParticipantData p : participants) {
+                    if (p.getNormalizedDestination() != null
+                            && !existing.contains(p.getNormalizedDestination())) {
+                        addParticipantToConversation(db, p, conversationId);
+                        added = true;
+                    }
+                }
+                if (added) {
+                    // Leave the name: a member add must not replace a server-owned name.
+                    updateConversationAvatarOnlyInTransaction(db, conversationId,
+                            getParticipantsForConversation(db, conversationId));
+                    db.update(DatabaseHelper.CONVERSATIONS_TABLE,
+                            participantCountValues(db, conversationId),
+                            ConversationColumns._ID + "=?", new String[] { conversationId });
+                }
+                if (!TextUtils.isEmpty(groupName)) {
+                    final ContentValues nameValues = new ContentValues();
+                    nameValues.put(ConversationColumns.NAME, groupName);
+                    db.update(DatabaseHelper.CONVERSATIONS_TABLE, nameValues,
+                            ConversationColumns._ID + "=?", new String[] { conversationId });
+                } else if (added
+                        && TextUtils.isEmpty(getGroupConversationName(db, conversationId))) {
+                    final ContentValues nameValues = new ContentValues();
+                    nameValues.put(ConversationColumns.NAME,
+                            ConversationListItemData.generateConversationName(
+                                    getParticipantsForConversation(db, conversationId)));
+                    db.update(DatabaseHelper.CONVERSATIONS_TABLE, nameValues,
+                            ConversationColumns._ID + "=?", new String[] { conversationId });
+                }
+                // Cleared once the roster is complete; never set on an existing conversation.
+                if (!rosterIncomplete) {
+                    final ContentValues refillValues = new ContentValues();
+                    refillValues.put(ConversationColumns.NEEDS_ROSTER_REFILL, 0);
+                    db.update(DatabaseHelper.CONVERSATIONS_TABLE, refillValues,
+                            ConversationColumns._ID + "=?", new String[] { conversationId });
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+        return conversationId;
+    }
+
+    /** Removes members from a group conversation; members not present are ignored. */
+    @DoesNotRunOnMainThread
+    public static void removeGroupParticipants(final DatabaseWrapper db,
+            final String conversationId, final int subId, final List<String> memberE164s) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId) || memberE164s == null
+                || memberE164s.isEmpty()) {
+            return;
+        }
+        db.beginTransaction();
+        try {
+            final java.util.Map<String, String> byDest = new java.util.HashMap<>();
+            for (final ParticipantData p : getParticipantsForConversation(db, conversationId)) {
+                if (!p.isSelf() && p.getNormalizedDestination() != null) {
+                    byDest.put(p.getNormalizedDestination(), p.getId());
+                }
+            }
+            for (final String member : memberE164s) {
+                if (TextUtils.isEmpty(member)) {
+                    continue;
+                }
+                final ParticipantData p =
+                        ParticipantData.getFromRawPhoneBySimLocale(member, subId);
+                final String participantId = byDest.get(p.getNormalizedDestination());
+                if (participantId != null) {
+                    db.delete(DatabaseHelper.CONVERSATION_PARTICIPANTS_TABLE,
+                            ConversationParticipantsColumns.CONVERSATION_ID + "=? AND "
+                                    + ConversationParticipantsColumns.PARTICIPANT_ID + "=?",
+                            new String[] { conversationId, participantId });
+                }
+            }
+            updateConversationNameAndAvatarInTransaction(db, conversationId,
+                    getParticipantsForConversation(db, conversationId));
+            db.update(DatabaseHelper.CONVERSATIONS_TABLE,
+                    participantCountValues(db, conversationId),
+                    ConversationColumns._ID + "=?", new String[] { conversationId });
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    /** Renames a group conversation. */
+    @DoesNotRunOnMainThread
+    public static void renameGroupConversation(final DatabaseWrapper db,
+            final String conversationId, final String newName) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return;
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.NAME, newName);
+        db.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
+                ConversationColumns._ID + "=?", new String[] { conversationId });
+    }
+
+    /** Returns participant_count values (non-self) for a conversation. */
+    private static ContentValues participantCountValues(final DatabaseWrapper db,
+            final String conversationId) {
+        int count = 0;
+        for (final ParticipantData p : getParticipantsForConversation(db, conversationId)) {
+            if (!p.isSelf()) {
+                count++;
+            }
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.PARTICIPANT_COUNT, count);
+        return values;
+    }
+
+    /**
+     * A stable negative thread id for a group, so it occupies {@code sms_thread_id} without
+     * colliding with a telephony thread.
+     */
+    private static long syntheticThreadIdForGroup(final String rcsGroupId) {
+        // Below -1.
+        final long h = rcsGroupId.hashCode() & 0x7fffffffL;
+        return -(h + 2);
+    }
+
+    /**
      * Get a conversation from the local DB based on the message's thread id.
      *
      * @param dbWrapper     The database
@@ -361,7 +742,8 @@ public class BugleDatabaseOperations {
             values.put(ConversationColumns.ARCHIVE_STATUS, 1);
         }
 
-        fillParticipantData(values, participants);
+        // No row yet, so no icon to preserve.
+        fillParticipantData(dbWrapper, /*conversationId=*/ null, values, participants);
 
         final long conversationRowId = dbWrapper.insert(DatabaseHelper.CONVERSATIONS_TABLE, null,
                 values);
@@ -398,11 +780,48 @@ public class BugleDatabaseOperations {
         return conversationId;
     }
 
-    private static void fillParticipantData(final ContentValues values,
+    /**
+     * Whether the icon column holds a value the derived-avatar path did not write, such as a
+     * group icon. False on failure, so the derived avatar keeps working.
+     */
+    private static boolean ownsItsIcon(final DatabaseWrapper dbWrapper,
+            final String conversationId) {
+        if (TextUtils.isEmpty(conversationId)) return false;
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] { ConversationColumns.ICON },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                final String current = cursor.getString(0);
+                if (TextUtils.isEmpty(current)) return false;
+                return !AvatarUriUtil.isDerivedAvatarUri(Uri.parse(current));
+            }
+        } catch (final Throwable t) {
+            LogUtil.w(LogUtil.BUGLE_TAG, "BugleDatabaseOperations: could not read the icon for "
+                    + conversationId + " — treating it as unowned so the derived avatar still "
+                    + "refreshes", t);
+        }
+        return false;
+    }
+
+    /**
+     * Fills the participant-derived conversation columns. The icon is written only over an empty
+     * or derived-avatar value; see docs/rcs/groups.md.
+     *
+     * @param conversationId the row being updated, or {@code null} on insert
+     */
+    private static void fillParticipantData(final DatabaseWrapper dbWrapper,
+            final String conversationId, final ContentValues values,
             final List<ParticipantData> participants) {
         if (participants != null && !participants.isEmpty()) {
             final Uri avatarUri = AvatarUriUtil.createAvatarUri(participants);
-            values.put(ConversationColumns.ICON, avatarUri.toString());
+            if (ownsItsIcon(dbWrapper, conversationId)) {
+                LogUtil.i(LogUtil.BUGLE_TAG, "BugleDatabaseOperations: conversation "
+                        + conversationId + " owns its icon — NOT overwriting it with the "
+                        + "participant-derived avatar");
+            } else {
+                values.put(ConversationColumns.ICON, avatarUri.toString());
+            }
 
             long contactId;
             String lookupKey;
@@ -437,11 +856,19 @@ public class BugleDatabaseOperations {
         try {
             // Delete existing messages
             if (cutoffTimestamp == Long.MAX_VALUE) {
+                // Reactions first: the sweep correlates through messages.rcs_message_id. Same
+                // clause as the delete below.
+                com.android.messaging.rcs.RcsMessageStore.deleteReactionsForMessages(dbWrapper,
+                        MessageColumns.CONVERSATION_ID + "=?", new String[] { conversationId });
                 // Delete parts and messages
                 dbWrapper.delete(DatabaseHelper.MESSAGES_TABLE,
                         MessageColumns.CONVERSATION_ID + "=?", new String[] { conversationId });
                 conversationMessagesDeleted = true;
             } else {
+                com.android.messaging.rcs.RcsMessageStore.deleteReactionsForMessages(dbWrapper,
+                        MessageColumns.CONVERSATION_ID + "=? AND "
+                                + MessageColumns.RECEIVED_TIMESTAMP + "<=?",
+                                new String[] { conversationId, Long.toString(cutoffTimestamp) });
                 // Delete all messages prior to the cutoff
                 dbWrapper.delete(DatabaseHelper.MESSAGES_TABLE,
                         MessageColumns.CONVERSATION_ID + "=? AND "
@@ -758,6 +1185,37 @@ public class BugleDatabaseOperations {
     }
 
     /**
+     * Sets the display surfaces of a business-messaging conversation: the list snippet and the
+     * participant name become the summary and brand, while the stored body stays the raw JSON.
+     * Call inside the receive transaction.
+     *
+     * @param snippet   one-line {@link com.android.messaging.rcs.RbmSummary}; ignored if empty
+     * @param brandName brand display name, or null to leave names unchanged
+     */
+    @DoesNotRunOnMainThread
+    public static void applyBotConversationDisplayInTransaction(final DatabaseWrapper dbWrapper,
+            final String conversationId, final String participantId,
+            final String snippet, final String brandName) {
+        Assert.isNotMainThread();
+        final ContentValues convValues = new ContentValues();
+        if (!TextUtils.isEmpty(snippet)) {
+            convValues.put(ConversationColumns.SNIPPET_TEXT, snippet);
+        }
+        if (!TextUtils.isEmpty(brandName)) {
+            convValues.put(ConversationColumns.NAME, brandName);
+        }
+        if (convValues.size() > 0) {
+            updateConversationRowIfExists(dbWrapper, conversationId, convValues);
+        }
+        if (!TextUtils.isEmpty(brandName) && !TextUtils.isEmpty(participantId)) {
+            final ContentValues partValues = new ContentValues();
+            partValues.put(ParticipantColumns.FULL_NAME, brandName);
+            updateRowIfExists(dbWrapper, DatabaseHelper.PARTICIPANTS_TABLE,
+                    ParticipantColumns._ID, participantId, partValues);
+        }
+    }
+
+    /**
      * Returns the default conversation name based on its participants.
      */
     private static String getDefaultConversationName(final List<ParticipantData> participants) {
@@ -787,17 +1245,47 @@ public class BugleDatabaseOperations {
         Assert.isTrue(dbWrapper.getDatabase().inTransaction());
 
         final ContentValues values = new ContentValues();
-        values.put(ConversationColumns.NAME,
-                getDefaultConversationName(participants));
+        // An RCS group's name belongs to the group-event path; refresh only the avatar and
+        // participant fields.
+        final boolean isRcsGroup =
+                !TextUtils.isEmpty(getConversationRcsGroupId(dbWrapper, conversationId));
+        if (!isRcsGroup) {
+            values.put(ConversationColumns.NAME,
+                    getDefaultConversationName(participants));
+        }
 
         // Fill in IS_ENTERPRISE.
         final boolean hasAnyEnterpriseContact =
                 ConversationListItemData.hasAnyEnterpriseContact(participants);
         values.put(ConversationColumns.IS_ENTERPRISE, hasAnyEnterpriseContact);
 
-        fillParticipantData(values, participants);
+        fillParticipantData(dbWrapper, conversationId, values, participants);
 
         // Used by background thread when refreshing conversation so conversation could be deleted.
+        updateConversationRowIfExists(dbWrapper, conversationId, values);
+
+        WidgetConversationProvider.notifyConversationRenamed(Factory.get().getApplicationContext(),
+                conversationId);
+    }
+
+    /**
+     * As {@link #updateConversationNameAndAvatarInTransaction} but leaves the name, for the RCS
+     * group roster path.
+     */
+    @DoesNotRunOnMainThread
+    public static void updateConversationAvatarOnlyInTransaction(
+            final DatabaseWrapper dbWrapper, final String conversationId,
+            final List<ParticipantData> participants) {
+        Assert.isTrue(dbWrapper.getDatabase().inTransaction());
+
+        final ContentValues values = new ContentValues();
+
+        final boolean hasAnyEnterpriseContact =
+                ConversationListItemData.hasAnyEnterpriseContact(participants);
+        values.put(ConversationColumns.IS_ENTERPRISE, hasAnyEnterpriseContact);
+
+        fillParticipantData(dbWrapper, conversationId, values, participants);
+
         updateConversationRowIfExists(dbWrapper, conversationId, values);
 
         WidgetConversationProvider.notifyConversationRenamed(Factory.get().getApplicationContext(),
@@ -916,6 +1404,14 @@ public class BugleDatabaseOperations {
         }
 
         return participants;
+    }
+
+    /** Returns the conversation of a message, or null if the message no longer exists. */
+    @DoesNotRunOnMainThread
+    public static String getConversationIdFromMessageId(final DatabaseWrapper dbWrapper,
+            final String messageId) {
+        final MessageData message = readMessage(dbWrapper, messageId);
+        return message == null ? null : message.getConversationId();
     }
 
     @DoesNotRunOnMainThread
@@ -1122,6 +1618,10 @@ public class BugleDatabaseOperations {
             int count = 0;
             if (message != null) {
                 final String conversationId = message.getConversationId();
+                // Reactions first: the sweep correlates through messages.rcs_message_id, and
+                // rcs_reactions has no foreign key to cascade.
+                com.android.messaging.rcs.RcsMessageStore.deleteReactionsForMessages(dbWrapper,
+                        MessageColumns._ID + "=?", new String[] { messageId });
                 // Delete message
                 count = dbWrapper.delete(DatabaseHelper.MESSAGES_TABLE,
                         MessageColumns._ID + "=?", new String[] { messageId });

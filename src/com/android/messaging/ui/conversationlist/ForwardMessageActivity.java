@@ -58,6 +58,14 @@ public class ForwardMessageActivity extends BaseBugleActivity
     }
 
     @Override
+    public void onCreateGroupConversationClick() {
+        // The FAB (and thus its long-press group affordance) is
+        // hidden in forward mode; this is here only to satisfy the host
+        // interface. Be safe and fall back to the standard forward flow.
+        UIIntents.get().launchCreateNewConversationActivity(this, mDraftMessage);
+    }
+
+    @Override
     public boolean isConversationSelected(final String conversationId) {
         return false;
     }

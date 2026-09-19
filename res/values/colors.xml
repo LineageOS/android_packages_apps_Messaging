@@ -162,4 +162,29 @@
     <color name="fastscroll_track_color">#1e000000</color>
     <color name="fastscroll_thumb_color">#42000000</color>
     <color name="fastscroll_preview_text_color">#ffffff</color>
+
+    <!-- RCS bubble fills, distinct from the SMS/MMS bubbles -->
+    <color name="message_bubble_color_outgoing_rcs">@android:color/system_accent1_100</color>
+    <!-- Dark enough for the white incoming text -->
+    <color name="message_bubble_color_incoming_rcs">@android:color/system_accent2_700</color>
+
+    <!-- Reaction chips: neutral for others' reactions, accent for our own -->
+    <color name="reaction_chip_background">@android:color/system_neutral2_100</color>
+    <color name="reaction_chip_background_self">@android:color/system_accent1_100</color>
+    <color name="reaction_chip_text">@android:color/system_neutral1_900</color>
+    <color name="reaction_picker_background">@android:color/system_neutral1_50</color>
+
+    <!-- Business-messaging suggestion chips; values-night lightens these -->
+    <color name="rbm_chip_text">@android:color/system_accent1_600</color>
+    <color name="rbm_chip_stroke">@android:color/system_accent1_400</color>
+    <color name="rbm_carousel_card_bg">@android:color/system_neutral2_100</color>
+    <!-- Explicit day/night values rather than theme attributes: the card sits inside the
+         bubble, where forceDark is disabled -->
+    <color name="rbm_card_text_primary">#DE000000</color>
+    <color name="rbm_card_text_secondary">#8A000000</color>
+
+    <!-- RCS status screen; values-night lightens these -->
+    <color name="rcs_status_label">@android:color/system_accent1_600</color>
+    <color name="rcs_status_value_connected">#1E8E3E</color>
+    <color name="rcs_status_value_neutral">#5F6368</color>
 </resources>

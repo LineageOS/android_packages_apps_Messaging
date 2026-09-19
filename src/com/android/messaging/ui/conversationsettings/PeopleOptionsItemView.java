@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,9 @@ import android.content.Context;
 import android.database.Cursor;
 import androidx.appcompat.widget.SwitchCompat;
 
+import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -56,15 +58,26 @@ public class PeopleOptionsItemView extends LinearLayout {
     protected void onFinishInflate () {
         super.onFinishInflate();
         mTitle = findViewById(R.id.title);
+        mSubtitle = findViewById(R.id.subtitle);
         setOnClickListener(v -> mHostInterface.onOptionsItemViewClicked(mData));
     }
 
-    public void bind(final Cursor cursor, final int columnIndex, ParticipantData otherParticipant,
-            final HostInterface hostInterface) {
-        Assert.isTrue(columnIndex < PeopleOptionsItemData.SETTINGS_COUNT && columnIndex >= 0);
-        mData.bind(cursor, otherParticipant, columnIndex);
+    public void bind(final Cursor cursor, final int settingType, ParticipantData otherParticipant,
+            final String conversationId, final HostInterface hostInterface) {
+        Assert.isTrue(settingType < PeopleOptionsItemData.SETTINGS_COUNT && settingType >= 0);
+        mData.bind(cursor, otherParticipant, settingType, conversationId);
         mHostInterface = hostInterface;
 
         mTitle.setText(mData.getTitle());
+
+        final String subtitle = mData.getSubtitle();
+        if (mSubtitle != null) {
+            if (TextUtils.isEmpty(subtitle)) {
+                mSubtitle.setVisibility(View.GONE);
+            } else {
+                mSubtitle.setText(subtitle);
+                mSubtitle.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }

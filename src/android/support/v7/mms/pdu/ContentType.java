@@ -89,10 +89,14 @@ public final class ContentType {
     private ContentType() {
     }
 
+    // The type predicates are case-insensitive: MIME types are case-insensitive (RFC 2045 §5.1),
+    // and a peer may send "IMAGE/JPEG". This differs from AOSP; keep it on a
+    // re-sync.
+
     public static boolean isTextType(final String contentType) {
-        return TEXT_PLAIN.equals(contentType)
-                || TEXT_HTML.equals(contentType)
-                || APP_WAP_XHTML.equals(contentType);
+        return TEXT_PLAIN.equalsIgnoreCase(contentType)
+                || TEXT_HTML.equalsIgnoreCase(contentType)
+                || APP_WAP_XHTML.equalsIgnoreCase(contentType);
     }
 
     public static boolean isMediaType(final String contentType) {
@@ -103,16 +107,22 @@ public final class ContentType {
     }
 
     public static boolean isImageType(final String contentType) {
-        return (null != contentType) && contentType.startsWith(IMAGE_PREFIX);
+        return startsWithIgnoreCase(contentType, IMAGE_PREFIX);
     }
 
     public static boolean isAudioType(final String contentType) {
-        return (null != contentType) &&
-                (contentType.startsWith("audio/") || contentType.equalsIgnoreCase(AUDIO_OGG));
+        return startsWithIgnoreCase(contentType, "audio/")
+                || ((null != contentType) && contentType.equalsIgnoreCase(AUDIO_OGG));
     }
 
     public static boolean isVideoType(final String contentType) {
-        return (null != contentType) && contentType.startsWith("video/");
+        return startsWithIgnoreCase(contentType, "video/");
+    }
+
+    /** {@code String.startsWith}, ignoring case. */
+    private static boolean startsWithIgnoreCase(final String contentType, final String prefix) {
+        return (null != contentType)
+                && contentType.regionMatches(true, 0, prefix, 0, prefix.length());
     }
 
     public static boolean isVCardType(final String contentType) {

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Reaction picker row. The emoji buttons are added in code ahead of the trailing "+", which
+     opens the system emoji picker. -->
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/reaction_picker_background"
+    android:padding="@dimen/reaction_picker_padding"
+    android:scrollbars="none"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/reaction_picker_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/reaction_picker_plus"
+            android:layout_width="@dimen/reaction_picker_button_size"
+            android:layout_height="@dimen/reaction_picker_button_size"
+            android:gravity="center"
+            android:text="@string/reaction_picker_more"
+            android:textSize="@dimen/reaction_picker_emoji_text_size"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/reaction_picker_more_content_description"
+            android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+    </LinearLayout>
+
+</HorizontalScrollView>

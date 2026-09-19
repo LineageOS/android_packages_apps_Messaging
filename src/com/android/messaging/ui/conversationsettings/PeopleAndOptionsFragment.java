@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,17 +19,23 @@ package com.android.messaging.ui.conversationsettings;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -39,6 +45,7 @@ import androidx.loader.app.LoaderManager;
 
 import com.android.messaging.R;
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.datamodel.action.ManageRcsGroupAction;
 import com.android.messaging.datamodel.binding.Binding;
 import com.android.messaging.datamodel.binding.BindingBase;
 import com.android.messaging.datamodel.data.ParticipantData;
@@ -47,11 +54,16 @@ import com.android.messaging.datamodel.data.PeopleAndOptionsData;
 import com.android.messaging.datamodel.data.PeopleAndOptionsData.PeopleAndOptionsDataListener;
 import com.android.messaging.datamodel.data.PeopleOptionsItemData;
 import com.android.messaging.datamodel.data.PersonItemData;
+import com.android.messaging.rcs.ProviderTransport;
+import com.android.messaging.rcs.ReadReceiptSettings;
+import com.android.messaging.rcs.RouteSelector;
 import com.android.messaging.ui.CompositeAdapter;
 import com.android.messaging.ui.PersonItemView;
 import com.android.messaging.ui.conversation.ConversationActivity;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.NotificationsUtil;
+import com.android.messaging.util.PhoneUtils;
+import com.android.messaging.util.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +76,17 @@ public class PeopleAndOptionsFragment extends Fragment
     private ListView mListView;
     private OptionsListAdapter mOptionsListAdapter;
     private PeopleListAdapter mPeopleListAdapter;
+    private GroupActionsAdapter mGroupActionsAdapter;
     private List<ParticipantData> mOtherParticipants;
     private final Binding<PeopleAndOptionsData> mBinding =
             BindingBase.createBinding(this);
+
+    // The RCS group this conversation maps to (null for 1:1 and MMS) and its name.
+    private String mRcsGroupId;
+    private String mGroupName;
+
+    // Picks a contact to add to the group.
+    private static final int REQUEST_PICK_CONTACT_TO_ADD = 7301;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -81,9 +101,14 @@ public class PeopleAndOptionsFragment extends Fragment
         mListView = view.findViewById(android.R.id.list);
         mPeopleListAdapter = new PeopleListAdapter(getActivity());
         mOptionsListAdapter = new OptionsListAdapter();
+        mGroupActionsAdapter = new GroupActionsAdapter();
         final CompositeAdapter compositeAdapter = new CompositeAdapter(getActivity());
         compositeAdapter.addPartition(new PeopleAndOptionsPartition(mOptionsListAdapter,
                 R.string.general_settings_title, false));
+        // The group section, empty and so hidden (header included) unless this is a manageable
+        // RCS group.
+        compositeAdapter.addPartition(new PeopleAndOptionsPartition(mGroupActionsAdapter,
+                R.string.rcs_group_section_title, true, false /* showIfEmpty */));
         compositeAdapter.addPartition(new PeopleAndOptionsPartition(mPeopleListAdapter,
                 R.string.participant_list_title, true));
         mListView.setAdapter(compositeAdapter);
@@ -108,6 +133,144 @@ public class PeopleAndOptionsFragment extends Fragment
         Assert.isTrue(cursor == null || cursor.getCount() == 1);
         mBinding.ensureBound(data);
         mOptionsListAdapter.swapCursor(cursor);
+        // Refresh the group name, which prefills the rename dialog.
+        mGroupName = null;
+        if (cursor != null && cursor.moveToFirst()) {
+            final int nameIdx = cursor.getColumnIndex(
+                    com.android.messaging.datamodel.DatabaseHelper
+                            .ConversationColumns.NAME);
+            if (nameIdx >= 0) {
+                mGroupName = cursor.getString(nameIdx);
+            }
+        }
+        // rcs_group_id is not projected by conversation_list_view, so it is read directly.
+        resolveRcsGroupId();
+        // Unlike the group id, membership changes while the screen is open.
+        resolveMembership();
+        if (mPeopleListAdapter != null) {
+            // Repaint the per-member "Remove from group" long-press.
+            mPeopleListAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private boolean mRcsGroupIdResolving;
+    private boolean mMembershipResolving;
+
+    /**
+     * Re-asks off the main thread whether we are still in this group. Guarded against re-entry,
+     * as bursts of updates arrive after a leave; repaints only when the answer changes.
+     */
+    private void resolveMembership() {
+        if (mMembershipResolving || TextUtils.isEmpty(mRcsGroupId)) {
+            return;
+        }
+        mMembershipResolving = true;
+        final PeopleAndOptionsData membershipData = mBinding.getData();
+        final String membershipConvId =
+                (membershipData == null) ? null : membershipData.getConversationId();
+        new Thread(() -> {
+            boolean left = false;
+            try {
+                left = com.android.messaging.datamodel.BugleDatabaseOperations
+                        .getConversationSelfLeft(
+                                com.android.messaging.datamodel.DataModel.get().getDatabase(),
+                                membershipConvId);
+            } catch (final Throwable t) {
+            }
+            final boolean resolved = left;
+            final android.app.Activity activity = getActivity();
+            if (activity == null) {
+                mMembershipResolving = false;
+                return;
+            }
+            activity.runOnUiThread(() -> {
+                mMembershipResolving = false;
+                if (mWeLeftGroup == resolved) {
+                    return;
+                }
+                mWeLeftGroup = resolved;
+                if (mGroupActionsAdapter != null) {
+                    mGroupActionsAdapter.notifyDataSetChanged();
+                }
+                if (mPeopleListAdapter != null) {
+                    mPeopleListAdapter.notifyDataSetChanged();
+                }
+            });
+        }, "rcs-people-membership").start();
+    }
+
+    /**
+     * Reads {@code conversations.rcs_group_id} once off the main thread and reveals the group
+     * section when it is set.
+     */
+    private void resolveRcsGroupId() {
+        if (!TextUtils.isEmpty(mRcsGroupId) || mRcsGroupIdResolving) {
+            return;
+        }
+        final PeopleAndOptionsData data = mBinding.getData();
+        if (data == null) {
+            return;
+        }
+        final String conversationId = data.getConversationId();
+        if (TextUtils.isEmpty(conversationId)) {
+            return;
+        }
+        mRcsGroupIdResolving = true;
+        new Thread(() -> {
+            String gid = null;
+            try {
+                gid = com.android.messaging.datamodel.BugleDatabaseOperations
+                        .getConversationRcsGroupId(
+                                com.android.messaging.datamodel.DataModel.get().getDatabase(),
+                                conversationId);
+            } catch (final Throwable t) {
+                // Leave the group section hidden.
+            }
+            final String resolved = gid;
+            final android.app.Activity activity = getActivity();
+            if (activity == null) {
+                mRcsGroupIdResolving = false;
+                return;
+            }
+            activity.runOnUiThread(() -> {
+                mRcsGroupIdResolving = false;
+                if (!TextUtils.isEmpty(resolved)) {
+                    mRcsGroupId = resolved;
+                    if (mGroupActionsAdapter != null) {
+                        mGroupActionsAdapter.notifyDataSetChanged();
+                    }
+                    if (mPeopleListAdapter != null) {
+                        mPeopleListAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }, "rcs-people-groupid").start();
+    }
+
+    /**
+     * True when this is an RCS group we are still in and group RCS is available; gates the
+     * group section and the per-member remove.
+     */
+    private boolean isManageableRcsGroup() {
+        return !TextUtils.isEmpty(mRcsGroupId) && !mWeLeftGroup && isGroupRcsAvailable();
+    }
+
+    /**
+     * Whether we have left this group: {@code conversations.rcs_self_left}. Starts false, so the
+     * rows stay offered until the answer arrives and after a failed read. See docs/rcs/groups.md.
+     */
+    private volatile boolean mWeLeftGroup;
+
+    /** True when group RCS is available on the default SMS subscription. */
+    private boolean isGroupRcsAvailable() {
+        final ProviderTransport transport = ProviderTransport.peekInstance();
+        final RouteSelector selector =
+                (transport != null) ? transport.getRouteSelector() : null;
+        if (selector == null) {
+            return false;
+        }
+        final int subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+        return selector.isGroupRcsAvailableForSub(subId);
     }
 
     @Override
@@ -116,6 +279,8 @@ public class PeopleAndOptionsFragment extends Fragment
         mBinding.ensureBound(data);
         mPeopleListAdapter.updateParticipants(participants);
         mOtherParticipants = participants;
+        // A leave's status line repaints this list first, so re-ask here too.
+        resolveMembership();
         final ParticipantData otherParticipant = participants.size() == 1 ?
                 participants.get(0) : null;
         mOptionsListAdapter.setOtherParticipant(otherParticipant);
@@ -139,6 +304,8 @@ public class PeopleAndOptionsFragment extends Fragment
             Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
             intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
             startActivity(intent);
+        } else if (item.getItemId() == PeopleOptionsItemData.SETTING_RCS_READ_RECEIPTS) {
+            showReadReceiptOverrideDialog();
         } else if (item.getItemId() == PeopleOptionsItemData.SETTING_BLOCKED) {
             if (item.getOtherParticipant().isBlocked()) {
                 mBinding.getData().setDestinationBlocked(mBinding, false);
@@ -159,6 +326,33 @@ public class PeopleAndOptionsFragment extends Fragment
                     .create()
                     .show();
         }
+    }
+
+    /**
+     * The per-conversation read-receipt override: default, on or off, stored in
+     * {@link ReadReceiptSettings}; default clears the override.
+     */
+    private void showReadReceiptOverrideDialog() {
+        if (!mBinding.isBound()) {
+            return;
+        }
+        final String conversationId = mBinding.getData().getConversationId();
+        final int current = ReadReceiptSettings.getThreadOverride(conversationId);
+        // Rows in the order of the tri-state constants.
+        final CharSequence[] labels = new CharSequence[] {
+                getString(R.string.rcs_read_receipts_use_default),
+                getString(R.string.rcs_read_receipts_on),
+                getString(R.string.rcs_read_receipts_off),
+        };
+        new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme)
+                .setTitle(R.string.rcs_read_receipts_dialog_title)
+                .setSingleChoiceItems(labels, current, (dialog, which) -> {
+                    ReadReceiptSettings.setThreadOverride(conversationId, which);
+                    mOptionsListAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     /**
@@ -187,13 +381,25 @@ public class PeopleAndOptionsFragment extends Fragment
             }
         }
 
+        /**
+         * The setting types to show: notifications always, blocking for a 1:1, and read
+         * receipts for a 1:1 when RCS is available. Drives both the count and the positions.
+         */
+        private List<Integer> visibleSettings() {
+            final List<Integer> settings = new ArrayList<>();
+            settings.add(PeopleOptionsItemData.SETTING_NOTIFICATION);
+            if (mOtherParticipantData != null) {
+                settings.add(PeopleOptionsItemData.SETTING_BLOCKED);
+                if (isRcsAvailable()) {
+                    settings.add(PeopleOptionsItemData.SETTING_RCS_READ_RECEIPTS);
+                }
+            }
+            return settings;
+        }
+
         @Override
         public int getCount() {
-            int count = PeopleOptionsItemData.SETTINGS_COUNT;
-            if (mOtherParticipantData == null) {
-                count--;
-            }
-            return mOptionsCursor == null ? 0 : count;
+            return mOptionsCursor == null ? 0 : visibleSettings().size();
         }
 
         @Override
@@ -218,10 +424,25 @@ public class PeopleAndOptionsFragment extends Fragment
                         inflater.inflate(R.layout.people_options_item_view, parent, false);
             }
             mOptionsCursor.moveToFirst();
-            itemView.bind(mOptionsCursor, position, mOtherParticipantData,
-                    PeopleAndOptionsFragment.this);
+            final int settingType = visibleSettings().get(position);
+            final String conversationId = mBinding.isBound()
+                    ? mBinding.getData().getConversationId() : null;
+            itemView.bind(mOptionsCursor, settingType, mOtherParticipantData,
+                    conversationId, PeopleAndOptionsFragment.this);
             return itemView;
         }
+    }
+
+    /** True when RCS is available on the default SMS subscription. */
+    private boolean isRcsAvailable() {
+        final ProviderTransport transport = ProviderTransport.peekInstance();
+        final RouteSelector selector =
+                (transport != null) ? transport.getRouteSelector() : null;
+        if (selector == null) {
+            return false;
+        }
+        final int subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+        return selector.isRcsAvailableForSub(subId);
     }
 
     /**
@@ -267,17 +488,236 @@ public class PeopleAndOptionsFragment extends Fragment
 
                 @Override
                 public boolean onPersonLongClicked(final PersonItemData data) {
-                    if (mBinding.isBound()) {
-                        final CopyContactDetailDialog dialog = new CopyContactDetailDialog(
-                                getContext(), data.getDetails());
-                        dialog.show();
+                    if (!mBinding.isBound()) {
+                        return false;
+                    }
+                    // A non-self member of a manageable RCS group offers "Remove from group".
+                    if (isManageableRcsGroup() && item != null && !item.isSelf()) {
+                        final CharSequence[] choices = new CharSequence[] {
+                                getString(R.string.rcs_group_action_remove_member),
+                        };
+                        new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme)
+                                .setItems(choices, (dialog, which) -> {
+                                    if (which == 0) {
+                                        confirmRemoveMember(item);
+                                    }
+                                })
+                                .show();
                         return true;
                     }
-                    return false;
+                    final CopyContactDetailDialog dialog = new CopyContactDetailDialog(
+                            getContext(), data.getDetails());
+                    dialog.show();
+                    return true;
                 }
             });
             return itemView;
         }
+    }
+
+    // Group management section, RCS groups only.
+
+    private static final int GROUP_ACTION_RENAME = 0;
+    private static final int GROUP_ACTION_ADD_PEOPLE = 1;
+    /** Leave the group. */
+    private static final int GROUP_ACTION_LEAVE = 2;
+
+    /**
+     * The group section's action rows. Empty unless this is a manageable RCS group, which hides
+     * the section.
+     */
+    private class GroupActionsAdapter extends BaseAdapter {
+        // Leave stays last.
+        private final int[] mActions = { GROUP_ACTION_RENAME, GROUP_ACTION_ADD_PEOPLE,
+                GROUP_ACTION_LEAVE };
+
+        @Override
+        public int getCount() {
+            return isManageableRcsGroup() ? mActions.length : 0;
+        }
+
+        @Override
+        public Object getItem(final int position) {
+            return mActions[position];
+        }
+
+        @Override
+        public long getItemId(final int position) {
+            return mActions[position];
+        }
+
+        @Override
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
+            final TextView row;
+            if (convertView instanceof TextView) {
+                row = (TextView) convertView;
+            } else {
+                row = (TextView) LayoutInflater.from(getActivity())
+                        .inflate(android.R.layout.simple_list_item_1, parent, false);
+            }
+            final int action = mActions[position];
+            final int label;
+            if (action == GROUP_ACTION_RENAME) {
+                label = R.string.rcs_group_action_rename;
+            } else if (action == GROUP_ACTION_ADD_PEOPLE) {
+                label = R.string.rcs_group_action_add_people;
+            } else {
+                label = R.string.rcs_group_action_leave;
+            }
+            row.setText(label);
+            row.setOnClickListener(v -> {
+                if (action == GROUP_ACTION_RENAME) {
+                    showRenameGroupDialog();
+                } else if (action == GROUP_ACTION_ADD_PEOPLE) {
+                    launchAddPeoplePicker();
+                } else {
+                    confirmLeaveGroup();
+                }
+            });
+            return row;
+        }
+    }
+
+    /**
+     * Rename dialog, prefilled with the group name; the rename runs in
+     * {@link ManageRcsGroupAction} and a failure toasts.
+     */
+    private void showRenameGroupDialog() {
+        if (!isManageableRcsGroup()) {
+            return;
+        }
+        final String conversationId = mBinding.getData().getConversationId();
+        final String groupId = mRcsGroupId;
+        final EditText editText = new EditText(getActivity());
+        editText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        editText.setSingleLine(true);
+        if (!TextUtils.isEmpty(mGroupName)) {
+            editText.setText(mGroupName);
+            editText.setSelection(mGroupName.length());
+        }
+        new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme)
+                .setTitle(R.string.rcs_group_rename_dialog_title)
+                .setMessage(R.string.rcs_group_rename_dialog_message)
+                .setView(editText)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    final String newName = editText.getText().toString().trim();
+                    if (TextUtils.isEmpty(newName)) {
+                        return;
+                    }
+                    ManageRcsGroupAction.renameGroup(conversationId, groupId, newName,
+                            op -> UiUtils.showToast(R.string.rcs_group_rename_failed));
+                })
+                .show();
+    }
+
+    /**
+     * Picks one contact to add; the number is canonicalized in {@link #onActivityResult}.
+     */
+    private void launchAddPeoplePicker() {
+        if (!isManageableRcsGroup()) {
+            return;
+        }
+        final Intent intent = new Intent(Intent.ACTION_PICK,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+        try {
+            startActivityForResult(intent, REQUEST_PICK_CONTACT_TO_ADD);
+        } catch (final android.content.ActivityNotFoundException e) {
+            UiUtils.showToast(R.string.rcs_group_add_failed);
+        }
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (requestCode == REQUEST_PICK_CONTACT_TO_ADD) {
+            if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null
+                    && isManageableRcsGroup()) {
+                final String e164 = resolvePickedPhoneE164(data.getData());
+                if (!TextUtils.isEmpty(e164)) {
+                    final ArrayList<String> members = new ArrayList<>(1);
+                    members.add(e164);
+                    ManageRcsGroupAction.addUsers(mBinding.getData().getConversationId(),
+                            mRcsGroupId, members,
+                            op -> UiUtils.showToast(R.string.rcs_group_add_failed));
+                } else {
+                    UiUtils.showToast(R.string.rcs_group_add_failed);
+                }
+            }
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /** Reads the picked phone row's number in E.164. */
+    private String resolvePickedPhoneE164(final Uri phoneUri) {
+        final ContentResolver cr = getActivity().getContentResolver();
+        try (Cursor c = cr.query(phoneUri,
+                new String[] { ContactsContract.CommonDataKinds.Phone.NUMBER },
+                null, null, null)) {
+            if (c != null && c.moveToFirst()) {
+                final String raw = c.getString(0);
+                if (TextUtils.isEmpty(raw)) {
+                    return null;
+                }
+                final String canonical =
+                        PhoneUtils.getDefault().getCanonicalBySimLocale(raw);
+                return TextUtils.isEmpty(canonical) ? raw : canonical;
+            }
+        } catch (final Exception e) {
+            // Null below.
+        }
+        return null;
+    }
+
+    /**
+    /**
+     * Confirms and removes a member (never self) through {@link ManageRcsGroupAction}; a
+     * failure toasts.
+     */
+    private void confirmRemoveMember(final ParticipantData participant) {
+        if (!isManageableRcsGroup() || participant == null || participant.isSelf()) {
+            return;
+        }
+        final String memberE164 = participant.getNormalizedDestination();
+        if (TextUtils.isEmpty(memberE164)) {
+            return;
+        }
+        final String displayName = participant.getDisplayName(true /* preferFullName */);
+        final String conversationId = mBinding.getData().getConversationId();
+        final String groupId = mRcsGroupId;
+        new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme)
+                .setTitle(getString(R.string.rcs_group_remove_confirm_title, displayName))
+                .setMessage(R.string.rcs_group_remove_confirm_message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.rcs_group_remove_confirm_button,
+                        (dialog, which) -> {
+                            final ArrayList<String> members = new ArrayList<>(1);
+                            members.add(memberE164);
+                            ManageRcsGroupAction.removeUsers(conversationId, groupId, members,
+                                    op -> UiUtils.showToast(R.string.rcs_group_remove_failed));
+                        })
+                .show();
+    }
+
+    /**
+     * Confirms and leaves the group through {@link ManageRcsGroupAction#leaveGroup}. Confirmed
+     * because it cannot be undone from this device: only another member can add us back. Nothing
+     * is written here; each route writes its own status line.
+     */
+    private void confirmLeaveGroup() {
+        if (!isManageableRcsGroup()) {
+            return;
+        }
+        final String conversationId = mBinding.getData().getConversationId();
+        final String groupId = mRcsGroupId;
+        new AlertDialog.Builder(getActivity(), R.style.AlertDialogTheme)
+                .setTitle(R.string.rcs_group_leave_confirm_title)
+                .setMessage(R.string.rcs_group_leave_confirm_message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.rcs_group_leave_confirm_button,
+                        (dialog, which) -> ManageRcsGroupAction.leaveGroup(conversationId, groupId,
+                                op -> UiUtils.showToast(R.string.rcs_group_leave_failed)))
+                .show();
     }
 
     /**
@@ -290,7 +730,12 @@ public class PeopleAndOptionsFragment extends Fragment
 
         public PeopleAndOptionsPartition(final BaseAdapter adapter, final int headerResId,
                 final boolean needDivider) {
-            super(true /* showIfEmpty */, true /* hasHeader */, adapter);
+            this(adapter, headerResId, needDivider, true /* showIfEmpty */);
+        }
+
+        public PeopleAndOptionsPartition(final BaseAdapter adapter, final int headerResId,
+                final boolean needDivider, final boolean showIfEmpty) {
+            super(showIfEmpty, true /* hasHeader */, adapter);
             mHeaderResId = headerResId;
             mNeedDivider = needDivider;
         }

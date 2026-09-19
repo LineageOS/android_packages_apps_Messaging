@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,6 +56,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PARTS_TABLE = "parts";
     public static final String PARTICIPANTS_TABLE = "participants";
     public static final String CONVERSATION_PARTICIPANTS_TABLE = "conversation_participants";
+
+    /**
+     * Per-member delivery and read receipts for our sent group messages. 1:1 receipts stay in
+     * the messages table.
+     */
+    public static final String RCS_GROUP_RECEIPTS_TABLE = "rcs_group_receipts";
+
+    /**
+     * Emoji reactions, keyed by the target's wire message id because a reaction can arrive
+     * before the target's local id is known. Reaction messages are not stored in messages.
+     */
+    public static final String RCS_REACTIONS_TABLE = "rcs_reactions";
 
     // Views
     static final String DRAFT_PARTS_VIEW = "draft_parts_view";
@@ -139,6 +151,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // A conversation is enterprise if one of the participant is a enterprise contact.
         public static final String IS_ENTERPRISE = "IS_ENTERPRISE";
+
+        // The RCS group id this conversation maps to, or null. See docs/rcs/groups.md.
+        public static final String RCS_GROUP_ID = "rcs_group_id";
+
+        // 1 when an RCS group was created with a partial roster; cleared once getGroupInfo
+        // refills it.
+        public static final String NEEDS_ROSTER_REFILL = "needs_roster_refill";
+
+        // Latched EncryptionProtocolBits; 0 is plaintext.
+        public static final String ENCRYPTION_PROTOCOL = "encryption_protocol";
+
+        // 1 when we are no longer a member of this RCS group; see docs/rcs/groups.md.
+        public static final String RCS_SELF_LEFT = "rcs_self_left";
     }
 
     // Conversation table SQL
@@ -170,8 +195,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + ConversationColumns.PARTICIPANT_COUNT + " INT DEFAULT(0), "
                     + ConversationColumns.INCLUDE_EMAIL_ADDRESS + " INT DEFAULT(0), "
                     + ConversationColumns.SMS_SERVICE_CENTER + " TEXT ,"
-                    + ConversationColumns.IS_ENTERPRISE + " INT DEFAULT(0)"
+                    + ConversationColumns.IS_ENTERPRISE + " INT DEFAULT(0), "
+                    + ConversationColumns.RCS_GROUP_ID + " TEXT, "
+                    + ConversationColumns.NEEDS_ROSTER_REFILL + " INT DEFAULT(0), "
+                    + ConversationColumns.ENCRYPTION_PROTOCOL + " INT DEFAULT(0), "
+                    + ConversationColumns.RCS_SELF_LEFT + " INT DEFAULT(0)"
                     + ");";
+
+    private static final String CONVERSATIONS_TABLE_RCS_GROUP_ID_INDEX_SQL =
+            "CREATE INDEX index_" + CONVERSATIONS_TABLE + "_rcs_group_id ON "
+            + CONVERSATIONS_TABLE + "(" + ConversationColumns.RCS_GROUP_ID + ")";
 
     private static final String CONVERSATIONS_TABLE_SMS_THREAD_ID_INDEX_SQL =
             "CREATE INDEX index_" + CONVERSATIONS_TABLE + "_" + ConversationColumns.SMS_THREAD_ID
@@ -248,6 +281,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /* The detailed status (RESPONSE_STATUS or RETRIEVE_STATUS) for MMS message */
         public static final String RAW_TELEPHONY_STATUS = "raw_status";
+
+        // RCS columns; see docs/rcs/architecture.md.
+        public static final String TRANSPORT_TYPE = "transport_type";
+        public static final String RCS_MESSAGE_ID = "rcs_message_id";
+        public static final String RCS_STATUS = "rcs_status";
+        public static final String RCS_DELIVERED_TIMESTAMP = "rcs_delivered_timestamp";
+        public static final String RCS_DISPLAYED_TIMESTAMP = "rcs_displayed_timestamp";
+        public static final String RCS_CONTRIBUTION_ID = "rcs_contribution_id";
+        // E2EE scheme id the message was opened under, or null for plaintext.
+        public static final String RCS_E2EE_SCHEME_ID = "rcs_e2ee_scheme_id";
     }
 
     // Messages table SQL
@@ -272,6 +315,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + MessageColumns.RAW_TELEPHONY_STATUS + " INT DEFAULT(0), "
                     + MessageColumns.SELF_PARTICIPANT_ID + " INT, "
                     + MessageColumns.RETRY_START_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.TRANSPORT_TYPE + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_MESSAGE_ID + " TEXT, "
+                    + MessageColumns.RCS_STATUS + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_DELIVERED_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_DISPLAYED_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_CONTRIBUTION_ID + " TEXT, "
+                    + MessageColumns.RCS_E2EE_SCHEME_ID + " TEXT, "
                     + "FOREIGN KEY (" + MessageColumns.CONVERSATION_ID + ") REFERENCES "
                     + CONVERSATIONS_TABLE + "(" + ConversationColumns._ID + ") ON DELETE CASCADE "
                     + "FOREIGN KEY (" + MessageColumns.SENDER_PARTICIPANT_ID + ") REFERENCES "
@@ -291,6 +341,69 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE INDEX index_" + MESSAGES_TABLE + "_status_seen ON " +  MESSAGES_TABLE + "("
                     + MessageColumns.STATUS + ", "
                     + MessageColumns.SEEN + ")";
+
+    private static final String MESSAGES_TABLE_RCS_ID_INDEX_SQL =
+            "CREATE INDEX index_" + MESSAGES_TABLE + "_rcs_id ON " + MESSAGES_TABLE + "("
+                    + MessageColumns.RCS_MESSAGE_ID + ")";
+
+    // Timestamps are 0 until the member's receipt arrives.
+    public static class RcsGroupReceiptColumns {
+        /* messages._id of our sent group message */
+        public static final String MESSAGE_ID = "message_id";
+
+        /* the member's canonical number or URI */
+        public static final String PARTICIPANT_URI = "participant_uri";
+
+        /* ms timestamp the member delivered the message, 0 = not yet */
+        public static final String DELIVERED_TIMESTAMP = "delivered_timestamp";
+
+        /* ms timestamp the member displayed the message, 0 = not yet */
+        public static final String DISPLAYED_TIMESTAMP = "displayed_timestamp";
+    }
+
+    // A different emoji from the same reactor replaces the row; a remove deletes it.
+    public static class RcsReactionColumns {
+        /* the target's messages.rcs_message_id */
+        public static final String TARGET_RCS_MESSAGE_ID = "target_rcs_message_id";
+        /* the reactor's canonical number or URI; SELF_REACTOR_URI for us */
+        public static final String REACTOR_URI = "reactor_uri";
+        /* the emoji glyph */
+        public static final String EMOJI = "emoji";
+        /* ms timestamp added or updated, for chip ordering */
+        public static final String TIMESTAMP = "timestamp";
+    }
+
+    private static final String CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL =
+            "CREATE TABLE " + RCS_GROUP_RECEIPTS_TABLE + " ("
+                    + RcsGroupReceiptColumns.MESSAGE_ID + " INT NOT NULL, "
+                    + RcsGroupReceiptColumns.PARTICIPANT_URI + " TEXT NOT NULL, "
+                    + RcsGroupReceiptColumns.DELIVERED_TIMESTAMP + " INT DEFAULT(0), "
+                    + RcsGroupReceiptColumns.DISPLAYED_TIMESTAMP + " INT DEFAULT(0), "
+                    + "PRIMARY KEY (" + RcsGroupReceiptColumns.MESSAGE_ID + ", "
+                    + RcsGroupReceiptColumns.PARTICIPANT_URI + "), "
+                    + "FOREIGN KEY (" + RcsGroupReceiptColumns.MESSAGE_ID + ") REFERENCES "
+                    + MESSAGES_TABLE + "(" + MessageColumns._ID + ") ON DELETE CASCADE "
+                    + ");";
+
+    private static final String RCS_GROUP_RECEIPTS_TABLE_MESSAGE_ID_INDEX_SQL =
+            "CREATE INDEX index_" + RCS_GROUP_RECEIPTS_TABLE + "_message_id ON "
+                    + RCS_GROUP_RECEIPTS_TABLE + "("
+                    + RcsGroupReceiptColumns.MESSAGE_ID + ")";
+
+    private static final String CREATE_RCS_REACTIONS_TABLE_SQL =
+            "CREATE TABLE " + RCS_REACTIONS_TABLE + " ("
+                    + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + RcsReactionColumns.REACTOR_URI + " TEXT NOT NULL, "
+                    + RcsReactionColumns.EMOJI + " TEXT NOT NULL, "
+                    + RcsReactionColumns.TIMESTAMP + " INT DEFAULT(0), "
+                    + "PRIMARY KEY (" + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + ", "
+                    + RcsReactionColumns.REACTOR_URI + ")"
+                    + ");";
+
+    private static final String RCS_REACTIONS_TABLE_TARGET_INDEX_SQL =
+            "CREATE INDEX index_" + RCS_REACTIONS_TABLE + "_target ON "
+                    + RCS_REACTIONS_TABLE + "("
+                    + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + ")";
 
     // Parts table schema
     // A part may contain text or a media url, but not both.
@@ -519,6 +632,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CREATE_PARTS_TABLE_SQL,
         CREATE_PARTICIPANTS_TABLE_SQL,
         CREATE_CONVERSATION_PARTICIPANTS_TABLE_SQL,
+        CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL,
+        CREATE_RCS_REACTIONS_TABLE_SQL,
     };
 
     // List of all our indices
@@ -526,10 +641,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CONVERSATIONS_TABLE_SMS_THREAD_ID_INDEX_SQL,
         CONVERSATIONS_TABLE_ARCHIVE_STATUS_INDEX_SQL,
         CONVERSATIONS_TABLE_SORT_TIMESTAMP_INDEX_SQL,
+        CONVERSATIONS_TABLE_RCS_GROUP_ID_INDEX_SQL,
         MESSAGES_TABLE_SORT_INDEX_SQL,
         MESSAGES_TABLE_STATUS_SEEN_INDEX_SQL,
+        MESSAGES_TABLE_RCS_ID_INDEX_SQL,
         PARTS_TABLE_MESSAGE_INDEX_SQL,
         CONVERSATION_PARTICIPANTS_TABLE_CONVERSATION_ID_INDEX_SQL,
+        RCS_GROUP_RECEIPTS_TABLE_MESSAGE_ID_INDEX_SQL,
+        RCS_REACTIONS_TABLE_TARGET_INDEX_SQL,
     };
 
     // List of all our SQL triggers

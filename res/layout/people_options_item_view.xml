@@ -41,5 +41,17 @@
             android:ellipsize="end"
             style="@style/ParticipantListItem"
             android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 </com.android.messaging.ui.conversationsettings.PeopleOptionsItemView>

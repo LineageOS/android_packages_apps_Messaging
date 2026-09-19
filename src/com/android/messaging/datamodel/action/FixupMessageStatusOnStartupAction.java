@@ -27,6 +27,8 @@ import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.data.MessageData;
+import com.android.messaging.rcs.RcsConstants;
+import com.android.messaging.rcs.RcsSendStatus;
 import com.android.messaging.util.LogUtil;
 
 /**
@@ -51,6 +53,7 @@ public class FixupMessageStatusOnStartupAction extends Action implements Parcela
         db.beginTransaction();
         int downloadFailedCnt;
         int sendFailedCnt;
+        int rcsStrandedCnt;
         try {
             // For both sending and downloading messages, let's assume they failed.
             // For MMS sent/downloaded via platform, the sent/downloaded pending intent
@@ -80,12 +83,29 @@ public class FixupMessageStatusOnStartupAction extends Action implements Parcela
                             Integer.toString(MessageData.BUGLE_STATUS_OUTGOING_RESENDING)
                     });
 
+            // RCS rows still at YET_TO_SEND or AWAITING_RETRY are stranded, not queued: every RCS
+            // send is dispatched before its row is written, and the sweep above excludes
+            // TRANSPORT_RCS. Only FAILED is safe. Cold start only, so no send is in flight. See
+            // docs/rcs/architecture.md.
+            values.clear();
+            values.put(DatabaseHelper.MessageColumns.STATUS,
+                    RcsSendStatus.BUGLE_STATUS_OUTGOING_FAILED);
+            rcsStrandedCnt = db.update(DatabaseHelper.MESSAGES_TABLE, values,
+                    DatabaseHelper.MessageColumns.STATUS + " IN (?, ?) AND "
+                    + DatabaseHelper.MessageColumns.TRANSPORT_TYPE + " =?",
+                    new String[]{
+                            Integer.toString(RcsSendStatus.BUGLE_STATUS_OUTGOING_YET_TO_SEND),
+                            Integer.toString(RcsSendStatus.BUGLE_STATUS_OUTGOING_AWAITING_RETRY),
+                            Integer.toString(RcsConstants.TRANSPORT_RCS)
+                    });
+
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
 
         LogUtil.i(TAG, "Fixup: Send failed - " + sendFailedCnt
+                + " RCS stranded - " + rcsStrandedCnt
                 + " Download failed - " + downloadFailedCnt);
 
         // Don't send contentObserver notifications as displayed text should not change

@@ -105,6 +105,15 @@
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
+    <!-- Second-line "N people" subtitle under the group title. -->
+    <style name="ConversationActionBarSubtitleTextStyle"
+            parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle">
+        <item name="android:textColor">@color/action_bar_title_text_color</item>
+        <item name="android:lines">1</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:alpha">0.85</item>
+    </style>
+
     <style name="BuglePhotoViewTheme" parent="PhotoViewTheme.Translucent">
         <item name="actionModeShareDrawable">@drawable/ic_share_light</item>
     </style>
@@ -121,6 +130,20 @@
 
     <style name="ConversationMessageStatus" parent="ConversationMessageText">
         <item name="android:textSize">@dimen/conversation_status_text_size</item>
+    </style>
+
+    <!-- Centered, muted group lifecycle event status line. Small,
+         dimmed, no background, centered text spanning the row width. -->
+    <style name="ConversationSystemMessage">
+        <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/conversation_status_text_size</item>
+        <item name="android:textColor">@color/timestamp_text_incoming</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:paddingTop">@dimen/message_padding_default</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
     </style>
 
     <style name="ConversationMessageTitle" parent="ConversationMessageText">
@@ -600,4 +623,46 @@
         <item name="cornerSize">16dp</item>
     </style>
 
+
+    <!-- RBM: business-info screen styles. -->
+    <style name="RbmInfoAction">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/rbm_info_action_margin</item>
+        <item name="android:layout_marginEnd">@dimen/rbm_info_action_margin</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+    <style name="RbmInfoActionIcon">
+        <item name="android:layout_width">@dimen/rbm_info_action_icon_size</item>
+        <item name="android:layout_height">@dimen/rbm_info_action_icon_size</item>
+        <item name="android:background">@drawable/rbm_info_action_bg</item>
+        <item name="android:padding">@dimen/rbm_info_action_icon_padding</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <style name="RbmInfoActionLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/rbm_chip_text</item>
+    </style>
+
+    <style name="RbmInfoSectionHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/rbm_info_section_gap</item>
+        <item name="android:layout_marginStart">@dimen/rbm_info_h_margin</item>
+        <item name="android:layout_marginEnd">@dimen/rbm_info_h_margin</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
 </resources>
