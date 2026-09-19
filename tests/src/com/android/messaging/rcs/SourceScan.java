@@ -36,6 +36,229 @@ public final class SourceScan {
         return codeOnly(read(TRANSPORT));
     }
 
+    /** A transport delegate's javadoc: {@code /** @see Target#method *\/}, nothing else. */
+    public static final String DELEGATE = "/\\*\\* @see (\\w+)#(\\w+) \\*/";
+
+    /** The engine file holding the transport's nested data types. */
+    public static final String TRANSPORT_TYPES =
+            "engine/src/com/android/messaging/rcs/engine/mls/MlsTransportTypes.java";
+
+    /**
+     * The methods the split moved out of the transport, one {@code Target#method} per line. The
+     * source of truth for the views below; {@code TransportMovedManifestGuardTest} keeps it
+     * complete.
+     */
+    public static final String TRANSPORT_MOVED =
+            "tests/src/com/android/messaging/rcs/transport-moved.txt";
+
+    /** {@link #TRANSPORT_MOVED} as {@code {Target, method}} pairs, in file order. */
+    public static List<String[]> transportMoved() throws IOException {
+        final List<String[]> out = new ArrayList<>();
+        for (final String line : read(TRANSPORT_MOVED).split("\n")) {
+            final String e = line.trim();
+            if (e.isEmpty() || e.startsWith("#")) continue;
+            final int hash = e.indexOf('#');
+            if (hash <= 0 || hash != e.lastIndexOf('#') || hash == e.length() - 1) {
+                throw new IllegalStateException(TRANSPORT_MOVED + ": not Target#method: " + e);
+            }
+            out.add(new String[] {e.substring(0, hash), e.substring(hash + 1)});
+        }
+        if (out.isEmpty()) throw new IllegalStateException(TRANSPORT_MOVED + " lists nothing");
+        return out;
+    }
+
+    /**
+     * {@link #transportMoved()}, those whose delegate still stands first, in the transport's order,
+     * then the rest in manifest order. The order the views were built in when they were derived
+     * from the delegates.
+     */
+    private static List<String[]> transportMovedInTransportOrder() throws IOException {
+        final List<String[]> manifest = transportMoved();
+        final java.util.Set<String> listed = new java.util.HashSet<>();
+        for (final String[] tm : manifest) listed.add(tm[0] + "#" + tm[1]);
+        final List<String[]> out = new ArrayList<>();
+        final java.util.Set<String> seen = new java.util.HashSet<>();
+        final Matcher d = Pattern.compile(DELEGATE).matcher(read(TRANSPORT));
+        while (d.find()) {
+            final String key = d.group(1) + "#" + d.group(2);
+            if (listed.contains(key) && seen.add(key)) {
+                out.add(new String[] {d.group(1), d.group(2)});
+            }
+        }
+        for (final String[] tm : manifest) {
+            if (seen.add(tm[0] + "#" + tm[1])) out.add(tm);
+        }
+        return out;
+    }
+
+    /**
+     * The engine files the split moved the transport's methods into, from {@link #TRANSPORT_MOVED},
+     * plus {@link #TRANSPORT_TYPES}.
+     */
+    public static List<String> transportDestinations() throws IOException {
+        final List<String> out = new ArrayList<>();
+        out.add(TRANSPORT_TYPES);
+        for (final String[] tm : transportMovedInTransportOrder()) {
+            final String p = ENGINE_MLS + tm[0] + ".java";
+            if (!out.contains(p)) out.add(p);
+        }
+        return out;
+    }
+
+    /**
+     * The transport as one unsplit file, raw text: the {@code MlsShellPort} adapter and every
+     * remaining delegate blanked, each {@link #TRANSPORT_MOVED} method appended in its original
+     * spelling ({@code shell.x(} as {@code x(}, {@code cfg.} as {@code mCfg.}, {@code log.w(} as
+     * {@code LogUtil.w(TAG, }), then {@link #TRANSPORT_TYPES}. For guards on behaviour; guards on
+     * the shell read {@link #transport()}.
+     */
+    public static String transportAsUnsplit() throws IOException {
+        // Built once per JVM: many guards read it and no source changes during a run.
+        String cached = sUnsplit;
+        if (cached == null) {
+            cached = buildTransportAsUnsplit();
+            sUnsplit = cached;
+        }
+        return cached;
+    }
+
+    private static volatile String sUnsplit;
+
+    private static String buildTransportAsUnsplit() throws IOException {
+        final String raw = read(TRANSPORT);
+        final String code = codeOnly(raw);
+        final char[] shell = raw.toCharArray();
+        final int a = code.indexOf("private final MlsShellPort mShell = new MlsShellPort() {");
+        if (a >= 0) {
+            final int end = matchBrace(code, code.indexOf('{', a));
+            blankRange(shell, a, end + 1);
+        }
+        final Matcher d = Pattern.compile(DELEGATE).matcher(raw);
+        while (d.find()) {
+            blankRange(shell, d.start(), matchBrace(code, code.indexOf('{', d.end())) + 1);
+        }
+        final List<String[]> moved = transportMovedInTransportOrder();
+        final StringBuilder out = new StringBuilder(new String(shell));
+        // Every overload of a moved name is appended, once per manifest entry.
+        for (final String[] tm : moved) {
+            final String dest = read(ENGINE_MLS + tm[0] + ".java");
+            final String destCode = codeOnly(dest);
+            for (final int[] decl : declarations(destCode)) {
+                if (!destCode.substring(decl[2], decl[3]).equals(tm[1])) continue;
+                final int start = dest.lastIndexOf('\n', decl[0]) + 1;
+                out.append('\n').append(unsplit(
+                        dest.substring(start, matchBrace(destCode, decl[1]) + 1), moved));
+            }
+        }
+        out.append('\n').append(read(TRANSPORT_TYPES));
+        return out.toString();
+    }
+
+    /** {@link #transportAsUnsplit()}, comments and string contents blanked. */
+    public static String transportUnsplitCode() throws IOException {
+        return codeOnly(transportAsUnsplit());
+    }
+
+    private static final String ENGINE_MLS = "engine/src/com/android/messaging/rcs/engine/mls/";
+    // The port-call spellings first: moved methods pass shell.session() and shell.selfE164Raw() on.
+    private static final String INJECTED =
+            "(?:shell\\.session\\(\\)|shell\\.selfE164Raw\\(\\)|shell|cfg|session|selfE164|log)";
+
+    private static String unsplit(String m, final List<String[]> moved) {
+        // the declaration loses its injected parameters
+        m = m.replaceFirst(
+                "\\(\\s*((?:final )?(?:MlsShellPort shell|MlsConfig cfg|MlsSession session"
+                + "|String selfE164|MlsLogSink log)\\s*,?\\s*)+", "(");
+        for (final String[] tm : moved) {
+            m = m.replaceAll("\\b" + tm[0] + "\\." + tm[1] + "\\((?:\\s*" + INJECTED
+                    + "\\s*(?:,|(?=\\))))*\\s*", tm[1] + "(");
+        }
+        // Accessor to field, derived from the transport's adapter.
+        final List<String[]> fields = portFieldAccessors();
+        for (final String[] f : fields) m = m.replaceAll("\\bshell\\." + f[0] + "\\(\\)", f[1]);
+        m = m.replace("shell.openMlsSession()", "openMls()")
+                .replace("shell.elapsedRealtime()", "android.os.SystemClock.elapsedRealtime()")
+                .replace("shell.sysprops().", "android.os.SystemProperties.")
+                .replace("shell.rpc(", "pt(")
+                .replace("shell.peerGuard().", "MlsPeerGuard.")
+                .replace("shell.resendLedger().", "MlsResendLedger.")
+                .replace("shell.downgradeMlsScheme(", "schemeGate().downgradeMls(")
+                .replace("shell.applyGroupDeparture(", "GroupDepartureApplier.apply(mSubId, ")
+                .replace("shell.loadIdentity()", "MlsIdentityStore.loadIdentity(mCtx)")
+                .replace("shell.refreshIdentityFromProvider()",
+                        "MlsIdentityStore.refreshFromProvider(mCtx, mSubId)")
+                .replace("shell.offerInboundHold(", "MlsInboundHoldStore.get(mCtx).offer(")
+                .replace("shell.findTextByRcsMessageId(", "RcsMessageStore.findTextByRcsMessageId(")
+                .replace("shell.applyGroupIcon(", "GroupIconApplier.apply(mCtx, ")
+                .replace("shell.noteOutboundHoldRefused()",
+                        "MlsOutboundHoldStore.get(mCtx).noteRefused()")
+                .replace("shell.applyGroupSubject(", "MlsSubjectApplier.apply(")
+                .replace("shell.findGroupIdByRcsMessageId(",
+                        "RcsMessageStore.findGroupIdByRcsMessageId(")
+                .replaceAll("\\bMlsSendPayload\\b", "Payload")
+                .replace("MlsProviderRpc pt =", "ProviderTransport pt =")
+                .replace("MlsProviderRpc.ControlResult", "RcsMlsControlResult")
+                .replace("MlsProviderRpc.SendResult", "RcsSendResult")
+                .replace("MlsProviderRpc.TransportProfile", "RcsMlsTransportProfile")
+                .replace("MlsProviderRpc.ClaimResult", "RcsMlsClaimResult")
+                .replace("shell.prefs()", "mCtx.getSharedPreferences(PREFS, Context.MODE_PRIVATE)")
+                .replaceAll("\\bMlsPrefs\\b", "SharedPreferences");
+        return m.replaceAll("\\bshell\\.", "")
+                .replaceAll("\\bcfg\\.", "mCfg.")
+                .replaceAll("\\bsession\\.", "mSelf.")
+                .replaceAll("\\blog\\.([diwe])\\(", "LogUtil.$1(TAG, ");
+    }
+
+    private static List<String[]> sPortFields;
+
+    /**
+     * {@code {accessor, field}} for every MlsShellPort accessor the transport's adapter returns a
+     * field from.
+     */
+    private static List<String[]> portFieldAccessors() {
+        if (sPortFields != null) return sPortFields;
+        final List<String[]> out = new ArrayList<>();
+        try {
+            final Matcher pm = Pattern.compile(
+                    "@Override public [^(;{]+?\\s(\\w+)\\(\\s*\\)\\s*\\{\\s*"
+                    + "return MlsProviderTransport\\.this\\.(m[A-Z]\\w*);\\s*\\}")
+                    .matcher(codeOnly(read(TRANSPORT)));
+            while (pm.find()) out.add(new String[] {pm.group(1), pm.group(2)});
+        } catch (final IOException e) {
+            throw new IllegalStateException("MlsProviderTransport.java unreadable", e);
+        }
+        if (out.isEmpty()) throw new IllegalStateException(
+                "no field accessors parsed from MlsShellPort");
+        return sPortFields = out;
+    }
+
+    private static int matchBrace(final String code, final int open) {
+        int depth = 0;
+        for (int i = open; i < code.length(); i++) {
+            final char c = code.charAt(i);
+            if (c == '{') {
+                depth++;
+            } else if (c == '}' && --depth == 0) {
+                return i;
+            }
+        }
+        throw new IllegalStateException("unbalanced braces from " + open);
+    }
+
+    private static void blankRange(final char[] s, final int from, final int to) {
+        for (int i = from; i < to && i < s.length; i++) if (s[i] != '\n') s[i] = ' ';
+    }
+
+    /**
+     * The transport plus every {@link #transportDestinations destination}, code only: for "does the
+     * transport's code do X anywhere". A guard needing one declaration reads the declaring file.
+     */
+    public static String transportAndMoved() throws IOException {
+        final StringBuilder sb = new StringBuilder(transport());
+        for (final String p : transportDestinations()) sb.append('\n').append(codeOnly(read(p)));
+        return sb.toString();
+    }
+
     /** A source file relative to the module, from the module dir, the tree root or one below. */
     public static String read(final String rel) throws IOException {
         final String[] candidates = {rel, "packages/apps/Messaging/" + rel, "../" + rel};
@@ -78,7 +301,8 @@ public final class SourceScan {
                     if (out[i] != '\n') out[i] = ' ';
                     i++;
                 }
-                i++;            } else {
+                i++;
+            } else {
                 i++;
             }
         }
@@ -432,7 +656,8 @@ public final class SourceScan {
      * The {@link #codeOnly} source of the app class of that simple name, searched recursively, or
      * {@code null}.
      */
-    public static synchronized String providerClassSource(final String simpleName) throws IOException {
+    public static synchronized String providerClassSource(
+            final String simpleName) throws IOException {
         if (PROVIDER_SOURCES.isEmpty()) {
             for (final File f : javaSourcesUnder(PROVIDER_SRC)) {
                 final String n = f.getName();
