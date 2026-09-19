@@ -47,6 +47,11 @@ android_app {
 
     srcs: [":messaging-srcs"],
 
+    jni_libs: ["libmlsopenmlsbridge"],
+    // Packaged inside the APK so an adb-installed update loads the same .so; see
+    // docs/mls/overview.md.
+    use_embedded_native_libs: true,
+
     defaults: ["messaging_defaults"],
 
     static_libs: [
@@ -73,6 +78,8 @@ android_app {
         "libphotoviewer",
         // The RCS provider contract; see aidl/.
         "messaging-rcs-contract-aidl",
+        // The MLS engine; see docs/mls/overview.md.
+        "messaging-mls-engine",
         // JAIN-SIP for the in-app carrier SIP/MSRP transport; see docs/rcs/carrier-transport.md.
         "nist-sip",
     ],
@@ -182,7 +189,16 @@ java_library_host {
     ],
 }
 
-// The phone-number mask for log lines (plain JDK); the app compiles it from src/.
+// The phone-number mask for log lines (plain JDK). Its own module so the MLS engine, which cannot
+// see the app's classes, links the same class; the app compiles it from src/ like any other, and
+// the static library's copy is dropped as a duplicate when the app's jar is merged.
+java_library {
+    name: "messaging-log-mask",
+    srcs: ["src/com/android/messaging/rcs/log/LogMask.java"],
+    sdk_version: "core_current",
+    visibility: ["//packages/apps/Messaging"],
+}
+
 java_library_host {
     name: "messaging-log-mask-host",
     srcs: ["src/com/android/messaging/rcs/log/LogMask.java"],
@@ -298,5 +314,154 @@ cc_library_shared {
     enabled: false,
     arch: { arm64: { enabled: true } },
     system_ext_specific: true,
+    visibility: ["//packages/apps/Messaging"],
+}
+
+// The MLS engine; see docs/mls/overview.md. The package name fixes the JNI symbol names
+// (Java_com_android_messaging_rcs_engine_mls_OpenMlsNative_*): renaming it means regenerating
+// the bridge.
+java_library {
+    name: "messaging-mls-engine",
+    srcs: ["engine/src/**/*.java"],
+    static_libs: ["messaging-log-mask"],
+    sdk_version: "system_current",
+    // Transport-neutral MLS only, no BouncyCastle. Add a consumer to visibility rather than
+    // forking the classes.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+// The pure-Java part of the engine, recompiled for the host tests; see docs/testing.md.
+// MlsEngineHostClasspathGuardTest fails when an engine class is neither listed nor exempted.
+java_library_host {
+    name: "messaging-mls-policy-host",
+    srcs: [
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRecoveryPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAdvancerElection.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSelfHealPass.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMaintenancePolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsUpgradePolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsUpgradeClaim.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsReestablishPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRecreationEpisode.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEraAdvanceCharge.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsStateChangeGate.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsKeyPackagePolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsParticipantKeyDerivation.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRekeyPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAppMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResentMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResendReceive.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsInboundRefusal.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsOffThread.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupDeliveryLedger.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccCpimReaction.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccCommitment.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccIdentity.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccIdentityVerification.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthStates.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTrace.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsConversationRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAheadChainCheck.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthEdge.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthMachine.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPendingOperation.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSelfHealKind.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResultStatus.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupSnapshot.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHostAction.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsDriveLoop.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchBudget.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchLedger.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchLedgerRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFetchLedgerCoverage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsClaimLedger.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsClaimLedgerRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsProcStatus.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSchedulingType.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRetryPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTransportDisposition.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCommitApplication.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRequestContext.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContentRoute.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRendezvous.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHeaderGate.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSealedMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsInvariantScan.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsStateTransition.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/StoreRead.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPorts.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMessageContent.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMessageId.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSendRetentionPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResendBudget.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFtdEscalation.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMonotonicAge.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEraBudgetRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPeerHealthRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRebuildWindowRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCooldownRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsRebuildOutcome.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerPackOutcome.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWindowBudget.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsOutboundHold.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPayloadCorruptor.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupLocks.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTelemetry.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMetrics.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsIdentity.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsConfig.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCredentialFloor.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTimeValidationRefusal.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsCredentialUpdateSeal.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFloorRebuild.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsFreshContextRetry.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsSelfLeafStatus.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsTreeLeaf.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAnchorProvenance.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/Rcc16Version.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/VerifiableDerivedContent.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccFileCrypto.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccFileInfo.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccMediaSeal.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccProto.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerBundle.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWireScan.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccEpochIdentifier.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccEnhancedGroupInfo.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccGroupMetadataKeys.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContinuityToken.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContinuityPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsMetadataKeysPolicy.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEnhancedSelfHeal.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsParticipantKeyResync.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsParticipantKeyLedger.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccGroupData.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsContinuityCodePoints.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccContentDisposition.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/RccNegativeDeliveryImdn.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResendRecord.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsResultBundle.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsEngineResult.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAdvancePurpose.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWelcomeAction.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWelcomeAdmission.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupInfoGate.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsArtifactBundle.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsGroupArtifacts.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsHealthPredicates.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsDowngradeReason.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsDowngradeLadder.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsAdvanceEraKind.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsReupgradeState.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsPendingQueue.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsWireScan.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsInboundHold.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsReceiptMetadata.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerMessage.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsServerBundle.java",
+        "engine/src/com/android/messaging/rcs/engine/mls/MlsConversationKey.java",
+    ],
+    static_libs: ["messaging-log-mask-host"],
     visibility: ["//packages/apps/Messaging"],
 }
