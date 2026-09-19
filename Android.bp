@@ -138,3 +138,164 @@ prebuilt_etc {
     sub_dir: "sysconfig",
     src: "com.android.messaging.allowlist.xml",
 }
+
+// ---------------------------------------------------------------------------
+// Carrier-RCS (DR / SIP+MSRP) host-side unit-test libraries + test module.
+// The carrier transport source lives in this repo under
+// src/com/android/messaging/rcs/carrier/** (compiled into the app via the app
+// src glob + nist-sip). These java_library_host modules additionally compile
+// the pure-Java (Android-free, JAIN-SIP-free) subset for off-device unit tests.
+// ---------------------------------------------------------------------------
+
+// The provider/app AIDL contract's ordinal-layout decision. JDK-only on purpose: the
+// part worth testing off-device is whether two recorded layouts may safely talk, and the fixtures
+// that pin it are layouts recovered from real builds. The Android-coupled half
+// (RcsContractProbe: reflection over the generated stub + the reserved binder transaction) stays
+// on-device, because there is nothing to decide there that a host can observe.
+java_library_host {
+    name: "messaging-rcs-contract-layout-host",
+    srcs: ["aidl/src/java/org/lineageos/rcs/provider/RcsContractLayout.java"],
+}
+
+// Host-side unit tests for that decision. Separate target rather than folded into the carrier or
+// engine suites: this is the provider/app SEAM, which is neither.
+java_test_host {
+    name: "messaging-rcs-contract-host-tests",
+    srcs: ["tests/src/org/lineageos/rcs/provider/**/*.java"],
+    static_libs: [
+        "messaging-rcs-contract-layout-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
+}
+
+// Pure-Java MSRP framing (RFC 4975).
+java_library_host {
+    name: "messaging-rcs-msrp-host",
+    srcs: ["src/com/android/messaging/rcs/carrier/msrp/*.java"],
+}
+
+// Android-free carrier glue: the Transport interface + Message model +
+// RcsImsConfig (JDK-only; JSON parsing lives in the sibling RcsImsConfigParser,
+// which is NOT included here so the host classpath stays org.json-free) +
+// the registrar state enum + the transport bridge.
+java_library_host {
+    name: "messaging-rcs-carrier-bridge-host",
+    srcs: [
+        "src/com/android/messaging/rcs/carrier/Message.java",
+        "src/com/android/messaging/rcs/carrier/Transport.java",
+        "src/com/android/messaging/rcs/carrier/RcsImsConfig.java",
+        "src/com/android/messaging/rcs/carrier/CarrierSipRegistrarState.java",
+        "src/com/android/messaging/rcs/carrier/CarrierTransportBridge.java",
+    ],
+}
+
+// MSRP chat-session layer: SDP offer/answer, session state machine, session-info
+// POJO, TLS connection wrapper, and the MSRP-SEND sender/receiver pair. The
+// JAIN-SIP-coupled CarrierMsrpSessionManager is intentionally excluded (on-device).
+java_library_host {
+    name: "messaging-rcs-msrp-session-host",
+    srcs: [
+        "src/com/android/messaging/rcs/carrier/msrp/session/SdpOffer.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/SdpAnswer.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/SdpParseException.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/MsrpSessionInfo.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/MsrpChatSession.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/MsrpTlsConnection.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/CarrierMsrpSessionSender.java",
+        "src/com/android/messaging/rcs/carrier/msrp/session/CarrierMsrpSessionReceiver.java",
+    ],
+    static_libs: [
+        "messaging-rcs-msrp-host",
+        "messaging-rcs-carrier-bridge-host",
+    ],
+}
+
+// Pure-Java SIP/CPIM/IMDN wire-shape primitives (the JAIN-SIP-coupled
+// CarrierMessageSender/Receiver are excluded).
+java_library_host {
+    name: "messaging-rcs-sip-host",
+    srcs: [
+        "src/com/android/messaging/rcs/carrier/sip/CpimMessage.java",
+        "src/com/android/messaging/rcs/carrier/sip/CpimParseException.java",
+        "src/com/android/messaging/rcs/carrier/sip/CpimDateTime.java",
+        "src/com/android/messaging/rcs/carrier/sip/ImdnNotification.java",
+        "src/com/android/messaging/rcs/carrier/sip/ImdnParseException.java",
+        "src/com/android/messaging/rcs/carrier/sip/IsComposingNotification.java",
+    ],
+}
+
+// RFC 2617 MD5 SIP Digest helper (plain JDK).
+java_library_host {
+    name: "messaging-rcs-sip-digest-auth-host",
+    srcs: ["src/com/android/messaging/rcs/carrier/SipDigestAuth.java"],
+}
+
+// Host-side unit tests for the carrier-RCS pure-Java pieces (MSRP framing + SDP +
+// session state machine + CPIM/IMDN + SIP Digest + the loopback SIP+MSRP harness).
+java_test_host {
+    name: "messaging-rcs-carrier-host-tests",
+    // Scoped to the carrier package rather than all of tests/src: the MLS engine tests live
+    // alongside these now and need a different static_lib, so a tests/src/** glob would swallow
+    // them and fail to compile.
+    srcs: [
+        "tests/src/com/android/messaging/rcs/carrier/**/*.java",
+        // Which bearer the SIP registrar targets, and who is authoritative about the P-CSCF.
+        // Pure Java on purpose — the SystemProperties read lives at its one call site in
+        // CarrierSipRegistrar, which is Android-coupled and untestable here, so that the DECISION
+        // is host-testable even though the plumbing is not.
+        "src/com/android/messaging/rcs/carrier/CarrierSipPlane.java",
+    ],
+    static_libs: [
+        "messaging-rcs-msrp-host",
+        "messaging-rcs-msrp-session-host",
+        "messaging-rcs-sip-host",
+        "messaging-rcs-sip-digest-auth-host",
+        "messaging-rcs-carrier-bridge-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
+}
+
+// The RCS row's TERMINAL-STATUS decision: which message_status a send may leave a
+// TRANSPORT_RCS row in, and which statuses nothing can ever move it out of. Pure Java, no Android,
+// because every site that applies it (InsertNewMessageAction, FixupMessageStatusOnStartupAction,
+// ResendMessageAction, ConversationMessageData) needs a database, a bound provider or a Context and
+// therefore has no host test at all. Splitting the DECISION out is what makes the part worth
+// testing testable; the guards in the test target below check that production still consults it.
+java_library_host {
+    name: "messaging-rcs-send-status-host",
+    srcs: ["src/com/android/messaging/rcs/RcsSendStatus.java"],
+}
+
+// The two database code paths -- onCreate's fresh schema and onUpgrade's migration chain -- are
+// written in different files and nothing connected them. This is the only thing that does.
+java_test_host {
+    name: "messaging-db-schema-host-tests",
+    srcs: [
+        "tests/src/com/android/messaging/datamodel/DatabaseSchemaGuardTest.java",
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+    ],
+    static_libs: ["junit-host"],
+    test_suites: ["general-tests"],
+}
+
+java_test_host {
+    name: "messaging-rcs-send-status-host-tests",
+    srcs: [
+        "tests/src/com/android/messaging/rcs/sendstatus/**/*.java",
+        // Asserts the R8 keep rule below names the package the contract is actually in. Listed
+        // here rather than globbed because this package enumerates its host sources.
+        "tests/src/com/android/messaging/rcs/RcsContractKeepRuleGuardTest.java",
+        // The shared source-scanning helper, listed by path rather than copied. It is globbed into
+        // messaging-mls-engine-host-tests as well; its own javadoc records that it now compiles
+        // into two targets and which members are public for this one. A fourth hand-rolled copy of
+        // read/codeOnly/bodyOf is exactly the drift that class was extracted to stop.
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+    ],
+    static_libs: [
+        "messaging-rcs-send-status-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
+}
