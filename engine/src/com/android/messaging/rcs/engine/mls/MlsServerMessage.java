@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.android.messaging.rcs.engine.mls;
+
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Op;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Group;
+import com.android.messaging.rcs.log.LogMask;
 /**
  * The outer oneof of {@code ServerMlsRcsMessage}, the message at field 5 of
  * {@code ProcessMessageRequest}. The host selects this arm in two places: the accepted-message arm
@@ -182,5 +186,49 @@ public final class MlsServerMessage {
             case 5: return from + 4 <= b.length ? from + 4 : -1;
             default: return -1;                      // groups: not used here
         }
+    }
+
+    /**
+     * The group id the server says it already holds, from a "Group ID changed from X to Y" refusal,
+     * or null for any other refusal. Taken from the server's own statement, so a reclaim cannot
+     * invent one.
+     */
+    public static String groupIdFromChangeReject(final String detail) {
+        if (detail == null) return null;
+        final int i = detail.indexOf("Group ID changed from ");
+        if (i < 0) return null;
+        final int a = i + "Group ID changed from ".length();
+        final int b = detail.indexOf(" to ", a);
+        if (b < 0) return null;
+        final String id = detail.substring(a, b).trim();
+        return id.isEmpty() ? null : id;
+    }
+
+    /**
+     * Commit removing the clients of participants the server told us to remove (RCC.16 §9.5.1).
+     * Uses the ordinary Remove path rather than a {@code ServerRemove} (0xF004) proposal. If a
+     * commit removing them arrived first, ours is abandoned.
+     *
+     * @return the new era, or -1 (including when the member was already removed)
+     */
+    public static int removeOnServerNotify(final MlsShellPort shell, final MlsLogSink log,
+            final String rcsGroupId, final String peerE164, final byte[] memberSigPub) {
+        if (!shell.ensureSession()) return -1;
+        final String key = shell.resolveInbound(rcsGroupId, peerE164);
+        final Group g = (key == null) ? null : shell.getGroup(key);
+        if (g == null || g.groupId == null) {
+            log.w("MlsServerMessage: server-remove — no group for "
+                    + (rcsGroupId == null ? LogMask.number(peerE164) : rcsGroupId));
+            return -1;
+        }
+        log.i("MlsServerMessage: server NOTIFY → removing client(s) from "
+                + MlsConversationKey.forLog(key) + " (RCC.16 server_remove)");
+        final int era = shell.commitAndSend(rcsGroupId, peerE164, null,
+                memberSigPub == null ? new byte[0] : memberSigPub, Op.REMOVE, "server-remove");
+        if (era < 0) {
+            log.w("MlsServerMessage: server-remove commit failed — if a commit removing "
+                    + "them arrived first this is expected; the spec says abandon in that case");
+        }
+        return era;
     }
 }

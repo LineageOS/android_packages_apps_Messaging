@@ -156,7 +156,8 @@ public final class RcsMessageStore {
     }
 
     /**
-     * The text of one of our sent messages, for a resend. Text parts only.
+     * The text of one of our sent messages, for an RCC.16 §10 resend to a peer that failed to
+     * decrypt it. Text parts only; a media resend needs the file re-uploaded and re-keyed.
      *
      * @return the message text, or null if unknown, empty, or not a text message
      */
@@ -178,7 +179,8 @@ public final class RcsMessageStore {
                 + " AND p." + DatabaseHelper.PartColumns.TEXT + " IS NOT NULL"
                 // Outgoing rows only (statuses below BUGLE_STATUS_INCOMING_COMPLETE): this is
                 // resend material, and resending a received message would put another member's
-                // words under our identity.
+                // words under our identity (RCC.16 §10.3). Every member of a group sees a failure
+                // report and may answer it.
                 + " AND m." + MessageColumns.STATUS + " < "
                 + MessageData.BUGLE_STATUS_INCOMING_COMPLETE
                 + " LIMIT 1";
@@ -290,7 +292,9 @@ public final class RcsMessageStore {
 
     /**
      * The {@code rcs_group_id} of the conversation one of our sent messages belongs to, or null for
-     * a 1:1 or an unknown message. A receipt carries no group context on the wire.
+     * a 1:1 or an unknown message. A receipt carries no group context on the wire, and the remedy
+     * for an RCC.16 §7.7.2.2 negative-delivery report must be applied to the group the message was
+     * sent to.
      */
     @Nullable
     public static String findGroupIdByRcsMessageId(final String rcsMessageId) {

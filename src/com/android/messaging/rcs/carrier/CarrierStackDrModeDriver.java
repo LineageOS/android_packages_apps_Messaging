@@ -177,6 +177,20 @@ public final class CarrierStackDrModeDriver implements CarrierDrModeDriver {
         }
     }
 
+    public void sendMls(final int subId, final String fromE164,
+            final String toE164, final byte[] framedBody, final String messageId) {
+        final CarrierRcsTransport transport = mTransport;
+        if (transport == null) {
+            LogUtil.w(TAG, SUBTAG + ": sendMls no transport (not registered?)");
+            return;
+        }
+        try {
+            transport.sendMls(subId, "tel:" + toE164, toE164, framedBody, messageId);
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, SUBTAG + ": sendMls failed", t);
+        }
+    }
+
     /**
      * First match: the autoconfiguration document (or, on a debuggable build, the file named by
      * {@code debug.rcs.dr.acsfile}), then {@code debug.rcs.dr.*} properties; else null.
@@ -335,7 +349,7 @@ public final class CarrierStackDrModeDriver implements CarrierDrModeDriver {
         @Override
         public void onIncomingContent(final String fromUri, final byte[] body,
                 final String contentType, final String messageId, final String e2eeSchemeId) {
-            // Keep the bytes: the String form cannot carry an image.
+            // Keep the bytes: the String form cannot carry a decrypted image.
             final Listener l = mListener;
             if (l != null) {
                 l.onIncomingContent(mSub, stripTel(fromUri), body, contentType,
@@ -397,7 +411,8 @@ public final class CarrierStackDrModeDriver implements CarrierDrModeDriver {
             case DELIVERED: return IRcsProviderCallback.STATUS_DELIVERED;
             case DISPLAYED: return IRcsProviderCallback.STATUS_DISPLAYED;
             case FAILED:    return IRcsProviderCallback.STATUS_FAILED;
-            default:        return -1;        }
+            default:        return -1;
+        }
     }
 
     @Nullable

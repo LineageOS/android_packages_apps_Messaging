@@ -201,4 +201,75 @@ public final class MlsResultBundle {
     }
 
     private MlsResultBundle() {}
+
+    /**
+     * Every result the engine returned for one inbound control, in engine order. The demux runs as
+     * validation of the context guards; the raw results are returned because dispatch keys on the
+     * engine status, which {@link MlsHostAction} does not carry.
+     *
+     * @return the results, or null if the list could not be read or a guard fired
+     */
+    public static java.util.List<MlsSession.ProcResult> inboundResults(final MlsSession session,
+            final MlsLogSink log, final byte[] groupId,
+            final byte[] wire, final String contextId, final String fromE164) {
+        final java.util.List<MlsEngineResult> raw;
+        // Operation 9 / RECEIVING_MESSAGE, as other clients log an inbound server control.
+        log.i(MlsTrace.opEntry("processServerMlsRcsMessage", 9, "RECEIVING_MESSAGE"));
+        try {
+            raw = session.processResults(groupId, wire, contextId);
+        } catch (final RuntimeException decodeFailed) {
+            log.w(MlsTrace.opFailed(9, "RECEIVING_MESSAGE", "process_results", contextId));
+            // A format-version skew or a malformed record, not an unprocessable message.
+            log.e("MlsResultBundle: could not READ the engine's result list for a "
+                    + "control from " + LogMask.number(fromE164)
+                    + " — this is a .so/Java build skew, not a bad "
+                    + "message: " + decodeFailed.getMessage());
+            return null;
+        }
+        final java.util.List<MlsResultBundle.Result> results = new java.util.ArrayList<>();
+        for (final MlsEngineResult r : raw) {
+            // One line per engine result; fields we do not carry render empty so lines compare.
+            log.d(MlsTrace.processMessageResult(MlsTrace.groupId(r.groupId()),
+                    /*eraId=*/ -1, /*epochId=*/ -1, /*epochAuthenticatorHex=*/ "",
+                    /*requestContextBytes=*/ 0, /*pendingOperationId=*/ "",
+                    "engineStatus=" + MlsProcStatus.nameOf(r.status)));
+            final MlsHostAction.Kind kind = MlsProcStatus.toActionKind(r.status);
+            final String why = "engine status " + MlsProcStatus.nameOf(r.status);
+            results.add(new MlsResultBundle.Result(r.contextId,
+                    kind == MlsHostAction.Kind.DELIVER_MESSAGE
+                            ? MlsHostAction.deliver(r.payload(), MlsGroupSnapshot.NONE, why)
+                            : MlsHostAction.of(kind, why),
+                    r.groupId()));
+        }
+        final java.util.Map<String, java.util.List<MlsHostAction>> byContext;
+        final java.util.List<MlsHostAction> ours;
+        try {
+            byContext = MlsResultBundle.demux(results);
+            ours = MlsResultBundle.forContext(byContext, contextId);
+        } catch (final IllegalStateException guardFired) {
+            log.e("MlsResultBundle: §10.5 guard fired on an inbound control from "
+                    + LogMask.number(fromE164) + " — " + guardFired.getMessage());
+            return null;
+        }
+        final java.util.Map<String, java.util.List<MlsHostAction>> others =
+                MlsResultBundle.otherContexts(byContext, contextId);
+        if (!others.isEmpty()) {
+            // Nothing produces these yet; report rather than drop them silently.
+            log.w("MlsResultBundle: the engine returned results for OTHER contexts "
+                    + others.keySet() + " alongside " + contextId + ". They are not post-processed "
+                    + "yet (rework 6.6 remainder), so their effects are NOT being applied.");
+        }
+        final java.util.List<MlsSession.ProcResult> out =
+                new java.util.ArrayList<>(raw.size());
+        for (final MlsEngineResult r : raw) {
+            out.add(new MlsSession.ProcResult(r.status, r.payload(), r.proposalType));
+        }
+        if (ours.size() != raw.size()) {
+            // Some results demuxed elsewhere, and all of them are about to go to this conversation.
+            log.w("MlsResultBundle: the engine returned " + raw.size()
+                    + " results but only " + ours.size() + " demuxed to " + contextId
+                    + " — dispatching all of them here anyway; check the context ids.");
+        }
+        return out;
+    }
 }

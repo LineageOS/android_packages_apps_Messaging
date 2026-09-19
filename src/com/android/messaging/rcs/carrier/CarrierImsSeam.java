@@ -55,6 +55,12 @@ public final class CarrierImsSeam {
      */
     public static final int MSG_DEBUG_PLAIN_MESSAGE = 13;
 
+    /**
+     * KEY_OUT_MSG, as for {@link #MSG_SEND_MESSAGE}. {@code body} is the RCC.16-framed entity, so
+     * the inner type rides inside it, and {@code contentType} is {@code message/mls}.
+     */
+    public static final int MSG_SEND_MLS = 14;
+
     // Events, :ims to main.
     /** KEY_SUB_ID, KEY_STATE ({@code PROV_*}), optional KEY_CAPS. */
     public static final int EVT_PROV_STATE = 101;
@@ -93,12 +99,11 @@ public final class CarrierImsSeam {
     public static final String KEY_OTP = "otp";
 
     // Debug and file-transfer keys; the file-descriptor keys are reserved and not wired.
-    public static final String KEY_FT_PATH =
-            "ft_path";    public static final String KEY_PLAIN_TEXT =
-                    "plain_text";    public static final String KEY_FILE_FD =
-                            "file_fd";    public static final String KEY_THUMB_FD =
-                                    "thumb_fd";    public static final String KEY_MIME_TYPE =
-                                            "mime_type";
+    public static final String KEY_FT_PATH = "ft_path";
+    public static final String KEY_PLAIN_TEXT = "plain_text";
+    public static final String KEY_FILE_FD = "file_fd";
+    public static final String KEY_THUMB_FD = "thumb_fd";
+    public static final String KEY_MIME_TYPE = "mime_type";
     public static final String KEY_FILE_NAME = "file_name";
     public static final String KEY_FILE_SIZE = "file_size";
     public static final String KEY_GROUP_ID = "group_id";

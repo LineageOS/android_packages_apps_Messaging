@@ -316,4 +316,23 @@ public final class MlsResendReceive {
                 + "unproven inference; counting these lines on a real group is the "
                 + "open question, so this line must not pre-announce its own answer.";
     }
+
+    /**
+     * Where the 64-byte {@code key(32) || tag(32)} HMAC field lives in a resend's AAD. It is not
+     * the component's opaque, and its offset is not known, so this returns null and every present
+     * component stops at {@link Disposition#SELECTOR_UNAVAILABLE}.
+     *
+     * @param inboundAad the message's authenticated data
+     */
+    public static byte[] resentSelectorField(final byte[] inboundAad) {
+        return null;
+    }
+
+    /**
+     * The inner unwrap for a resend addressed to us; null while the layout is unknown. It only
+     * takes effect once {@link #resentSelectorField} returns a field.
+     */
+    public static MlsResendReceive.InnerUnwrap resentInnerUnwrap() {
+        return null;
+    }
 }

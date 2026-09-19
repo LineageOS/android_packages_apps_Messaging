@@ -192,10 +192,19 @@ public enum MlsDowngradeReason {
         // Checked over the whole table at class init: a bad edit fails the first test to load it.
         for (final MlsDowngradeReason r : values()) {
             if (r.zinniaAlreadyEnded && r.postprocessResult) {
-                throw new IllegalArgumentException("Failed requirement.");            }
+                throw new IllegalArgumentException("Failed requirement.");
+            }
             if (r.zinniaCode != 0 && (r.zinniaAlreadyEnded || r.suppressEagerLocalDowngrade)) {
                 throw new IllegalArgumentException("Failed requirement.");
             }
         }
+    }
+
+    /**
+     * Whether the eager local downgrade applies to this reason: {@code eager && !z}, with the eager
+     * flag a constant true here.
+     */
+    public static boolean eagerFor(final MlsDowngradeReason reason) {
+        return reason != null && !reason.suppressEagerLocalDowngrade;
     }
 }

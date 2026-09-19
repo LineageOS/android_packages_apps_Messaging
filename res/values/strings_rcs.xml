@@ -39,8 +39,7 @@
     <string name="rcs_settings_title">RCS chats</string>
 
     <!-- One-line summary shown under the RCS chats entry in app settings. -->
-    <string name="rcs_settings_summary">Chat over Wi-Fi or data,
-            see delivery and read status</string>
+    <string name="rcs_settings_summary">Chat over Wi-Fi or data, see delivery and read status</string>
 
     <!-- Section header for the RCS feature toggles on the RCS chats settings screen. -->
     <string name="rcs_settings_features_category">Settings</string>
@@ -51,13 +50,11 @@
 
     <!-- Switch for sending and showing typing indicators. -->
     <string name="rcs_typing_title">Show typing indicators</string>
-    <string name="rcs_typing_summary">See when others are typing,
-    and let them see when you are</string>
+    <string name="rcs_typing_summary">See when others are typing, and let them see when you are</string>
 
     <!-- Entry that opens the provider's diagnostic dump. -->
     <string name="rcs_advanced_status_title">Advanced status</string>
-    <string name="rcs_advanced_status_summary">Provisioning, token,
-    and registration diagnostics</string>
+    <string name="rcs_advanced_status_summary">Provisioning, token, and registration diagnostics</string>
 
     <!-- Section header for the live RCS connection status. -->
     <string name="rcs_settings_status_category">Status</string>
@@ -150,8 +147,7 @@
     <string name="rcs_typing_generic">Typing&#8230;</string>
 
     <!-- Group typing row, two members. %1$s and %2$s are their names. -->
-    <string name="rcs_group_typing_two"><xliff:g id="name1" example="Alex">%1$s</xliff:g>,
-            <xliff:g id="name2" example="Sam">%2$s</xliff:g> are typing&#8230;</string>
+    <string name="rcs_group_typing_two"><xliff:g id="name1" example="Alex">%1$s</xliff:g>, <xliff:g id="name2" example="Sam">%2$s</xliff:g> are typing&#8230;</string>
     <!-- Group typing row, three or more members. %1$s and %2$s are the first two names; %3$d
          is the number of others. -->
     <string name="rcs_group_typing_many"><xliff:g id="name1" example="Alex">%1$s</xliff:g>, <xliff:g id="name2" example="Sam">%2$s</xliff:g> +<xliff:g id="extra" example="2">%3$d</xliff:g> are typing&#8230;</string>
@@ -225,6 +221,14 @@
     <string name="rcs_group_action_add_people">Add people</string>
     <!-- Per-member long-press action: remove that member from the group. -->
     <string name="rcs_group_action_remove_member">Remove from group</string>
+    <!-- Row: pick an image to use as the group's icon. -->
+    <string name="rcs_group_action_change_icon">Change group photo</string>
+    <!-- Toast when the picked image could not be read or was not an image. -->
+    <string name="rcs_group_icon_read_failed">Couldn\'t read that image</string>
+    <!-- Toast when the group photo change was refused. -->
+    <string name="rcs_group_icon_failed">Couldn\'t change the group photo</string>
+    <!-- Group event: actor changed the group photo. %1$s actor. -->
+    <string name="rcs_group_event_icon_changed_by"><xliff:g id="actor" example="Alex">%1$s</xliff:g> changed the group photo</string>
 
     <!-- Title of the rename-group dialog. -->
     <string name="rcs_group_rename_dialog_title">Rename group</string>

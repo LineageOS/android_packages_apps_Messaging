@@ -5,14 +5,14 @@
 
 //! Persistent MLS sessions over mls-rs (cipher suite 0x0002, RustCrypto, file storage) and the
 //! C ABI the JNI bridge calls. See docs/mls/rust-core.md.
-// Soong builds without cfg(test), where the test-only helpers and imports read as unused.
-#![cfg_attr(not(test), allow(dead_code, unused_imports))]
 
 mod storage;
 pub mod rcc16;
 pub mod ffi;
 pub mod treeless_welcome;
 pub mod rcc16_validate;
+pub mod rcc16_build;
+pub mod rcc16_mint;
 
 // The rest of this file is a minimal session the crate's own tests drive; none of it ships.
 #[cfg(test)]
@@ -95,7 +95,8 @@ impl RcsMlsSession {
     }
     pub fn encrypt(&self, gid: &[u8], pt: &[u8]) -> Result<Vec<u8>, String> {
         let mut g = self.client.load_group(gid).map_err(|e| format!("load: {e:?}"))?;
-        let ct = g.encrypt_application_message(pt, Default::default()).map_err(|e| format!("enc: {e:?}"))?;
+        let ct = g.encrypt_application_message(pt, Default::default())
+            .map_err(|e| format!("enc: {e:?}"))?;
         g.write_to_storage().map_err(|e| format!("store: {e:?}"))?;
         ct.to_bytes().map_err(|e| format!("ct_bytes: {e:?}"))
     }
@@ -153,7 +154,8 @@ pub fn restart_survival() -> Result<(), String> {
         let (ga, welcome) = alice.create_group(&bob_kp)?;
         gid_a = ga;
         gid_b = bob.join(&welcome)?;
-    }    let ct = alice.encrypt(&gid_a, b"survives the restart")?;
+    }
+    let ct = alice.encrypt(&gid_a, b"survives the restart")?;
     // A new session with the same identity and storage directory, loaded from disk.
     let bob2 = RcsMlsSession::open(b"bob", b_sec, b_pub, &b_dir);
     let got = bob2.process(&gid_b, &ct)?;

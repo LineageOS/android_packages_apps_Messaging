@@ -140,7 +140,7 @@ public final class CarrierMsrpSessionReceiver {
         Transport.Listener l = listener;
         if (l == null) return;
         String fromUri = finalChunk.getFromPath();
-        // Bytes, not a String: the CPIM body may wrap a binary inner type.
+        // Bytes, not a String: the CPIM body may wrap a binary inner type such as message/mls.
         l.onIncomingBytes(fromUri, body, messageId);
     }
 

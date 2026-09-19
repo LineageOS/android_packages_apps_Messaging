@@ -121,7 +121,8 @@ public class ReceiveRcsGroupEventAction extends Action implements Parcelable {
 
         // The only writer of rcs_self_left. The participants table cannot answer membership:
         // removing self is a no-op there. The clear is wider than the set, because hiding Leave
-        // from a member is worse than offering it to a non-member.
+        // from a member is worse than offering it to a non-member. A successful MLS leave is
+        // tracked separately, in MlsProviderTransport.haveWeLeft.
         if (op == IRcsProviderCallback.GROUP_OP_KICK_USERS && listIncludesSelf(subId, affected)) {
             BugleDatabaseOperations.setConversationSelfLeft(db, conversationId, true);
             LogUtil.i(TAG, "ReceiveRcsGroupEventAction: WE are out of group " + groupId + " ("
@@ -222,7 +223,7 @@ public class ReceiveRcsGroupEventAction extends Action implements Parcelable {
                     return context.getString(R.string.rcs_group_event_removed_generic, actor);
                 }
                 // requester == affected means the member left. Tested before the "removed you" arm,
-                // which is also true when we are the leaver (our own leave arrives here with
+                // which is also true when we are the leaver (an MLS self_remove arrives here with
                 // requester == affected == self).
                 if (samePhone(subId, requester, firstAffected)) {
                     return context.getString(R.string.rcs_group_event_left, actor);

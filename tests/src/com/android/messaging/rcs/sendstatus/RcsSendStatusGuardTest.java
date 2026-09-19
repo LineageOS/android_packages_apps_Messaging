@@ -34,6 +34,28 @@ public class RcsSendStatusGuardTest {
             "src/com/android/messaging/datamodel/action/SendRcsLocationAction.java";
 
     /**
+     * The app-sealed send writes the outcome it got back, in both columns, so the row matches one a
+     * status callback would have written.
+     */
+    @Test
+    public void appOwnedSendRecordsItsMeasuredOutcome() throws IOException {
+        final String body = SourceScan.bodyOf(
+                SourceScan.codeOnly(SourceScan.read(INSERT)), "tryInsertSendingRcsMessage");
+        assertTrue("tryInsertSendingRcsMessage not found in " + INSERT
+                + " — this guard has gone stale, not green", body.length() > 500);
+        assertTrue("the app-owned arm must still be the one measuring the outcome",
+                SourceScan.count(body, "sendAppOwned(") >= 1);
+        assertEquals(
+                        "tryInsertSendingRcsMessage must stamp the observed handoff's message_status via "
+                        + "RcsSendStatus.bugleStatusForMeasuredHandoff; without it the row goes in "
+                        + "at OUTGOING_YET_TO_SEND and reads \"Sending…\" forever",
+                1, SourceScan.count(body, "bugleStatusForMeasuredHandoff("));
+        assertEquals("tryInsertSendingRcsMessage must stamp the observed handoff's rcs_status via "
+                        + "RcsSendStatus.rcsStatusForMeasuredHandoff",
+                1, SourceScan.count(body, "rcsStatusForMeasuredHandoff("));
+    }
+
+    /**
      * Every writer of an outgoing RCS row records its outcome unless the provider reports that
      * verb's status by callback; otherwise the row stays at {@code OUTGOING_YET_TO_SEND}, which
      * nothing moves. The callback-fed sites are an explicit list so a new writer fails until
@@ -43,12 +65,12 @@ public class RcsSendStatusGuardTest {
     public void everyOutgoingRcsRowWriterRecordsOrIsFedByACallback() throws IOException {
         // File sends: the provider reports their status through onMessageStatus.
         final List<String> sinkFed = java.util.Arrays.asList(
-                "tryInsertSendingRcsMessage", "tryInsertSendingRcsFile",
-                "tryInsertSendingRcsGroupMessage", "tryInsertSendingRcsGroupFile");
+                "tryInsertSendingRcsFile", "tryInsertSendingRcsGroupFile");
 
         final String insert = SourceScan.codeOnly(SourceScan.read(INSERT));
         final String location = SourceScan.codeOnly(SourceScan.read(LOCATION));
 
+        // Refusal writers pass a null id and mark the row failed, so they are not listed.
         final String[][] writers = {
             {INSERT, "tryInsertSendingRcsMessage"},
             {INSERT, "tryInsertSendingRcsFile"},
@@ -107,7 +129,7 @@ public class RcsSendStatusGuardTest {
     }
 
     /**
-     * An RCS row branches away before the {@code OUTGOING_YET_TO_SEND} write, and that
+     * An RCS row branches to the RCS resend before the {@code OUTGOING_YET_TO_SEND} write, and that
      * branch neither writes the status nor uses the SMS queue.
      */
     @Test
@@ -120,9 +142,12 @@ public class RcsSendStatusGuardTest {
                         + "queue below excludes TRANSPORT_RCS, so an RCS row that reaches it is "
                         + "parked at \"Sending…\" and never sent",
                 1, reads.size());
-        final List<Integer> branch = SourceScan.indicesOf(body, "return null;");
-        assertTrue("the RCS arm must return before the SMS path, not fall into it",
-                !branch.isEmpty());
+        final List<Integer> branch = SourceScan.indicesOf(body, "resendOverRcs(");
+        assertEquals("the RCS arm must hand off to the over-RCS resend. If it was "
+                        + "renamed, re-derive this guard; if it was REMOVED, a failed RCS row is "
+                        + "back to having a plaintext SMS as its only recovery on a conversation "
+                        + "the app called encrypted.",
+                1, branch.size());
         final List<Integer> writes =
                 SourceScan.indicesOf(body, "BUGLE_STATUS_OUTGOING_YET_TO_SEND");
         assertEquals("the YET_TO_SEND write should still be here exactly once (SMS/MMS keep it)",
@@ -133,6 +158,28 @@ public class RcsSendStatusGuardTest {
         assertTrue("the RCS branch must be taken BEFORE the YET_TO_SEND write too",
                 branch.get(0).intValue() < writes.get(0).intValue());
 
+        // The RCS branch itself must not strand the row.
+        final String rcsArm = SourceScan.bodyOf(src, "resendOverRcs");
+        assertTrue("resendOverRcs not found in " + RESEND, rcsArm.length() > 200);
+        assertEquals("the over-RCS resend must NEVER write BUGLE_STATUS_OUTGOING_YET_TO_SEND. That "
+                        + "status is terminal by neglect on a TRANSPORT_RCS row — nothing moves it "
+                        + "— so writing it here would restore the exact \"Sending…\" forever trip "
+                        + "that was removed, through the control offered to escape it.",
+                0, SourceScan.count(rcsArm, "BUGLE_STATUS_OUTGOING_YET_TO_SEND"));
+        assertEquals("the over-RCS resend must NEVER hand the row to ProcessPendingMessagesAction. "
+                        + "That queue excludes TRANSPORT_RCS by name, so it cannot send this row "
+                        + "and scheduling it only looks like progress.",
+                0, SourceScan.count(rcsArm, "ProcessPendingMessagesAction"));
+        assertEquals("the over-RCS resend must reach MlsProviderTransport.resendByUser — the SAME "
+                        + "machinery a peer-reported resend uses. A second implementation of "
+                        + "\"resend this message\" is a maintenance cost and an interop risk, and "
+                        + "it would have to re-derive invariant 62 and the §10.3 ledger.",
+                1, SourceScan.count(rcsArm, "resendByUser("));
+        assertTrue("the over-RCS resend must record its observed outcome: the send is synchronous, "
+                        + "so reaching the row write IS the measurement and there is no callback "
+                        + "coming to fix it up later",
+                SourceScan.count(rcsArm, "bugleStatusForMeasuredHandoff(") >= 1
+                        && SourceScan.count(rcsArm, "rcsStatusForMeasuredHandoff(") >= 1);
     }
 
     /**
@@ -162,28 +209,34 @@ public class RcsSendStatusGuardTest {
     }
 
     /**
-     * RCS rows are never resent over RCS: ResendMessageAction refuses them, so offering the tap
-     * or the "Send" item would do nothing. "Send as SMS" is their resend.
+     * One-click resend is offered only on rows the RCS resend can handle: RCS, encrypted (the
+     * resend seals and has no plaintext arm) and carrying a wire id (it resolves the body from it).
      */
     @Test
-    public void rcsRowsAreNotOfferedAnRcsResend() throws IOException {
+    public void oneClickResendIsWithheldFromRcsRowsThatCannotBeResent() throws IOException {
         final String src = SourceScan.codeOnly(SourceScan.read(
                 "src/com/android/messaging/datamodel/data/ConversationMessageData.java"));
         final String body = SourceScan.bodyOf(src, "getOneClickResendMessage");
         assertTrue("getOneClickResendMessage not found", body.length() > 20);
-        assertEquals("a tap must be withheld from RCS rows: ResendMessageAction refuses them",
-                1, SourceScan.count(body, "!getIsRcs()"));
+        assertEquals("a tap must still be gated on whether this RCS row can actually be resent — "
+                        + "an ungated tap fires ResendMessageAction on rows whose over-RCS resend "
+                        + "will fail, which looks like it did something and did not",
+                1, SourceScan.count(body, "canResendOverRcs()"));
 
-        final String menu = SourceScan.codeOnly(SourceScan.read(
-                "src/com/android/messaging/ui/conversation/ConversationFragment.java"));
-        final int send = menu.indexOf("R.id.action_send)");
-        assertTrue("the Send menu item was not found", send >= 0);
-        final String gate = menu.substring(send, menu.indexOf(';', send));
-        assertEquals("the Send item must be withheld from RCS rows for the same reason",
-                1, SourceScan.count(gate, "!data.getIsRcs()"));
-
-        final String resend = SourceScan.codeOnly(SourceScan.read(RESEND));
-        assertTrue("ResendMessageAction must still refuse RCS rows, or this rule is stale",
-                SourceScan.count(SourceScan.bodyOf(resend, "executeAction"), "isRcs()") >= 1);
+        final String cap = SourceScan.bodyOf(src, "canResendOverRcs");
+        assertTrue("canResendOverRcs not found — the gate above now points at nothing, and a "
+                        + "predicate that cannot be located is not one that gates",
+                cap.length() > 20);
+        assertEquals("the capability must require E2EE: MlsProviderTransport.resendByUser seals "
+                        + "and has no plaintext arm, so a non-encrypted RCS row finds no MLS group "
+                        + "and returns false every time",
+                1, SourceScan.count(cap, "isE2eeEncrypted()"));
+        assertEquals(
+                "the capability must require RCS transport — the SMS path owns everything else",
+                1, SourceScan.count(cap, "getIsRcs()"));
+        assertTrue("the capability must require a wire id: the resend root-resolves it to recover "
+                        + "the body, and the REFUSED rows are landed FAILED with a "
+                        + "null rcs_message_id on purpose — they never reached the wire",
+                SourceScan.count(cap, "mRcsMessageId") >= 1);
     }
 }

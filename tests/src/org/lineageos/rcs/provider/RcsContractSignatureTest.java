@@ -34,10 +34,10 @@ public class RcsContractSignatureTest {
      * The callback layout digest before and after onMessageStatus gained e2eeSchemeId, and four
      * callbacks gained confirmId.
      */
-    private static final String CALLBACK_DIGEST = "de622dee3dfe";
+    private static final String CALLBACK_DIGEST = "f0f650b242f3";
 
     /** The provider layout digest, unchanged by the CONTRACT_CONFIRMS_STORED constant. */
-    private static final String PROVIDER_DIGEST = "0b2f44172c3f";
+    private static final String PROVIDER_DIGEST = "2c276073493a";
 
     /** The callbacks that gained a trailing confirmId, with their parameter count after it. */
     private static final String[][] CONFIRM_ID_CALLBACKS = {
@@ -79,6 +79,12 @@ public class RcsContractSignatureTest {
         assertTrue("the revision constant is declared",
                 src.replaceAll("\\s+", " ").contains("const int CONTRACT_CONFIRMS_STORED = 3;"));
         assertEquals(PROVIDER_DIGEST, RcsContractLayout.digest(methodNames(src)));
+    }
+
+    @Test
+    public void providerOrdinal64_isGetMlsTrustAnchors() throws IOException {
+        final String[] names = methodNames(aidl("IRcsProvider.aidl"));
+        assertEquals("getMlsTrustAnchors", names[64 - RcsContractLayout.FIRST_ORDINAL]);
     }
 
     @Test

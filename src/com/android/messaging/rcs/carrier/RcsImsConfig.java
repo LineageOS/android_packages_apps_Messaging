@@ -34,6 +34,17 @@ public final class RcsImsConfig {
     public final String ftCsUser;              // ftHTTPCSUser
     public final String ftCsPassword;          // ftHTTPCSPwd
     public final long ftMaxSizeBytes;          // MaxSizeFileTr; 0 when unset
+    /**
+     * Base64 {@code SignedEncryptionIdentityProof} (RCC.16 §7.12.1), passed on unchanged; empty if
+     * absent.
+     */
+    public final String acsEncryptionIdentityProof;
+    /** Empty if the document did not name one. */
+    public final String kdsUri;
+    /** The generation-addressed signed trust-anchor list and its signer. */
+    public final String trustAnchorsUri;
+    public final long trustAnchorsGeneration;
+    public final String trustAnchorsSigner;
     public final String psMediaTransport;     // "MSRPoTLS" or "MSRPoTCP"
     public final String wifiMediaTransport;
     public final String phoneContext;
@@ -65,6 +76,12 @@ public final class RcsImsConfig {
         this.ftCsUser = b.ftCsUser;
         this.ftCsPassword = b.ftCsPassword;
         this.ftMaxSizeBytes = b.ftMaxSizeBytes;
+        this.acsEncryptionIdentityProof = b.acsEncryptionIdentityProof == null
+                ? "" : b.acsEncryptionIdentityProof;
+        this.kdsUri = b.kdsUri == null ? "" : b.kdsUri;
+        this.trustAnchorsUri = b.trustAnchorsUri == null ? "" : b.trustAnchorsUri;
+        this.trustAnchorsGeneration = b.trustAnchorsGeneration;
+        this.trustAnchorsSigner = b.trustAnchorsSigner == null ? "" : b.trustAnchorsSigner;
         this.psMediaTransport = b.psMediaTransport;
         this.wifiMediaTransport = b.wifiMediaTransport;
         this.phoneContext = b.phoneContext;
@@ -129,6 +146,11 @@ public final class RcsImsConfig {
         public String ftCsUser;
         public String ftCsPassword;
         public long ftMaxSizeBytes;
+        public String acsEncryptionIdentityProof;
+        public String kdsUri;
+        public String trustAnchorsUri;
+        public long trustAnchorsGeneration;
+        public String trustAnchorsSigner;
         public String psMediaTransport = "MSRPoTLS";
         public String wifiMediaTransport = "MSRPoTLS";
         public String phoneContext;

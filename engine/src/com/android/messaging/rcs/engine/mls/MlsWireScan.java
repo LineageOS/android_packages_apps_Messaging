@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.android.messaging.rcs.engine.mls;
+
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.ServerPack;
 /**
  * RFC 9420 framing reads over raw bytes: locating a bare {@code MLSMessage} inside a larger blob,
  * and reading its wire format, epoch, sender type and content type without decrypting.
@@ -90,7 +92,8 @@ public final class MlsWireScan {
      */
     public static long epochOf(final byte[] b) {
         final int wf = wireFormatOf(b);
-        if (wf != 1 && wf != 2) return -1;        final int i = afterGroupId(b);
+        if (wf != 1 && wf != 2) return -1;
+        final int i = afterGroupId(b);
         if (i < 0 || i + 8 > b.length) return -1;
         long epoch = 0;
         for (int k = 0; k < 8; k++) {
@@ -261,5 +264,31 @@ public final class MlsWireScan {
             }
         }
         return null;
+    }
+
+    /** The {@code index}-th {@code [u32 BE len][bytes]} record of a packed blob, or null. */
+    public static byte[] firstPacked(final byte[] packed, final int index) {
+        if (packed == null) return null;
+        int off = 0;
+        for (int i = 0; off + 4 <= packed.length; i++) {
+            final int n = ((packed[off] & 0xFF) << 24) | ((packed[off + 1] & 0xFF) << 16)
+                    | ((packed[off + 2] & 0xFF) << 8) | (packed[off + 3] & 0xFF);
+            off += 4;
+            if (n < 0 || off + n > packed.length) return null;
+            if (i == index) return java.util.Arrays.copyOfRange(packed, off, off + n);
+            off += n;
+        }
+        return null;
+    }
+
+    /**
+     * Whether the pack's slot 0 (the server GroupInfo) is present to carry into a re-establish.
+     * {@link MlsConversationRebuild#rebuildConversation} refuses on it before destroying anything
+     * and extracts the carry the same way afterwards, so both must use this predicate.
+     */
+    public static boolean hasCarry(final ServerPack pack) {
+        if (pack == null) return false;
+        final byte[] gi = MlsWireScan.firstPacked(pack.bytes(), 0);
+        return gi != null && gi.length > 0;
     }
 }

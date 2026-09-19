@@ -174,8 +174,10 @@ impl X509CredentialValidator for Rcc16Validator {
     }
 }
 
-struct Tlv<'a> { tag: u8, full: &'a [u8], val: &'a [u8] }
-fn read_tlv<'a>(b: &'a [u8], pos: &mut usize) -> Option<Tlv<'a>> {
+// ---- minimal DER TLV reader ----
+pub(crate) struct Tlv<'a> { pub(crate) tag: u8, pub(crate) full: &'a [u8],
+    pub(crate) val: &'a [u8] }
+pub(crate) fn read_tlv<'a>(b: &'a [u8], pos: &mut usize) -> Option<Tlv<'a>> {
     let s = *pos;
     if s + 2 > b.len() { return None; }
     let tag = b[s]; let mut i = s + 1;
@@ -189,17 +191,17 @@ fn read_tlv<'a>(b: &'a [u8], pos: &mut usize) -> Option<Tlv<'a>> {
     *pos = i + len;
     Some(Tlv { tag, full, val })
 }
-fn der_len(l: usize) -> Vec<u8> {
+pub(crate) fn der_len(l: usize) -> Vec<u8> {
     if l < 0x80 { vec![l as u8] } else {
         let b = (l as u64).to_be_bytes(); let b = &b[b.iter().position(|&x| x != 0).unwrap()..];
         let mut o = vec![0x80 | b.len() as u8]; o.extend_from_slice(b); o
     }
 }
-fn der_seq(parts: &[&[u8]]) -> Vec<u8> {
+pub(crate) fn der_seq(parts: &[&[u8]]) -> Vec<u8> {
     let body: Vec<u8> = parts.concat();
     let mut o = vec![0x30]; o.extend_from_slice(&der_len(body.len())); o.extend_from_slice(&body); o
 }
-fn der_int(n: u64) -> Vec<u8> {
+pub(crate) fn der_int(n: u64) -> Vec<u8> {
     let b = n.to_be_bytes(); let mut b = &b[b.iter().position(|&x| x != 0).unwrap_or(7)..];
     let mut body = Vec::new();
     if b[0] & 0x80 != 0 { body.push(0); }
@@ -277,7 +279,8 @@ fn validate_leaf_rcc16(leaf_der: &[u8], ts: Option<MlsTime>, strict: bool, pop_s
         .ok_or_else(|| Rcc16Error(
             "A.4.1: no trusted time source for the >=30-day remaining-lifetime floor (fail-closed)".into()))?;
     if strict && na.saturating_sub(now) < MIN_REMAINING_S {
-        return Err(Rcc16Error(format!("A.4.1: only {} d remaining < 30 d", na.saturating_sub(now) / 86400)));
+        return Err(Rcc16Error(
+            format!("A.4.1: only {} d remaining < 30 d", na.saturating_sub(now) / 86400)));
     }
     // Without `strict` the certificate must still be unexpired.
     if !strict && now >= na {
@@ -285,7 +288,8 @@ fn validate_leaf_rcc16(leaf_der: &[u8], ts: Option<MlsTime>, strict: bool, pop_s
             "leaf expired {} d ago", now.saturating_sub(na) / 86400)));
     }
     // .4 ParticipantInformation must be present and critical.
-    let p4 = p4_val.ok_or_else(|| Rcc16Error("A.3.8.9: missing critical ParticipantInformation ext .4".into()))?;
+    let p4 = p4_val.ok_or_else(
+        || Rcc16Error("A.3.8.9: missing critical ParticipantInformation ext .4".into()))?;
     if !p4_critical {
         return Err(Rcc16Error("A.3.8.9: ParticipantInformation ext .4 must be CRITICAL".into()));
     }
@@ -571,7 +575,8 @@ fn validate_ca_rcc16(ca_der: &[u8]) -> Result<(), Rcc16Error> {
         return Err(Rcc16Error("A.2.8.5: BasicConstraints must be CRITICAL".into()));
     }
     if !basic_constraints_is_ca(bc_val) {
-        return Err(Rcc16Error("A.2.8.5: cA is not TRUE — not permitted to issue certificates".into()));
+        return Err(
+            Rcc16Error("A.2.8.5: cA is not TRUE — not permitted to issue certificates".into()));
     }
 
     // A.2.8.3: KeyUsage present, critical, keyCertSign set, nothing beyond keyCertSign/cRLSign.
@@ -585,7 +590,8 @@ fn validate_ca_rcc16(ca_der: &[u8]) -> Result<(), Rcc16Error> {
     const KEY_CERT_SIGN: u16 = 1 << (15 - 5);
     const CRL_SIGN: u16 = 1 << (15 - 6);
     if bits & KEY_CERT_SIGN == 0 {
-        return Err(Rcc16Error("A.2.8.3: keyCertSign not asserted — cannot sign certificates".into()));
+        return Err(
+            Rcc16Error("A.2.8.3: keyCertSign not asserted — cannot sign certificates".into()));
     }
     if bits & !(KEY_CERT_SIGN | CRL_SIGN) != 0 {
         return Err(Rcc16Error(format!(
@@ -654,13 +660,18 @@ fn verify_participant_pop(p4: &[u8], tbs: &x509_cert::certificate::TbsCertificat
         -> Result<(), Rcc16Error> {
     // .4 = SEQ { vendorId, validity, SEQ{oid}, sig bit string, SPKI }
     let mut pos = 0;
-    let seq = read_tlv(p4, &mut pos).filter(|t| t.tag == 0x30).ok_or_else(|| Rcc16Error(".4 not a SEQUENCE".into()))?;
+    let seq = read_tlv(p4, &mut pos).filter(|t| t.tag == 0x30)
+        .ok_or_else(|| Rcc16Error(".4 not a SEQUENCE".into()))?;
     let mut ip = 0; let inner = seq.val;
-    let serial = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x02).ok_or_else(|| Rcc16Error(".4[0] serial".into()))?;
-    let validity = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x30).ok_or_else(|| Rcc16Error(".4[1] validity".into()))?;
+    let serial = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x02)
+        .ok_or_else(|| Rcc16Error(".4[0] serial".into()))?;
+    let validity = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x30)
+        .ok_or_else(|| Rcc16Error(".4[1] validity".into()))?;
     let sigalg = read_tlv(inner, &mut ip).ok_or_else(|| Rcc16Error(".4[2] sigalg".into()))?;
-    let sigbits = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x03).ok_or_else(|| Rcc16Error(".4[3] sig".into()))?;
-    let spki = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x30).ok_or_else(|| Rcc16Error(".4[4] spki".into()))?;
+    let sigbits = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x03)
+        .ok_or_else(|| Rcc16Error(".4[3] sig".into()))?;
+    let spki = read_tlv(inner, &mut ip).filter(|t| t.tag == 0x30)
+        .ok_or_else(|| Rcc16Error(".4[4] spki".into()))?;
 
     // Anything after element 5 (participantKeyRolls) is refused. The enforced copy of this check
     // is in validate_leaf_rcc16, outside the lenient gate; this one covers direct callers.
@@ -878,7 +889,7 @@ fn trusted_now_secs() -> Option<u64> {
         .ok()
         .map(|d| d.as_secs())
 }
-fn sec1_point_from_spki(spki_der: &[u8]) -> Option<Vec<u8>> {
+pub(crate) fn sec1_point_from_spki(spki_der: &[u8]) -> Option<Vec<u8>> {
     // SPKI = SEQ{ AlgId, key bit string }; returns the 65-byte SEC1 point.
     let mut p = 0; let seq = read_tlv(spki_der, &mut p)?; if seq.tag != 0x30 { return None; }
     let mut ip = 0; let _alg = read_tlv(seq.val, &mut ip)?; let bs = read_tlv(seq.val, &mut ip)?;

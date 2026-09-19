@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.android.messaging.rcs.engine.mls;
+
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.ConvState;
 /**
  * The bounded fixed point: re-drive until a pass's result says stop, or the cap does. It terminates
  * on what a pass returned, never on a predicate re-read from the world; a {@link Pass} is handed no
@@ -196,5 +198,152 @@ public final class MlsDriveLoop {
         return new Result(MlsHostAction.withStatus(MlsHostAction.Kind.NONE,
                 MlsResultStatus.FAIL_RETRY, MlsGroupSnapshot.NONE, reason),
                 0, false, java.util.Collections.<String>emptyList(), what, 0);
+    }
+
+    /** The re-entrancy marker for {@code key}; never null, and absent means {@code NORMAL}. */
+    public static MlsSchedulingType schedulingFor(final MlsShellPort shell, final String key) {
+        final ConvState s = shell.convIfAny(key);
+        if (s == null) return MlsSchedulingType.NORMAL;
+        synchronized (s) {
+            return s.scheduling == null ? MlsSchedulingType.NORMAL : s.scheduling;
+        }
+    }
+
+    /**
+     * Stamp the marker. Must happen before the results of this work reach anything that could
+     * schedule more.
+     */
+    public static void stampScheduling(final MlsShellPort shell, final String key,
+            final MlsSchedulingType type) {
+        if (key == null) return;
+        // NORMAL clears rather than stores, so "no state" and "stamped NORMAL" stay one thing.
+        if (type == null || type == MlsSchedulingType.NORMAL) {
+            final ConvState s = shell.convIfAny(key);
+            if (s != null) synchronized (s) { s.scheduling = null; }
+            return;
+        }
+        final ConvState s = shell.conv(key);
+        synchronized (s) { s.scheduling = type; }
+    }
+
+    /**
+     * Whether this conversation may schedule follow-up work right now. Declines rather than
+     * throwing; {@link MlsSchedulingType#requireTransportAllowed} is the guard that throws.
+     */
+    public static boolean maySchedule(final MlsShellPort shell, final MlsLogSink log,
+            final String key, final String what) {
+        final MlsSchedulingType t = MlsDriveLoop.schedulingFor(shell, key);
+        if (t.allowsScheduling()) return true;
+        log.i("MlsDriveLoop: not scheduling " + what + " for " + MlsConversationKey.forLog(key)
+                + " because it is already part of a " + t + " flow");
+        return false;
+    }
+
+    /**
+     * Records a provider verdict for {@code key}, as {@code MlsCommitSend} does for a commit, so
+     * {@link #livePass} can tell a pass that failed on connectivity from one that failed on the
+     * merits. Called after each create RPC a rebuild or era advance makes.
+     */
+    public static void noteControlVerdict(final MlsShellPort shell, final String key,
+            final MlsProviderRpc.ControlResult r) {
+        if (key == null) return;
+        final ConvState cs = shell.conv(key);
+        synchronized (cs) {
+            cs.lastControlVerdict = (r == null)
+                    ? MlsProviderRpc.ControlResult.VERDICT_TRANSPORT_FAILED : r.verdict;
+            cs.lastControlDetail = (r == null) ? null : r.detail;
+        }
+    }
+
+    /**
+     * Runs one drive pass with the conversation's last control verdict cleared first. A pass that
+     * ends {@code FAIL_RETRY} after a provider call reported lost connectivity throws
+     * {@link MlsTransportDisposition.ConnectivityLost}, which the drive's caller turns into
+     * {@link #abandoned}; any other outcome is returned unchanged.
+     *
+     * @param where the call site, for {@link MlsTransportDisposition#requireLive}
+     */
+    static MlsHostAction livePass(final MlsShellPort shell, final String key, final String where,
+            final java.util.function.Supplier<MlsHostAction> pass) {
+        final ConvState cs = key == null ? null : shell.conv(key);
+        if (cs != null) {
+            synchronized (cs) {
+                cs.lastControlVerdict = -1;
+                cs.lastControlDetail = null;
+            }
+        }
+        final MlsHostAction a = pass.get();
+        if (cs != null && a != null && a.status == MlsResultStatus.FAIL_RETRY) {
+            final int verdict;
+            synchronized (cs) { verdict = cs.lastControlVerdict; }
+            MlsTransportDisposition.requireLive(where, verdict);
+        }
+        return a;
+    }
+
+    public static MlsDriveLoop.Result driveReconcileInner(final MlsShellPort shell,
+            final MlsLogSink log, final String key, final String rcsGroupId,
+            final String peerE164) {
+        final String what = "reconcile:" + key;
+        // The fetch budget lives at the call site: the loop bounds iterations and cannot see a
+        // fetch. Every pass costs at least one server look-up (reconcileAction starts with
+        // detectHealth).
+        final int[] looks = new int[1];
+        final MlsDriveLoop.Result drive = shell.driveLoop().drive(what, previous -> {
+            if (MlsFetchBudget.mayLook(looks[0], MlsFetchBudget.RECOVERY_LOOKS)
+                    != MlsFetchBudget.Verdict.SPEND) {
+                final String why = MlsFetchBudget.describeDenial(
+                        looks[0], MlsFetchBudget.RECOVERY_LOOKS, what);
+                log.w("MlsDriveLoop: " + why);
+                // FAIL_RETRY: running out of our own allowance says nothing about repairability.
+                return MlsHostAction.withRedrive(MlsHostAction.Kind.NONE,
+                        MlsResultStatus.FAIL_RETRY, MlsGroupSnapshot.NONE,
+                        MlsHostAction.Redrive.NOT_IN_THIS_DRIVE, why);
+            }
+            final int spentBefore = looks[0];
+            looks[0]++;
+            final MlsHostAction a = MlsDriveLoop.livePass(shell, key, "reconcile pass",
+                    () -> MlsConversationRebuild.reconcileAction(shell, log, rcsGroupId,
+                            peerE164));
+            // The look count spent just before an unreadable look exists only here, and decides how
+            // to read it.
+            if (a.redrive == MlsHostAction.Redrive.AFTER_A_COOLDOWN) {
+                log.w("MlsDriveLoop: " + MlsFetchBudget.describeUnreadableLook(
+                        spentBefore, what));
+            }
+            return a;
+        });
+        // The no-progress stop is a fault and logs at the cap's severity; the declared-inert stop
+        // does not.
+        if (drive.cappedOut || drive.stoppedWithoutProgress) {
+            log.e(drive.logLine());
+        } else {
+            log.i(drive.logLine());
+        }
+        log.i("MlsDriveLoop: " + MlsFetchBudget.describeSpend(
+                looks[0], MlsFetchBudget.RECOVERY_LOOKS, what));
+        return drive;
+    }
+
+    /**
+     * Run {@link MlsConversationRebuild#reconcileAction} through the drive loop. Public so a debug
+     * trigger exercises the real path. Does not claim the pending operation or record forward
+     * progress; those belong to the caller.
+     */
+    public static MlsDriveLoop.Result driveReconcile(final MlsShellPort shell, final MlsLogSink log,
+            final String rcsGroupId, final String peerE164) {
+        final String key = MlsConversationKey.canonicalKey(rcsGroupId, peerE164);
+        final MlsDriveLoop.Result drive;
+        try {
+            drive = MlsDriveLoop.driveReconcileInner(shell, log, key, rcsGroupId, peerE164);
+        } catch (final MlsTransportDisposition.ConnectivityLost lost) {
+            // Call site 1 of 2: keep this wording distinct from site 2's.
+            log.w("MlsDriveLoop: connectivity lost during RECONCILE for "
+                    + MlsConversationKey.forLog(key)
+                    + ", requesting backoff — " + lost.getMessage());
+            return MlsDriveLoop.abandoned("reconcile:" + key,
+                    "connectivity lost mid-reconcile (verdict " + lost.verdict + ")");
+        }
+        return drive;
     }
 }

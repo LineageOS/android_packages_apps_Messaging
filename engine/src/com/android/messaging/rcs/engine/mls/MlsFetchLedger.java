@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.android.messaging.rcs.engine.mls;
+
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.ServerLook;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Look;
 /**
  * The per-conversation ledger for server group-info reads, charged at the primitive across every
  * caller, with a ration per caller and a shared ceiling. {@link MlsFetchBudget} bounds one drive;
@@ -299,5 +302,204 @@ public final class MlsFetchLedger {
 
     private static String safe(final String s) {
         return (s == null || s.isEmpty()) ? "<no conversation key>" : MlsConversationKey.forLog(s);
+    }
+
+    /** Where one conversation's ledger lives. Keyed by the canonical conversation key. */
+    public static String ledgerPrefKey(final String key) {
+        return "mls_fetch_ledger_" + (key == null ? "<none>" : key);
+    }
+
+    /**
+     * Read this conversation's ledger, or {@code null} for a store or record that cannot be read,
+     * which {@link #spendOneLook} treats as the ceiling spent: a parse failure is not evidence that
+     * nothing was spent. It refuses once and then discards the record ({@link #discardUnreadable}).
+     */
+    public static MlsFetchLedgerRecord ledgerFor(final MlsShellPort shell, final MlsLogSink log,
+            final String key) {
+        final String raw;
+        try {
+            raw = shell.prefs()
+                    .getString(MlsFetchLedger.ledgerPrefKey(key), null);
+        } catch (final Throwable t) {
+            log.w("MlsFetchLedger: could not READ the fetch ledger for "
+                    + MlsConversationKey.forLog(key)
+                    + " — treating the conversation as having spent its shared allowance, which is "
+                    + "the strict direction. A store we cannot read is not evidence that we have "
+                    + "spent nothing.", t);
+            return null;
+        }
+        final MlsFetchLedgerRecord r = MlsFetchLedgerRecord.decode(raw);
+        if (r == null) {
+            log.w("MlsFetchLedger: the fetch ledger for " + MlsConversationKey.forLog(key)
+                    + " is STORED and "
+                    + "UNREADABLE (" + (raw == null ? 0 : raw.length()) + " chars). Treating the "
+                    + "conversation as having spent its shared allowance rather than as unspent — "
+                    + "an unreadable record read as 'no charges' hands back a full allowance on the "
+                    + "strength of a parse failure.");
+        }
+        return r;
+    }
+
+    /**
+     * Removes a stored record that does not parse, after it has refused one look: reading it as
+     * empty would hand back a full allowance on a parse failure, and leaving it would refuse every
+     * later look, since nothing else rewrites it. Re-reads first, so a record another caller wrote
+     * since is kept; a store that cannot be read is left alone.
+     *
+     * @return whether the record was removed
+     */
+    static boolean discardUnreadable(final MlsShellPort shell, final MlsLogSink log,
+            final String key) {
+        try {
+            final MlsPrefs p = shell.prefs();
+            final String k = MlsFetchLedger.ledgerPrefKey(key);
+            final String raw = p.getString(k, null);
+            if (raw == null || MlsFetchLedgerRecord.decode(raw) != null) return false;
+            return p.edit().remove(k).commit();
+        } catch (final Throwable t) {
+            log.w("MlsFetchLedger: could not DISCARD the unreadable fetch ledger for "
+                    + MlsConversationKey.forLog(key), t);
+            return false;
+        }
+    }
+
+    /**
+     * Writes with {@code commit()}: the charge is on disk before the look it pays for, since the
+     * loop this ledger bounds can kill the process and a scheduled write dies with it.
+     */
+    public static void storeLedger(final MlsShellPort shell, final MlsLogSink log, final String key,
+            final MlsFetchLedgerRecord r) {
+        if (r == null) return;
+        try {
+            if (!shell.prefs().edit()
+                    .putString(MlsFetchLedger.ledgerPrefKey(key), r.encode()).commit()) {
+                log.w("MlsFetchLedger: commit() FAILED writing the fetch ledger for "
+                        + MlsConversationKey.forLog(key)
+                        + " — this charge may not survive a restart.");
+            }
+        } catch (final Throwable t) {
+            // An unwritable ledger bounds nothing on the next call; say so.
+            log.w("MlsFetchLedger: could not WRITE the fetch ledger for "
+                    + MlsConversationKey.forLog(key)
+                    + " — this charge will not be counted against the next caller.", t);
+        }
+    }
+
+    /**
+     * The shared ceiling in force: {@code debug.rcs.mls_fetch_ceiling}, or {@link #SHARED_CEILING}.
+     * Read live so an operator can move it without a restart.
+     */
+    public static int fetchLedgerCeiling(final MlsShellPort shell) {
+        return shell.sysprops().getInt(
+                "debug.rcs.mls_fetch_ceiling", MlsFetchLedger.SHARED_CEILING);
+    }
+
+    /**
+     * The charge point for every primitive: ask the ledger, then either charge and make the call,
+     * or return a refusal that cannot be mistaken for an answer. The charge is written before the
+     * call.
+     */
+    public static <T> Look<T> spendOneLook(final MlsShellPort shell, final MlsLogSink log,
+            final MlsFetchLedger.Caller caller,
+            final MlsFetchLedger.Primitive what, final String key, final ServerLook<T> doIt) {
+        final long now = shell.elapsedRealtime();
+        final int ceiling = MlsFetchLedger.fetchLedgerCeiling(shell);
+        final MlsFetchLedgerRecord before = MlsFetchLedger.ledgerFor(shell, log, key);
+        if (before == null) {
+            // Unreadable: refused, except an exempt debug arm, which a ledger cannot refuse.
+            if (caller != null && caller.isExempt()) {
+                log.i("MlsFetchLedger: " + MlsFetchLedger.describeExemption(
+                        caller, what, key, 0, ceiling));
+                return Look.asked(doIt.look());
+            }
+            // Refuse once, then discard, so a format skew costs one look rather than all of them.
+            final boolean discarded = MlsFetchLedger.discardUnreadable(shell, log, key);
+            final String why = "MLS fetch ledger REFUSED " + what + " for " + caller + " on "
+                    + MlsConversationKey.forLog(key)
+                    + ": the conversation's ledger is stored and UNREADABLE, and an unreadable "
+                    + "ledger is read as SPENT rather than as unspent. NOTHING WAS ASKED — this is "
+                    + "not the server having nothing to say. "
+                    + (discarded ? "The record is now DISCARDED, so the next look starts from an "
+                            + "empty ledger."
+                            : "The record could NOT be discarded, so later looks are refused too "
+                            + "until it is replaced.");
+            log.w("MlsFetchLedger: " + why);
+            return Look.refusedByLedger(why);
+        }
+        final int mine = before.spentBy(caller, now);
+        final int shared = before.spentAgainstCeiling(now);
+        final MlsFetchLedger.Verdict v =
+                MlsFetchLedger.mayFetch(caller, mine, shared, ceiling);
+        if (!v.permitted()) {
+            final String why = MlsFetchLedger.describeRefusal(
+                    caller, v, mine, shared, ceiling, key, what);
+            log.w("MlsFetchLedger: " + why);
+            return Look.refusedByLedger(why);
+        }
+        if (v == MlsFetchLedger.Verdict.SPEND_EXEMPT) {
+            log.i("MlsFetchLedger: " + MlsFetchLedger.describeExemption(
+                    caller, what, key, shared, ceiling));
+            return Look.asked(doIt.look());
+        }
+        final MlsFetchLedgerRecord after = before.charged(caller, now);
+        MlsFetchLedger.storeLedger(shell, log, key, after);
+        log.i("MlsFetchLedger: " + MlsFetchLedger.describeCharge(
+                caller, what, key, after.spentBy(caller, now), after.spentAgainstCeiling(now),
+                ceiling));
+        final T answer = doIt.look();
+        if (answer == null) {
+            // A throttle is provoked by the conversation, so classify by what every caller had
+            // spent.
+            log.w("MlsFetchLedger: " + MlsFetchLedger.describeUnreadableLook(
+                    caller, what, key, shared));
+        }
+        return Look.asked(answer);
+    }
+
+    // The charged wrappers: the only callers of the GetMlsGroupInfo-family port members. Each
+    // spends one look through spendOneLook and reaches the provider through shell.rpc. The ledger
+    // outlives the conversation: the server does not forget the reads we spent, and the rebuild
+    // that forgets a conversation reads again immediately.
+
+    /** {@code fetchMissedCommits}, charged. Anchored at our era and epoch authenticator. */
+    public static Look<byte[]> lookMissedCommits(final MlsShellPort shell, final MlsLogSink log,
+            final MlsFetchLedger.Caller caller, final String key, final String peerE164,
+            final String rcsGroupId, final int era, final byte[] auth) {
+        return MlsFetchLedger.spendOneLook(shell, log, caller,
+                MlsFetchLedger.Primitive.FETCH_MISSED_COMMITS, key,
+                () -> shell.rpc("fetchMissedCommits")
+                        .fetchMissedCommits(peerE164, rcsGroupId, era, auth));
+    }
+
+    /** {@code fetchServerEpochAuthenticator}, charged. */
+    public static Look<byte[]> lookServerEpochAuthenticator(final MlsShellPort shell,
+            final MlsLogSink log, final MlsFetchLedger.Caller caller, final String key,
+            final String peerE164, final String rcsGroupId) {
+        return MlsFetchLedger.spendOneLook(shell, log, caller,
+                MlsFetchLedger.Primitive.FETCH_SERVER_EPOCH_AUTHENTICATOR, key,
+                () -> shell.rpc("fetchServerEpochAuthenticator")
+                        .fetchServerEpochAuthenticator(peerE164, rcsGroupId));
+    }
+
+    /** {@code getMlsServerEraEpoch}, charged. */
+    public static Look<long[]> lookServerEraEpoch(final MlsShellPort shell, final MlsLogSink log,
+            final MlsFetchLedger.Caller caller, final String key, final String peerE164,
+            final String rcsGroupId) {
+        return MlsFetchLedger.spendOneLook(shell, log, caller,
+                MlsFetchLedger.Primitive.GET_MLS_SERVER_ERA_EPOCH, key,
+                () -> shell.rpc("getMlsServerEraEpoch")
+                        .getMlsServerEraEpoch(peerE164, rcsGroupId));
+    }
+
+    /**
+     * {@code getMlsGroupInfo}, charged: the 1:1 GroupInfo by peer, unanchored, read only by a debug
+     * arm.
+     */
+    public static Look<MlsProviderRpc.ControlResult> lookGroupInfo(final MlsShellPort shell,
+            final MlsLogSink log, final MlsFetchLedger.Caller caller, final String key,
+            final String peerE164) {
+        return MlsFetchLedger.spendOneLook(shell, log, caller,
+                MlsFetchLedger.Primitive.GET_MLS_GROUP_INFO, key,
+                () -> shell.rpc("getMlsGroupInfo").getMlsGroupInfo(peerE164));
     }
 }

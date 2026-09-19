@@ -50,7 +50,7 @@ public interface MlsSession extends Closeable {
     /**
      * RCC.16 §7.5.3.1: the message id the next process call is for, compared against the inbound
      * AAD. It stays armed until cleared; {@code null} clears it, which skips the check rather than
-     * failing it, and an empty id refuses an AAD that names one.
+     * failing it, and an empty id refuses an AAD that names one. See {@link MlsEngineIdCheck}.
      */
     default void setRequestMessageId(byte[] messageId) { }
 
@@ -214,6 +214,54 @@ public interface MlsSession extends Closeable {
      * {@link MlsMetrics#log2Bucket}.
      */
     default long takeStateWriteBytes() { return 0L; }
+
+    /**
+     * Every leaf's credential validity window, {@code leafIndex -> [notBefore, notAfter]} in epoch
+     * seconds (both 0 for a leaf whose credential will not parse), or {@code null} when unreadable.
+     */
+    default java.util.Map<Integer, long[]> memberValidity(byte[] groupId) { return null; }
+
+    /**
+     * Every leaf's participant key, by leaf index, or {@code null}. See {@link #memberValidity}.
+     */
+    default java.util.Map<Integer, MlsParticipantKeyResync.Leaf> memberParticipantKeys(
+            byte[] groupId) {
+        return null;
+    }
+
+    /**
+     * Our own leaf's status in a group, or {@code null} if un-evaluable. See
+     * {@link #memberValidity}.
+     */
+    default MlsSelfLeafStatus selfLeafStatus(byte[] groupId) { return null; }
+
+    /** The RFC 9420 KeyPackageRef of a serialised KeyPackage, or {@code null}. */
+    default byte[] keyPackageRef(byte[] keyPackage) { return null; }
+
+    /** The KeyPackageRefs a Welcome names; empty by default. See {@link #keyPackageRef}. */
+    default java.util.List<byte[]> welcomeKeyPackageRefs(byte[] welcome) {
+        return java.util.Collections.emptyList();
+    }
+
+    /**
+     * Every leaf of a serialised ratchet tree with its certificate window; empty means "could not
+     * parse".
+     */
+    default java.util.List<MlsTreeLeaf> treeMemberValidity(byte[] ratchetTree) {
+        return java.util.Collections.emptyList();
+    }
+
+    /**
+     * A GroupInfo's {@code {signerLeafIndex, epoch}}, or {@code null}. See {@link #memberValidity}.
+     */
+    default long[] groupInfoSigner(byte[] groupInfo) { return null; }
+
+    /**
+     * Join from a Welcome that carries no {@code ratchet_tree} extension, splicing the tree from
+     * the LeafNodes beside it in {@code blob}. Returns the group id, or {@code null}; the caller
+     * then falls back to {@link #join}.
+     */
+    default byte[] joinTreelessWelcome(byte[] welcome, byte[] blob) { return null; }
 
     /**
      * The {@code authenticated_data} of the last application message processed on this thread, so
