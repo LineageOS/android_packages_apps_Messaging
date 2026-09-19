@@ -1,0 +1,23 @@
+#
+# SPDX-FileCopyrightText: The LineageOS Project
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Cargo build output
+target/
+**/target/
+
+# Rust and native build products
+*.a
+*.rlib
+*.so
+*.d
+
+# Editor and OS noise
+*.swp
+*~
+.DS_Store
+
+# Python bytecode
+__pycache__/
+*.pyc
