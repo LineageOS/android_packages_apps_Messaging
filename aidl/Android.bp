@@ -1,0 +1,35 @@
+//
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+//
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+// The RCS provider contract: IRcsProvider, IRcsProviderCallback and their parcelables.
+// Method order is the wire ABI; append only. See docs/rcs/provider-contract.md.
+
+java_library {
+    name: "messaging-rcs-contract-aidl",
+
+    srcs: [
+        // Interface stubs only; the parcelable .aidl files resolve through the include dir.
+        "src/aidl/**/I*.aidl",
+        // The hand-written Parcelable classes.
+        "src/java/**/*.java",
+    ],
+
+    aidl: {
+        local_include_dirs: ["src/aidl"],
+        // Lets a consuming module write its own AIDL against these parcelables.
+        export_include_dirs: ["src/aidl"],
+    },
+
+    static_libs: [
+        "androidx.annotation_annotation",
+    ],
+
+    // "current", not system_current, so both public-SDK and platform-API modules can link it.
+    sdk_version: "current",
+    min_sdk_version: "30",
+}
