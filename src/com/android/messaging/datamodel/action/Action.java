@@ -150,6 +150,16 @@ public abstract class Action implements Parcelable {
     }
 
     /**
+     * Runs this action on the app's in-process action queue at once, not as a JobScheduler job.
+     * For a provider callback's store: a backgrounded app gets 20 jobs a minute, and the provider
+     * holds its ack until the store is confirmed. See
+     * {@link ActionServiceImpl#startActionInProcess}.
+     */
+    public void startInProcess() {
+        DataModel.get().getActionService().startActionInProcess(this);
+    }
+
+    /**
      * Queue an action for delayed processing by the ActionService via the factory helper
      */
     public void schedule(final int requestCode, final long delayMs) {

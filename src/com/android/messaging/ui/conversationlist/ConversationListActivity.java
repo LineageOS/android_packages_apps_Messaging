@@ -90,6 +90,10 @@ public class ConversationListActivity extends AbstractConversationListActivity {
         if (itemId == R.id.action_start_new_conversation) {
             onActionBarStartNewConversation();
             return true;
+        } else if (itemId == R.id.action_new_group) {
+            // Overflow fallback for the FAB long-press group entry.
+            onCreateGroupConversationClick();
+            return true;
         } else if (itemId == R.id.action_settings) {
             onActionBarSettings();
             return true;
@@ -123,6 +127,10 @@ public class ConversationListActivity extends AbstractConversationListActivity {
     public void onActionBarArchived() {
         UIIntents.get().launchArchivedConversationsActivity(this);
     }
+
+    // The "RCS transport status" overflow item + its handler were
+    // removed; the provider diagnostic is now reached via Settings > RCS chats >
+    // Advanced status (RcsSettingsActivity.launchAdvancedStatus).
 
     @Override
     public boolean isSwipeAnimatable() {

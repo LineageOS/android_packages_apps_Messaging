@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
+    Copyright (C) 2026 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -14,18 +15,55 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 -->
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/conversation_title_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="fill_horizontal" >
+    android:layout_gravity="fill_horizontal"
+    android:orientation="vertical"
+    android:gravity="center_vertical" >
 
-      <TextView
-            android:id="@+id/conversation_title"
-            style="@style/ConversationActionBarTitleTextStyle"
+      <!-- Title row: brand logo and verified badge are shown only for a business
+           conversation (ConversationFragment.updateBotBrandHeader) -->
+      <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true" />
-</RelativeLayout>
+            android:orientation="horizontal"
+            android:gravity="center_vertical" >
+
+            <com.android.messaging.ui.AsyncImageView
+                  android:id="@+id/conversation_brand_logo"
+                  android:layout_width="@dimen/rbm_brand_logo_size"
+                  android:layout_height="@dimen/rbm_brand_logo_size"
+                  android:layout_marginEnd="8dp"
+                  android:scaleType="fitCenter"
+                  android:visibility="gone"
+                  android:importantForAccessibility="no" />
+
+            <TextView
+                  android:id="@+id/conversation_title"
+                  style="@style/ConversationActionBarTitleTextStyle"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content" />
+
+            <ImageView
+                  android:id="@+id/conversation_verified_badge"
+                  android:layout_width="@dimen/rbm_verified_badge_size"
+                  android:layout_height="@dimen/rbm_verified_badge_size"
+                  android:layout_marginStart="4dp"
+                  android:src="@drawable/ic_checkmark_circle_blue"
+                  android:visibility="gone"
+                  android:contentDescription="@string/rbm_verified_badge_content_description" />
+      </LinearLayout>
+
+      <!-- Group subtitle ("N people"); gone for 1:1 conversations -->
+      <TextView
+            android:id="@+id/conversation_subtitle"
+            style="@style/ConversationActionBarSubtitleTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+</LinearLayout>

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024-2025 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -44,16 +45,43 @@ public class ConversationMessageBubbleView extends LinearLayout {
     private final ConversationMessageBubbleData mData;
     private int mRunningStartWidth;
     private ViewGroup mBubbleBackground;
+    // The reaction badge overlaps the bubble's inner bottom corner.
+    private View mReactions;
+    private View mAttachments;
+    private boolean mReactionIncoming;
 
     public ConversationMessageBubbleView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         mData = new ConversationMessageBubbleData();
+        // The badge straddles the bubble's bottom edge, outside the child box.
+        setClipChildren(false);
+        setClipToPadding(false);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         mBubbleBackground = findViewById(R.id.message_text_and_info);
+        mReactions = findViewById(R.id.reactions_container);
+        mAttachments = findViewById(R.id.message_attachments);
+    }
+
+    /**
+     * Places the badge on the inner corner: the end for incoming bubbles, the start for outgoing.
+     */
+    public void setReactionIncoming(final boolean incoming) {
+        mReactionIncoming = incoming;
+    }
+
+    /** The lowest visible bubble element, which the badge anchors to. */
+    private View reactionAnchor() {
+        if (mBubbleBackground != null && mBubbleBackground.getVisibility() != GONE) {
+            return mBubbleBackground;
+        }
+        if (mAttachments != null && mAttachments.getVisibility() != GONE) {
+            return mAttachments;
+        }
+        return null;
     }
 
     @Override
@@ -74,6 +102,33 @@ public class ConversationMessageBubbleView extends LinearLayout {
             mBubbleBackground.getLayoutParams().width = LayoutParams.WRAP_CONTENT;
         }
         mBubbleBackground.requestLayout();
+        // The badge's overlap is reserved by the negative top margin on reactions_container,
+        // not by shrinking the height after measure, which clipped the bubble's top padding.
+    }
+
+    @Override
+    protected void onLayout(final boolean changed, final int l, final int t,
+            final int r, final int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (mReactions == null || mReactions.getVisibility() == GONE) {
+            return;
+        }
+        final View anchor = reactionAnchor();
+        if (anchor == null) {
+            return;
+        }
+        // Place the badge on the inner corner; the vertical overlap was reserved in measure.
+        final int badgeW = mReactions.getMeasuredWidth();
+        final int badgeH = mReactions.getMeasuredHeight();
+        final int overlap = getResources()
+                .getDimensionPixelSize(R.dimen.reaction_badge_overlap);
+        final int inset = getResources()
+                .getDimensionPixelSize(R.dimen.reaction_badge_side_inset);
+        final int top = anchor.getBottom() - overlap;
+        final int left = mReactionIncoming
+                ? anchor.getRight() - badgeW + inset
+                : anchor.getLeft() - inset;
+        mReactions.layout(left, top, left + badgeW, top + badgeH);
     }
 
     public void setMorphWidth(final int width) {

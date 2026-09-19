@@ -1,4 +1,5 @@
 //  Copyright (C) 2015 The Android Open Source Project
+//  Copyright (C) 2026 The LineageOS Project
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -18,7 +19,9 @@ package {
 }
 
 cc_library_shared {
-    name: "libgiftranscode",
+    // Renamed from libgiftranscode to avoid colliding with the in-tree AOSP
+    // packages/apps/Messaging (both define it).
+    name: "libgiftranscode2",
     static_libs: ["libgif"],
     // Link to Android logging (liblog.so) and dynamic linker (libdl.so) libraries
     shared_libs: [

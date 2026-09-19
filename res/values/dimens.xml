@@ -161,4 +161,53 @@
     <dimen name="directory_header_padding_bottom">8dp</dimen>
     <dimen name="directory_header_text_size">14sp</dimen>
 
+    <!-- Reaction badge, overlapping the bubble corner, and the quick-row picker -->
+    <dimen name="reaction_chip_min_height">26dp</dimen>
+    <dimen name="reaction_chip_padding_horizontal">6dp</dimen>
+    <dimen name="reaction_chip_padding_vertical">3dp</dimen>
+    <dimen name="reaction_chip_emoji_text_size">15sp</dimen>
+    <dimen name="reaction_chip_count_text_size">12sp</dimen>
+    <dimen name="reaction_chip_spacing">3dp</dimen>
+    <!-- Negative, so the reactions overlap the bubble's bottom edge. Must equal
+         reaction_badge_overlap. -->
+    <dimen name="reaction_container_top_margin">-14dp</dimen>
+    <dimen name="reaction_badge_overlap">14dp</dimen>
+
+    <!-- Business-messaging rich cards and suggestion chips -->
+    <dimen name="rbm_card_media_max_height">220dp</dimen>
+    <dimen name="rbm_card_media_bottom_margin">6dp</dimen>
+    <dimen name="rbm_suggestions_top_margin">4dp</dimen>
+    <dimen name="rbm_chip_spacing">6dp</dimen>
+    <dimen name="rbm_chip_padding_h">14dp</dimen>
+    <dimen name="rbm_chip_padding_v">8dp</dimen>
+    <dimen name="rbm_chip_corner_radius">18dp</dimen>
+    <dimen name="rbm_brand_logo_size">28dp</dimen>
+    <dimen name="rbm_verified_badge_size">16dp</dimen>
+    <dimen name="rbm_carousel_card_width">240dp</dimen>
+    <dimen name="rbm_carousel_media_height">140dp</dimen>
+    <dimen name="rbm_dot_size">6dp</dimen>
+    <dimen name="rbm_dot_spacing">3dp</dimen>
+    <dimen name="rbm_horizontal_media_size">110dp</dimen>
+    <dimen name="rbm_media_play_size">44dp</dimen>
+    <dimen name="rbm_file_icon_size">36dp</dimen>
+    <dimen name="rbm_info_hero_height">140dp</dimen>
+    <dimen name="rbm_info_logo_size">88dp</dimen>
+    <dimen name="rbm_info_section_gap">16dp</dimen>
+    <dimen name="rbm_info_h_margin">16dp</dimen>
+    <dimen name="rbm_info_row_padding_v">10dp</dimen>
+    <dimen name="rbm_info_row_min_height">48dp</dimen>
+    <dimen name="rbm_info_row_icon_size">24dp</dimen>
+    <dimen name="rbm_info_row_icon_margin">16dp</dimen>
+    <dimen name="rbm_info_action_icon_size">48dp</dimen>
+    <dimen name="rbm_info_action_icon_padding">12dp</dimen>
+    <dimen name="rbm_info_action_margin">12dp</dimen>
+    <dimen name="rbm_info_logo_overlap">44dp</dimen>
+    <dimen name="reaction_badge_corner_radius">100dp</dimen>
+    <dimen name="reaction_badge_ring_width">2dp</dimen>
+    <dimen name="reaction_badge_side_inset">8dp</dimen>
+    <dimen name="reaction_picker_corner_radius">24dp</dimen>
+    <dimen name="reaction_picker_padding">6dp</dimen>
+    <dimen name="reaction_picker_button_size">48dp</dimen>
+    <dimen name="reaction_picker_emoji_text_size">24sp</dimen>
+
 </resources>

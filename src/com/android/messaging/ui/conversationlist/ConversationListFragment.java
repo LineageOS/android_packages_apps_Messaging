@@ -33,6 +33,7 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AbsListView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewGroupCompat;
@@ -79,6 +80,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
                                         final boolean isLongClick,
                                         final ConversationListItemView conversationView);
         void onCreateConversationClick();
+        // Starts the RCS group flow.
+        void onCreateGroupConversationClick();
         boolean isConversationSelected(final String conversationId);
         boolean isSwipeAnimatable();
         boolean isSelectionMode();
@@ -226,6 +229,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             mStartNewConversationButton.setVisibility(View.VISIBLE);
             mStartNewConversationButton.setOnClickListener(clickView ->
                     mHost.onCreateConversationClick());
+            // Long-press offers a new conversation or a new RCS group.
+            mStartNewConversationButton.setOnLongClickListener(this::showNewConversationMenu);
         }
 
         // The root view has a non-null background, which by default is deemed by the framework
@@ -287,6 +292,30 @@ public class ConversationListFragment extends Fragment implements ConversationLi
 
     public void updateUi() {
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Shows the new conversation / new group menu. Returns true to consume the long-press.
+     */
+    private boolean showNewConversationMenu(final View anchor) {
+        if (mHost == null) {
+            return false;
+        }
+        final PopupMenu popup = new PopupMenu(requireActivity(), anchor);
+        popup.getMenuInflater().inflate(R.menu.new_conversation_popup_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(item -> {
+            final int id = item.getItemId();
+            if (id == R.id.action_new_conversation) {
+                mHost.onCreateConversationClick();
+                return true;
+            } else if (id == R.id.action_new_group) {
+                mHost.onCreateGroupConversationClick();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+        return true;
     }
 
     @Override

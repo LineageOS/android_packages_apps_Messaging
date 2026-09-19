@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024-2025 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +53,10 @@ import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionLis
 import com.android.messaging.datamodel.media.ImageRequestDescriptor;
 import com.android.messaging.datamodel.media.MessagePartImageRequestDescriptor;
 import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
+import com.android.messaging.rcs.RcsFileAttachment;
+import com.android.messaging.rcs.rbm.RbmBotMessage;
+import com.android.messaging.rcs.rbm.RbmCard;
+import com.android.messaging.rcs.rbm.RbmSuggestion;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.ui.AsyncImageView;
 import com.android.messaging.ui.AsyncImageView.AsyncImageViewDelayLoader;
@@ -87,7 +92,46 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 Rect imageBounds, boolean longPress);
         SubscriptionListEntry getSubscriptionEntryForSelfParticipant(String selfParticipantId,
                 boolean excludeDefault);
+
+        /**
+         * The user picked or re-tapped a reaction. The host writes the optimistic row and sends
+         * it off the main thread.
+         *
+         * @param emoji the bare glyph; the provider adds any wire framing
+         * @param add   true to add, false to retract our reaction
+         */
+        void onReactionSelected(ConversationMessageView view, String emoji, boolean add);
+
+        /**
+         * The user tapped "+" in the quick row; the host validates the pick and calls
+         * {@link #onReactionSelected} with {@code add=true}.
+         */
+        void onOpenSystemEmojiPicker(ConversationMessageView view);
+
+        /** The user tapped a reaction badge; the host shows who reacted with what. */
+        void onReactionDetailsRequested(ConversationMessageView view);
+
+        /**
+         * The user tapped a suggestion chip under a bot card; the host sends the suggestion
+         * response to the agent off the main thread.
+         */
+        void onBotSuggestionTapped(ConversationMessageView view, RbmSuggestion suggestion);
     }
+
+    /** The quick-row reactions; "+" covers any other emoji. */
+    static final String[] REACTION_QUICK_SET = {
+            "👍",
+            "❤️",
+            "😂",
+            "😍",
+            "😮",
+            "😥",
+            "😠",
+            "👎",
+            "🤔",
+            "😢",
+            "😡",
+    };
 
     private final ConversationMessageData mData;
 
@@ -108,9 +152,37 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     private TextView mSubjectLabel;
     private TextView mSubjectText;
     private View mDeliveredBadge;
+    private ImageView mE2eeLockIcon;
     private ViewGroup mMessageMetadataView;
     private ViewGroup mMessageTextAndInfoView;
     private TextView mSimNameView;
+    // The centered status line of a group event row.
+    private TextView mSystemMessageView;
+    // Reaction chips below the bubble; gone without reactions.
+    private com.android.messaging.ui.LineWrapLayout mReactionsContainer;
+    // The long-press reaction picker, if showing.
+    @Nullable private android.widget.PopupWindow mReactionPicker;
+    // Business-messaging rich card and suggestion chips; gone for other rows.
+    private LinearLayout mRbmCardView;
+    private FrameLayout mRbmCardMediaFrame;
+    private AsyncImageView mRbmCardMedia;
+    private ImageView mRbmCardMediaPlay;
+    private LinearLayout mRbmCardFile;
+    private TextView mRbmCardFileName;
+    private LinearLayout mRbmCardTextCol;
+    private TextView mRbmCardTitle;
+    private TextView mRbmCardDescription;
+    private com.android.messaging.ui.LineWrapLayout mRbmSuggestionsContainer;
+    // Carousel, shown instead of the single card for more than one card.
+    private android.widget.HorizontalScrollView mRbmCarousel;
+    private LinearLayout mRbmCarouselStrip;
+    private LinearLayout mRbmCarouselDots;
+    private TextView mRbmSelectedOption;
+
+    // Location card: map thumbnail and address.
+    private LinearLayout mLocationCard;
+    private AsyncImageView mLocationMap;
+    private TextView mLocationAddress;
 
     private boolean mOneOnOne;
     private ConversationMessageViewHost mHost;
@@ -152,14 +224,54 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mSubjectLabel = mSubjectView.findViewById(R.id.subject_label);
         mSubjectText = mSubjectView.findViewById(R.id.subject_text);
         mDeliveredBadge = findViewById(R.id.smsDeliveredBadge);
+        mE2eeLockIcon = findViewById(R.id.e2ee_lock_icon);
         mMessageMetadataView = findViewById(R.id.message_metadata);
         mMessageTextAndInfoView = findViewById(R.id.message_text_and_info);
         mSimNameView = findViewById(R.id.sim_name);
+        mSystemMessageView = findViewById(R.id.conversation_system_message);
+        mReactionsContainer = findViewById(R.id.reactions_container);
+        mLocationCard = findViewById(R.id.location_card);
+        mLocationMap = findViewById(R.id.location_map);
+        mLocationAddress = findViewById(R.id.location_address);
+        mRbmCardView = findViewById(R.id.rbm_card);
+        mRbmCardMediaFrame = findViewById(R.id.rbm_card_media_frame);
+        mRbmCardMedia = findViewById(R.id.rbm_card_media);
+        mRbmCardMediaPlay = findViewById(R.id.rbm_card_media_play);
+        mRbmCardFile = findViewById(R.id.rbm_card_file);
+        mRbmCardFileName = findViewById(R.id.rbm_card_file_name);
+        mRbmCardTextCol = findViewById(R.id.rbm_card_textcol);
+        mRbmCardTitle = findViewById(R.id.rbm_card_title);
+        mRbmCardDescription = findViewById(R.id.rbm_card_description);
+        mRbmSuggestionsContainer = findViewById(R.id.rbm_suggestions_container);
+        mRbmCarousel = findViewById(R.id.rbm_carousel);
+        mRbmCarouselStrip = findViewById(R.id.rbm_carousel_strip);
+        mRbmCarouselDots = findViewById(R.id.rbm_carousel_dots);
+        mRbmSelectedOption = findViewById(R.id.rbm_selected_option);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        // Do not leak the reaction picker when the row is recycled or detached.
+        dismissReactionPicker();
+        super.onDetachedFromWindow();
     }
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         final int horizontalSpace = MeasureSpec.getSize(widthMeasureSpec);
+
+        // A status line takes the full width; only it is sized.
+        if (mData.getIsRcsSystem()) {
+            final int contentWidthSpec = MeasureSpec.makeMeasureSpec(
+                    horizontalSpace - getPaddingStart() - getPaddingEnd(),
+                    MeasureSpec.EXACTLY);
+            final int unspecified = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            mSystemMessageView.measure(contentWidthSpec, unspecified);
+            setMeasuredDimension(horizontalSpace,
+                    mSystemMessageView.getMeasuredHeight() + getPaddingBottom() + getPaddingTop());
+            return;
+        }
+
         final int iconSize = getResources()
                 .getDimensionPixelSize(R.dimen.conversation_message_contact_icon_size);
 
@@ -190,6 +302,15 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     protected void onLayout(final boolean changed, final int left, final int top, final int right,
             final int bottom) {
         final boolean isRtl = AccessibilityUtil.isLayoutRtl(this);
+
+        if (mData.getIsRcsSystem()) {
+            final int contentLeft = getPaddingStart();
+            final int contentTop = getPaddingTop();
+            mSystemMessageView.layout(contentLeft, contentTop,
+                    contentLeft + mSystemMessageView.getMeasuredWidth(),
+                    contentTop + mSystemMessageView.getMeasuredHeight());
+            return;
+        }
 
         final int iconWidth = mContactIconView.getMeasuredWidth();
         final int iconHeight = mContactIconView.getMeasuredHeight();
@@ -246,6 +367,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mData.bind(cursor);
         setSelected(TextUtils.equals(mData.getMessageId(), selectedMessageId));
 
+        // A group event renders as a status line and skips the bubble pipeline.
+        if (mData.getIsRcsSystem()) {
+            bindSystemMessage();
+            return;
+        }
+        setSystemMessageStyle(false /* system */);
+
         // Update text and image content for the view.
         updateViewContent();
 
@@ -253,6 +381,26 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         updateViewAppearance();
 
         updateContentDescription();
+    }
+
+    /** Renders a group event as a centered status line, hiding every normal message view. */
+    private void bindSystemMessage() {
+        setSystemMessageStyle(true /* system */);
+        final String text = mData.getText();
+        mSystemMessageView.setText(text);
+        setContentDescription(text);
+        requestLayout();
+    }
+
+    /**
+     * Switches between the normal views and the status line, restoring the normal views so a
+     * recycled view does not keep the status styling.
+     */
+    private void setSystemMessageStyle(final boolean system) {
+        mSystemMessageView.setVisibility(system ? View.VISIBLE : View.GONE);
+        final int normalVisibility = system ? View.GONE : View.VISIBLE;
+        mContactIconView.setVisibility(normalVisibility);
+        mMessageBubble.setVisibility(normalVisibility);
     }
 
     public void setHost(final ConversationMessageViewHost host) {
@@ -284,7 +432,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
      * Returns whether we need to show a message bubble for text content.
      */
     private boolean shouldShowMessageTextBubble() {
-        if (mData.hasText()) {
+        if (mData.hasBubbleText()) {
             return true;
         }
         final String subjectText = MmsUtils.cleanseMmsSubject(getResources(),
@@ -370,7 +518,12 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             case MessageData.BUGLE_STATUS_INCOMING_COMPLETE:
             default:
                 if (!mData.getCanClusterWithNextMessage()) {
-                    statusText = mData.getFormattedReceivedTimeStamp();
+                    statusText = getRcsReceiptStatusText();
+                    if (statusText == null) {
+                        statusText = mData.getFormattedReceivedTimeStamp();
+                    }
+                    // Last message of a transport run: append the "· RCS" label.
+                    statusText = appendTransportLabel(statusText);
                 }
                 break;
         }
@@ -422,9 +575,17 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             mStatusTextView.setVisibility(View.GONE);
         }
 
+        // RCS rows show receipts in the status text, so no delivered badge.
         final boolean deliveredBadgeVisible =
-                mData.getStatus() == MessageData.BUGLE_STATUS_OUTGOING_DELIVERED;
+                mData.getStatus() == MessageData.BUGLE_STATUS_OUTGOING_DELIVERED
+                        && !mData.getIsRcs();
         mDeliveredBadge.setVisibility(deliveredBadgeVisible ? View.VISIBLE : View.GONE);
+
+        // Padlock for a message received under an E2EE scheme.
+        final boolean e2eeLockVisible = mData.isE2eeEncrypted();
+        if (mE2eeLockIcon != null) {
+            mE2eeLockIcon.setVisibility(e2eeLockVisible ? View.VISIBLE : View.GONE);
+        }
 
         // Update the sim indicator.
         final boolean showSimIconAsIncoming = mData.getIsIncoming() &&
@@ -450,11 +611,11 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         }
 
         final boolean metadataVisible = senderNameVisible || statusVisible
-                || deliveredBadgeVisible || simNameVisible;
+                || deliveredBadgeVisible || simNameVisible || e2eeLockVisible;
         mMessageMetadataView.setVisibility(metadataVisible ? View.VISIBLE : View.GONE);
 
         final boolean messageTextAndOrInfoVisible = titleVisible || subjectVisible
-                || mData.hasText() || metadataVisible;
+                || mData.hasBubbleText() || metadataVisible;
         mMessageTextAndInfoView.setVisibility(
                 messageTextAndOrInfoVisible ? View.VISIBLE : View.GONE);
 
@@ -473,13 +634,613 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         }
     }
 
+    /**
+     * Appends the "· RCS" run label to the status text of an RCS message; other messages keep
+     * the plain status. The label string carries its own middot.
+     *
+     * @param baseStatus the status text, possibly null or empty
+     */
+    @Nullable
+    private String appendTransportLabel(@Nullable final String baseStatus) {
+        if (!mData.getIsRcs()) {
+            return baseStatus;
+        }
+        final String tag = getResources().getString(R.string.rcs_thread_transport_rcs);
+        if (TextUtils.isEmpty(baseStatus)) {
+            return tag;
+        }
+        return baseStatus + " " + tag;
+    }
+
+    /**
+     * The receipt status ("Read", "Delivered", or a group aggregate) of an outgoing RCS message
+     * with a receipt, else null for the plain timestamp.
+     */
+    @Nullable
+    private String getRcsReceiptStatusText() {
+        if (!mData.getIsRcs() || mData.getIsIncoming()) {
+            return null;
+        }
+        final String timestamp = mData.getFormattedReceivedTimeStamp();
+
+        // Group aggregate: the member count is non-zero only for a sent message in an RCS group.
+        final int m = mData.getRcsGroupMemberCount();
+        if (m > 0) {
+            final int read = mData.getRcsGroupReadCount();
+            final int delivered = mData.getRcsGroupDeliveredCount();
+            if (read >= m) {
+                return getResources().getString(
+                        R.string.message_status_rcs_group_read_all, timestamp);
+            }
+            if (read > 0) {
+                // "Read by N of M".
+                return getResources().getString(
+                        R.string.message_status_rcs_group_read_partial, read, m);
+            }
+            if (delivered > 0) {
+                return getResources().getString(
+                        R.string.message_status_rcs_group_delivered, timestamp);
+            }
+            // No receipts yet.
+            return null;
+        }
+
+        // 1:1.
+        if (mData.getRcsDisplayedTimestamp() > 0) {
+            return getResources().getString(R.string.message_status_rcs_read, timestamp);
+        }
+        if (mData.getRcsDeliveredTimestamp() > 0) {
+            return getResources().getString(R.string.message_status_rcs_delivered, timestamp);
+        }
+        return null;
+    }
+
     private void updateMessageContent() {
         // We must update the text before the attachments since we search the text to see if we
         // should make a preview youtube image in the attachments
         updateMessageText();
         updateMessageAttachments();
         updateMessageSubject();
+        bindLocationCard();
+        bindRbmCard();
+        // The echo of a tapped suggestion gets a "Selected option" label.
+        mRbmSelectedOption.setVisibility(
+                mData.getIsBotPostbackEcho() ? View.VISIBLE : View.GONE);
         mMessageBubble.bind(mData);
+        mMessageBubble.setReactionIncoming(mData.getIsIncoming());
+        bindReactions();
+    }
+
+    /**
+     * Binds one chip per emoji from {@link ConversationMessageData#getReactionAggregates()},
+     * with a count when more than one member reacted and the accent for our own. Gone without
+     * reactions.
+     */
+    private void bindReactions() {
+        final java.util.List<ConversationMessageData.ReactionAggregate> reactions =
+                mData.getReactionAggregates();
+        if (reactions == null || reactions.isEmpty()) {
+            mReactionsContainer.setVisibility(View.GONE);
+            mReactionsContainer.removeAllViews();
+            return;
+        }
+
+        // The bubble's gravity already aligns the container.
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+        while (mReactionsContainer.getChildCount() > reactions.size()) {
+            mReactionsContainer.removeViewAt(mReactionsContainer.getChildCount() - 1);
+        }
+        for (int i = 0; i < reactions.size(); i++) {
+            final ConversationMessageData.ReactionAggregate r = reactions.get(i);
+            View chip = mReactionsContainer.getChildAt(i);
+            if (chip == null) {
+                chip = inflater.inflate(R.layout.reaction_chip, mReactionsContainer,
+                        false /* attachToRoot */);
+                mReactionsContainer.addView(chip);
+            }
+            final TextView emojiView = chip.findViewById(R.id.reaction_chip_emoji);
+            final TextView countView = chip.findViewById(R.id.reaction_chip_count);
+            emojiView.setText(r.emoji);
+            if (r.count > 1) {
+                countView.setText(String.valueOf(r.count));
+                countView.setVisibility(View.VISIBLE);
+                chip.setContentDescription(getResources().getString(
+                        R.string.reaction_chip_content_description_group, r.count, r.emoji));
+            } else {
+                countView.setVisibility(View.GONE);
+                chip.setContentDescription(getResources().getString(
+                        R.string.reaction_chip_content_description, r.emoji));
+            }
+            chip.setBackgroundResource(r.reactedBySelf
+                    ? R.drawable.reaction_chip_background_self
+                    : R.drawable.reaction_chip_background);
+            // Tapping the badge shows who reacted; changes go through the long-press picker.
+            chip.setOnClickListener(v -> {
+                if (mHost != null) {
+                    mHost.onReactionDetailsRequested(ConversationMessageView.this);
+                }
+            });
+        }
+        mReactionsContainer.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * Shows an RCS location share as a map thumbnail and address, opening a map app on tap, in
+     * place of the text body.
+     */
+    private void bindLocationCard() {
+        if (mLocationCard == null) {
+            return;
+        }
+        final com.android.messaging.datamodel.data.ConversationMessageData.GeoLoc geo =
+                mData.getGeoLocation();
+        if (geo == null) {
+            mLocationCard.setVisibility(View.GONE);
+            mLocationMap.setImageResourceId(null);
+            return;
+        }
+        mMessageTextView.setVisibility(View.GONE);
+        mLocationCard.setVisibility(View.VISIBLE);
+
+        final float density = getResources().getDisplayMetrics().density;
+        final int w = (int) (240 * density);
+        final int h = (int) (140 * density);
+        // Clear a recycled tile, then build the map off the main thread; the layout centers
+        // the pin on the point.
+        mLocationMap.setImageResourceId(null);
+        bindLocationMapAsync(geo.lat, geo.lon, w, h);
+
+        // A sender label wins; otherwise coordinates now and a geocoded address later.
+        if (geo.label != null) {
+            mLocationAddress.setText(geo.label);
+        } else {
+            mLocationAddress.setText(com.android.messaging.rcs.RcsLocationUtil
+                    .latLonText(geo.lat, geo.lon));
+            bindLocationAddressAsync(geo.lat, geo.lon);
+        }
+
+        mLocationCard.setOnClickListener(v -> {
+            try {
+                getContext().startActivity(new android.content.Intent(
+                        android.content.Intent.ACTION_VIEW,
+                        android.net.Uri.parse(com.android.messaging.rcs.RcsLocationUtil
+                                .geoUri(geo.lat, geo.lon, geo.label)))
+                        .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK));
+            } catch (final android.content.ActivityNotFoundException e) {
+                UiUtils.showToast(R.string.rcs_location_no_map_app);
+            }
+        });
+    }
+
+    /**
+     * Builds and loads the map thumbnail off the main thread, guarding against recycling. On
+     * failure the frame stays empty.
+     */
+    private void bindLocationMapAsync(final double lat, final double lon,
+            final int w, final int h) {
+        final android.content.Context appCtx = getContext().getApplicationContext();
+        com.android.messaging.rcs.OsmStaticMap.submit(() -> {
+            final java.io.File mapFile = com.android.messaging.rcs.OsmStaticMap
+                    .buildCenteredMap(appCtx, lat, lon, w, h);
+            if (mapFile == null) {
+                return;
+            }
+            post(() -> {
+                final com.android.messaging.datamodel.data.ConversationMessageData.GeoLoc now =
+                        (mData != null) ? mData.getGeoLocation() : null;
+                if (now != null && now.lat == lat && now.lon == lon
+                        && mLocationCard.getVisibility() == View.VISIBLE) {
+                    mLocationMap.setImageResourceId(new com.android.messaging.datamodel.media
+                            .UriImageRequestDescriptor(android.net.Uri.fromFile(mapFile), w, h));
+                }
+            });
+        });
+    }
+
+    /** Reverse-geocodes off the main thread with a timeout and updates the address line. */
+    private void bindLocationAddressAsync(final double lat, final double lon) {
+        final android.content.Context appCtx = getContext().getApplicationContext();
+        new Thread(() -> {
+            final String addr = com.android.messaging.rcs.RcsLocationUtil
+                    .reverseGeocode(appCtx, lat, lon, 3500L);
+            if (addr == null) {
+                return;
+            }
+            post(() -> {
+                final com.android.messaging.datamodel.data.ConversationMessageData.GeoLoc now =
+                        (mData != null) ? mData.getGeoLocation() : null;
+                if (now != null && now.lat == lat && now.lon == lon
+                        && mLocationCard.getVisibility() == View.VISIBLE) {
+                    mLocationAddress.setText(addr);
+                }
+            });
+        }, "geo-rev").start();
+    }
+
+    /**
+     * Renders a bot rich card in the bubble and its suggestion chips below. Everything is gone
+     * for other rows and for bot text, which renders through {@link #updateMessageText}.
+     */
+    private void bindRbmCard() {
+        final RbmBotMessage bot = mData.getIsBotMessage() ? mData.getRbmBotMessage() : null;
+        if (bot == null) {
+            hideRbm();
+            return;
+        }
+        // A text message may carry suggestion chips without a card.
+        if (bot.kind == RbmBotMessage.Kind.TEXT && !bot.suggestions.isEmpty()) {
+            mRbmCardView.setVisibility(View.GONE);
+            mRbmCardMedia.setImageResourceId(null);
+            mRbmCarousel.setVisibility(View.GONE);
+            mRbmCarouselDots.setVisibility(View.GONE);
+            bindSuggestionsInto(mRbmSuggestionsContainer, bot.suggestions);
+            return;
+        }
+        if (bot.kind != RbmBotMessage.Kind.CARD || bot.cards.isEmpty()) {
+            hideRbm();
+            return;
+        }
+
+        // More than one card: a carousel.
+        if (bot.cards.size() > 1) {
+            mRbmCardView.setVisibility(View.GONE);
+            mRbmCardMedia.setImageResourceId(null);
+            mRbmSuggestionsContainer.setVisibility(View.GONE);
+            mRbmSuggestionsContainer.removeAllViews();
+            bindCarousel(bot.cards);
+            return;
+        }
+
+        mRbmCarousel.setVisibility(View.GONE);
+        final RbmCard card = bot.cards.get(0);
+
+        // A horizontal card with media puts the media beside the text.
+        final boolean horizontal = card.hasMedia()
+                && "HORIZONTAL".equalsIgnoreCase(card.orientation);
+        applyCardOrientation(horizontal);
+
+        final int iconSize = getResources()
+                .getDimensionPixelSize(R.dimen.conversation_message_contact_icon_size);
+        final int desiredWidth = horizontal
+                ? getResources().getDimensionPixelSize(R.dimen.rbm_horizontal_media_size)
+                : getResources().getDisplayMetrics().widthPixels - iconSize - iconSize;
+        setRbmMedia(mRbmCardMediaFrame, mRbmCardMedia, mRbmCardMediaPlay,
+                mRbmCardFile, mRbmCardFileName, card,
+                desiredWidth, MessagePartData.UNSPECIFIED_SIZE);
+        setRbmCardText(mRbmCardTitle, card.title);
+        setRbmCardText(mRbmCardDescription, card.description);
+        mRbmCardView.setVisibility(View.VISIBLE);
+
+        bindSuggestionsInto(mRbmSuggestionsContainer, card.suggestions);
+    }
+
+    /** Switches the card between stacked and side-by-side; layout params reset each bind. */
+    private void applyCardOrientation(final boolean horizontal) {
+        mRbmCardView.setOrientation(horizontal ? LinearLayout.HORIZONTAL : LinearLayout.VERTICAL);
+        final int margin = getResources()
+                .getDimensionPixelSize(R.dimen.rbm_card_media_bottom_margin);
+        final LinearLayout.LayoutParams frameLp =
+                (LinearLayout.LayoutParams) mRbmCardMediaFrame.getLayoutParams();
+        final LinearLayout.LayoutParams colLp =
+                (LinearLayout.LayoutParams) mRbmCardTextCol.getLayoutParams();
+        if (horizontal) {
+            frameLp.width = getResources()
+                    .getDimensionPixelSize(R.dimen.rbm_horizontal_media_size);
+            frameLp.bottomMargin = 0;
+            frameLp.setMarginEnd(margin);
+            colLp.width = 0;
+            colLp.weight = 1f;
+        } else {
+            frameLp.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            frameLp.bottomMargin = margin;
+            frameLp.setMarginEnd(0);
+            colLp.width = LinearLayout.LayoutParams.MATCH_PARENT;
+            colLp.weight = 0f;
+        }
+        mRbmCardMediaFrame.setLayoutParams(frameLp);
+        mRbmCardTextCol.setLayoutParams(colLp);
+    }
+
+    /** Hides every bot card, chip and carousel view. */
+    private void hideRbm() {
+        mRbmCardView.setVisibility(View.GONE);
+        mRbmCardMedia.setImageResourceId(null);
+        mRbmSuggestionsContainer.setVisibility(View.GONE);
+        mRbmSuggestionsContainer.removeAllViews();
+        mRbmCarousel.setVisibility(View.GONE);
+        mRbmCarouselDots.setVisibility(View.GONE);
+    }
+
+    /** Fills the carousel, one item per card, recycling item views. */
+    private void bindCarousel(final java.util.List<RbmCard> cards) {
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+        while (mRbmCarouselStrip.getChildCount() > cards.size()) {
+            mRbmCarouselStrip.removeViewAt(mRbmCarouselStrip.getChildCount() - 1);
+        }
+        final int mediaW = getResources().getDimensionPixelSize(R.dimen.rbm_carousel_card_width);
+        final int mediaH = getResources().getDimensionPixelSize(R.dimen.rbm_carousel_media_height);
+        for (int i = 0; i < cards.size(); i++) {
+            View item = mRbmCarouselStrip.getChildAt(i);
+            if (item == null) {
+                item = inflater.inflate(R.layout.rbm_carousel_card, mRbmCarouselStrip,
+                        false /* attachToRoot */);
+                mRbmCarouselStrip.addView(item);
+            }
+            final RbmCard card = cards.get(i);
+            setRbmMedia((FrameLayout) item.findViewById(R.id.rbm_cc_media_frame),
+                    (AsyncImageView) item.findViewById(R.id.rbm_cc_media),
+                    (ImageView) item.findViewById(R.id.rbm_cc_media_play),
+                    null /* fileRow */, null /* fileName */, card, mediaW, mediaH);
+            setRbmCardText((TextView) item.findViewById(R.id.rbm_cc_title), card.title);
+            setRbmCardText((TextView) item.findViewById(R.id.rbm_cc_description), card.description);
+            bindSuggestionsInto(
+                    (com.android.messaging.ui.LineWrapLayout) item.findViewById(
+                            R.id.rbm_cc_suggestions),
+                    card.suggestions);
+            item.setVisibility(View.VISIBLE);
+        }
+        mRbmCarousel.setVisibility(View.VISIBLE);
+        mRbmCarousel.scrollTo(0, 0);
+
+        // Page dots; the active one tracks scrollX, one step per card plus margin.
+        final int count = cards.size();
+        bindCarouselDots(count);
+        final int stepPx = getResources().getDimensionPixelSize(R.dimen.rbm_carousel_card_width)
+                + getResources().getDimensionPixelSize(R.dimen.rbm_chip_spacing);
+        mRbmCarousel.setOnScrollChangeListener((v, sx, sy, ox, oy) -> {
+            int idx = stepPx > 0 ? Math.round((float) sx / stepPx) : 0;
+            idx = Math.max(0, Math.min(idx, count - 1));
+            setActiveCarouselDot(idx);
+        });
+    }
+
+    /** One dot per card, the active one opaque; hidden for a single card. */
+    private void bindCarouselDots(final int count) {
+        final int size = getResources().getDimensionPixelSize(R.dimen.rbm_dot_size);
+        final int spacing = getResources().getDimensionPixelSize(R.dimen.rbm_dot_spacing);
+        while (mRbmCarouselDots.getChildCount() > count) {
+            mRbmCarouselDots.removeViewAt(mRbmCarouselDots.getChildCount() - 1);
+        }
+        for (int i = 0; i < count; i++) {
+            View dot = mRbmCarouselDots.getChildAt(i);
+            if (dot == null) {
+                dot = new View(getContext());
+                dot.setBackgroundResource(R.drawable.rbm_carousel_dot);
+                final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(size, size);
+                lp.setMarginStart(spacing);
+                lp.setMarginEnd(spacing);
+                mRbmCarouselDots.addView(dot, lp);
+            }
+            dot.setVisibility(View.VISIBLE);
+        }
+        setActiveCarouselDot(0);
+        mRbmCarouselDots.setVisibility(count > 1 ? View.VISIBLE : View.GONE);
+    }
+
+    private void setActiveCarouselDot(final int active) {
+        for (int i = 0; i < mRbmCarouselDots.getChildCount(); i++) {
+            mRbmCarouselDots.getChildAt(i).setAlpha(i == active ? 1f : 0.3f);
+        }
+    }
+
+    private enum RbmMediaKind { NONE, IMAGE, VIDEO, FILE }
+
+    /**
+     * Renders card media: an image, a video thumbnail with a play badge, or a file row.
+     * {@code fileRow} and {@code fileName} may be null, in which case a file card hides its media.
+     */
+    private void setRbmMedia(final FrameLayout mediaFrame, final AsyncImageView media,
+            final ImageView playOverlay, final View fileRow, final TextView fileName,
+            final RbmCard card, final int width, final int height) {
+        final RbmMediaKind kind = rbmMediaKind(card);
+
+        if (kind == RbmMediaKind.FILE && fileRow != null) {
+            media.setImageResourceId(null);
+            if (mediaFrame != null) mediaFrame.setVisibility(View.GONE);
+            if (playOverlay != null) playOverlay.setVisibility(View.GONE);
+            if (fileName != null) fileName.setText(rbmFileName(card.mediaUrl));
+            fileRow.setVisibility(View.VISIBLE);
+            return;
+        }
+        if (fileRow != null) fileRow.setVisibility(View.GONE);
+
+        if (kind == RbmMediaKind.NONE || kind == RbmMediaKind.FILE) {
+            // Nothing renderable, or a file with nowhere to show it.
+            media.setImageResourceId(null);
+            if (mediaFrame != null) mediaFrame.setVisibility(View.GONE);
+            else media.setVisibility(View.GONE);
+            if (playOverlay != null) playOverlay.setVisibility(View.GONE);
+            return;
+        }
+
+        final String url = !TextUtils.isEmpty(card.mediaThumbnailUrl)
+                ? card.mediaThumbnailUrl : card.mediaUrl;
+        media.setImageResourceId(new UriImageRequestDescriptor(Uri.parse(url), width, height));
+        if (!TextUtils.isEmpty(card.mediaAltText)) {
+            media.setContentDescription(card.mediaAltText);
+        }
+        media.setVisibility(View.VISIBLE);
+        if (mediaFrame != null) mediaFrame.setVisibility(View.VISIBLE);
+        if (playOverlay != null) {
+            playOverlay.setVisibility(kind == RbmMediaKind.VIDEO ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    /** Classifies card media; an ambiguous URL is an image. */
+    private static RbmMediaKind rbmMediaKind(final RbmCard card) {
+        final boolean hasThumb = !TextUtils.isEmpty(card.mediaThumbnailUrl);
+        final String url = card.mediaUrl;
+        if (TextUtils.isEmpty(url) && !hasThumb) {
+            return RbmMediaKind.NONE;
+        }
+        final String ct = card.mediaContentType != null
+                ? card.mediaContentType.toLowerCase() : "";
+        if (ct.startsWith("video/")
+                || extIn(url, "mp4", "mov", "webm", "3gp", "m4v", "mkv")) {
+            return RbmMediaKind.VIDEO;
+        }
+        if (ct.startsWith("image/") || hasThumb
+                || extIn(url, "jpg", "jpeg", "png", "gif", "webp", "bmp", "heic", "heif")) {
+            return RbmMediaKind.IMAGE;
+        }
+        if (!ct.isEmpty() || hasExtension(url)) {
+            return RbmMediaKind.FILE;
+        }
+        return RbmMediaKind.IMAGE;
+    }
+
+    private static String stripQuery(final String u) {
+        final int q = u.indexOf('?');
+        return q >= 0 ? u.substring(0, q) : u;
+    }
+
+    private static boolean hasExtension(final String url) {
+        if (TextUtils.isEmpty(url)) return false;
+        final String s = stripQuery(url);
+        final int dot = s.lastIndexOf('.');
+        final int slash = s.lastIndexOf('/');
+        return dot > slash && dot < s.length() - 1;
+    }
+
+    private static boolean extIn(final String url, final String... exts) {
+        if (TextUtils.isEmpty(url)) return false;
+        final String s = stripQuery(url).toLowerCase();
+        final int dot = s.lastIndexOf('.');
+        if (dot < 0) return false;
+        final String e = s.substring(dot + 1);
+        for (final String x : exts) {
+            if (e.equals(x)) return true;
+        }
+        return false;
+    }
+
+    /** Last path segment of a media URL, for the file row. */
+    private static String rbmFileName(final String url) {
+        if (TextUtils.isEmpty(url)) return "";
+        final String s = stripQuery(url);
+        final int slash = s.lastIndexOf('/');
+        final String name = slash >= 0 ? s.substring(slash + 1) : s;
+        return TextUtils.isEmpty(name) ? url : name;
+    }
+
+    private static void setRbmCardText(final TextView view, final String text) {
+        if (TextUtils.isEmpty(text)) {
+            view.setVisibility(View.GONE);
+        } else {
+            view.setText(text);
+            view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /** Renders suggestion chips into {@code container}, recycling chip views. */
+    private void bindSuggestionsInto(final com.android.messaging.ui.LineWrapLayout container,
+            final java.util.List<RbmSuggestion> suggestions) {
+        if (suggestions == null || suggestions.isEmpty()) {
+            container.setVisibility(View.GONE);
+            container.removeAllViews();
+            return;
+        }
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+        while (container.getChildCount() > suggestions.size()) {
+            container.removeViewAt(container.getChildCount() - 1);
+        }
+        for (int i = 0; i < suggestions.size(); i++) {
+            final RbmSuggestion s = suggestions.get(i);
+            TextView chip = (TextView) container.getChildAt(i);
+            if (chip == null) {
+                chip = (TextView) inflater.inflate(R.layout.rbm_suggestion_chip,
+                        container, false /* attachToRoot */);
+                container.addView(chip);
+            }
+            chip.setText(s.displayText);
+            chip.setContentDescription(s.displayText);
+            chip.setOnClickListener(v -> onRbmSuggestionTapped(s));
+        }
+        container.setVisibility(View.VISIBLE);
+    }
+
+    /** Passes a suggestion tap to the host. */
+    private void onRbmSuggestionTapped(final RbmSuggestion s) {
+        if (mHost != null) {
+            mHost.onBotSuggestionTapped(this, s);
+        }
+    }
+
+    /**
+     * Shows the reaction picker above the bubble: {@link #REACTION_QUICK_SET} and "+". It
+     * dismisses on an outside touch, so it coexists with the selection action mode.
+     */
+    private void showReactionPicker() {
+        if (mHost == null || mData.getIsRcsSystem()) {
+            return;
+        }
+        dismissReactionPicker();
+        final LayoutInflater inflater = LayoutInflater.from(getContext());
+        final View content = inflater.inflate(R.layout.reaction_picker_row, this, false);
+        final LinearLayout row = content.findViewById(R.id.reaction_picker_buttons);
+        final View plus = content.findViewById(R.id.reaction_picker_plus);
+
+        final android.widget.PopupWindow popup = new android.widget.PopupWindow(content,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                true /* focusable */);
+        popup.setOutsideTouchable(true);
+        mReactionPicker = popup;
+
+        final int buttonSize = getResources()
+                .getDimensionPixelSize(R.dimen.reaction_picker_button_size);
+        final float emojiTextSize = getResources()
+                .getDimension(R.dimen.reaction_picker_emoji_text_size);
+        // Glyph buttons go before the trailing "+".
+        final int plusIndex = row.indexOfChild(plus);
+        // Our reaction is shown selected: re-tapping removes it, another glyph replaces it.
+        final String selfEmoji = mData.getSelfReactionEmoji();
+        for (int i = 0; i < REACTION_QUICK_SET.length; i++) {
+            final String emoji = REACTION_QUICK_SET[i];
+            final boolean isSelf = emoji.equals(selfEmoji);
+            final TextView btn = new TextView(getContext());
+            btn.setLayoutParams(new LinearLayout.LayoutParams(buttonSize, buttonSize));
+            btn.setGravity(Gravity.CENTER);
+            btn.setText(emoji);
+            btn.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, emojiTextSize);
+            btn.setClickable(true);
+            btn.setFocusable(true);
+            if (isSelf) {
+                btn.setBackgroundResource(R.drawable.reaction_picker_button_selected);
+                btn.setContentDescription(getResources().getString(
+                        R.string.reaction_picker_selected_content_description, emoji));
+            } else {
+                btn.setContentDescription(emoji);
+            }
+            btn.setOnClickListener(v -> {
+                dismissReactionPicker();
+                if (mHost != null) {
+                    mHost.onReactionSelected(ConversationMessageView.this, emoji, !isSelf);
+                }
+            });
+            row.addView(btn, plusIndex + i);
+        }
+        plus.setOnClickListener(v -> {
+            dismissReactionPicker();
+            if (mHost != null) {
+                mHost.onOpenSystemEmojiPicker(ConversationMessageView.this);
+            }
+        });
+
+        // Above the bubble, start-aligned; PopupWindow keeps it on screen.
+        final int yOffset = -(buttonSize + getResources().getDimensionPixelSize(
+                R.dimen.reaction_picker_padding) * 2);
+        popup.showAsDropDown(mMessageBubble, 0, yOffset, Gravity.START);
+    }
+
+    /** Dismisses the reaction picker if showing. */
+    private void dismissReactionPicker() {
+        if (mReactionPicker != null) {
+            try {
+                mReactionPicker.dismiss();
+            } catch (final Throwable ignored) {
+            }
+            mReactionPicker = null;
+        }
     }
 
     private void updateMessageAttachments() {
@@ -490,6 +1251,9 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 R.layout.message_audio_attachment, mAudioViewBinder, AudioAttachmentView.class);
         bindAttachmentsOfSameType(sVCardFilter,
                 R.layout.message_vcard_attachment, mVCardViewBinder, PersonItemView.class);
+        // A received RCS file of any other type, or one not downloaded yet.
+        bindAttachmentsOfSameType(mRcsFileFilter, R.layout.message_rcs_file_attachment,
+                mRcsFileViewBinder, RcsFileAttachmentView.class);
 
         // Bind image attachments. If there are multiple, they are shown in a collage view.
         final List<MessagePartData> imageParts = mData.getAttachments(sImageFilter);
@@ -638,7 +1402,17 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     }
 
     private void updateMessageText() {
-        final String text = mData.getText();
+        String text = mData.getBubbleText();
+        // A bot row stores the raw JSON: show the parsed text for a text message, nothing for
+        // a card, and the raw text only for an unrecognized payload.
+        final RbmBotMessage bot = mData.getIsBotMessage() ? mData.getRbmBotMessage() : null;
+        if (bot != null) {
+            if (bot.kind == RbmBotMessage.Kind.CARD) {
+                text = null;
+            } else if (bot.kind == RbmBotMessage.Kind.TEXT) {
+                text = bot.text;
+            }
+        }
         if (!TextUtils.isEmpty(text)) {
             mMessageTextView.setText(text);
             // Linkify phone numbers, web urls, emails, and map addresses to allow users to
@@ -649,6 +1423,22 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             mMessageTextView.setVisibility(View.GONE);
             mMessageTextHasLinks = false;
         }
+    }
+
+    /** The bubble background: RCS tint for RCS messages, else the contact-keyed bubble. */
+    private Drawable getBubbleDrawableForData(final ConversationDrawables drawableProvider,
+            final boolean incoming) {
+        if (mData.getIsRcs()) {
+            return drawableProvider.getRcsBubbleDrawable(
+                    isSelected(),
+                    incoming,
+                    mData.hasIncomingErrorStatus());
+        }
+        return drawableProvider.getBubbleDrawable(
+                isSelected(),
+                incoming,
+                mData.hasIncomingErrorStatus(),
+                mData.getSenderContactLookupKey());
     }
 
     private void updateViewAppearance() {
@@ -686,11 +1476,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 // Text and attachment(s)
                 contentLeftPadding = incoming ? arrowWidth : 0;
                 contentRightPadding = outgoing ? arrowWidth : 0;
-                textBackground = drawableProvider.getBubbleDrawable(
-                        isSelected(),
-                        incoming,
-                        mData.hasIncomingErrorStatus(),
-                        mData.getSenderContactLookupKey());
+                textBackground = getBubbleDrawableForData(drawableProvider, incoming);
                 textMinHeight = messageTextMinHeightDefault;
                 textTopMargin = messageTopPaddingClustered;
                 textTopPadding = textTopPaddingDefault;
@@ -714,11 +1500,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
             // Text only
             contentLeftPadding = incoming ? arrowWidth : 0;
             contentRightPadding = outgoing ? arrowWidth : 0;
-            textBackground = drawableProvider.getBubbleDrawable(
-                    isSelected(),
-                    incoming,
-                    mData.hasIncomingErrorStatus(),
-                    mData.getSenderContactLookupKey());
+            textBackground = getBubbleDrawableForData(drawableProvider, incoming);
             textMinHeight = messageTextMinHeightDefault;
             textTopMargin = 0;
             textTopPadding = textTopPaddingDefault;
@@ -773,7 +1555,7 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         String separator = res.getString(R.string.enumeration_comma);
 
         // Sender information
-        boolean hasPlainTextMessage = !(TextUtils.isEmpty(mData.getText()) ||
+        boolean hasPlainTextMessage = !(TextUtils.isEmpty(mData.getBubbleText()) ||
                 mMessageTextHasLinks);
         if (mData.getIsIncoming()) {
             int senderResId = hasPlainTextMessage
@@ -954,6 +1736,10 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         mMessageTextView.setTextColor(messageColor);
         mMessageTextView.setLinkTextColor(messageColor);
         mSubjectText.setTextColor(messageColor);
+        // The location address shares the bubble, so it uses the message color.
+        if (mLocationAddress != null) {
+            mLocationAddress.setTextColor(messageColor);
+        }
         if (statusColorResId >= 0) {
             mTitleTextView.setTextColor(getResources().getColor(statusColorResId, theme));
         }
@@ -968,6 +1754,13 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         mSubjectLabel.setTextColor(getResources().getColor(subjectLabelColorResId, theme));
         mSenderNameTextView.setTextColor(getResources().getColor(timestampColorResId, theme));
+
+        // Tint the padlock like the status text. setImageTintList, because setColorFilter does
+        // not reliably apply to a vector drawable on a hardware layer.
+        if (mE2eeLockIcon != null) {
+            mE2eeLockIcon.setImageTintList(android.content.res.ColorStateList.valueOf(
+                    getResources().getColor(timestampColorResId, theme)));
+        }
     }
 
     /**
@@ -1020,6 +1813,8 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
                 return false;
             }
 
+            maybeShowReactionPicker();
+
             // Preemptively handle the long click event on message text so it's not handled by
             // the link spans.
             return performLongClick();
@@ -1027,11 +1822,20 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
 
         final Object tag = view.getTag();
         if (tag instanceof MessagePartData) {
+            maybeShowReactionPicker();
             final Rect bounds = UiUtils.getMeasuredBoundsOnScreen(view);
             return onAttachmentClick((MessagePartData) tag, bounds, true /* longPress */);
         }
 
         return false;
+    }
+
+    /** Shows the reaction picker for an RCS message that has a wire id. */
+    private void maybeShowReactionPicker() {
+        if (mData.getIsRcs() && !mData.getIsRcsSystem()
+                && !TextUtils.isEmpty(mData.getRcsMessageId())) {
+            showReactionPicker();
+        }
     }
 
     @Override
@@ -1048,10 +1852,32 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
     static final Comparator<MessagePartData> sImageComparator =
             Comparator.comparing(MessagePartData::getPartId);
 
-    static final Predicate<MessagePartData> sVideoFilter = MessagePartData::isVideo;
-    static final Predicate<MessagePartData> sAudioFilter = MessagePartData::isAudio;
-    static final Predicate<MessagePartData> sVCardFilter = MessagePartData::isVCard;
-    static final Predicate<MessagePartData> sImageFilter = MessagePartData::isImage;
+    // A placeholder for an RCS file not downloaded yet has no bytes a media view could load; it
+    // is drawn by the RCS file row.
+    static final Predicate<MessagePartData> sVideoFilter =
+            p -> p.isVideo() && !isRcsPlaceholder(p);
+    static final Predicate<MessagePartData> sAudioFilter =
+            p -> p.isAudio() && !isRcsPlaceholder(p);
+    static final Predicate<MessagePartData> sVCardFilter =
+            p -> p.isVCard() && !isRcsPlaceholder(p);
+    static final Predicate<MessagePartData> sImageFilter =
+            p -> p.isImage() && !isRcsPlaceholder(p);
+
+    final Predicate<MessagePartData> mRcsFileFilter = this::isRcsFileRow;
+
+    /** An RCS attachment no media view draws: see {@link RcsFileAttachment#rendersAsFile}. */
+    private boolean isRcsFileRow(final MessagePartData p) {
+        return mData.getIsRcs() && RcsFileAttachment.rendersAsFile(
+                ContentType.isMediaType(p.getContentType()), uriString(p));
+    }
+
+    private static boolean isRcsPlaceholder(final MessagePartData p) {
+        return RcsFileAttachment.isPlaceholder(uriString(p));
+    }
+
+    private static String uriString(final MessagePartData p) {
+        return p.getContentUri() == null ? null : p.getContentUri().toString();
+    }
 
     interface AttachmentViewBinder {
         void bindView(View view, MessagePartData attachment);
@@ -1114,6 +1940,28 @@ public class ConversationMessageView extends FrameLayout implements View.OnClick
         @Override
         public void unbind(final View view) {
             ((PersonItemView) view).bind(null);
+        }
+    };
+
+    final AttachmentViewBinder mRcsFileViewBinder = new AttachmentViewBinder() {
+        @Override
+        public void bindView(final View view, final MessagePartData attachment) {
+            final boolean incoming = mData.getIsIncoming() || isSelected();
+            final Resources.Theme theme = getContext().getTheme();
+            ((RcsFileAttachmentView) view).bind(attachment, mData.getIsRcsFilePending(),
+                    mData.getIsRcsFileUnavailable(),
+                    getResources().getColor(incoming ? R.color.message_text_color_incoming
+                            : R.color.message_text_color_outgoing, theme),
+                    getResources().getColor(isSelected() ? R.color.message_text_color_incoming
+                            : mData.getIsIncoming() ? R.color.timestamp_text_incoming
+                            : R.color.timestamp_text_outgoing, theme));
+            view.setBackground(ConversationDrawables.get().getBubbleDrawable(
+                    isSelected(), mData.getIsIncoming(), mData.hasIncomingErrorStatus(),
+                    mData.getSenderContactLookupKey()));
+        }
+
+        @Override
+        public void unbind(final View view) {
         }
     };
 

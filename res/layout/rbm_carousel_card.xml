@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/rbm_carousel_card_width"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/rbm_chip_spacing"
+    android:orientation="vertical"
+    android:background="@drawable/rbm_carousel_card_background"
+    android:padding="@dimen/rbm_chip_spacing" >
+
+    <FrameLayout
+        android:id="@+id/rbm_cc_media_frame"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rbm_carousel_media_height"
+        android:layout_marginBottom="@dimen/rbm_card_media_bottom_margin"
+        android:visibility="gone" >
+
+        <com.android.messaging.ui.AsyncImageView
+            android:id="@+id/rbm_cc_media"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:cornerRadius="@dimen/attachment_rounded_corner_radius"
+            android:contentDescription="@string/rbm_card_media_content_description" />
+
+        <ImageView
+            android:id="@+id/rbm_cc_media_play"
+            android:layout_width="@dimen/rbm_media_play_size"
+            android:layout_height="@dimen/rbm_media_play_size"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_rbm_play"
+            android:visibility="gone"
+            android:contentDescription="@string/rbm_card_media_content_description" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/rbm_cc_title"
+        style="@style/ConversationMessageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/rbm_card_text_primary"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/rbm_cc_description"
+        style="@style/ConversationMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/rbm_card_text_secondary"
+        android:maxLines="4"
+        android:ellipsize="end"
+        android:visibility="gone" />
+
+    <com.android.messaging.ui.LineWrapLayout
+        android:id="@+id/rbm_cc_suggestions"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/rbm_suggestions_top_margin"
+        android:visibility="gone" />
+
+</LinearLayout>

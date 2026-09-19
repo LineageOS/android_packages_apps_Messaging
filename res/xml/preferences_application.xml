@@ -34,6 +34,12 @@
         android:title="@string/notifications_pref_title"
         android:persistent="true" />
 
+    <Preference
+        android:key="@string/rcs_settings_pref_key"
+        android:title="@string/rcs_settings_title"
+        android:summary="@string/rcs_settings_summary"
+        android:persistent="false" />
+
     <SwitchPreferenceCompat
         android:key="@string/swipe_right_deletes_conversation_key"
         android:title="@string/swipe_to_delete_conversation_pref_title"

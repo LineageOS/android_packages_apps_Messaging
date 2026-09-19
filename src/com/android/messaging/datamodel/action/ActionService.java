@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,6 +36,13 @@ public class ActionService {
      */
     public void startAction(final Action action) {
         ActionServiceImpl.startAction(action);
+    }
+
+    /**
+     * Run an action on the in-process action queue, without a JobScheduler job
+     */
+    public void startActionInProcess(final Action action) {
+        ActionServiceImpl.startActionInProcess(action);
     }
 
     /**

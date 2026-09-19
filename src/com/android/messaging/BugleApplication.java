@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024-2025 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.mms.CarrierConfigValuesLoader;
 import android.support.v7.mms.MmsManager;
 import android.telephony.CarrierConfigManager;
@@ -72,9 +73,30 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         ConversationDrawables.get().updateDrawables();
     }
 
+    /**
+     * True in the {@code :ims} process that hosts
+     * {@link com.android.messaging.rcs.carrier.CarrierImsService}.
+     */
+    private static boolean isImsProcess() {
+        try {
+            final String proc = Application.getProcessName();
+            return proc != null && proc.endsWith(":ims");
+        } catch (final Throwable t) {
+            // Treat as the main process.
+            return false;
+        }
+    }
+
     // Called by the "real" factory from FactoryImpl.register() (i.e. not run in tests)
     public void initializeSync(final Factory factory) {
         Trace.beginSection("app.initializeSync");
+        // The :ims process hosts only CarrierImsService and must not run the main-process
+        // initialization.
+        if (isImsProcess()) {
+            LogUtil.i(TAG, "initializeSync: :ims process -- skipping main-app init");
+            Trace.endSection();
+            return;
+        }
         final Context context = factory.getApplicationContext();
         final DataModel dataModel = factory.getDataModel();
         final CarrierConfigValuesLoader carrierConfigValuesLoader =
@@ -86,10 +108,61 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
         initMmsLib(context, carrierConfigValuesLoader);
         // Fixup messages in flight if we crashed and send any pending
         dataModel.onApplicationCreated();
+        // Binds the RCS provider off-thread; a no-op when none is installed.
+        com.android.messaging.rcs.ProviderTransport.getInstance(context).init();
+        // Wire the transport registry (see docs/rcs/architecture.md). The shared RcsCallbackRouter
+        // is the inbound sink for every transport, including the in-process carrier transport.
+        try {
+            final com.android.messaging.rcs.RcsCallbackRouter router =
+                    com.android.messaging.rcs.RcsCallbackRouter.getInstance(context);
+            final com.android.messaging.rcs.ProviderRegistry registry =
+                    com.android.messaging.rcs.ProviderRegistry.get(context);
+            registry.setCallbackSink(router);
+            // The existing provider binding joins the registry as one transport; its package is
+            // passed so discovery does not bind it twice.
+            registry.registerLegacyTransport(
+                    com.android.messaging.rcs.ProviderTransport.getInstance(context),
+                    com.android.messaging.rcs.ProviderRegistry.resolveProviderPackage(context));
+            com.android.messaging.rcs.carrier.CarrierImsTransport.register(
+                    context, registry, router);
+            // Discovery and selection make binder calls, so they run on the registry worker.
+            com.android.messaging.rcs.ProviderRegistry.postWork(() -> {
+                registry.discover();
+                router.getRouteSelector().selectForActiveSub("app-start");
+            });
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "RCS registry / carrier-IMS wiring failed", t);
+        }
+        initEmojiCompat(context);
         // Register carrier config change receiver
         registerCarrierConfigChangeReceiver(context);
 
         Trace.endSection();
+    }
+
+    /**
+     * Initializes EmojiCompat, used to validate a custom reaction glyph. Without a downloadable
+     * emoji font provider it stays uninitialized and ConversationFragment.validateReactionEmoji
+     * falls back to a single-grapheme check.
+     */
+    private static void initEmojiCompat(final Context context) {
+        try {
+            final androidx.emoji2.text.EmojiCompat.Config config =
+                    androidx.emoji2.text.DefaultEmojiCompatConfig.create(context);
+            if (config != null) {
+                // Loaded lazily; the validity check tests getLoadState() first.
+                config.setMetadataLoadStrategy(
+                        androidx.emoji2.text.EmojiCompat.LOAD_STRATEGY_MANUAL);
+                final androidx.emoji2.text.EmojiCompat ec =
+                        androidx.emoji2.text.EmojiCompat.init(config);
+                ec.load();
+            } else {
+                LogUtil.i(TAG, "EmojiCompat: no default config; custom-reaction "
+                        + "validity uses heuristic fallback");
+            }
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, "EmojiCompat init failed; custom-reaction heuristic fallback", t);
+        }
     }
 
     private static void registerCarrierConfigChangeReceiver(final Context context) {
@@ -98,6 +171,20 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
             public void onReceive(Context context, Intent intent) {
                 LogUtil.i(TAG, "Carrier config changed. Reloading MMS config.");
                 MmsConfig.loadAsync();
+                // A new carrier config can change which transport serves the subscription, so
+                // reselect, giving previously failed transports another chance.
+                try {
+                    final com.android.messaging.rcs.ProviderRegistry registry =
+                            com.android.messaging.rcs.ProviderRegistry.peek();
+                    if (registry != null) {
+                        // reselect makes binder calls; keep them off the receiver thread.
+                        com.android.messaging.rcs.ProviderRegistry.postWork(
+                                () -> registry.reselect("carrier-config-changed",
+                                        /* freshCycle= */ true));
+                    }
+                } catch (final Throwable t) {
+                    LogUtil.w(TAG, "carrier-config re-selection failed", t);
+                }
             }
         }, new IntentFilter(CarrierConfigManager.ACTION_CARRIER_CONFIG_CHANGED),
         Context.RECEIVER_EXPORTED/*UNAUDITED*/);
@@ -119,6 +206,13 @@ public class BugleApplication extends Application implements UncaughtExceptionHa
     public void initializeAsync(final Factory factory) {
         // Handle shared prefs upgrade & Load MMS Configuration
         Trace.beginSection("app.initializeAsync");
+        // Not in the :ims process: racing the shared-prefs upgrade from there corrupts the
+        // versioned migration.
+        if (isImsProcess()) {
+            LogUtil.i(TAG, "initializeAsync: :ims process -- skipping main-app init");
+            Trace.endSection();
+            return;
+        }
         maybeHandleSharedPrefsUpgrade(factory);
         MmsConfig.load();
         Trace.endSection();

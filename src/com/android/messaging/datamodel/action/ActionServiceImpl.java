@@ -33,6 +33,9 @@ import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.LoggingTimer;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * ActionService used to perform background processing for data model
  */
@@ -59,6 +62,52 @@ public class ActionServiceImpl extends JobIntentService {
         intent.putExtra(EXTRA_ACTION_BUNDLE, actionBundle);
         action.markStart();
         startServiceWithIntent(intent);
+    }
+
+    /**
+     * The in-process action queue: one thread, so actions run in the order they were started.
+     */
+    private static final ExecutorService IN_PROCESS = Executors.newSingleThreadExecutor(r -> {
+        final Thread t = new Thread(r, "ActionServiceInProcess");
+        t.setDaemon(true);
+        return t;
+    });
+
+    /**
+     * Start an action on the in-process queue: it runs now, in this process, with no job.
+     *
+     * <p>{@link #startAction} queues a JobIntentService job, and when a job starts is not ours
+     * to decide: JobIntentService ends its job when its queue empties, so inbound a second apart
+     * starts a job each, and JobScheduler's QuotaController lets a backgrounded app start 20 jobs
+     * a minute ({@code qc_max_job_count_per_rate_limiting_window}). The 21st waits, WITHIN_QUOTA
+     * unsatisfied, for about a minute (47-69 s measured) or longer on a dozing device (5+ min
+     * measured). An inbound provider callback's store must not wait: the provider holds the ack
+     * until the app confirms the store. The process is running when this is called
+     * (a binder callback or a thread of ours called it), and the action is a few database writes.
+     *
+     * <p>The action is not persisted by JobScheduler, so a process death before it runs loses
+     * it; that is only safe for a store the provider offers again until it is confirmed.
+     */
+    protected static void startActionInProcess(final Action action) {
+        action.markStart();
+        IN_PROCESS.execute(() -> runInProcess(action));
+    }
+
+    /** Runs {@code action} as {@link #onHandleWork} runs an OP_START_ACTION. */
+    private static void runInProcess(final Action action) {
+        try {
+            action.markBeginExecute();
+            final LoggingTimer timer = createLoggingTimer(action, "#executeInProcess");
+            timer.start();
+            final Object result = action.executeAction();
+            timer.stopAndLog();
+            action.markEndExecute(result);
+            action.sendBackgroundActions(DataModel.get().getBackgroundWorkerForActionService());
+        } catch (final RuntimeException e) {
+            // Unconfirmed, so the provider offers it again; do not take the queue down with it.
+            LogUtil.e(TAG, "ActionServiceImpl: in-process " + action.getClass().getSimpleName()
+                    + " failed", e);
+        }
     }
 
     /**

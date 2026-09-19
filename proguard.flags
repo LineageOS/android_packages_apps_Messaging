@@ -81,3 +81,20 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+# JAIN-SIP: SipFactory.createSipStack resolves the stack implementation and per-transport
+# classes by name, so they must not be renamed or stripped.
+-keep class gov.nist.** { *; }
+-keep interface javax.sip.** { *; }
+-keep class javax.sip.** { *; }
+-dontwarn gov.nist.**
+-dontwarn javax.sip.**
+
+# The carrier transport drives JAIN-SIP through listeners and HandlerThread posts; R8
+# optimization of it breaks registration.
+-keep class com.android.messaging.rcs.carrier.** { *; }
+-dontwarn com.android.messaging.rcs.carrier.**
+
+# RcsContractProbe derives the binder transaction ordinals from the stubs' TRANSACTION_* fields,
+# which R8 otherwise inlines on the proxy side. Without them the probe refuses to attach.
+-keep class org.lineageos.rcs.provider.** { *; }

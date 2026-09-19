@@ -873,6 +873,13 @@ public class MmsUtils {
     // Update SMS message type in telephony; returns true if it succeeded.
     public static boolean updateSmsMessageSendingStatus(final Context context, final Uri uri,
             final int type, final long date) {
+        // RCS rows have no telephony Uri and are filtered from the send queue; skip rather
+        // than throw if one arrives.
+        if (uri == null) {
+            LogUtil.w(TAG, "MmsUtils: updateSmsMessageSendingStatus called with null uri; "
+                    + "skipping telephony update (not an SMS-provider message)");
+            return false;
+        }
         try {
             final ContentResolver resolver = context.getContentResolver();
             final ContentValues values = new ContentValues(2);
