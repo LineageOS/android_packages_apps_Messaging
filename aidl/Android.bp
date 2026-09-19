@@ -1,0 +1,66 @@
+// Copyright (C) 2026 The LineageOS Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+// The RCS provider IPC contract.
+//
+// A proto-free, dependency-light seam between this app and an RCS provider app:
+//   - this app binds IRcsProvider and supplies an IRcsProviderCallback
+//   - everything that crosses is an android.os.Parcelable declared here
+//
+// Nothing in AOSP or LineageOS implements IRcsProvider. The contract exists so a
+// provider can be supplied out-of-tree without either side depending on the
+// other's internals. With no provider installed the app falls back to carrier
+// RCS, and to SMS/MMS after that.
+//
+// TRANSACTION CODES ARE POSITIONAL. The order of the methods in IRcsProvider.aidl
+// IS the wire ABI: inserting or reordering a method silently re-points every code
+// after it, and a mixed-version pair then calls the wrong method with no error.
+// Add new methods at the END, never in the middle.
+
+java_library {
+    name: "messaging-rcs-contract-aidl",
+
+    srcs: [
+        // Interface stubs only. The parcelable *.aidl declarations are
+        // NOT globbed here (they have no Java to generate -- their Java is
+        // the hand-written Parcelable POJO below). They are still resolved
+        // because they live under the aidl include dir.
+        "src/aidl/**/I*.aidl",
+        // The flat Parcelable POJOs (one .java per `parcelable Foo;`).
+        "src/java/**/*.java",
+    ],
+
+    aidl: {
+        // Lets IRcsProvider.aidl / IRcsProviderCallback.aidl resolve their
+        // `import org.lineageos.rcs.provider.RcsXxx;` parcelable declarations.
+        local_include_dirs: ["src/aidl"],
+        // Re-export so a consuming module (Messaging or the provider)
+        // can author its own .aidl importing these parcelables.
+        export_include_dirs: ["src/aidl"],
+    },
+
+    static_libs: [
+        // For @Nullable / @NonNull on the POJOs. Lightweight, FOSS.
+        "androidx.annotation_annotation",
+    ],
+
+    // Public API only (AIDL interfaces + android.os.Parcelable POJOs). Built against
+    // "current" rather than system_current so that BOTH a "current"-sdk consumer and a
+    // platform_apis one can depend on it — "current" is a subset of both.
+    sdk_version: "current",
+    min_sdk_version: "30",
+}
