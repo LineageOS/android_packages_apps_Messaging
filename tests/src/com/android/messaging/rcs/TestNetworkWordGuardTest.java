@@ -33,9 +33,10 @@ import java.util.List;
  * or before a plural s). So {@code label}, {@code available} and {@code parcelable} are not hits,
  * and neither is the Latvian {@code Labi}.
  *
- * <p>One value is allowlisted, because it is data and not a name: the participant-key preferences
- * file name, which is on-device state. The MLS engine adds the participant-key derivation label.
- * Nothing else may be added here; rename the thing instead.
+ * <p>Two values are allowlisted, because they are data and not names:
+ * {@code MlsParticipantKeyDerivation}'s derivation label, which every device's participant key is
+ * derived from, and {@code MlsParticipantIdentityKey}'s preferences file name, which is on-device
+ * state. Nothing else may be added here; rename the thing instead.
  */
 public class TestNetworkWordGuardTest {
 
@@ -44,6 +45,8 @@ public class TestNetworkWordGuardTest {
 
     /** Exactly the frozen values. Each must still exist, or its entry is stale. */
     private static final List<String> ALLOWED = Arrays.asList(
+            "OpenRCS " + Character.toUpperCase(W.charAt(0)) + W.substring(1)
+                    + " 1.0 Public_Participant_Key",
             "mls_" + W + "_participant_key");
 
     /** Directories never scanned: VCS metadata and build output. */
@@ -181,7 +184,7 @@ public class TestNetworkWordGuardTest {
         if (!found.isEmpty()) {
             final int shown = Math.min(found.size(), 40);
             fail(found.size() + " use(s) of the retired test-network name. Rename the thing; "
-                    + "only the frozen value in ALLOWED may keep it:\n  "
+                    + "only the two frozen values in ALLOWED may keep it:\n  "
                     + String.join("\n  ", found.subList(0, shown))
                     + (shown < found.size() ? "\n  ... and " + (found.size() - shown) + " more"
                             : ""));
