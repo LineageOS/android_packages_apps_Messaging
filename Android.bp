@@ -260,3 +260,46 @@ java_test_host {
     ],
     test_suites: ["general-tests"],
 }
+
+// The Rust MLS core (mls-rs), linked into the JNI bridge; see docs/mls/rust-core.md.
+rust_ffi_static {
+    name: "librcs_mls_ffi",
+    crate_name: "rcs_mls_ffi",
+    srcs: ["rust/rcs_mls_ffi/src/lib.rs"],
+    edition: "2021",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    compile_multilib: "first",
+    // The relaxed lint set: the platform set adds -D missing-docs and -D unsafe_op_in_unsafe_fn,
+    // which this FFI crate does not meet. "vendor" still runs clippy and denies warnings.
+    lints: "vendor",
+    clippy_lints: "vendor",
+    rustlibs: [
+        "libmls_rs_fork",
+        "libmls_rs_core_mls_rs",
+        "libmls_rs_crypto_rustcrypto",
+        "libmls_rs_identity_x509",
+        "libzeroize_mls_rs",
+        "libgetrandom_mls_rs",
+        "libder_mls_rs",
+        "libx509_cert_mls_rs",
+        "libsha2",
+        "libp256",
+    ],
+    system_ext_specific: true,
+    // Plain C ABI so more than one JNI bridge can link it.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+cc_library_shared {
+    name: "libmlsopenmlsbridge",
+    srcs: ["jni/mls_openmls_bridge.c"],
+    header_libs: ["jni_headers"],
+    whole_static_libs: ["librcs_mls_ffi"],
+    shared_libs: ["liblog"],
+    compile_multilib: "64",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    system_ext_specific: true,
+    visibility: ["//packages/apps/Messaging"],
+}
