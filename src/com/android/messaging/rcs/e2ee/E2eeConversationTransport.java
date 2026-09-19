@@ -28,14 +28,15 @@ import java.util.Map;
  *       is a thin adapter over the provider AIDL. Ciphertext never enters this process.</li>
  *   <li><b>transport-provided MLS</b> (e.g. Tachyon MLS) — MLS crypto in the shared engine, but the
  *       wire rides the provider's Tachyon transport (future binding).</li>
- *   <li><b>app-provided MLS</b> — MLS crypto in a shared engine, carried by this app's OWN carrier
- *       CPM/MSRP transport as {@code message/mls[-rcs-*]} CPIM bodies (RCC.16 §7.9).</li>
+ *   <li><b>app-provided MLS</b> — MLS crypto in the shared {@code OpenMlsSession} engine, carried by
+ *       messaging2's OWN carrier CPM/MSRP transport as {@code message/mls[-rcs-*]} CPIM bodies
+ *       (RCC.16 §7.9). This is {@code MlsCarrierTransport}.</li>
  * </ol>
  *
  * <p>{@link E2eeSchemeGate} decides <i>which</i> scheme wins per conversation; {@link E2eeTransportRouter}
- * maps that resolved {@code schemeId} onto the binding that carries it. A crypto engine is
- * transport-agnostic and reused unchanged across all three — a binding only owns the
- * <b>transport packing</b> (CPIM content-type, headers, session lifecycle).
+ * maps that resolved {@code schemeId} onto the binding that carries it. The crypto engine
+ * ({@code com.android.messaging.rcs.engine.mls.MlsEngine}) is transport-agnostic and reused unchanged —
+ * a binding only owns the <b>transport packing</b> (CPIM content-type, headers, session lifecycle).
  */
 public interface E2eeConversationTransport {
 

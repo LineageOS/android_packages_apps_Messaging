@@ -95,8 +95,8 @@ public final class CarrierImsSeam {
      *  already crossing this Messenger for plaintext sends — so the two send paths are symmetric
      *  rather than one of them being a debug shortcut.
      *
-     *  <p>{@code body} is an RCC.16-framed MIME entity built by the caller, so the INNER content
-     *  type rides inside the frame; {@code contentType} carries the OUTER type
+     *  <p>{@code body} is an RCC.16-framed MIME entity built by the caller ({@code RccMlsBody.frame}),
+     *  so the INNER content type rides inside the frame; {@code contentType} carries the OUTER type
      *  ({@code message/mls}), exactly as the Tachyon leg's own {@code RcsOutgoingMessage} does. */
     public static final int MSG_SEND_MLS = 14;
 

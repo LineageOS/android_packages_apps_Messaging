@@ -15,7 +15,6 @@
  */
 package com.android.messaging.datamodel.action;
 
-import com.android.messaging.rcs.RcsContentDisposition;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
@@ -42,6 +41,7 @@ import com.android.messaging.rcs.ProviderTransport;
 import com.android.messaging.rcs.RcsIosTapback;
 import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.sms.MmsSmsUtils;
+import com.android.messaging.rcs.engine.mls.RccContentDisposition;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 
@@ -85,25 +85,25 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
         actionParameters.putString(KEY_FROM_URI, msg.fromUri);
         // WHOEVER PRODUCES AN RcsIncomingMessage OWNS RCC.16 UNFRAMING. contentType and
         // body are taken VERBATIM here — by the time a message reaches this Action they are the real
-        // inner type and content, encrypted or not. Do NOT unframe again here.
+        // inner type and content, for MLS exactly as for plaintext. Do NOT call RccMlsBody.parse.
         //
-        // This used to re-parse whenever e2eeSchemeId named an E2EE scheme, on a body the producer
-        // had ALREADY unframed. An RCC.16 unframer returns a payload with no MIME frame verbatim as
+        // This used to re-parse whenever e2eeSchemeId contained "mls", on a body the MLS producer
+        // had ALREADY unframed. RccMlsBody.parse returns a payload with no MIME frame verbatim as
         // text/plain (its no-frame fallback), so on unframed TEXT the second parse was a no-op and
         // hid the defect for every message we have ever sent. An already-unframed IMAGE has no frame
         // either: the second parse handed back text/plain over raw image bytes, the producer's
         // image/jpeg was discarded, and the picture rendered as a bubble of binary.
         //
-        // The PRODUCER is the owner because it is the only layer that can be. A producer on the
-        // encrypted path has to know the inner type before it knows whether there is a message here
-        // at all — an IMDN is a receipt, a §7.8.1 FileInfo is a key, a reaction attaches to an
-        // existing row — so it unframes as part of routing and hands the router a real content type
-        // plus bytes. "The Action is the only unframer" was never actually available: it would have
-        // left the producer parsing for routing and this layer parsing again for content, two
-        // derivations of one fact.
+        // The PRODUCER is the owner because it is the only layer that can be. An MLS producer has to
+        // know the inner type before it knows whether there is a message here at all — an IMDN is a
+        // receipt, a §7.8.1 FileInfo is a key, a reaction attaches to an existing row — so it
+        // unframes as part of routing, and MlsProviderTransport.decryptInbound already hands the
+        // router an RccMlsBody.Parsed rather than bytes. "The Action is the only unframer" was never
+        // actually available: it would have left the producer parsing for routing and this layer
+        // parsing again for content, two derivations of one fact.
         //
-        // And unframing must NOT be made safe to run twice. A legitimate text/plain message whose
-        // text happens to begin with something frame-shaped would be eaten by the second pass, so
+        // And parse must NOT be made safe to run twice. A legitimate text/plain message whose text
+        // happens to begin with something frame-shaped would be eaten by the second pass, so
         // "parsing twice is harmless" cannot be made true — it can only be made to look true for
         // the one content type (text) that hid this bug in the first place.
         actionParameters.putString(KEY_CONTENT_TYPE, msg.contentType);
@@ -183,7 +183,7 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
                 // extensionFor("IMAGE/JPEG") really does return jpg — but that is AN EXTERNAL
                 // CONTRACT WE DO NOT OWN, and the consumer list here will grow. Normalising at the
                 // top depends on neither.
-                final String mediaType = RcsContentDisposition.canonicalType(contentType);
+                final String mediaType = RccContentDisposition.canonicalType(contentType);
                 mediaUri = stageBytesToScratch(context, body, mediaType);
                 if (mediaUri != null) {
                     mediaMime = mediaType;
@@ -391,21 +391,21 @@ public class ReceiveRcsMessageAction extends Action implements Parcelable {
     /**
      * Classify the (MLS-decoded) content-type into a render disposition.
      *
-     * <p>Delegates to {@link RcsContentDisposition}, which is pure and host-tested. This used to be a
+     * <p>Delegates to {@link RccContentDisposition}, which is pure and host-tested. This used to be a
      * second copy of the provider's switch — and the copy defaulted UNKNOWN types to TEXT, which is
      * how a non-text payload reaches the UI as a bubble. The shared classifier defaults them to a
      * drop instead, and every "raw bytes in the thread" bug we have had was that default.
      */
     private static Disposition classify(final String contentType) {
-        final int d = RcsContentDisposition.classify(contentType);
+        final int d = RccContentDisposition.classify(contentType);
         switch (d) {
-            case RcsContentDisposition.MEDIA:    return Disposition.MEDIA;
-            case RcsContentDisposition.FT:       return Disposition.FT;
-            case RcsContentDisposition.LOCATION: return Disposition.LOCATION;
-            case RcsContentDisposition.TEXT:     return Disposition.TEXT;
+            case RccContentDisposition.MEDIA:    return Disposition.MEDIA;
+            case RccContentDisposition.FT:       return Disposition.FT;
+            case RccContentDisposition.LOCATION: return Disposition.LOCATION;
+            case RccContentDisposition.TEXT:     return Disposition.TEXT;
             default:
                 LogUtil.i(TAG, "ReceiveRcsMessageAction: dropping contentType=" + contentType
-                        + " (" + RcsContentDisposition.name(d) + ") — not rendered as a message");
+                        + " (" + RccContentDisposition.name(d) + ") — not rendered as a message");
                 return Disposition.DROP;
         }
     }

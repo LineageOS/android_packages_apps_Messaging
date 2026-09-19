@@ -109,6 +109,8 @@ import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionLis
 import com.android.messaging.rcs.ProviderTransport;
 import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.e2ee.MlsSendRouting;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
 import com.android.messaging.ui.AttachmentPreview;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.ConversationDrawables;
@@ -805,6 +807,14 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         if (mHost.shouldResumeComposeMessage()) {
             mComposeMessageView.resumeComposeMessage();
         }
+
+        // MLS UPGRADE ON CONVERSATION OPEN — the same trigger Google Messages uses. This is the lever
+        // that makes a GROUP become MLS; there is no create-time or send-time equivalent in Google Messages
+        // either. Non-blocking and guard-throttled, so calling it on every resume is free for a
+        // conversation that is already encrypted.
+        com.android.messaging.rcs.e2ee.MlsConversationOpenListener.onConversationOpened(
+                getActivity(), com.android.messaging.datamodel.data.ParticipantData.DEFAULT_SELF_SUB_ID,
+                mConversationId);
 
         setConversationFocus();
 
@@ -2102,14 +2112,84 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 ? Factory.get().getApplicationContext()
                 : getActivity().getApplicationContext();
         final String sendToUri = toUri;
+        final String convId = mConversationId;
         new Thread(() -> {
             try {
+                // ================= REFUSE RATHER THAN DEGRADE =====================
+                //
+                // A REACTION USED TO GO OUT FROM HERE IN THE CLEAR, on both legs, on conversations
+                // the app was drawing a PADLOCK on. Nothing on the path consulted MLS state:
+                // ProviderTransport.sendReaction is a straight binder pass-through, and
+                // TachyonRegistrar's sendReaction / sendGroupReaction put the emoji on the wire as a
+                // text/plain part (U+200A + glyph + U+200A) with the reactions-ns headers
+                // alongside it. The transport's only MLS branch is gated on message/mls, so a
+                // text/plain reaction could never be sealed however the conversation was encrypted.
+                //
+                // TWO THINGS LEAK AND THE SECOND IS THE INTERESTING ONE. The emoji is small and
+                // low-entropy, which is why this is the lesser leak. But reactionHeaders puts the
+                // TARGET MESSAGE ID in a cleartext header, so an observer who sees only the reaction
+                // learns that a specific SEALED message exists, when it was reacted to and by whom —
+                // traffic analysis against a thread whose bodies are all encrypted, through a
+                // metadata channel the seal on the target was supposed to close.
+                //
+                // The padlock is latched PER CONVERSATION, not per message, which is the structural
+                // reason this keeps reappearing verb by verb: one inbound MLS message padlocks the
+                // thread for every outbound verb ever added to it afterwards.
+                //
+                // PLAINTEXT ALONE MAY SEND. There is no reaction seal path, so SEAL — "the engine
+                // could seal this" — is not an instruction this caller can carry out; it is a
+                // refusal. Naming REFUSE here instead would make this a deny-list and hand the next
+                // verdict added to the enum a default of "send it in the clear".
+                //
+                // AN ORDINARY NON-MLS CONVERSATION CANNOT REACH THE REFUSAL: it holds no MLS state
+                // and has never latched the MLS bit, both inputs sit at their defaults, and the
+                // table's verdict for that pair is PLAINTEXT. An Etouffee thread is unaffected too —
+                // the latch reads the MLS bit, not the padlock's own encryption_protocol != 0.
+                final MlsSendRouting.Verdict verdict = TextUtils.isEmpty(groupId)
+                        ? MlsProviderTransport.oneToOneSendVerdict(appCtx, subId, sendToUri, convId)
+                        : MlsProviderTransport.groupSendVerdict(appCtx, subId, groupId, convId);
+                if (verdict != MlsSendRouting.Verdict.PLAINTEXT) {
+                    LogUtil.e(LogUtil.BUGLE_TAG, "onReactionSelected: NOT sending this reaction in "
+                            + "the clear (conversation " + convId + ", "
+                            + (TextUtils.isEmpty(groupId) ? "1-1" : "group") + ", verdict " + verdict
+                            + "). The app is presenting this thread as encrypted and a reaction "
+                            + "cannot be sealed, so it is withheld.");
+                    withdrawRefusedReaction(targetRcsId, emoji, add);
+                    return;
+                }
                 ProviderTransport.getInstance(appCtx)
                         .sendReaction(subId, targetRcsId, sendToUri, emoji, add, groupId);
             } catch (final Throwable t) {
                 LogUtil.w(LogUtil.BUGLE_TAG, "onReactionSelected: sendReaction failed", t);
             }
         }, "rcs-send-reaction").start();
+    }
+
+    /**
+     * Undo the optimistic chip for a reaction we REFUSED to send, and say so.
+     *
+     * <p><b>A reaction has no message row to mark FAILED</b>, which is the one way this refusal
+     * differs from its siblings and the reason it needs its own spelling rather than
+     * {@code SendRcsLocationAction}'s. {@code recordSelfReaction} above has already written the chip
+     * optimistically so it appears before the binder call returns; leaving it there would tell the
+     * user their reaction landed when it was withheld — the same lie as the plaintext send, one
+     * layer up. There is nothing here for the failed-row treatment to attach to.
+     *
+     * <p><b>{@code !add} is the exact inverse and covers BOTH directions.</b>
+     * {@code UpdateRcsReactionAction} branches on the flag alone: {@code true} upserts the
+     * {@code (target, SELF_REACTOR_URI)} row and {@code false} removes it by key, not by emoji. So a
+     * refused ADD removes the chip that was just drawn, and a refused REMOVE puts back the chip the
+     * user's retraction had already taken away — which matters, because that retraction did not
+     * reach the peer either and the two sides must not disagree about it.
+     *
+     * <p>The toast is posted to the main thread deliberately: this runs on a bare {@code Thread} with
+     * no Looper, and {@code Toast.makeText} throws there.
+     */
+    private static void withdrawRefusedReaction(final String targetRcsId, final String emoji,
+            final boolean add) {
+        UpdateRcsReactionAction.recordSelfReaction(targetRcsId, emoji, !add);
+        ThreadUtil.getMainThreadHandler().post(
+                () -> UiUtils.showToast(R.string.rcs_reaction_not_sent_encrypted));
     }
 
     /**

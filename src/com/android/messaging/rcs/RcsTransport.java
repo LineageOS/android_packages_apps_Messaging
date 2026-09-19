@@ -125,10 +125,10 @@ public interface RcsTransport {
      * if the transport accepted ownership of the send (dispatched), {@code false} if
      * it cannot carry MLS (caller falls back per the gate). No-op default.
      *
-     * <p><b>Takes a FRAMED BODY, not text.</b> {@code framedBody} is an RCC.16 MIME entity built
-     * by the caller: the inner content type is inside the frame, which is what lets this path carry
-     * media and interoperate with a third-party peer. The old {@code String text} signature could
-     * express neither.
+     * <p><b>Takes a FRAMED BODY, not text.</b> {@code framedBody} is an RCC.16 MIME
+     * entity from {@code RccMlsBody.frame} / {@code frameText}: the inner content type is inside the
+     * frame, which is what lets this path carry media and interoperate with a third-party peer. The
+     * old {@code String text} signature could express neither.
      *
      * @param toUri {@code tel:+E164} of the peer
      * @param framedBody the RCC.16-framed application entity to encrypt and send

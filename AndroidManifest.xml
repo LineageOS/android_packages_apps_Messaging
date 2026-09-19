@@ -556,6 +556,19 @@
             </intent-filter>
         </receiver>
 
+        <!-- The two actions on the "encrypted chat isn't working" notification.
+             NOT exported: these are reached only from our own PendingIntents, and one of
+             them turns off end-to-end encryption for a conversation, which no other app
+             may ever trigger. -->
+        <receiver
+            android:name=".rcs.e2ee.MlsStalledActionReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.messaging.rcs.e2ee.MLS_STALLED_RETRY" />
+                <action android:name="com.android.messaging.rcs.e2ee.MLS_STALLED_DOWNGRADE" />
+            </intent-filter>
+        </receiver>
+
         <!-- Debug-only RCS send trigger for the E2E harness. Exported so adb
              can reach it, but gated inside onReceive on FLAG_DEBUGGABLE so it
              is inert on a user build. -->
@@ -577,6 +590,30 @@
             </intent-filter>
         </receiver>
 
+        <!-- Debug-only MLS "contained engine" self-test: mints a local
+             RCC.16 PKI + two identities and runs a full OpenMLS 1:1 E2EE round-trip
+             inside messaging2's own process (no network, no lab KDS, no 2nd device).
+             Exported for adb; inert on a user build (FLAG_DEBUGGABLE-gated). -->
+        <receiver
+            android:name=".rcs.e2ee.MlsSelfTestReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.MLS_SELFTEST" />
+                <action android:name="com.android.messaging.debug.MLS_DUMP_PKI" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only driver for the REAL lab MLS flow: enrol (CSR->leaf)
+             -> KeyPackage publish -> optional peer claim + group, against openrcs-kds
+             over the cellular data bearer. Exported for adb; inert on user builds. -->
+        <receiver
+            android:name=".rcs.e2ee.MlsEnrollDebugReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.MLS_LAB_ENROLL" />
+            </intent-filter>
+        </receiver>
+
         <!-- Debug-only trigger that drives the in-process carrier-IMS (SIP/MSRP)
              transport directly (startForSub / warmPeer / sendMessage), bypassing
              the RouteSelector eligibility gate so the rig can exercise the :ims
@@ -590,6 +627,17 @@
                 <action android:name="com.android.messaging.debug.CARRIER_WARM" />
                 <action android:name="com.android.messaging.debug.CARRIER_SEND" />
                 <action android:name="com.android.messaging.debug.CARRIER_PLAIN" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only MLS-E2EE send over the carrier CPM/MSRP session: drives
+             CarrierImsTransport.sendMls (enrol/claim/group/Welcome/encrypt in :ims). Exported
+             for adb; inert on a user build (Build.TYPE-gated). -->
+        <receiver
+            android:name=".rcs.MlsSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.MLS_SEND" />
             </intent-filter>
         </receiver>
 

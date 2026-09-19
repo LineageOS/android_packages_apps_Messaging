@@ -32,6 +32,7 @@ import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.e2ee.MlsResendLedger;
 import com.android.messaging.util.LogUtil;
 
 /**
@@ -108,6 +109,12 @@ public class UpdateRcsMessageStatusAction extends Action implements Parcelable {
         // missed, and the update was dropped.
         //
         // OBSERVED, not inferred — one second of device log on 2026-08-01:
+        //   17:58:25.368  MlsResendLedger: resend 1 of MxRhDXs-… → new id 6e6f0ff8-…
+        //   17:58:25.390  sendGroupMessage … id=6e6f0ff8-…
+        //   17:58:25.903  incoming IMDN <message-id>6e6f0ff8-…</message-id> <delivered/>
+        //   17:58:25.953  UpdateRcsMessageStatusAction: no local row for rcsId=6e6f0ff8-…
+        // The resend was DELIVERED and the chat row never learned. Note the line between the last
+        // two: MlsProviderTransport handled the same receipt correctly, because it root-resolves.
         // Two consumers of one receipt, one chain-aware and one not.
         //
         // A FALLBACK, NOT A REPLACEMENT, and that is what makes this safe to land. The exact lookup
@@ -122,10 +129,25 @@ public class UpdateRcsMessageStatusAction extends Action implements Parcelable {
         // the same whether or not the chain step fired would be no better than the silence this
         // replaces.
         if (localId == null) {
-            LogUtil.w(TAG, "UpdateRcsMessageStatusAction: no local row for rcsId=" + rcsMessageId
-                    + "; nothing to update. The row was deleted, or this outcome is for a message "
-                    + "this device did not originate.");
-            return null;
+            final String root = MlsResendLedger.rootOf(rcsMessageId);
+            if (!TextUtils.equals(root, rcsMessageId)) {
+                localId = RcsMessageStore.findLocalIdByRcsMessageId(db, root);
+                if (localId != null) {
+                    LogUtil.i(TAG, "UpdateRcsMessageStatusAction: rcsId=" + rcsMessageId
+                            + " is a RESEND; resolved it through the §10.3 ledger to its chain root "
+                            + root + " and will update that row.");
+                } else {
+                    LogUtil.w(TAG, "UpdateRcsMessageStatusAction: no local row for rcsId="
+                            + rcsMessageId + " NOR for its chain root " + root + " — the ledger has "
+                            + "the chain but the originating row is gone (deleted conversation?).");
+                    return null;
+                }
+            } else {
+                LogUtil.w(TAG, "UpdateRcsMessageStatusAction: no local row for rcsId=" + rcsMessageId
+                        + " (the §10.3 ledger has no resend chain for it either, so this is not a "
+                        + "resend whose root we could have found).");
+                return null;
+            }
         }
 
         // DIRECTION GUARD. Every kind handled below reports the fate of a message WE SENT. But

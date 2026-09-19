@@ -27,9 +27,16 @@ import android.os.ParcelFileDescriptor;
 import android.os.RemoteException;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import org.lineageos.rcs.provider.IRcsProvider;
+import org.lineageos.rcs.provider.IRcsProviderCallback;
+import org.lineageos.rcs.provider.RcsMlsClaimResult;
+import org.lineageos.rcs.provider.RcsMlsControlResult;
+import org.lineageos.rcs.provider.RcsMlsIdentity;
+import org.lineageos.rcs.provider.RcsMlsTransportProfile;
+import org.lineageos.rcs.provider.RcsMlsPeerCaps;
 import org.lineageos.rcs.provider.RcsBotBrand;
 import org.lineageos.rcs.provider.RcsContractLayout;
 import org.lineageos.rcs.provider.RcsContractProbe;
@@ -44,7 +51,9 @@ import com.android.messaging.datamodel.action.UpdateRcsReactionAction;
 import com.android.messaging.util.LogUtil;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.Deque;
+import java.util.Map;
 
 /**
  * AIDL client adapter: owns the {@link ServiceConnection} to the RCS
@@ -94,10 +103,10 @@ public final class ProviderTransport implements RcsTransport {
      * interface does not renumber anything before it, so an older peer keeps working for
      * everything it already knew and fails only the call it does not have. Inserting or
      * reordering renumbers every method after the change and silently re-points the peer at the
-     * wrong one — which is why a new method goes at the END of {@code IRcsProvider.aidl}
-     * and never in the middle of it.
+     * wrong one — which is why the MLS methods live in one appended block at the end of
+     * {@code IRcsProvider.aidl} and must stay there.
      */
-    public static final int CONTRACT_VERSION = 1;
+    public static final int CONTRACT_VERSION = 2;
 
     /** Bind action the provider's exported service advertises. */
     static final String BIND_ACTION = RcsConstants.ACTION_BIND_RCS_PROVIDER;
@@ -170,10 +179,10 @@ public final class ProviderTransport implements RcsTransport {
      * The provider binder is not attached: report it LOUDLY and ask for a rebind.
      *
      * <p>These call sites used to {@code return null} in silence, and that silence was expensive.
-     * Callers treat a null as a TRANSPORT FAILURE and log
-     * "could not be sent (RETRYABLE, retry later)" for it, so an app that was simply never bound
+     * Every MLS caller treats a null as a TRANSPORT FAILURE — {@code MlsProviderTransport} logs
+     * "could not be sent (RETRYABLE, retry later)" for it — so an app that was simply never bound
      * to the provider produced a log line claiming the network refused us. On 2026-08-19 that cost
-     * a full test cycle: a request was built correctly (3443B), "failed to send"
+     * a full test cycle: a remove-member commit was built correctly (3443B), "failed to send"
      * three milliseconds later, and the provider process had not been called at all. Three
      * milliseconds is not an RPC, and nothing in the log said so.
      *
@@ -414,9 +423,9 @@ public final class ProviderTransport implements RcsTransport {
                 // contract is >= ours is a superset (additive bumps)". Both halves were wrong.
                 // Binder transaction codes are POSITIONAL, and v59/v60 INSERTED methods into the
                 // middle of IRcsProvider rather than appending them, which renumbers everything
-                // after the insertion point. Device-measured 2026-09-11: one of this app's
-                // calls arrived at a DESTRUCTIVE method on the provider
-                // in the same millisecond, and neither side said a word. It
+                // after the insertion point. Device-measured 2026-09-11: this app's
+                // uploadKeyPackages arrived at the provider's mlsForgetGroupConversation — a
+                // DESTRUCTIVE method — in the same millisecond, and neither side said a word. It
                 // did not delete a conversation record only because that method refuses an argument
                 // it cannot parse as a group id.
                 //
@@ -502,7 +511,7 @@ public final class ProviderTransport implements RcsTransport {
          * and it never attached. Only a force-stop recovered it.
          *
          * <p>Reinstalling the provider is not an exotic case — it is what every update does, and
-         * inbound that arrives in that window is HELD rather than dropped only for as long as
+         * MLS control that arrives in that window is HELD rather than dropped only for as long as
          * the provider process survives.
          */
         @Override
@@ -705,7 +714,9 @@ public final class ProviderTransport implements RcsTransport {
      *
      * <p>Until this call lands, the provider holds the message un-acknowledged and the server
      * keeps redelivering it. That is deliberate: it is the only thing that covers this app
-     * receiving a callback and then dying before it could persist the result.
+     * receiving a callback and then dying before it could persist the result — the case where an
+     * MLS Welcome would otherwise be lost with no way back into the group short of another era
+     * advance.
      *
      * <p>Call it only once the work is actually done, never on entry to a handler. Confirming
      * early re-creates exactly the bug this replaced. Idempotent, so confirming a redelivery we
@@ -773,6 +784,881 @@ public final class ProviderTransport implements RcsTransport {
         } catch (final RemoteException e) {
             LogUtil.w(TAG, "ProviderTransport.lookupRcsCapability failed", e);
             return IRcsProvider.CAP_UNKNOWN;
+        }
+    }
+
+    /**
+     * Relative paths of the provider's migratable MLS state (contract v19). Off the main thread.
+     * Empty array = nothing to migrate. See {@link com.android.messaging.rcs.e2ee.MlsStateMigrator}.
+     */
+    @NonNull
+
+    /**
+     * Claim one KeyPackage for a peer via the provider's KDS client (contract v21).
+     *
+     * <p>Off the main thread — this is a network round trip. Null means none available, which is a
+     * legitimate outcome (peer not enrolled, pool exhausted), not necessarily an error.
+     */
+    @Nullable
+    public byte[] claimPeerKeyPackage(final int subId, final String phoneE164) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("claimPeerKeyPackage");
+        try {
+            return provider.claimPeerKeyPackage(token, subId, phoneE164);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.claimPeerKeyPackage failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Claim a peer's KeyPackages AND find out what happened — contract v60.
+     *
+     * <p><b>Never returns null.</b> That is the whole point: {@link #claimPeerKeyPackage} answers
+     * {@code null} for every unhappy path, so the app could not tell "this peer has published
+     * nothing" from "the KDS would not talk to US". Device-measured 2026-09-11: a
+     * {@code grpc-16 UNAUTHENTICATED} caused by OUR expired register token was logged as a fact
+     * about an innocent peer whose pool was full.
+     *
+     * <p>An unbound provider and a dead binder are {@link RcsMlsClaimResult#OUTCOME_NOT_ATTEMPTED}
+     * and {@link RcsMlsClaimResult#OUTCOME_TRANSPORT_FAILED} respectively — NOT "the peer has none".
+     * A provider older than v60 is also {@code NOT_ATTEMPTED}, and deliberately does NOT fall back
+     * to the older call the way {@code claimPeerKeyPackages} does: the caller asked for an OUTCOME,
+     * and a fallback that produced bytes with a guessed outcome would defeat the reason it asked.
+     * The caller can still reach the older call itself.
+     *
+     * <p>Off the main thread — a network round trip.
+     */
+    @NonNull
+    public RcsMlsClaimResult claimPeerKeyPackagesWithOutcome(final int subId,
+            final String phoneE164) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) {
+            return new RcsMlsClaimResult(RcsMlsClaimResult.OUTCOME_NOT_ATTEMPTED, null,
+                    "the RCS provider is not bound");
+        }
+        try {
+            final RcsMlsClaimResult r =
+                    provider.claimPeerKeyPackagesWithOutcome(token, subId, phoneE164);
+            if (r != null) return r;
+            // A null across the binder is a provider bug, not an answer. Saying NOT_ATTEMPTED here
+            // is the conservative reading and, crucially, is not a claim about the peer.
+            LogUtil.w(TAG, "ProviderTransport: claimPeerKeyPackagesWithOutcome returned null, which "
+                    + "the contract forbids — reporting NOT_ATTEMPTED rather than inventing an "
+                    + "outcome for the peer.");
+            return new RcsMlsClaimResult(RcsMlsClaimResult.OUTCOME_NOT_ATTEMPTED, null,
+                    "the provider returned null, which contract v60 forbids");
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.claimPeerKeyPackagesWithOutcome failed", e);
+            return new RcsMlsClaimResult(RcsMlsClaimResult.OUTCOME_TRANSPORT_FAILED, null,
+                    "the binder call failed: " + e);
+        } catch (final NoSuchMethodError preV60) {
+            LogUtil.i(TAG, "ProviderTransport: the provider predates contract v60 — it cannot say "
+                    + "WHY a claim came back empty. Reporting NOT_ATTEMPTED rather than guessing.");
+            return new RcsMlsClaimResult(RcsMlsClaimResult.OUTCOME_NOT_ATTEMPTED, null,
+                    "the provider predates contract v60");
+        }
+    }
+
+    /**
+     * Drop the PROVIDER's peer&rarr;group record for a 1:1 (contract v55).
+     *
+     * @return true if the provider actually took the call; false if it is absent or predates v55,
+     *         which the caller must treat as "cannot recover this way" rather than as success — the
+     *         ENGINE half alone re-enters the era advance that made the recovery necessary.
+     */
+    public boolean mlsForgetConversation(final int subId, final String phoneE164) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return false;
+        try {
+            provider.mlsForgetConversation(token, subId, phoneE164);
+            return true;
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.mlsForgetConversation failed", e);
+        } catch (final NoSuchMethodError preV55) {
+            LogUtil.i(TAG, "ProviderTransport: the provider predates contract v55 — it cannot drop "
+                    + "its peer->group record, so the create-path recovery is unavailable.");
+        }
+        return false;
+    }
+
+    /**
+     * Drop the provider's record for a GROUP conversation (contract v59).
+     *
+     * <p>{@link #mlsForgetConversation} is 1:1 only and its boolean reports only that the binder
+     * call did not throw. This one returns the provider's own answer — whether a record was
+     * actually removed — because a rebuild that proceeds on a half-cleared group re-establishes by
+     * reusing the group id via an era advance, which is the state it is trying to escape.
+     */
+    public boolean mlsForgetGroupConversation(final int subId, final String rcsGroupId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return false;
+        try {
+            return provider.mlsForgetGroupConversation(token, subId, rcsGroupId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.mlsForgetGroupConversation failed", e);
+        } catch (final NoSuchMethodError preV59) {
+            LogUtil.i(TAG, "ProviderTransport: the provider predates contract v59 — it cannot drop "
+                    + "its record for a GROUP, so a group rebuild would re-establish over a record "
+                    + "it believes it dropped. Reporting the failure rather than pretending.");
+        }
+        return false;
+    }
+
+    /**
+     * Claim ALL of a peer's KeyPackages — one per DEVICE (contract v48, rework 9.1).
+     *
+     * <p>Unpacks the length-prefixed reply. Falls back to the SINGULAR call when the provider is
+     * older than v48, because the two apps update independently and a claim that returns nothing on
+     * a version skew would present as "this peer is not enrolled" — a diagnosis that sends whoever
+     * reads it to the KDS rather than to the contract version.
+     *
+     * <p>Off the main thread — a network round trip.
+     *
+     * <p>This spelling cannot say WHY an empty answer is empty. Use
+     * {@link #claimPeerKeyPackages(int, String, int[])} at any call site that reports the result to
+     * a human.
+     */
+    @Nullable
+    public java.util.List<byte[]> claimPeerKeyPackages(final int subId, final String phoneE164) {
+        return claimPeerKeyPackages(subId, phoneE164, null);
+    }
+
+    /**
+     * As above, reporting the provider's OUTCOME for the claim.
+     *
+     * <h2>Why this exists</h2>
+     *
+     * <p>The two-argument form answers {@code List}-or-null, so a caller cannot tell "this peer has
+     * published nothing" from "the KDS would not talk to US" — and three call sites then said the
+     * first by name. Device-measured 2026-09-11: the same peer, the same
+     * {@code UNAUTHENTICATED} cause, 62 seconds apart, printed "THIS IS NOT A FACT ABOUT THE PEER"
+     * through the singular spelling and "EITHER their pool ... this member alone blocks the whole
+     * upgrade" through this one, while the provider logged {@code outcome=2 (NOT_AUTHORIZED)} for
+     * both. The outcome was here all along — {@link #claimPeerKeyPackagesWithOutcome} is already
+     * called below for the dial predicate — and was thrown away on the way out.
+     *
+     * <h2>The sink is written ONLY when an outcome is genuinely known</h2>
+     *
+     * <p><b>It is never guessed, and an unknowable case leaves it untouched</b> — so the caller's
+     * own initial value is what "no outcome available" means, and the caller chooses it. That is
+     * the fail-safe direction: a caller that forgets to initialise gets Java's {@code 0}, which is
+     * {@link RcsMlsClaimResult#OUTCOME_SERVED}, which reduces to "not about the peer". No default
+     * reaches {@code OUTCOME_PEER_HAS_NONE}, which is the only value licensed to blame anyone.
+     *
+     * <p>Left UNTOUCHED in exactly two places, both meaning "we asked and this provider cannot
+     * say": a v48..v59 provider whose plural call came back empty, and a pre-v48 provider whose
+     * singular call did. Reporting {@code NOT_ATTEMPTED} for either would be false — a dial WAS
+     * spent — and reporting anything else would be the invention this contract exists to prevent.
+     *
+     * @param outcomeSink one-element array to receive an {@code RcsMlsClaimResult.OUTCOME_*}, or
+     *                    null to ignore. See above for when it is left alone.
+     */
+    @Nullable
+    public java.util.List<byte[]> claimPeerKeyPackages(final int subId, final String phoneE164,
+            @Nullable final int[] outcomeSink) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) {
+            // NOT a claim about the peer, and no dial was spent.
+            reportOutcome(outcomeSink, RcsMlsClaimResult.OUTCOME_NOT_ATTEMPTED);
+            return notBound("claimPeerKeyPackages");
+        }
+        // ASK ONCE, AND FALL BACK ONLY IF WE NEVER DIALLED — contract v60.
+        //
+        // THE BUG THIS FIXES: the fallback below used to
+        // key on "null or empty", which cannot tell a pool that is genuinely empty from a claim the
+        // KDS REFUSED. So a refusal triggered a SECOND ClaimKeyPackages round-trip — two dials on
+        // the wire, charged as one by MlsClaimLedger, and precisely when things were already going
+        // wrong. It predates v60 (the fallback is from v48); v60 is what makes it visible, and a
+        // line whose claims are all NOT_AUTHORIZED is what makes it live.
+        //
+        // NOT_ATTEMPTED is the ONLY outcome that means no dial was spent — an unbound provider, or
+        // one predating v60. Everything else means we ASKED, and whatever the answer was, asking
+        // again cannot improve it and is not free: a peer's one-time pool is eleven deep.
+        final RcsMlsClaimResult withOutcome = claimPeerKeyPackagesWithOutcome(subId, phoneE164);
+        final java.util.List<byte[]> served = unpackClaimedPackages(withOutcome.keyPackages);
+        if (served != null) {
+            reportOutcome(outcomeSink, withOutcome.outcome);
+            return served;
+        }
+        if (withOutcome.outcome != RcsMlsClaimResult.OUTCOME_NOT_ATTEMPTED) {
+            // We asked and got nothing. Null here is the SAME null the caller has always seen; what
+            // has changed is that we no longer spend a second dial to re-learn it, and that the
+            // caller can now be told WHOSE fault it was instead of inferring it from a null.
+            reportOutcome(outcomeSink, withOutcome.outcome);
+            return null;
+        }
+        // NOT_ATTEMPTED here means the v60 call never reached the wire, so NOTHING is known yet and
+        // the sink is deliberately left as the caller set it. Writing NOT_ATTEMPTED through would
+        // be false the moment the older call below dials.
+        // THE SAME PREDICATE AGAIN, ONE CONTRACT WINDOW DOWN. The v48 plural has its own pre-v48
+        // fallback, and it ALSO keyed on "null or empty" — so on a v48..v59 provider (WithOutcome
+        // absent, plural present) an empty answer still dialled a second time. The first fix did
+        // not reach this window, and it is not hypothetical: every test device was in it as of
+        // 2026-09-11, all predating the v60 AIDL. Check a device's contract version with
+        //   adb -s <SERIAL> shell dumpsys package <provider pkg> | grep versionCode
+        //
+        // NoSuchMethodError is the ONLY arm here that proves no dial was spent. A RemoteException
+        // does NOT: the binder failed and whether the KDS was reached is unknowable, so we do not
+        // spend another asking. That is the same rule as NOT_ATTEMPTED above — fall back only on
+        // "we never asked", never on "we asked and got nothing".
+        byte[] packed = null;
+        boolean neverDialled = false;
+        try {
+            packed = provider.claimPeerKeyPackages(token, subId, phoneE164);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.claimPeerKeyPackages failed", e);
+        } catch (final NoSuchMethodError preV48) {
+            neverDialled = true;
+            LogUtil.i(TAG, "ProviderTransport: the provider predates contract v48 — falling back to "
+                    + "the single-KeyPackage claim. A multi-device peer will get ONE leaf.");
+        }
+        final java.util.List<byte[]> unpacked = unpackClaimedPackages(packed);
+        if (unpacked != null) {
+            // SERVED is a FACT here, not a reading of a status: we are holding the packages.
+            reportOutcome(outcomeSink, RcsMlsClaimResult.OUTCOME_SERVED);
+            return unpacked;
+        }
+        // ASKED, AND THIS PROVIDER CANNOT SAY WHAT HAPPENED. The sink stays untouched — see the
+        // javadoc. Every value in the enum would be a claim we cannot support, and the one that
+        // would be most tempting (PEER_HAS_NONE, because nothing came back) is the defect the
+        // outcome-reporting spelling exists to fix.
+        if (!neverDialled) return null;
+        final byte[] one = claimPeerKeyPackage(subId, phoneE164);
+        if (one == null) return null;
+        reportOutcome(outcomeSink, RcsMlsClaimResult.OUTCOME_SERVED);
+        return java.util.Collections.singletonList(one);
+    }
+
+    /**
+     * Write an outcome into a caller's sink, if it wanted one.
+     *
+     * <p>Deliberately has no "unknown" value to write. A caller learns that no outcome was
+     * available by finding its own initial value still there, which keeps the choice of what that
+     * means — and its fail-safe direction — with the caller rather than here.
+     */
+    private static void reportOutcome(@Nullable final int[] sink, final int outcome) {
+        if (sink != null && sink.length > 0) {
+            sink[0] = outcome;
+        }
+    }
+
+    /**
+     * Unpack the {@code [u32 BE length][bytes]} reply both claim shapes use, or null when it carries
+     * nothing. Null and empty are the same answer to every caller here, so it never returns empty.
+     *
+     * <p>Public so {@code MlsProviderTransport} reads this wire format through the SAME parser rather
+     * than carrying its own. One format with two readers is how the two drift, and a length-prefix
+     * reader that disagrees with its writer fails as a truncated KeyPackage — a codec error naming an
+     * offset, a long way from the cause.
+     */
+    @Nullable
+    public static java.util.List<byte[]> unpackClaimedPackages(@Nullable final byte[] packed) {
+        if (packed == null || packed.length == 0) return null;
+        final java.util.List<byte[]> out = new java.util.ArrayList<>();
+        int o = 0;
+        while (o + 4 <= packed.length) {
+            final int n = ((packed[o] & 0xff) << 24) | ((packed[o + 1] & 0xff) << 16)
+                    | ((packed[o + 2] & 0xff) << 8) | (packed[o + 3] & 0xff);
+            o += 4;
+            if (n < 0 || o + n > packed.length) break;
+            final byte[] kp = new byte[n];
+            System.arraycopy(packed, o, kp, 0, n);
+            o += n;
+            out.add(kp);
+        }
+        return out.isEmpty() ? null : out;
+    }
+
+    /**
+     * This transport's MLS arbitration characteristics (contract v22).
+     *
+     * <p>Never null. An unbound or pre-v22 provider yields the conservative default — nothing
+     * arbitrated, nothing awaited — chosen so a missing profile can never HANG a send. Assuming a
+     * convergence ACK is required would make an unbound provider indistinguishable from "waiting
+     * forever", which is the worse failure.
+     */
+    /**
+     * Say out loud that a call was made before the provider binder attached.
+     *
+     * <p>Every {@code if (provider == null) return <default>} in this class is SILENT, and the
+     * defaults are indistinguishable from real answers: {@code uploadKeyPackages} returns the same
+     * {@code false} the KDS returns when it rejects a pool, and {@code getMlsTransportProfile}
+     * returns an all-false profile that reads exactly like a peer with no MLS capability.
+     *
+     * <p>That cost a device session on 2026-08-02. A KeyPackage republish logged
+     * {@code → REJECTED}, which sent the investigation at the KDS and the pool bytes; the provider
+     * process had in fact logged nothing at all, because the app had not rebound after the provider
+     * APK was reinstalled. The call never left the app. "Rejected by the server" and "never sent"
+     * must not share a return value AND a silence.
+     *
+     * <p>Rate-limited: an unbound provider means EVERY call takes this path, and the resulting log
+     * flood is its own way of hiding the signal.
+     */
+    private void noteUnbound(final String what) {
+        final long now = android.os.SystemClock.elapsedRealtime();
+        synchronized (mLock) {
+            if (now - mLastUnboundLogMs < UNBOUND_LOG_INTERVAL_MS) return;
+            mLastUnboundLogMs = now;
+        }
+        LogUtil.w(TAG, "ProviderTransport." + what + ": NOT BOUND to the provider — returning the "
+                + "no-op default WITHOUT calling it. This is not a server verdict. Binding is async "
+                + "after process start and after a provider reinstall; retry once "
+                + "'client callback REGISTERED' appears.");
+    }
+
+    private long mLastUnboundLogMs = -UNBOUND_LOG_INTERVAL_MS;
+    private static final long UNBOUND_LOG_INTERVAL_MS = 5_000L;
+
+    @NonNull
+    public RcsMlsTransportProfile getMlsTransportProfile(final int subId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) {
+            noteUnbound("getMlsTransportProfile");
+            return RcsMlsTransportProfile.conservativeDefault();
+        }
+        try {
+            final RcsMlsTransportProfile p = provider.getMlsTransportProfile(token, subId);
+            return (p == null) ? RcsMlsTransportProfile.conservativeDefault() : p;
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.getMlsTransportProfile failed", e);
+            return RcsMlsTransportProfile.conservativeDefault();
+        }
+    }
+
+    /**
+     * Create an MLS conversation from app-built artifacts (contract v21). Off the main thread.
+     *
+     * <p>Every array is an opaque MLS artifact this app produced with the shared engine; the provider
+     * places them in transport envelopes without parsing.
+     */
+    @Nullable
+    public RcsMlsControlResult createMlsConversation(final int subId, final String peerE164,
+            final byte[] mlsGroupId, final byte[] welcome, final byte[] commit,
+            final byte[] groupInfo, final byte[] epochAuth, final byte[] ratchetTree,
+            final int era, final String contextId, final String rcsGroupId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("createMlsConversation");
+        try {
+            return provider.createMlsConversation(token, subId, peerE164, mlsGroupId, welcome,
+                    commit, groupInfo, epochAuth, ratchetTree, era, contextId, rcsGroupId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.createMlsConversation failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Send ALREADY-ENCRYPTED MLS bytes verbatim (contract v23). Off the main thread.
+     *
+     * <p>Used when THIS app owns the engine: we sealed the message, so the provider must not
+     * re-encrypt. {@code messageId} must be the id bound into the AAD.
+     */
+    @Nullable
+    public RcsSendResult sendMlsCiphertext(final int subId, final String peerE164,
+            final byte[] ciphertext, final String messageId, final int era,
+            final byte[] epochAuth) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("sendMlsCiphertext");
+        try {
+            return provider.sendMlsCiphertext(token, subId, peerE164, ciphertext, messageId,
+                    era, epochAuth);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.sendMlsCiphertext failed", e);
+            return null;
+        }
+    }
+
+    /** Group counterpart of {@link #sendMlsCiphertext} (contract v32). Off the main thread. */
+    @Nullable
+    public RcsSendResult sendGroupMlsCiphertext(final int subId, final String rcsGroupId,
+            final byte[] ciphertext, final String messageId, final int era, final byte[] epochAuth) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("sendGroupMlsCiphertext");
+        try {
+            return provider.sendGroupMlsCiphertext(token, subId, rcsGroupId, ciphertext, messageId,
+                    era, epochAuth);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.sendGroupMlsCiphertext failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * The group id the provider already holds for a peer (contract v24); null if none.
+     *
+     * <p>Lets this app ADOPT a migrated conversation rather than creating a duplicate group — which
+     * the server refuses outright ("Era changed from N to 1") and which would burn an era.
+     */
+    @Nullable
+    public byte[] getMlsGroupIdForPeer(final int subId, final String peerE164) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("getMlsGroupIdForPeer");
+        try {
+            return provider.getMlsGroupIdForPeer(token, subId, peerE164);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.getMlsGroupIdForPeer failed", e);
+            return null;
+        }
+    }
+
+    /** Apply an app-built commit to an existing conversation (contract v21). Off the main thread. */
+    @Nullable
+    public RcsMlsControlResult applyMlsControl(final int subId, final String peerE164,
+            final String controlMsgId, final byte[] groupInfo, final byte[] commit,
+            final byte[] epochAuth, final byte[] ratchetTree, final byte[] baseEpochAuth,
+            final String rcsGroupId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("applyMlsControl");
+        try {
+            return provider.applyMlsControl(token, subId, peerE164, controlMsgId, groupInfo,
+                    commit, epochAuth, ratchetTree, baseEpochAuth, rcsGroupId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.applyMlsControl failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Set an ENCRYPTED group subject, commit its RCC.16 commitment, and DELIVER the key it commits
+     * to — all in one ChangeGroupProfile (contract v37).
+     *
+     * <p>All three must ride one request. The server validates the commitment against the
+     * encrypted-content field in the same request, so a rename followed by a separate
+     * ApplyMlsControlMessage is refused mismatched-rcs-group-state; and it expects the key delivery
+     * ({@code privateMessages}) in that request too, since the commitment is over a KEY.
+     * Committing to a key you ship separately is what earns INVALID_ARGUMENT.
+     *
+     * @param privateMessages an MLS PrivateMessage encrypted at the POST-COMMIT epoch carrying the
+     *                        subject key — mandatory in practice, see the AIDL doc
+     */
+    /** The server's current epoch authenticator — the only true state check (contract v42). */
+    @Nullable
+    public byte[] fetchServerEpochAuthenticator(final int subId, final String peerE164,
+            final String rcsGroupId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("fetchServerEpochAuthenticator");
+        try {
+            return provider.fetchServerEpochAuthenticator(token, subId, peerE164, rcsGroupId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.fetchServerEpochAuthenticator failed", e);
+            return null;
+        }
+    }
+
+    /** Fetch the commits we missed, for enhanced self-heal (contract v41). Null = fetch failed. */
+    @Nullable
+    public byte[] fetchMissedCommits(final int subId, final String peerE164,
+            final String rcsGroupId, final long era, final byte[] epochAuthenticator) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("fetchMissedCommits");
+        try {
+            return provider.fetchMissedCommits(token, subId, peerE164, rcsGroupId, era,
+                    epochAuthenticator == null ? new byte[0] : epochAuthenticator);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.fetchMissedCommits failed", e);
+            return null;
+        }
+    }
+
+    @Nullable
+    public RcsMlsControlResult changeGroupSubjectMls(final int subId, final String rcsGroupId,
+            final String contentType, final byte[] ciphertext, final byte[] groupInfo,
+            final byte[] commit, final byte[] epochAuth, final byte[] ratchetTree,
+            final byte[] baseEpochAuth, final byte[] privateMessages, final String controlMsgId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("changeGroupSubjectMls");
+        try {
+            return provider.changeGroupSubjectMls(token, subId, rcsGroupId, contentType, ciphertext,
+                    groupInfo, commit, epochAuth, ratchetTree, baseEpochAuth, privateMessages,
+                    controlMsgId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.changeGroupSubjectMls failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * The ICON sibling of {@link #changeGroupSubjectMls} (contract v62).
+     *
+     * <p>Same artifacts, same atomicity; the provider additionally UPLOADS {@code ciphertext} to
+     * the File Transfer Server and references the resulting URL, because an icon
+     * is carried by reference where a subject is inline. Blocking, and it performs an HTTP upload
+     * before it dials — off the main thread only.
+     */
+    @Nullable
+    public RcsMlsControlResult changeGroupIconMls(final int subId, final String rcsGroupId,
+            final String contentType, final byte[] ciphertext, final byte[] groupInfo,
+            final byte[] commit, final byte[] epochAuth, final byte[] ratchetTree,
+            final byte[] baseEpochAuth, final byte[] privateMessages, final String controlMsgId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("changeGroupIconMls");
+        try {
+            return provider.changeGroupIconMls(token, subId, rcsGroupId, contentType, ciphertext,
+                    groupInfo, commit, epochAuth, ratchetTree, baseEpochAuth, privateMessages,
+                    controlMsgId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.changeGroupIconMls failed", e);
+            return null;
+        }
+    }
+
+    /** The MLS enrolment identity (contract v31) — refreshed provider-side. Off the main thread. */
+    @Nullable
+    public org.lineageos.rcs.provider.RcsMlsIdentity exportMlsIdentity(final int subId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("exportMlsIdentity");
+        try {
+            return provider.exportMlsIdentity(token, subId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.exportMlsIdentity failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * The LAB MLS trust anchors, fetched and signature-verified provider-side (contract v63).
+     *
+     * <p>Pointers travel OUT because on the lab DR path the ACS config document is fetched by the
+     * modem and arrives here, so this app holds them and the provider may never have seen one.
+     * Anchors travel BACK because fetching and verifying is the provider's job. Any argument may
+     * be null/0 to fall through to what the provider itself holds.
+     *
+     * <p>Returns the roots as {@code OpenMlsSession.joinLenPrefixed} bytes, or {@code null} — and
+     * {@code null} means "keep what you have", never "trust nothing". Blocking and it can hit the
+     * network; call it off the main thread.
+     */
+    @Nullable
+    public byte[] getMlsTrustAnchors(final int subId, @Nullable final String uri,
+            final long generation, @Nullable final String signerSpkiB64) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("getMlsTrustAnchors");
+        try {
+            return provider.getMlsTrustAnchors(token, subId, uri, generation, signerSpkiB64);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.getMlsTrustAnchors failed", e);
+            return null;
+        }
+    }
+
+    /** The server's [era, epoch] for a conversation (contract v28). Off the main thread. */
+    @Nullable
+    public long[] getMlsServerEraEpoch(final int subId, final String peerE164,
+            final String rcsGroupId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("getMlsServerEraEpoch");
+        try {
+            return provider.getMlsServerEraEpoch(token, subId, peerE164, rcsGroupId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.getMlsServerEraEpoch failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Tell a peer that ITS message failed on OUR side — RCC.16 §7.7.2.2 negative-delivery IMDN
+     * (contract v43).
+     *
+     * <p>Call this only once recovery has actually been attempted and failed: §10.2 reports after
+     * Self-Heal completes, for the messages that still could not be decrypted.
+     *
+     * @param failureReason one of {@code IRcsProviderCallback.MLS_FAIL_*}
+     * @return true if the report was handed to the provider
+     */
+    public boolean sendMlsNegativeDeliveryImdn(final int subId, final String originalMessageId,
+            final String toUri, final String rcsGroupId, final int failureReason, final long eraId,
+            final String epochAuthB64) {
+        return sendMlsNegativeDeliveryImdn(subId, originalMessageId, toUri, rcsGroupId,
+                failureReason, eraId, epochAuthB64, /*derivedContentSigB64=*/ null);
+    }
+
+    /** Contract v57 — with the §7.6.3.2 negative-receipt signature. */
+    public boolean sendMlsNegativeDeliveryImdn(final int subId, final String originalMessageId,
+            final String toUri, final String rcsGroupId, final int failureReason, final long eraId,
+            final String epochAuthB64, final String derivedContentSigB64) {
+        return sendMlsNegativeDeliveryImdn(subId, originalMessageId, toUri, rcsGroupId, failureReason,
+                eraId, epochAuthB64, derivedContentSigB64, /*receiptMessageId=*/ null);
+    }
+
+    /**
+     * Contract v59 — carries the receipt's OWN id. It must be the SAME id the derived
+     * content was signed with AND the transport envelope carries, or Google Messages' §7.5.3.1 self-
+     * consistency check (request.message_id == receipt-AAD.message_id, message_processor.rs:2028)
+     * fails MessageIdMismatch and drops the receipt before any resend. Mirrors the positive path's
+     * fix, which the negative path had missed.
+     */
+    public boolean sendMlsNegativeDeliveryImdn(final int subId, final String originalMessageId,
+            final String toUri, final String rcsGroupId, final int failureReason, final long eraId,
+            final String epochAuthB64, final String derivedContentSigB64,
+            final String receiptMessageId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return false;
+        try {
+            provider.sendMlsNegativeDeliveryImdn(token, subId, originalMessageId, toUri, rcsGroupId,
+                    failureReason, eraId, epochAuthB64, derivedContentSigB64, receiptMessageId);
+            return true;
+        } catch (final NoSuchMethodError preV57) {
+            LogUtil.i(TAG, "ProviderTransport: the provider predates contract v59 — sending the "
+                    + "negative receipt UNSIGNED or id-mismatched, which a Google Messages peer rejects. "
+                    + "Update the provider.");
+            return false;
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.sendMlsNegativeDeliveryImdn failed", e);
+            return false;
+        }
+    }
+
+    /** Publish APP-generated KeyPackages to the KDS (contract v27). Off the main thread. */
+    public boolean uploadKeyPackages(final int subId, final byte[] keyPackages,
+            final byte[] lastResort) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) {
+            noteUnbound("uploadKeyPackages");
+            return false;
+        }
+        try {
+            return provider.uploadKeyPackages(token, subId, keyPackages, lastResort);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.uploadKeyPackages failed", e);
+            return false;
+        }
+    }
+
+    /** The server's view of a conversation's GroupInfo (contract v21). Off the main thread. */
+    @Nullable
+    public RcsMlsControlResult getMlsGroupInfo(final int subId, final String phoneE164) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("getMlsGroupInfo");
+        try {
+            return provider.getMlsGroupInfo(token, subId, phoneE164);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.getMlsGroupInfo failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Contract v44 — the GROUP-addressed GroupInfo fetch.
+     *
+     * <p>Not interchangeable with {@link #getMlsGroupInfo}: a resync external commit needs the
+     * {@code external_pub} extension, and the GroupInfo reachable through the self-heal fetch does
+     * not carry it ({@code MissingExternalPubExtension}, measured 2026-08-16).
+     */
+    public RcsMlsControlResult getMlsGroupInfoForGroup(final int subId, final String phoneE164,
+            final String rcsGroupId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("getMlsGroupInfoForGroup");
+        try {
+            return provider.getMlsGroupInfoForGroup(token, subId, phoneE164, rcsGroupId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.getMlsGroupInfoForGroup failed", e);
+            return null;
+        }
+    }
+
+
+
+    /**
+     * Is the PROVIDER provisioned to carry MLS for {@code subId} (contract v18)?
+     *
+     * <p>Overrides {@link RcsTransport#isMlsReady(int)}, whose default is {@code false}. That default
+     * was the reason a provider-backed send could never select MLS: only the carrier-IMS transport
+     * overrode it, so the app's send gate asked "is MLS ready?" of a transport that had no idea, got
+     * {@code false}, and silently downgraded to plaintext — even with a fully provisioned provider and
+     * an MLS-capable peer.
+     *
+     * <p>Non-blocking; the provider answers from cached provisioning state.
+     */
+    @Override
+    public boolean isMlsReady(final int subId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) {
+            return false;
+        }
+        try {
+            return provider.isMlsReady(token, subId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.isMlsReady failed", e);
+            return false;
+        }
+    }
+
+    /**
+     * The peer's advertised MLS capability feature-tags (contract v18).
+     *
+     * <p>MUST be called off the main thread — the provider may hit the network (Tachyon
+     * {@code LookupRegistered}) to answer.
+     *
+     * <p>Returns an <b>empty</b> map on any failure (unbound, remote error, empty number). Empty means
+     * <b>"nothing known", not "not MLS-capable"</b>: treating a transient miss as a negative capability
+     * assertion would silently disable E2EE, which is precisely the failure shape this subsystem keeps
+     * producing. The caller's eligibility policy must distinguish the two.
+     */
+    /**
+     * The peer-capability lookup's OUTCOME, not its tags — one of
+     * {@code RcsMlsPeerCaps.LOOKUP_*} (contract v54).
+     *
+     * <p>Separate accessor because the two answer different questions and only this one may be read
+     * as a negative: an empty tag map means "nothing known", while
+     * {@code LOOKUP_NOT_REGISTERED} is a positive assertion that the peer has no routing target.
+     * Conflating them disables MLS on a transient failure, which is why the tag map alone was never
+     * enough for Google Messages' DUMMY-destination-token guard.
+     */
+    public int lookupPeerMlsLookupState(final int subId, final String phoneE164) {
+        if (TextUtils.isEmpty(phoneE164)) return RcsMlsPeerCaps.LOOKUP_UNKNOWN;
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return RcsMlsPeerCaps.LOOKUP_UNKNOWN;
+        try {
+            final RcsMlsPeerCaps caps =
+                    provider.lookupPeerMlsCaps(token, subId, normalizeForCache(phoneE164));
+            return (caps == null) ? RcsMlsPeerCaps.LOOKUP_UNKNOWN : caps.lookupState;
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.lookupPeerMlsLookupState failed", e);
+            return RcsMlsPeerCaps.LOOKUP_UNKNOWN;
+        }
+    }
+
+    @NonNull
+    public Map<String, String> lookupPeerMlsCaps(final int subId, final String phoneE164) {
+        if (TextUtils.isEmpty(phoneE164)) {
+            return Collections.emptyMap();
+        }
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) {
+            return Collections.emptyMap();
+        }
+        try {
+            final RcsMlsPeerCaps caps =
+                    provider.lookupPeerMlsCaps(token, subId, normalizeForCache(phoneE164));
+            return (caps == null) ? Collections.<String, String>emptyMap() : caps.asMap();
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.lookupPeerMlsCaps failed", e);
+            return Collections.emptyMap();
         }
     }
 
@@ -1113,6 +1999,83 @@ public final class ProviderTransport implements RcsTransport {
         }
     }
 
+    /**
+     * Add members to an MLS group, carrying the Add commit in the same request (contract v51).
+     * Blocking; off-main.
+     *
+     * <p>Use this whenever the conversation is MLS. The plain {@link #addGroupUsers} is refused
+     * with {@code FAILED_PRECONDITION} on an MLS conversation — device-proven by flipping one
+     * group and re-testing two minutes later — because Tachyon requires the commit in the
+     * request's field 6.
+     */
+    public RcsMlsControlResult addGroupUsersMls(final int subId, final String rcsGroupId,
+            final java.util.List<String> memberE164s, final byte[] welcome, final byte[] commit,
+            final byte[] groupInfo, final byte[] epochAuth, final byte[] ratchetTree,
+            final byte[] baseEpochAuth, final String controlMsgId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("addGroupUsersMls");
+        try {
+            return provider.addGroupUsersMls(token, subId, rcsGroupId, memberE164s, welcome, commit,
+                    groupInfo, epochAuth, ratchetTree, baseEpochAuth, controlMsgId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.addGroupUsersMls failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Remove members from an MLS group, carrying the Remove commit in the same request
+     * (contract v52). The mirror of {@link #addGroupUsersMls}, and NOT the same wire shape:
+     * arm 3 rather than arm 2, at the KickGroupUsers request's field 9 rather than the
+     * AddGroupUsers request's field 6, with no Welcome because a removal produces none.
+     */
+    public RcsMlsControlResult removeGroupUsersMls(final int subId, final String rcsGroupId,
+            final java.util.List<String> memberE164s, final byte[] commit, final byte[] groupInfo,
+            final byte[] epochAuth, final byte[] prevEpochAuth, final String controlMsgId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("removeGroupUsersMls");
+        try {
+            return provider.removeGroupUsersMls(token, subId, rcsGroupId, memberE164s, commit,
+                    groupInfo, epochAuth, prevEpochAuth, controlMsgId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.removeGroupUsersMls failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * Leave an MLS group ourselves — a by-reference SelfRemove PROPOSAL on KickGroupUsers
+     * (control-message union arm 1, contract v53). The caller MUST roll back on a non-OK verdict: a cached
+     * SelfRemove blocks every subsequent send on that conversation, across restarts.
+     */
+    public RcsMlsControlResult selfLeaveGroupMls(final int subId, final String rcsGroupId,
+            final byte[] proposal, final byte[] prevEpochAuth, final String controlMsgId) {
+        final IRcsProvider provider;
+        final String token;
+        synchronized (mLock) {
+            provider = mProvider;
+            token = mClientToken;
+        }
+        if (provider == null) return notBound("selfLeaveGroupMls");
+        try {
+            return provider.selfLeaveGroupMls(token, subId, rcsGroupId, proposal, prevEpochAuth,
+                    controlMsgId);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.selfLeaveGroupMls failed", e);
+            return null;
+        }
+    }
+
     /** Add members to a group (Group/AddUsers). Blocking; off-main. */
     public boolean addGroupUsers(final int subId, final String groupId,
             final java.util.List<String> memberE164s) {
@@ -1279,6 +2242,29 @@ public final class ProviderTransport implements RcsTransport {
     @Override
     public void sendImdn(final String originalMessageId, final String toUri, final int imdnType,
             final String rcsGroupId) {
+        // DIAGNOSTIC: suppress our OUTBOUND positive receipts — debug.rcs.mls_suppress_positive_imdn.
+        //
+        // Exists for one experiment that cannot otherwise be run. Whether a Google Messages peer
+        // resends after a §7.7.2.2 report is unanswerable while we have ALREADY told it the message
+        // was delivered: the peer sees delivered-then-failed for one id and reasonably ignores the
+        // second signal. Every attempt so far has carried that confound, because --ez ftdfail is by
+        // construction layered on a message that already succeeded.
+        //
+        // Suppressing the positive receipt removes the confound BY ORDERING rather than by choosing
+        // which member reports — which matters because Google Messages' host resend ledger is keyed on
+        // (message, recipient) but its ENGINE key is not established, so a design that depends on
+        // picking a member could be answering the wrong question entirely.
+        //
+        // Read LIVE, so setprop takes effect without a restart. Off by default and diagnostic-only;
+        // leaving it on makes us look like a client that never acknowledges anything, which will
+        // eventually provoke the sender's own retry logic — turn it off after the run.
+        if (android.os.SystemProperties.getBoolean("debug.rcs.mls_suppress_positive_imdn", false)) {
+            LogUtil.w(TAG, "sendImdn(" + originalMessageId + "): SUPPRESSED by "
+                    + "debug.rcs.mls_suppress_positive_imdn — this is a DIAGNOSTIC and we are "
+                    + "deliberately not telling " + toUri + " that we received this message. "
+                    + "Turn it off when the run is done.");
+            return;
+        }
         final IRcsProvider provider;
         final String token;
         synchronized (mLock) {
@@ -1289,10 +2275,92 @@ public final class ProviderTransport implements RcsTransport {
             LogUtil.w(TAG, "sendImdn(" + originalMessageId + "): provider not bound — receipt dropped");
             return;
         }
+        // ON AN MLS CONVERSATION THIS RECEIPT MUST CARRY THE §12.1 HEADER SIDECAR, or a Google Messages peer
+        // drops it. §12.7 is permissive ONLY for negative-delivery; positive and display are strict —
+        // no MLS-Derived-Content-Signature and the peer's reader returns null before the receipt ever
+        // reaches validation.
+        //
+        // The signature has to be minted HERE because this app owns the engine: the era, the epoch
+        // authenticator and the signature must all come from one group state, and the provider has no
+        // session to derive any of them from.
+        try {
+            final com.android.messaging.rcs.e2ee.MlsProviderTransport mls =
+                    com.android.messaging.rcs.e2ee.MlsProviderTransport.peek();
+            final com.android.messaging.rcs.e2ee.MlsProviderTransport.ImdnStamps stamps =
+                    (mls == null) ? null : mls.imdnStampsFor(toUri, rcsGroupId, originalMessageId,
+                            imdnType == IRcsProviderCallback.IMDN_DISPLAYED);
+            if (stamps != null) {
+                LogUtil.i(TAG, "sendImdn(" + originalMessageId + "): MLS receipt to " + toUri
+                        + (rcsGroupId == null ? " (1:1)" : " in group " + rcsGroupId)
+                        + " era=" + stamps.eraId + " sig="
+                        + (stamps.signatureB64 == null ? "NONE" : "yes"));
+                // The GROUP form is a v46 addition, so a provider that predates it will throw here.
+                // Falling back to the 1:1 form is right for a 1:1 and WRONG for a group — it is the
+                // exact bug the group form fixes — so a group receipt is dropped rather than sent
+                // mis-bound: a
+                // receipt Google Messages answers with FAIL_NO_RETRY is worth no more than no receipt, and it
+                // additionally poisons the rest of that operation on the peer's side.
+                try {
+                    provider.sendMlsGroupImdn(token, stamps.subId, toUri, rcsGroupId,
+                            originalMessageId, imdnType, stamps.eraId, stamps.epochAuthB64,
+                            stamps.signatureB64, stamps.receiptMessageId);
+                } catch (final Throwable notV46) {
+                    if (rcsGroupId != null && !rcsGroupId.isEmpty()) {
+                        LogUtil.w(TAG, "sendImdn(" + originalMessageId + "): provider has no "
+                                + "sendMlsGroupImdn and this receipt is for group " + rcsGroupId
+                                + " — dropping rather than sending it bound to the 1:1", notV46);
+                        return;
+                    }
+                    provider.sendMlsImdn(token, stamps.subId, toUri, originalMessageId, imdnType,
+                            stamps.eraId, stamps.epochAuthB64, stamps.signatureB64,
+                            stamps.receiptMessageId);
+                }
+                return;
+            }
+            LogUtil.w(TAG, "sendImdn(" + originalMessageId + "): no MLS stamps for " + toUri
+                    + " (mls=" + (mls == null ? "null" : "present")
+                    + ") — falling back to the PLAIN receipt. Correction (device-proven "
+                    + "2026-08-09): a Google Messages peer does NOT drop this — its report "
+                    + "dispatcher RECONCILES on a plaintext report for an MLS message, downgrading "
+                    + "off a stale encryption_protocol belief. That is the ONLY recovery a group-less "
+                    + "peer can drive, since it cannot sign an MLS FTD.");
+        } catch (final Throwable t) {
+            // Not an MLS conversation, or we could not stamp it. Fall through to the ordinary path
+            // rather than dropping the receipt — a plaintext receipt on a plaintext conversation is
+            // exactly right, and on an MLS one it is no worse than what we sent before.
+            LogUtil.w(TAG, "sendImdn: no MLS stamps for " + originalMessageId
+                    + " — sending on the ordinary path", t);
+        }
         try {
             provider.sendImdn(token, originalMessageId, toUri, imdnType);
         } catch (final RemoteException e) {
             LogUtil.w(TAG, "ProviderTransport.sendImdn failed", e);
+        }
+    }
+
+    /**
+     * Send a FORCED-PLAINTEXT delivery IMDN to reconcile a stale-MLS-belief desync (contract v58).
+     * See {@link org.lineageos.rcs.provider.IRcsProvider#sendReconciliationReceipt}.
+     */
+    public void sendReconciliationReceipt(final String originalMessageId, final String toUri) {
+        final IRcsProvider provider = mProvider;
+        final String token = mClientToken;
+        if (provider == null) {
+            LogUtil.w(TAG, "sendReconciliationReceipt(" + originalMessageId
+                    + "): provider not bound — reconciliation dropped");
+            return;
+        }
+        try {
+            provider.sendReconciliationReceipt(token, originalMessageId, toUri);
+        } catch (final NoSuchMethodError preV58) {
+            // A pre-v58 provider has no forced-plaintext method. Fall back to the ordinary plaintext
+            // delivery IMDN, which for a no-group message ALSO takes the plaintext path (there are no
+            // MLS stamps) — the reconciliation still works as long as Etouffee is not intercepting it.
+            LogUtil.w(TAG, "sendReconciliationReceipt: provider < v58 — falling back to plain sendImdn");
+            sendImdn(originalMessageId, toUri,
+                    org.lineageos.rcs.provider.IRcsProviderCallback.IMDN_DELIVERED);
+        } catch (final RemoteException e) {
+            LogUtil.w(TAG, "ProviderTransport.sendReconciliationReceipt failed", e);
         }
     }
 

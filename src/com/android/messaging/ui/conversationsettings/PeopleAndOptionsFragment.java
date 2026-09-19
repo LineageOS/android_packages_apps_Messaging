@@ -188,39 +188,55 @@ public class PeopleAndOptionsFragment extends Fragment
     private boolean mMembershipResolving;
 
     /**
-     * Re-ask whether we are still in this group, off the main thread.
+     * Re-ask the MLS transport whether we are still in this group, off the main thread.
      *
      * <p>Re-entrancy-guarded rather than one-shot: it is called from every metadata update and from
      * the participants callback, and both can arrive in a burst after a leave writes its status
      * line. The guard drops the duplicates; the next update re-asks.
      *
-     * <p>Off the main thread because the answer comes from the conversation row, which reads the
-     * database. The adapters are repainted on the UI thread only when the answer CHANGED, so the
+     * <p>Off the main thread because the answer comes from the record store, which reads
+     * preferences. The adapters are repainted on the UI thread only when the answer CHANGED, so the
      * common case — a group we are still in — costs nothing visible.
      */
     private void resolveMembership() {
         if (mMembershipResolving || TextUtils.isEmpty(mRcsGroupId)) {
             return;
         }
+        final String groupId = mRcsGroupId;
         mMembershipResolving = true;
         final PeopleAndOptionsData membershipData = mBinding.getData();
         final String membershipConvId =
                 (membershipData == null) ? null : membershipData.getConversationId();
         new Thread(() -> {
             boolean left = false;
-            // BOTH WAYS THIS STOPS BEING OUR GROUP are recorded on the conversation itself, by
-            // ReceiveRcsGroupEventAction: a leave of ours, and somebody else removing us. The
-            // participants table cannot answer either — removeGroupParticipants skips the self
-            // participant by design, so the SELF row survives a leave in both directions.
             try {
-                left = com.android.messaging.datamodel.BugleDatabaseOperations
-                        .getConversationSelfLeft(
-                                com.android.messaging.datamodel.DataModel.get().getDatabase(),
-                                membershipConvId);
+                final int subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+                left = com.android.messaging.rcs.e2ee.MlsProviderTransport
+                        .get(com.android.messaging.Factory.get().getApplicationContext(), subId)
+                        .haveWeLeft(groupId, /*peerE164=*/ null);
             } catch (final Throwable t) {
                 // Best-effort: an unanswerable question leaves the rows OFFERED. Hiding them on a
                 // failure would take the Leave row away from a group the user is still in, which is
                 // the worse direction — every path they open ends in a refusal, not in damage.
+            }
+            // AND THE TWO CASES THE MLS RECORD CANNOT SEE, named rather than pretended to
+            // cover: a PLAINTEXT leave writes no MLS record, and somebody
+            // else removing us writes none either. Both are recorded on the conversation itself by
+            // ReceiveRcsGroupEventAction, which is where both of them arrive.
+            //
+            // ORed, never substituted — the two sources answer about different conversations and
+            // neither is a superset. haveWeLeft speaks for MLS groups, rcs_self_left for the other
+            // two routes, and a failure on either side contributes false, which keeps the rows
+            // offered for the reason the catch above gives.
+            if (!left) {
+                try {
+                    left = com.android.messaging.datamodel.BugleDatabaseOperations
+                            .getConversationSelfLeft(
+                                    com.android.messaging.datamodel.DataModel.get().getDatabase(),
+                                    membershipConvId);
+                } catch (final Throwable t) {
+                    // Same rule, same direction.
+                }
             }
             final boolean resolved = left;
             final android.app.Activity activity = getActivity();
@@ -309,26 +325,29 @@ public class PeopleAndOptionsFragment extends Fragment
         // changeGroupMembership, which would try to build a membership commit for a group we are
         // not in. The refusal is the far end of a path that should not have been offered.
         //
-        // Both ways this stops being our group are closed here: mWeLeftGroup reads
-        // conversations.rcs_self_left, which carries our own leave and a removal by someone
+        // The MLS record covers ONE of the three ways this stops being our group. The other two
+        // are closed here: mWeLeftGroup is the MLS terminal mark ORed with
+        // conversations.rcs_self_left, which carries a plaintext leave and a removal by someone
         // else. See the field's javadoc.
         return !TextUtils.isEmpty(mRcsGroupId) && !mWeLeftGroup && isGroupRcsAvailable();
     }
 
     /**
-     * Whether we have left this group, as far as the conversation row knows.
+     * Whether we have left this group, as far as the MLS record knows.
      *
      * <p>Starts {@code false} and is refreshed off the main thread beside the group id. False is the
      * right initial value in both directions: a conversation we have not left must not lose its
      * management rows for the moment before the answer arrives, and a resolve that FAILS leaves the
      * rows offered rather than hiding a group the user is still in.
      *
-     * <p><b>The mark is {@code conversations.rcs_self_left}</b>, which covers both ways this stops
-     * being our group — our own leave, and somebody else removing us — both recorded by
+     * <p><b>It is TWO marks ORed, because no single one covers the three ways this stops being our
+     * group.</b> {@code MlsProviderTransport.haveWeLeft} is the MLS record's terminal mark, which is
+     * written only by a successful MLS leave; {@code conversations.rcs_self_left}
+     * is the other two — a PLAINTEXT leave, and somebody else removing us — both recorded by
      * {@code ReceiveRcsGroupEventAction}, which is where both arrive.
      *
-     * <p>The participants table cannot answer either of them: {@code removeGroupParticipants} skips
-     * the self participant by design, so a self-removal is a no-op there and the SELF row survives a
+     * <p>The participants table cannot answer any of them: {@code removeGroupParticipants} skips the
+     * self participant by design, so a self-removal is a no-op there and the SELF row survives a
      * leave in both directions.
      */
     private volatile boolean mWeLeftGroup;
@@ -622,9 +641,9 @@ public class PeopleAndOptionsFragment extends Fragment
         //
         // LEAVE IS LAST, AND ONLY ON A GROUP. isManageableRcsGroup() already requires an
         // rcs_group_id, which a 1:1 does not have, so the whole section — this row included — is
-        // absent there. That matters for this row specifically: there is no "leave" for a 1:1, so
-        // offering it would be an affordance that cannot work, which is exactly what had to be
-        // removed one row over.
+        // absent there. That matters for this row specifically: MlsProviderTransport.leave() refuses
+        // a 1:1 outright (endMls is the verb), so offering it would be an affordance that cannot
+        // work, which is exactly what had to be removed one row over.
         // CHANGE PHOTO sits with RENAME because they are the same operation on two fields — both
         // are §9.7 group metadata, both route through groupPlane, and both mirror locally on
         // acceptance because the sender cannot decrypt its own. LEAVE stays LAST.
@@ -889,12 +908,15 @@ public class PeopleAndOptionsFragment extends Fragment
      * Confirm + leave the group.
      *
      * <p><b>Confirmed, unlike the other two rows, because it cannot be undone from this device.</b>
-     * Once the leave is out there is nothing local that puts us back — only another member adding
-     * us. The dialog says that in the body rather than leaving the user to discover it.
+     * MLS forbids committing your own removal, so once the SelfRemove proposal is out there is
+     * nothing local that puts us back — only another member adding us. The dialog says that in the
+     * body rather than leaving the user to discover it.
      *
-     * <p>Routing is {@link ManageRcsGroupAction#leaveGroup} — the same shape as Add people and
-     * Remove member. <b>Nothing optimistic is written here</b>: the "You left" line is written
-     * after the RPC is accepted. A write from this fragment would be a second producer of one fact.
+     * <p>Routing is {@link ManageRcsGroupAction#leaveGroup}, which asks
+     * {@code MlsProviderTransport.leaveGroup} for the MLS/plaintext decision — the same shape as
+     * Add people and Remove member. <b>Nothing optimistic is written here</b>
+     * on either arm: the MLS path writes its own "You left" line, and the plaintext path writes one
+     * after the RPC is accepted. A write from this fragment would be a third producer of one fact.
      */
     private void confirmLeaveGroup() {
         if (!isManageableRcsGroup()) {
