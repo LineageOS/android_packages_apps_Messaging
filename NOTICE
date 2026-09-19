@@ -1,0 +1,40 @@
+Messaging (LineageOS)
+=====================
+
+Copyright (C) 2015-2020 The Android Open Source Project
+Copyright (C) 2024-2026 The LineageOS Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+
+THIRD-PARTY COMPONENTS
+======================
+
+mls-rs
+------
+The MLS (RFC 9420) protocol core is provided by mls-rs, vendored under
+external/mls-rs and built as a Soong Rust module.
+
+    Copyright (c) Amazon.com, Inc. or its affiliates.
+
+    Licensed under either of the Apache License, Version 2.0 or the MIT
+    license, at your option. See external/mls-rs for the full texts.
+
+This project links mls-rs through a thin FFI layer (rust/) and a JNI bridge
+(jni/mls_openmls_bridge.c). The RCC.16 credential and proposal handling built
+on top of it is original work and is licensed as above.
+
+GIF transcoder
+--------------
+jni/GifTranscoder.cpp derives from the Android Open Source Project and is
+licensed under the Apache License, Version 2.0.
