@@ -1,0 +1,210 @@
+/*
+ * SPDX-FileCopyrightText: The LineageOS Project
+ * SPDX-License-Identifier: Apache-2.0
+ */
+package org.lineageos.rcs.provider;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
+
+import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Pins the in-place widenings of the contract: parameters a oneway callback or a parcelable gained
+ * at the end, which must leave the ordinal layout, and so the probe digest, unchanged. Also pins
+ * the one callback added since, {@code onIncomingFileUnavailable}, which changed the callback
+ * digest, and what the probe does with a peer that lacks it.
+ */
+public class RcsContractSignatureTest {
+
+    private static final String AIDL_DIR = "aidl/src/aidl/org/lineageos/rcs/provider/";
+
+    /**
+     * The callback layout digest: unchanged when onMessageStatus gained e2eeSchemeId and four
+     * callbacks gained confirmId, changed from {@link #CALLBACK_DIGEST_BEFORE_UNAVAILABLE} by
+     * onIncomingFileUnavailable.
+     */
+    private static final String CALLBACK_DIGEST = "19743d8b33b4";
+
+    /** The callback layout digest without onIncomingFileUnavailable, as older builds report it. */
+    private static final String CALLBACK_DIGEST_BEFORE_UNAVAILABLE = "de622dee3dfe";
+
+    /** The callback reporting a pending file that cannot be downloaded, and its ordinal. */
+    private static final String UNAVAILABLE = "onIncomingFileUnavailable";
+    private static final int UNAVAILABLE_ORDINAL = 17;
+
+    /** The provider layout digest, unchanged by the CONTRACT_CONFIRMS_STORED constant. */
+    private static final String PROVIDER_DIGEST = "0b2f44172c3f";
+
+    /** The callbacks that gained a trailing confirmId, with their parameter count after it. */
+    private static final String[][] CONFIRM_ID_CALLBACKS = {
+        {"onImdnReceipt", "4"},
+        {"onGroupEvent", "9"},
+        {"onGroupImdnReceipt", "5"},
+        {"onIncomingReaction", "7"},
+    };
+
+    @Test
+    public void onMessageStatus_hasTheTrailingSchemeParameter() throws IOException {
+        final List<String> params = paramsOf(aidl("IRcsProviderCallback.aidl"), "onMessageStatus");
+        assertEquals(params.toString(), 5, params.size());
+        assertEquals("@nullable String e2eeSchemeId", params.get(4));
+        assertEquals("@nullable String errorReason", params.get(3));
+    }
+
+    @Test
+    public void callbackLayout_isUnchangedByTheWidening() throws IOException {
+        final String[] names = methodNames(aidl("IRcsProviderCallback.aidl"));
+        assertEquals("onMessageStatus", names[1]);
+        assertEquals(RcsContractLayout.CALLBACK_ANCHOR_METHOD, names[0]);
+        assertEquals(CALLBACK_DIGEST, RcsContractLayout.digest(names));
+    }
+
+    /** The new callback is appended after onE2eeStateChanged, the last callback before it. */
+    @Test
+    public void fileUnavailable_followsOnE2eeStateChanged() throws IOException {
+        final String src = aidl("IRcsProviderCallback.aidl");
+        final String[] names = methodNames(src);
+        assertEquals(UNAVAILABLE, names[UNAVAILABLE_ORDINAL - RcsContractLayout.FIRST_ORDINAL]);
+        assertEquals("onE2eeStateChanged",
+                names[UNAVAILABLE_ORDINAL - 1 - RcsContractLayout.FIRST_ORDINAL]);
+        final List<String> params = paramsOf(src, UNAVAILABLE);
+        assertEquals(params.toString(), 3, params.size());
+        assertEquals("int subId", params.get(0));
+        assertEquals("String messageId", params.get(1));
+        assertEquals("int reason", params.get(2));
+        final String flat = src.replaceAll("\\s+", " ");
+        assertTrue(flat.contains("const int FILE_UNAVAILABLE_UNKNOWN = 0;"));
+        assertTrue(flat.contains("const int FILE_UNAVAILABLE_EXPIRED = 1;"));
+    }
+
+    /**
+     * An older peer lacks the callback, which is the last one: a newer provider dialling an older
+     * app is refused, as the app lacks the highest ordinal, while an older provider pairs with a
+     * newer app and never sends the callback.
+     */
+    @Test
+    public void fileUnavailable_anOlderAppIsRefused() throws IOException {
+        final String[] now = methodNames(aidl("IRcsProviderCallback.aidl"));
+        final List<String> without = new ArrayList<>(java.util.Arrays.asList(now));
+        assertTrue(without.remove(UNAVAILABLE));
+        final String[] older = without.toArray(new String[0]);
+        assertEquals(CALLBACK_DIGEST_BEFORE_UNAVAILABLE, RcsContractLayout.digest(older));
+
+        // A new provider dialling an older app.
+        final RcsContractLayout.Verdict newProvider = RcsContractLayout.compare(
+                "IRcsProviderCallback", RcsContractLayout.CALLBACK_ANCHOR_METHOD,
+                "provider", now, 65, "app", older, 3);
+        assertTrue(newProvider.reason, !newProvider.compatible
+                && newProvider.reason.contains("FEWER methods"));
+        // An older provider dialling a new app.
+        assertTrue(RcsContractLayout.compare(
+                "IRcsProviderCallback", RcsContractLayout.CALLBACK_ANCHOR_METHOD,
+                "provider", older, 65, "app", now, 3).compatible);
+    }
+
+    @Test
+    public void confirmIdCallbacks_endWithTheNullableConfirmId() throws IOException {
+        final String src = aidl("IRcsProviderCallback.aidl");
+        for (final String[] c : CONFIRM_ID_CALLBACKS) {
+            final List<String> params = paramsOf(src, c[0]);
+            assertEquals(c[0] + ": " + params, Integer.parseInt(c[1]), params.size());
+            assertEquals(c[0], "@nullable String confirmId", params.get(params.size() - 1));
+        }
+    }
+
+    @Test
+    public void providerLayout_isUnchangedByTheConfirmationRevision() throws IOException {
+        final String src = aidl("IRcsProvider.aidl");
+        assertTrue("the revision constant is declared",
+                src.replaceAll("\\s+", " ").contains("const int CONTRACT_CONFIRMS_STORED = 3;"));
+        assertEquals(PROVIDER_DIGEST, RcsContractLayout.digest(methodNames(src)));
+    }
+
+    @Test
+    public void incomingFile_roundTripsTheScheme() {
+        final RcsIncomingFile in = file("google.etouffee");
+        final Parcel p = Parcel.obtain();
+        in.writeToParcel(p, 0);
+        p.setDataPosition(0);
+        final RcsIncomingFile out = RcsIncomingFile.CREATOR.createFromParcel(p);
+        assertEquals("google.etouffee", out.e2eeSchemeId);
+        assertEquals(in.groupId, out.groupId);
+        assertEquals(in.fdThumbnail.fd, out.fdThumbnail.fd);
+        assertEquals(in.fileName, out.fileName);
+        assertEquals(0, p.dataAvail());
+    }
+
+    @Test
+    public void incomingFile_fromAnOlderWriter_readsNullScheme() {
+        final Parcel p = Parcel.obtain();
+        file("google.etouffee").writeToParcel(p, 0);
+        p.truncateTo(p.valueCount() - 1);   // a writer that ended at fdThumbnail
+        p.setDataPosition(0);
+        final RcsIncomingFile out = RcsIncomingFile.CREATOR.createFromParcel(p);
+        assertNull(out.e2eeSchemeId);
+        assertEquals("gid", out.groupId);
+        assertEquals(7, out.fdThumbnail.fd);
+    }
+
+    @Test
+    public void incomingFile_oldConstructor_meansPlaintext() {
+        final RcsIncomingFile f = new RcsIncomingFile(1, "m", "+1", null, null, "image/jpeg",
+                "a.jpg", 3L, null, null, null, -1L, 0L, true, true, null, null);
+        assertNull(f.e2eeSchemeId);
+    }
+
+    private static RcsIncomingFile file(final String scheme) {
+        return new RcsIncomingFile(1, "mid", "+15550100", null, new ParcelFileDescriptor(5),
+                "image/jpeg", "a.jpg", 42L, "cap", null, "image/jpeg", 9L, 123L, true, false,
+                "gid", new ParcelFileDescriptor(7), scheme);
+    }
+
+    private static String aidl(final String name) throws IOException {
+        final String rel = AIDL_DIR + name;
+        for (final String c : new String[] {rel, "packages/apps/Messaging/" + rel, "../" + rel}) {
+            final File f = new File(c);
+            if (f.isFile()) {
+                return stripComments(new String(Files.readAllBytes(f.toPath()),
+                        StandardCharsets.UTF_8));
+            }
+        }
+        throw new IOException(rel + " not found from " + new File(".").getAbsolutePath());
+    }
+
+    private static String stripComments(final String s) {
+        return s.replaceAll("(?s)/\\*.*?\\*/", "").replaceAll("//[^\\n]*", "");
+    }
+
+    /** Method names in declaration order, which is transaction-code order. */
+    private static String[] methodNames(final String src) {
+        final String body = src.substring(src.indexOf('{', src.indexOf("interface")) + 1);
+        final Matcher m = Pattern.compile(
+                "(?:^|[;}])\\s*(?:@\\w+\\s+)*[\\w.<>\\[\\]]+\\s+(\\w+)\\s*\\(").matcher(body);
+        final List<String> out = new ArrayList<>();
+        while (m.find()) out.add(m.group(1));
+        assertTrue("no methods parsed", out.size() > 10);
+        return out.toArray(new String[0]);
+    }
+
+    private static List<String> paramsOf(final String src, final String method) {
+        final Matcher m = Pattern.compile("\\b" + method + "\\s*\\(([^)]*)\\)").matcher(src);
+        assertTrue(method + " not declared", m.find());
+        final List<String> out = new ArrayList<>();
+        for (final String p : m.group(1).split(",")) out.add(p.trim().replaceAll("\\s+", " "));
+        return out;
+    }
+}
