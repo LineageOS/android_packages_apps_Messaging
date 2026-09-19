@@ -57,6 +57,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String PARTICIPANTS_TABLE = "participants";
     public static final String CONVERSATION_PARTICIPANTS_TABLE = "conversation_participants";
 
+    /**
+     * Wave E (group read receipts): per-member IMDN side-table. One row per
+     * (message_id, participant_uri) tracking when that member delivered and/or
+     * displayed one of OUR sent GROUP messages. The aggregate "Read by N of M"
+     * on a sent group bubble is computed from this table; a future
+     * "details / who-read" view drops in with zero migration. 1:1 receipts stay
+     * in messages.rcs_delivered_timestamp / rcs_displayed_timestamp, unchanged.
+     */
+    public static final String RCS_GROUP_RECEIPTS_TABLE = "rcs_group_receipts";
+
+    /**
+     * Emoji reactions side-table. One row per (target_rcs_message_id,
+     * reactor_uri, emoji). Keyed by the TARGET message's rcs message-id (the
+     * same IMDN id space messages.rcs_message_id uses), NOT a local _id, because
+     * a reaction can arrive before/independently of the target row's local id
+     * being known and is correlated by rcs message-id exactly like an IMDN. The
+     * reaction MESSAGE itself is never inserted into `messages` (it is hidden);
+     * only its effect lands here. 1:1 = one reactor row; group = N reactor rows
+     * aggregated by GROUP BY emoji.
+     */
+    public static final String RCS_REACTIONS_TABLE = "rcs_reactions";
+
+    /**
+     * MLS resend register (rework item 7.4, §11.1, invariant 63). One row per
+     * RESEND attempt — the original send is NOT in here, it is the chain root
+     * these rows point at.
+     *
+     * <p>A resend is a new message with a new {@code rcs_message_id}, not a
+     * re-encrypt of the old one: the server dedupes on message id, so a resend
+     * reusing the reported id is dropped before any peer sees it, and
+     * re-encrypting an id that already has a cached ciphertext burns a
+     * sender-ratchet generation (invariant 62).
+     *
+     * <p>The FTD retry counter is a COLUMN computed as {@code max(siblings)+1},
+     * which is what makes it survive process death; the in-memory {@code HashMap}
+     * it replaced reset the escalation ladder on every restart.
+     */
+
     // Views
     static final String DRAFT_PARTS_VIEW = "draft_parts_view";
 
@@ -139,6 +177,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // A conversation is enterprise if one of the participant is a enterprise contact.
         public static final String IS_ENTERPRISE = "IS_ENTERPRISE";
+
+        // 2-app split / FLOW4b: the opaque Tachygram GROUP_ID (32-char
+        // lowercase-hex) this conversation maps to, or null for an SMS/MMS or
+        // 1:1-RCS conversation. This is the durable group_id <-> conversationId
+        // mapping: an inbound fanned-out group message / group event resolves
+        // its conversation by this column, and the group send path reads it back
+        // to address IRcsProvider.sendGroupMessage.
+        public static final String RCS_GROUP_ID = "rcs_group_id";
+
+        // WAVE-A / A2.6: set to 1 when this RCS group conversation was created
+        // from an inbound fanned-out message while the provider was unbound (so
+        // the full server roster could NOT be fetched and the conversation was
+        // seeded with only the sender). A deferred reconcile (next provider bind
+        // / next inbound) re-fetches getGroupInfo to self-heal the full roster +
+        // participant_count, then clears this flag. 0/NULL for everything else.
+        public static final String NEEDS_ROSTER_REFILL = "needs_roster_refill";
+
+        // E2EE: the per-conversation EncryptionProtocolBits bitset
+        // (bit0=scytale/Etouffee, bit1=MLS), the app-layer analogue of Google Messages'
+        // own encryption_protocol column. Durable + latching: E2eeSchemeGate
+        // accumulates eligibility onto it and resolves MLS>Scytale>none. 0 = plaintext.
+        public static final String ENCRYPTION_PROTOCOL = "encryption_protocol";
+
+        // MLS rework Stage M (item 11.7, §9.7l): the three re-upgrade columns. Google Messages keeps them
+        // on conversation_encryption; we keep them alongside encryption_protocol for the same
+        // reason it does — the question "may this conversation come back to MLS, and when" is
+        // per-conversation durable state, and it has to survive the process that downgraded it.
+        //
+        // Without these there is no way back at all: the MLS bit can be cleared but nothing
+        // remembers the conversation was downgraded against its will, so a peer's end_mls is
+        // permanent for as long as the row lives.
+
+        /** ms since epoch; 0 = never. Written when a downgrade reason has {@code expected=false}. */
+        public static final String MLS_LAST_UNEXPECTED_DOWNGRADE = "mls_last_unexpected_downgrade";
+        /** Re-upgrade attempts since the last reset. Feeds a CLAMPED exponent — never a hard cap. */
+        public static final String MLS_REUPGRADE_ATTEMPTS = "mls_reupgrade_attempts";
+        /** 1 when the app downgraded its own state ahead of the engine. Drives §9.7l's loop 2. */
+        public static final String MLS_EAGERLY_DOWNGRADED = "mls_eagerly_downgraded";
+
+        // 1 when we are NO LONGER A MEMBER of this RCS group — we left it, or somebody
+        // else removed us. 0/NULL for everything else, including a group we are still in.
+        //
+        // WHY IT IS A CONVERSATION COLUMN AND NOT DERIVED. The participants table cannot answer it:
+        // BugleDatabaseOperations.removeGroupParticipants builds its lookup from !p.isSelf()
+        // participants, so removing OURSELVES is a no-op by construction and the SELF row survives
+        // a departure in both directions — deliberately, because leaving a group must not delete our
+        // own identity from the conversation (GroupDepartureApplier's javadoc).
+        //
+        // AND IT IS AN RCS-PLANE CONVERSATION FACT AND NOTHING ELSE — no key state, no session
+        // state, nothing an encryption layer owns. The two cases it exists for are a PLAINTEXT
+        // leave and being removed by someone else. Its lifecycle is ReceiveRcsGroupEventAction's
+        // alone: set on a KICK naming SELF, cleared on an ADD/CREATE listing SELF.
+        public static final String RCS_SELF_LEFT = "rcs_self_left";
     }
 
     // Conversation table SQL
@@ -170,8 +261,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + ConversationColumns.PARTICIPANT_COUNT + " INT DEFAULT(0), "
                     + ConversationColumns.INCLUDE_EMAIL_ADDRESS + " INT DEFAULT(0), "
                     + ConversationColumns.SMS_SERVICE_CENTER + " TEXT ,"
-                    + ConversationColumns.IS_ENTERPRISE + " INT DEFAULT(0)"
+                    + ConversationColumns.IS_ENTERPRISE + " INT DEFAULT(0), "
+                    + ConversationColumns.RCS_GROUP_ID + " TEXT, "
+                    + ConversationColumns.NEEDS_ROSTER_REFILL + " INT DEFAULT(0), "
+                    + ConversationColumns.ENCRYPTION_PROTOCOL + " INT DEFAULT(0), "
+                    + ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE + " INT DEFAULT(0), "
+                    + ConversationColumns.MLS_REUPGRADE_ATTEMPTS + " INT DEFAULT(0), "
+                    + ConversationColumns.MLS_EAGERLY_DOWNGRADED + " INT DEFAULT(0), "
+                    + ConversationColumns.RCS_SELF_LEFT + " INT DEFAULT(0)"
                     + ");";
+
+    // 2-app split / FLOW4b: index the group-id <-> conversation mapping so the
+    // inbound group routing path resolves a conversation by GROUP_ID cheaply.
+    private static final String CONVERSATIONS_TABLE_RCS_GROUP_ID_INDEX_SQL =
+            "CREATE INDEX index_" + CONVERSATIONS_TABLE + "_rcs_group_id ON "
+            + CONVERSATIONS_TABLE + "(" + ConversationColumns.RCS_GROUP_ID + ")";
 
     private static final String CONVERSATIONS_TABLE_SMS_THREAD_ID_INDEX_SQL =
             "CREATE INDEX index_" + CONVERSATIONS_TABLE + "_" + ConversationColumns.SMS_THREAD_ID
@@ -248,6 +352,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         /* The detailed status (RESPONSE_STATUS or RETRIEVE_STATUS) for MMS message */
         public static final String RAW_TELEPHONY_STATUS = "raw_status";
+
+        // RCS columns (2-app split): RCS messages live in this same table so the
+        // existing conversation cursors render them. transport_type distinguishes
+        // SMS/MMS (0) from RCS (1); the rcs_* columns carry RCS-specific state.
+        public static final String TRANSPORT_TYPE = "transport_type";
+        public static final String RCS_MESSAGE_ID = "rcs_message_id";
+        public static final String RCS_STATUS = "rcs_status";
+        public static final String RCS_DELIVERED_TIMESTAMP = "rcs_delivered_timestamp";
+        public static final String RCS_DISPLAYED_TIMESTAMP = "rcs_displayed_timestamp";
+        public static final String RCS_CONTRIBUTION_ID = "rcs_contribution_id";
+        // Opaque E2EE scheme id the message was decrypted under (e.g. "google.etouffee"),
+        // or null/empty for a plaintext message — drives the per-message lock indicator.
+        public static final String RCS_E2EE_SCHEME_ID = "rcs_e2ee_scheme_id";
     }
 
     // Messages table SQL
@@ -272,6 +389,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     + MessageColumns.RAW_TELEPHONY_STATUS + " INT DEFAULT(0), "
                     + MessageColumns.SELF_PARTICIPANT_ID + " INT, "
                     + MessageColumns.RETRY_START_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.TRANSPORT_TYPE + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_MESSAGE_ID + " TEXT, "
+                    + MessageColumns.RCS_STATUS + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_DELIVERED_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_DISPLAYED_TIMESTAMP + " INT DEFAULT(0), "
+                    + MessageColumns.RCS_CONTRIBUTION_ID + " TEXT, "
+                    + MessageColumns.RCS_E2EE_SCHEME_ID + " TEXT, "
                     + "FOREIGN KEY (" + MessageColumns.CONVERSATION_ID + ") REFERENCES "
                     + CONVERSATIONS_TABLE + "(" + ConversationColumns._ID + ") ON DELETE CASCADE "
                     + "FOREIGN KEY (" + MessageColumns.SENDER_PARTICIPANT_ID + ") REFERENCES "
@@ -291,6 +415,85 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             "CREATE INDEX index_" + MESSAGES_TABLE + "_status_seen ON " +  MESSAGES_TABLE + "("
                     + MessageColumns.STATUS + ", "
                     + MessageColumns.SEEN + ")";
+
+    // RCS message-id index for IMDN-receipt correlation (2-app split).
+    private static final String MESSAGES_TABLE_RCS_ID_INDEX_SQL =
+            "CREATE INDEX index_" + MESSAGES_TABLE + "_rcs_id ON " + MESSAGES_TABLE + "("
+                    + MessageColumns.RCS_MESSAGE_ID + ")";
+
+    // Wave E (group read receipts) side-table schema. Keyed by
+    // (MESSAGE_ID, PARTICIPANT_URI). DELIVERED_TIMESTAMP / DISPLAYED_TIMESTAMP
+    // are 0 until the corresponding per-member IMDN arrives.
+    public static class RcsGroupReceiptColumns {
+        /* local messages._id of the sent group message this receipt is for */
+        public static final String MESSAGE_ID = "message_id";
+
+        /* canonical MSISDN/URI of the group member who sent the receipt */
+        public static final String PARTICIPANT_URI = "participant_uri";
+
+        /* ms timestamp this member DELIVERED the message (0 = not yet) */
+        public static final String DELIVERED_TIMESTAMP = "delivered_timestamp";
+
+        /* ms timestamp this member DISPLAYED (read) the message (0 = not yet) */
+        public static final String DISPLAYED_TIMESTAMP = "displayed_timestamp";
+    }
+
+    // Emoji reactions side-table schema. Keyed by
+    // (TARGET_RCS_MESSAGE_ID, REACTOR_URI). A re-tap with a different emoji
+    // REPLACES (the action upserts on the unique key); a remove deletes the row.
+    public static class RcsReactionColumns {
+        /* the TARGET message's rcs message-id (messages.rcs_message_id id space) */
+        public static final String TARGET_RCS_MESSAGE_ID = "target_rcs_message_id";
+        /* canonical MSISDN/URI of the member who reacted; SELF_REACTOR_URI for us */
+        public static final String REACTOR_URI = "reactor_uri";
+        /* the emoji glyph string (built-in 11 or arbitrary EmojiCompat-valid) */
+        public static final String EMOJI = "emoji";
+        /* ms timestamp the reaction was added/updated (for stable chip ordering) */
+        public static final String TIMESTAMP = "timestamp";
+    }
+
+    private static final String CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL =
+            "CREATE TABLE " + RCS_GROUP_RECEIPTS_TABLE + " ("
+                    + RcsGroupReceiptColumns.MESSAGE_ID + " INT NOT NULL, "
+                    + RcsGroupReceiptColumns.PARTICIPANT_URI + " TEXT NOT NULL, "
+                    + RcsGroupReceiptColumns.DELIVERED_TIMESTAMP + " INT DEFAULT(0), "
+                    + RcsGroupReceiptColumns.DISPLAYED_TIMESTAMP + " INT DEFAULT(0), "
+                    + "PRIMARY KEY (" + RcsGroupReceiptColumns.MESSAGE_ID + ", "
+                    + RcsGroupReceiptColumns.PARTICIPANT_URI + "), "
+                    + "FOREIGN KEY (" + RcsGroupReceiptColumns.MESSAGE_ID + ") REFERENCES "
+                    + MESSAGES_TABLE + "(" + MessageColumns._ID + ") ON DELETE CASCADE "
+                    + ");";
+
+    private static final String RCS_GROUP_RECEIPTS_TABLE_MESSAGE_ID_INDEX_SQL =
+            "CREATE INDEX index_" + RCS_GROUP_RECEIPTS_TABLE + "_message_id ON "
+                    + RCS_GROUP_RECEIPTS_TABLE + "("
+                    + RcsGroupReceiptColumns.MESSAGE_ID + ")";
+
+    private static final String CREATE_RCS_REACTIONS_TABLE_SQL =
+            "CREATE TABLE " + RCS_REACTIONS_TABLE + " ("
+                    + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + RcsReactionColumns.REACTOR_URI + " TEXT NOT NULL, "
+                    + RcsReactionColumns.EMOJI + " TEXT NOT NULL, "
+                    + RcsReactionColumns.TIMESTAMP + " INT DEFAULT(0), "
+                    + "PRIMARY KEY (" + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + ", "
+                    + RcsReactionColumns.REACTOR_URI + ")"
+                    + ");";
+
+    private static final String RCS_REACTIONS_TABLE_TARGET_INDEX_SQL =
+            "CREATE INDEX index_" + RCS_REACTIONS_TABLE + "_target ON "
+                    + RCS_REACTIONS_TABLE + "("
+                    + RcsReactionColumns.TARGET_RCS_MESSAGE_ID + ")";
+
+    // No FOREIGN KEY constraint on ORIGINAL_RCS_MESSAGE_ID even though it names
+    // one: messages.rcs_message_id is not UNIQUE (system rows stash a de-dup
+    // signature in the same column, see RcsMessageStore
+    // .findLocalIdByRcsSystemSignature), and SQLite requires a FK parent to be a
+    // unique key. Enforcing it would fail at CREATE time on a real device rather
+    // than at review. The chain is therefore kept consistent in the DAO.
+
+    // The sibling-max query runs on every resend, so the chain root is indexed.
+
+    // The escalation ladder counts a peer's rows on every negative receipt.
 
     // Parts table schema
     // A part may contain text or a media url, but not both.
@@ -519,6 +722,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CREATE_PARTS_TABLE_SQL,
         CREATE_PARTICIPANTS_TABLE_SQL,
         CREATE_CONVERSATION_PARTICIPANTS_TABLE_SQL,
+        CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL,
+        CREATE_RCS_REACTIONS_TABLE_SQL,
     };
 
     // List of all our indices
@@ -526,10 +731,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CONVERSATIONS_TABLE_SMS_THREAD_ID_INDEX_SQL,
         CONVERSATIONS_TABLE_ARCHIVE_STATUS_INDEX_SQL,
         CONVERSATIONS_TABLE_SORT_TIMESTAMP_INDEX_SQL,
+        CONVERSATIONS_TABLE_RCS_GROUP_ID_INDEX_SQL,
         MESSAGES_TABLE_SORT_INDEX_SQL,
         MESSAGES_TABLE_STATUS_SEEN_INDEX_SQL,
+        MESSAGES_TABLE_RCS_ID_INDEX_SQL,
         PARTS_TABLE_MESSAGE_INDEX_SQL,
         CONVERSATION_PARTICIPANTS_TABLE_CONVERSATION_ID_INDEX_SQL,
+        RCS_GROUP_RECEIPTS_TABLE_MESSAGE_ID_INDEX_SQL,
+        RCS_REACTIONS_TABLE_TARGET_INDEX_SQL,
     };
 
     // List of all our SQL triggers

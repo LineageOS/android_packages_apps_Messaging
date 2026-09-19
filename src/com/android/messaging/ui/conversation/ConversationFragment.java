@@ -24,6 +24,7 @@ import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -37,12 +38,15 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.support.v7.mms.pdu.ContentType;
 import android.telephony.PhoneNumberUtils;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.ActionMode;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,9 +54,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.emoji2.text.EmojiCompat;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -69,10 +78,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
+import com.android.messaging.Factory;
 import com.android.messaging.R;
+import com.android.messaging.datamodel.BugleDatabaseOperations;
+import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.datamodel.DataModel;
+import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.action.InsertNewMessageAction;
+import com.android.messaging.datamodel.action.InsertRbmPostbackEchoAction;
+import com.android.messaging.datamodel.action.SendRcsLocationAction;
+import com.android.messaging.datamodel.action.UpdateRcsReactionAction;
 import com.android.messaging.datamodel.binding.Binding;
 import com.android.messaging.datamodel.binding.BindingBase;
 import com.android.messaging.datamodel.binding.ImmutableBindingRef;
@@ -85,7 +101,14 @@ import com.android.messaging.datamodel.data.DraftMessageData.DraftMessageDataLis
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.MessagePartData;
 import com.android.messaging.datamodel.data.ParticipantData;
+import com.android.messaging.datamodel.media.UriImageRequestDescriptor;
+import com.android.messaging.ui.AsyncImageView;
+import org.lineageos.rcs.provider.RcsBotBrand;
+import com.android.messaging.rcs.rbm.RbmSuggestion;
 import com.android.messaging.datamodel.data.SubscriptionListData.SubscriptionListEntry;
+import com.android.messaging.rcs.ProviderTransport;
+import com.android.messaging.rcs.RcsConstants;
+import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.ui.AttachmentPreview;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.ConversationDrawables;
@@ -106,6 +129,7 @@ import com.android.messaging.util.ImeUtil;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 import com.android.messaging.util.TextUtil;
+import com.android.messaging.util.ThreadUtil;
 import com.android.messaging.util.UiUtils;
 import com.android.messaging.util.UriUtil;
 
@@ -120,7 +144,8 @@ import java.util.concurrent.Executors;
  */
 public class ConversationFragment extends Fragment implements ConversationDataListener,
         IComposeMessageViewHost, ConversationMessageViewHost, ConversationInputHost,
-        DraftMessageDataListener {
+        DraftMessageDataListener, ProviderTransport.TypingListener,
+        ProviderTransport.GroupTypingListener {
 
     public interface ConversationFragmentHost extends ImeUtil.ImeStateHost {
         void onStartComposeMessage();
@@ -165,6 +190,14 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
     private ConversationFragmentHost mHost;
 
+    // RBM: the resolved brand for an <agent>@rbm.goog 1:1
+    // conversation, cached so the action-bar header doesn't refetch on every
+    // invalidateActionBar. mBotBrandBotId is the bot the cached brand is for;
+    // mBotBrandFetching guards a single in-flight resolve.
+    private RcsBotBrand mBotBrand;
+    private String mBotBrandBotId;
+    private boolean mBotBrandFetching;
+
     // ConversationMessageView that is currently selected
     private ConversationMessageView mSelectedMessage;
 
@@ -191,6 +224,43 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             }
         }
     };
+
+    // ---- RCS typing-receive (W2) ----
+    // A transient "<name> is typing…" footer shown over the bottom of the message
+    // list when the RCS peer sends an isComposing=active indicator. Driven purely
+    // by the in-process ProviderTransport.TypingListener seam (NOT the legacy
+    // ACTION_TYPING broadcast). The row auto-hides on isComposing=idle or after
+    // the RFC-3994 refresh window lapses with no further "active" event.
+    @androidx.annotation.Nullable
+    private TextView mTypingIndicatorView;
+    // The space-occupying row (sibling of the message-list FrameLayout in the
+    // inner vertical LinearLayout) that hosts mTypingIndicatorView. Toggling its
+    // visibility reflows the message list, unlike a floating overlay.
+    @androidx.annotation.Nullable
+    private android.widget.LinearLayout mTypingIndicatorRow;
+    // Auto-expire window (ms). The RFC 3994 refresh is ~60s; we use a shorter
+    // window so a dropped "idle" doesn't leave the row stuck, re-armed on each
+    // "active". 10s feels snappier while still tolerating Google Messages'
+    // active-refresh cadence (it re-sends "active" well within 10s while typing).
+    private static final long TYPING_AUTO_EXPIRE_MS = 10_000L;
+    private final Runnable mHideTypingRunnable = this::hideTypingIndicator;
+
+    // ---- WAVE-D: RCS GROUP typing-receive (per-sender model) ----
+    // Unlike the single-boolean 1:1 path above, a group can have several members
+    // typing at once. We track the live set of senders (keyed by fromUri) and
+    // each sender's own ~10s auto-expire runnable. The row shows the multi-name
+    // label built from the live set: 1 -> "<a> is typing…"; 2 -> "<a>, <b> are
+    // typing…"; 3+ -> "<a>, <b> +N are typing…". Cached resolved display name per
+    // sender so the label doesn't re-resolve on every keystroke. Main-thread only
+    // (all GroupTypingListener callbacks arrive on the main thread).
+    private final java.util.LinkedHashMap<String, Runnable> mGroupTypingSenders =
+            new java.util.LinkedHashMap<>();
+    private final java.util.HashMap<String, String> mGroupTypingNames =
+            new java.util.HashMap<>();
+    // The rcs_group_id this fragment's thread maps to, resolved off-main once and
+    // cached so onGroupTyping can gate (groupId match) without a DB hit per event.
+    @androidx.annotation.Nullable
+    private volatile String mConversationRcsGroupId;
 
     // Flag to prevent writing draft to DB on pause
     private boolean mSuppressWriteDraft;
@@ -277,7 +347,24 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             final MenuInflater menuInflater = getActivity().getMenuInflater();
             menuInflater.inflate(R.menu.conversation_fragment_select_menu, menu);
             menu.findItem(R.id.action_download).setVisible(data.getShowDownloadMessage());
-            menu.findItem(R.id.action_send).setVisible(data.getShowResendMessage());
+            // "Send" = resend over the ORIGINAL transport. SMS/MMS always; an RCS row only when
+            // it can actually be resent over RCS. This was hidden for a while, because
+            // ResendMessageAction handed the row to a queue that
+            // excludes TRANSPORT_RCS, so it returned to "Sending…" and was never sent. That path
+            // is gone: the action now takes a real over-RCS resend that never writes
+            // YET_TO_SEND. canResendOverRcs() is what keeps this honest for the rows where it
+            // still would not work — non-E2EE, or refused rows that never got a wire id — and
+            // those keep "Send as SMS", which is the right verb for them.
+            menu.findItem(R.id.action_send)
+                    .setVisible(data.getShowResendMessage()
+                            && (!data.getIsRcs() || data.canResendOverRcs()));
+            // "Send as SMS" appears on EVERY failed RCS message (resendable + RCS transport): the
+            // user-selected escape hatch to re-send the body over legacy SMS. Never an automatic
+            // fallback. Deliberately NOT narrowed alongside "Send" — it is the only affordance on
+            // the rows "Send" now excludes, and on an encrypted row it stays available as the
+            // user's choice to fall back rather than as something the app does for them.
+            menu.findItem(R.id.action_send_as_sms)
+                    .setVisible(data.getShowResendMessage() && data.getIsRcs());
 
             // ShareActionProvider does not work with ActionMode. So we use a normal menu item.
             menu.findItem(R.id.share_message_menu).setVisible(data.getCanForwardMessage());
@@ -328,6 +415,12 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             } else if (itemId == R.id.action_send) {
                 if (mSelectedMessage != null) {
                     retrySend(messageId);
+                    mHost.dismissActionMode();
+                }
+                return true;
+            } else if (itemId == R.id.action_send_as_sms) {
+                if (mSelectedMessage != null) {
+                    resendAsSms(messageId);
                     mHost.dismissActionMode();
                 }
                 return true;
@@ -721,6 +814,15 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(
                 mConversationSelfIdChangeReceiver,
                 new IntentFilter(UIIntents.CONVERSATION_SELF_ID_CHANGE_BROADCAST_ACTION));
+
+        // Listen for inbound RCS typing indicators while the thread is visible.
+        // Silent no-op when there is no bound RCS provider (peekInstance() null).
+        final ProviderTransport transport = ProviderTransport.peekInstance();
+        if (transport != null) {
+            transport.registerTypingListener(this);
+            // WAVE-D: also listen for inbound GROUP typing on the visible thread.
+            transport.registerGroupTypingListener(this);
+        }
     }
 
     void setConversationFocus() {
@@ -792,6 +894,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                         .launchPhoneCallActivity(getActivity(), phoneNumber, centerPoint);
             }
             return true;
+        } else if (itemId == R.id.action_share_location) {
+            shareLocation();
+            return true;
         } else if (itemId == R.id.action_archive) {
             mBinding.getData().archiveConversation(mBinding);
             closeConversation(mConversationId);
@@ -824,6 +929,69 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // ---- geopush: "Share location" ----
+    private static final int REQ_SHARE_LOCATION_PERMISSION = 4521;
+
+    /** Share the device's current location over RCS (geopush). Gated on the
+     *  location permission; the actual send + local row happen off-main in
+     *  {@link SendRcsLocationAction}. */
+    private void shareLocation() {
+        if (!com.android.messaging.util.OsUtil.hasLocationPermission()) {
+            requestPermissions(
+                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQ_SHARE_LOCATION_PERMISSION);
+            return;
+        }
+        doShareLocation();
+    }
+
+    private void doShareLocation() {
+        if (mConversationId == null || getActivity() == null) {
+            return;
+        }
+        final android.location.LocationManager lm =
+                (android.location.LocationManager) getActivity()
+                        .getSystemService(android.content.Context.LOCATION_SERVICE);
+        android.location.Location best = null;
+        if (lm != null) {
+            for (final String prov : new String[]{
+                    android.location.LocationManager.FUSED_PROVIDER,
+                    android.location.LocationManager.GPS_PROVIDER,
+                    android.location.LocationManager.NETWORK_PROVIDER}) {
+                try {
+                    final android.location.Location l = lm.getLastKnownLocation(prov);
+                    if (l != null && (best == null || l.getTime() > best.getTime())) {
+                        best = l;
+                    }
+                } catch (final SecurityException | IllegalArgumentException ignore) {
+                    // provider unavailable / permission race — skip
+                }
+            }
+        }
+        if (best == null) {
+            UiUtils.showToast(R.string.rcs_location_unavailable);
+            return;
+        }
+        SendRcsLocationAction.shareLocation(mConversationId, best.getLatitude(),
+                best.getLongitude(), best.hasAccuracy() ? best.getAccuracy() : 0f);
+        UiUtils.showToast(R.string.rcs_location_sharing);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode,
+            @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        if (requestCode == REQ_SHARE_LOCATION_PERMISSION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                doShareLocation();
+            } else {
+                UiUtils.showToast(R.string.rcs_location_permission_needed);
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     /**
@@ -905,6 +1073,25 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
 
         mHost.invalidateActionBar();
+
+        // RCS read-receipt (DISPLAYED IMDN) for messages that arrive while the
+        // thread is ALREADY open + focused. The on-open read path
+        // (ConversationData.setFocus -> BugleNotifications.markMessagesAsRead ->
+        // MarkAsReadAction.sendDisplayedReceiptsForRcs) only re-runs on
+        // resume/focus, so a new inbound RCS message landing in the foreground
+        // would otherwise not get a DISPLAYED receipt until the user left and
+        // re-entered. Re-invoke the exact same read path here; it claims + stamps
+        // rcs_displayed_timestamp idempotently, so there's no double-send vs the
+        // on-open path. Gated strictly on getIsRcs() + isFocused() so SMS/MMS
+        // and background arrivals are unaffected.
+        if (newestMessage != null
+                && newestMessage.getIsIncoming()
+                && newestMessage.getIsRcs()
+                && mConversationId != null
+                && isBound()
+                && mBinding.getData().isFocused()) {
+            BugleNotifications.markMessagesAsRead(mConversationId);
+        }
     }
 
     /**
@@ -941,6 +1128,9 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             mConversationId = conversationId;
             mIncomingDraft = draftData;
             mBinding.bind(DataModel.get().createConversationData(context, this, conversationId));
+            // WAVE-D: warm this thread's rcs_group_id off-main so inbound group
+            // typing can gate by groupId match without a DB hit per event.
+            warmConversationRcsGroupId(conversationId);
         } else {
             Assert.isTrue(TextUtils.equals(mBinding.getData().getConversationId(), conversationId));
         }
@@ -953,6 +1143,18 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         if (mComposeMessageView != null) {
             mComposeMessageView.unbind();
         }
+
+        // Defensive: onPause normally unregisters, but guard against any path
+        // that destroys without a matching pause.
+        final ProviderTransport transport = ProviderTransport.peekInstance();
+        if (transport != null) {
+            transport.unregisterTypingListener(this);
+            transport.unregisterGroupTypingListener(this);
+        }
+        mHandler.removeCallbacks(mHideTypingRunnable);
+        clearGroupTypingSenders();
+        mTypingIndicatorView = null;
+        mTypingIndicatorRow = null;
 
         // And unbind this fragment from its data
         mBinding.unbind();
@@ -975,12 +1177,351 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
 
         LocalBroadcastManager.getInstance(getActivity())
                 .unregisterReceiver(mConversationSelfIdChangeReceiver);
+
+        final ProviderTransport transport = ProviderTransport.peekInstance();
+        if (transport != null) {
+            transport.unregisterTypingListener(this);
+            transport.unregisterGroupTypingListener(this);
+        }
+        // Tear down any visible typing row + its pending auto-expire so it can't
+        // fire against a paused/detached fragment.
+        mHandler.removeCallbacks(mHideTypingRunnable);
+        clearGroupTypingSenders();
+        hideTypingIndicator();
     }
 
     @Override
     public void onConfigurationChanged(@NonNull final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mRecyclerView.getItemAnimator().endAnimations();
+    }
+
+    // ---- RCS typing-receive (ProviderTransport.TypingListener) ----
+
+    /**
+     * Inbound RCS typing indicator. Always delivered on the main thread by
+     * {@link ProviderTransport}. We filter to this conversation's peer and only
+     * act on a 1:1 thread, then show/hide a transient "<name> is typing…" row.
+     *
+     * <p>Purely advisory + additive: no DB write, no effect on SMS/MMS or on the
+     * message list itself. If anything about the conversation isn't loaded yet we
+     * silently ignore the event.
+     */
+    @Override
+    public void onTyping(final int subId, final String fromUri, final boolean active) {
+        // mConversationId is the gate: ignore typing aimed at a thread we aren't
+        // showing (the listener is process-wide, one per visible fragment).
+        if (mConversationId == null || !isBound()) {
+            return;
+        }
+        if (!isTypingFromConversationPeer(fromUri)) {
+            return;
+        }
+        if (active) {
+            showTypingIndicator();
+            // Re-arm the auto-expire so a missed "idle" can't strand the row.
+            mHandler.removeCallbacks(mHideTypingRunnable);
+            mHandler.postDelayed(mHideTypingRunnable, TYPING_AUTO_EXPIRE_MS);
+        } else {
+            mHandler.removeCallbacks(mHideTypingRunnable);
+            hideTypingIndicator();
+        }
+    }
+
+    // ---- WAVE-D: RCS GROUP typing-receive (per-sender model) ----
+
+    /**
+     * Inbound GROUP typing (ProviderTransport.GroupTypingListener). Gated on the
+     * incoming {@code groupId} matching THIS thread's rcs_group_id (warmed in
+     * {@link #warmConversationRcsGroupId}). Drives a per-sender map: each sender
+     * (keyed by {@code fromUri}) gets its own ~10s auto-expire runnable, and the
+     * row text is rebuilt from the live sender set. 1:1 {@link #onTyping} is
+     * untouched. Always on the main thread.
+     */
+    @Override
+    public void onGroupTyping(final int subId, final String groupId,
+            final String fromUri, final boolean active) {
+        if (mConversationId == null || !isBound()) {
+            return;
+        }
+        // Gate: only render typing for the group this thread shows.
+        final String myGroupId = mConversationRcsGroupId;
+        if (TextUtils.isEmpty(myGroupId) || TextUtils.isEmpty(groupId)
+                || !TextUtils.equals(myGroupId, groupId)) {
+            return;
+        }
+        if (TextUtils.isEmpty(fromUri)) {
+            return;
+        }
+        if (active) {
+            // Cancel any prior expire for this sender, refresh name, re-arm 10s.
+            final Runnable prev = mGroupTypingSenders.remove(fromUri);
+            if (prev != null) {
+                mHandler.removeCallbacks(prev);
+            }
+            if (!mGroupTypingNames.containsKey(fromUri)) {
+                mGroupTypingNames.put(fromUri, resolveGroupSenderName(subId, fromUri));
+            }
+            final Runnable expire = () -> {
+                mGroupTypingSenders.remove(fromUri);
+                mGroupTypingNames.remove(fromUri);
+                refreshGroupTypingRow();
+            };
+            mGroupTypingSenders.put(fromUri, expire);
+            mHandler.postDelayed(expire, TYPING_AUTO_EXPIRE_MS);
+        } else {
+            final Runnable prev = mGroupTypingSenders.remove(fromUri);
+            if (prev != null) {
+                mHandler.removeCallbacks(prev);
+            }
+            mGroupTypingNames.remove(fromUri);
+        }
+        refreshGroupTypingRow();
+    }
+
+    /** Show/refresh the typing row from the live group-sender set, or hide it
+     *  when no one is typing. */
+    private void refreshGroupTypingRow() {
+        if (mGroupTypingSenders.isEmpty()) {
+            hideTypingIndicator();
+            return;
+        }
+        showTypingIndicator(buildGroupTypingText());
+    }
+
+    /** Build the multi-name label: 1 -> "<a> is typing…"; 2 -> "<a>, <b> are
+     *  typing…"; 3+ -> "<a>, <b> +N are typing…". Names come from the cached
+     *  per-sender display names (insertion order via the LinkedHashMap). */
+    private String buildGroupTypingText() {
+        final java.util.ArrayList<String> names = new java.util.ArrayList<>();
+        for (final String sender : mGroupTypingSenders.keySet()) {
+            String n = mGroupTypingNames.get(sender);
+            if (TextUtils.isEmpty(n)) {
+                n = sender;
+            }
+            names.add(n);
+        }
+        final int count = names.size();
+        if (count <= 0) {
+            return getResources().getString(R.string.rcs_typing_generic);
+        }
+        if (count == 1) {
+            return getResources().getString(R.string.rcs_typing_named, names.get(0));
+        }
+        if (count == 2) {
+            return getResources().getString(
+                    R.string.rcs_group_typing_two, names.get(0), names.get(1));
+        }
+        // 3+: first two names + "+N".
+        return getResources().getString(R.string.rcs_group_typing_many,
+                names.get(0), names.get(1), count - 2);
+    }
+
+    /** Display name for a group member's raw phone (mirrors
+     *  ReceiveRcsGroupEventAction.resolveDisplayName). Never null. */
+    private String resolveGroupSenderName(final int subId, final String rawPhone) {
+        if (TextUtils.isEmpty(rawPhone)) {
+            return "";
+        }
+        try {
+            return ParticipantData.getFromRawPhoneBySimLocale(
+                    stripTelScheme(rawPhone), subId).getDisplayName(false /* preferFullName */);
+        } catch (final Throwable t) {
+            return rawPhone;
+        }
+    }
+
+    /** Cancel all per-sender expire runnables + clear the live set. */
+    private void clearGroupTypingSenders() {
+        for (final Runnable r : mGroupTypingSenders.values()) {
+            mHandler.removeCallbacks(r);
+        }
+        mGroupTypingSenders.clear();
+        mGroupTypingNames.clear();
+    }
+
+    /** Warm this thread's rcs_group_id off-main (one DB read). Null for 1:1. */
+    private void warmConversationRcsGroupId(final String conversationId) {
+        if (TextUtils.isEmpty(conversationId)) {
+            mConversationRcsGroupId = null;
+            return;
+        }
+        mGroupTypingResolveExecutor.execute(() -> {
+            String gid = null;
+            try {
+                final com.android.messaging.datamodel.DatabaseWrapper db =
+                        DataModel.get().getDatabase();
+                gid = com.android.messaging.datamodel.BugleDatabaseOperations
+                        .getConversationRcsGroupId(db, conversationId);
+            } catch (final Throwable t) {
+                gid = null;
+            }
+            mConversationRcsGroupId = gid;
+        });
+    }
+
+    private final ExecutorService mGroupTypingResolveExecutor =
+            Executors.newSingleThreadExecutor();
+
+    /**
+     * True when {@code fromUri} matches the (single) other participant of this
+     * conversation. Group threads and unmatched senders return false so the row
+     * never shows for the wrong peer.
+     */
+    private boolean isTypingFromConversationPeer(final String fromUri) {
+        if (TextUtils.isEmpty(fromUri) || !mBinding.getData().getParticipantsLoaded()) {
+            return false;
+        }
+        final ParticipantData other = mBinding.getData().getOtherParticipant();
+        if (other == null) {
+            // Not a 1:1 thread (group or self) — no typing row.
+            return false;
+        }
+        final String peerRaw = stripTelScheme(fromUri);
+        // Compare on the canonical (E.164-ish) form so a tel: URI / raw-dialed /
+        // already-normalized number all match the stored participant.
+        final PhoneUtils phoneUtils = PhoneUtils.getDefault();
+        final String peerCanonical = phoneUtils.getCanonicalBySimLocale(peerRaw);
+        final String otherNormalized = other.getNormalizedDestination();
+        final String otherCanonical = !TextUtils.isEmpty(otherNormalized)
+                ? phoneUtils.getCanonicalBySimLocale(otherNormalized)
+                : null;
+        if (!TextUtils.isEmpty(peerCanonical) && !TextUtils.isEmpty(otherCanonical)
+                && TextUtils.equals(peerCanonical, otherCanonical)) {
+            return true;
+        }
+        // Fallbacks for numbers canonicalization can't normalize (e.g. short
+        // codes / alphanumeric senders): compare the raw forms directly.
+        return TextUtils.equals(peerRaw, otherNormalized)
+                || TextUtils.equals(peerRaw, other.getSendDestination());
+    }
+
+    private static String stripTelScheme(final String uri) {
+        if (uri == null) {
+            return null;
+        }
+        if (uri.startsWith("tel:")) {
+            return uri.substring("tel:".length());
+        }
+        if (uri.startsWith("sip:")) {
+            // sip:+15551234567@domain → +15551234567
+            final String rest = uri.substring("sip:".length());
+            final int at = rest.indexOf('@');
+            return at >= 0 ? rest.substring(0, at) : rest;
+        }
+        return uri;
+    }
+
+    /**
+     * Lazily inflates (once) a small "<name> is typing…" rounded bubble and hosts
+     * it as a real, space-occupying row in the inner vertical LinearLayout —
+     * positioned BETWEEN the weight=1 message-list FrameLayout and the compose
+     * bar. Because the bubble row is WRAP_CONTENT while the list FrameLayout is
+     * weight=1, showing the row steals height from the list and the message list
+     * reflows upward (iPhone-style), instead of floating as an overlay. Cheap +
+     * reused on subsequent events.
+     */
+    private void showTypingIndicator() {
+        showTypingIndicator(buildTypingText());
+    }
+
+    /** As {@link #showTypingIndicator()} but renders an explicit label (WAVE-D
+     *  group multi-name path passes the live "<a>, <b> are typing…" string). */
+    private void showTypingIndicator(final String label) {
+        final View root = getView();
+        if (root == null) {
+            return;
+        }
+        if (mTypingIndicatorView == null) {
+            // The bubble itself: WRAP_CONTENT, hugging the LEFT edge.
+            final TextView tv = new TextView(getActivity());
+            tv.setTextAppearance(android.R.style.TextAppearance_Small);
+            // Theme-aware secondary text so the row is legible on the (light or
+            // dark) conversation background.
+            final android.util.TypedValue tvColor = new android.util.TypedValue();
+            if (getContext().getTheme().resolveAttribute(
+                    android.R.attr.textColorSecondary, tvColor, true)) {
+                tv.setTextColor(getResources().getColor(tvColor.resourceId,
+                        getContext().getTheme()));
+            }
+            tv.setSingleLine(true);
+            // Plain left-aligned text on the conversation background (no bubble) —
+            // theme-aware textColorSecondary above keeps it legible (dark-on-light /
+            // light-on-dark). Keep the same inset so the text sits where it did.
+            final float density = getResources().getDisplayMetrics().density;
+            final int padH = (int) (14f * density);
+            final int padV = (int) (8f * density);
+            tv.setPadding(padH, padV, padH, padV);
+
+            // Find the list FrameLayout and its PARENT (the inner vertical
+            // LinearLayout). We insert the row as a sibling of the FrameLayout,
+            // immediately after it, so it lives between the list and compose bar.
+            final View list = root.findViewById(android.R.id.list);
+            final ViewGroup listFrame = (list != null && list.getParent() instanceof ViewGroup)
+                    ? (ViewGroup) list.getParent() : null;
+            final ViewGroup rowParent = (listFrame != null
+                    && listFrame.getParent() instanceof android.widget.LinearLayout)
+                    ? (android.widget.LinearLayout) listFrame.getParent() : null;
+            if (rowParent == null) {
+                // Layout shape changed unexpectedly; skip the row rather than crash.
+                return;
+            }
+
+            // A MATCH_PARENT/WRAP_CONTENT row that hosts the left-aligned bubble.
+            // The row is the height-stealing sibling; the bubble inside it stays
+            // left-hugging via the container's START gravity.
+            final android.widget.LinearLayout rowContainer =
+                    new android.widget.LinearLayout(getActivity());
+            rowContainer.setOrientation(android.widget.LinearLayout.HORIZONTAL);
+            rowContainer.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            final int rowPadH = (int) (12f * density);
+            final int rowPadV = (int) (6f * density);
+            rowContainer.setPadding(rowPadH, rowPadV, rowPadH, rowPadV);
+            rowContainer.addView(tv, new android.widget.LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT));
+
+            final int insertIndex = rowParent.indexOfChild(listFrame) + 1;
+            rowParent.addView(rowContainer, insertIndex,
+                    new android.widget.LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT));
+            mTypingIndicatorRow = rowContainer;
+            mTypingIndicatorView = tv;
+        }
+        mTypingIndicatorView.setText(label);
+        if (mTypingIndicatorRow != null) {
+            mTypingIndicatorRow.setVisibility(View.VISIBLE);
+        }
+        mTypingIndicatorView.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTypingIndicator() {
+        // Hide the whole row so it stops occupying layout space and the list
+        // reflows back down.
+        if (mTypingIndicatorRow != null) {
+            mTypingIndicatorRow.setVisibility(View.GONE);
+        }
+        if (mTypingIndicatorView != null) {
+            mTypingIndicatorView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * "<name> is typing…" when we know the peer's display name, else "Typing…".
+     */
+    private String buildTypingText() {
+        String name = null;
+        if (isBound() && mBinding.getData().getParticipantsLoaded()) {
+            final ParticipantData other = mBinding.getData().getOtherParticipant();
+            if (other != null) {
+                name = other.getDisplayName(false /* preferFullName */);
+            }
+        }
+        if (!TextUtils.isEmpty(name)) {
+            return getResources().getString(R.string.rcs_typing_named, name);
+        }
+        return getResources().getString(R.string.rcs_typing_generic);
     }
 
     // TODO: Remove isBound and replace it with ensureBound after b/15704674.
@@ -1109,6 +1650,49 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
     }
 
+    /**
+     * User-selected "Send as SMS" escape hatch for a FAILED RCS message. Re-sends
+     * the failed message's text body to the same conversation over LEGACY SMS,
+     * forcing the SMS path so it does NOT re-route back to RCS. This is never an
+     * automatic fallback -- it only runs when the user picks the menu item.
+     *
+     * Approach: compose a fresh outgoing SMS draft from the failed message's body
+     * (re-using MessageData.createDraftSmsMessage + the normal send plumbing) and
+     * queue it via the forced-SMS variant of InsertNewMessageAction. The original
+     * failed RCS row is then deleted so the thread isn't left with a dangling
+     * failed RCS bubble next to the new SMS. The DB work (insert + delete) happens
+     * off the UI thread inside the action service; we only read the already-loaded
+     * ConversationMessageData here on the UI thread.
+     */
+    public void resendAsSms(final String messageId) {
+        if (!isReadyForAction()) {
+            warnOfMissingActionConditions(true /*sending*/, () -> resendAsSms(messageId));
+            return;
+        }
+        if (!ensureKnownRecipients()) {
+            return;
+        }
+        final ConversationMessageData data = mSelectedMessage.getData();
+        final String body = data.getText();
+        if (TextUtils.isEmpty(body)) {
+            LogUtil.w(LogUtil.BUGLE_TAG,
+                    "resendAsSms: failed RCS message has no text body; nothing to send as SMS");
+            return;
+        }
+        final String conversationId = data.getConversationId();
+        // Use the conversation's current self (SMS sub), mirroring a normal
+        // compose-bar send, rather than the RCS self bound to the failed row.
+        final String selfId = mComposeMessageView.getConversationSelfId();
+        final MessageData smsMessage =
+                MessageData.createDraftSmsMessage(conversationId, selfId, body);
+        // Queue the SMS down the forced-legacy path (skips the RCS routing fork).
+        mBinding.getData().sendMessageAsSms(mBinding, smsMessage);
+        // Resolve the now-superseded failed RCS row so the thread shows only the
+        // freshly queued SMS (chosen over "mark superseded": there is no
+        // superseded status and DeleteMessageAction is the clean supported path).
+        mBinding.getData().deleteMessage(mBinding, messageId);
+    }
+
     void deleteMessage(final String messageId) {
         if (isReadyForDeleteAction()) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
@@ -1208,6 +1792,18 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             return true;
         }
 
+        // An inbound RCS media bubble may be a THUMBNAIL-only preview
+        // whose full file awaits accept. Resolve off the main thread (the pending
+        // marker lives in rcs_status, not the bound cursor); if pending, request
+        // the file download (the bubble re-renders in place on re-delivery),
+        // otherwise open the viewer on the resolved file.
+        if ((attachment.isImage() || attachment.isVideo())
+                && messageView.getData().getIsRcs()) {
+            maybeAcceptOrViewRcsMedia(messageView.getData(), attachment.getContentUri(),
+                    imageBounds);
+            return true;
+        }
+
         if (attachment.isImage()) {
             displayPhoto(attachment.getContentUri(), imageBounds, false /* isDraft */);
         }
@@ -1217,6 +1813,52 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         }
 
         return false;
+    }
+
+    /**
+     * For an inbound RCS media bubble, decide off the main thread
+     * whether the full file is still pending (thumbnail-only) and, if so, ask the
+     * provider to download it (acceptIncomingFile); otherwise open the photo
+     * viewer on the already-resolved file. The DB read (rcs_status sentinel) and
+     * the binder call must not run on the main thread.
+     */
+    private void maybeAcceptOrViewRcsMedia(final ConversationMessageData data,
+            final Uri tappedUri, final Rect imageBounds) {
+        final Context appCtx = getActivity() == null
+                ? Factory.get().getApplicationContext()
+                : getActivity().getApplicationContext();
+        final String localId = data.getMessageId();
+        final String selfId = data.getSelfParticipantId();
+        new Thread(() -> {
+            try {
+                final DatabaseWrapper db = DataModel.get().getDatabase();
+                final RcsMessageStore.RcsMeta meta =
+                        RcsMessageStore.readByLocalId(db, localId);
+                final boolean pending = meta != null
+                        && meta.rcsStatus == RcsConstants.RCS_FILE_PENDING
+                        && !TextUtils.isEmpty(meta.rcsMessageId);
+                if (pending) {
+                    final int subId =
+                            BugleDatabaseOperations.getSelfSubscriptionId(db, selfId);
+                    ProviderTransport.getInstance(appCtx)
+                            .acceptIncomingFile(subId, meta.rcsMessageId);
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        if (isAdded()) {
+                            Toast.makeText(appCtx, R.string.rcs_downloading_attachment,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        if (isAdded() && tappedUri != null) {
+                            displayPhoto(tappedUri, imageBounds, false /* isDraft */);
+                        }
+                    });
+                }
+            } catch (final Throwable t) {
+                LogUtil.w(LogUtil.BUGLE_TAG, "maybeAcceptOrViewRcsMedia failed", t);
+            }
+        }, "rcs-accept-file").start();
     }
 
     private void handleMessageClick(final ConversationMessageView messageView) {
@@ -1408,6 +2050,359 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 excludeDefault);
     }
 
+    // ---- Emoji-reactions (ConversationMessageViewHost) ----
+
+    /**
+     * The user picked / re-tapped a reaction. Resolve the TARGET's rcs message-id
+     * + the conversation route (1:1 recipient or the 32-hex group id), write the
+     * optimistic self-row so the chip updates instantly, then dispatch the wire
+     * send off the main thread (the binder call may hit the network in the
+     * provider). Modeled on {@link #maybeAcceptOrViewRcsMedia}: read the rcs id +
+     * subId off-main, then call {@link ProviderTransport#sendReaction}.
+     */
+    @Override
+    public void onReactionSelected(final ConversationMessageView view, final String emoji,
+            final boolean add) {
+        if (view == null || TextUtils.isEmpty(emoji)) {
+            return;
+        }
+        final ConversationMessageData data = view.getData();
+        final String targetRcsId = data.getRcsMessageId();
+        if (TextUtils.isEmpty(targetRcsId)) {
+            // Not an RCS message with a server id -> nothing to react to.
+            return;
+        }
+        // Optimistic self-row: the chip appears/disappears immediately, before the
+        // wire ack. The action canonicalizes + refreshes the conversation cursor.
+        UpdateRcsReactionAction.recordSelfReaction(targetRcsId, emoji, add);
+
+        // Resolve the route on the main thread (cheap, in-memory) then send off-main.
+        final String groupId = mConversationRcsGroupId; // null for 1:1
+        String toUri = null;
+        if (TextUtils.isEmpty(groupId)) {
+            final ParticipantData other = mBinding.getData().getOtherParticipant();
+            // RCS recipient must be E.164 (ProviderTransport.sendReaction toUri).
+            // getSendDestination() is the SMS-dialable form (can drop the +1
+            // country code, e.g. for a participant created from an inbound RCS
+            // message), which makes Tachyon reject the reaction as tachyonerror=40
+            // DESTINATION_NON_RCS. Use the normalized E.164 destination, falling
+            // back to the send destination only if normalization is unavailable.
+            toUri = other == null ? null : other.getNormalizedDestination();
+            if (other != null && TextUtils.isEmpty(toUri)) {
+                toUri = other.getSendDestination();
+            }
+            if (TextUtils.isEmpty(toUri)) {
+                LogUtil.w(LogUtil.BUGLE_TAG,
+                        "onReactionSelected: no 1:1 recipient; chip kept, send skipped");
+                return;
+            }
+        }
+        final int subId = getConversationSelfSubId();
+        final Context appCtx = getActivity() == null
+                ? Factory.get().getApplicationContext()
+                : getActivity().getApplicationContext();
+        final String sendToUri = toUri;
+        new Thread(() -> {
+            try {
+                ProviderTransport.getInstance(appCtx)
+                        .sendReaction(subId, targetRcsId, sendToUri, emoji, add, groupId);
+            } catch (final Throwable t) {
+                LogUtil.w(LogUtil.BUGLE_TAG, "onReactionSelected: sendReaction failed", t);
+            }
+        }, "rcs-send-reaction").start();
+    }
+
+    /**
+     * RBM: the user tapped a suggestion chip under a bot card.
+     * Build the {@code botsuggestion.response} body (echoing the chip's opaque
+     * {@code postback.data} verbatim — the captured contract) and send it to the
+     * bot address off the main thread.
+     */
+    @Override
+    public void onBotSuggestionTapped(final ConversationMessageView view,
+            final RbmSuggestion suggestion) {
+        if (view == null || suggestion == null) {
+            return;
+        }
+        final String botId = view.getData().getBotId();
+        if (TextUtils.isEmpty(botId)) {
+            return;
+        }
+        final int subId = getConversationSelfSubId();
+
+        // Phase 6: a suggested ACTION (open-url / dial / map / calendar) performs a
+        // client-side intent on tap; it notifies the agent only if it also carries
+        // postback data, and does NOT echo a "sent" bubble (the label is a button,
+        // not a reply). A suggested REPLY echoes its text as a sent bubble.
+        if (suggestion.isAction()) {
+            performBotAction(suggestion);
+            if (TextUtils.isEmpty(suggestion.postbackData)) {
+                return;  // pure action (e.g. open-url) — no agent postback
+            }
+        } else if (!TextUtils.isEmpty(suggestion.displayText)) {
+            new InsertRbmPostbackEchoAction(subId, botId, suggestion.displayText).start();
+        }
+
+        final String json = buildBotSuggestionResponse(suggestion);
+        if (json == null) {
+            return;  // nothing to send
+        }
+        final Context appCtx = getActivity() == null
+                ? Factory.get().getApplicationContext()
+                : getActivity().getApplicationContext();
+        new Thread(() -> {
+            try {
+                ProviderTransport.getInstance(appCtx).sendBotPostback(subId, botId,
+                        "application/vnd.gsma.botsuggestion.response.v1.0+json", json,
+                        /*messageId=*/ null);
+            } catch (final Throwable t) {
+                LogUtil.w(LogUtil.BUGLE_TAG, "onBotSuggestionTapped: sendBotPostback failed", t);
+            }
+        }, "rbm-send-postback").start();
+    }
+
+    /**
+     * RBM (Phase 6): perform the client-side intent for a suggested action
+     * (open-url / dial / view-location / create-calendar), falling back to the
+     * action's {@code fallbackUrl} when the native app is missing. Share-location
+     * and unknown action kinds are no-ops here (the postback still notifies the
+     * agent). Best-effort: a missing handler is logged, never crashes.
+     */
+    private void performBotAction(final RbmSuggestion s) {
+        Intent intent = null;
+        switch (s.type) {
+            case OPEN_URL:
+                if (!TextUtils.isEmpty(s.url)) {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s.url));
+                }
+                break;
+            case DIAL:
+                if (!TextUtils.isEmpty(s.phoneNumber)) {
+                    intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + s.phoneNumber));
+                }
+                break;
+            case VIEW_LOCATION:
+                intent = new Intent(Intent.ACTION_VIEW, buildGeoUri(s));
+                break;
+            case CREATE_CALENDAR:
+                intent = buildCalendarIntent(s);
+                break;
+            default:
+                break;  // SHARE_LOCATION / UNKNOWN: no client intent
+        }
+        if (intent == null && !TextUtils.isEmpty(s.fallbackUrl)) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s.fallbackUrl));
+        }
+        if (intent == null) {
+            return;
+        }
+        final Activity activity = getActivity();
+        final Context ctx = activity != null
+                ? activity : Factory.get().getApplicationContext();
+        if (activity == null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        try {
+            ctx.startActivity(intent);
+        } catch (final ActivityNotFoundException e) {
+            if (!TextUtils.isEmpty(s.fallbackUrl)) {
+                try {
+                    final Intent fb = new Intent(Intent.ACTION_VIEW, Uri.parse(s.fallbackUrl));
+                    if (activity == null) {
+                        fb.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    }
+                    ctx.startActivity(fb);
+                } catch (final ActivityNotFoundException ignore) {
+                    LogUtil.w(LogUtil.BUGLE_TAG, "RBM action: no app for intent or fallback");
+                }
+            } else {
+                LogUtil.w(LogUtil.BUGLE_TAG, "RBM action: no app handles " + intent.getAction());
+            }
+        }
+    }
+
+    /** {@code geo:} URI for a view-location action: lat/long (with optional label),
+     *  else a free-text {@code q=} query. */
+    private static Uri buildGeoUri(final RbmSuggestion s) {
+        if (s.latitude != null && s.longitude != null) {
+            final String ll = s.latitude + "," + s.longitude;
+            if (!TextUtils.isEmpty(s.locationLabel)) {
+                return Uri.parse("geo:" + ll + "?q=" + ll + "(" + Uri.encode(s.locationLabel) + ")");
+            }
+            return Uri.parse("geo:" + ll + "?q=" + ll);
+        }
+        return Uri.parse("geo:0,0?q=" + Uri.encode(s.locationQuery == null ? "" : s.locationQuery));
+    }
+
+    /** {@code ACTION_INSERT} calendar-event intent from a create-calendar action. */
+    private static Intent buildCalendarIntent(final RbmSuggestion s) {
+        final Intent intent = new Intent(Intent.ACTION_INSERT)
+                .setData(CalendarContract.Events.CONTENT_URI);
+        if (!TextUtils.isEmpty(s.calTitle)) {
+            intent.putExtra(CalendarContract.Events.TITLE, s.calTitle);
+        }
+        if (!TextUtils.isEmpty(s.calDescription)) {
+            intent.putExtra(CalendarContract.Events.DESCRIPTION, s.calDescription);
+        }
+        final long start = parseRfc3339(s.calStart);
+        final long end = parseRfc3339(s.calEnd);
+        if (start > 0) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start);
+        }
+        if (end > 0) {
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
+        }
+        return intent;
+    }
+
+    private static long parseRfc3339(final String t) {
+        if (TextUtils.isEmpty(t)) {
+            return 0L;
+        }
+        try {
+            return java.time.Instant.parse(t).toEpochMilli();
+        } catch (final Exception e) {
+            return 0L;
+        }
+    }
+
+    /** Build {@code {response:{reply:{displayText,postback:{data}}}}} (RBM Phase 5),
+     *  omitting absent fields. Returns null if the chip carries nothing to echo. */
+    private static String buildBotSuggestionResponse(final RbmSuggestion s) {
+        if (TextUtils.isEmpty(s.displayText) && TextUtils.isEmpty(s.postbackData)) {
+            return null;
+        }
+        try {
+            final org.json.JSONObject reply = new org.json.JSONObject();
+            if (!TextUtils.isEmpty(s.displayText)) {
+                reply.put("displayText", s.displayText);
+            }
+            if (!TextUtils.isEmpty(s.postbackData)) {
+                reply.put("postback", new org.json.JSONObject().put("data", s.postbackData));
+            }
+            return new org.json.JSONObject()
+                    .put("response", new org.json.JSONObject().put("reply", reply))
+                    .toString();
+        } catch (final org.json.JSONException e) {
+            LogUtil.w(LogUtil.BUGLE_TAG, "buildBotSuggestionResponse failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * The user tapped "+" in the reaction quick-row. Pop a minimal emoji-entry
+     * dialog (an EditText whose IME exposes the system emoji keyboard), validate
+     * the typed glyph against {@link EmojiCompat} — "any emoji" is a validity
+     * check, NOT an allowlist — and on a valid single emoji route it back through
+     * {@link #onReactionSelected} as an add.
+     */
+    @Override
+    public void onOpenSystemEmojiPicker(final ConversationMessageView view) {
+        if (view == null || getActivity() == null) {
+            return;
+        }
+        final EditText input = new EditText(getActivity());
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setHint(R.string.reaction_custom_emoji_hint);
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.reaction_custom_emoji_title)
+                .setView(input)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    final String glyph = input.getText() == null
+                            ? null : input.getText().toString().trim();
+                    final String emoji = validateReactionEmoji(glyph);
+                    if (emoji == null) {
+                        Toast.makeText(getActivity(), R.string.reaction_invalid_emoji,
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    onReactionSelected(view, emoji, true /* add */);
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    /**
+     * Emoji-reactions: the user tapped a message's reaction badge. Show a
+     * "who reacted with what" breakdown -- each distinct emoji followed by the
+     * names of everyone who reacted with it ("You" for our own reaction). Most
+     * useful in a group; harmless in 1:1. Add/change/remove is done from the
+     * long-press picker, not here.
+     */
+    @Override
+    public void onReactionDetailsRequested(final ConversationMessageView view) {
+        if (view == null || getActivity() == null) {
+            return;
+        }
+        final ConversationMessageData data = view.getData();
+        final List<ConversationMessageData.ReactionAggregate> aggs =
+                data.getReactionAggregates();
+        if (aggs == null || aggs.isEmpty()) {
+            return;
+        }
+        final int subId = getConversationSelfSubId();
+        final StringBuilder sb = new StringBuilder();
+        for (final ConversationMessageData.ReactionAggregate r : aggs) {
+            final List<String> names = new ArrayList<>();
+            for (final String uri : r.reactorUris) {
+                if (RcsMessageStore.SELF_REACTOR_URI.equals(uri)) {
+                    names.add(getString(R.string.reaction_details_you));
+                } else {
+                    names.add(resolveGroupSenderName(subId, uri));
+                }
+            }
+            if (sb.length() > 0) {
+                sb.append('\n');
+            }
+            sb.append(r.emoji).append("   ").append(TextUtils.join(", ", names));
+        }
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.reaction_details_title)
+                .setMessage(sb.toString())
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
+    }
+
+    /**
+     * Validate that {@code candidate} is a single emoji using the EmojiCompat
+     * trie. Returns the bare glyph when valid, else null. If EmojiCompat has no
+     * configured font provider (no metadata loaded) the check degrades to "a
+     * single non-empty grapheme that contains a non-ASCII code point" so the "+"
+     * path still works without a metadata source.
+     */
+    @androidx.annotation.Nullable
+    private static String validateReactionEmoji(@androidx.annotation.Nullable final String candidate) {
+        if (TextUtils.isEmpty(candidate)) {
+            return null;
+        }
+        try {
+            final EmojiCompat ec = EmojiCompat.get();
+            if (ec != null && ec.getLoadState() == EmojiCompat.LOAD_STATE_SUCCEEDED) {
+                final int match = ec.getEmojiStart(candidate, 0);
+                if (match == 0 && ec.getEmojiEnd(candidate, 0) == candidate.length()) {
+                    return candidate;
+                }
+                return null;
+            }
+        } catch (final Throwable ignored) {
+            // EmojiCompat not initialized -> fall through to the heuristic gate.
+        }
+        // Fallback gate: reject pure-ASCII / overly long input; accept a short
+        // string carrying at least one supplementary / non-ASCII code point.
+        if (candidate.length() > 16) {
+            return null;
+        }
+        boolean hasNonAscii = false;
+        for (int i = 0; i < candidate.length(); ) {
+            final int cp = candidate.codePointAt(i);
+            if (cp > 0x7F) {
+                hasNonAscii = true;
+            }
+            i += Character.charCount(cp);
+        }
+        return hasNonAscii ? candidate : null;
+    }
+
     @Override
     public SimSelectorView getSimSelectorView() {
         return getView().findViewById(R.id.sim_selector);
@@ -1490,6 +2485,28 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 actionBar.setCustomView(customView);
             }
 
+            // WAVE-A / A2.3: two-line header for GROUP conversations -- title on
+            // line 1, "N people" subtitle on line 2. Applies to all groups (RCS
+            // and MMS); 1:1 conversations keep the single-line header unchanged.
+            final TextView conversationSubtitleView =
+                    customView.findViewById(R.id.conversation_subtitle);
+            if (conversationSubtitleView != null) {
+                final int othersCount = mBinding.getData().getNumberOfParticipantsExcludingSelf();
+                final boolean isGroup = othersCount > 1;
+                if (isGroup) {
+                    // Total people INCLUDING self (others + 1). See A2.3 docs on
+                    // the group_people_count plurals string.
+                    final int peopleCount = othersCount + 1;
+                    final String subtitle = getResources().getQuantityString(
+                            R.plurals.group_people_count, peopleCount, peopleCount);
+                    conversationSubtitleView.setText(subtitle);
+                    conversationSubtitleView.setContentDescription(subtitle);
+                    conversationSubtitleView.setVisibility(View.VISIBLE);
+                } else {
+                    conversationSubtitleView.setVisibility(View.GONE);
+                }
+            }
+
             final TextView conversationNameView = customView.findViewById(R.id.conversation_title);
             final String conversationName = getConversationName();
             if (!TextUtils.isEmpty(conversationName)) {
@@ -1515,6 +2532,10 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 getActivity().setTitle(appName);
             }
 
+            // RBM: for an <agent>@rbm.goog 1:1, show the
+            // verified-business brand (logo + name + ✓ badge) in the header.
+            updateBotBrandHeader(customView);
+
             // When conversation is showing and media picker is not showing, then hide the action
             // bar only when we are in landscape mode, with IME open.
             if (mHost.isImeOpen() && UiUtils.isLandscapeMode()) {
@@ -1523,6 +2544,147 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 actionBar.show();
             }
         }
+    }
+
+    /** RBM: a bot/agent address is {@code <agent>@rbm.goog}. */
+    private static final String RBM_BOT_SUFFIX = "@rbm.goog";
+
+    /**
+     * RBM: render the verified-business brand in the action-bar
+     * header for an {@code <agent>@rbm.goog} 1:1 conversation — logo + (brand) name
+     * + ✓ verified badge. The brand is resolved once (async, off the main thread)
+     * via the provider's public {@code rbm.goog/bot} lookup and cached; on resolve
+     * we re-run the action bar so it renders. For every non-bot conversation the
+     * logo + badge stay GONE, so the header is unchanged.
+     */
+    private void updateBotBrandHeader(final View customView) {
+        final AsyncImageView logo = customView.findViewById(R.id.conversation_brand_logo);
+        final ImageView badge = customView.findViewById(R.id.conversation_verified_badge);
+        if (logo == null || badge == null) {
+            return;
+        }
+        final String botId = getBotConversationId();
+        if (botId == null) {
+            logo.setImageResourceId(null);
+            logo.setVisibility(View.GONE);
+            badge.setVisibility(View.GONE);
+            return;
+        }
+        if (mBotBrand != null && botId.equals(mBotBrandBotId)) {
+            renderBotBrand(customView, logo, badge, mBotBrand);
+        } else {
+            // Not resolved yet: keep the header plain and kick off the fetch.
+            logo.setVisibility(View.GONE);
+            badge.setVisibility(View.GONE);
+            fetchBotBrandAsync(botId);
+        }
+    }
+
+    /** The bot/agent id for a 1:1 {@code @rbm.goog} conversation, else null. */
+    private String getBotConversationId() {
+        if (!isBound() || !mBinding.getData().getParticipantsLoaded()) {
+            return null;
+        }
+        if (mBinding.getData().getNumberOfParticipantsExcludingSelf() != 1) {
+            return null;
+        }
+        final ParticipantData other = mBinding.getData().getOtherParticipant();
+        if (other == null) {
+            return null;
+        }
+        final String dest = other.getNormalizedDestination();
+        return (dest != null && dest.endsWith(RBM_BOT_SUFFIX)) ? dest : null;
+    }
+
+    private void fetchBotBrandAsync(final String botId) {
+        if (mBotBrandFetching) {
+            return;
+        }
+        final ProviderTransport transport = ProviderTransport.peekInstance();
+        if (transport == null) {
+            return;
+        }
+        mBotBrandFetching = true;
+        final int subId = getConversationSelfSubId();
+        new Thread(() -> {
+            final RcsBotBrand brand = transport.getBotBrand(subId, botId);
+            final Activity activity = getActivity();
+            if (activity == null) {
+                mBotBrandFetching = false;
+                return;
+            }
+            activity.runOnUiThread(() -> {
+                mBotBrandFetching = false;
+                if (brand == null) {
+                    return;  // render without a brand header
+                }
+                mBotBrand = brand;
+                mBotBrandBotId = botId;
+                if (isBound()) {
+                    mHost.invalidateActionBar();  // re-run updateActionBar -> render
+                }
+            });
+        }, "rbm-brand-header").start();
+    }
+
+    private void renderBotBrand(final View customView, final AsyncImageView logo,
+            final ImageView badge, final RcsBotBrand brand) {
+        // Prefer the brand display name over the raw @rbm.goog address.
+        final TextView nameView = customView.findViewById(R.id.conversation_title);
+        if (nameView != null && !TextUtils.isEmpty(brand.name)) {
+            nameView.setText(brand.name);
+            getActivity().setTitle(brand.name);
+        }
+        if (!TextUtils.isEmpty(brand.logoUrl)) {
+            final int size = getResources().getDimensionPixelSize(R.dimen.rbm_brand_logo_size);
+            logo.setImageResourceId(new UriImageRequestDescriptor(Uri.parse(brand.logoUrl),
+                    size, size, true /* cropToCircle */, 0 /* circleBackgroundColor */,
+                    0 /* circleStrokeColor */));
+            logo.setVisibility(View.VISIBLE);
+        } else {
+            logo.setImageResourceId(null);
+            logo.setVisibility(View.GONE);
+        }
+        badge.setVisibility(brand.verified ? View.VISIBLE : View.GONE);
+
+        // Tap the verified shield -> a popup explaining the verified-
+        // business state (with a link into the full business-info screen). The
+        // badge consumes its own tap so it doesn't also open the info screen.
+        if (brand.verified) {
+            badge.setClickable(true);
+            badge.setOnClickListener(v -> showVerifiedBusinessDialog(brand));
+        }
+
+        // Tap the brand header -> the full business-info screen (name,
+        // category, verifier, About, Details). The whole custom title view is the
+        // tap target.
+        customView.setClickable(true);
+        customView.setOnClickListener(v -> {
+            final Activity activity = getActivity();
+            if (activity != null && brand != null) {
+                activity.startActivity(
+                        com.android.messaging.ui.rcs.RbmBusinessInfoActivity.intent(activity, brand));
+            }
+        });
+    }
+
+    /** RBM: explain the verified-business state when the shield is
+     *  tapped, mirroring Google Messages' "Verified by operator" popup. */
+    private void showVerifiedBusinessDialog(final RcsBotBrand brand) {
+        final Activity activity = getActivity();
+        if (activity == null || brand == null) {
+            return;
+        }
+        final String verifier = !TextUtils.isEmpty(brand.verifierName)
+                ? brand.verifierName : getString(R.string.rbm_bot_info_verifier_generic);
+        new AlertDialog.Builder(activity)
+                .setTitle(getString(R.string.rbm_bot_info_verified, verifier))
+                .setMessage(getString(R.string.rbm_verified_dialog_body, verifier))
+                .setPositiveButton(android.R.string.ok, null)
+                .setNeutralButton(R.string.rbm_verified_dialog_more, (d, w) ->
+                        activity.startActivity(com.android.messaging.ui.rcs
+                                .RbmBusinessInfoActivity.intent(activity, brand)))
+                .show();
     }
 
     @Override

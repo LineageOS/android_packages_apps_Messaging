@@ -53,6 +53,11 @@
         android:title="@string/action_send"
         appcompat:showAsAction="collapseActionView|always"/>
     <item
+        android:id="@+id/action_send_as_sms"
+        android:icon="@drawable/ic_sms_light"
+        android:title="@string/action_send_as_sms"
+        appcompat:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/action_download"
         android:icon="@drawable/ic_file_download_light"
         android:title="@string/action_download"

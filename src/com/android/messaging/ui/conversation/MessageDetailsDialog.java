@@ -58,7 +58,12 @@ public class MessageDetailsDialog {
             final ConversationMessageData data,
             final ConversationParticipantsData participants, final ParticipantData self) {
         String messageDetails;
-        if (data.getIsSms()) {
+        if (data.getIsRcs()) {
+            // RCS rows are stored SMS-shaped (PROTOCOL_SMS), so getIsSms() also returns true
+            // for them; check getIsRcs() first so RCS gets its own transport-tagged Type line
+            // plus Delivered/Read rows.
+            messageDetails = getSmsMessageDetails(data, participants, self);
+        } else if (data.getIsSms()) {
             messageDetails = getSmsMessageDetails(data, participants, self);
         } else {
             // TODO: Handle SMS_TYPE_MMS_PUSH_NOTIFICATION type differently?
@@ -88,9 +93,14 @@ public class MessageDetailsDialog {
         final Resources res = Factory.get().getApplicationContext().getResources();
         final StringBuilder details = new StringBuilder();
 
-        // Type: Text message
+        // Type: Text message · SMS  (or  Rich Communication message · RCS for RCS rows,
+        // which are stored SMS-shaped and therefore also flow through this path)
         details.append(res.getString(R.string.message_type_label));
-        details.append(res.getString(R.string.text_message));
+        if (data.getIsRcs()) {
+            details.append(res.getString(R.string.rcs_message_details_type_rcs));
+        } else {
+            details.append(res.getString(R.string.rcs_message_details_type_sms));
+        }
 
         // From: +1425xxxxxxx
         // or To: +1425xxxxxxx
@@ -122,6 +132,26 @@ public class MessageDetailsDialog {
         // or Received: Mon 11:43AM
         appendSentOrReceivedTimestamp(res, details, data);
 
+        // Delivered: / Read: for outgoing RCS messages, sourced from the inbound IMDN
+        // receipts (rcs_delivered_timestamp / rcs_displayed_timestamp). Additive: SMS rows
+        // never populate these columns and incoming RCS has no outbound receipt to show.
+        if (data.getIsRcs() && !data.getIsIncoming()) {
+            final long deliveredTs = data.getRcsDeliveredTimestamp();
+            if (deliveredTs > 0) {
+                details.append('\n');
+                details.append(res.getString(R.string.rcs_message_details_delivered_label));
+                details.append(
+                        Dates.getMessageDetailsTimeString(deliveredTs).toString());
+            }
+            final long displayedTs = data.getRcsDisplayedTimestamp();
+            if (displayedTs > 0) {
+                details.append('\n');
+                details.append(res.getString(R.string.rcs_message_details_read_label));
+                details.append(
+                        Dates.getMessageDetailsTimeString(displayedTs).toString());
+            }
+        }
+
         appendSimInfo(res, self, details);
 
         return details.toString();
@@ -141,9 +171,9 @@ public class MessageDetailsDialog {
 
         final StringBuilder details = new StringBuilder();
 
-        // Type: Multimedia message.
+        // Type: Multimedia message · MMS
         details.append(res.getString(R.string.message_type_label));
-        details.append(res.getString(R.string.multimedia_message));
+        details.append(res.getString(R.string.rcs_message_details_type_mms));
 
         // From: +1425xxxxxxx
         final String rawSender = data.getSenderNormalizedDestination();

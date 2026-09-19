@@ -32,6 +32,35 @@ public class DefaultSmsSubscriptionChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (ACTION_DEFAULT_SMS_SUBSCRIPTION_CHANGED.equals(intent.getAction())) {
             ParticipantRefresh.refreshSelfParticipants();
+            // Multi-transport framework (design §5.4): a subscription change (SIM
+            // swap / default-SMS-sub change) is a re-selection trigger -- the active
+            // line, its carrier, and thus which RCS transport serves it may all have
+            // changed. Re-run the sticky selection for the new active sub. HIGH-2:
+            // reselect ranks via canServeSub/getProviderCaps binder calls, so hop off
+            // the main (broadcast) thread onto the shared worker and hold the process
+            // alive across the hop with goAsync() / finish().
+            try {
+                final com.android.messaging.rcs.ProviderRegistry registry =
+                        com.android.messaging.rcs.ProviderRegistry.peek();
+                if (registry != null) {
+                    final PendingResult pending = goAsync();
+                    com.android.messaging.rcs.ProviderRegistry.postWork(() -> {
+                        try {
+                            registry.reselect("default-sms-sub-changed", /* freshCycle= */ true);
+                        } catch (final Throwable t) {
+                            com.android.messaging.util.LogUtil.w(
+                                    com.android.messaging.util.LogUtil.BUGLE_TAG,
+                                    "DefaultSmsSubscriptionChangeReceiver: RCS re-selection failed",
+                                    t);
+                        } finally {
+                            pending.finish();
+                        }
+                    });
+                }
+            } catch (final Throwable t) {
+                com.android.messaging.util.LogUtil.w(com.android.messaging.util.LogUtil.BUGLE_TAG,
+                        "DefaultSmsSubscriptionChangeReceiver: RCS re-selection failed", t);
+            }
         }
     }
 }

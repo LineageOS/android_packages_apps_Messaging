@@ -239,6 +239,44 @@ public class DraftMessageData extends BindableData implements ReadDraftDataActio
         return getIsMms() && mIsGroupConversation;
     }
 
+    /**
+     * True when this draft is classified MMS <em>solely</em> because it carries
+     * an attachment — i.e. it has an attachment with a content URI but NONE of
+     * the other MMS triggers apply (email recipient, group-MMS, message-length,
+     * subject). Such a 1-1 attachment draft is routed over RCS FT-HTTP by
+     * {@code InsertNewMessageAction} (FLOW4c) when the peer is RCS-capable, so
+     * the compose UI may legitimately label it "RCS" rather than "MMS".
+     *
+     * <p>This deliberately does NOT touch {@link #getIsMms()} (which must keep
+     * returning true so the draft persists/sizes as MMS and falls back to MMS
+     * when RCS isn't available) — it's an additive hint, mirroring the send-path
+     * gate ({@code firstMediaAttachment}: an attachment part with a content URI).
+     * It does not consider recipient capability or count; callers combine it
+     * with the per-recipient RCS capability cache.
+     */
+    public boolean getIsMmsDueToAttachmentOnly() {
+        final int selfSubId = getSelfSubId();
+        if (mAttachments.isEmpty()) {
+            return false;
+        }
+        // Any non-attachment MMS trigger means this is a real MMS, not an
+        // RCS-FT candidate.
+        if (MmsSmsUtils.getRequireMmsForEmailAddress(mIncludeEmailAddress, selfSubId)
+                || (mIsGroupConversation && MmsUtils.groupMmsEnabled(selfSubId))
+                || mMessageTextStats.getMessageLengthRequiresMms()
+                || !TextUtils.isEmpty(mMessageSubject)) {
+            return false;
+        }
+        // Mirror InsertNewMessageAction.firstMediaAttachment(): at least one part
+        // must be an attachment with a content URI (what the FT path sends).
+        for (final MessagePartData attachment : mAttachments) {
+            if (attachment.isAttachment() && attachment.getContentUri() != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getSelfId() {
         return mSelfId;
     }

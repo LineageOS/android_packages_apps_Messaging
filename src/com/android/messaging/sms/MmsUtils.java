@@ -873,6 +873,16 @@ public class MmsUtils {
     // Update SMS message type in telephony; returns true if it succeeded.
     public static boolean updateSmsMessageSendingStatus(final Context context, final Uri uri,
             final int type, final long date) {
+        // Defensive: a message with no SMS telephony Uri is not in the telephony
+        // SMS provider (e.g. an RCS-transport row in the 2-app split, which has
+        // no SMS Uri). ContentResolver.update(null, ...) would throw NPE. Such a
+        // row should never reach here (the send queue filters out RCS), so log
+        // loudly and skip the telephony update instead of crashing.
+        if (uri == null) {
+            LogUtil.w(TAG, "MmsUtils: updateSmsMessageSendingStatus called with null uri; "
+                    + "skipping telephony update (not an SMS-provider message)");
+            return false;
+        }
         try {
             final ContentResolver resolver = context.getContentResolver();
             final ContentValues values = new ContentValues(2);

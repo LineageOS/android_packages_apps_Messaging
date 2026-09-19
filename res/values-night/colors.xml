@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources>
+    <!-- RBM dark-mode overrides: chips sit on the (dark) conversation background,
+         so use a lighter accent; the carousel card surface goes dark. -->
+    <color name="rbm_chip_text">@android:color/system_accent1_200</color>
+    <color name="rbm_chip_stroke">@android:color/system_accent1_300</color>
+    <color name="rbm_carousel_card_bg">@android:color/system_neutral1_800</color>
+    <color name="rbm_card_text_primary">#FFFFFFFF</color>
+    <color name="rbm_card_text_secondary">#B3FFFFFF</color>
+
+    <!-- RCS Advanced-status dark-mode overrides: lighter accent for
+         titles, lighter green/gray for the connection value on a dark surface. -->
+    <color name="rcs_status_label">@android:color/system_accent1_200</color>
+    <color name="rcs_status_value_connected">#81C995</color>
+    <color name="rcs_status_value_neutral">#9AA0A6</color>
+</resources>

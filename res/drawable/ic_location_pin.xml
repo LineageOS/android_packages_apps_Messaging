@@ -1,0 +1,21 @@
+<!--
+  Map pin for the geopush location card. The Wikimedia static map is
+  centered on the shared point but carries no marker of its own, so the layout
+  overlays this pin at the center of the map frame. Material "place" glyph; the
+  pin TIP is at the horizontal center / vertical bottom of the 24x24 viewport, so
+  the overlay is offset up by half its height to land the tip on the center.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- white halo for contrast against light/dark map tiles -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,1.2c-4.2,0 -7.6,3.4 -7.6,7.6c0,5.7 7.6,14 7.6,14s7.6,-8.3 7.6,-14c0,-4.2 -3.4,-7.6 -7.6,-7.6zM12,12.2c-1.7,0 -3,-1.4 -3,-3s1.3,-3 3,-3s3,1.4 3,3s-1.3,3 -3,3z" />
+    <!-- red pin body -->
+    <path
+        android:fillColor="#FFD32F2F"
+        android:pathData="M12,2C8.13,2 5,5.13 5,9c0,5.25 7,13 7,13s7,-7.75 7,-13c0,-3.87 -3.13,-7 -7,-7zM12,11.5c-1.38,0 -2.5,-1.12 -2.5,-2.5s1.12,-2.5 2.5,-2.5 2.5,1.12 2.5,2.5 -1.12,2.5 -2.5,2.5z" />
+</vector>

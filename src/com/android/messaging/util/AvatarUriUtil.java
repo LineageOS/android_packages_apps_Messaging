@@ -257,6 +257,23 @@ public class AvatarUriUtil {
                 TextUtils.equals(AUTHORITY, uri.getAuthority());
     }
 
+    /**
+     * Is this a URI THIS CLASS produced — a participant-derived avatar?
+     *
+     * <p>Every avatar URI built here carries {@code messaging://avatar/…}; anything else in
+     * {@code ConversationColumns.ICON} was put there by a path that owns it (today the decrypted
+     * RCC.16 group icon, a {@code file://} URI). The question is asked of the VALUE rather than of
+     * whatever wrote it, which is what lets the datamodel decide ownership without knowing about
+     * the MLS layer.
+     *
+     * <p>Null-tolerant: a missing icon is not a derived one, and callers treat both as "no owner".
+     */
+    public static boolean isDerivedAvatarUri(final Uri uri) {
+        if (uri == null) return false;
+        return TextUtils.equals(SCHEME, uri.getScheme())
+                && TextUtils.equals(AUTHORITY, uri.getAuthority());
+    }
+
     public static String getAvatarType(@NonNull final Uri uri) {
         Assert.notNull(uri);
         final List<String> path = uri.getPathSegments();
