@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +23,22 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.MessageData;
+import com.android.messaging.datamodel.data.ParticipantData;
+import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.RcsSendStatus;
 import com.android.messaging.util.LogUtil;
+import com.android.messaging.util.PhoneUtils;
+
+import android.text.TextUtils;
+
+import java.util.ArrayList;
 
 /**
  * Action used to manually resend an outgoing message
@@ -68,6 +77,17 @@ public class ResendMessageAction extends Action implements Parcelable {
         final DatabaseWrapper db = DataModel.get().getDatabase();
 
         final MessageData message = BugleDatabaseOperations.readMessage(db, messageId);
+
+        // An RCS row never reaches the code below, which hands the row to a queue that excludes
+        // TRANSPORT_RCS.
+        final RcsMessageStore.RcsMeta rcsMeta = RcsMessageStore.readByLocalId(db, messageId);
+        if (rcsMeta != null && rcsMeta.isRcs()) {
+            LogUtil.i(TAG, "ResendMessageAction: " + messageId + " is an RCS row; the SMS/MMS "
+                    + "resend below would park it at \"Sending...\" rather than resend it. "
+                    + "Leaving it FAILED; \"Send as SMS\" still applies.");
+            return null;
+        }
+
         // Check message can be resent
         if (message != null && message.canResendMessage()) {
             final boolean isMms = message.getIsMms();

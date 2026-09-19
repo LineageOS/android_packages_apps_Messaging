@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,30 @@ public class DefaultSmsSubscriptionChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         if (ACTION_DEFAULT_SMS_SUBSCRIPTION_CHANGED.equals(intent.getAction())) {
             ParticipantRefresh.refreshSelfParticipants();
+            // The active line, and so the transport serving it, may have changed: reselect on
+            // the registry worker, with goAsync() keeping the process alive.
+            try {
+                final com.android.messaging.rcs.ProviderRegistry registry =
+                        com.android.messaging.rcs.ProviderRegistry.peek();
+                if (registry != null) {
+                    final PendingResult pending = goAsync();
+                    com.android.messaging.rcs.ProviderRegistry.postWork(() -> {
+                        try {
+                            registry.reselect("default-sms-sub-changed", /* freshCycle= */ true);
+                        } catch (final Throwable t) {
+                            com.android.messaging.util.LogUtil.w(
+                                    com.android.messaging.util.LogUtil.BUGLE_TAG,
+                                    "DefaultSmsSubscriptionChangeReceiver: RCS re-selection failed",
+                                    t);
+                        } finally {
+                            pending.finish();
+                        }
+                    });
+                }
+            } catch (final Throwable t) {
+                com.android.messaging.util.LogUtil.w(com.android.messaging.util.LogUtil.BUGLE_TAG,
+                        "DefaultSmsSubscriptionChangeReceiver: RCS re-selection failed", t);
+            }
         }
     }
 }

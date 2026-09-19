@@ -66,6 +66,7 @@ public class ConversationListItemData {
     private String mSnippetSenderFirstName;
     private String mSnippetSenderDisplayDestination;
     private boolean mIsEnterprise;
+    private int mEncryptionProtocol;
 
     public ConversationListItemData() {
     }
@@ -115,6 +116,7 @@ public class ConversationListItemData {
         mSnippetSenderDisplayDestination =
                 cursor.getString(INDEX_SNIPPET_SENDER_DISPLAY_DESTINATION);
         mIsEnterprise = cursor.getInt(INDEX_IS_ENTERPRISE) == 1;
+        mEncryptionProtocol = cursor.getInt(INDEX_ENCRYPTION_PROTOCOL);
     }
 
     public String getConversationId() {
@@ -167,6 +169,16 @@ public class ConversationListItemData {
      */
     public boolean isEnterprise() {
         return mIsEnterprise;
+    }
+
+    /** The conversation's {@code encryption_protocol} bits; 0 is plaintext. */
+    public int getEncryptionProtocol() {
+        return mEncryptionProtocol;
+    }
+
+    /** True when an E2EE scheme is active for this conversation. */
+    public boolean isE2eeEncrypted() {
+        return mEncryptionProtocol != 0;
     }
 
     public String getParticipantLookupKey() {
@@ -341,7 +353,10 @@ public class ConversationListItemData {
             + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.SNIPPET_TEXT
             + " as " + ConversationListViewColumns.SNIPPET_TEXT + ", "
             + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.SUBJECT_TEXT
-            + " as " + ConversationListViewColumns.SUBJECT_TEXT + " "
+            + " as " + ConversationListViewColumns.SUBJECT_TEXT + ", "
+            // The encryption bits, for the padlock.
+            + DatabaseHelper.CONVERSATIONS_TABLE + '.' + ConversationColumns.ENCRYPTION_PROTOCOL
+            + " as " + ConversationListViewColumns.ENCRYPTION_PROTOCOL + " "
             + " FROM " + DatabaseHelper.CONVERSATIONS_TABLE
             + " LEFT JOIN " + DatabaseHelper.MESSAGES_TABLE + " ON ("
             + DatabaseHelper.CONVERSATIONS_TABLE + '.' +  ConversationColumns.LATEST_MESSAGE_ID
@@ -382,6 +397,7 @@ public class ConversationListItemData {
         static final String SNIPPET_SENDER_DISPLAY_DESTINATION =
                 "snippet_sender_display_destination";
         static final String IS_ENTERPRISE = ConversationColumns.IS_ENTERPRISE;
+        static final String ENCRYPTION_PROTOCOL = ConversationColumns.ENCRYPTION_PROTOCOL;
     }
 
     public static final String[] PROJECTION = {
@@ -412,6 +428,7 @@ public class ConversationListItemData {
         ConversationListViewColumns.SNIPPET_SENDER_FIRST_NAME,
         ConversationListViewColumns.SNIPPET_SENDER_DISPLAY_DESTINATION,
         ConversationListViewColumns.IS_ENTERPRISE,
+        ConversationListViewColumns.ENCRYPTION_PROTOCOL,
     };
 
     private static final int INDEX_ID = 0;
@@ -441,6 +458,7 @@ public class ConversationListItemData {
     private static final int INDEX_SNIPPET_SENDER_FIRST_NAME = 24;
     private static final int INDEX_SNIPPET_SENDER_DISPLAY_DESTINATION = 25;
     private static final int INDEX_IS_ENTERPRISE = 26;
+    private static final int INDEX_ENCRYPTION_PROTOCOL = 27;
 
     private static final String DIVIDER_TEXT = ", ";
 

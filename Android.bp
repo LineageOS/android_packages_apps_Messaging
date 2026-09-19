@@ -1,5 +1,5 @@
 //  Copyright (C) 2015 The Android Open Source Project
-//  Copyright (C) 2024 The LineageOS Project
+//  Copyright (C) 2024-2026 The LineageOS Project
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,43 +20,32 @@ package {
     ],
 }
 
-soong_config_module_type {
-    name: "messaging_java_defaults",
-    module_type: "java_defaults",
-    config_namespace: "messaging",
-    bool_variables: ["build_variant_eng"],
-    properties: ["optimize"],
+// Release proguard flags only; the eng-variant soong_config split is not carried.
+java_defaults {
+    name: "messaging_defaults",
+    optimize: {
+        proguard_flags_files: [
+            "proguard.flags",
+            "proguard-release.flags",
+        ],
+    },
 }
 
-messaging_java_defaults {
-    name: "messaging_defaults",
-    soong_config_variables: {
-        build_variant_eng: {
-            optimize: {
-                keep_runtime_invisible_annotations: true,
-                proguard_flags_files: [
-                    "proguard.flags",
-                    "proguard-test.flags",
-                ],
-            },
-            conditions_default: {
-                optimize: {
-                    keep_runtime_invisible_annotations: true,
-                    proguard_flags_files: [
-                        "proguard.flags",
-                        "proguard-release.flags",
-                    ],
-                }
-            },
-        },
-    },
+
+filegroup {
+    name: "messaging-srcs",
+    srcs: ["src/**/*.java"],
 }
 
 
 android_app {
     name: "messaging",
 
-    srcs: ["src/**/*.java"],
+    // Platform-signed to hold the signature|privileged BIND_RCS_PROVIDER permission and to
+    // reach the telephony APIs of the native-IMS path.
+    certificate: "platform",
+
+    srcs: [":messaging-srcs"],
 
     defaults: ["messaging_defaults"],
 
@@ -66,6 +55,8 @@ android_app {
         "androidx.appcompat_appcompat",
         "androidx.collection_collection",
         "androidx.core_core",
+        // EmojiCompat, to check that a user-picked reaction glyph is a real emoji.
+        "androidx.emoji2_emoji2",
         "androidx.exifinterface_exifinterface",
         "androidx.fragment_fragment",
         "androidx.media_media",
@@ -80,17 +71,20 @@ android_app {
         "libchips",
         "libphonenumber",
         "libphotoviewer",
+        // The RCS provider contract; see aidl/.
+        "messaging-rcs-contract-aidl",
+        // JAIN-SIP for the in-app carrier SIP/MSRP transport; see docs/rcs/carrier-transport.md.
+        "nist-sip",
     ],
 
     aaptflags: [
-        "--version-name",
-        "1.0.001",
+        // No --version-name: aapt2 applies it only when the manifest has none, so it is set there.
         "--version-code",
-        "10001040",
+        "10001680",
     ],
     required: [
         "libframesequence",
-        "libgiftranscode",
+        "libgiftranscode2",
         "com.android.messaging.allowlist",
     ],
     optimize: {
@@ -99,7 +93,8 @@ android_app {
         enabled: true,
     },
 
-    sdk_version: "current",
+    // system_current: the SipDelegate path uses @SystemApi telephony-ims classes.
+    sdk_version: "system_current",
 
     product_specific: true,
 }
@@ -109,5 +104,4 @@ prebuilt_etc {
     product_specific: true,
     sub_dir: "sysconfig",
     src: "com.android.messaging.allowlist.xml",
-    filename_from_src: true,
 }

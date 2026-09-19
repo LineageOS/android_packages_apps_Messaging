@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<!-- Reaction badge for our own reaction: accent-tinted inner surface. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/window_background" />
+            <corners android:radius="@dimen/reaction_badge_corner_radius" />
+        </shape>
+    </item>
+    <item
+        android:left="@dimen/reaction_badge_ring_width"
+        android:top="@dimen/reaction_badge_ring_width"
+        android:right="@dimen/reaction_badge_ring_width"
+        android:bottom="@dimen/reaction_badge_ring_width">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/reaction_chip_background_self" />
+            <corners android:radius="@dimen/reaction_badge_corner_radius" />
+        </shape>
+    </item>
+</layer-list>

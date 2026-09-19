@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Preference key for the RCS chats entry in application settings. -->
+    <string name="rcs_settings_pref_key" translatable="false">rcs_settings_pref_key</string>
+
+    <!-- Snippet and notification text for a business message card with no title or
+         description. -->
+    <string name="rbm_summary_rich_message">Rich message</string>
+
+    <!-- Business info dialog. %1$s is the verifying partner's name. -->
+    <string name="rbm_bot_info_verified">Verified by <xliff:g id="verifier" example="Google">%1$s</xliff:g></string>
+    <string name="rbm_bot_info_verifier_generic">a verified partner</string>
+    <string name="rbm_bot_info_unverified">This business has not been verified.</string>
+
+    <!-- Verified-business popup. %1$s is the verifying partner's name. -->
+    <string name="rbm_verified_dialog_body"><xliff:g id="verifier" example="Google">%1$s</xliff:g> has verified the identity of this business.</string>
+    <string name="rbm_verified_dialog_more">More info</string>
+
+    <!-- Label under the echo of a tapped suggested reply. -->
+    <string name="rbm_selected_option_label">Selected option</string>
+
+    <!-- Business info screen. -->
+    <string name="rbm_business_info_title">Info &amp; options</string>
+    <string name="rbm_info_call">Call</string>
+    <string name="rbm_info_website">Website</string>
+    <string name="rbm_info_email">Email</string>
+    <string name="rbm_info_phone">Phone</string>
+    <string name="rbm_info_about">About</string>
+    <string name="rbm_info_details">Details</string>
+    <string name="rbm_info_terms">Terms &amp; Conditions</string>
+    <string name="rbm_info_privacy">Privacy Policy</string>
+
+    <!-- Title of the RCS chats settings entry and screen. -->
+    <string name="rcs_settings_title">RCS chats</string>
+
+    <!-- One-line summary shown under the RCS chats entry in app settings. -->
+    <string name="rcs_settings_summary">Chat over Wi-Fi or data,
+            see delivery and read status</string>
+
+    <!-- Section header for the RCS feature toggles on the RCS chats settings screen. -->
+    <string name="rcs_settings_features_category">Settings</string>
+
+    <!-- Master switch for RCS chats. -->
+    <string name="rcs_enable_title">RCS chats</string>
+    <string name="rcs_enable_summary">Send and receive chats over Wi-Fi or mobile data</string>
+
+    <!-- Switch for sending and showing typing indicators. -->
+    <string name="rcs_typing_title">Show typing indicators</string>
+    <string name="rcs_typing_summary">See when others are typing,
+    and let them see when you are</string>
+
+    <!-- Entry that opens the provider's diagnostic dump. -->
+    <string name="rcs_advanced_status_title">Advanced status</string>
+    <string name="rcs_advanced_status_summary">Provisioning, token,
+    and registration diagnostics</string>
+
+    <!-- Section header for the live RCS connection status. -->
+    <string name="rcs_settings_status_category">Status</string>
+
+    <!-- Section header for the RCS account / number details. -->
+    <string name="rcs_settings_account_category">Your account</string>
+
+    <!-- Title for the overall connection status row. -->
+    <string name="rcs_settings_connection_title">Connection</string>
+
+    <!-- Title for the provisioning status row. -->
+    <string name="rcs_settings_provisioning_title">Setup</string>
+
+    <!-- Title for the RCS phone number row. -->
+    <string name="rcs_settings_phone_number_title">RCS phone number</string>
+
+    <!-- Title for the verification status row. -->
+    <string name="rcs_settings_verify_title">Verification</string>
+
+    <!-- Title for the provider row (which app provides RCS). -->
+    <string name="rcs_settings_provider_title">Provider</string>
+
+    <!-- Connection status: no provider connected. -->
+    <string name="rcs_status_connection_off">Off</string>
+
+    <!-- Connection status: registering. -->
+    <string name="rcs_status_connection_connecting">Connecting…</string>
+
+    <!-- Connection status: fully registered and ready. -->
+    <string name="rcs_status_connection_connected">Connected</string>
+
+    <!-- Connection status: registration attempt failed. -->
+    <string name="rcs_status_connection_failed">Connection failed</string>
+
+    <!-- Setup status values. -->
+    <string name="rcs_status_prov_none">Not set up</string>
+    <string name="rcs_status_prov_in_progress">Setting up…</string>
+    <string name="rcs_status_prov_waiting_otp">Waiting for verification code</string>
+    <string name="rcs_status_prov_configured">Ready</string>
+    <string name="rcs_status_prov_disabled_carrier">Not supported by your carrier</string>
+    <string name="rcs_status_prov_needs_reprovision">Needs to be set up again</string>
+
+    <!-- Verification status: the device has completed RCS verification. -->
+    <string name="rcs_status_verify_done">Verified</string>
+
+    <!-- Verification status: waiting for the user to enter an SMS code. -->
+    <string name="rcs_status_verify_waiting">Waiting for verification code</string>
+
+    <!-- Verification status: not yet verified. -->
+    <string name="rcs_status_verify_not_done">Not verified</string>
+
+    <!-- Phone number row summary when the self number is unknown. -->
+    <string name="rcs_status_phone_number_unknown">Unknown</string>
+
+    <!-- Provider row summary when no provider is available. -->
+    <string name="rcs_status_provider_none">No RCS provider installed</string>
+
+    <!-- Summary line shown at the bottom explaining when RCS is unavailable. -->
+    <string name="rcs_settings_unavailable_footer">RCS is unavailable on this device or SIM. Messages will be sent as SMS or MMS.</string>
+
+    <!-- Status of an outgoing RCS message the recipient's device received. %1$s is the time. -->
+    <string name="message_status_rcs_delivered">Delivered &#183; <xliff:g id="timestamp" example="10:30 AM">%1$s</xliff:g></string>
+
+    <!-- Status of an outgoing RCS message the recipient has read. %1$s is the time. -->
+    <string name="message_status_rcs_read">Read &#183; <xliff:g id="timestamp" example="10:30 AM">%1$s</xliff:g></string>
+
+    <!-- Group message status: delivered to every other member, read by none. %1$s is the
+         time. -->
+    <string name="message_status_rcs_group_delivered">Delivered &#183; <xliff:g id="timestamp" example="10:30 AM">%1$s</xliff:g></string>
+    <!-- Group message status. %1$d members have read it out of %2$d other members. -->
+    <string name="message_status_rcs_group_read_partial">Read by <xliff:g id="read_count" example="2">%1$d</xliff:g> of <xliff:g id="member_count" example="4">%2$d</xliff:g></string>
+    <!-- Group message status: every other member has read it. %1$s is the time. -->
+    <string name="message_status_rcs_group_read_all">Read &#183; <xliff:g id="timestamp" example="10:30 AM">%1$s</xliff:g></string>
+
+    <!-- Compose hint when the recipient is reachable over RCS. -->
+    <string name="rcs_compose_hint_rcs">Text message &#183; RCS</string>
+    <!-- Compose hint when the recipient is SMS-only. -->
+    <string name="rcs_compose_hint_sms">Text message &#183; SMS</string>
+    <!-- Compose hint when the recipient's capability is not known. -->
+    <string name="rcs_compose_hint_neutral">Text message</string>
+
+    <!-- Visible send-button label when the send will go over RCS. -->
+    <string name="rcs_compose_send_label_rcs">RCS</string>
+    <!-- Visible send-button label when the send will go over SMS. -->
+    <string name="rcs_compose_send_label_sms">SMS</string>
+
+    <!-- Typing row in a conversation. %1$s is the sender's name. -->
+    <string name="rcs_typing_named"><xliff:g id="name" example="Alex">%1$s</xliff:g> is typing&#8230;</string>
+    <!-- Generic typing row when the sender's name is unavailable. -->
+    <string name="rcs_typing_generic">Typing&#8230;</string>
+
+    <!-- Group typing row, two members. %1$s and %2$s are their names. -->
+    <string name="rcs_group_typing_two"><xliff:g id="name1" example="Alex">%1$s</xliff:g>,
+            <xliff:g id="name2" example="Sam">%2$s</xliff:g> are typing&#8230;</string>
+    <!-- Group typing row, three or more members. %1$s and %2$s are the first two names; %3$d
+         is the number of others. -->
+    <string name="rcs_group_typing_many"><xliff:g id="name1" example="Alex">%1$s</xliff:g>, <xliff:g id="name2" example="Sam">%2$s</xliff:g> +<xliff:g id="extra" example="2">%3$d</xliff:g> are typing&#8230;</string>
+
+    <!-- Appended after the timestamp of a run of messages sent over RCS. -->
+    <string name="rcs_thread_transport_rcs">&#183; RCS</string>
+    <!-- Appended after the timestamp of a run of messages sent over SMS. -->
+    <string name="rcs_thread_transport_sms">&#183; SMS</string>
+
+    <!-- Notification title for an RCS chat. -->
+    <string name="rcs_notif_title">RCS chat</string>
+    <!-- Notification text for an inbound RCS message with no text. -->
+    <string name="rcs_notif_text_fallback">New RCS message</string>
+    <!-- Transport tag in an RCS notification. -->
+    <string name="rcs_notif_transport_tag">RCS</string>
+
+    <!-- Notification reply action for an RCS conversation. -->
+    <string name="rcs_notification_reply">Reply</string>
+
+    <!-- Message details type values; the dialog prepends message_type_label. -->
+    <!-- Message-details type line for an SMS message. -->
+    <string name="rcs_message_details_type_sms">Text message &#183; SMS</string>
+    <!-- Message-details type line for an MMS message. -->
+    <string name="rcs_message_details_type_mms">Multimedia message &#183; MMS</string>
+    <!-- Message-details type line for an RCS message. -->
+    <string name="rcs_message_details_type_rcs">Rich Communication message &#183; RCS</string>
+
+    <!-- Message details label for the delivered time. -->
+    <string name="rcs_message_details_delivered_label">Delivered: </string>
+    <!-- Message details label for the read time. -->
+    <string name="rcs_message_details_read_label">Read: </string>
+
+    <!-- Action on a failed RCS message that resends it as SMS. -->
+    <string name="action_send_as_sms">Send as SMS</string>
+
+    <!-- Group event lines in a group conversation. The actor is a name or rcs_group_event_self. -->
+    <!-- The current user, rendered in place of a name in a group event line. -->
+    <string name="rcs_group_event_self">You</string>
+
+    <!-- Group event: the group was created (actor unknown or is self). -->
+    <string name="rcs_group_event_created">Group created</string>
+    <!-- Group event: a named actor created the group. %1$s is the actor. -->
+    <string name="rcs_group_event_created_by"><xliff:g id="actor" example="Alex">%1$s</xliff:g> created the group</string>
+
+    <!-- Group event: actor added a member. %1$s actor, %2$s added member. -->
+    <string name="rcs_group_event_added"><xliff:g id="actor" example="Alex">%1$s</xliff:g> added <xliff:g id="member" example="Sam">%2$s</xliff:g></string>
+    <!-- Group event: the current user was added. %1$s is the actor. -->
+    <string name="rcs_group_event_you_added"><xliff:g id="actor" example="Alex">%1$s</xliff:g> added you</string>
+    <!-- Group event: actor added members (count unknown / names unavailable). -->
+    <string name="rcs_group_event_added_generic"><xliff:g id="actor" example="Alex">%1$s</xliff:g> added members</string>
+
+    <!-- Group event: actor removed a member. %1$s actor, %2$s removed member. -->
+    <string name="rcs_group_event_removed"><xliff:g id="actor" example="Alex">%1$s</xliff:g> removed <xliff:g id="member" example="Sam">%2$s</xliff:g></string>
+    <!-- Group event: the current user was removed. %1$s is the actor. -->
+    <string name="rcs_group_event_you_removed"><xliff:g id="actor" example="Alex">%1$s</xliff:g> removed you</string>
+    <!-- Group event: a member left on their own (actor == affected). %1$s name. -->
+    <string name="rcs_group_event_left"><xliff:g id="member" example="Sam">%1$s</xliff:g> left</string>
+    <!-- Group event: actor removed members (names unavailable). -->
+    <string name="rcs_group_event_removed_generic"><xliff:g id="actor" example="Alex">%1$s</xliff:g> removed members</string>
+
+    <!-- Group event: actor renamed the group. %1$s actor, %2$s new name. -->
+    <string name="rcs_group_event_renamed_by"><xliff:g id="actor" example="Alex">%1$s</xliff:g> renamed the group to \"<xliff:g id="name" example="Trip">%2$s</xliff:g>\"</string>
+    <!-- Group event: the group was renamed (actor unknown / self). %1$s name. -->
+    <string name="rcs_group_event_renamed">Group renamed to \"<xliff:g id="name" example="Trip">%1$s</xliff:g>\"</string>
+
+    <!-- Section header for group management in People &amp; options. -->
+    <string name="rcs_group_section_title">Group</string>
+    <!-- Row: open a dialog to rename the group. -->
+    <string name="rcs_group_action_rename">Rename group</string>
+    <!-- Row: pick contacts to add to the group. -->
+    <string name="rcs_group_action_add_people">Add people</string>
+    <!-- Per-member long-press action: remove that member from the group. -->
+    <string name="rcs_group_action_remove_member">Remove from group</string>
+
+    <!-- Title of the rename-group dialog. -->
+    <string name="rcs_group_rename_dialog_title">Rename group</string>
+    <!-- Helper text in the rename-group dialog. -->
+    <string name="rcs_group_rename_dialog_message">Enter a new name for this group</string>
+
+    <!-- Confirm dialog title before removing a member. %1$s is the member name. -->
+    <string name="rcs_group_remove_confirm_title">Remove <xliff:g id="member" example="Sam">%1$s</xliff:g>?</string>
+    <!-- Confirm dialog body before removing a member. -->
+    <string name="rcs_group_remove_confirm_message">They will be removed from this group.</string>
+    <!-- Button label confirming member removal. -->
+    <string name="rcs_group_remove_confirm_button">Remove</string>
+
+    <!-- Row: leave this group. Offered only on a group; a 1:1 has nothing to leave. -->
+    <string name="rcs_group_action_leave">Leave group</string>
+    <!-- Confirm dialog title before leaving a group. -->
+    <string name="rcs_group_leave_confirm_title">Leave this group?</string>
+    <!-- Confirm dialog body before leaving; only another member can add the user back. -->
+    <string name="rcs_group_leave_confirm_message">You won\'t receive messages from this group any more. You can\'t rejoin on your own \u2014 someone in the group has to add you back.</string>
+    <!-- Button label confirming leaving. -->
+    <string name="rcs_group_leave_confirm_button">Leave</string>
+
+    <!-- Toasts when a group change is refused. -->
+    <string name="rcs_group_rename_failed">Couldn\'t rename group</string>
+    <string name="rcs_group_add_failed">Couldn\'t add people to the group</string>
+    <string name="rcs_group_remove_failed">Couldn\'t remove from group</string>
+    <string name="rcs_group_leave_failed">Couldn\'t leave group</string>
+
+    <!-- Toast when the user taps a received thumbnail to download the file. -->
+    <string name="rcs_downloading_attachment">Downloading…</string>
+
+    <!-- Reaction picker button that opens the system emoji picker. -->
+    <string name="reaction_picker_more" translatable="false">+</string>
+    <!-- Accessibility label for the reaction picker "+" button. -->
+    <string name="reaction_picker_more_content_description">More reactions</string>
+    <!-- Accessibility label for a reaction chip in a 1:1 thread. %1$s is the emoji. -->
+    <string name="reaction_chip_content_description">Reacted with <xliff:g id="emoji" example="👍">%1$s</xliff:g></string>
+    <!-- Accessibility label for a group reaction chip. %1$d is the count, %2$s the emoji. -->
+    <string name="reaction_chip_content_description_group"><xliff:g id="count" example="3">%1$d</xliff:g> reacted with <xliff:g id="emoji" example="👍">%2$s</xliff:g></string>
+    <!-- Toast shown when the user picks a non-emoji from the system picker for a reaction. -->
+    <string name="reaction_invalid_emoji">That isn\'t a valid emoji</string>
+    <!-- Hint in the custom reaction dialog. -->
+    <string name="reaction_custom_emoji_hint">Tap an emoji</string>
+    <!-- Title of the custom-reaction emoji entry dialog. -->
+    <string name="reaction_custom_emoji_title">Add a reaction</string>
+    <!-- Title of the "who reacted with what" sheet shown when tapping a reaction badge. -->
+    <string name="reaction_details_title">Reactions</string>
+    <!-- The current user's name in the who-reacted breakdown. -->
+    <string name="reaction_details_you">You</string>
+    <!-- Accessibility label for the user's current reaction in the picker. %1$s is the emoji. -->
+    <string name="reaction_picker_selected_content_description"><xliff:g id="emoji" example="👍">%1$s</xliff:g>, your current reaction. Tap to remove.</string>
+
+    <!-- Content description for a business message card image. -->
+    <string name="rbm_card_media_content_description">Business message image</string>
+
+    <!-- Content description for the verified-business badge. -->
+    <string name="rbm_verified_badge_content_description">Verified business</string>
+
+    <!-- Business messaging and encryption settings. -->
+    <string name="rcs_business_messaging_category">Business messaging</string>
+    <string name="rcs_business_messaging_title">RCS Business Messaging</string>
+    <string name="rcs_business_messaging_summary">Receive rich messages from verified businesses. When off, businesses can’t reach you over RCS.</string>
+    <string name="rcs_e2ee_title">End-to-end encryption</string>
+    <string name="rcs_e2ee_summary">Encrypt RCS chats so only you and the people you message can read them.</string>
+    <!-- Accessibility label for the per-message encryption indicator. -->
+    <string name="e2ee_encrypted_message">End-to-end encrypted</string>
+
+    <!-- Location sharing action and toasts. -->
+    <string name="action_share_location">Share location</string>
+    <string name="rcs_location_no_map_app">No map app installed to open this location</string>
+    <string name="rcs_location_sharing">Sharing location…</string>
+    <string name="rcs_location_unavailable">Location unavailable — turn on location and try again</string>
+    <string name="rcs_location_permission_needed">Location permission is needed to share your location</string>
+
+    <!-- Shown when a reaction is withheld in an encrypted chat; its chip is removed at the same
+         time. -->
+    <string name="rcs_reaction_not_sent_encrypted">Reaction not sent — this chat is end-to-end encrypted and reactions can\'t be encrypted yet</string>
+</resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright (C) 2015 The Android Open Source Project
-    Copyright (C) 2024 The LineageOS Project
+    Copyright (C) 2024-2026 The LineageOS Project
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -25,7 +25,10 @@
 
     <!-- Application holds CPU wakelock while working in background -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- Application needs SMS/MMS permissions -->
+    <!-- Location sharing over RCS -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<!-- Application needs SMS/MMS permissions -->
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
@@ -34,6 +37,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- Routes SIP over the IMS network (a restricted capability) for the carrier transport -->
+    <uses-permission android:name="android.permission.CONNECTIVITY_USE_RESTRICTED_NETWORKS" />
     <!-- Application needs CONTACT permissions -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -48,6 +53,22 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Held to bind an out-of-tree RCS provider app; see aidl/. -->
+    <uses-permission android:name="org.lineageos.rcs.permission.BIND_RCS_PROVIDER" />
+
+    <!-- Granted to the SMS role holder only when requested here; needed by
+         SipDelegateManager.createSipDelegate and isSupported() -->
+    <uses-permission android:name="android.permission.PERFORM_IMS_SINGLE_REGISTRATION" />
+    <uses-permission android:name="android.permission.ACCESS_RCS_USER_CAPABILITY_EXCHANGE" />
+    <!-- ProvisioningManager.notifyRcsAutoConfigurationReceived, to hand the modem an RCS
+         autoconfiguration document -->
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <queries>
+        <intent>
+            <action android:name="org.lineageos.rcs.provider.action.BIND_RCS_PROVIDER" />
+        </intent>
+    </queries>
 
     <!--  Optional features -->
     <uses-feature
@@ -201,6 +222,34 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.appsettings.RcsSettingsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/rcs_settings_title"
+            android:parentActivityName="com.android.messaging.ui.appsettings.ApplicationSettingsActivity"
+            android:screenOrientation="user"
+            android:theme="@style/BugleTheme.SettingsActivity" />
+
+        <!-- RCS Terms-of-Service consent dialog, shown by RcsCarrierTosReceiver -->
+        <activity
+            android:name=".ui.rcs.RcsCarrierTosActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.android.messaging.ui.appsettings.RcsSettingsActivity"
+            android:screenOrientation="user"
+            android:theme="@style/BugleTheme.DialogActivity" />
+
+        <!-- Verified-business info, opened from the conversation header -->
+        <activity
+            android:name=".ui.rcs.RbmBusinessInfoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:label="@string/rbm_business_info_title"
+            android:screenOrientation="user"
+            android:theme="@style/BugleTheme.SettingsActivity" />
+
         <!-- Handles sharing intent -->
         <activity
             android:name=".ui.conversationlist.ShareIntentActivity"
@@ -351,6 +400,46 @@
             </intent-filter>
         </receiver>
 
+        <!-- Port-addressed provisioning OTP, delivered as a data SMS and forwarded to the
+             provider. The text SMS path is not involved. -->
+        <receiver
+            android:name=".rcs.RcsOtpReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.intent.action.DATA_SMS_RECEIVED" />
+                <data android:scheme="sms" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Shows the RCS Terms-of-Service prompt; receives only the package-scoped
+             ACTION_CARRIER_TOS_REQUIRED from ProviderTransport -->
+        <receiver
+            android:name=".rcs.RcsCarrierTosReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.messaging.rcs.action.CARRIER_TOS_REQUIRED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Sent by the provider when a message arrives while the app is not running, so the
+             app starts, rebinds and drains. Restricted to the same signature. -->
+        <receiver
+            android:name=".rcs.RcsProviderWakeReceiver"
+            android:exported="true"
+            android:permission="org.lineageos.rcs.permission.BIND_RCS_PROVIDER">
+            <intent-filter>
+                <action android:name="org.lineageos.rcs.provider.action.WAKE_FOR_INBOUND" />
+            </intent-filter>
+        </receiver>
+
+        <!-- The carrier SIP/MSRP transport, in its own :ims process so a crash there does
+             not take down the UI. Bound only by CarrierImsTransport. -->
+        <service
+            android:name=".rcs.carrier.CarrierImsService"
+            android:exported="false"
+            android:process=":ims" />
+
         <receiver
             android:name=".receiver.SendStatusReceiver"
             android:exported="false">
@@ -401,6 +490,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_UNLOCKED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
@@ -425,6 +515,83 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.telephony.action.DEFAULT_SMS_SUBSCRIPTION_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- A provider install, removal or update triggers provider discovery and selection -->
+        <receiver
+            android:name=".rcs.RcsProviderPackageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.RcsDebugSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.SEND_TEST_RCS" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.RcsDebugComposeSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.COMPOSE_SEND" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.RcsDebugCarrierDriveReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.CARRIER_START" />
+                <action android:name="com.android.messaging.debug.CARRIER_WARM" />
+                <action android:name="com.android.messaging.debug.CARRIER_SEND" />
+                <action android:name="com.android.messaging.debug.CARRIER_PLAIN" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.RcsDebugFtSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.SEND_FT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.RcsDebugFtAcceptReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.ACCEPT_FT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.RcsDebugGroupReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.CREATE_GROUP" />
+                <action android:name="com.android.messaging.debug.SEND_GROUP" />
+                <action android:name="com.android.messaging.debug.GROUP_INFO" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".rcs.sip.SipDelegateDebugReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.SHANNON_PULL_CONFIG" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_CREATE" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_STATUS" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_SEND" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_DESTROY" />
             </intent-filter>
         </receiver>
 

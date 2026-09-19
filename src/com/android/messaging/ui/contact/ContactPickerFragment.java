@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
- * Copyright (C) 2024 The LineageOS Project
+ * Copyright (C) 2024-2026 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -102,6 +103,8 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         void onInitiateAddMoreParticipants();
         void onParticipantCountChanged(boolean canAddMoreParticipants);
         void invalidateActionBar();
+        // Confirmed an RCS group in group mode; the host chooses RCS or MMS off the main thread.
+        void onCreateRcsGroup(String groupName, ArrayList<String> recipientE164s);
     }
 
     final Binding<ContactPickerData> mBinding = BindingBase.createBinding(this);
@@ -116,6 +119,26 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
     private View mComposeDivider;
     private Toolbar mToolbar;
     private int mContactPickingMode = MODE_UNDEFINED;
+
+    // RCS group mode: an optional group-name field, and confirming creates an RCS group.
+    private boolean mGroupCreationMode = false;
+    private EditText mGroupNameEditText;
+
+    // Deferred start mode, set only by the new-conversation host for the initial pick: the
+    // picker does not auto-open, so several recipients can be added. It runs capability
+    // discovery, reveals the group name when two or more recipients are all RCS, and opens an
+    // existing 1:1 thread inline for a single recipient. Confirm: one recipient opens a 1:1,
+    // more go to onCreateRcsGroup.
+    private boolean mUnifiedStartMode = false;
+    private boolean mAllRecipientsRcs = false;
+    // The recipient whose existing thread was opened, so a chip change does not reopen it.
+    private String mOpenedExistingDestination;
+    // Numbers already probed, so an unknown verdict is not probed again.
+    private final java.util.Set<String> mProbedDestinations = new java.util.HashSet<>();
+    private final java.util.concurrent.Executor mPickerBgExecutor =
+            java.util.concurrent.Executors.newSingleThreadExecutor();
+    private final android.os.Handler mPickerHandler =
+            new android.os.Handler(android.os.Looper.getMainLooper());
 
     // Keeps track of the currently selected phone numbers in the chips view to enable fast lookup.
     private Set<String> mSelectedPhoneNumbers = null;
@@ -142,6 +165,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.contact_picker_fragment, container, false);
+        mGroupNameEditText = view.findViewById(R.id.group_name_edit_text);
         mRecipientTextView = (ContactRecipientAutoCompleteView)
                 view.findViewById(R.id.recipient_text_view);
         mRecipientTextView.setThreshold(0);
@@ -199,6 +223,7 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         super.onViewCreated(view, savedInstanceState);
         Assert.isTrue(mContactPickingMode != MODE_UNDEFINED);
         updateVisualsForContactPickingMode(false /* animate */);
+        updateGroupNameFieldVisibility();
         mHost.invalidateActionBar();
     }
 
@@ -235,7 +260,13 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
             mHost.onInitiateAddMoreParticipants();
             return true;
         } else if (itemId == R.id.action_confirm_participants) {
-            maybeGetOrCreateConversation();
+            if (mGroupCreationMode) {
+                confirmRcsGroup();
+            } else if (mUnifiedStartMode) {
+                confirmUnifiedStart();
+            } else {
+                maybeGetOrCreateConversation();
+            }
             return true;
         } else if (itemId == R.id.action_delete_text) {
             Assert.equals(MODE_PICK_INITIAL_CONTACT, mContactPickingMode);
@@ -289,6 +320,179 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
         mHost = host;
     }
 
+    /**
+     * Sets RCS group mode (see {@link #mGroupCreationMode}); confirming then calls
+     * {@link ContactPickerFragmentHost#onCreateRcsGroup}.
+     */
+    public void setGroupCreationMode(final boolean groupMode) {
+        mGroupCreationMode = groupMode;
+        updateGroupNameFieldVisibility();
+        if (mRootView != null && mContactPickingMode != MODE_UNDEFINED) {
+            updateVisualsForContactPickingMode(false /* animate */);
+        }
+    }
+
+    /** Sets deferred start mode (see {@link #mUnifiedStartMode}). */
+    public void setUnifiedStartMode(final boolean unified) {
+        mUnifiedStartMode = unified;
+        if (mRootView != null && mContactPickingMode != MODE_UNDEFINED) {
+            updateVisualsForContactPickingMode(false /* animate */);
+            onDeferredRecipientsChanged();
+        }
+    }
+
+    private void updateGroupNameFieldVisibility() {
+        if (mGroupNameEditText != null) {
+            // Group mode, or deferred mode once two or more recipients are all RCS.
+            final boolean show = mGroupCreationMode
+                    || (mUnifiedStartMode && mAllRecipientsRcs);
+            mGroupNameEditText.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    /** The recipient count, or 0 without a view. */
+    private int currentRecipientCount() {
+        if (mRecipientTextView == null) {
+            return 0;
+        }
+        return mRecipientTextView.getRecipientParticipantDataForConversationCreation().size();
+    }
+
+    /**
+     * Recomputes the deferred-mode affordances: Confirm, the existing 1:1 preview for one
+     * recipient, and the group-name reveal for more.
+     */
+    private void onDeferredRecipientsChanged() {
+        if (!mUnifiedStartMode || mContactPickingMode != MODE_PICK_INITIAL_CONTACT
+                || mRootView == null) {
+            return;
+        }
+        final ArrayList<ParticipantData> participants =
+                mRecipientTextView.getRecipientParticipantDataForConversationCreation();
+        final int count = participants.size();
+
+        final MenuItem confirmItem = mToolbar.getMenu().findItem(
+                R.id.action_confirm_participants);
+        if (confirmItem != null) {
+            confirmItem.setVisible(count >= 1);
+        }
+
+        if (count == 1) {
+            mAllRecipientsRcs = false;
+            updateGroupNameFieldVisibility();
+            maybeOpenExistingConversation(participants.get(0));
+        } else {
+            mOpenedExistingDestination = null;
+            if (count >= 2) {
+                discoverAllRcsThenReveal(participants);
+            } else {
+                mAllRecipientsRcs = false;
+                updateGroupNameFieldVisibility();
+            }
+        }
+    }
+
+    /**
+     * Reveals the group-name field only when every recipient is known to be RCS. Unknown
+     * verdicts get one background probe, then a re-evaluation.
+     */
+    private void discoverAllRcsThenReveal(final ArrayList<ParticipantData> participants) {
+        final com.android.messaging.rcs.ProviderTransport transport =
+                com.android.messaging.rcs.ProviderTransport.peekInstance();
+        if (transport == null) {
+            mAllRecipientsRcs = false;
+            updateGroupNameFieldVisibility();
+            return;
+        }
+        final int subId = PhoneUtils.getDefault().getDefaultSmsSubscriptionId();
+        final com.android.messaging.rcs.RouteSelector rs = transport.getRouteSelector();
+        if (!rs.isGroupRcsAvailableForSub(subId)) {
+            mAllRecipientsRcs = false;
+            updateGroupNameFieldVisibility();
+            return;
+        }
+        final ArrayList<String> e164s = new ArrayList<>(participants.size());
+        for (final ParticipantData p : participants) {
+            final String dest = p.getNormalizedDestination();
+            if (!TextUtils.isEmpty(dest)) {
+                e164s.add(dest);
+            }
+        }
+        boolean allRcs = !e164s.isEmpty();
+        final ArrayList<String> toProbe = new ArrayList<>();
+        for (final String e : e164s) {
+            final int cap = rs.isPeerRcsCapable(subId, e);
+            if (cap == org.lineageos.rcs.provider.IRcsProvider.CAP_RCS) {
+                continue;
+            }
+            allRcs = false;
+            if (cap != org.lineageos.rcs.provider.IRcsProvider.CAP_SMS_ONLY
+                    && !mProbedDestinations.contains(e)) {
+                toProbe.add(e);
+            }
+        }
+        mAllRecipientsRcs = allRcs;
+        updateGroupNameFieldVisibility();
+
+        if (!allRcs && !toProbe.isEmpty()) {
+            mProbedDestinations.addAll(toProbe);
+            mPickerBgExecutor.execute(() -> {
+                for (final String e : toProbe) {
+                    try {
+                        transport.lookupRcsCapability(subId, e);
+                    } catch (final Throwable ignore) {
+                        // Advisory; stays unknown.
+                    }
+                }
+                mPickerHandler.post(() -> {
+                    if (isAdded()) {
+                        onDeferredRecipientsChanged();
+                    }
+                });
+            });
+        }
+    }
+
+    /**
+    /**
+     * Opens a single recipient's existing 1:1 conversation inline, through
+     * {@link #maybeGetOrCreateConversation}. The lookup runs off the main thread; without an
+     * existing thread the picker stays deferred.
+     */
+    private void maybeOpenExistingConversation(final ParticipantData participant) {
+        final String dest = participant.getNormalizedDestination();
+        if (TextUtils.isEmpty(dest) || dest.equals(mOpenedExistingDestination)) {
+            return;
+        }
+        mPickerBgExecutor.execute(() -> {
+            boolean exists = false;
+            try {
+                exists = com.android.messaging.datamodel.BugleDatabaseOperations
+                        .getConversationFromOtherParticipantDestination(
+                                DataModel.get().getDatabase(), dest) != null;
+            } catch (final Throwable ignore) {
+                // Stay in the deferred picker.
+            }
+            if (!exists) {
+                return;
+            }
+            mPickerHandler.post(() -> {
+                if (!isAdded() || mContactPickingMode != MODE_PICK_INITIAL_CONTACT) {
+                    return;
+                }
+                // Open only if still the same single recipient.
+                final ArrayList<ParticipantData> now =
+                        mRecipientTextView.getRecipientParticipantDataForConversationCreation();
+                if (now.size() != 1
+                        || !dest.equals(now.get(0).getNormalizedDestination())) {
+                    return;
+                }
+                mOpenedExistingDestination = dest;
+                maybeGetOrCreateConversation();
+            });
+        });
+    }
+
     public void setContactPickingMode(final int mode, final boolean animate) {
         if (mContactPickingMode != mode) {
             // Guard against impossible transitions.
@@ -333,7 +537,9 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
             switch (mContactPickingMode) {
                 case MODE_PICK_INITIAL_CONTACT:
                     addMoreParticipantsItem.setVisible(false);
-                    confirmParticipantsItem.setVisible(false);
+                    // Group and deferred modes stay in this list, so Confirm is shown here.
+                    confirmParticipantsItem.setVisible(mGroupCreationMode
+                            || (mUnifiedStartMode && currentRecipientCount() >= 1));
                     mCustomHeaderViewPager.setVisibility(View.VISIBLE);
                     mComposeDivider.setVisibility(View.INVISIBLE);
                     mRecipientTextView.setEnabled(true);
@@ -427,6 +633,37 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
     }
 
     /**
+     * Confirms an RCS group: needs two or more recipients, and passes the name and canonical
+     * numbers to the host.
+     */
+    private void confirmRcsGroup() {
+        final ArrayList<ParticipantData> participants =
+                mRecipientTextView.getRecipientParticipantDataForConversationCreation();
+        if (ContactPickerData.isTooManyParticipants(participants.size())) {
+            UiUtils.showToast(R.string.too_many_participants);
+            return;
+        }
+        if (participants.size() < 2) {
+            UiUtils.showToast(R.string.rcs_group_needs_two_recipients);
+            return;
+        }
+        final ArrayList<String> recipients = new ArrayList<>(participants.size());
+        for (final ParticipantData p : participants) {
+            final String dest = p.getNormalizedDestination();
+            if (!TextUtils.isEmpty(dest)) {
+                recipients.add(dest);
+            }
+        }
+        if (recipients.size() < 2) {
+            UiUtils.showToast(R.string.rcs_group_needs_two_recipients);
+            return;
+        }
+        final String groupName = mGroupNameEditText != null
+                ? mGroupNameEditText.getText().toString().trim() : "";
+        mHost.onCreateRcsGroup(groupName, recipients);
+    }
+
+    /**
      * Watches changes in contact chips to determine possible state transitions (e.g. creating
      * the initial conversation, adding more participants or finish the current conversation)
      */
@@ -434,8 +671,13 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
     public void onContactChipsChanged(final int oldCount, final int newCount) {
         Assert.isTrue(oldCount != newCount);
         if (mContactPickingMode == MODE_PICK_INITIAL_CONTACT) {
-            // Initial picking mode. Start a conversation once a recipient has been picked.
-            maybeGetOrCreateConversation();
+            // Group and deferred modes do not auto-create a 1:1 on the first pick.
+            if (mUnifiedStartMode) {
+                onDeferredRecipientsChanged();
+            } else if (!mGroupCreationMode) {
+                // Initial picking mode. Start a conversation once a recipient has been picked.
+                maybeGetOrCreateConversation();
+            }
         } else if (mContactPickingMode == MODE_CHIPS_ONLY) {
             // oldCount == 0 means we are restoring from savedInstanceState to add the existing
             // chips, don't switch to "add more participants" mode in this case.
@@ -468,12 +710,43 @@ public class ContactPickerFragment extends Fragment implements ContactPickerData
      */
     @Override
     public void onEntryComplete() {
+        if (mGroupCreationMode) {
+            // "Done" confirms the group.
+            confirmRcsGroup();
+            return;
+        }
+        if (mUnifiedStartMode && mContactPickingMode == MODE_PICK_INITIAL_CONTACT) {
+            // "Done" confirms the deferred pick.
+            confirmUnifiedStart();
+            return;
+        }
         if (mContactPickingMode == MODE_PICK_INITIAL_CONTACT ||
                 mContactPickingMode == MODE_PICK_MORE_CONTACTS ||
                 mContactPickingMode == MODE_PICK_MAX_PARTICIPANTS) {
             // Avoid multiple calls to create in race cases (hit done right after selecting contact)
             maybeGetOrCreateConversation();
         }
+    }
+
+    /**
+     * Confirms a deferred pick: one recipient opens a 1:1, more go to the RCS group create,
+     * which falls back to group MMS unless all are RCS.
+     */
+    private void confirmUnifiedStart() {
+        final ArrayList<ParticipantData> participants =
+                mRecipientTextView.getRecipientParticipantDataForConversationCreation();
+        if (ContactPickerData.isTooManyParticipants(participants.size())) {
+            UiUtils.showToast(R.string.too_many_participants);
+            return;
+        }
+        if (participants.isEmpty()) {
+            return;
+        }
+        if (participants.size() == 1) {
+            maybeGetOrCreateConversation();
+            return;
+        }
+        confirmRcsGroup();
     }
 
     private void invalidateContactLists() {

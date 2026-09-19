@@ -89,6 +89,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
     public static class ApplicationSettingsFragment extends PreferenceFragmentCompat {
 
         private String mNotificationsPreferenceKey;
+        private String mRcsSettingsPrefKey;
         private String mSmsEnabledPrefKey;
         private Preference mSmsEnabledPreference;
         private ChangeDefaultSmsAppHelper mChangeDefaultSmsAppHelper;
@@ -115,6 +116,7 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
 
             mNotificationsPreferenceKey =
                     getString(R.string.notifications_pref_key);
+            mRcsSettingsPrefKey = getString(R.string.rcs_settings_pref_key);
             mSmsEnabledPrefKey = getString(R.string.sms_enabled_pref_key);
             mSmsEnabledPreference = findPreference(mSmsEnabledPrefKey);
 
@@ -138,6 +140,8 @@ public class ApplicationSettingsActivity extends BugleActionBarActivity {
                 Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                 intent.putExtra(Settings.EXTRA_APP_PACKAGE, getContext().getPackageName());
                 startActivity(intent);
+            } else if (preference.getKey().equals(mRcsSettingsPrefKey)) {
+                UIIntents.get().launchRcsSettingsActivity(getActivity());
             }
             return super.onPreferenceTreeClick(preference);
         }

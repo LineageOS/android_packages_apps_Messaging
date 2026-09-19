@@ -49,6 +49,9 @@ public class DatabaseUpgradeHelper {
         if (currentVersion < 2) {
             currentVersion = upgradeToVersion2(db);
         }
+        if (currentVersion < 3) {
+            currentVersion = upgradeToVersion3(db);
+        }
         // Rebuild all the views
         final Context context = Factory.get().getApplicationContext();
         DatabaseHelper.dropAllViews(db);
@@ -62,6 +65,85 @@ public class DatabaseUpgradeHelper {
                 DatabaseHelper.ConversationColumns.IS_ENTERPRISE + " INT DEFAULT(0)");
         LogUtil.i(TAG, "Ugraded database to version 2");
         return 2;
+    }
+
+    // The RCS client's schema additions. Frozen once shipped: additive only, so a failure
+    // part-way leaves the database readable at its version.
+    private int upgradeToVersion3(final SQLiteDatabase db) {
+        {   // the RCS columns and index on messages
+            final String t = DatabaseHelper.MESSAGES_TABLE;
+            db.execSQL("ALTER TABLE " + t + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.TRANSPORT_TYPE + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + t + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.RCS_MESSAGE_ID + " TEXT");
+            db.execSQL("ALTER TABLE " + t + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.RCS_STATUS + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + t + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.RCS_DELIVERED_TIMESTAMP + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + t + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.RCS_DISPLAYED_TIMESTAMP + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + t + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.RCS_CONTRIBUTION_ID + " TEXT");
+            db.execSQL("CREATE INDEX index_" + t + "_rcs_id ON " + t + "("
+                    + DatabaseHelper.MessageColumns.RCS_MESSAGE_ID + ")");
+        }
+        {   // the group mapping on conversations
+            final String c = DatabaseHelper.CONVERSATIONS_TABLE;
+            db.execSQL("ALTER TABLE " + c + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.RCS_GROUP_ID + " TEXT");
+            db.execSQL("CREATE INDEX index_" + c + "_rcs_group_id ON " + c + "("
+                    + DatabaseHelper.ConversationColumns.RCS_GROUP_ID + ")");
+        }
+        {   // the group-UI columns
+            final String c = DatabaseHelper.CONVERSATIONS_TABLE;
+            db.execSQL("ALTER TABLE " + c + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.NEEDS_ROSTER_REFILL + " INT DEFAULT(0)");
+        }
+        {   // the per-member receipts side table
+            final String t = DatabaseHelper.RCS_GROUP_RECEIPTS_TABLE;
+            db.execSQL("CREATE TABLE " + t + " ("
+                    + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID + " INT NOT NULL, "
+                    + DatabaseHelper.RcsGroupReceiptColumns.PARTICIPANT_URI + " TEXT NOT NULL, "
+                    + DatabaseHelper.RcsGroupReceiptColumns.DELIVERED_TIMESTAMP
+                    + " INT DEFAULT(0), "
+                    + DatabaseHelper.RcsGroupReceiptColumns.DISPLAYED_TIMESTAMP
+                    + " INT DEFAULT(0), "
+                    + "PRIMARY KEY (" + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID + ", "
+                    + DatabaseHelper.RcsGroupReceiptColumns.PARTICIPANT_URI + "), "
+                    + "FOREIGN KEY (" + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID
+                    + ") REFERENCES " + DatabaseHelper.MESSAGES_TABLE + "("
+                    + DatabaseHelper.MessageColumns._ID + ") ON DELETE CASCADE "
+                    + ");");
+            db.execSQL("CREATE INDEX index_" + t + "_message_id ON " + t + "("
+                    + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID + ")");
+        }
+        {   // the reactions side table
+            final String t = DatabaseHelper.RCS_REACTIONS_TABLE;
+            db.execSQL("CREATE TABLE " + t + " ("
+                    + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + DatabaseHelper.RcsReactionColumns.REACTOR_URI + " TEXT NOT NULL, "
+                    + DatabaseHelper.RcsReactionColumns.EMOJI + " TEXT NOT NULL, "
+                    + DatabaseHelper.RcsReactionColumns.TIMESTAMP + " INT DEFAULT(0), "
+                    + "PRIMARY KEY (" + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID
+                    + ", " + DatabaseHelper.RcsReactionColumns.REACTOR_URI + ")"
+                    + ");");
+            db.execSQL("CREATE INDEX index_" + t + "_target ON " + t + "("
+                    + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID + ")");
+        }
+        {   // the per-message E2EE scheme id
+            db.execSQL("ALTER TABLE " + DatabaseHelper.MESSAGES_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.MessageColumns.RCS_E2EE_SCHEME_ID + " TEXT");
+        }
+        {   // the per-conversation encryption-protocol bits
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.ENCRYPTION_PROTOCOL + " INT DEFAULT(0)");
+        }
+        {   // the self-left marker
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.RCS_SELF_LEFT + " INT DEFAULT(0)");
+        }
+        LogUtil.i(TAG, "Upgraded database to version 3");
+        return 3;
     }
 
     /**

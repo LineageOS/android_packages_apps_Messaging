@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingTop="@dimen/rbm_info_row_padding_v"
+    android:paddingBottom="@dimen/rbm_info_row_padding_v"
+    android:minHeight="@dimen/rbm_info_row_min_height" >
+
+    <ImageView
+        android:id="@+id/rbm_info_row_icon"
+        android:layout_width="@dimen/rbm_info_row_icon_size"
+        android:layout_height="@dimen/rbm_info_row_icon_size"
+        android:layout_marginEnd="@dimen/rbm_info_row_icon_margin"
+        android:importantForAccessibility="no" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/rbm_info_row_value"
+            style="@style/ConversationMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/rbm_chip_text"
+            android:maxLines="1"
+            android:ellipsize="middle" />
+
+        <TextView
+            android:id="@+id/rbm_info_row_label"
+            style="@style/ConversationMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

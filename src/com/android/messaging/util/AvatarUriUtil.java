@@ -257,6 +257,16 @@ public class AvatarUriUtil {
                 TextUtils.equals(AUTHORITY, uri.getAuthority());
     }
 
+    /**
+     * True for a participant-derived avatar URI built here ({@code messaging://avatar/…}); any
+     * other icon, such as a group icon file, belongs to the path that wrote it. False for null.
+     */
+    public static boolean isDerivedAvatarUri(final Uri uri) {
+        if (uri == null) return false;
+        return TextUtils.equals(SCHEME, uri.getScheme())
+                && TextUtils.equals(AUTHORITY, uri.getAuthority());
+    }
+
     public static String getAvatarType(@NonNull final Uri uri) {
         Assert.notNull(uri);
         final List<String> path = uri.getPathSegments();
