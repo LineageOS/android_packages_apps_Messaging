@@ -15,32 +15,35 @@
  */
 package com.android.messaging.rcs.e2ee;
 
+import android.text.TextUtils;
+
+import java.util.List;
+
 /**
  * The per-conversation E2EE scheme gate — the app-layer analogue of the resolver
- * Google Messages runs over its own encryption-protocol column.
+ * Google Messages runs over its own two-bit encryption-protocol column and its
+ * capability eligibility tree.
  *
  * <p>Google Messages places this whole negotiation box <b>in-app</b> (pure Java-side
- * functions, no native code and no server round-trip), so OpenRCSChat's split puts it
- * app-layer here too: it queries the <i>provider</i>'s Etouffee availability through the
- * opaque seam and resolves the scheme for the conversation.
+ * functions, no native code and no server round-trip), so OpenRCSChat's
+ * split puts it app-layer in messaging2 too: it queries the <i>provider</i>'s
+ * Etouffee availability through the opaque seam and the <i>peers'</i> MLS caps,
+ * then picks <b>one</b> scheme per conversation.
  *
  * <p>Algorithm:
  * <pre>
- *   scytaleBit = providerEtouffeeAvailable(subId)         // seam &rarr; google.etouffee
- *   bits       = load(conv).accumulate(scytaleBit)        // durable, latching
+ *   scytaleBit = providerEtouffeeAvailable(subId)        // seam → google.etouffee
+ *   mlsBit     = mlsProvisioned(subId)                   // local KDS cert + KPs
+ *                AND mlsEligible(peers)                  // standard-first caps tree
+ *                AND hasGroupId(conversation)            // MLS-bit-implies-group rule
+ *   bits       = load(conv).accumulate(scytaleBit, mlsBit)   // durable, latching
  *   store(conv, bits)
- *   return bits.resolvedSchemeId()                        // Scytale &gt; none
+ *   return bits.resolve()                                // MLS &gt; Scytale &gt; none
  * </pre>
  *
- * <p><b>This build carries one E2EE plane: the provider's.</b> {@link EncryptionProtocolBits}
- * is the shared durable value object and carries a second bit that nothing here sets, so
- * {@link #selectScheme} accumulates a constant {@code false} into it. That is deliberately
- * not the same as clearing it — see the note on {@link #selectScheme}, which is what keeps
- * the persisted column byte-compatible.
- *
- * <p>The two external dependencies are injected as seams so the gate is unit-testable with
- * synthetic inputs and so the heavy pieces (the provider AIDL call, the SQLite-backed bits)
- * plug in independently.
+ * <p>The three external dependencies are injected as seams so the gate is
+ * unit-testable with synthetic inputs and so the heavy pieces (the provider AIDL
+ * call, the KDS provisioning state, the SQLite-backed bits) plug in independently.
  */
 public final class E2eeSchemeGate {
 
@@ -53,6 +56,27 @@ public final class E2eeSchemeGate {
         boolean isEtouffeeAvailable(int subId);
     }
 
+    /** Local MLS provisioning state (the KDS cert + uploaded key-packages, §2). */
+    public interface MlsProvisioning {
+        /**
+         * True iff this device holds a non-stale KDS certificate AND has uploaded
+         * key-packages for this subId.
+         * Until the KDS leg is built this is always false, so the
+         * gate never selects MLS prematurely.
+         */
+        boolean isMlsProvisioned(int subId);
+
+        /**
+         * The minted/joined MLS group-id for this conversation, or {@code null} if
+         * none. Enforces the invariant that a set MLS bit MUST have a
+         * group-id (Google Messages throws "Missing encryption Id for MLS protocol").
+         */
+        String mlsGroupId(String conversationId);
+
+        /** This build's Google-wave launch-iteration (for the same-build fallback). */
+        String ourLaunchIteration();
+    }
+
     /** Durable per-conversation {@link EncryptionProtocolBits} (the encryption-protocol column). */
     public interface BitsStore {
         EncryptionProtocolBits load(String conversationId);
@@ -61,47 +85,65 @@ public final class E2eeSchemeGate {
     }
 
     private final EtouffeeAvailability mEtouffee;
+    private final MlsProvisioning mMls;
     private final BitsStore mStore;
 
-    public E2eeSchemeGate(final EtouffeeAvailability etouffee, final BitsStore store) {
+    public E2eeSchemeGate(final EtouffeeAvailability etouffee, final MlsProvisioning mls,
+            final BitsStore store) {
         mEtouffee = etouffee;
+        mMls = mls;
         mStore = store;
     }
 
     /**
      * Resolve the active E2EE scheme for a conversation, persisting the accumulated
-     * bits. Returns one opaque schemeId: {@link RcsE2eeScheme#ETOUFFEE}, or {@code null}
-     * (plaintext).
-     *
-     * <p><b>Why the second accumulate argument is a constant {@code false} rather than
-     * absent.</b> {@link EncryptionProtocolBits#accumulate} <i>latches</i>: a {@code false}
-     * leaves a bit that is already set in the durable column exactly as it was, whereas
-     * rewriting the column without it would be a downgrade this gate has no authority to
-     * perform. So this build never <i>sets</i> the second bit and never <i>clears</i> one it
-     * finds, and the stored column value is unchanged for every conversation either way.
+     * bits. Returns one opaque schemeId: {@link RcsE2eeScheme#MLS},
+     * {@link RcsE2eeScheme#ETOUFFEE}, or {@code null} (plaintext).
      *
      * @param conversationId durable conversation key
      * @param subId          the SIM subscription
+     * @param peers          parsed MLS caps per participant
+     * @param isGroup        group conversation (enables the supports-groups path)
      */
-    public String selectScheme(final String conversationId, final int subId) {
+    public String selectScheme(final String conversationId, final int subId,
+            final List<MlsCapabilities.PeerCaps> peers, final boolean isGroup) {
         // --- eligibility: which bits MAY be set this round ---
         final boolean scytaleEligible = mEtouffee != null && mEtouffee.isEtouffeeAvailable(subId);
+
+        final boolean mlsEligible =
+                mMls != null
+                        && mMls.isMlsProvisioned(subId)
+                        && MlsCapabilities.mlsEligible(peers, mMls.ourLaunchIteration(), isGroup)
+                        // Invariant: never set the MLS bit without a group-id.
+                        && !TextUtils.isEmpty(mMls.mlsGroupId(conversationId));
 
         // --- accumulate onto the durable bitset (transient-downgrade fallback) ---
         final EncryptionProtocolBits prior =
                 (mStore != null) ? safeLoad(conversationId) : EncryptionProtocolBits.NONE;
-        final EncryptionProtocolBits next =
-                prior.accumulate(scytaleEligible, /* secondPlaneEligible= */ false);
+        final EncryptionProtocolBits next = prior.accumulate(scytaleEligible, mlsEligible);
         if (mStore != null && !next.equals(prior)) {
             mStore.store(conversationId, next);
         }
 
-        // --- resolve (Scytale > none) ---
+        // --- resolve (MLS > Scytale > none) ---
         return next.resolvedSchemeId();
     }
 
     private EncryptionProtocolBits safeLoad(final String conversationId) {
         final EncryptionProtocolBits loaded = mStore.load(conversationId);
         return (loaded != null) ? loaded : EncryptionProtocolBits.NONE;
+    }
+
+    /**
+     * Deliberate downgrade of a conversation's MLS bit (a real provisioning loss or
+     * an IMDN downgrade reason), distinct
+     * from a transient recompute miss. Leaves the Scytale bit intact for fallback.
+     */
+    public void downgradeMls(final String conversationId) {
+        if (mStore == null) {
+            return;
+        }
+        final EncryptionProtocolBits cleared = safeLoad(conversationId).withMlsCleared();
+        mStore.store(conversationId, cleared);
     }
 }

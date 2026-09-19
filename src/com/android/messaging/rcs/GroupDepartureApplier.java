@@ -35,6 +35,8 @@ import java.util.Collections;
  * <p>An inbound {@code self_remove} (0xF003) was already honoured in MLS terms — cached by
  * reference, swept into our next commit, proposer's leaf dropped. What did not happen is anything
  * the user could see: the departed participant stayed in the thread and nothing said they had left.
+ * This is the same shape as {@link MlsSubjectApplier}, whose case was the decrypted subject that
+ * went to logcat and no further.
  *
  * <h2>Why it dispatches the ordinary group-event Action instead of writing the tables</h2>
  *
@@ -65,11 +67,10 @@ import java.util.Collections;
  *
  * <h2>The leaver is sometimes US</h2>
  *
- * <p>{@code ManageRcsGroupAction}'s leave arm calls this with our OWN number, and for that
- * direction there is nothing to be redundant with: the server fans {@code KickGroupUsersPush} to
- * the members who REMAIN, so no echo ever reaches the leaver. Everything above holds unchanged —
- * the same Action, the same {@code requester == affected}, the same signature — with two things
- * worth knowing:
+ * <p>{@code MlsProviderTransport.leave} calls this with our OWN number, and for that direction there
+ * is nothing to be redundant with: the server fans {@code KickGroupUsersPush} to the members who
+ * REMAIN, so no echo ever reaches the leaver. Everything above holds unchanged — the same Action,
+ * the same {@code requester == affected}, the same signature — with two things worth knowing:
  *
  * <ul>
  *   <li>the status line reads <b>"You left"</b>, which took reordering the two arms of
@@ -103,7 +104,8 @@ public final class GroupDepartureApplier {
             // RESOLVE WITHOUT CREATING, and bail if we hold no conversation. The Action's own
             // getOrCreateGroupConversation would happily create one — and a departure is the worst
             // possible reason to invent a conversation, since it would be created empty (this path
-            // supplies no roster) and immediately have a member removed from it.
+            // supplies no roster) and immediately have a member removed from it. MlsSubjectApplier
+            // draws the same line for the same reason.
             final DatabaseWrapper db = DataModel.get().getDatabase();
             final String conversationId =
                     BugleDatabaseOperations.getExistingGroupConversation(db, rcsGroupId);

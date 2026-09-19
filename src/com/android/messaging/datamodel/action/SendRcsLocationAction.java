@@ -39,6 +39,8 @@ import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.rcs.RcsMessageStore;
 import com.android.messaging.rcs.RcsSendStatus;
 import com.android.messaging.rcs.RouteSelector;
+import com.android.messaging.rcs.e2ee.MlsSendRouting;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
@@ -137,6 +139,57 @@ public class SendRcsLocationAction extends Action implements Parcelable {
                 + String.format(Locale.US, "https://maps.google.com/?q=%.6f,%.6f", lat, lon);
         final long timestamp = System.currentTimeMillis() * 1000L;  // micros, matches RCS path
 
+        // ====================== REFUSE RATHER THAN DEGRADE ==========================
+        //
+        // A LOCATION SHARE USED TO GO OUT FROM HERE IN THE CLEAR, on both legs, on conversations the
+        // app was drawing a PADLOCK on. Nothing in this file consulted MLS state in any form: the
+        // hop below reaches TachyonRegistrar.sendLocation / sendGroupLocation, which build a GSMA
+        // application/vnd.gsma.rcspushlocation+xml and hand it to sendTachygramPart /
+        // sendGroupMessage as the content part VERBATIM. There is no seal anywhere on that path —
+        // the transport's only MLS branch is gated on message/mls — so a rcspushlocation+xml body
+        // could never be sealed however the conversation was encrypted.
+        //
+        // WHAT THAT PAYLOAD IS, because it is why this outranked its siblings: the user's live
+        // position from LocationManager as an EPSG:4326 <gml:pos>, the GPS accuracy radius as a
+        // <gs:Circle>, and the sender's own MSISDN in the envelope's entity= attribute. The text
+        // defect leaked what someone said; this leaks where their body is, and it is sent precisely
+        // BECAUSE the thread looks encrypted.
+        //
+        // The padlock is latched PER CONVERSATION and not per message (ReceiveRcsMessageAction sets
+        // conversations.encryption_protocol on any inbound RcsE2eeScheme.MLS message), which is the
+        // structural reason this defect keeps reappearing on each new outbound verb: one inbound MLS
+        // message padlocks the thread for every verb that is ever added to it afterwards.
+        //
+        // THE DECISION IS NOT MADE HERE. MlsProviderTransport
+        // owns the state the answer comes from and composes the two predicates — what the ENGINE can
+        // seal, and what the APP has told the user — through MlsSendRouting's host-tested table.
+        //
+        // PLAINTEXT ALONE MAY SEND, and the allow-list spelling is deliberate. There is no location
+        // seal path, so SEAL — "the engine could seal this" — is not an instruction this caller can
+        // carry out; it is a refusal. Naming REFUSE here instead would make the gate a deny-list and
+        // hand the next verdict added to the enum a default of "send it in the clear", which is
+        // exactly how this family of defects came to exist.
+        //
+        // AN ORDINARY NON-MLS CONVERSATION CANNOT REACH THE REFUSAL, structurally rather than
+        // carefully: it holds no MLS state (NO_MLS_STATE) and has never latched the MLS bit (CLEAR),
+        // both inputs sit at their defaults, and the table's verdict for that pair is PLAINTEXT. A
+        // device that never adopted an MLS identity cannot refuse anything at all. The Etouffee case
+        // is covered too — the latch reads encryption_protocol's MLS bit, not the padlock's own
+        // != 0 — so a provider-encrypted conversation keeps sending the body the provider encrypts.
+        final MlsSendRouting.Verdict verdict = isGroup
+                ? MlsProviderTransport.groupSendVerdict(
+                        Factory.get().getApplicationContext(), subId, groupId, conversationId)
+                : MlsProviderTransport.oneToOneSendVerdict(
+                        Factory.get().getApplicationContext(), subId, recipient, conversationId);
+        if (verdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "SendRcsLocationAction: NOT sharing this location in the clear "
+                    + "(conversation " + conversationId + ", " + (isGroup ? "group" : "1-1")
+                    + ", verdict " + verdict + "). The app is presenting this thread as encrypted "
+                    + "and a location share cannot be sealed, so it is left unsent and visibly "
+                    + "FAILED rather than silently downgraded.");
+            insertRefusedLocationRow(db, conversationId, selfId, body, timestamp);
+            return null;
+        }
 
         final String rcsMessageId = UUID.randomUUID().toString();
         final Double acc = accuracy > 0 ? accuracy : null;

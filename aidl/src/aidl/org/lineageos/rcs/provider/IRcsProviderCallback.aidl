@@ -308,4 +308,207 @@ oneway interface IRcsProviderCallback {
      */
     void onE2eeStateChanged(int subId, in RcsE2eeInfo info);
 
+    // ================================================================
+    // MLS (RFC 9420 / GSMA RCC.16).
+    //
+    // APPENDED AS A BLOCK, and it must stay one. aidl numbers each method
+    // FIRST_CALL_TRANSACTION + n in DECLARATION order, so everything here sits
+    // after every method above it. A new MLS method goes at the END of this
+    // section -- never in the middle of it, and never above it.
+    //
+    // The provider carries MLS envelopes and does not parse them: it owns the
+    // transport, the app owns the group state and the keys. Nothing below
+    // decrypts anything.
+    // ================================================================
+
+
+    /**
+     * An ENCRYPTED group subject arrived (RCC.16 §9.7.1.5, contract v39).
+     *
+     * <p>A plain rename surfaces through {@link #onGroupEvent}'s {@code name}. An encrypted one
+     * cannot: the profile carries an inline {content_type, ciphertext} pair and the key
+     * travels separately, in the commit's private message. So this hands the app the ciphertext and
+     * the app decrypts it with the key it stored from the §7.8.1 FileInfo.
+     *
+     * <p>The provider deliberately does NOT decrypt — it owns the transport, not MLS, and it holds
+     * no key.
+     *
+     * @param contentType the Annex C.2 encrypted MIME (Google Messages pins {@code message/mls-ft})
+     * @param ciphertext  the encrypted subject as it appeared on the wire
+     */
+    void onEncryptedGroupSubject(int subId, @nullable String groupId, @nullable String fromE164,
+            @nullable String contentType, in byte[] ciphertext);
+
+    /**
+     * An ENCRYPTED group ICON reference arrived (RCC.16 §9.7.1.4, contract v40).
+     *
+     * <p>Unlike the subject, an icon is not carried inline: the profile holds a REFERENCE of TWO
+     * strings and the ciphertext itself lives on the File Transfer Server. The key arrives
+     * separately, exactly as for the subject.
+     *
+     * <p><b>The order is PINNED since 2026-09-13: {@code first} is the reference's field 1 = the
+     * CONTENT TYPE ({@code message/mls-ft}), {@code second} is field 2 = the URL.</b> This javadoc
+     * said the opposite while it was unpinned — "an upload URL and a content-type/algorithm
+     * descriptor" — and that reading was wrong. The provider's {@code EncryptedProfileFields}
+     * records the pin; read it before changing either side, because the send path builds from the
+     * same pin and a swap is SILENT on the wire.
+     *
+     * <p>The parameters stay POSITIONAL rather than being renamed to {@code contentType}/{@code url},
+     * deliberately: the boundary should carry what was observed, not our labelling of it. The
+     * provider logs a warning if a peer ever puts a URL in the content-type slot, so a disagreement
+     * arrives as a line rather than as silence.
+     */
+    void onEncryptedGroupIcon(int subId, @nullable String groupId, @nullable String fromE164,
+            @nullable String first, @nullable String second);
+
+    /**
+     * Inbound MLS control messages that MUST be applied IN ORDER (contract v42).
+     *
+     * <p>A metadata commit is two messages — the commit, and a private message delivering the key
+     * its commitment commits to, encrypted at the POST-commit epoch. Delivering them as separate
+     * {@link #onMlsControl} calls let the app dispatch each on its own thread, so the key routinely
+     * raced the commit it depends on: both failed "future epoch", nothing drained, and the receiver's
+     * own next commit was then built at a stale epoch and refused by its engine.
+     *
+     * <p>Serialising the apply was necessary but not sufficient — it prevents overlap, not
+     * reordering. This carries the whole bundle in ONE call so order is a property of the payload
+     * rather than of thread scheduling.
+     *
+     * <h2>The RCC.16 outer-envelope headers (contract-v47, rework 6.2)</h2>
+     *
+     * <p>{@code eraId} ({@code -1} when absent), {@code epochAuthenticator} and
+     * {@code originalMessageId} are the {@code http://www.gsma.com/rcs/mls} CPIM headers read off the
+     * OUTER envelope. They ride outside the ciphertext by construction, because their purpose is to
+     * be readable BEFORE decryption — a receiver has to be able to tell "wrong era" from "corrupt"
+     * without holding the key.
+     *
+     * <p>Until this existed, invariant 51's "missing headers ⇒ silent drop" had no subject on the
+     * TACHYON leg — our PRIMARY transport — so every inbound MLS body was accepted unframed with no
+     * epoch binding check at all. (The carrier CPM/MSRP leg has always been compliant.)
+     *
+     * <p>Observed on the wire 2026-08-01: an inbound Tachygram carried {@code ns=true
+     * Era-ID=1}, so the server DOES relay these triples. Nothing is required or dropped here yet —
+     * that observation was of a message from our own implementation, and requiring a header we have
+     * not yet seen Google Messages populate would drop Google Messages traffic.
+     *
+     * <p><b>Why this interface changes a signature in place while {@code IRcsProvider} appends.</b>
+     * {@code onMlsControl} already gained {@code groupId} the same way at v26; the callback is
+     * implemented by the app and dispatched by the provider, so the provider is the side that knows
+     * both versions and can gate. {@code IRcsProvider} is the reverse and must append.
+     *
+     * @param packedMessages the bare MLS messages, each a {@code [u32 BE len][bytes]} record, in the
+     *                       order they must be applied
+     */
+    void onMlsControlBundle(int subId, @nullable String fromE164, @nullable String messageId,
+            in byte[] packedMessages, boolean convergenceAck, @nullable String groupId,
+            long eraId, in @nullable byte[] epochAuthenticator,
+            @nullable String originalMessageId);
+
+    /**
+     * A peer reported that OUR message failed on THEIR side — RCC.16 §7.7.2.2
+     * client-generated Negative-Delivery IMDN (contract v43).
+     *
+     * <p>This is the signal that resolves the divergence deadlock. Peer state is not
+     * queryable, so a healthy member cannot detect a diverged one by looking; but the
+     * diverged member CAN say so, and this is how. The member that knows emits, the
+     * member that can act receives.
+     *
+     * <p>{@code failureReason} is one of the {@code MLS_FAIL_*} constants. The one that
+     * matters most is {@link #MLS_FAIL_FAILED_TO_DECRYPT}, whose remedy the spec states
+     * outright: the sender advances to the latest epoch and resends the message.
+     *
+     * <p>Note this is NOT the §10.2 FTD message, which is a separate heavier flow (an
+     * MSRP Private-IM carrying a ResentMessage struct under one-to-one HPKE). This is
+     * the IMDN, which is what a peer sends when it wants us to fix the group state.
+     *
+     * @param messageId     the message of OURS that failed on the peer
+     * @param fromUri       the peer reporting the failure (the diverged member)
+     * @param groupId       the group the failure happened in, or null for 1:1
+     * @param failureReason one of MLS_FAIL_*
+     */
+    void onMlsNegativeDelivery(int subId, String messageId, @nullable String fromUri,
+            @nullable String groupId, int failureReason);
+
+    /**
+     * An inbound MLS control message arrived (contract v21).
+     *
+     * <p>{@code payload} is the raw control payload as the transport delivered it — the app's MLS
+     * engine unwraps and applies it. The provider does not parse MLS; it only recognises that this
+     * inbound item is control traffic rather than an application message and routes it here.
+     *
+     * <p>Delivered on the provider's callback thread. The app must not block it — apply asynchronously.
+     */
+    void onMlsControl(int subId, String fromE164, String messageId, in byte[] payload,
+            @nullable String groupId);
+
+    /**
+     * An inbound MLS APPLICATION message, still encrypted (contract v25).
+     *
+     * <p>The counterpart to {@link #onMlsControl}. Once the app owns the MLS engine the provider
+     * cannot decrypt application traffic either, so the ciphertext is handed over intact and the app
+     * decrypts, unframes and inserts it.
+     *
+     * <p>Delivered ONLY when the provider has no MLS session of its own — i.e. when the app really is
+     * the owner. Before this existed, an inbound {@code message/mls} on a migrated device was dropped
+     * while the peer was told it had been delivered (device-observed 2026-07-27).
+     *
+     * <p>Delivered on the provider's callback thread. The app must not block it — decrypt off-thread.
+     *
+     * <p>Carries the same contract-v47 RCC.16 outer-envelope headers as {@link #onMlsControl}, and
+     * they matter more here: this is the arm where {@code originalMessageId} identifies a RESEND, and
+     * Google Messages recognises one BEFORE decryption precisely because that header rides outside.
+     */
+    void onMlsCiphertext(int subId, String fromE164, String messageId, in byte[] ciphertext,
+            @nullable String groupId, long eraId, in @nullable byte[] epochAuthenticator,
+            @nullable String originalMessageId);
+
+    /**
+     * Our KDS MLS identity changed (contract v35).
+     *
+     * <p>Fired when the leaf certificate this device presents as its MLS credential is replaced —
+     * a re-mint at the refresh window, or a Tachyon registration-id rotation, which invalidates the
+     * held certificate outright because the certificate's CN binds it.
+     *
+     * <p>The app must care because the KeyPackages it has already PUBLISHED embed the OLD credential.
+     * They stay claimable, so peers keep adding us on a certificate we no longer hold; the group is
+     * then built on a stale leaf and a conformant peer rejects it. Nothing in either process notices
+     * — which is why this is a push rather than something the app is left to discover.
+     *
+     * <p>On receipt the app re-reads the identity and republishes its pool. Delivered on the
+     * provider's callback thread; do the work off it.
+     *
+     * <p>Contract-v35, APPENDED (ABI-stable; a v1..v34 app never sees it).
+     *
+     * @param reason short, loggable cause — e.g. {@code "reg-id-rotated"} or {@code "cert-reminted"}
+     */
+    void onMlsIdentityChanged(int subId, String reason);
+
+    /**
+     * The DOWNLOADED ciphertext behind an encrypted group ICON reference (contract v64, RCC.16
+     * §9.7.1.4).
+     *
+     * <p>{@link #onEncryptedGroupIcon} reports the REFERENCE as it appeared on the
+     * wire. This reports the bytes it points at, after the provider has fetched them. Both fire:
+     * the reference always, the content only when the fetch succeeded — so an icon we could not
+     * retrieve is visible as the first callback arriving without the second, rather than as
+     * silence.
+     *
+     * <p><b>Why the provider fetches instead of handing over the URL.</b> The same reason it
+     * uploads on the send side: the FT session credential and the per-SIM content-server config
+     * live in the provider, and the app owns MLS. The app receives bytes and decrypts them, exactly
+     * as it already does for the INLINE subject, which keeps the two receive
+     * paths one shape instead of two.
+     *
+     * <p>{@code contentType} is the reference's field 1 — the literal {@code message/mls-ft}, NOT
+     * the image's MIME. The real media type travels in the §7.8.1 {@code FileInfo} that carries the
+     * key, so a receiver learns what it actually has from there.
+     *
+     * <p>Size-capped provider-side ({@code debug.rcs.mls_icon_max_bytes}, 256 KB) before it
+     * crosses the Binder; an oversize icon is dropped with a log line rather than thrown as a
+     * TransactionTooLargeException on the inbound path.
+     *
+     * <p>Contract-v64, APPENDED (ABI-stable; a v1..v63 app never sees it).
+     */
+    void onEncryptedGroupIconContent(int subId, @nullable String groupId,
+            @nullable String fromE164, @nullable String contentType, in byte[] ciphertext);
 }

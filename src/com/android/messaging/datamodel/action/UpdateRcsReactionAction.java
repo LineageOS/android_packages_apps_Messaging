@@ -26,6 +26,7 @@ import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.e2ee.MlsResendLedger;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.PhoneUtils;
 
@@ -51,8 +52,11 @@ import com.android.messaging.util.PhoneUtils;
  * group is handled by construction (group = N reactor rows aggregated by
  * GROUP BY in {@link RcsMessageStore#readReactions}).
  *
- * <p>The render side joins the side table against {@code messages.rcs_message_id}, so a row
- * keyed on anything else is written and then invisible.
+ * <p><b>Specifically the ROOT of that id space</b>. A peer names whichever
+ * message id it SAW, and a resend carries a fresh one that never gets a chat row — so the
+ * reported id is run through {@link MlsResendLedger#rootOf} before it is used as a key. The
+ * render side joins the side table against {@code messages.rcs_message_id}, which only ever
+ * holds the root, so a row keyed on anything else is written and then invisible.
  */
 public class UpdateRcsReactionAction extends Action implements Parcelable {
     private static final String TAG = LogUtil.BUGLE_DATAMODEL_TAG;
@@ -127,7 +131,13 @@ public class UpdateRcsReactionAction extends Action implements Parcelable {
         // reacted to the original AND to a resend of it used to leave TWO rows and now leaves
         // ONE. That is the correct answer — it is one message and one reactor — but it is a
         // different answer, so it is written down here rather than found later.
-        final String targetRcsId = reportedTargetRcsId;
+        final String targetRcsId = MlsResendLedger.rootOf(reportedTargetRcsId);
+        if (!TextUtils.equals(targetRcsId, reportedTargetRcsId)) {
+            LogUtil.i(TAG, "UpdateRcsReactionAction: " + reportedTargetRcsId + " is a RESEND; "
+                    + "keying this reaction on its chain root " + targetRcsId + " instead, which "
+                    + "is the id the message's row carries and the one the chip query joins on "
+                    + ".");
+        }
 
         final DatabaseWrapper db = DataModel.get().getDatabase();
         // Canonicalize an inbound member URI the same way

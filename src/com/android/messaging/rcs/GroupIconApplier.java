@@ -32,11 +32,11 @@ import java.io.FileOutputStream;
 /**
  * Apply a DECRYPTED RCC.16 §9.7.1.4 group ICON to the conversation.
  *
- * <p>Written at the same time as the receive path rather than weeks later, because the group
- * SUBJECT's history says what happens otherwise: the whole flow worked end to end, the plaintext
- * was logged, nothing applied it, and the feature read as broken at the crypto layer for weeks.
- * The icon has never had an applier at all, so this is that defect pre-empted rather than
- * repeated.
+ * <p>The icon twin of {@link MlsSubjectApplier}, written at the same time as the receive path
+ * rather than weeks later, because the subject's history says what happens otherwise: the whole
+ * flow worked end to end, the plaintext was logged, nothing applied it, and the feature read as
+ * broken at the crypto layer for weeks. The icon has never had an applier at
+ * all, so this is that defect pre-empted rather than repeated.
  *
  * <h2>ONE FILE, AND THE COLUMN POINTS AT IT</h2>
  *

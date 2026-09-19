@@ -321,9 +321,10 @@ public class BugleDatabaseOperations {
      * else, and {@code GroupDepartureApplier} for our own plaintext leave, which dispatches the very
      * same Action.
      *
-     * <p><b>Scope: this column is the RCS-plane membership fact and nothing more.</b> It records
-     * that a group event named SELF as removed, and it is cleared when one names SELF as added. It
-     * holds no key or session state, and nothing here writes to anything that does.
+     * <p>This is NOT {@code MlsConversationRecord.selfLeftAtMs} and must not be confused with it.
+     * That mark is MLS state and its only clearer is a rejoin (pinned by test
+     * {@code 66daa212}); this column is the plaintext-and-removed-by-others case, in a different
+     * store, with a different lifecycle. Nothing here touches that mark.
      */
     @DoesNotRunOnMainThread
     public static void setConversationSelfLeft(final DatabaseWrapper dbWrapper,
@@ -447,7 +448,59 @@ public class BugleDatabaseOperations {
                 ConversationColumns._ID + "=?", new String[] { conversationId });
     }
 
+    /**
+     * MLS Stage M (item 11.7, §9.7l): read a conversation's three re-upgrade columns.
+     *
+     * <p>Returns {@code null} for an unknown conversation, which the caller must tell apart from
+     * {@link com.android.messaging.rcs.engine.mls.MlsReupgradeState#NONE}: "no such row" and "a row
+     * that has never been downgraded" both mean "do not re-upgrade", but only the second is a
+     * conversation we may later stamp.
+     */
+    @DoesNotRunOnMainThread
+    public static com.android.messaging.rcs.engine.mls.MlsReupgradeState getMlsReupgradeState(
+            final DatabaseWrapper dbWrapper, final String conversationId) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId)) {
+            return null;
+        }
+        try (Cursor cursor = dbWrapper.query(DatabaseHelper.CONVERSATIONS_TABLE,
+                new String[] {
+                        ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE,
+                        ConversationColumns.MLS_REUPGRADE_ATTEMPTS,
+                        ConversationColumns.MLS_EAGERLY_DOWNGRADED },
+                ConversationColumns._ID + "=?", new String[] { conversationId },
+                null, null, null, "1")) {
+            if (cursor != null && cursor.moveToFirst()) {
+                return new com.android.messaging.rcs.engine.mls.MlsReupgradeState(
+                        cursor.getLong(0), cursor.getInt(1), cursor.getInt(2) != 0);
+            }
+        }
+        return null;
+    }
 
+    /**
+     * MLS Stage M (item 11.7): persist all three re-upgrade columns TOGETHER.
+     *
+     * <p>Together, and in one update, is the contract. Leaving the timestamp behind while clearing
+     * the counter makes the next downgrade compute a backoff from an epoch that no longer describes
+     * anything — which is why {@code MlsReupgradeState} is a value object written whole rather than
+     * three independently-settable fields.
+     */
+    @DoesNotRunOnMainThread
+    public static void setMlsReupgradeState(final DatabaseWrapper db, final String conversationId,
+            final com.android.messaging.rcs.engine.mls.MlsReupgradeState state) {
+        Assert.isNotMainThread();
+        if (TextUtils.isEmpty(conversationId) || state == null) {
+            return;
+        }
+        final ContentValues values = new ContentValues();
+        values.put(ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE,
+                state.lastUnexpectedDowngradeMs);
+        values.put(ConversationColumns.MLS_REUPGRADE_ATTEMPTS, state.attemptCount);
+        values.put(ConversationColumns.MLS_EAGERLY_DOWNGRADED, state.eagerlyDowngraded ? 1 : 0);
+        db.update(DatabaseHelper.CONVERSATIONS_TABLE, values,
+                ConversationColumns._ID + "=?", new String[] { conversationId });
+    }
 
     /**
      * 2-app split / FLOW4b: find or create the GROUP conversation for an opaque

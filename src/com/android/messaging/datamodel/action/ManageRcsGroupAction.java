@@ -37,6 +37,7 @@ import com.android.messaging.rcs.ProviderRegistry;
 import com.android.messaging.rcs.ProviderTransport;
 import com.android.messaging.rcs.RcsTransport;
 import com.android.messaging.rcs.GroupDepartureApplier;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
 import com.android.messaging.util.LogUtil;
 import com.android.messaging.util.OsUtil;
 import com.android.messaging.util.PhoneUtils;
@@ -52,6 +53,7 @@ import java.util.List;
  * addGroupUsers / removeGroupUsers}) are blocking binder calls, so all the work
  * runs off the main thread inside {@link #executeAction}. Each op:
  * <ol>
+ *   <li>ASKS {@link MlsProviderTransport} which plane the conversation is on, and takes the MLS arm
  *       or refuses outright when it is encrypted;</li>
  *   <li>fires the provider RPC. On a {@code false}/failed result the caller is
  *       notified via {@link ManageRcsGroupListener#onManageFailed} so the UI can
@@ -259,7 +261,31 @@ public class ManageRcsGroupAction extends Action implements Parcelable {
         //  - "there is no renameGroupMls" was true and is the wrong thing to want. Google Messages'
         //    own MLS group-request modifier never reads the display NAME at all — it transforms
         //    the SUBJECT slot and nothing else. The
+        //    encrypted-subject flow IS the MLS rename, it is already built as
+        //    MlsProviderTransport.changeGroupSubject, and the UI is simply not wired to it.
         if (op == OP_ADD || op == OP_REMOVE) {
+            final MlsProviderTransport.GroupMembershipRouting routed =
+                    routeThroughMls(context, subId, groupId, members, op == OP_ADD);
+            if (routed != MlsProviderTransport.GroupMembershipRouting.PLAINTEXT) {
+                final boolean applied =
+                        routed == MlsProviderTransport.GroupMembershipRouting.APPLIED;
+                if (applied) {
+                    applyLocalMirror(db, conversationId, groupId, subId, op, name, members,
+                            selfE164);
+                    MessagingContentProvider.notifyMessagesChanged(conversationId);
+                    MessagingContentProvider.notifyConversationListChanged();
+                }
+                // THE FAILURE HALF SAYS ONLY WHAT IT OBSERVED. REFUSED is the transport's verdict
+                // for the request as a whole; it is NOT a claim that the server is unchanged. If the
+                // group were forgotten between our branch and addMember's own re-derivation of it,
+                // addMember's plaintext arm would have made the bare RCS roster change before its
+                // commit failed. That race is narrow — but "unchanged on both sides" would be an
+                // assertion this line cannot see, and the local half is all it can.
+                LogUtil.i(TAG, "ManageRcsGroupAction: op=" + op + " groupId=" + groupId
+                        + " went through MLS → " + routed
+                        + (applied ? "" : " — nothing written to messaging.db"));
+                return Boolean.valueOf(applied);
+            }
         }
 
         // 0b) LEAVE — routed the same way, and it does NOT rejoin the arms below.
@@ -288,6 +314,27 @@ public class ManageRcsGroupAction extends Action implements Parcelable {
         // Despite its package, nothing in GroupDepartureApplier is MLS-specific: it dispatches the
         // ordinary ReceiveRcsGroupEventAction. Using it here is one mechanism for one fact.
         if (op == OP_LEAVE) {
+            final MlsProviderTransport.GroupMembershipRouting routed;
+            try {
+                routed = MlsProviderTransport.get(context, subId).leaveGroup(groupId);
+            } catch (final Throwable t) {
+                // REFUSED, not PLAINTEXT — routeThroughMls's rule, and for the same reason: a bare
+                // KickGroupUsers naming ourselves on a conversation we just failed to classify is
+                // the request an MLS group refuses, and leaving is irreversible, so a guess in that
+                // direction cannot be undone.
+                LogUtil.e(TAG, "ManageRcsGroupAction: the MLS transport could not be asked whether "
+                        + groupId + " is encrypted — refusing the leave rather than sending the "
+                        + "bare RPC an MLS group rejects", t);
+                return Boolean.FALSE;
+            }
+            if (routed != MlsProviderTransport.GroupMembershipRouting.PLAINTEXT) {
+                final boolean applied =
+                        routed == MlsProviderTransport.GroupMembershipRouting.APPLIED;
+                LogUtil.i(TAG, "ManageRcsGroupAction: leave groupId=" + groupId
+                        + " went through MLS → " + routed
+                        + (applied ? " — the transport wrote its own local state" : ""));
+                return Boolean.valueOf(applied);
+            }
             final ProviderTransport plain = resolveTransport(context, subId);
             if (plain == null) return Boolean.FALSE;
             boolean leftOk;
@@ -313,6 +360,29 @@ public class ManageRcsGroupAction extends Action implements Parcelable {
             return Boolean.valueOf(leftOk);
         }
 
+        // 0c) RENAME — ROUTED to the RCC.16 §9.7.1.5 ENCRYPTED SUBJECT on an MLS conversation
+        //     (this arm previously REFUSED here instead).
+        //
+        //     THE BARE RPC PUTS THE GROUP NAME ON THE WIRE IN CLEARTEXT. On an MLS conversation the
+        //     human-visible title is the encrypted subject — that is what MlsSubjectApplier writes
+        //     into conversations.name when a decrypted subject arrives — so sending the same string
+        //     unencrypted hands the server the one value §9.7.1.5 exists to hide, on a thread the
+        //     app draws with a padlock. Refusing rather than finding that out by leaking was the
+        //     right thing to land without a device and was never the fix.
+        //
+        //     WHAT IS STILL NOT CLAIMED: that the server would have refused the bare rename. Nobody
+        //     has measured one on an MLS group; only the bare ADD and KICK were measured. Routing
+        //     does not block that measurement either — `--es plainrename` in RcsDebugSendReceiver
+        //     fires ProviderTransport.renameGroup directly and never comes through here — and the
+        //     answer still decides an open question: a §9.7.1.5-only rename leaves the cleartext
+        //     name slot at whatever it was, so a Google Messages peer may see the OLD name or none.
+        //
+        //     THE DECISION IS NOT MADE HERE. MlsProviderTransport.renameGroupRouting owns it and
+        //     asks groupPlane — the ONE evaluation of "is this encrypted", already carrying the
+        //     MLS_LOCKED_OUT case. This site only obeys it. Note the APPLIED arm below writes a
+        //     local mirror the other arms treat as
+        //     optional: the sender cannot decrypt its own subject, so nothing else will ever show
+        //     it the new name.
         // THE ICON ARM — the rename's twin, and deliberately adjacent so the two are read
         // together. Same single evaluation via groupPlane, same obey-do-not-re-derive rule, same
         // mirror-on-acceptance-only.
@@ -325,6 +395,87 @@ public class ManageRcsGroupAction extends Action implements Parcelable {
         if (op == OP_CHANGE_ICON) {
             final byte[] icon = actionParameters.getByteArray(KEY_ICON);
             final String iconMime = actionParameters.getString(KEY_ICON_MIME);
+            final MlsProviderTransport.GroupMembershipRouting routed;
+            try {
+                routed = MlsProviderTransport.get(context, subId)
+                        .iconChangeRouting(groupId, icon, iconMime);
+            } catch (final Throwable t) {
+                LogUtil.e(TAG, "ManageRcsGroupAction: the MLS transport could not be asked whether "
+                        + groupId + " is encrypted — refusing the icon change", t);
+                return Boolean.FALSE;
+            }
+            final boolean applied =
+                    routed == MlsProviderTransport.GroupMembershipRouting.APPLIED;
+            if (applied) {
+                // THE MIRROR IS LOAD-BEARING HERE FOR THE SAME REASON AS THE RENAME, and it is the
+                // reason the UI row was not shipped before the receive half existed. The
+                // key rides in an MLS private message and MLS gives you no way to decrypt your own,
+                // so GroupIconApplier never fires for the person who SET the icon — add and remove
+                // get an inbound echo, an icon-setter gets nothing. This write is the ONLY thing
+                // that shows them their own new photo, and without it a change that genuinely
+                // succeeded looks exactly like one that failed. A sender showing the old SUBJECT
+                // already cost one wrong diagnosis.
+                //
+                // ON ACCEPTANCE ONLY, like every other arm.
+                applyLocalMirror(db, conversationId, groupId, subId, op, name, members, selfE164);
+                MessagingContentProvider.notifyMessagesChanged(conversationId);
+                MessagingContentProvider.notifyConversationListChanged();
+            }
+            LogUtil.i(TAG, "ManageRcsGroupAction: op=" + op + " (CHANGE_ICON) groupId=" + groupId
+                    + " went through MLS → " + routed + " (" + (icon == null ? 0 : icon.length)
+                    + "B " + iconMime + ")"
+                    + (applied ? " — §9.7.1.4 encrypted icon sent, photo mirrored locally"
+                               : " — nothing sent and nothing written to messaging.db"));
+            return Boolean.valueOf(applied);
+        }
+
+        if (op == OP_RENAME) {
+            final MlsProviderTransport.GroupMembershipRouting routed;
+            try {
+                routed = MlsProviderTransport.get(context, subId)
+                        .renameGroupRouting(groupId, name);
+            } catch (final Throwable t) {
+                // REFUSED, not PLAINTEXT — routeThroughMls's rule. A conversation we just failed to
+                // classify may be one we are drawing a padlock on, and the bare rename would put
+                // its name on the server in the clear.
+                LogUtil.e(TAG, "ManageRcsGroupAction: the MLS transport could not be asked whether "
+                        + groupId + " is encrypted — refusing the rename rather than sending the "
+                        + "group name in the clear on a conversation that may be encrypted", t);
+                return Boolean.FALSE;
+            }
+            if (routed != MlsProviderTransport.GroupMembershipRouting.PLAINTEXT) {
+                final boolean applied =
+                        routed == MlsProviderTransport.GroupMembershipRouting.APPLIED;
+                if (applied) {
+                    // THE MIRROR IS LOAD-BEARING HERE IN A WAY IT IS NOT ON THE OTHER ARMS, and
+                    // that asymmetry is a trap (see renameGroupRouting's
+                    // javadoc). Add and remove get an inbound echo as well as this write; a RENAMER
+                    // gets NOTHING. MlsSubjectApplier is what turns a decrypted §9.7.1.5 subject
+                    // into conversations.name, and it can never fire for the sender — the key rides
+                    // in an MLS private message and MLS gives you no way to decrypt your own. So
+                    // this write is the ONLY thing that ever shows the new title to the person who
+                    // typed it, and dropping it would leave them looking at the old name on a
+                    // rename that genuinely succeeded. That exact appearance cost a wrong diagnosis
+                    // once already.
+                    //
+                    // It writes the PLAINTEXT name into messaging.db, which is right and is not a
+                    // leak: applyLocalMirror calls BugleDatabaseOperations.renameGroupConversation,
+                    // the SAME function MlsSubjectApplier uses for a decrypted inbound subject. The
+                    // local database holds readable titles on both paths; only the wire carries
+                    // ciphertext.
+                    //
+                    // ON ACCEPTANCE ONLY, like every other arm.
+                    applyLocalMirror(db, conversationId, groupId, subId, op, name, members,
+                            selfE164);
+                    MessagingContentProvider.notifyMessagesChanged(conversationId);
+                    MessagingContentProvider.notifyConversationListChanged();
+                }
+                LogUtil.i(TAG, "ManageRcsGroupAction: op=" + op + " (RENAME) groupId=" + groupId
+                        + " went through MLS → " + routed
+                        + (applied ? " — §9.7.1.5 encrypted subject sent, name mirrored locally"
+                                   : " — nothing sent and nothing written to messaging.db"));
+                return Boolean.valueOf(applied);
+            }
         }
 
         // 1) Fire the blocking provider RPC. Multi-transport framework (design §2,
@@ -426,6 +577,32 @@ public class ManageRcsGroupAction extends Action implements Parcelable {
         }
     }
 
+    /**
+     * Ask the MLS layer to make this membership change, or to say it is not its conversation.
+     *
+     * <p>The branch itself is NOT made here — {@link MlsProviderTransport#changeGroupMembership}
+     * owns it, because it owns the state the answer comes from. This method only carries the
+     * question across and turns an unreachable transport into an answer that is not a lie.
+     *
+     * <p><b>A transport we cannot reach is REFUSED, not PLAINTEXT.</b> Returning PLAINTEXT would let
+     * the bare RPC fire on a conversation we just failed to classify, and the optimistic mirror
+     * would follow it — which is precisely the silent divergence this routing exists to end. The
+     * cost is that an MLS-layer defect makes a plain-group membership change toast instead of
+     * working; that is the direction to fail in, and the log names the throw.
+     */
+    private static MlsProviderTransport.GroupMembershipRouting routeThroughMls(final Context context,
+            final int subId, final String groupId, final List<String> members, final boolean add) {
+        try {
+            return MlsProviderTransport.get(context, subId)
+                    .changeGroupMembership(groupId, members, add);
+        } catch (final Throwable t) {
+            LogUtil.e(TAG, "ManageRcsGroupAction: the MLS transport could not be asked whether "
+                    + groupId + " is encrypted — refusing the " + (add ? "add" : "remove") + " "
+                    + "rather than sending the bare RPC an MLS group rejects and mirroring it "
+                    + "locally as though it had worked", t);
+            return MlsProviderTransport.GroupMembershipRouting.REFUSED;
+        }
+    }
 
     /**
      * Mirror the action into messaging.db and drop the matching SYSTEM status line. Rename ->

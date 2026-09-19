@@ -983,9 +983,9 @@ public class ConversationMessageData {
      * <p>Three conditions, and each excludes a row for which the button would do nothing:
      *
      * <ul>
-     *   <li><b>E2EE.</b> The user-driven resend seals; it has no plaintext arm. A non-encrypted
-     *       RCS row would reach it, find no encrypted session, and return false. Offering a control
-     *       that always fails is the defect that was removed, and re-creating it one
+     *   <li><b>E2EE.</b> {@code MlsProviderTransport.resendByUser} seals; it has no plaintext arm.
+     *       A non-encrypted RCS row would reach it, find no MLS group, and return false. Offering a
+     *       control that always fails is the defect that was removed, and re-creating it one
      *       conversation-type over would not be an improvement.</li>
      *   <li><b>A wire id.</b> The resend root-resolves this id to recover the body. The REFUSED
      *       rows are landed FAILED with a null {@code rcs_message_id}

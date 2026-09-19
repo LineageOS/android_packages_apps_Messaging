@@ -32,7 +32,7 @@ import com.android.messaging.util.LogUtil;
  * storage hiccup never blocks a send (it just recomputes eligibility next round).
  */
 public final class ConversationBitsStore implements E2eeSchemeGate.BitsStore {
-    private static final String TAG = com.android.messaging.util.LogUtil.BUGLE_TAG;
+    private static final String TAG = com.android.messaging.rcs.engine.mls.MlsLog.TAG;
 
     @Override
     public EncryptionProtocolBits load(final String conversationId) {

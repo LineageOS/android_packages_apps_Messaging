@@ -989,12 +989,14 @@ public final class CarrierImsService extends Service {
         // NOTHING IS UNFRAMED OR RE-TYPED HERE. This method is still the PRODUCER of the
         // RcsIncomingMessage, so it is still the layer that owes the router a real
         // inner type and real content — it just no longer has to DERIVE them. Both now arrive:
-        // the hop that produced the plaintext unframes there and hands the result down as bytes +
-        // contentType, which is the same shape the Tachyon leg has always had.
+        // CarrierMessageReceiver.handleInboundMls runs RccMlsBody.parse at the hop that produced
+        // the plaintext and hands the result down as bytes + contentType, which is the
+        // same shape the Tachyon leg has always had (MlsProviderTransport.decryptInbound returns an
+        // RccMlsBody.Parsed).
         //
         // Do NOT reinstate a parse here. It would be the double-parse defect over again: the body
-        // reaching this method is already unframed, an unframed image has no frame either, and an
-        // RCC.16 unframer returns a frameless payload verbatim as text/plain — so a second pass
+        // reaching this method is already unframed, an unframed image has no frame either, and
+        // RccMlsBody.parse returns a frameless payload verbatim as text/plain — so a second pass
         // would silently relabel every inline image as a text bubble.
         //
         // Build the neutral RcsIncomingMessage the shared router expects. The

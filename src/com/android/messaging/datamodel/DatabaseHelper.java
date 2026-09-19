@@ -94,6 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * which is what makes it survive process death; the in-memory {@code HashMap}
      * it replaced reset the escalation ladder on every restart.
      */
+    public static final String MLS_RESENDS_TABLE = "mls_resends";
 
     // Views
     static final String DRAFT_PARTS_VIEW = "draft_parts_view";
@@ -225,10 +226,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // a departure in both directions — deliberately, because leaving a group must not delete our
         // own identity from the conversation (GroupDepartureApplier's javadoc).
         //
-        // AND IT IS AN RCS-PLANE CONVERSATION FACT AND NOTHING ELSE — no key state, no session
-        // state, nothing an encryption layer owns. The two cases it exists for are a PLAINTEXT
-        // leave and being removed by someone else. Its lifecycle is ReceiveRcsGroupEventAction's
-        // alone: set on a KICK naming SELF, cleared on an ADD/CREATE listing SELF.
+        // AND IT IS NOT MlsConversationRecord.selfLeftAtMs. That mark is MLS state, keyed
+        // (identity, mlsGroupId), and it exists only for conversations that have MLS state — which
+        // is precisely the case MlsProviderTransport.haveWeLeft already covers. The
+        // two cases this column exists for are the ones that write NO MLS record at all: a PLAINTEXT
+        // leave, and being removed by someone else. Its lifecycle is ReceiveRcsGroupEventAction's
+        // alone (set on a KICK naming SELF, cleared on an ADD/CREATE listing SELF) and it neither
+        // reads nor writes selfLeftAtMs — whose sole clearer is the rejoin.
         public static final String RCS_SELF_LEFT = "rcs_self_left";
     }
 
@@ -452,6 +456,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String TIMESTAMP = "timestamp";
     }
 
+    // MLS resend register schema (rework item 7.4, §11.1, invariant 63). One row
+    // per RESEND attempt, never per message: the original send has no row here.
+    // The FK is to a messages.rcs_message_id VALUE rather than a local _id
+    // because a resend is correlated by the same id space IMDNs use, and the row
+    // it points at can be deleted by the user without invalidating the chain.
+    public static class MlsResendColumns {
+        /* the NEW rcs message-id minted for this resend (primary key) */
+        public static final String RCS_MESSAGE_ID = "rcs_message_id";
+        /* the ROOT of the chain: the id of the message the user actually sent */
+        public static final String ORIGINAL_RCS_MESSAGE_ID = "original_rcs_message_id";
+        /* the id this attempt replaces (the root for the first resend) */
+        public static final String MANUAL_RESEND_OF = "manual_resend_of_rcs_message";
+        /* the member this resend is FOR — bookkeeping, NOT a transport address */
+        public static final String RECIPIENT_ADDRESS = "resend_recipient_address";
+        /* that member's client id where known, else empty */
+        public static final String RECIPIENT_CLIENT_ID = "resend_recipient_client_id";
+        /* max(siblings)+1, computed at insert — durable by construction */
+        public static final String FTD_RESEND_COUNT = "ftd_resend_count";
+        /* the conversation key the chain belongs to, so a repair can scope its clear */
+        public static final String CONVERSATION_KEY = "conversation_key";
+        /* ms timestamp the resend was recorded */
+        public static final String TIMESTAMP = "timestamp";
+    }
+
     private static final String CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL =
             "CREATE TABLE " + RCS_GROUP_RECEIPTS_TABLE + " ("
                     + RcsGroupReceiptColumns.MESSAGE_ID + " INT NOT NULL, "
@@ -490,10 +518,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // .findLocalIdByRcsSystemSignature), and SQLite requires a FK parent to be a
     // unique key. Enforcing it would fail at CREATE time on a real device rather
     // than at review. The chain is therefore kept consistent in the DAO.
+    private static final String CREATE_MLS_RESENDS_TABLE_SQL =
+            "CREATE TABLE " + MLS_RESENDS_TABLE + " ("
+                    + MlsResendColumns.RCS_MESSAGE_ID + " TEXT PRIMARY KEY NOT NULL, "
+                    + MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + MlsResendColumns.MANUAL_RESEND_OF + " TEXT NOT NULL, "
+                    + MlsResendColumns.RECIPIENT_ADDRESS + " TEXT, "
+                    + MlsResendColumns.RECIPIENT_CLIENT_ID + " TEXT, "
+                    + MlsResendColumns.FTD_RESEND_COUNT + " INT DEFAULT(0) NOT NULL, "
+                    + MlsResendColumns.CONVERSATION_KEY + " TEXT, "
+                    + MlsResendColumns.TIMESTAMP + " INT DEFAULT(0) NOT NULL"
+                    + ");";
 
     // The sibling-max query runs on every resend, so the chain root is indexed.
+    private static final String MLS_RESENDS_TABLE_ORIGINAL_INDEX_SQL =
+            "CREATE INDEX index_" + MLS_RESENDS_TABLE + "_original ON "
+                    + MLS_RESENDS_TABLE + "("
+                    + MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + ")";
 
     // The escalation ladder counts a peer's rows on every negative receipt.
+    private static final String MLS_RESENDS_TABLE_RECIPIENT_INDEX_SQL =
+            "CREATE INDEX index_" + MLS_RESENDS_TABLE + "_recipient ON "
+                    + MLS_RESENDS_TABLE + "("
+                    + MlsResendColumns.RECIPIENT_ADDRESS + ")";
 
     // Parts table schema
     // A part may contain text or a media url, but not both.
@@ -724,6 +771,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CREATE_CONVERSATION_PARTICIPANTS_TABLE_SQL,
         CREATE_RCS_GROUP_RECEIPTS_TABLE_SQL,
         CREATE_RCS_REACTIONS_TABLE_SQL,
+        CREATE_MLS_RESENDS_TABLE_SQL,
     };
 
     // List of all our indices
@@ -739,6 +787,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         CONVERSATION_PARTICIPANTS_TABLE_CONVERSATION_ID_INDEX_SQL,
         RCS_GROUP_RECEIPTS_TABLE_MESSAGE_ID_INDEX_SQL,
         RCS_REACTIONS_TABLE_TARGET_INDEX_SQL,
+        MLS_RESENDS_TABLE_ORIGINAL_INDEX_SQL,
+        MLS_RESENDS_TABLE_RECIPIENT_INDEX_SQL,
     };
 
     // List of all our SQL triggers

@@ -122,6 +122,12 @@ public final class CarrierRcsTransport implements Transport {
     private volatile RegistrationState state = RegistrationState.UNREGISTERED;
     private volatile boolean started;
 
+    // MLS E2EE: the app-provided-MLS transport, co-located with the MSRP transport in
+    // :ims. Lazily created; wired as the receiver's inbound MLS handler + used by sendMls().
+    private static final String MLS_KDS_URL = "https://kds.rcs.mnc001.mcc001.pub.3gppnetwork.org";
+    private volatile com.android.messaging.rcs.e2ee.MlsCarrierTransport mMls;
+    private volatile android.net.Network mCellNetwork;
+
     public CarrierRcsTransport(Context ctx, RcsImsConfig config) {
         if (config == null) throw new IllegalArgumentException("null RcsImsConfig");
         this.appContext = ctx.getApplicationContext();
@@ -466,9 +472,9 @@ public final class CarrierRcsTransport implements Transport {
             @Override
             public void onIncomingContent(String fromUri, byte[] body, String contentType,
                     String messageId, String e2eeSchemeId) {
-                // Content travels as BYTES + its real content type from here to the
-                // RcsIncomingMessage. Inheriting the String default would put the corruption of
-                // every non-UTF-8 payload back exactly where it was.
+                // Decrypted MLS content travels as BYTES + its real content type from
+                // here to the RcsIncomingMessage. Inheriting the String default would put the
+                // corruption back exactly where it was.
                 Listener l = listener;
                 if (l != null) {
                     l.onIncomingContent(fromUri, body, contentType, messageId, e2eeSchemeId);
@@ -497,6 +503,9 @@ public final class CarrierRcsTransport implements Transport {
         receiver.setFtHttpHandler((fromUri, msgId, descriptorXml) ->
                 new Thread(() -> receiveFtDescriptor(fromUri, descriptorXml),
                         "carrier-ft-dl").start());
+        // MLS E2EE: wire the inbound message/mls handler onto this fresh receiver so a
+        // peer's Welcome/ciphertext routes to the app-provided-MLS engine (join/process -> plaintext).
+        ensureMls();
     }
 
     /** Handle an inbound FT-HTTP descriptor: extract the {@code <data url>} and
@@ -579,9 +588,9 @@ public final class CarrierRcsTransport implements Transport {
                     @Override public void onIncomingBytes(String fromUri, byte[] body,
                             String messageId) {
                         // The MSRP-session body is a message/cpim payload (CPIM-wrapped, relayed by
-                        // the AS), which may wrap a BINARY inner type — route the RAW BYTES through
-                        // the CPIM parse+dispatch path (NEVER via a String round-trip, which
-                        // corrupts any payload that is not valid UTF-8). Empty bind/keepalive
+                        // the AS), which may wrap a BINARY inner type (message/mls) — route the RAW
+                        // BYTES through the CPIM parse+dispatch path (NEVER via a String round-trip,
+                        // which corrupts the binary MLS Welcome/ciphertext). Empty bind/keepalive
                         // SENDs (0 bytes) carry no CPIM and are skipped.
                         int len = body == null ? 0 : body.length;
                         Log.i(TAG, "MSRP-session inbound message from " + fromUri
@@ -685,6 +694,153 @@ public final class CarrierRcsTransport implements Transport {
             payload = cpim.encode();
         }
         enqueueCpimPayload(toUri, payload, messageId);
+    }
+
+    /**
+     * Send an MLS-plane body over the held CPM/MSRP session to {@code toUri}: a CPIM body
+     * with inner content-type {@code contentType} (one of {@code CpimMessage.CT_MLS[-rcs-*]}) carrying
+     * the raw MLSMessage {@code wire} bytes + the {@code mls.Era-ID}/{@code mls.Epoch-Authenticator}
+     * sub-headers. Reuses the same per-peer MSRP dispatch as text (INVITE-on-first, keep-warm). This is
+     * how {@code MlsCarrierTransport} delivers Welcome/Commit control + application ciphertext.
+     */
+    public void sendMlsBody(String toUri, String contentType, byte[] wire, String eraId,
+            String epochAuthB64, String messageId) {
+        final com.android.messaging.rcs.carrier.sip.CpimMessage cpim =
+                com.android.messaging.rcs.carrier.sip.CpimMessage.newMls(
+                        config.publicIdentity, toUri, messageId,
+                        com.android.messaging.rcs.carrier.sip.CpimDateTime.now(),
+                        contentType, wire, eraId, epochAuthB64);
+        enqueueCpimPayload(toUri, cpim.encode(), messageId);
+    }
+
+    /**
+     * Send an MLS-E2EE chat message to {@code peerE164} over the held CPM/MSRP session:
+     * ensure the group (enrol/claim/createGroup + deliver the Welcome), encrypt, and dispatch the
+     * {@code message/mls} body. Runs in the :ims process co-located with the transport.
+     *
+     * <p><b>{@code framedBody} is an RCC.16 MIME entity, not text.</b> This took a
+     * {@code String} and did {@code text.getBytes(UTF_8)} here, which meant the carrier leg could
+     * send nothing but UTF-8 text and never framed — so a real Google or Apple peer, which
+     * expects a self-describing entity, could not read it, and A&lt;-&gt;B survived only because
+     * {@code RccMlsBody.parse} returns a frameless payload verbatim. Framing is the caller's job
+     * ({@code InsertNewMessageAction}); stamping the generation is {@code encryptForSend}'s.
+     */
+    public void sendMls(int subId, String toUri, String peerE164, byte[] framedBody,
+            String messageId) {
+        final com.android.messaging.rcs.e2ee.MlsCarrierTransport mls = ensureMls();
+        if (!mls.ensureReady(peerE164, subId, java.util.Collections.singletonList(peerE164))) {
+            Log.w(TAG, "sendMls: ensureReady failed for " + peerE164);
+            if (listener != null) {
+                listener.onMessageStatus(messageId, Message.Status.FAILED, "MLS not ready");
+            }
+            return;
+        }
+        // PASS THE ENVELOPE'S ID INTO THE SEAL. sendMlsBody below puts `messageId`
+        // on the wire as the CPIM Message-ID; RCC.16 §7.5.3.1 requires the AAD to bind THAT id,
+        // and a Google Messages peer drops a mismatch. This call used to omit it, so the seal bound a
+        // synthesised "mls-<peer>-<era>" while the envelope said the app's row UUID — two
+        // different ids on every message, reconciled nowhere.
+        final com.android.messaging.rcs.e2ee.E2eeConversationTransport.Payload p =
+                mls.encryptForSend(peerE164, framedBody, messageId);
+        if (p == null) {
+            Log.w(TAG, "sendMls: encrypt failed for " + peerE164);
+            if (listener != null) {
+                listener.onMessageStatus(messageId, Message.Status.FAILED, "MLS encrypt failed");
+            }
+            return;
+        }
+        sendMlsBody(toUri, p.contentType, p.body,
+                p.cpimHeaders.get(com.android.messaging.rcs.carrier.sip.CpimMessage.HDR_MLS_ERA_ID),
+                p.cpimHeaders.get(com.android.messaging.rcs.carrier.sip.CpimMessage.HDR_MLS_EPOCH_AUTH),
+                messageId);
+        Log.i(TAG, "sendMls: dispatched message/mls (" + p.body.length + "B) to " + peerE164);
+    }
+
+    /** Lazily create + wire the MLS carrier transport (idempotent). */
+    private synchronized com.android.messaging.rcs.e2ee.MlsCarrierTransport ensureMls() {
+        if (mMls == null) {
+            final com.android.messaging.rcs.e2ee.MlsCarrierTransport.Config cfg =
+                    new com.android.messaging.rcs.e2ee.MlsCarrierTransport.Config() {
+                        @Override public String selfE164(int subId) { return mlsTelOnly(config.publicIdentity); }
+                        @Override public String kdsBaseUrl() {
+                            // The ACS gets to say where its KDS is; the constant is the lab default
+                            // for when it does not (or has not been fetched yet).
+                            return config.kdsUri.isEmpty() ? MLS_KDS_URL : config.kdsUri;
+                        }
+                        @Override public String acsEncryptionIdentityProof() {
+                            return config.acsEncryptionIdentityProof;
+                        }
+                        // The ACS names the lab trust-anchor list, its generation and
+                        // the key that signs it. Handed to the provider, which fetches + verifies.
+                        @Override public String trustAnchorsUri() { return config.trustAnchorsUri; }
+                        @Override public long trustAnchorsGeneration() {
+                            return config.trustAnchorsGeneration;
+                        }
+                        @Override public String trustAnchorsSigner() {
+                            return config.trustAnchorsSigner;
+                        }
+                        @Override public android.net.Network cellularNetwork() { return acquireCellNetwork(); }
+                    };
+            mMls = new com.android.messaging.rcs.e2ee.MlsCarrierTransport(
+                    appContext, new com.android.messaging.rcs.engine.mls.OpenMlsEngine(
+                            // LAB_RCC16: the carrier path clamps KP lifetime to the client cert per
+                            // RCC.16 5.1. The Tachyon profile's 365-day KP is what Google's KDS wants
+                            // and what the lab KDS REJECTS — see OpenMlsEngine.Profile.
+                            com.android.messaging.rcs.engine.mls.OpenMlsEngine.Profile.LAB_RCC16),
+                    this::sendMlsBody, cfg);
+        }
+        // Wire (or re-wire) the inbound MLS handler onto the current receiver.
+        final CarrierMessageReceiver r = this.receiver;
+        if (r != null) {
+            final com.android.messaging.rcs.e2ee.MlsCarrierTransport t = mMls;
+            r.setMlsInboundHandler((sender, ct, payload, envelopeMessageId) -> {
+                final com.android.messaging.rcs.e2ee.E2eeConversationTransport.Inbound in =
+                        t.onInboundCpim(sender, sender, ct, payload, envelopeMessageId);
+                return in.plaintext;
+            });
+            // Provision (upload a fresh KP pool) off-thread so a peer can claim THIS session's KP.
+            t.provisionAsync(android.telephony.SubscriptionManager.getDefaultSmsSubscriptionId());
+        }
+        return mMls;
+    }
+
+    /** Acquire (and cache) the cellular {@link android.net.Network} for the KDS (internet PDN). */
+    private android.net.Network acquireCellNetwork() {
+        if (mCellNetwork != null) {
+            return mCellNetwork;
+        }
+        try {
+            final android.net.ConnectivityManager cm = (android.net.ConnectivityManager)
+                    appContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+            final java.util.concurrent.atomic.AtomicReference<android.net.Network> ref =
+                    new java.util.concurrent.atomic.AtomicReference<>();
+            final java.util.concurrent.CountDownLatch latch = new java.util.concurrent.CountDownLatch(1);
+            final android.net.ConnectivityManager.NetworkCallback cb =
+                    new android.net.ConnectivityManager.NetworkCallback() {
+                        @Override public void onAvailable(final android.net.Network n) {
+                            ref.set(n); latch.countDown();
+                        }
+                    };
+            cm.requestNetwork(new android.net.NetworkRequest.Builder()
+                    .addTransportType(android.net.NetworkCapabilities.TRANSPORT_CELLULAR)
+                    .addCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET).build(), cb);
+            latch.await(15, java.util.concurrent.TimeUnit.SECONDS);
+            mCellNetwork = ref.get();
+        } catch (final Throwable t) {
+            Log.w(TAG, "acquireCellNetwork failed", t);
+        }
+        return mCellNetwork;
+    }
+
+    /** Bare {@code +E164} from a {@code tel:}/{@code sip:+E164@domain} identity. */
+    private static String mlsTelOnly(String uri) {
+        if (uri == null) return null;
+        String u = uri.trim();
+        if (u.startsWith("tel:")) u = u.substring(4);
+        else if (u.startsWith("sip:")) { u = u.substring(4); int at = u.indexOf('@'); if (at > 0) u = u.substring(0, at); }
+        int semi = u.indexOf(';');
+        if (semi >= 0) u = u.substring(0, semi);
+        return u.trim();
     }
 
     /** Enqueue a pre-encoded CPIM payload over the per-peer MSRP session, firing the INVITE on first use. */
@@ -899,10 +1055,10 @@ public final class CarrierRcsTransport implements Transport {
                 @Override
                 public void onIncomingMessage(String fromUri, String body,
                         String messageId) {
-                    // Legacy text path — delegate to the binary-safe path so a
-                    // BINARY body arriving on THIS (orig) leg isn't corrupted
-                    // by a UTF-8 String round-trip. Mirrors the terminating
-                    // leg (see onIncomingInvite listener above).
+                    // Legacy text path — delegate to the binary-safe path so an
+                    // MLS ciphertext/Welcome arriving on THIS (orig) leg isn't
+                    // corrupted by a UTF-8 String round-trip. Mirrors the
+                    // terminating leg (see onIncomingInvite listener above).
                     onIncomingBytes(fromUri, body == null ? null
                             : body.getBytes(java.nio.charset.StandardCharsets.UTF_8), messageId);
                 }
@@ -910,8 +1066,8 @@ public final class CarrierRcsTransport implements Transport {
                 public void onIncomingBytes(String fromUri, byte[] body,
                         String messageId) {
                     // The MSRP-session body is a message/cpim payload (text, the
-                    // peer's in-session IMDN, OR a BINARY inner type), so
-                    // CPIM-unwrap the RAW BYTES here. An inbound
+                    // peer's in-session IMDN, OR a BINARY message/mls inner type),
+                    // so CPIM-unwrap the RAW BYTES here. An inbound
                     // delivered/displayed IMDN flows to the imdn+xml branch ->
                     // onMessageStatus; an inbound TEXT auto-replies with an
                     // in-session IMDN over THIS leg.
@@ -1008,6 +1164,11 @@ public final class CarrierRcsTransport implements Transport {
         Log.i(TAG, "state=" + s + (reason != null ? " (" + reason + ")" : ""));
         Listener l = listener;
         if (l != null) l.onRegistrationStateChanged(s, reason);
+        // MLS KeyPackage replenishment: re-upload a fresh pool on each (re)REGISTER — the
+        // registration-change cadence (no server depletion-notify for MLS; last-resort covers gaps).
+        if (s == RegistrationState.REGISTERED && mMls != null) {
+            mMls.replenishKeyPackagesAsync();
+        }
     }
 
     // ---------- public for tests / TransportRegistry ----------
