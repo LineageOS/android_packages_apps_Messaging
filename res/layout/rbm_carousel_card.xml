@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/rbm_carousel_card_width"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/rbm_chip_spacing"
+    android:orientation="vertical"
+    android:background="@drawable/rbm_carousel_card_background"
+    android:padding="@dimen/rbm_chip_spacing" >
+
+    <!-- Media + centered play badge (video affordance). -->
+    <FrameLayout
+        android:id="@+id/rbm_cc_media_frame"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/rbm_carousel_media_height"
+        android:layout_marginBottom="@dimen/rbm_card_media_bottom_margin"
+        android:visibility="gone" >
+
+        <com.android.messaging.ui.AsyncImageView
+            android:id="@+id/rbm_cc_media"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:cornerRadius="@dimen/attachment_rounded_corner_radius"
+            android:contentDescription="@string/rbm_card_media_content_description" />
+
+        <ImageView
+            android:id="@+id/rbm_cc_media_play"
+            android:layout_width="@dimen/rbm_media_play_size"
+            android:layout_height="@dimen/rbm_media_play_size"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_rbm_play"
+            android:visibility="gone"
+            android:contentDescription="@string/rbm_card_media_content_description" />
+
+    </FrameLayout>
+
+    <!-- The carousel card surface is theme-aware (rbm_carousel_card_bg), so its
+         text uses theme primary/secondary (dark on light, light on dark). -->
+    <TextView
+        android:id="@+id/rbm_cc_title"
+        style="@style/ConversationMessageTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/rbm_card_text_primary"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/rbm_cc_description"
+        style="@style/ConversationMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/rbm_card_text_secondary"
+        android:maxLines="4"
+        android:ellipsize="end"
+        android:visibility="gone" />
+
+    <com.android.messaging.ui.LineWrapLayout
+        android:id="@+id/rbm_cc_suggestions"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/rbm_suggestions_top_margin"
+        android:visibility="gone" />
+
+</LinearLayout>

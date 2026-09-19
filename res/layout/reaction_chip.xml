@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<!-- One reaction chip: the emoji glyph plus an optional count (group aggregate).
+     Inflated once per aggregated emoji into the reactions_container and recycled
+     by ConversationMessageView.bindReactions(). Background is swapped between the
+     default and own-reaction drawable at bind time. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/reaction_chip_spacing"
+    android:layout_marginTop="0dp"
+    android:minWidth="@dimen/reaction_chip_min_height"
+    android:minHeight="@dimen/reaction_chip_min_height"
+    android:orientation="horizontal"
+    android:gravity="center"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="@drawable/reaction_chip_background"
+    android:paddingStart="@dimen/reaction_chip_padding_horizontal"
+    android:paddingEnd="@dimen/reaction_chip_padding_horizontal"
+    android:paddingTop="@dimen/reaction_chip_padding_vertical"
+    android:paddingBottom="@dimen/reaction_chip_padding_vertical">
+
+    <TextView
+        android:id="@+id/reaction_chip_emoji"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/reaction_chip_emoji_text_size"
+        android:includeFontPadding="false" />
+
+    <TextView
+        android:id="@+id/reaction_chip_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:textColor="@color/reaction_chip_text"
+        android:textSize="@dimen/reaction_chip_count_text_size"
+        android:includeFontPadding="false"
+        android:visibility="gone" />
+
+</LinearLayout>

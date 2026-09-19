@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<!-- The long-press reaction quick-row popup: the 11 tapback emoji as glyph
+     buttons plus a trailing "+" that opens the system emoji picker. The 11 glyph
+     TextViews are populated + wired in code (ConversationMessageView.
+     showReactionPicker) from the REACTION_QUICK_SET array so the layout stays
+     glyph-agnostic; reaction_picker_plus is the system-picker affordance. The
+     row is horizontally scrollable so it never clips on narrow screens. -->
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/reaction_picker_scroll"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/reaction_picker_background"
+    android:padding="@dimen/reaction_picker_padding"
+    android:scrollbars="none"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:id="@+id/reaction_picker_buttons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- The 11 emoji glyph buttons are added in code. The "+" stays last. -->
+
+        <TextView
+            android:id="@+id/reaction_picker_plus"
+            android:layout_width="@dimen/reaction_picker_button_size"
+            android:layout_height="@dimen/reaction_picker_button_size"
+            android:gravity="center"
+            android:text="@string/reaction_picker_more"
+            android:textSize="@dimen/reaction_picker_emoji_text_size"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="@string/reaction_picker_more_content_description"
+            android:background="?android:attr/selectableItemBackgroundBorderless" />
+
+    </LinearLayout>
+
+</HorizontalScrollView>

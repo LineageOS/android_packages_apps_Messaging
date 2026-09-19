@@ -25,6 +25,14 @@
         android:visible="false"
         appcompat:showAsAction="ifRoom" />
 
+    <!-- WAVE-A / A1: overflow entry for starting an RCS group (accessibility
+         fallback for the FAB long-press speed-dial). -->
+    <item
+        android:id="@+id/action_new_group"
+        android:orderInCategory="150"
+        android:title="@string/menu_new_group"
+        appcompat:showAsAction="never"/>
+
     <item
         android:id="@+id/action_show_archived"
         android:orderInCategory="200"
@@ -42,5 +50,8 @@
         android:orderInCategory="400"
         android:title="@string/action_settings"
         appcompat:showAsAction="never"/>
+
+    <!-- The "RCS transport status" overflow item was removed; its
+         screen is now reached via Settings > RCS chats > Advanced status. -->
 
 </menu>

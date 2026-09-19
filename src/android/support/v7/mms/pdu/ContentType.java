@@ -89,10 +89,45 @@ public final class ContentType {
     private ContentType() {
     }
 
+    // ---- THE TYPE PREDICATES ARE CASE-INSENSITIVE, AND THAT IS A DELIBERATE DOWNSTREAM FORK -----
+    //
+    // MIME types are case-insensitive per RFC 2045 section 5.1, so a conforming
+    // peer may legitimately send "IMAGE/JPEG". These five predicates used to disagree with each
+    // other about that:
+    //
+    //     isImageType   startsWith(IMAGE_PREFIX)                    CASE-SENSITIVE
+    //     isVideoType   startsWith("video/")                        CASE-SENSITIVE
+    //     isTextType    TEXT_PLAIN.equals(..)                       CASE-SENSITIVE
+    //     isAudioType   startsWith("audio/") OR equalsIgnoreCase()  MIXED
+    //     isVCardType   equalsIgnoreCase() x2                       CASE-INSENSITIVE
+    //
+    // That is a HALF-FINISHED NORMALISATION, not a design: the insensitive ones are right and the
+    // sensitive ones are wrong, and this change finishes it rather than introducing a new behaviour
+    // into a consistent class.
+    //
+    // WHY THE FILE IS EDITED RATHER THAN WRAPPED, since "leave the vendored copy alone" is the
+    // obvious instinct and was the initial leaning here. Measured, both halves:
+    //   - A NORMALISING WRAPPER ON OUR SIDE would have to be adopted at 70 call sites across ~20
+    //     files, including PduPersister, MmsUtils and DatabaseMessages — i.e. it would touch far
+    //     more of the SMS/MMS paths than this does, which is the blast radius the wrapper was meant
+    //     to avoid. And it would leave these predicates still wrong for anyone who calls them.
+    //   - THE "PRISTINE UPSTREAM FILE" PREMISE IS FALSE. `git log` on this path shows four
+    //     downstream commits (Chris Talbot 2021, Michael W 2024 x3) on top of AOSP, and isVCardType
+    //     — the case-INSENSITIVE one — is itself one of them. The package was renamed downstream
+    //     (androidx.appcompat.mms -> android.support.v7.mms), and that library is dead upstream, so
+    //     there is no upstream to diverge from.
+    //
+    // A predicate that becomes MORE accepting can only change behaviour for input it currently
+    // mis-classifies: an uppercase type that today matches nothing and renders as nothing. There is
+    // no path where a type doing the right thing starts doing the wrong one.
+    //
+    // Enforced by RccContentTypeCaseGuardTest, so a re-sync of this file that silently drops the
+    // fork fails rather than passing.
+
     public static boolean isTextType(final String contentType) {
-        return TEXT_PLAIN.equals(contentType)
-                || TEXT_HTML.equals(contentType)
-                || APP_WAP_XHTML.equals(contentType);
+        return TEXT_PLAIN.equalsIgnoreCase(contentType)
+                || TEXT_HTML.equalsIgnoreCase(contentType)
+                || APP_WAP_XHTML.equalsIgnoreCase(contentType);
     }
 
     public static boolean isMediaType(final String contentType) {
@@ -103,16 +138,22 @@ public final class ContentType {
     }
 
     public static boolean isImageType(final String contentType) {
-        return (null != contentType) && contentType.startsWith(IMAGE_PREFIX);
+        return startsWithIgnoreCase(contentType, IMAGE_PREFIX);
     }
 
     public static boolean isAudioType(final String contentType) {
-        return (null != contentType) &&
-                (contentType.startsWith("audio/") || contentType.equalsIgnoreCase(AUDIO_OGG));
+        return startsWithIgnoreCase(contentType, "audio/")
+                || ((null != contentType) && contentType.equalsIgnoreCase(AUDIO_OGG));
     }
 
     public static boolean isVideoType(final String contentType) {
-        return (null != contentType) && contentType.startsWith("video/");
+        return startsWithIgnoreCase(contentType, "video/");
+    }
+
+    /** {@code String.startsWith}, case-insensitively — see the note above the predicates. */
+    private static boolean startsWithIgnoreCase(final String contentType, final String prefix) {
+        return (null != contentType)
+                && contentType.regionMatches(true, 0, prefix, 0, prefix.length());
     }
 
     public static boolean isVCardType(final String contentType) {

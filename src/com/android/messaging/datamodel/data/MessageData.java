@@ -296,6 +296,128 @@ public class MessageData implements Parcelable {
     }
 
     /**
+     * Create an incoming RCS text message (2-app split). SMS-shaped positional
+     * insert (no telephony Uri, PROTOCOL_SMS so the existing renderer/queries
+     * treat it as a text bubble); the RCS-ness is carried in the additive
+     * transport_type column, written by ReceiveRcsMessageAction after insert.
+     */
+    public static MessageData createReceivedRcsMessage(final String conversationId,
+            final String participantId, final String selfId, final String messageText,
+            final long sent, final long received, final boolean seen, final boolean read) {
+        final MessageData message = new MessageData();
+        message.mConversationId = conversationId;
+        message.mParticipantId = participantId;
+        message.mSelfId = selfId;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mStatus = BUGLE_STATUS_INCOMING_COMPLETE;
+        message.mReceivedTimestamp = received;
+        message.mSentTimestamp = sent;
+        message.mParts.add(MessagePartData.createTextMessagePart(messageText));
+        message.mSeen = seen;
+        message.mRead = read;
+        return message;
+    }
+
+    /**
+     * Create an incoming RCS MEDIA message (2-app split, FT-HTTP). Identical to
+     * {@link #createReceivedRcsMessage} (PROTOCOL_SMS, BUGLE_STATUS_INCOMING_COMPLETE,
+     * timestamps, seen/read) but instead of a text part it adds a MEDIA part whose
+     * {@code contentUri} is the resolved {@code content://} URI of the blob the
+     * PROVIDER already downloaded (NEVER a copper / googleapis URL — see
+     * {@code RcsIncomingFile}). When {@code caption} is non-empty the caption
+     * overload of {@link MessagePartData#createMediaMessagePart} adds the caption
+     * text alongside the media (the existing caption+media multi-part bubble).
+     *
+     * <p>Width/height are {@link MessagePartData#UNSPECIFIED_SIZE}: the existing
+     * attachment renderer (AttachmentPreviewFactory / MultiAttachmentLayout /
+     * VideoThumbnailView / AudioAttachmentView) measures/decodes the media itself,
+     * exactly as it does for inbound MMS. ZERO transport knowledge: this only sees
+     * a content URI + MIME.
+     */
+    public static MessageData createReceivedRcsMediaMessage(final String conversationId,
+            final String participantId, final String selfId, final String contentType,
+            final Uri contentUri, final String caption, final long sent, final long received,
+            final boolean seen, final boolean read) {
+        final MessageData message = new MessageData();
+        message.mConversationId = conversationId;
+        message.mParticipantId = participantId;
+        message.mSelfId = selfId;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mStatus = BUGLE_STATUS_INCOMING_COMPLETE;
+        message.mReceivedTimestamp = received;
+        message.mSentTimestamp = sent;
+        if (TextUtils.isEmpty(caption)) {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        } else {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    caption, contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        }
+        message.mSeen = seen;
+        message.mRead = read;
+        return message;
+    }
+
+    /**
+     * Create an outgoing RCS text message (2-app split). SMS-shaped positional
+     * insert (no telephony Uri, PROTOCOL_SMS so the existing renderer/queries
+     * treat it as a text bubble); the RCS-ness is carried in the additive
+     * transport_type / rcs_message_id columns, written by
+     * InsertNewMessageAction after insert. The caller is responsible for the
+     * status transition via {@link #updateSendingMessage} (which moves it to
+     * BUGLE_STATUS_OUTGOING_YET_TO_SEND with a null Uri) before insert, exactly
+     * like the SMS path does for {@link #createDraftSmsMessage}.
+     */
+    public static MessageData createOutgoingRcsMessage(final String conversationId,
+            final String selfId, final String messageText) {
+        final MessageData message = new MessageData();
+        message.mStatus = BUGLE_STATUS_OUTGOING_DRAFT;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mConversationId = conversationId;
+        message.mParticipantId = selfId;
+        message.mSelfId = selfId;
+        message.mParts.add(MessagePartData.createTextMessagePart(messageText));
+        message.mReceivedTimestamp = System.currentTimeMillis();
+        return message;
+    }
+
+    /**
+     * Create an outgoing RCS MEDIA message (2-app split, FT-HTTP). Like
+     * {@link #createOutgoingRcsMessage} but lands a MEDIA part (the picked
+     * attachment's resolved {@code content://} URI + real MIME) so the local
+     * bubble renders through the unchanged attachment path, plus an optional
+     * caption sibling text part. SMS-shaped (PROTOCOL_SMS, no telephony Uri); the
+     * RCS-ness + the FT-HTTP send is carried by the provider, and the caller tags
+     * the {@code transport_type} / {@code rcs_message_id} columns after insert
+     * (mirroring {@link #createOutgoingRcsMessage}). The blob itself is uploaded
+     * by the provider via {@code IRcsProvider.sendFile}; this only builds the
+     * local-render row.
+     */
+    public static MessageData createOutgoingRcsMediaMessage(final String conversationId,
+            final String selfId, final String contentType, final Uri contentUri,
+            final String caption) {
+        final MessageData message = new MessageData();
+        message.mStatus = BUGLE_STATUS_OUTGOING_DRAFT;
+        message.mProtocol = PROTOCOL_SMS;
+        message.mConversationId = conversationId;
+        message.mParticipantId = selfId;
+        message.mSelfId = selfId;
+        if (TextUtils.isEmpty(caption)) {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        } else {
+            message.mParts.add(MessagePartData.createMediaMessagePart(
+                    caption, contentType, contentUri,
+                    MessagePartData.UNSPECIFIED_SIZE, MessagePartData.UNSPECIFIED_SIZE));
+        }
+        message.mReceivedTimestamp = System.currentTimeMillis();
+        return message;
+    }
+
+    /**
      * Create a message not yet associated with a particular conversation
      */
     public static MessageData createSharedMessage(final String messageText,

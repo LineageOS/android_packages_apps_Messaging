@@ -51,6 +51,7 @@ import com.android.messaging.receiver.NotificationReceiver;
 import com.android.messaging.sms.MmsSmsUtils;
 import com.android.messaging.ui.appsettings.ApplicationSettingsActivity;
 import com.android.messaging.ui.appsettings.PerSubscriptionSettingsActivity;
+import com.android.messaging.ui.appsettings.RcsSettingsActivity;
 import com.android.messaging.ui.appsettings.SettingsActivity;
 import com.android.messaging.ui.conversation.ConversationActivity;
 import com.android.messaging.ui.conversation.LaunchConversationActivity;
@@ -187,6 +188,16 @@ public class UIIntentsImpl extends UIIntents {
     }
 
     @Override
+    public void launchCreateNewGroupConversationActivity(final Context context) {
+        // WAVE-A / A1: same ConversationActivity new-conversation flow, tagged to
+        // open the contact picker in RCS-group mode.
+        final Intent intent = getConversationActivityIntent(context, null, null,
+                false /* withCustomTransition */);
+        intent.putExtra(UIIntents.UI_INTENT_EXTRA_NEW_GROUP_MODE, true);
+        context.startActivity(intent);
+    }
+
+    @Override
     public void launchAddContactActivity(final Context context, final String destination) {
         final Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
         final String destinationType = MmsSmsUtils.isEmailAddress(destination) ?
@@ -301,6 +312,12 @@ public class UIIntentsImpl extends UIIntents {
     public void launchApplicationSettingsActivity(final Context context, final boolean topLevel) {
         final Intent intent = new Intent(context, ApplicationSettingsActivity.class);
         intent.putExtra(UI_INTENT_EXTRA_TOP_LEVEL_SETTINGS, topLevel);
+        context.startActivity(intent);
+    }
+
+    @Override
+    public void launchRcsSettingsActivity(final Context context) {
+        final Intent intent = new Intent(context, RcsSettingsActivity.class);
         context.startActivity(intent);
     }
 

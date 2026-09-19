@@ -26,10 +26,13 @@ import android.text.format.DateUtils;
 
 import androidx.annotation.NonNull;
 
+import com.android.messaging.rcs.rbm.RbmBotMessage;
+import com.android.messaging.rcs.rbm.RbmBotParser;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseHelper.PartColumns;
 import com.android.messaging.datamodel.DatabaseHelper.ParticipantColumns;
+import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.util.Assert;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.Dates;
@@ -76,6 +79,44 @@ public class ConversationMessageData {
     private long mSenderContactId;
     private String mSenderContactLookupKey;
     private String mSelfParticipantId;
+    private int mTransportType;
+    private int mRcsStatus;
+    private long mRcsDeliveredTimestamp;
+    private long mRcsDisplayedTimestamp;
+    private int mRcsGroupReadCount;
+    private int mRcsGroupDeliveredCount;
+    private int mRcsGroupMemberCount;
+    private int mRcsReactionCount;
+    // Emoji-reactions: the TARGET's own rcs message-id (In-Reply-To id for a
+    // reaction we send) and the per-emoji aggregated chips parsed from the packed
+    // reactions_blob column. Both are null/empty for SMS/MMS and reaction-free rows.
+    private String mRcsMessageId;
+    /** Opaque E2EE scheme id (null/empty = plaintext) → per-message lock indicator. */
+    private String mRcsE2eeSchemeId;
+    private List<ReactionAggregate> mReactionAggregates = Collections.emptyList();
+
+    // RBM: an inbound RCS Business Messaging agent row stores
+    // the raw GSMA botmessage JSON as its text body. Parsed lazily (and cached per
+    // bind) into the neutral model the renderer consumes. mRbmParsed guards the
+    // one-shot parse so a recycled view re-parses on the next bind().
+    private boolean mRbmParsed;
+    private RbmBotMessage mRbmBotMessage;
+
+    // geopush: lazily-parsed location, same one-shot/recycle guard.
+    private boolean mGeoParsed;
+    private GeoLoc mGeoLoc;
+
+    /** A parsed RCS location share (geopush). */
+    public static final class GeoLoc {
+        public final double lat;
+        public final double lon;
+        public final String label;   // nullable
+        GeoLoc(final double lat, final double lon, final String label) {
+            this.lat = lat;
+            this.lon = lon;
+            this.label = label;
+        }
+    }
 
     /** Are we similar enough to the previous/next messages that we can cluster them? */
     private boolean mCanClusterWithPreviousMessage;
@@ -120,6 +161,26 @@ public class ConversationMessageData {
         mSenderContactId = cursor.getLong(INDEX_SENDER_CONTACT_ID);
         mSenderContactLookupKey = cursor.getString(INDEX_SENDER_CONTACT_LOOKUP_KEY);
         mSelfParticipantId = cursor.getString(INDEX_SELF_PARTICIPIANT_ID);
+        mTransportType = cursor.getInt(INDEX_TRANSPORT_TYPE);
+        mRcsStatus = cursor.getInt(INDEX_RCS_STATUS);
+        mRcsDeliveredTimestamp = cursor.getLong(INDEX_RCS_DELIVERED_TIMESTAMP);
+        mRcsDisplayedTimestamp = cursor.getLong(INDEX_RCS_DISPLAYED_TIMESTAMP);
+        mRcsGroupReadCount = cursor.getInt(INDEX_RCS_GROUP_READ_COUNT);
+        mRcsGroupDeliveredCount = cursor.getInt(INDEX_RCS_GROUP_DELIVERED_COUNT);
+        mRcsGroupMemberCount = cursor.getInt(INDEX_RCS_GROUP_MEMBER_COUNT);
+        mRcsReactionCount = cursor.getInt(INDEX_RCS_REACTION_COUNT);
+        mRcsMessageId = cursor.getString(INDEX_RCS_MESSAGE_ID);
+        mRcsE2eeSchemeId = cursor.getString(INDEX_RCS_E2EE_SCHEME_ID);
+        mReactionAggregates = mRcsReactionCount > 0
+                ? parseReactionBlob(cursor.getString(INDEX_REACTIONS_BLOB))
+                : Collections.<ReactionAggregate>emptyList();
+
+        // RBM: invalidate the lazily-parsed bot message for this (recycled) view.
+        mRbmParsed = false;
+        mRbmBotMessage = null;
+        // geopush: invalidate the lazily-parsed location for this recycled view.
+        mGeoParsed = false;
+        mGeoLoc = null;
 
         if (!cursor.isFirst() && cursor.moveToPrevious()) {
             mCanClusterWithPreviousMessage = canClusterWithMessage(cursor);
@@ -136,6 +197,14 @@ public class ConversationMessageData {
     }
 
     private boolean canClusterWithMessage(final Cursor cursor) {
+        // WAVE-B: group-event system lines never cluster — neither this row nor
+        // the adjacent row may be a system line, so each renders as its own
+        // standalone centered status line (and a real message next to it keeps
+        // its avatar / bubble rather than being collapsed into the system run).
+        if (mTransportType == RcsConstants.TRANSPORT_RCS_SYSTEM
+                || cursor.getInt(INDEX_TRANSPORT_TYPE) == RcsConstants.TRANSPORT_RCS_SYSTEM) {
+            return false;
+        }
         final String otherParticipantId = cursor.getString(INDEX_PARTICIPANT_ID);
         if (!TextUtils.equals(getParticipantId(), otherParticipantId)) {
             return false;
@@ -410,6 +479,127 @@ public class ConversationMessageData {
         }
     }
 
+    /** RBM: a bot/agent address is {@code <agent>@rbm.goog}, never an
+     *  MSISDN. The provider lands such inbound rows keyed by that address. */
+    private static final String RBM_BOT_SUFFIX = "@rbm.goog";
+
+    /**
+     * RBM (Phase 4): true for an INBOUND RCS Business Messaging agent message —
+     * the sender is an {@code <agent>@rbm.goog} address. Outbound rows (our
+     * postbacks, Phase 5) and ordinary SMS/MMS/RCS are never bot messages, so the
+     * card/chip render path below stays off for every other row.
+     */
+    public boolean getIsBotMessage() {
+        if (!getIsIncoming()) {
+            return false;
+        }
+        final String dest = mSenderNormalizedDestination;
+        return dest != null && dest.endsWith(RBM_BOT_SUFFIX);
+    }
+
+    /** RBM: the bot/agent id (e.g. {@code admin@rbm.goog}) for a bot row; else null. */
+    public String getBotId() {
+        return getIsBotMessage() ? mSenderNormalizedDestination : null;
+    }
+
+    /**
+     * RBM (Phase 4): the parsed bot message for an {@link #getIsBotMessage() bot}
+     * row, or null for a non-bot row / an unparseable body (caller falls back to
+     * plain-text rendering). The stored body is the raw
+     * {@code application/vnd.gsma.botmessage.v1.0+json} payload (Phase 1); a plain
+     * agent line stored as text simply fails the JSON parse and renders as text.
+     * Parsed once and cached per {@link #bind}.
+     */
+    public RbmBotMessage getRbmBotMessage() {
+        if (!mRbmParsed) {
+            mRbmParsed = true;
+            mRbmBotMessage = null;
+            if (getIsBotMessage()) {
+                final String body = getText();
+                if (!TextUtils.isEmpty(body)) {
+                    try {
+                        mRbmBotMessage = RbmBotParser.parse(body);
+                    } catch (final RbmBotParser.RbmParseException e) {
+                        // Not a JSON botmessage (a plain agent line) -> render as text.
+                        mRbmBotMessage = null;
+                    }
+                }
+            }
+        }
+        return mRbmBotMessage;
+    }
+
+    private static final java.util.regex.Pattern GEO_PATTERN =
+            java.util.regex.Pattern.compile(
+                    "maps\\.google\\.com/\\?q=(-?\\d+(?:\\.\\d+)?),(-?\\d+(?:\\.\\d+)?)");
+
+    /**
+     * geopush: if this message is one of OUR rendered location shares
+     * (a "📍 …\nhttps://maps.google.com/?q=lat,lon" body produced by
+     * {@code handleIncomingLocation} / {@code SendRcsLocationAction}), return the
+     * parsed lat/lon (+ label) so the renderer can show a location card; else null.
+     * Parsed once and cached per {@link #bind} (recycle-safe). Ordinary maps
+     * link messages don't match (no 📍 + different URL) → render as plain text.
+     */
+    public GeoLoc getGeoLocation() {
+        if (!mGeoParsed) {
+            mGeoParsed = true;
+            mGeoLoc = null;
+            final String body = getText();
+            if (body != null && body.startsWith("📍")) {  // 📍
+                final java.util.regex.Matcher m = GEO_PATTERN.matcher(body);
+                if (m.find()) {
+                    try {
+                        final double lat = Double.parseDouble(m.group(1));
+                        final double lon = Double.parseDouble(m.group(2));
+                        String label = null;
+                        final int nl = body.indexOf('\n');
+                        if (nl > 0) {
+                            label = body.substring(0, nl).replace("📍", "").trim();
+                            // "Shared location" is OUR generic sentinel (no real
+                            // sender label) — treat as none so the card shows the
+                            // reverse-geocoded address / lat-lon instead of echoing
+                            // our own placeholder.
+                            if (label.isEmpty()
+                                    || "Shared location".equalsIgnoreCase(label)) {
+                                label = null;
+                            }
+                        }
+                        mGeoLoc = new GeoLoc(lat, lon, label);
+                    } catch (final NumberFormatException ignore) {
+                        mGeoLoc = null;
+                    }
+                }
+            }
+        }
+        return mGeoLoc;
+    }
+
+    /**
+     * RBM: the one-line text the notification preview should show — a
+     * human {@link com.android.messaging.rcs.RbmSummary} for a bot message (never
+     * the raw botmessage JSON), otherwise the plain message text.
+     */
+    public String getNotificationPreviewText() {
+        if (getIsBotMessage()) {
+            return com.android.messaging.rcs.RbmSummary.of(getRbmBotMessage(), null);
+        }
+        return getText();
+    }
+
+    /**
+     * RBM: true for the local echo of a tapped suggestion-reply chip
+     * (an outgoing RCS row stamped with the postback-echo sentinel id by
+     * {@link com.android.messaging.datamodel.action.InsertRbmPostbackEchoAction}).
+     * The renderer styles it as a "Selected option" rather than a normal sent
+     * message; a free-text reply to a bot (a real send) is unaffected.
+     */
+    public boolean getIsBotPostbackEcho() {
+        return !getIsIncoming() && getIsRcs()
+                && com.android.messaging.rcs.RcsConstants.RBM_POSTBACK_ECHO_MARKER
+                        .equals(mRcsMessageId);
+    }
+
     public boolean hasAttachments() {
         for (final MessagePartData part : mParts) {
             if (part.isAttachment()) {
@@ -503,6 +693,192 @@ public class ConversationMessageData {
         return mSelfParticipantId;
     }
 
+    /**
+     * The transport that carried this message: {@link RcsConstants#TRANSPORT_DEFAULT}
+     * for SMS/MMS, {@link RcsConstants#TRANSPORT_RCS} for RCS. RCS messages are
+     * stored SMS-shaped (PROTOCOL_SMS) and distinguished only by this column, so
+     * SMS/MMS rendering is unaffected when this returns the default.
+     */
+    public final int getTransportType() {
+        return mTransportType;
+    }
+
+    /**
+     * @return true if this message was delivered over RCS (additive column,
+     *         defaults to false for every existing SMS/MMS row).
+     */
+    public final boolean getIsRcs() {
+        return mTransportType == RcsConstants.TRANSPORT_RCS;
+    }
+
+    /**
+     * WAVE-B: true if this row is a group lifecycle event (created / member
+     * added / removed / left / renamed) that must render as a centered, muted,
+     * no-avatar, no-bubble status line interleaved in the thread, rather than as
+     * a normal sender bubble. Additive column; defaults to false for every
+     * SMS/MMS/RCS message row, so normal rendering is unchanged.
+     */
+    public final boolean getIsRcsSystem() {
+        return mTransportType == RcsConstants.TRANSPORT_RCS_SYSTEM;
+    }
+
+    /** Raw RCS status code (IRcsProviderCallback.STATUS_*); 0 == none yet. */
+    public final int getRcsStatus() {
+        return mRcsStatus;
+    }
+
+    /** IMDN delivery-receipt timestamp (ms), or 0 if not yet delivered. */
+    public final long getRcsDeliveredTimestamp() {
+        return mRcsDeliveredTimestamp;
+    }
+
+    /** IMDN display-receipt timestamp (ms), or 0 if not yet read. */
+    public final long getRcsDisplayedTimestamp() {
+        return mRcsDisplayedTimestamp;
+    }
+
+    /**
+     * WAVE-E: number of DISTINCT group members who have DISPLAYED (read) this
+     * sent message, from the rcs_group_receipts side-table. 0 for 1:1 / SMS /
+     * MMS rows.
+     */
+    public final int getRcsGroupReadCount() {
+        return mRcsGroupReadCount;
+    }
+
+    /**
+     * WAVE-E: number of DISTINCT group members who have DELIVERED this sent
+     * message, from the rcs_group_receipts side-table. 0 for 1:1 / SMS / MMS.
+     */
+    public final int getRcsGroupDeliveredCount() {
+        return mRcsGroupDeliveredCount;
+    }
+
+    /**
+     * WAVE-E: M, the number of OTHER members in this group conversation (group
+     * participant_count, which already excludes self). 0 when the conversation
+     * is not an RCS group (the subquery's rcs_group_id IS NOT NULL guard fails),
+     * which is what disables the aggregate render for 1:1 / SMS / MMS rows.
+     */
+    public final int getRcsGroupMemberCount() {
+        return mRcsGroupMemberCount;
+    }
+
+    /** Non-zero if this message has at least one reaction chip to render. */
+    public final int getRcsReactionCount() {
+        return mRcsReactionCount;
+    }
+
+    public final boolean hasReactions() {
+        return mRcsReactionCount > 0;
+    }
+
+    /**
+     * The TARGET message's own rcs message-id — the In-Reply-To id a reaction we
+     * send must reference (same id space as IMDN). Null for SMS/MMS rows and for
+     * any row that has not yet been assigned a server message id.
+     */
+    public final String getRcsMessageId() {
+        return mRcsMessageId;
+    }
+
+    /** Opaque E2EE scheme id this message arrived under, or null/empty for plaintext.
+     *  Non-empty ⇒ render the per-message lock indicator. */
+    public final String getRcsE2eeSchemeId() {
+        return mRcsE2eeSchemeId;
+    }
+
+    public final boolean isE2eeEncrypted() {
+        return !android.text.TextUtils.isEmpty(mRcsE2eeSchemeId);
+    }
+
+    /**
+     * Per-emoji aggregated reaction chips to render on THIS message's bubble,
+     * already de-duplicated by emoji (count + reactor list + a self flag) and
+     * ordered by first-seen. Empty for a row with no reactions. 1:1 yields
+     * count==1 chips; a group aggregates each emoji across its members.
+     */
+    public final List<ReactionAggregate> getReactionAggregates() {
+        return mReactionAggregates;
+    }
+
+    /**
+     * The emoji WE reacted to this message with, or {@code null} if we haven't
+     * reacted. At most one (the rcs_reactions PK is target+reactor). The
+     * long-press picker uses this to show our current pick selected so re-tapping
+     * it removes (deselect) and tapping a different glyph changes it.
+     */
+    public final String getSelfReactionEmoji() {
+        for (final ReactionAggregate r : mReactionAggregates) {
+            if (r.reactedBySelf) {
+                return r.emoji;
+            }
+        }
+        return null;
+    }
+
+    /** One aggregated reaction chip: an emoji, how many reacted with it, whether
+     *  WE are one of them, and the reactor URIs (for a group "who" tooltip). */
+    public static final class ReactionAggregate {
+        public final String emoji;
+        public final int count;
+        public final boolean reactedBySelf;
+        public final List<String> reactorUris;
+
+        ReactionAggregate(final String emoji, final int count,
+                final boolean reactedBySelf, final List<String> reactorUris) {
+            this.emoji = emoji;
+            this.count = count;
+            this.reactedBySelf = reactedBySelf;
+            this.reactorUris = reactorUris;
+        }
+    }
+
+    // Packed reactions_blob separators (mirror the char(30)/char(31) the
+    // projection group_concat emits).
+    private static final char REACTION_RECORD_SEP = '\u001e';
+    private static final char REACTION_UNIT_SEP = '\u001f';
+
+    /**
+     * Parse the packed {@code reactions_blob} ("emoji<US>reactor<RS>…") into
+     * per-emoji aggregates: count, a self flag (reactor == SELF_REACTOR_URI), and
+     * the reactor list, preserving first-seen order (the blob is already ordered
+     * by timestamp). Tolerant of malformed records (skips any without the unit
+     * separator). Returns an empty list for a null/blank blob.
+     */
+    private static List<ReactionAggregate> parseReactionBlob(final String blob) {
+        if (TextUtils.isEmpty(blob)) {
+            return Collections.emptyList();
+        }
+        // Preserve emoji insertion order; merge repeated emoji into one bucket.
+        final java.util.LinkedHashMap<String, List<String>> byEmoji =
+                new java.util.LinkedHashMap<>();
+        for (final String record : blob.split(String.valueOf(REACTION_RECORD_SEP), -1)) {
+            final int sep = record.indexOf(REACTION_UNIT_SEP);
+            if (sep <= 0) {
+                continue; // malformed / empty record
+            }
+            final String emoji = record.substring(0, sep);
+            final String reactor = record.substring(sep + 1);
+            List<String> reactors = byEmoji.get(emoji);
+            if (reactors == null) {
+                reactors = new ArrayList<>(2);
+                byEmoji.put(emoji, reactors);
+            }
+            if (!reactors.contains(reactor)) {
+                reactors.add(reactor);
+            }
+        }
+        final List<ReactionAggregate> out = new ArrayList<>(byEmoji.size());
+        for (final java.util.Map.Entry<String, List<String>> e : byEmoji.entrySet()) {
+            final List<String> reactors = e.getValue();
+            final boolean self =
+                    reactors.contains(com.android.messaging.rcs.RcsMessageStore.SELF_REACTOR_URI);
+            out.add(new ReactionAggregate(e.getKey(), reactors.size(), self, reactors));
+        }
+        return out;
+    }
+
     public boolean getIsIncoming() {
         return (mStatus >= MessageData.BUGLE_STATUS_FIRST_INCOMING);
     }
@@ -576,8 +952,53 @@ public class ConversationMessageData {
                 (!getIsIncoming() || mStatus == MessageData.BUGLE_STATUS_INCOMING_COMPLETE));
     }
 
+    /**
+     * Whether a TAP on this bubble should resend it outright.
+     *
+     * <p>For an RCS row this is now gated on {@link #canResendOverRcs()} rather than refused
+     * outright.
+     *
+     * <p><b>Why it was refused, and why that reason is gone.</b> The affordance used to be
+     * withheld from every RCS row because {@code ResendMessageAction} moved the row to
+     * {@code OUTGOING_YET_TO_SEND} and handed it to {@code ProcessPendingMessagesAction}, whose
+     * query excludes {@code TRANSPORT_RCS} by name — a one-way trip back to "Sending…", i.e. the
+     * very state that rule existed to stop a message dying in, re-entered through the button
+     * offered to escape it. That path is now a real over-RCS resend which
+     * never writes {@code YET_TO_SEND} and never touches that queue, so the reason no longer
+     * holds. <b>A gate whose stated reason has evaporated is worse than no gate</b> — it becomes a
+     * fact by attrition — so it is re-derived rather than left standing.
+     *
+     * <p>{@link #getShowResendMessage()} is deliberately left alone: it is what makes the bubble
+     * selectable, and "Send as SMS" is still offered on every failed RCS row, including the ones
+     * this predicate excludes.
+     */
     public boolean getOneClickResendMessage() {
-        return MessageData.getOneClickResendMessage(mStatus, mRawTelephonyStatus);
+        return MessageData.getOneClickResendMessage(mStatus, mRawTelephonyStatus)
+                && (!getIsRcs() || canResendOverRcs());
+    }
+
+    /**
+     * Whether a failed RCS row can actually be resent OVER RCS.
+     *
+     * <p>Three conditions, and each excludes a row for which the button would do nothing:
+     *
+     * <ul>
+     *   <li><b>E2EE.</b> The user-driven resend seals; it has no plaintext arm. A non-encrypted
+     *       RCS row would reach it, find no encrypted session, and return false. Offering a control
+     *       that always fails is the defect that was removed, and re-creating it one
+     *       conversation-type over would not be an improvement.</li>
+     *   <li><b>A wire id.</b> The resend root-resolves this id to recover the body. The REFUSED
+     *       rows are landed FAILED with a null {@code rcs_message_id}
+     *       on purpose — they never reached the wire, so "resend" is not the verb they need.</li>
+     *   <li><b>RCS at all</b>, since the SMS path owns everything else.</li>
+     * </ul>
+     *
+     * <p>Rows this excludes are not left without an affordance: "Send as SMS" is shown on every
+     * failed RCS row and is the correct answer for all three cases.
+     */
+    public boolean canResendOverRcs() {
+        return getIsRcs() && isE2eeEncrypted()
+                && !android.text.TextUtils.isEmpty(mRcsMessageId);
     }
 
     /**
@@ -757,7 +1178,79 @@ public class ConversationMessageData {
             + DatabaseHelper.PARTICIPANTS_TABLE + '.' + ParticipantColumns.CONTACT_ID
             + " as " + ConversationMessageViewColumns.SENDER_CONTACT_ID + ", "
             + DatabaseHelper.PARTICIPANTS_TABLE + '.' + ParticipantColumns.LOOKUP_KEY
-            + " as " + ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY + " ";
+            + " as " + ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY + ", "
+            // RCS additive columns. These default to 0 for every SMS/MMS row, so
+            // the SMS/MMS render path is byte-identical; only RCS rows carry data.
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.TRANSPORT_TYPE
+            + " as " + ConversationMessageViewColumns.TRANSPORT_TYPE + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_STATUS
+            + " as " + ConversationMessageViewColumns.RCS_STATUS + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_DELIVERED_TIMESTAMP
+            + " as " + ConversationMessageViewColumns.RCS_DELIVERED_TIMESTAMP + ", "
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_DISPLAYED_TIMESTAMP
+            + " as " + ConversationMessageViewColumns.RCS_DISPLAYED_TIMESTAMP + ", "
+            // WAVE-E group read-receipt aggregate. Correlated subqueries against
+            // the rcs_group_receipts side-table + the conversation's
+            // participant_count. These default to 0 for every 1:1 / SMS / MMS
+            // row (no side-table rows + the renderer ignores them unless the
+            // conversation is a group), so the existing single Delivered/Read
+            // path is byte-unchanged. N_read = distinct members who displayed;
+            // N_delivered = distinct members who delivered; M = other-member
+            // count (group participant_count already excludes self).
+            + "(SELECT COUNT(*) FROM " + DatabaseHelper.RCS_GROUP_RECEIPTS_TABLE + " gr"
+            + " WHERE gr." + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns._ID
+            + " AND gr." + DatabaseHelper.RcsGroupReceiptColumns.DISPLAYED_TIMESTAMP + " > 0)"
+            + " as " + ConversationMessageViewColumns.RCS_GROUP_READ_COUNT + ", "
+            + "(SELECT COUNT(*) FROM " + DatabaseHelper.RCS_GROUP_RECEIPTS_TABLE + " gr"
+            + " WHERE gr." + DatabaseHelper.RcsGroupReceiptColumns.MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns._ID
+            + " AND gr." + DatabaseHelper.RcsGroupReceiptColumns.DELIVERED_TIMESTAMP + " > 0)"
+            + " as " + ConversationMessageViewColumns.RCS_GROUP_DELIVERED_COUNT + ", "
+            + "(SELECT c." + DatabaseHelper.ConversationColumns.PARTICIPANT_COUNT
+            + " FROM " + DatabaseHelper.CONVERSATIONS_TABLE + " c"
+            + " WHERE c." + DatabaseHelper.ConversationColumns._ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.CONVERSATION_ID
+            + " AND c." + DatabaseHelper.ConversationColumns.RCS_GROUP_ID + " IS NOT NULL)"
+            + " as " + ConversationMessageViewColumns.RCS_GROUP_MEMBER_COUNT + ", "
+            // Emoji-reactions presence flag. A correlated COUNT against the
+            // rcs_reactions side-table, keyed on the TARGET message's
+            // rcs_message_id (the same id the reaction targets). The IS NOT NULL
+            // guard keeps SMS/MMS rows (null rcs_message_id) at 0, so the
+            // existing render path is byte-unchanged; the chip CONTENTS are loaded
+            // on demand by the bubble view via RcsMessageStore.readReactions.
+            + "(SELECT COUNT(*) FROM " + DatabaseHelper.RCS_REACTIONS_TABLE + " rr"
+            + " WHERE rr." + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " AND " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " IS NOT NULL)"
+            + " as " + ConversationMessageViewColumns.RCS_REACTION_COUNT + ", "
+            // The chip CONTENTS, packed into one column so the bubble view renders
+            // the reaction chips straight off the cursor (no main-thread DB read,
+            // mirroring the WAVE-E aggregate). Each reactor is "emoji<US>reactor"
+            // (US = char(31) unit separator) and the reactors are joined with
+            // char(30) (record separator), ordered by first-seen timestamp so
+            // chip order is stable. We re-aggregate per-emoji + sort in bind().
+            // Self rows carry SELF_REACTOR_URI so the own-reaction chip styling +
+            // re-tap-removes works. Null for any row with no reactions (the COUNT
+            // flag above gates the parse). char(31)/char(30) avoid embedding
+            // control bytes in this Java string and never collide with content.
+            + "(SELECT group_concat(rr." + DatabaseHelper.RcsReactionColumns.EMOJI
+            + " || char(31) || rr." + DatabaseHelper.RcsReactionColumns.REACTOR_URI
+            + ", char(30)) FROM " + DatabaseHelper.RCS_REACTIONS_TABLE + " rr"
+            + " WHERE rr." + DatabaseHelper.RcsReactionColumns.TARGET_RCS_MESSAGE_ID
+            + " = " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " AND " + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " IS NOT NULL"
+            + " ORDER BY rr." + DatabaseHelper.RcsReactionColumns.TIMESTAMP + ")"
+            + " as " + ConversationMessageViewColumns.REACTIONS_BLOB + ", "
+            // The TARGET message's own rcs message-id (the In-Reply-To id space a
+            // reaction we SEND must reference). Null for SMS/MMS rows.
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_MESSAGE_ID
+            + " as " + ConversationMessageViewColumns.RCS_MESSAGE_ID + ", "
+            // Opaque E2EE scheme id (null for plaintext) → per-message lock indicator.
+            + DatabaseHelper.MESSAGES_TABLE + '.' + MessageColumns.RCS_E2EE_SCHEME_ID
+            + " as " + ConversationMessageViewColumns.RCS_E2EE_SCHEME_ID + " ";
 
     private static final String CONVERSATION_MESSAGES_QUERY_FROM_WHERE_SQL =
             " FROM " + DatabaseHelper.MESSAGES_TABLE
@@ -830,6 +1323,20 @@ public class ConversationMessageData {
         String PARTS_WIDTHS = "parts_widths";
         String PARTS_HEIGHTS = "parts_heights";
         String PARTS_TEXTS = "parts_texts";
+        String TRANSPORT_TYPE = MessageColumns.TRANSPORT_TYPE;
+        String RCS_STATUS = MessageColumns.RCS_STATUS;
+        String RCS_DELIVERED_TIMESTAMP = MessageColumns.RCS_DELIVERED_TIMESTAMP;
+        String RCS_DISPLAYED_TIMESTAMP = MessageColumns.RCS_DISPLAYED_TIMESTAMP;
+        // WAVE-E aggregate group read-receipt columns (computed; not stored).
+        String RCS_GROUP_READ_COUNT = "rcs_group_read_count";
+        String RCS_GROUP_DELIVERED_COUNT = "rcs_group_delivered_count";
+        String RCS_GROUP_MEMBER_COUNT = "rcs_group_member_count";
+        String RCS_REACTION_COUNT = "rcs_reaction_count";
+        // Emoji-reactions: packed chip contents (group_concat) + the target's own
+        // rcs message-id (the In-Reply-To id a reaction we send references).
+        String REACTIONS_BLOB = "reactions_blob";
+        String RCS_MESSAGE_ID = MessageColumns.RCS_MESSAGE_ID;
+        String RCS_E2EE_SCHEME_ID = MessageColumns.RCS_E2EE_SCHEME_ID;
     }
 
     private static int sIndexIncrementer = 0;
@@ -867,6 +1374,17 @@ public class ConversationMessageData {
     private static final int INDEX_SENDER_PROFILE_PHOTO_URI      = sIndexIncrementer++;
     private static final int INDEX_SENDER_CONTACT_ID             = sIndexIncrementer++;
     private static final int INDEX_SENDER_CONTACT_LOOKUP_KEY     = sIndexIncrementer++;
+    private static final int INDEX_TRANSPORT_TYPE                = sIndexIncrementer++;
+    private static final int INDEX_RCS_STATUS                    = sIndexIncrementer++;
+    private static final int INDEX_RCS_DELIVERED_TIMESTAMP       = sIndexIncrementer++;
+    private static final int INDEX_RCS_DISPLAYED_TIMESTAMP       = sIndexIncrementer++;
+    private static final int INDEX_RCS_GROUP_READ_COUNT          = sIndexIncrementer++;
+    private static final int INDEX_RCS_GROUP_DELIVERED_COUNT     = sIndexIncrementer++;
+    private static final int INDEX_RCS_GROUP_MEMBER_COUNT        = sIndexIncrementer++;
+    private static final int INDEX_RCS_REACTION_COUNT            = sIndexIncrementer++;
+    private static final int INDEX_REACTIONS_BLOB                = sIndexIncrementer++;
+    private static final int INDEX_RCS_MESSAGE_ID                = sIndexIncrementer++;
+    private static final int INDEX_RCS_E2EE_SCHEME_ID            = sIndexIncrementer++;
 
 
     private static final String[] sProjection = {
@@ -902,6 +1420,17 @@ public class ConversationMessageData {
         ConversationMessageViewColumns.SENDER_PROFILE_PHOTO_URI,
         ConversationMessageViewColumns.SENDER_CONTACT_ID,
         ConversationMessageViewColumns.SENDER_CONTACT_LOOKUP_KEY,
+        ConversationMessageViewColumns.TRANSPORT_TYPE,
+        ConversationMessageViewColumns.RCS_STATUS,
+        ConversationMessageViewColumns.RCS_DELIVERED_TIMESTAMP,
+        ConversationMessageViewColumns.RCS_DISPLAYED_TIMESTAMP,
+        ConversationMessageViewColumns.RCS_GROUP_READ_COUNT,
+        ConversationMessageViewColumns.RCS_GROUP_DELIVERED_COUNT,
+        ConversationMessageViewColumns.RCS_GROUP_MEMBER_COUNT,
+        ConversationMessageViewColumns.RCS_REACTION_COUNT,
+        ConversationMessageViewColumns.REACTIONS_BLOB,
+        ConversationMessageViewColumns.RCS_MESSAGE_ID,
+        ConversationMessageViewColumns.RCS_E2EE_SCHEME_ID,
     };
 
     public static String[] getProjection() {

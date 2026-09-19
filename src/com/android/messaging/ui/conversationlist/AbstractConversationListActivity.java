@@ -256,6 +256,12 @@ public abstract class AbstractConversationListActivity extends BugleActionBarAct
         UIIntents.get().launchCreateNewConversationActivity(this, null);
     }
 
+    @Override
+    public void onCreateGroupConversationClick() {
+        // WAVE-A / A1: new RCS-group flow (contact picker opens in group mode).
+        UIIntents.get().launchCreateNewGroupConversationActivity(this);
+    }
+
 
     @Override
     public boolean isConversationSelected(final String conversationId) {

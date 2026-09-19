@@ -26,6 +26,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="sendButtonContentDescription">Send Message</string>
+    <string name="sendButtonContentDescriptionRcs">Send RCS message</string>
+    <string name="sendButtonContentDescriptionSms">Send text message</string>
     <string name="attachMediaButtonContentDescription">Add an attachment</string>
 
     <string name="next_with_arrow">Next &gt;</string>
@@ -245,6 +247,13 @@
         <item quantity="one"><xliff:g id="count">%d</xliff:g> participant</item>
         <item quantity="other"><xliff:g id="count">%d</xliff:g> participants</item>
     </plurals>
+    <!-- WAVE-A / A2.3: second line under a GROUP conversation title in the
+         action bar. The count is the TOTAL number of people in the group,
+         INCLUDING the local user (self), e.g. you + 3 others gives "4 people". -->
+    <plurals name="group_people_count">
+        <item quantity="one"><xliff:g id="count">%d</xliff:g> person</item>
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> people</item>
+    </plurals>
     <!-- Shown in the Android Wear conversation log as the sender for outgoing messages,
          when we don't know the user's real name (e.g. no "Me" contact on the phone). -->
     <string name="unknown_self_participant">Me</string>
@@ -402,6 +411,17 @@
     <string name="add_more_participants_button_content_description">Add more participants</string>
     <string name="confrim_participants_button_content_description">Confirm participants</string>
     <string name="start_new_conversation">Start new conversation</string>
+    <!-- WAVE-A / A1: START CHAT FAB long-press speed-dial + overflow items. -->
+    <string name="menu_new_conversation">New conversation</string>
+    <string name="menu_new_group">New group</string>
+    <!-- WAVE-A / A1: optional group-name field in the contact picker (group mode). -->
+    <string name="group_name_hint">Group name (optional)</string>
+    <!-- WAVE-A / A1: shown when an RCS group couldn't be created and we fell back
+         to sending the conversation as a group text (MMS). -->
+    <string name="rcs_group_fallback_to_mms">Couldn\'t start RCS group — sending as group text</string>
+    <!-- WAVE-A / A1: shown when the user tries to confirm an RCS group with fewer
+         than two recipients. -->
+    <string name="rcs_group_needs_two_recipients">Add at least two people to start a group</string>
     <!-- Content description for the checkbox when selecting an item in the gallery -->
     <string name="gallery_checkbox_content_description">Select this item</string>
     <string name="video_thumbnail_view_play_button_content_description">Play video</string>
@@ -753,4 +773,70 @@
 
     <!-- When making a call to emergency numbers, show this toast -->
     <string name="disallow_emergency_call">Can\'t make a voice call to emergency services here.</string>
+
+    <!-- Overflow menu entry that opens the RCS provider's transport-status page -->
+    <string name="action_rcs_transport_status">RCS transport status</string>
+
+    <!-- Toast shown when the RCS provider add-on APK is not installed -->
+    <string name="rcs_provider_not_installed">RCS provider not installed</string>
+
+    <!-- Carrier/Google RCS Terms-of-Service consent surface. Accept button on
+         the consent dialog; the provider may override the label off the wire. -->
+    <string name="rcs_tos_accept">Accept</string>
+    <!-- Reject button on the consent dialog; provider label may override. -->
+    <string name="rcs_tos_reject">Not now</string>
+    <!-- Title of the carrier-terms category + the consent dialog fallback. -->
+    <string name="rcs_tos_settings_title">Carrier terms</string>
+    <!-- Settings summary when the carrier ToS gate is awaiting the user. -->
+    <string name="rcs_tos_state_pending">Action required. Tap to review</string>
+    <!-- Settings summary when the carrier ToS was accepted. -->
+    <string name="rcs_tos_state_accepted">Accepted</string>
+    <!-- Settings summary when the carrier ToS was declined. -->
+    <string name="rcs_tos_state_declined">Declined</string>
+    <!-- Settings summary when no carrier ToS gate applies. -->
+    <string name="rcs_tos_state_none">Not required</string>
+    <!-- Title of the withdraw-acceptance confirm dialog. -->
+    <string name="rcs_tos_withdraw_title">Withdraw acceptance?</string>
+    <!-- Body of the withdraw-acceptance confirm dialog. -->
+    <string name="rcs_tos_withdraw_body">RCS chats on this SIM will turn off until you accept again.</string>
+    <!-- Title of the pending-ToS notification. -->
+    <string name="rcs_tos_notification_title">Action needed to turn on RCS chats</string>
+    <!-- Body of the pending-ToS notification. -->
+    <string name="rcs_tos_notification_body">Your carrier needs you to review terms for RCS chats.</string>
+
+    <!-- Category header for read-receipt settings on the RCS chats screen. -->
+    <string name="rcs_settings_receipts_category">Read receipts</string>
+    <!-- Title of the global send-read-receipts switch. -->
+    <string name="rcs_read_receipts_title">Send read receipts</string>
+    <!-- Summary of the global send-read-receipts switch. -->
+    <string name="rcs_read_receipts_summary">Let people know when you\'ve read their RCS messages</string>
+    <!-- Title of the per-conversation read-receipts option in People &amp; options. -->
+    <string name="rcs_read_receipts_conversation_title">Send read receipts</string>
+    <!-- Title of the per-conversation read-receipts chooser dialog. -->
+    <string name="rcs_read_receipts_dialog_title">Read receipts for this chat</string>
+    <!-- Tri-state label: use the global default. -->
+    <string name="rcs_read_receipts_use_default">Use global default</string>
+    <!-- Tri-state label: always on for this conversation. -->
+    <string name="rcs_read_receipts_on">On</string>
+    <!-- Tri-state label: always off for this conversation. -->
+    <string name="rcs_read_receipts_off">Off</string>
+    <!-- Per-conversation read-receipts summary: following the global default. -->
+    <string name="rcs_read_receipts_state_default">Using global default</string>
+    <!-- Per-conversation read-receipts summary: on. -->
+    <string name="rcs_read_receipts_state_on">On for this chat</string>
+    <!-- Per-conversation read-receipts summary: off. -->
+    <string name="rcs_read_receipts_state_off">Off for this chat</string>
+
+    <!-- Notification channel for an encrypted chat that has stopped working and needs a choice. -->
+    <string name="mls_stalled_channel_title">Encrypted chat problems</string>
+    <!-- Title: the chat is not receiving, and only the user can decide what to do about it. -->
+    <string name="mls_stalled_title">An encrypted chat isn\'t working</string>
+    <!-- Short body. %1$s is the other person's phone number. -->
+    <string name="mls_stalled_body">Messages from %1$s can\'t be read on this device.</string>
+    <!-- Long body. Says plainly what is wrong, what each choice costs, and that it can be undone. -->
+    <string name="mls_stalled_body_long">Messages from %1$s are arriving but can\'t be decrypted, and this device can\'t fix it on its own. You can try again, or turn off encryption for this chat so messages come through. Encryption may turn itself back on later.</string>
+    <!-- Action: retry recovery. Changes nothing about encryption. -->
+    <string name="mls_stalled_action_retry">Try again</string>
+    <!-- Action: give up encryption for this conversation so it works. -->
+    <string name="mls_stalled_action_downgrade">Turn off encryption</string>
 </resources>

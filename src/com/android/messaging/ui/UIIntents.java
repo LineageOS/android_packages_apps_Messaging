@@ -65,6 +65,12 @@ public abstract class UIIntents {
     // For the widget to go to the ConversationList from the Conversation.
     public static final String UI_INTENT_EXTRA_GOTO_CONVERSATION_LIST = "goto_conv_list";
 
+    // WAVE-A / A1: open the new-conversation flow in RCS-GROUP mode -- the
+    // contact picker starts in multi-select with an optional group-name field,
+    // and confirming >=2 recipients attempts an RCS group create (falling back
+    // to group MMS). Absent/false -> the existing 1:1-or-MMS compose flow.
+    public static final String UI_INTENT_EXTRA_NEW_GROUP_MODE = "new_group_mode";
+
     // Indicates whether a conversation is launched with custom transition.
     public static final String UI_INTENT_EXTRA_WITH_CUSTOM_TRANSITION = "with_custom_transition";
 
@@ -156,6 +162,12 @@ public abstract class UIIntents {
             final MessageData draft);
 
     /**
+     * WAVE-A / A1: launch the new-conversation flow in RCS-group mode (the
+     * contact picker opens in multi-select with an optional group-name field).
+     */
+    public abstract void launchCreateNewGroupConversationActivity(final Context context);
+
+    /**
      * Launch an activity to change settings.
      */
     public abstract void launchSettingsActivity(final Context context);
@@ -228,6 +240,11 @@ public abstract class UIIntents {
      *        active SIM in the system so we can show this activity directly.
      */
     public abstract void launchApplicationSettingsActivity(Context context, boolean topLevel);
+
+    /**
+     * Launch the user-facing RCS chats status / settings activity.
+     */
+    public abstract void launchRcsSettingsActivity(Context context);
 
     /**
      * Launch an activity to show per-subscription settings

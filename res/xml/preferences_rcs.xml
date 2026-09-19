@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2026 The LineageOS Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<!-- RCS chats settings: a top-level master toggle, then the
+     live Status, then the feature toggles, then account + carrier terms, then
+     the Advanced status diagnostic. When the master toggle is OFF, every other
+     row is grayed out (RcsSettingsActivity.applyMasterEnabledState). -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Master enable/disable for RCS chats. Top-level (outside any category).
+         Persistent (default ON); RouteSelector.isRcsAvailableForSub gates 1:1 +
+         group routing on it, so OFF sends everything as SMS/MMS and grays out the
+         rest of this screen. -->
+    <SwitchPreferenceCompat
+        android:key="rcs_enabled"
+        android:title="@string/rcs_enable_title"
+        android:summary="@string/rcs_enable_summary"
+        android:defaultValue="true"
+        android:persistent="true" />
+
+    <PreferenceCategory
+        android:key="rcs_status_category"
+        android:title="@string/rcs_settings_status_category">
+
+        <Preference
+            android:key="rcs_connection_status"
+            android:title="@string/rcs_settings_connection_title"
+            android:selectable="false"
+            android:persistent="false" />
+
+        <Preference
+            android:key="rcs_provisioning_status"
+            android:title="@string/rcs_settings_provisioning_title"
+            android:selectable="false"
+            android:persistent="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="rcs_features_category"
+        android:title="@string/rcs_settings_features_category">
+
+        <!-- Send + show typing indicators. Persistent (default ON); gated in
+             ComposeMessageView (send) and the inbound typing dispatch (show). -->
+        <SwitchPreferenceCompat
+            android:key="rcs_typing_indicators"
+            android:title="@string/rcs_typing_title"
+            android:summary="@string/rcs_typing_summary"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <!-- Read receipts (DISPLAYED IMDN). Persistent global default; per-thread
+             overrides live in the conversation's People &amp; options screen. The
+             switch persists directly to the "bugle" prefs file under
+             rcs_send_read_receipts (ReadReceiptSettings.PREF_KEY_GLOBAL). -->
+        <SwitchPreferenceCompat
+            android:key="rcs_send_read_receipts"
+            android:title="@string/rcs_read_receipts_title"
+            android:summary="@string/rcs_read_receipts_summary"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <!-- RBM on/off. Persistent (default ON); on change
+             the fragment calls ProviderTransport.setChatbotEnabled so the provider
+             re-registers with/without the chatbot capability (the provider
+             starts/stops routing RBM agent messages). -->
+        <SwitchPreferenceCompat
+            android:key="rcs_business_messaging"
+            android:title="@string/rcs_business_messaging_title"
+            android:summary="@string/rcs_business_messaging_summary"
+            android:defaultValue="true"
+            android:persistent="true" />
+
+        <!-- Generic end-to-end-encryption toggle. NOT persisted locally — the
+             provider owns the state (getE2eeInfo / setE2eeEnabled); the summary shows
+             the provider's scheme label (e.g. "Signal Protocol"). Scheme-blind, so any
+             provider impl (UP 3.0, MSRP, ...) drives the same row. -->
+        <SwitchPreferenceCompat
+            android:key="rcs_e2ee"
+            android:title="@string/rcs_e2ee_title"
+            android:summary="@string/rcs_e2ee_summary"
+            android:persistent="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="rcs_account_category"
+        android:title="@string/rcs_settings_account_category">
+
+        <Preference
+            android:key="rcs_phone_number"
+            android:title="@string/rcs_settings_phone_number_title"
+            android:selectable="false"
+            android:persistent="false" />
+
+        <Preference
+            android:key="rcs_verify_status"
+            android:title="@string/rcs_settings_verify_title"
+            android:selectable="false"
+            android:persistent="false" />
+
+        <Preference
+            android:key="rcs_provider"
+            android:title="@string/rcs_settings_provider_title"
+            android:selectable="false"
+            android:persistent="false" />
+
+    </PreferenceCategory>
+
+    <!-- Carrier/Google RCS Terms-of-Service gate. Summary + clickability are
+         driven at runtime from RouteSelector.getTosState; dormant (Not required)
+         unless the provider surfaces a gating ServerMessage. -->
+    <PreferenceCategory
+        android:key="rcs_tos_category"
+        android:title="@string/rcs_tos_settings_title">
+
+        <Preference
+            android:key="rcs_carrier_tos"
+            android:title="@string/rcs_tos_settings_title"
+            android:persistent="false" />
+
+    </PreferenceCategory>
+
+    <!-- Advanced status: opens the provider's read-only diagnostic dump (Pev3
+         state, token expirations, Tachyon registration, identity keys). This is
+         the former "RCS transport status" overflow item. -->
+    <Preference
+        android:key="rcs_advanced_status"
+        android:title="@string/rcs_advanced_status_title"
+        android:summary="@string/rcs_advanced_status_summary"
+        android:persistent="false" />
+
+</PreferenceScreen>
