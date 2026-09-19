@@ -4842,6 +4842,19 @@ mod tests {
         assert_eq!(decode_settings(0xfc), (false, false));
     }
 
+    /// The Java side builds the byte from its own constants; they must be these values.
+    #[test]
+    fn the_java_settings_constants_match() {
+        let p = concat!(env!("CARGO_MANIFEST_DIR"),
+            "/../../engine/src/com/android/messaging/rcs/engine/mls/OpenMlsNative.java");
+        let src = std::fs::read_to_string(p).unwrap_or_else(|e| panic!("{p}: {e}"));
+        for (name, v) in [("SETTING_KP_FIXED_365_DAYS", SETTING_KP_FIXED_365_DAYS),
+                          ("SETTING_PEER_CERT_TOLERANT", SETTING_PEER_CERT_TOLERANT)] {
+            let decl = format!("static final int {name} = 0x{v:02x};");
+            assert!(src.contains(&decl), "OpenMlsNative.java must declare `{decl}`");
+        }
+    }
+
     /// `kp_inspect` reports the certificate's window, and the leaf Lifetime is not it: under
     /// FIXED_365_DAYS a certificate one day from expiry still has a Lifetime about 334 days out,
     /// so a 30-day floor on the Lifetime could never fire.
