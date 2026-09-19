@@ -57,6 +57,10 @@ breakfast <device>
 m messaging
 ```
 
+The Rust MLS core is built from source by Soong: `rust/rcs_mls_ffi` is a
+`rust_ffi_static` linked against the mls-rs crates in `external/mls-rs`. Changing
+anything under `rust/` is an ordinary source edit — the next `m messaging` rebuilds it.
+
 ## Testing
 
 ```

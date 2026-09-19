@@ -299,3 +299,57 @@ java_test_host {
     ],
     test_suites: ["general-tests"],
 }
+
+// ============================================================================
+// THE NATIVE HALF OF THE MLS ENGINE. Its Java half lives in engine/.
+// ============================================================================
+// The pure-Rust MLS core (mls-rs), BUILT FROM SOURCE by Soong against the crates in
+// external/mls-rs. libmlsopenmlsbridge = the JNI face (jni/mls_openmls_bridge.c) that
+// whole-static-links it. Java face: OpenMlsNative -> OpenMlsEngine.
+rust_ffi_static {
+    name: "librcs_mls_ffi",
+    crate_name: "rcs_mls_ffi",
+    srcs: ["rust/rcs_mls_ffi/src/lib.rs"],
+    edition: "2021",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    compile_multilib: "first",
+    // The relaxed lint set, not the platform default. This crate was built out-of-tree by cargo
+    // until it moved into the build, so it has never been written to AOSP's Rust style: the
+    // platform set adds -D missing-docs (about 150 findings across a 7,200-line FFI surface) and
+    // -D unsafe_op_in_unsafe_fn (about 175, each needing an unsafe block inside an already-unsafe
+    // fn). "vendor" still runs clippy and still denies warnings, so the build is gated, not waved
+    // through -- the 20 findings it did report were fixed rather than suppressed.
+    lints: "vendor",
+    clippy_lints: "vendor",
+    rustlibs: [
+        "libmls_rs_fork",
+        "libmls_rs_core_mls_rs",
+        "libmls_rs_crypto_rustcrypto",
+        "libmls_rs_identity_x509",
+        "libzeroize_mls_rs",
+        "libgetrandom_mls_rs",
+        "libder_mls_rs",
+        "libx509_cert_mls_rs",
+        "libsha2",
+        "libp256",
+    ],
+    system_ext_specific: true,
+    // Package-agnostic Rust MLS staticlib with a plain C ABI, so more than one JNI
+    // bridge can link it. An out-of-tree provider that needs it should be added here.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+cc_library_shared {
+    name: "libmlsopenmlsbridge",
+    srcs: ["jni/mls_openmls_bridge.c"],
+    header_libs: ["jni_headers"],
+    whole_static_libs: ["librcs_mls_ffi"],
+    shared_libs: ["liblog"],
+    compile_multilib: "64",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    system_ext_specific: true,
+    // One bridge and one engine java_library means one set of JNI symbols and no drift.
+    visibility: ["//packages/apps/Messaging"],
+}
