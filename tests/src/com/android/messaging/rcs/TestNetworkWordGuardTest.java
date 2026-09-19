@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * No source, test, doc or file name in this module uses the name of our retired open5gs test
  * network, the three letters L, A, B, as a word or as a camelCase or snake_case segment. That
- * name once spread to an engine profile, a gate, the production SIP plane and the local PKI,
+ * name once spread to the RCC.16 profile, a gate, the production SIP plane and the local PKI,
  * none of which is a test network.
  *
  * <p>A hit is those letters in any case, starting a word or a camel segment (after a non-letter,
@@ -33,17 +33,18 @@ import java.util.List;
  * or before a plural s). So {@code label}, {@code available} and {@code parcelable} are not hits,
  * and neither is the Latvian {@code Labi}.
  *
- * <p>Nothing is allowlisted in this series. A later series allowlists exactly two values, which
- * are data and not names: the participant-key derivation label and the participant-key
- * preferences file name. Nothing else may be added; rename the thing instead.
+ * <p>One value is allowlisted, because it is data and not a name: the participant-key preferences
+ * file name, which is on-device state. The MLS engine adds the participant-key derivation label.
+ * Nothing else may be added here; rename the thing instead.
  */
 public class TestNetworkWordGuardTest {
 
     /** The letters, assembled so this file does not trip its own scan. */
     private static final String W = new String(new char[] {'l', 'a', 'b'});
 
-    /** Exactly the frozen values, none yet. Each must still exist, or its entry is stale. */
-    private static final List<String> ALLOWED = Arrays.asList();
+    /** Exactly the frozen values. Each must still exist, or its entry is stale. */
+    private static final List<String> ALLOWED = Arrays.asList(
+            "mls_" + W + "_participant_key");
 
     /** Directories never scanned: VCS metadata and build output. */
     private static final List<String> SKIP_DIRS = Arrays.asList(".git", "target", "out");
@@ -180,7 +181,7 @@ public class TestNetworkWordGuardTest {
         if (!found.isEmpty()) {
             final int shown = Math.min(found.size(), 40);
             fail(found.size() + " use(s) of the retired test-network name. Rename the thing; "
-                    + "only the two frozen values in ALLOWED may keep it:\n  "
+                    + "only the frozen value in ALLOWED may keep it:\n  "
                     + String.join("\n  ", found.subList(0, shown))
                     + (shown < found.size() ? "\n  ... and " + (found.size() - shown) + " more"
                             : ""));
