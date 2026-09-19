@@ -146,4 +146,30 @@ public final class MlsMetadataKeysPolicy {
             final boolean sending, final Rcc16Version version) {
         return version == Rcc16Version.V4_0 && keysRequestedPresent && sending;
     }
+
+    public static String slotName(final int slot) {
+        switch (slot) {
+            case RccFileInfo.SLOT_ICON:      return "group-icon";
+            case RccFileInfo.SLOT_SUBJECT:   return "group-subject";
+            case RccFileInfo.SLOT_THUMBNAIL: return "thumbnail";
+            default:                         return "file";
+        }
+    }
+
+    /**
+     * Whether the server GroupInfo carries the metadata-keys request. Answers {@code false} when
+     * the code point is unknown, the direction that cannot burn an era on an unrequested advance.
+     */
+    public static boolean metadataKeysRequestPresent(final MlsConfig cfg, final MlsSession session,
+            final byte[] serverGroupInfo) {
+        if (!cfg.metadataKeysExtKnown()) return false;
+        if (serverGroupInfo == null || serverGroupInfo.length == 0) return false;
+        final byte[] types = session.groupInfoExtTypes(serverGroupInfo);
+        if (types == null) return false;
+        for (int i = 0; i + 3 < types.length; i += 4) {
+            final int t = ((types[i] & 0xFF) << 8) | (types[i + 1] & 0xFF);
+            if (t == cfg.metadataKeysExtType) return true;
+        }
+        return false;
+    }
 }

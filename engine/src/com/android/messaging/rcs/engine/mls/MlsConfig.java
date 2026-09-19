@@ -199,8 +199,9 @@ public final class MlsConfig {
     }
 
     /**
-     * {@code ro.debuggable}. A {@code debug.*} knob that dumps or relaxes something needs it too:
-     * adb can set a {@code debug.*} property on a user build, but not an {@code ro.*} one.
+     * {@code ro.debuggable}, as {@link MlsSysProps#debuggableBuild}. A {@code debug.*} knob that
+     * dumps or relaxes something needs it too: adb can set a {@code debug.*} property on a user
+     * build, but not an {@code ro.*} one.
      */
     private static boolean debuggableBuild(final Source s) {
         return s.getInt("ro.debuggable", 0) == 1;

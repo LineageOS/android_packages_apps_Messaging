@@ -4,6 +4,11 @@
  */
 package com.android.messaging.rcs.engine.mls;
 
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Group;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.ConvState;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.RosterClaim;
+import com.android.messaging.rcs.engine.mls.MlsTransportTypes.Claim;
+import com.android.messaging.rcs.log.LogMask;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -299,5 +304,294 @@ public final class MlsFloorRebuild {
                 + "their PUBLISHED pools have turned over, which is a different artefact with a "
                 + "different clock. This re-Welcomes every member; it is not free and it is not "
                 + "automatic.";
+    }
+
+    /**
+     * Log what the floor report found, whether or not anything is below the floor, so a healthy
+     * group and an unmeasured one never look alike.
+     */
+    public static void logFloorReport(final MlsConfig cfg, final MlsLogSink log, final String key,
+            final MlsCredentialFloor.Report r, final String cause) {
+        if (r == null) {
+            log.i("MlsFloorRebuild: credential floor (" + cause + ") for "
+                    + MlsConversationKey.forLog(key)
+                    + " — the roster is unreadable; NOT concluding that it is healthy.");
+            return;
+        }
+        if (!r.membershipChangesWouldBeRefused()) {
+            log.i("MlsFloorRebuild: credential floor (" + cause + ") for "
+                    + MlsConversationKey.forLog(key)
+                    + " — " + r.total + " member(s), all above the " + cfg.kpMinRemainingDays
+                    + "-day floor"
+                    + (r.unreadable > 0 ? " (" + r.unreadable + " unreadable)" : ""));
+            return;
+        }
+        log.w("MlsFloorRebuild: credential floor (" + cause + ") for "
+                + MlsConversationKey.forLog(key) + " — "
+                + r.insideFloor + " member(s) INSIDE RCC.16's " + cfg.kpMinRemainingDays
+                + "-day remaining-lifetime floor and " + r.expired + " expired, out of " + r.total
+                + ": " + r.below + ". The server validates member credentials at now+"
+                + cfg.kpMinRemainingDays + "d (A.4.3.1 §1(a), Invariant 17 — the WHOLE roster), so "
+                + "every membership Commit on this group is refused until each of those members "
+                + "issues its OWN Self-Update. A Remove gets no carve-out (A.4.3.2 exempts only the "
+                + "committer's own leaf), so no COMMIT of ours repairs a PEER's — only ours. "
+                + "What CAN repair it is a rebuild: an era advance re-creates the group from "
+                + "the members' PUBLISHED KeyPackages, which are a different artefact from their "
+                + "in-group leaves and turn over on every re-mint ("
+                + MlsConfig.KEY_FLOOR_REBUILD + ").");
+    }
+
+    /**
+     * A floor rebuild was refused because a member's freshly claimed KeyPackage is still inside the
+     * floor. Distinct from -1: retrying changes nothing until another device re-mints.
+     */
+    public static final int ERA_ADVANCE_ROSTER_NOT_READY = -3;
+
+    /**
+     * Claim one KeyPackage per member for an era advance, and date each package's leaf certificate
+     * {@code notAfter} (not the LeafNode lifetime, which the provider's arm mints as
+     * {@code notBefore + 365d}). Every caller measures the floor; only {@code
+     * requireRebuildableRoster} refuses on it.
+     *
+     * @return the packages, or the failure the advance must return
+     */
+    public static RosterClaim claimRosterForAdvance(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String key,
+            final java.util.List<String> members, final boolean requireRebuildableRoster) {
+        final java.util.List<byte[]> kps = new java.util.ArrayList<>();
+        // Judged once after the loop, so one refusal names every member that is not ready.
+        final java.util.LinkedHashMap<String, Long> claimedCerts = MlsFloorRebuild.newClaimMap();
+        for (final String m : members) {
+            final Claim<byte[]> eraClaim = shell.claimOne(MlsClaimLedger.Caller.ERA_ADVANCE, m);
+            if (eraClaim.refused()) {
+                // Normally the era budget binds long before this ration; kept correct anyway.
+                log.w("MlsFloorRebuild: era advance ABORTED — our own claim ledger "
+                        + "refused the KeyPackage claim for " + LogMask.number(m)
+                        + ", so we never asked. This is "
+                        + "NOT the peer being short a package; the roster is intact and the advance "
+                        + "is retried from the next trigger. " + eraClaim.why());
+                return RosterClaim.refused(-1);
+            }
+            final byte[] kp = eraClaim.orNull();
+            if (kp == null) {
+                // Whose block this is comes from the provider's claim outcome, not the bare null.
+                log.w("MlsFloorRebuild: " + MlsConversationKey.forLog(key) + ": "
+                        + MlsClaimLedger.rosterClaimBlockedLine(m, eraClaim.attribution()));
+                return RosterClaim.refused(-1);
+            }
+            // The advance consumes one package per member, as a create does, and the same floor
+            // applies.
+            if (!shell.keyPackageUsable(kp, m)) return RosterClaim.refused(-1);
+            long certNotAfter = 0L;
+            try {
+                final MlsSession.KeyPackageInfo kpi = shell.session().inspectKeyPackage(kp);
+                if (kpi != null) certNotAfter = kpi.certNotAfterSecs;
+            } catch (final Throwable t) {
+                log.w("MlsFloorRebuild: could not date the KeyPackage claimed for "
+                        + LogMask.number(m) + " during the era advance for "
+                        + MlsConversationKey.forLog(key), t);
+            }
+            claimedCerts.put(m, Long.valueOf(certNotAfter));
+            kps.add(kp);
+        }
+        final long floorDays = cfg.kpMinRemainingDays;
+        final MlsFloorRebuild.Preflight pre = MlsFloorRebuild.preflight(
+                claimedCerts, System.currentTimeMillis() / 1000L, floorDays);
+        if (!pre.go()) {
+            if (requireRebuildableRoster) {
+                log.e("MlsFloorRebuild: "
+                        + MlsFloorRebuild.preflightLine(pre, key, floorDays) + " [" + pre + "]");
+                return RosterClaim.refused(ERA_ADVANCE_ROSTER_NOT_READY);
+            }
+            log.w("MlsFloorRebuild: the era advance for " + MlsConversationKey.forLog(key)
+                    + " is building a "
+                    + "group whose roster is NOT fully above the " + floorDays + "-day floor ("
+                    + pre + "). PROCEEDING — this is not a floor rebuild, and a group that carries "
+                    + "messages but refuses Commits beats no recovery at all. If the create is then "
+                    + "refused naming one of those members, that settles whether the server applies "
+                    + "Invariant 17 to a CREATE, which is not yet known.");
+        }
+        return RosterClaim.of(kps);
+    }
+
+    /**
+     * Rebuild a group the RCC.16 floor has wedged: once a second member is inside the floor nobody
+     * can commit, and {@link MlsCredentialUpdate#maybeUpdateGroupCredential} correctly declines.
+     * Claims once, dates every package it would consume, and either goes or refuses naming the
+     * members that are not ready; it does not wait or retry. One attempt per certificate generation
+     * of ours.
+     *
+     * @return the new era, {@link #ERA_ADVANCE_ROSTER_NOT_READY} when a member has not republished,
+     *         or -1 for every local refusal
+     */
+    public static int floorRebuild(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String key, final Group g, final String rcsGroupId,
+            final String peerE164, final String cause, final boolean ignoreAttemptMarker) {
+        try {
+            if (shell.session() == null || g == null || g.groupId == null) return -1;
+            // Downgraded or left: never re-created around us. Repeated here because the debug lever
+            // skips the maintenance pass.
+            if (MlsRecordState.isDowngradedStatus(shell, log, key)
+                    || MlsRecordState.weLeft(shell, log, key)) {
+                log.i("MlsFloorRebuild: floor rebuild (" + cause + ") for "
+                        + MlsConversationKey.forLog(key)
+                        + " — DECLINED, the conversation is downgraded or we left it (INVARIANT "
+                        + "ED-1). An era advance re-creates the group WITH US IN IT.");
+                return -1;
+            }
+            final long floorDays = cfg.kpMinRemainingDays;
+            final long now = System.currentTimeMillis() / 1000L;
+            // One call gives our leaf index (so our stale leaf is not taken for a peer's) and our
+            // certificate (what the new group would use). Null is un-evaluable, not "fine".
+            final MlsSelfLeafStatus st = shell.session().selfLeafStatus(g.groupId);
+            if (st == null) {
+                log.w("MlsFloorRebuild: floor rebuild (" + cause + ") for "
+                        + MlsConversationKey.forLog(key)
+                        + " — UN-EVALUABLE: the engine did not report our own leaf status, so we "
+                        + "cannot tell OUR stale leaf from a PEER's and cannot date the certificate "
+                        + "a rebuild would use. NOT era-advancing on that.");
+                return -1;
+            }
+            final MlsCredentialFloor.Report roster =
+                    MlsServerBundle.rosterFloorReport(cfg, shell.session(), log, g);
+            final MlsFloorRebuild.Candidacy c = MlsFloorRebuild.assess(
+                    roster, st.leafIndex, st.clientNotAfter, now, floorDays);
+            if (c != MlsFloorRebuild.Candidacy.CANDIDATE) {
+                final String line = MlsFloorRebuild.candidacyLine(c, key, floorDays);
+                if (c == MlsFloorRebuild.Candidacy.NOT_WEDGED) {
+                    log.i("MlsFloorRebuild: " + line);
+                } else {
+                    log.w("MlsFloorRebuild: " + line);
+                }
+                return -1;
+            }
+            // Levers are checked before the attempt marker is taken, so a missing lever costs
+            // nothing.
+            final String leverRefusal = shell.eraAdvanceLeverRefusal(key);
+            if (leverRefusal != null) {
+                log.e("MlsFloorRebuild: floor rebuild (" + cause + ") for "
+                        + leverRefusal);
+                return -1;
+            }
+            // One attempt per certificate generation: our next re-mint re-arms it. The debug lever
+            // ignores the marker.
+            final ConvState cs = shell.conv(key);
+            if (!ignoreAttemptMarker) {
+                synchronized (cs) {
+                    if (cs.floorRebuildAttemptedFor == st.clientNotAfter) {
+                        log.i("MlsFloorRebuild: floor rebuild (" + cause + ") for "
+                                + MlsConversationKey.forLog(key)
+                                + " — already attempted since we last re-minted (notAfter="
+                                + st.clientNotAfter + "). Whether it would work now depends on "
+                                + "whether a PEER has republished, and the only way to ask is to "
+                                + "claim a KeyPackage from every member, which consumes one each. "
+                                + "NOT re-claiming the roster on a guess; the next MINT re-arms "
+                                + "this, and the debug lever ignores it.");
+                        return -1;
+                    }
+                    cs.floorRebuildAttemptedFor = st.clientNotAfter;
+                }
+            }
+            log.w("MlsFloorRebuild: FLOOR REBUILD (" + cause + ") for "
+                    + MlsConversationKey.forLog(key)
+                    + " — " + roster.insideFloor + " of " + roster.total + " member(s) are inside "
+                    + "RCC.16's " + floorDays + "-day floor (" + roster.below
+                    + ") and at least one "
+                    + "is a PEER, so NO Commit can repair this group: A.4.3.2 §3 exempts only the "
+                    + "committer's own leaf and Invariant 17 is evaluated on the whole roster. "
+                    + "Claiming a KeyPackage from every member to see whether their PUBLISHED pools "
+                    + "have turned over; if any has not, this refuses and names them rather than "
+                    + "burning an era.");
+            // The era advance claims, pre-flights and refuses on the exact packages it would
+            // consume.
+            final int era = shell.eraAdvance(rcsGroupId, peerE164, /*carryGroupInfo=*/ null,
+                    MlsAdvanceEraKind.NORMAL, /*requireRebuildableRoster=*/ true);
+            if (era == MlsFloorRebuild.ERA_ADVANCE_ROSTER_NOT_READY) {
+                return era;
+            }
+            if (era < 0) {
+                log.w("MlsFloorRebuild: the floor rebuild for " + MlsConversationKey.forLog(key)
+                        + " did not "
+                        + "complete (" + era + "). The group is still wedged and the reason is "
+                        + "logged above by the advance itself — most often the era budget (G2), "
+                        + "which bounds this exactly as it bounds every other re-Welcome.");
+                return era;
+            }
+            log.i("MlsFloorRebuild: FLOOR REBUILD for " + MlsConversationKey.forLog(key)
+                    + " SUCCEEDED → era "
+                    + era + ". The group was re-created around freshly claimed KeyPackages, so the "
+                    + "stale in-group leaves that wedged it (" + roster.below + ") are gone. "
+                    + "Membership Commits should work on this conversation again; every member "
+                    + "re-joins by Welcome.");
+            return era;
+        } catch (final Throwable t) {
+            log.w("MlsFloorRebuild: the floor rebuild threw for "
+                    + MlsConversationKey.forLog(key), t);
+            return -1;
+        }
+    }
+
+    /**
+     * The maintenance pass's floor arm: {@link #floorRebuild} behind
+     * {@link MlsConfig#KEY_FLOOR_REBUILD}, off by default because it re-Welcomes every member. The
+     * debug lever reaches the repair without the property.
+     */
+    public static void maybeFloorRebuild(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String key, final Group g, final String rcsGroupId,
+            final String peerE164, final MlsCredentialFloor.Report r, final String cause) {
+        if (!cfg.floorRebuild) {
+            if (r != null && r.membershipChangesWouldBeRefused()) {
+                final long floorDays = cfg.kpMinRemainingDays;
+                // Only a CANDIDATE needs a rebuild; when the stale leaf is ours, say so instead.
+                final MlsSelfLeafStatus st = (shell.session() == null || g == null
+                        || g.groupId == null) ? null : shell.session().selfLeafStatus(g.groupId);
+                final Candidacy c = (st == null) ? Candidacy.CANDIDATE : assess(r, st.leafIndex,
+                        st.clientNotAfter, System.currentTimeMillis() / 1000L, floorDays);
+                if (c != Candidacy.CANDIDATE) {
+                    log.w("MlsFloorRebuild: " + candidacyLine(c, key, floorDays));
+                    return;
+                }
+                log.w("MlsFloorRebuild: " + MlsConversationKey.forLog(key) + " is wedged by the "
+                        + floorDays + "-day floor (" + r.below + ") and a REBUILD is "
+                        + "the only repair that exists for it — but " + MlsConfig.KEY_FLOOR_REBUILD
+                        + " is off, so nothing automatic will attempt one. It re-Welcomes every "
+                        + "member, which is a decision per conversation: run the lever "
+                        + "(--ez floorrebuild true --es to " + LogMask.number(peerE164)
+                        + (rcsGroupId == null || rcsGroupId.isEmpty()
+                                ? "" : " --es rcsgid " + rcsGroupId)
+                        + ") to attempt it.");
+            }
+            return;
+        }
+        MlsFloorRebuild.floorRebuild(cfg, shell, log, key, g, rcsGroupId, peerE164, cause,
+                /*ignoreAttemptMarker=*/ false);
+    }
+
+    /** {@code --ez floorrebuild}'s entry point. Ignores the per-certificate attempt marker. */
+    public static int debugFloorRebuild(final MlsConfig cfg, final MlsShellPort shell,
+            final MlsLogSink log, final String rcsGroupId, final String peerE164) {
+        if (!shell.ensureSession()) return -1;
+        final String key = shell.resolveInbound(rcsGroupId, peerE164);
+        final Group g = (key == null) ? null : shell.getGroup(key);
+        if (g == null || g.groupId == null) {
+            log.w("MlsFloorRebuild: floor rebuild (debug lever) — no MLS group for "
+                    + LogMask.number(peerE164));
+            return -1;
+        }
+        return MlsFloorRebuild.floorRebuild(cfg, shell, log, key, g, rcsGroupId, peerE164,
+                "debug lever",
+                /*ignoreAttemptMarker=*/ true);
+    }
+
+    /**
+     * The lever check with live property reads (not {@link MlsConfig}, which the create site does
+     * not use either). The decision itself is {@link MlsFloorRebuild#leverRefusal}.
+     */
+    public static String eraAdvanceLeverRefusal(final MlsShellPort shell, final String key) {
+        return MlsFloorRebuild.leverRefusal(
+                shell.sysprops().getBoolean(
+                        "debug.rcs.mls_advance_create_fallback", true),
+                shell.sysprops().get("debug.rcs.mls_advance_fresh_ctxid", "off"),
+                key);
     }
 }

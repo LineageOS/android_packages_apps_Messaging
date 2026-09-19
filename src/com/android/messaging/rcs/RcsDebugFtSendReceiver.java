@@ -175,8 +175,8 @@ public final class RcsDebugFtSendReceiver extends BroadcastReceiver {
     }
 
     /**
-     * A unique random-noise JPEG in a MediaScratchFileProvider URI. Noise compresses poorly, so it
-     * reliably exceeds the inline limit, and uniqueness defeats upload de-duplication.
+     * A unique random-noise JPEG in a MediaScratch URI. Noise compresses poorly, so it reliably
+     * exceeds the inline limit, and uniqueness defeats upload de-duplication.
      */
     private static Uri makeUniqueJpeg(final Context ctx, final int px,
             final String tag) throws Exception {
@@ -209,7 +209,7 @@ public final class RcsDebugFtSendReceiver extends BroadcastReceiver {
         return uri;
     }
 
-    /** A random {@code n}-byte blob in a MediaScratchFileProvider URI, for the file-only path. */
+    /** A random blob of {@code n} bytes in a MediaScratch URI, for the file-only path. */
     private static Uri makeSyntheticBlob(final Context ctx, final int n,
             final String ext) throws Exception {
         final int bytes = n < 1 ? 1 : n;
@@ -233,8 +233,7 @@ public final class RcsDebugFtSendReceiver extends BroadcastReceiver {
     }
 
     /**
-     * Copy a real on-device file into a MediaScratchFileProvider URI; the provider sees only the
-     * descriptor.
+     * Copy a real on-device file into a MediaScratch URI; the provider sees only the descriptor.
      */
     private static Uri copyFileToScratch(final Context ctx, final String path,
             final String ext) throws Exception {
@@ -259,7 +258,7 @@ public final class RcsDebugFtSendReceiver extends BroadcastReceiver {
         return uri;
     }
 
-    /** Decode the embedded sample MP4 into a MediaScratchFileProvider URI. */
+    /** Decode the embedded sample MP4 into a MediaScratch URI. */
     private static Uri makeSampleVideo(final Context ctx) throws Exception {
         final byte[] mp4 = android.util.Base64.decode(SAMPLE_MP4_B64,
                 android.util.Base64.DEFAULT);

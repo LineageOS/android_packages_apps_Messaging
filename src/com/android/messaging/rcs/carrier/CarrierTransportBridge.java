@@ -104,7 +104,7 @@ public final class CarrierTransportBridge {
             @Override
             public void onIncomingContent(String fromUri, byte[] body, String contentType,
                     String messageId, String e2eeSchemeId) {
-                // Forward the bytes: content is binary for anything but text.
+                // Forward the bytes: decrypted MLS content is binary for anything but text.
                 if (downstream != null) {
                     downstream.onIncomingContent(fromUri, body, contentType, messageId,
                             e2eeSchemeId);

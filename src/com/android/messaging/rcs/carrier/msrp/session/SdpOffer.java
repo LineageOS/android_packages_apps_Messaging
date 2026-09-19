@@ -568,7 +568,7 @@ public final class SdpOffer {
     }
 
     /**
-     * Accept-wrapped-types for 1:1 chat: the GSMA UP set. Etouffee's
+     * Accept-wrapped-types for 1:1 chat: the GSMA UP set and the RCC.16 §7.9 MLS types. Etouffee's
      * {@code application/vnd.google.rcs.encrypted} is not offered: this transport cannot decrypt
      * it.
      */
@@ -576,6 +576,9 @@ public final class SdpOffer {
         List<String> l = new ArrayList<>();
         l.add("text/plain");
         l.add("application/vnd.gsma.rcs-ft-http+xml");
+        l.add("message/mls");
+        l.add("message/mls-rcs-client");
+        l.add("message/mls-rcs-server");
         l.add("message/imdn+xml");
         l.add("application/vnd.oma.cpm-groupdata+xml");
         return Collections.unmodifiableList(l);

@@ -289,6 +289,7 @@ public class ReceiveRcsMediaAction extends Action implements Parcelable {
         if (wasInsert && wantsDelivered && !TextUtils.isEmpty(rcsMessageId)) {
             final ProviderTransport transport = ProviderTransport.peekInstance();
             if (transport != null) {
+                // The group id selects which MLS group state stamps the receipt.
                 transport.sendImdn(rcsMessageId, fromUri, IRcsProviderCallback.IMDN_DELIVERED,
                         isGroup ? groupId : null);
             }

@@ -161,4 +161,20 @@ public final class MlsInboundRefusal {
                 + "it, and healing would spend the repair budget on a group that is demonstrably in "
                 + "step.";
     }
+
+    /**
+     * The one exit for a refused message: stores the decision as a framed marker for replay and
+     * returns the marker. No report, heal, rebuild credit or health transition; callers log first.
+     */
+    public static RccMlsBody.Parsed refuse(final MlsShellPort shell, final String selfId,
+            final String fromE164, final String messageId, final MlsInboundRefusal.Reason reason) {
+        final String marker = MlsInboundRefusal.marker(reason);
+        if (MlsInboundRefusal.replayable(reason)) {
+            shell.rendezvous().put(selfId, fromE164, messageId, MlsRendezvous.Stage.DECRYPT,
+                    new MlsRendezvous.Stored(MlsProcStatus.APP,
+                            RccMlsBody.frame(new byte[0], marker, /*inline=*/ true),
+                            System.currentTimeMillis()));
+        }
+        return new RccMlsBody.Parsed(marker, new byte[0]);
+    }
 }

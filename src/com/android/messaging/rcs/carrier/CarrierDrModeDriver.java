@@ -23,14 +23,15 @@ public interface CarrierDrModeDriver {
         /** {@code state} is an {@code IRcsProviderCallback.PROV_*}. */
         void onProvisioningState(int subId, int state);
         void onIncomingText(int subId, String fromE164, String body, String messageId);
-        /** As above, with the E2EE scheme the body arrived under, or null for plaintext. */
+        /** As above, with the E2EE scheme the body was decrypted under, or null for plaintext. */
         default void onIncomingText(int subId, String fromE164, String body, String messageId,
                 @Nullable String e2eeSchemeId) {
             onIncomingText(subId, fromE164, body, messageId);
         }
         /**
-         * Content bytes and their real, already unframed content type. The default is the lossy
-         * String form; {@code CarrierImsService} overrides it.
+         * Content bytes and their real, already unframed content type; everything decrypted from
+         * MLS arrives here. The default is the lossy String form; {@code CarrierImsService}
+         * overrides it.
          */
         default void onIncomingContent(int subId, String fromE164, byte[] body, String contentType,
                 String messageId, @Nullable String e2eeSchemeId) {
@@ -69,6 +70,10 @@ public interface CarrierDrModeDriver {
     /** Debug: sends a non-CPM {@code text/plain} SIP message. */
     default void sendPlainDebug(int subId, String fromE164, String toE164,
             String text, String messageId) { }
+
+    /** {@code framedBody} is an RCC.16-framed entity, not text; the inner type rides inside it. */
+    default void sendMls(int subId, String fromE164, String toE164,
+            byte[] framedBody, String messageId) { }
 
     /**
      * The autoconfiguration document the modem fetched, from which the driver builds its config.

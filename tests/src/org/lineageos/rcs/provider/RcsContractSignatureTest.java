@@ -37,17 +37,17 @@ public class RcsContractSignatureTest {
      * callbacks gained confirmId, changed from {@link #CALLBACK_DIGEST_BEFORE_UNAVAILABLE} by
      * onIncomingFileUnavailable.
      */
-    private static final String CALLBACK_DIGEST = "19743d8b33b4";
+    private static final String CALLBACK_DIGEST = "f161991a2b3b";
 
     /** The callback layout digest without onIncomingFileUnavailable, as older builds report it. */
-    private static final String CALLBACK_DIGEST_BEFORE_UNAVAILABLE = "de622dee3dfe";
+    private static final String CALLBACK_DIGEST_BEFORE_UNAVAILABLE = "f0f650b242f3";
 
     /** The callback reporting a pending file that cannot be downloaded, and its ordinal. */
     private static final String UNAVAILABLE = "onIncomingFileUnavailable";
     private static final int UNAVAILABLE_ORDINAL = 17;
 
     /** The provider layout digest, unchanged by the CONTRACT_CONFIRMS_STORED constant. */
-    private static final String PROVIDER_DIGEST = "0b2f44172c3f";
+    private static final String PROVIDER_DIGEST = "2c276073493a";
 
     /** The callbacks that gained a trailing confirmId, with their parameter count after it. */
     private static final String[][] CONFIRM_ID_CALLBACKS = {
@@ -73,9 +73,12 @@ public class RcsContractSignatureTest {
         assertEquals(CALLBACK_DIGEST, RcsContractLayout.digest(names));
     }
 
-    /** The new callback is appended after onE2eeStateChanged, the last callback before it. */
+    /**
+     * The new callback sits after the last callback series 1 has and before the MLS block, so its
+     * ordinal is the same with and without MLS.
+     */
     @Test
-    public void fileUnavailable_followsOnE2eeStateChanged() throws IOException {
+    public void fileUnavailable_followsTheLastNonMlsCallback() throws IOException {
         final String src = aidl("IRcsProviderCallback.aidl");
         final String[] names = methodNames(src);
         assertEquals(UNAVAILABLE, names[UNAVAILABLE_ORDINAL - RcsContractLayout.FIRST_ORDINAL]);
@@ -92,12 +95,11 @@ public class RcsContractSignatureTest {
     }
 
     /**
-     * An older peer lacks the callback, which is the last one: a newer provider dialling an older
-     * app is refused, as the app lacks the highest ordinal, while an older provider pairs with a
-     * newer app and never sends the callback.
+     * An older peer lacks the callback, and the probe refuses the pairing in both directions:
+     * every later ordinal names a different method. Neither side can mis-dispatch silently.
      */
     @Test
-    public void fileUnavailable_anOlderAppIsRefused() throws IOException {
+    public void fileUnavailable_anOlderPeerIsRefusedBothWays() throws IOException {
         final String[] now = methodNames(aidl("IRcsProviderCallback.aidl"));
         final List<String> without = new ArrayList<>(java.util.Arrays.asList(now));
         assertTrue(without.remove(UNAVAILABLE));
@@ -107,13 +109,17 @@ public class RcsContractSignatureTest {
         // A new provider dialling an older app.
         final RcsContractLayout.Verdict newProvider = RcsContractLayout.compare(
                 "IRcsProviderCallback", RcsContractLayout.CALLBACK_ANCHOR_METHOD,
-                "provider", now, 65, "app", older, 3);
+                "provider", now, 65, "app", older, 4);
         assertTrue(newProvider.reason, !newProvider.compatible
-                && newProvider.reason.contains("FEWER methods"));
+                && newProvider.reason.contains("ORDINAL SKEW at transaction "
+                        + UNAVAILABLE_ORDINAL));
         // An older provider dialling a new app.
-        assertTrue(RcsContractLayout.compare(
+        final RcsContractLayout.Verdict oldProvider = RcsContractLayout.compare(
                 "IRcsProviderCallback", RcsContractLayout.CALLBACK_ANCHOR_METHOD,
-                "provider", older, 65, "app", now, 3).compatible);
+                "provider", older, 65, "app", now, 4);
+        assertTrue(oldProvider.reason, !oldProvider.compatible
+                && oldProvider.reason.contains("ORDINAL SKEW at transaction "
+                        + UNAVAILABLE_ORDINAL));
     }
 
     @Test
@@ -132,6 +138,12 @@ public class RcsContractSignatureTest {
         assertTrue("the revision constant is declared",
                 src.replaceAll("\\s+", " ").contains("const int CONTRACT_CONFIRMS_STORED = 3;"));
         assertEquals(PROVIDER_DIGEST, RcsContractLayout.digest(methodNames(src)));
+    }
+
+    @Test
+    public void providerOrdinal64_isGetMlsTrustAnchors() throws IOException {
+        final String[] names = methodNames(aidl("IRcsProvider.aidl"));
+        assertEquals("getMlsTrustAnchors", names[64 - RcsContractLayout.FIRST_ORDINAL]);
     }
 
     @Test

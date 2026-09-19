@@ -23,6 +23,8 @@ import org.lineageos.rcs.provider.IRcsProvider;
 import org.lineageos.rcs.provider.IRcsProviderCallback;
 import org.lineageos.rcs.provider.RcsIncomingMessage;
 import org.lineageos.rcs.provider.RcsOutgoingMessage;
+import com.android.messaging.rcs.e2ee.MlsCarrierTrust;
+import com.android.messaging.rcs.e2ee.RcsE2eeScheme;
 import org.lineageos.rcs.provider.RcsProviderCaps;
 import org.lineageos.rcs.provider.RcsSendResult;
 import org.lineageos.rcs.provider.RcsSubInfo;
@@ -30,6 +32,7 @@ import org.lineageos.rcs.provider.RcsTosPrompt;
 
 import com.android.messaging.rcs.ProviderRegistry;
 import com.android.messaging.rcs.RcsCallbackRouter;
+import com.android.messaging.rcs.RcsDebug;
 import com.android.messaging.util.LogUtil;
 
 import java.util.Collections;
@@ -352,6 +355,42 @@ public final class CarrierImsTransport implements com.android.messaging.rcs.RcsT
         final Message m = Message.obtain(null, CarrierImsSeam.MSG_DEBUG_PLAIN_MESSAGE);
         m.setData(b);
         sendToIms(m);
+    }
+
+    /** Sends an RCC.16-framed MLS body over the carrier session; sealing happens before this. */
+    public void sendMls(final int subId, final String toUri, final byte[] framedBody,
+            final String messageId) {
+        // The same parcelable as a plaintext send. contentType is the outer type; the inner one is
+        // inside the frame.
+        final Bundle b = new Bundle();
+        b.putParcelable(CarrierImsSeam.KEY_OUT_MSG, new RcsOutgoingMessage(
+                subId, messageId, toUri, "message/mls", framedBody,
+                RcsE2eeScheme.MLS, /*groupId=*/ null));
+        final Message m = Message.obtain(null, CarrierImsSeam.MSG_SEND_MLS);
+        m.setData(b);
+        sendToIms(m);
+    }
+
+    /**
+     * Attached, and carrier-path MLS can be on: the DR stack provisions MLS when it registers, but
+     * only with trust anchors, which a user build has only from the provider (see {@link
+     * MlsCarrierTrust#readyInApp}). False keeps the conversation off MLS and its sends on the
+     * ordinary route.
+     */
+    @Override
+    public boolean isMlsReady(final int subId) {
+        return MlsCarrierTrust.readyInApp(isAttached(), RcsDebug.isDebugBuild());
+    }
+
+    /** Forwards an already-gated MLS send. */
+    @Override
+    public boolean sendMlsMessage(final int subId, final String toUri, final byte[] framedBody,
+            final String messageId) {
+        if (!isAttached()) {
+            return false;
+        }
+        sendMls(subId, toUri, framedBody, messageId);
+        return true;
     }
 
     @Override

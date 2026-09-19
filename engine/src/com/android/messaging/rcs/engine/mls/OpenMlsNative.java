@@ -303,4 +303,48 @@ public final class OpenMlsNative {
     static native byte[] nativeEncryptResults(long handle, byte[] groupId, byte[] plaintext,
             byte[] messageId, byte[] contextId, boolean wantKeyUpdate);
     static native void nativeSessionClose(long handle);
+
+    // ---- RCC.16 credential encoding. Stateless (no handle). The caller signs what these return,
+    // so private keys never reach native code; null means the encoder refused. See Rcc16Der.
+
+    /** {@code Name} with one {@code CN=<cn>} as UTF8String; {@code cn} is UTF-8. */
+    static native byte[] nativeRcc16SubjectDer(byte[] cn);
+
+    /** {@code GeneralNames} with one URI; {@code uri} is UTF-8. */
+    static native byte[] nativeRcc16SanDer(byte[] uri);
+
+    /** Validity in unix seconds; null if empty or inverted. */
+    static native byte[] nativeRcc16ValidityDer(long notBefore, long notAfter);
+
+    /**
+     * {@code tbsParticipantInfo}, to sign with the participant key. Subject, leaf SPKI and SAN come
+     * from the leaf; vendor id and validity from the extension.
+     */
+    static native byte[] nativeRcc16TbsDer(byte[] subject, long vendorId, byte[] validity,
+            byte[] leafSpki, byte[] san);
+
+    /** The {@code .4 ParticipantInformation} value around a signature over that TBS. */
+    static native byte[] nativeRcc16Ext4Der(long vendorId, byte[] validity, byte[] popSig,
+            byte[] participantSpki);
+
+    // ---- Self-test PKI: throwaway chains for driving the engine without a network. Same split:
+    // these return a TBS, the caller signs, nativeRcc16Certificate assembles.
+
+    /** A CA certificate's TBS; for a root pass issuer == subject and aki == ski. */
+    static native byte[] nativeRcc16TbsCa(byte[] issuer, byte[] subject, byte[] spki,
+            byte[] serial, long notBefore, long notAfter, byte[] ski, byte[] aki, long vendorId);
+
+    /** A client leaf's TBS; {@code san} and {@code ext4} are embedded verbatim. */
+    static native byte[] nativeRcc16TbsLeaf(byte[] issuer, byte[] subject, byte[] spki,
+            byte[] serial, long notBefore, long notAfter, byte[] ski, byte[] aki, byte[] san,
+            byte[] ext4, long vendorId);
+
+    /** A certificate from its TBS and signature. */
+    static native byte[] nativeRcc16Certificate(byte[] tbs, byte[] signature);
+
+    /** CA {@code Name} {@code O=}, {@code CN=}, both PrintableString. */
+    static native byte[] nativeRcc16CaNameDer(byte[] org, byte[] cn);
+
+    /** Flips one bit of a {@code .4} signature, for a negative test fixture. */
+    static native byte[] nativeRcc16CorruptPop(byte[] ext4);
 }

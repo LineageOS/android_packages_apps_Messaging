@@ -577,9 +577,8 @@ public class ConversationMessageData {
             mGeoParsed = true;
             mGeoLoc = null;
             final String body = getText();
-            if (body != null
-                    && body.startsWith("📍")) {                final java.util.regex.Matcher m =
-                    GEO_PATTERN.matcher(body);
+            if (body != null && body.startsWith("📍")) {
+                final java.util.regex.Matcher m = GEO_PATTERN.matcher(body);
                 if (m.find()) {
                     try {
                         final double lat = Double.parseDouble(m.group(1));
@@ -922,12 +921,21 @@ public class ConversationMessageData {
     }
 
     /**
-     * Whether a tap on this bubble resends it. RCS rows are not resent over RCS; "Send as SMS"
-     * stays on every failed RCS row.
+     * Whether a tap on this bubble resends it. RCS rows need {@link #canResendOverRcs()}.
+     * "Send as SMS" stays on every failed RCS row.
      */
     public boolean getOneClickResendMessage() {
         return MessageData.getOneClickResendMessage(mStatus, mRawTelephonyStatus)
-                && !getIsRcs();
+                && (!getIsRcs() || canResendOverRcs());
+    }
+
+    /**
+     * Whether a failed row can be resent over RCS: it must be RCS, E2EE (the resend only
+     * seals) and have a wire id (refused rows have none). Other rows keep "Send as SMS".
+     */
+    public boolean canResendOverRcs() {
+        return getIsRcs() && isE2eeEncrypted()
+                && !android.text.TextUtils.isEmpty(mRcsMessageId);
     }
 
     /**

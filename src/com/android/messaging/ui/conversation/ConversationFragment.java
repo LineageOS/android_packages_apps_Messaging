@@ -110,6 +110,8 @@ import com.android.messaging.rcs.ProviderTransport;
 import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.rcs.RcsFileAttachment;
 import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.e2ee.MlsSendRouting;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
 import com.android.messaging.ui.AttachmentPreview;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.ConversationDrawables;
@@ -331,9 +333,11 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             final MenuInflater menuInflater = getActivity().getMenuInflater();
             menuInflater.inflate(R.menu.conversation_fragment_select_menu, menu);
             menu.findItem(R.id.action_download).setVisible(data.getShowDownloadMessage());
-            // "Send" resends over the original transport, which RCS rows do not support.
+            // "Send" resends over the original transport; for an RCS row only when
+            // canResendOverRcs().
             menu.findItem(R.id.action_send)
-                    .setVisible(data.getShowResendMessage() && !data.getIsRcs());
+                    .setVisible(data.getShowResendMessage()
+                            && (!data.getIsRcs() || data.canResendOverRcs()));
             // "Send as SMS" is on every failed RCS message; the user's choice, never automatic.
             menu.findItem(R.id.action_send_as_sms)
                     .setVisible(data.getShowResendMessage() && data.getIsRcs());
@@ -777,6 +781,13 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         if (mHost.shouldResumeComposeMessage()) {
             mComposeMessageView.resumeComposeMessage();
         }
+
+        // Opening a conversation is the MLS upgrade trigger; there is no create-time or
+        // send-time equivalent. Non-blocking and throttled, so it runs on every resume.
+        com.android.messaging.rcs.e2ee.MlsConversationOpenListener.onConversationOpened(
+                getActivity(),
+                com.android.messaging.datamodel.data.ParticipantData.DEFAULT_SELF_SUB_ID,
+                mConversationId);
 
         setConversationFocus();
 
@@ -2019,14 +2030,42 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 ? Factory.get().getApplicationContext()
                 : getActivity().getApplicationContext();
         final String sendToUri = toUri;
+        final String convId = mConversationId;
         new Thread(() -> {
             try {
+                // Refuse rather than degrade: only PLAINTEXT may send, as there is no sealed
+                // reaction. A cleartext reaction exposes the target message id in a header.
+                final MlsSendRouting.Verdict verdict = TextUtils.isEmpty(groupId)
+                        ? MlsProviderTransport.oneToOneSendVerdict(appCtx, subId, sendToUri, convId)
+                        : MlsProviderTransport.groupSendVerdict(appCtx, subId, groupId, convId);
+                if (verdict != MlsSendRouting.Verdict.PLAINTEXT) {
+                    LogUtil.e(LogUtil.BUGLE_TAG, "onReactionSelected: NOT sending this reaction in "
+                            + "the clear (conversation " + convId + ", "
+                            + (TextUtils.isEmpty(groupId) ? "1-1" : "group") + ", verdict "
+                            + verdict
+                            + "). The app is presenting this thread as encrypted and a reaction "
+                            + "cannot be sealed, so it is withheld.");
+                    withdrawRefusedReaction(targetRcsId, emoji, add);
+                    return;
+                }
                 ProviderTransport.getInstance(appCtx)
                         .sendReaction(subId, targetRcsId, sendToUri, emoji, add, groupId);
             } catch (final Throwable t) {
                 LogUtil.w(LogUtil.BUGLE_TAG, "onReactionSelected: sendReaction failed", t);
             }
         }, "rcs-send-reaction").start();
+    }
+
+    /**
+     * Reverts the optimistic chip for a refused reaction and shows a toast; there is no row to
+     * mark failed. {@code !add} inverts both an add and a remove. The toast is posted to the
+     * main thread because this runs on a thread without a Looper.
+     */
+    private static void withdrawRefusedReaction(final String targetRcsId, final String emoji,
+            final boolean add) {
+        UpdateRcsReactionAction.recordSelfReaction(targetRcsId, emoji, !add);
+        ThreadUtil.getMainThreadHandler().post(
+                () -> UiUtils.showToast(R.string.rcs_reaction_not_sent_encrypted));
     }
 
     /**
@@ -2050,14 +2089,16 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
         if (suggestion.isAction()) {
             performBotAction(suggestion);
             if (TextUtils.isEmpty(suggestion.postbackData)) {
-                return;            }
+                return;
+            }
         } else if (!TextUtils.isEmpty(suggestion.displayText)) {
             new InsertRbmPostbackEchoAction(subId, botId, suggestion.displayText).start();
         }
 
         final String json = buildBotSuggestionResponse(suggestion);
         if (json == null) {
-            return;        }
+            return;
+        }
         final Context appCtx = getActivity() == null
                 ? Factory.get().getApplicationContext()
                 : getActivity().getApplicationContext();
@@ -2096,7 +2137,8 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
                 intent = buildCalendarIntent(s);
                 break;
             default:
-                break;        }
+                break;
+        }
         if (intent == null && !TextUtils.isEmpty(s.fallbackUrl)) {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse(s.fallbackUrl));
         }
@@ -2503,11 +2545,13 @@ public class ConversationFragment extends Fragment implements ConversationDataLi
             activity.runOnUiThread(() -> {
                 mBotBrandFetching = false;
                 if (brand == null) {
-                    return;                }
+                    return;
+                }
                 mBotBrand = brand;
                 mBotBrandBotId = botId;
                 if (isBound()) {
-                    mHost.invalidateActionBar();                }
+                    mHost.invalidateActionBar();
+                }
             });
         }, "rbm-brand-header").start();
     }

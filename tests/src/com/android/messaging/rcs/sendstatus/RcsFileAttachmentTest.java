@@ -371,5 +371,10 @@ public class RcsFileAttachmentTest {
                             && body.indexOf("caption", send) < body.indexOf(";", send)
                             && body.indexOf("contentUri, caption);", row) > row);
         }
+        final String refused = SourceScan.bodyOf(code, "insertRefusedRcsMediaMessage")
+                .replaceAll("\\s+", " ");
+        assertTrue("a refused file's row must keep the typed text: " + refused,
+                refused.contains("media.getContentUri(), RcsFileAttachment.outgoingCaption( "
+                        + "media.getText(), content.getMessageText()));"));
     }
 }

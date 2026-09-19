@@ -816,4 +816,18 @@
     <string name="rcs_read_receipts_state_on">On for this chat</string>
     <!-- Per-conversation read-receipts summary: off. -->
     <string name="rcs_read_receipts_state_off">Off for this chat</string>
+
+    <!-- Notification channel for an encrypted chat that has stopped working and needs a choice. -->
+    <string name="mls_stalled_channel_title">Encrypted chat problems</string>
+    <!-- Title: the chat is not receiving, and only the user can decide what to do about it. -->
+    <string name="mls_stalled_title">An encrypted chat isn\'t working</string>
+    <!-- Short body. %1$s is the other person's phone number. -->
+    <string name="mls_stalled_body">Messages from %1$s can\'t be read on this device.</string>
+    <!-- Long body. Says plainly what is wrong, what each choice costs, and that it can be
+         undone. -->
+    <string name="mls_stalled_body_long">Messages from %1$s are arriving but can\'t be decrypted, and this device can\'t fix it on its own. You can try again, or turn off encryption for this chat so messages come through. Encryption may turn itself back on later.</string>
+    <!-- Action: retry recovery. Changes nothing about encryption. -->
+    <string name="mls_stalled_action_retry">Try again</string>
+    <!-- Action: give up encryption for this conversation so it works. -->
+    <string name="mls_stalled_action_downgrade">Turn off encryption</string>
 </resources>

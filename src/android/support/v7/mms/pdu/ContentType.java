@@ -90,8 +90,8 @@ public final class ContentType {
     }
 
     // The type predicates are case-insensitive: MIME types are case-insensitive (RFC 2045 §5.1),
-    // and a peer may send "IMAGE/JPEG". This differs from AOSP; keep it on a
-    // re-sync.
+    // and a peer may send "IMAGE/JPEG". This differs from AOSP; RccContentTypeCaseGuardTest
+    // keeps a re-sync from dropping it.
 
     public static boolean isTextType(final String contentType) {
         return TEXT_PLAIN.equalsIgnoreCase(contentType)
