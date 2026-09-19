@@ -54,11 +54,12 @@ android_app {
     // sources" refers to the same list by construction.
     srcs: [":messaging-srcs"],
 
-    jni_libs: ["libmlsopenmlsbridge"],
-    use_embedded_native_libs: true,
-
     defaults: ["messaging_defaults"],
 
+    jni_libs: ["libmlsopenmlsbridge"],
+    // Package the .so INSIDE the APK (lib/arm64-v8a/) so it resolves for an adb-installed update
+    // to /data (not just the system image). Required for OpenMlsNative to dlopen it.
+    use_embedded_native_libs: true,
     static_libs: [
         "androidx.activity_activity",
         "androidx.annotation_annotation",
@@ -87,7 +88,6 @@ android_app {
         // The RCS provider contract (IRcsProvider + callback + parcelables),
         // consumed by the rcs/ client classes. See aidl/.
         "messaging-rcs-contract-aidl",
-        "messaging-mls-engine",
         // JAIN-SIP reference implementation (javax.sip.* + gov.nist.*) for the
         // Dual-Registration (DR) carrier-RCS stack (design §6.3, D6): the app-owned
         // SIP-REGISTER-over-IMS-APN path in rcs/carrier/** (CarrierRcsTransport +
@@ -97,6 +97,12 @@ android_app {
         // this repo (com.android.messaging.rcs.carrier.**, compiled via the app
         // src glob); only the external JAIN-SIP library is pulled in here.
         "nist-sip",
+        // The MLS engine. It is a separate library so that a provider app can compile
+        // the SAME classes and link the SAME JNI bridge rather than carrying a second
+        // implementation of one contract. The lab/credential glue
+        // (MlsCredential/RcsKdsClient/MlsTrustAnchors) stays in the app because it needs
+        // BouncyCastle, which the engine library deliberately does not depend on.
+        "messaging-mls-engine",
         // BouncyCastle: MlsCredential mints RCC.16 certs via org.bouncycastle.{asn1,cert,operator}.*.
         "bouncycastle-unbundled",
         "bouncycastle-bcpkix-unbundled",

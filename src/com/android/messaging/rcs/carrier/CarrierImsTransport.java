@@ -463,9 +463,10 @@ public final class CarrierImsTransport implements com.android.messaging.rcs.RcsT
     // ---- RcsTransport E2EE seam ----
 
     /**
-     * The carrier-IMS transport carries app-provided MLS. "Ready" == attached, and that is the
-     * whole check: it reports that the :ims conduit is up, NOT that MLS has been provisioned on
-     * it for this sub. (A future EVT_MLS_PROVISIONED could make it precise per-sub.)
+     * The carrier-IMS transport carries app-provided MLS. "Ready" == attached: the
+     * :ims conduit provisions MLS (enrol + KP publish) automatically on REGISTER
+     * (CarrierRcsTransport.ensureMls), so an attached conduit is MLS-provisioned for
+     * the lab. (A future EVT_MLS_PROVISIONED could make this precise per-sub.)
      */
     @Override
     public boolean isMlsReady(final int subId) {

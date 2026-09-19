@@ -222,6 +222,20 @@ public final class CarrierStackDrModeDriver implements CarrierDrModeDriver {
         }
     }
 
+    /** Send an MLS-E2EE message to {@code toE164} over the held CPM/MSRP session. */
+    public void sendMls(final int subId, final String fromE164,
+            final String toE164, final byte[] framedBody, final String messageId) {
+        final CarrierRcsTransport transport = mTransport;
+        if (transport == null) {
+            LogUtil.w(TAG, SUBTAG + ": sendMls no transport (not registered?)");
+            return;
+        }
+        try {
+            transport.sendMls(subId, "tel:" + toE164, toE164, framedBody, messageId);
+        } catch (final Throwable t) {
+            LogUtil.w(TAG, SUBTAG + ": sendMls failed", t);
+        }
+    }
 
     /**
      * Build the DR SIP config for this sub from the carrier autoconfig. See the

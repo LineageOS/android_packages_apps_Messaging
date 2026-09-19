@@ -38,6 +38,9 @@ import com.android.messaging.datamodel.DataModel;
 import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.rcs.e2ee.E2eeSendGate;
+import com.android.messaging.rcs.e2ee.MlsProviderTransport;
+import com.android.messaging.rcs.e2ee.RccMlsBody;
+import com.android.messaging.rcs.e2ee.MlsSendRouting;
 import com.android.messaging.rcs.e2ee.RcsE2eeScheme;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.SyncManager;
@@ -655,15 +658,86 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         final String e2eeScheme = E2eeSendGate.get().resolveForSend(
                 conversationId, subId, dest, false /* isGroup */);
 
-        {
-            // Send over the provider AIDL as plaintext. Any end-to-end encryption on this route is
-            // the PROVIDER's own scheme, applied inside the provider; this layer hands it the text.
+        final boolean isMls = RcsE2eeScheme.MLS.equals(e2eeScheme);
+        boolean dispatchedViaMls = false;
+        // Path 1 — carrier/lab MLS: the carrier-IMS transport carries it over CPM/MSRP (only it
+        // reports isMlsReady).
+        //
+        // FRAMED, exactly as Paths 1b and 2 below. This used to hand down raw text, and
+        // A<->B survived only because RccMlsBody.parse returns a frameless payload verbatim as
+        // text/plain — so two of our own clients worked and a real Google or Apple peer, which
+        // expects a self-describing MIME entity, could not read us at all. One framer for all three
+        // paths, so they cannot drift.
+        //
+        // The generation counter in the frame header is a PLACEHOLDER here and is stamped at encrypt
+        // time by MlsCarrierTransport.encryptForSend. Framing without that stamp would decrypt the
+        // first message of an epoch and fail every one after it; the two landed together.
+        if (isMls && transport.isMlsReady(subId)) {
+            dispatchedViaMls = transport.sendMlsMessage(subId,
+                    dest.startsWith("tel:") ? dest : "tel:" + dest,
+                    RccMlsBody.frameText(messageText), rcsMessageId);
+        }
+
+        // Path 1b — APP-OWNED MLS over the Tachyon provider. THIS app owns the
+        // engine: it frames the RCC.16 body, stamps the generation counter, binds the
+        // AuthenticatedData and seals; the provider carries the envelope only.
+        //
+        // Device-proven against Google Messages with the provider's own MLS transport
+        // DISABLED. Ordering matters: this must come before Path 2, which asks the PROVIDER to
+        // encrypt — running both would be two owners of one ratchet.
+        boolean appOwnedFailed = false;
+        // The measured outcome of the app-owned send, or null when this path did not decide the
+        // row. Path 1b is the ONE arm here whose outcome is known SYNCHRONOUSLY: it returns
+        // SENT or FAILED before the row below is inserted. That answer used to be discarded, and the
+        // row went in at BUGLE_STATUS_OUTGOING_YET_TO_SEND (4) like every other path's — a status
+        // nothing on the RCS transport could move. (The four reasons are in RcsSendStatus's
+        // javadoc, in the PAST TENSE and clause by clause, because two of them stopped being true
+        // when this arm landed and the stale version kept being quoted as current — do not
+        // re-inline them here.) The bubble then read
+        // "Sending…" forever whether the message had gone out or measurably had not. The other arms
+        // stay null on purpose: for them a callback really does own the row.
+        Boolean appOwnedAccepted = null;
+        if (isMls && !dispatchedViaMls) {
+            // Pass the SAME rcsMessageId that goes on the chat row. Before this the
+            // app's id and the wire id were disjoint namespaces, so resendOriginal — which looks the
+            // reported id up by rcs_message_id — could never match anything the wire had seen, and
+            // the FTD resend path was dead code on this route.
+            final MlsProviderTransport.SendOutcome outcome = MlsProviderTransport.sendAppOwned(
+                    Factory.get().getApplicationContext(), subId, conversationId, dest,
+                    RccMlsBody.frameText(messageText), rcsMessageId);
+            if (outcome == MlsProviderTransport.SendOutcome.SENT) {
+                dispatchedViaMls = true;
+                appOwnedAccepted = Boolean.TRUE;
+            } else if (outcome == MlsProviderTransport.SendOutcome.FAILED) {
+                // We already consumed a generation. Do NOT let the provider re-encrypt the same text
+                // at a different generation, and do NOT silently downgrade to plaintext — the user
+                // was told this conversation is encrypted. Leave it unsent and retryable.
+                appOwnedFailed = true;
+                appOwnedAccepted = Boolean.FALSE;
+                LogUtil.w(TAG, "InsertNewMessageAction: app-owned MLS send FAILED for "
+                        + rcsMessageId + " — not re-encrypting via the provider and not downgrading");
+            }
+            // NOT_APPLICABLE falls through to Path 2 (no adopted identity yet).
+        }
+
+        if (!dispatchedViaMls && !appOwnedFailed) {
+            // Path 2 — provider/Tachyon MLS (and plaintext/Etouffee) over the provider AIDL. GENERIC
+            // MLS LAYER: for MLS, frame the RCC.16 body ABOVE the transport (RccMlsBody) and tag the
+            // scheme, so the provider receives the raw framed MLS application payload + MLS-encrypts
+            // it verbatim (self-describing Content-Type is required for cross-platform interop).
+            // Non-MLS stays plaintext (Etouffee ciphertext, if resolved, is produced in the provider).
+            final byte[] outBody = isMls
+                    ? RccMlsBody.frameText(messageText)
+                    : messageText.getBytes(StandardCharsets.UTF_8);
             final RcsSendResult result = transport.sendMessage(new RcsOutgoingMessage(
                     subId, rcsMessageId, dest,
-                    "text/plain;charset=UTF-8",
-                    messageText.getBytes(StandardCharsets.UTF_8),
-                    /*e2eeSchemeId=*/ null,
+                    isMls ? "message/mls" : "text/plain;charset=UTF-8",
+                    outBody,
+                    isMls ? RcsE2eeScheme.MLS : null,
                     /*groupId=*/ null));
+            if (isMls && result != null && result.accepted) {
+                dispatchedViaMls = true;   // the provider accepted + owns the MLS encrypt+send
+            }
 
             if (result == null || !result.accepted) {
                 LogUtil.i(TAG, "InsertNewMessageAction: RCS send not accepted (reason="
@@ -680,10 +754,12 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             }
         }
 
-        // The scheme to stamp on our OWN sent row, so the per-message padlock shows: the
-        // provider's scheme iff the gate picked it, else null (plaintext, no lock).
-        final String stampedScheme =
-                RcsE2eeScheme.ETOUFFEE.equals(e2eeScheme) ? RcsE2eeScheme.ETOUFFEE : null;
+        // The scheme to stamp on our OWN sent row so the per-message padlock shows
+        //: MLS iff actually dispatched via MLS; Etouffee iff the gate
+        // picked it (provider-encrypted); else null (plaintext, no lock).
+        final String stampedScheme = dispatchedViaMls
+                ? RcsE2eeScheme.MLS
+                : (RcsE2eeScheme.ETOUFFEE.equals(e2eeScheme) ? RcsE2eeScheme.ETOUFFEE : null);
 
         sLastSentMessageTimestamp = timestamp;
 
@@ -712,10 +788,14 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             // UpdateRcsMessageStatusAction.mapBugleStatus applies to exactly that callback. Both
             // report the SEND and neither reports DELIVERY: a later IMDN still upgrades the row to
             // OUTGOING_DELIVERED, and its absence still means nothing was ever confirmed.
-            // No arm on this route answers synchronously, so the row goes in with no RCS status
-            // and a provider callback owns it from here.
-            final ContentValues rcsVals =
-                    RcsMessageStore.rcsMetaValues(rcsMessageId, RcsConstants.RCS_STATUS_NONE);
+            final ContentValues rcsVals = RcsMessageStore.rcsMetaValues(rcsMessageId,
+                    appOwnedAccepted == null
+                            ? RcsConstants.RCS_STATUS_NONE
+                            : RcsSendStatus.rcsStatusForMeasuredHandoff(appOwnedAccepted));
+            if (appOwnedAccepted != null) {
+                rcsVals.put(DatabaseHelper.MessageColumns.STATUS,
+                        RcsSendStatus.bugleStatusForMeasuredHandoff(appOwnedAccepted));
+            }
             BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), rcsVals);
 
             // E2EE: stamp the resolved scheme on our own sent row so
@@ -835,6 +915,47 @@ public class InsertNewMessageAction extends Action implements Parcelable {
         // and that is the direction that fails OPEN.
         final String canonical = PhoneUtils.getDefault().getCanonicalBySimLocale(recipient);
         final String dest = TextUtils.isEmpty(canonical) ? recipient : canonical;
+
+        // ================= REFUSE RATHER THAN DEGRADE (1:1 MEDIA) =====================
+        //
+        // EVERY 1:1 attachment used to leave from here in the clear, MLS conversation or not. This
+        // method referenced E2eeSendGate, MlsProviderTransport and RcsE2eeScheme zero times, while
+        // the 1:1 TEXT path a few hundred lines up resolves the scheme and has three MLS arms. So a
+        // padlocked thread sealed its messages and uploaded its photos unencrypted.
+        //
+        // IT IS WORSE THAN THE TEXT DEFECT RATHER THAN EQUAL TO IT, which is why the gate is here
+        // and not deferred to the seal work: an unsealed text is readable by the Tachyon relay as it
+        // passes, an unsealed attachment is PUT ON A CONTENT SERVER, where it has a pre-signed URL
+        // and a retention policy this app does not control.
+        //
+        // THE DECISION IS NOT MADE HERE -- MlsProviderTransport owns the state
+        // the answer comes from and composes the two predicates; see MlsSendRouting for the
+        // table. This site only obeys it.
+        //
+        // PLAINTEXT IS THE WHOLE ALLOW-LIST, and that is stricter than the group TEXT path's
+        // (SEAL|PLAINTEXT) on purpose. SEAL means "the engine holds state that could seal this" --
+        // an answer about the conversation, not an instruction this caller can carry out, because
+        // there is no encrypted media send yet. Sending it in the clear on the
+        // strength of a verdict that says we could encrypt it would be the defect wearing a gate.
+        //
+        // AN ORDINARY NON-MLS 1:1 CANNOT REACH THE REFUSAL, and it is structural rather than
+        // careful: it holds no 1:1 MLS state (SealCapability.NO_MLS_STATE) and has never latched
+        // the MLS bit (MlsLatch.CLEAR), because nothing sets that bit but an MLS message in one
+        // direction or the other. Both inputs sit at their default and the verdict is PLAINTEXT. A
+        // device that never adopted an MLS identity answers NO_MLS_IDENTITY + CLEAR and cannot
+        // refuse anything at all. The Etouffee case is covered too: the gate reads the MLS bit, not
+        // the padlock's own encryption_protocol != 0, so a provider-encrypted conversation keeps
+        // handing down the plaintext the provider expects to encrypt.
+        final MlsSendRouting.Verdict mlsVerdict =
+                MlsProviderTransport.oneToOneSendVerdict(context, subId, dest, conversationId);
+        if (mlsVerdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "tryInsertSendingRcsFile: NOT uploading this attachment in the clear "
+                    + "(conversation " + conversationId + ", verdict " + mlsVerdict + "). The app "
+                    + "is presenting this thread as encrypted and we cannot seal the file, so it is "
+                    + "left unsent and failed rather than silently downgraded -- an unencrypted "
+                    + "upload would sit at a URL on a content server.");
+            return insertRefusedRcsMediaMessage(content, timestamp, conversationId, media);
+        }
 
         // Multi-transport framework (design §2, §5.4): route the rich provider-only FT
         // surface through the transport RouteSelector picked for THIS sub. The rich
@@ -969,6 +1090,33 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             return false;
         }
 
+        // ================ REFUSE RATHER THAN DEGRADE (GROUP MEDIA) ====================
+        //
+        // The group half of the same defect, and the SAME gate used for group text -- the
+        // predicate never read a body, so the method it lives on is now groupSendVerdict. What
+        // differs is only what this caller may do with the answer.
+        //
+        // PLAINTEXT IS THE WHOLE ALLOW-LIST HERE, where the group TEXT path allows SEAL too. SEAL
+        // says the engine holds state that could seal this; it is an answer about the conversation,
+        // not an instruction, and there is no encrypted media send yet. An
+        // unsealed group attachment is uploaded to the File Transfer Server and fanned out by
+        // reference, so "we could have encrypted it" is the worst possible reason to send it clear.
+        //
+        // AN ORDINARY NON-MLS RCS GROUP CANNOT REACH THE REFUSAL: no MLS group state
+        // (SealCapability.NO_MLS_STATE) and no latched MLS bit (MlsLatch.CLEAR) is the PLAINTEXT
+        // row of the table, and both are the defaults. Etouffee groups are covered by the gate
+        // reading mlsBit() rather than the padlock's own encryption_protocol != 0.
+        final MlsSendRouting.Verdict mlsVerdict =
+                MlsProviderTransport.groupSendVerdict(context, subId, groupId, conversationId);
+        if (mlsVerdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "tryInsertSendingRcsGroupFile: NOT uploading this attachment in the "
+                    + "clear (conversation " + conversationId + ", groupId " + groupId
+                    + ", verdict " + mlsVerdict + "). The app is presenting this thread as "
+                    + "encrypted and we cannot seal the file, so it is left unsent and failed "
+                    + "rather than silently downgraded.");
+            return insertRefusedRcsMediaMessage(content, timestamp, conversationId, media);
+        }
+
         // Multi-transport framework (design §2, §5.4): route the rich provider-only
         // group-FT surface through the sub's selected transport when it IS a
         // ProviderTransport, else fall back to the legacy singleton (byte-identical on a
@@ -1098,11 +1246,96 @@ public class InsertNewMessageAction extends Action implements Parcelable {
             BugleDatabaseOperations.setConversationRcsGroupId(db, conversationId, groupId);
         }
 
+        // ====================== REFUSE RATHER THAN DEGRADE ==========================
+        //
+        // EVERY UI-composed group text used to go out from here as text/plain, MLS group or not.
+        // This method never consulted MLS state at all, and the hop below hardcodes the content
+        // type — RcsProviderService.sendGroupMessage passes "text/plain", and TachyonRegistrar's
+        // MLS branch is gated on CT_MLS, so "text/plain" can never reach a seal. Meanwhile the app
+        // was drawing a PADLOCK on the thread: ReceiveRcsMessageAction latches
+        // conversations.encryption_protocol on any inbound message tagged RcsE2eeScheme.MLS, and
+        // RcsCallbackRouter tags decrypted GROUP messages with their gid, so a group conversation
+        // latches. Plaintext on the wire, success reported, padlock lit, no warning. The peer could
+        // tell; the user could not.
+        //
+        // The ruling is the one the 1:1 path already states in as many words a few hundred lines up
+        // ("do NOT silently downgrade to plaintext — the user was told this conversation is
+        // encrypted"): a send that cannot be sealed on a conversation presented as encrypted must
+        // not go out.
+        //
+        // THE DECISION IS NOT MADE HERE. MlsProviderTransport owns the state the answer comes from
+        // and composes the two predicates — see MlsSendRouting for the table and for why they
+        // are two. This site only obeys it.
+        //
+        // A NON-MLS GROUP CANNOT REACH THE REFUSAL, and that is structural rather than careful: it
+        // has no MLS group state and has never latched the MLS bit, so both inputs sit at their
+        // default and the verdict is PLAINTEXT. A device that never adopted an MLS identity cannot
+        // refuse anything at all. The Etouffee case is covered too — the gate reads the MLS bit,
+        // not the padlock's own encryption_protocol != 0 — so a provider-encrypted group keeps
+        // sending the plaintext string the provider expects to encrypt.
+        //
+        // THE SEAL ARM LANDED SEPARATELY FROM THE REFUSAL, AND THE REASON IT WAITED WAS WRONG —
+        // worth recording, because the wrong reason is the plausible one and someone will reach for
+        // it again. It was gated on "sendToGroup's status plumbing has never carried a production
+        // send, so routing traffic into it converts 'delivered in the clear' into 'Sending…
+        // forever'". That premise assumed the PLAINTEXT route had status handling to lose. It does
+        // not: RcsProviderService.sendGroupMessage :2935-2959 calls TachyonRegistrar directly on the
+        // binder thread and fires no ProviderSink, and TachyonTransport has no group text send at
+        // all — its only group-aware send is sendFile. So this method already inserted at
+        // OUTGOING_YET_TO_SEND with RCS_STATUS_NONE and already had that defect, unconditionally,
+        // on the plaintext route. Sealing could not make terminal state worse; it was already stuck,
+        // merely also in the clear. The measurement is recorded on BOTH arms below.
+        final MlsSendRouting.Verdict mlsVerdict =
+                MlsProviderTransport.groupSendVerdict(context, subId, groupId, conversationId);
+        if (mlsVerdict != MlsSendRouting.Verdict.SEAL
+                && mlsVerdict != MlsSendRouting.Verdict.PLAINTEXT) {
+            LogUtil.e(TAG, "tryInsertSendingRcsGroupMessage: NOT sending this group text in the "
+                    + "clear (conversation " + conversationId + ", groupId " + groupId
+                    + ", verdict " + mlsVerdict + "). The app is presenting this thread as "
+                    + "encrypted and we cannot seal it, so the message is left unsent and failed "
+                    + "rather than silently downgraded.");
+            return insertRefusedRcsGroupMessage(content, timestamp, conversationId);
+        }
+
         // Mint the correlation UUID and send. Done before any DB write so a
         // non-accept leaves no orphan row.
         final String rcsMessageId = UUID.randomUUID().toString();
 
-        {
+        if (mlsVerdict == MlsSendRouting.Verdict.SEAL) {
+            // THE MLS ARM.
+            //
+            // THE ID IS THE WHOLE POINT OF THE 3-ARG OVERLOAD, not a convenience. The 2-arg
+            // sendToGroup synthesises "mls-grp-<gid>-<millis>", which matches no chat row — so no
+            // IMDN could ever correlate back to this message — and is deliberately NOT cached,
+            // which turns invariant 62's replay protection off for it. That signature is right for
+            // the debug broadcast it was written for and wrong for a production send; using it here
+            // would ship a message that can never reach a terminal state AND can be re-encrypted at
+            // a second generation. Passing the row's own rcs_message_id binds the wire id, the AAD
+            // id and the chat row to one value, which is what makes a report resolvable and a
+            // resend a replay rather than a re-seal.
+            //
+            // sendToGroup FRAMES the text (RccMlsBody) and seals inside the transport; this layer
+            // hands down the plaintext string exactly as the plaintext arm does and never sees the
+            // ciphertext.
+            boolean sealed;
+            try {
+                sealed = MlsProviderTransport.get(context, subId)
+                        .sendToGroup(groupId, messageText, rcsMessageId);
+            } catch (final Throwable t) {
+                LogUtil.e(TAG, "tryInsertSendingRcsGroupMessage: the MLS group send threw for "
+                        + rcsMessageId, t);
+                sealed = false;
+            }
+            if (!sealed) {
+                // DO NOT FALL BACK TO THE PLAINTEXT ARM. By the time a seal fails the engine may
+                // already have consumed a generation, so re-sending the same text unsealed would
+                // both put cleartext on a conversation the user was told is encrypted and leave a
+                // hole in the sender ratchet. Same rule the 1:1 app-owned arm states above.
+                LogUtil.e(TAG, "tryInsertSendingRcsGroupMessage: the MLS group send FAILED for "
+                        + rcsMessageId + " on " + groupId + " — NOT retrying it in the clear");
+                return insertRefusedRcsGroupMessage(content, timestamp, conversationId);
+            }
+        } else {
             final RcsSendResult result = transport.sendGroupMessage(subId, groupId, messageText,
                     rcsMessageId);
             if (result == null || !result.accepted) {
@@ -1111,8 +1344,9 @@ public class InsertNewMessageAction extends Action implements Parcelable {
                 return false;
             }
         }
-        // The send above is SYNCHRONOUS and returned success, so reaching here IS the
+        // Both arms above are SYNCHRONOUS and both returned success, so reaching here IS the
         // measurement. See the row write below, which records it.
+        final boolean sealedForMls = mlsVerdict == MlsSendRouting.Verdict.SEAL;
 
         sLastSentMessageTimestamp = timestamp;
         final SyncManager syncManager = DataModel.get().getSyncManager();
@@ -1136,6 +1370,13 @@ public class InsertNewMessageAction extends Action implements Parcelable {
                     RcsSendStatus.rcsStatusForMeasuredHandoff(true));
             groupVals.put(DatabaseHelper.MessageColumns.STATUS,
                     RcsSendStatus.bugleStatusForMeasuredHandoff(true));
+            // Stamp the scheme on a SEALED group send so the outgoing bubble carries the
+            // per-message padlock. Its absence used to be the ONLY thing distinguishing a plaintext
+            // group send from an encrypted one in the thread, and it was unlabelled negative space
+            // — inbound MLS bubbles had a lock and ours never did.
+            if (sealedForMls) {
+                groupVals.put(DatabaseHelper.MessageColumns.RCS_E2EE_SCHEME_ID, RcsE2eeScheme.MLS);
+            }
             BugleDatabaseOperations.updateMessageRow(db, message.getMessageId(), groupVals);
             BugleDatabaseOperations.updateConversationMetadataInTransaction(db,
                     conversationId, message.getMessageId(), timestamp,

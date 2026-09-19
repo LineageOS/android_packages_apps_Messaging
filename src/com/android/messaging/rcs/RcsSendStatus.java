@@ -18,12 +18,13 @@ package com.android.messaging.rcs;
 /**
  * What {@code message_status} an RCS row may be left in, and by whom.
  *
- * <p><b>The defect this exists to end.</b> {@code InsertNewMessageAction} has send routes that
- * answer SYNCHRONOUSLY — the provider call returns accepted or refused before the chat row is even
- * inserted — and then threw that answer away, inserting every row at
- * {@code BUGLE_STATUS_OUTGOING_YET_TO_SEND} (4) via {@code MessageData.updateSendingMessage}.
- * Nothing on the RCS transport could move a row out of 4. So the bubble read "Sending…" forever —
- * for a message that had been sent, and equally for one that had measurably failed.
+ * <p><b>The defect this exists to end.</b> {@code InsertNewMessageAction} sends an app-owned MLS
+ * message SYNCHRONOUSLY — {@code MlsProviderTransport.sendAppOwned} returns {@code SENT} or
+ * {@code FAILED} before the chat row is even inserted — and then threw that answer away, inserting
+ * every row at {@code BUGLE_STATUS_OUTGOING_YET_TO_SEND} (4) via
+ * {@code MessageData.updateSendingMessage}. Nothing on the RCS transport could move a row out of
+ * 4. So the bubble read "Sending…" forever — for a message that had been sent, and equally for one
+ * that had measurably failed.
  *
  * <p><b>THAT LIST IS THE STATE BEFORE THIS CLASS EXISTED, AND TWO OF ITS FOUR CLAUSES ARE NO LONGER
  * TRUE — two of them because of this class.</b> It is spelled out in the past tense because it kept
@@ -47,13 +48,21 @@ package com.android.messaging.rcs;
  * {@code IRcsProviderCallback} stub. {@code RcsSendStatusMirrorTest} reads those three sources and
  * fails if any value here stops matching, so the duplication cannot drift silently.
  *
- * <p><b>The PACKAGE is deliberate: {@code com.android.messaging.rcs}, not {@code rcs.e2ee}.</b>
- * Recorded because it was right by accident until the cost of getting it wrong was measured. The
- * E2EE package is an audited layer, so anything declared inside it — and anything that has to
- * import it — is audited too. Moving this class in drags its whole importing surface along: one
- * attempt pulled {@code InsertNewMessageAction}, a 2,000-line action, into the layer and turned
- * six unrelated constants red. It must stay outside. This is not encryption policy — it is the RCS
- * row status contract, of which the encrypted send merely happens to be the worst-affected caller.
+ * <p><b>The PACKAGE is deliberate: {@code com.android.messaging.rcs}, not {@code rcs.e2ee}, and
+ * no engine import.</b> Recorded because it was right by accident until the cost of getting it
+ * wrong was measured. {@code MlsGateCounterDurabilityGuardTest} defines the
+ * "provider MLS layer" as two terms — (a) anything under {@code src/.../rcs/e2ee}, and (b) any
+ * provider source that imports {@code ...rcs.engine.mls} — and every scalar constant declared by
+ * a member of that layer owes the guard a classification row. Putting an app-side policy class
+ * inside either term drags its whole importing surface in with it: one attempt pulled
+ * {@code InsertNewMessageAction}, a 2,000-line action, into the layer and turned six
+ * unrelated constants red. This class is outside BOTH terms and must stay outside both. It
+ * is not MLS policy — it is the RCS row status contract, of which the MLS send merely happens to
+ * be the worst-affected caller.
+ *
+ * <p>The measurement behind that is written up at the {@code MlsSendRouting} srcs line in
+ * {@code Android.bp} (commit {@code a978f37c}), where it was made; read it before moving either
+ * class. Cross-referenced rather than restated so the two cannot drift.
  */
 public final class RcsSendStatus {
 

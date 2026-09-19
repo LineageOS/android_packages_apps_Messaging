@@ -52,6 +52,9 @@ public class DatabaseUpgradeHelper {
         if (currentVersion < 3) {
             currentVersion = upgradeToVersion3(db);
         }
+        if (currentVersion < 4) {
+            currentVersion = upgradeToVersion4(db);
+        }
         // Rebuild all the views
         final Context context = Factory.get().getApplicationContext();
         DatabaseHelper.dropAllViews(db);
@@ -165,6 +168,37 @@ public class DatabaseUpgradeHelper {
     // CREATE_TABLE_SQLS so this upgrade keeps doing what it did on the day it shipped. A later
     // schema change to the fresh-install SQL must add its own upgradeToVersionN; sharing the
     // constant would silently rewrite history for every device that upgrades afterwards.
+    private int upgradeToVersion4(final SQLiteDatabase db) {
+        {   // the resend side table
+            db.execSQL("CREATE TABLE " + DatabaseHelper.MLS_RESENDS_TABLE + " ("
+                    + DatabaseHelper.MlsResendColumns.RCS_MESSAGE_ID + " TEXT PRIMARY KEY NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + " TEXT NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.MANUAL_RESEND_OF + " TEXT NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.RECIPIENT_ADDRESS + " TEXT, "
+                    + DatabaseHelper.MlsResendColumns.RECIPIENT_CLIENT_ID + " TEXT, "
+                    + DatabaseHelper.MlsResendColumns.FTD_RESEND_COUNT + " INT DEFAULT(0) NOT NULL, "
+                    + DatabaseHelper.MlsResendColumns.CONVERSATION_KEY + " TEXT, "
+                    + DatabaseHelper.MlsResendColumns.TIMESTAMP + " INT DEFAULT(0) NOT NULL"
+                    + ");");
+            db.execSQL("CREATE INDEX index_" + DatabaseHelper.MLS_RESENDS_TABLE + "_original ON "
+                    + DatabaseHelper.MLS_RESENDS_TABLE + "("
+                    + DatabaseHelper.MlsResendColumns.ORIGINAL_RCS_MESSAGE_ID + ")");
+            db.execSQL("CREATE INDEX index_" + DatabaseHelper.MLS_RESENDS_TABLE + "_recipient ON "
+                    + DatabaseHelper.MLS_RESENDS_TABLE + "("
+                    + DatabaseHelper.MlsResendColumns.RECIPIENT_ADDRESS + ")");
+        }
+        {   // the re-upgrade counters
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.MLS_LAST_UNEXPECTED_DOWNGRADE
+                    + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.MLS_REUPGRADE_ATTEMPTS + " INT DEFAULT(0)");
+            db.execSQL("ALTER TABLE " + DatabaseHelper.CONVERSATIONS_TABLE + " ADD COLUMN "
+                    + DatabaseHelper.ConversationColumns.MLS_EAGERLY_DOWNGRADED + " INT DEFAULT(0)");
+        }
+        LogUtil.i(TAG, "Upgraded database to version 4");
+        return 4;
+    }
 
 
 

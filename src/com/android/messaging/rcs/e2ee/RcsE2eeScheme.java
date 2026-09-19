@@ -94,10 +94,10 @@ public final class RcsE2eeScheme {
      * advertises it and is unaffected by Google's rollout.
      *
      * <p><b>Known failure mode.</b> If Google advances the wave, peers will advertise a different
-     * iteration and this equality stops matching — MLS selection would silently stop for Google
-     * peers, and it would surface as a mysterious downgrade to Etouffee rather than as an error.
-     * Whatever compares the two values should log BOTH of them on a mismatch, so the drift is
-     * diagnosable. Override without a rebuild via {@code debug.rcs.mls_launch_iteration}.
+     * iteration and this equality stops matching — MLS selection would silently stop for Google peers.
+     * {@link MlsCapabilities#peerPassesMls} logs a WAVE-DRIFT warning naming both values so that shows
+     * up as a diagnosable log line rather than a mysterious downgrade to Etouffee. Override without a
+     * rebuild via {@code debug.rcs.mls_launch_iteration}.
      */
     public static final String OUR_LAUNCH_ITERATION_DEFAULT = "1";
 

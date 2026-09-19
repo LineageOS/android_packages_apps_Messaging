@@ -131,9 +131,10 @@ public class ReceiveRcsGroupEventAction extends Action implements Parcelable {
         }
 
         // ARE WE STILL IN THIS GROUP? The ONE place that answers it, because it is the
-        // one place BOTH departure routes arrive at: the wire echo when somebody else
+        // one place BOTH remaining departure routes arrive at: the wire echo when somebody else
         // removes us, and GroupDepartureApplier for our own PLAINTEXT leave, which dispatches this
-        // very Action.
+        // very Action. The third route — a successful MLS leave — is covered by
+        // MlsProviderTransport.haveWeLeft.
         //
         // WHY NOT THE PARTICIPANTS TABLE, checked rather than assumed: removeGroupParticipants
         // builds its lookup from !p.isSelf() participants, so removing OURSELVES is a no-op by
@@ -147,8 +148,9 @@ public class ReceiveRcsGroupEventAction extends Action implements Parcelable {
         // roster the server reported — because a non-member does not receive these events at all,
         // and one that arrives naming us is the server saying we are in.
         //
-        // IT IS A CONVERSATION COLUMN AND NOTHING MORE. It holds no key or session state; it is
-        // the RCS-plane membership fact for exactly the two routes named above.
+        // IT IS NOT MlsConversationRecord.selfLeftAtMs AND DOES NOT TOUCH IT. That mark is MLS
+        // state whose sole clearer is a rejoin (pinned by test 66daa212). This is a
+        // conversation column for the two cases that write no MLS record at all.
         if (op == IRcsProviderCallback.GROUP_OP_KICK_USERS && listIncludesSelf(subId, affected)) {
             BugleDatabaseOperations.setConversationSelfLeft(db, conversationId, true);
             LogUtil.i(TAG, "ReceiveRcsGroupEventAction: WE are out of group " + groupId + " ("

@@ -27,13 +27,19 @@ import java.security.NoSuchAlgorithmException;
  * numbers each method {@code FIRST_CALL_TRANSACTION + n} in DECLARATION ORDER. So inserting a
  * method in the middle of {@link IRcsProvider} renumbers every method after it, and a caller built
  * against the old declaration does not fail — it <em>lands on a different method</em>. Measured on
- * a device running a newer provider against an older app: two log lines in the SAME millisecond,
- * one from the app dialling an ordinal and one from the provider refusing an entirely different
- * method on the argument it was handed. A key-upload call had arrived at a record-deletion method,
- * because a contract revision inserted a new method mid-interface and pushed everything after it
- * down by one. The only reason the upload did not delete a conversation record is that the method
- * it landed on refuses an argument that does not parse as a group id — a guard written for an
- * unrelated reason, and the entire margin.
+ * a device running a newer provider against an older app:
+ *
+ * <pre>
+ *   03:00:25.836  MlsProviderTransport: publishKeyPackages(11) ... -&gt; REJECTED
+ *   03:00:25.836  RcsProviderService: mlsForgetGroupConversation: no group id — refusing ...
+ * </pre>
+ *
+ * Same millisecond. The app's {@code uploadKeyPackages} arrived at the provider's
+ * {@code mlsForgetGroupConversation}, because contract v60 inserted
+ * {@code claimPeerKeyPackagesWithOutcome} at ordinal 16 and pushed everything after it down by one.
+ * The only reason a KeyPackage publish did not delete a conversation record is that
+ * {@code mlsForgetGroupConversation} refuses when its argument does not parse as a group id — a
+ * guard written for an unrelated reason, and the entire margin.
  *
  * <p><b>Why the contract version int was not enough, twice over.</b> {@link
  * IRcsProvider#getContractVersion()} already existed and is already exchanged on bind. It did not
@@ -45,9 +51,10 @@ import java.security.NoSuchAlgorithmException;
  *       false, so it passed. A hand-maintained number fails open the moment somebody forgets it,
  *       and both sides had forgotten it.</li>
  *   <li>The check's PREMISE was false. Its comment read "additive bumps ... a provider whose
- *       contract is &gt;= ours is a superset". That is only true if methods are APPENDED, and the
- *       two revisions either side of the incident both INSERTED a method mid-interface. So even a
- *       perfectly maintained {@code &gt;=} check would have passed this skew.</li>
+ *       contract is &gt;= ours is a superset". That is only true if methods are APPENDED. v59
+ *       ({@code mlsForgetGroupConversation}) and v60 ({@code claimPeerKeyPackagesWithOutcome}) were
+ *       both INSERTED mid-interface. So even a perfectly maintained {@code &gt;=} check would have
+ *       passed this skew.</li>
  * </ol>
  *
  * <p>So the number is kept as a LABEL — useful in a log line — and the authoritative check is the
@@ -80,8 +87,8 @@ public final class RcsContractLayout {
     /**
      * The same anchor for {@link IRcsProviderCallback}, whose ordinals are numbered independently
      * and which carries the identical hazard in the OTHER direction: there the PROVIDER dials and
-     * the APP dispatches, so a skew mis-delivers inbound work — a message, a receipt, a group
-     * event — onto the wrong handler. Not hypothetical: that interface has taken FOUR
+     * the APP dispatches, so a skew mis-delivers inbound work — a message, a receipt, an MLS
+     * control frame — onto the wrong handler. Not hypothetical: that interface has taken FOUR
      * mid-interface insertions ({@code 33380aba}, {@code 4a6c9040}, {@code d966d46f},
      * {@code 82a2edb9}), each of which shifted everything from {@code onGroupTyping} down.
      */
