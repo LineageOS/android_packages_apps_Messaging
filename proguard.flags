@@ -81,3 +81,35 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+# JAIN-SIP (nist-sip) for the carrier-RCS DR stack (com.android.messaging.rcs.carrier):
+# SipFactory.createSipStack resolves the stack impl (gov.nist.javax.sip.SipStackImpl)
+# and per-transport pieces by REFLECTION / name-based PathName lookup, so the
+# gov.nist.* + javax.sip.* classes must not be renamed, stripped, or have members
+# removed. Without this, createSipStack fails with "Failed to initiate <obfuscated>".
+-keep class gov.nist.** { *; }
+-keep interface javax.sip.** { *; }
+-keep class javax.sip.** { *; }
+-dontwarn gov.nist.**
+-dontwarn javax.sip.**
+
+# Carrier-RCS DR stack (com.android.messaging.rcs.carrier.**): keep the classes +
+# members intact — do NOT let R8 optimize/obfuscate/inline them. The stack drives
+# JAIN-SIP + async HandlerThread posts + a SipListener registered by reference;
+# R8 optimization of this code broke the doStart dispatch (REGISTER never ran).
+# In the provider (JibeRcsProvider) R8 was off entirely for the same reason.
+-keep class com.android.messaging.rcs.carrier.** { *; }
+-dontwarn com.android.messaging.rcs.carrier.**
+
+# The provider/app AIDL contract seam. The contract-skew guard derives the binder
+# TRANSACTION ordinal map by reflecting over IRcsProvider.Stub's `TRANSACTION_*` fields, so those
+# names must survive R8. They do NOT by default: measured in messaging2.apk on 2026-09-11, R8 had
+# renamed IRcsProvider$Stub$Proxy to org.lineageos.rcs.provider.a and inlined away every TRANSACTION_*
+# field (the app is the CLIENT there), while keeping all 23 on IRcsProviderCallback$Stub, where the
+# app is the SERVER and the generated switch reads them.
+#
+# Deleting this rule does not fail open: RcsContractProbe.deriveLocalLayout() validates its result
+# against an anchor method and against IRcsProvider's own declared-method count, and returns null —
+# which every caller turns into a REFUSAL to attach — when the fields are gone. So the cost of
+# losing this rule is "RCS stops binding, loudly", not "the guard silently stops guarding".
+-keep class org.lineageos.rcs.provider.** { *; }

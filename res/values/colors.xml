@@ -162,4 +162,47 @@
     <color name="fastscroll_track_color">#1e000000</color>
     <color name="fastscroll_thumb_color">#42000000</color>
     <color name="fastscroll_preview_text_color">#ffffff</color>
+
+    <!-- RCS message-bubble fills. Distinct from the SMS/MMS bubbles so an RCS
+         thread reads differently. Outgoing leans on the system accent so it
+         tracks the device theme; incoming uses a soft accent-tinted surface. -->
+    <color name="message_bubble_color_outgoing_rcs">@android:color/system_accent1_100</color>
+    <!-- Incoming RCS bubble: a DARK accent so the white incoming message text
+         (message_text_color_incoming) stays legible. system_accent2_100 rendered
+         too light, giving white-on-light. -->
+    <color name="message_bubble_color_incoming_rcs">@android:color/system_accent2_700</color>
+
+    <!-- Emoji-reactions: chip palette. A reaction chip is a small pill that sits
+         under the target bubble. The default (others reacted) chip uses a muted
+         neutral surface; OUR own reaction is tinted with the system accent so the
+         re-tap-to-remove affordance reads. The picker quick-row card uses the same
+         neutral surface. -->
+    <color name="reaction_chip_background">@android:color/system_neutral2_100</color>
+    <color name="reaction_chip_background_self">@android:color/system_accent1_100</color>
+    <color name="reaction_chip_stroke">@android:color/system_neutral2_300</color>
+    <color name="reaction_chip_stroke_self">@android:color/system_accent1_400</color>
+    <color name="reaction_chip_text">@android:color/system_neutral1_900</color>
+    <color name="reaction_picker_background">@android:color/system_neutral1_50</color>
+
+    <!-- RBM: suggestion-chip text + outline (actionable accent).
+         Chips sit on the conversation background, so values-night/colors.xml
+         lightens these for dark mode. -->
+    <color name="rbm_chip_text">@android:color/system_accent1_600</color>
+    <color name="rbm_chip_stroke">@android:color/system_accent1_400</color>
+    <!-- Carousel card surface: light here, dark in values-night so the card adapts
+         to the theme (with theme-aware text on it). -->
+    <color name="rbm_carousel_card_bg">@android:color/system_neutral2_100</color>
+    <!-- Carousel card text. Explicit day/night resources (NOT ?textColorPrimary):
+         the card lives inside the message bubble where forceDark is disabled, so
+         theme attrs would stay the light-theme value. -->
+    <color name="rbm_card_text_primary">#DE000000</color>
+    <color name="rbm_card_text_secondary">#8A000000</color>
+
+    <!-- RCS Advanced-status screen. Row TITLES use the dynamic
+         system accent so they read as a distinct label color; the Connection
+         VALUE is semantically colored: green when Connected, gray while
+         connecting / off. values-night/colors.xml lightens these for dark mode. -->
+    <color name="rcs_status_label">@android:color/system_accent1_600</color>
+    <color name="rcs_status_value_connected">#1E8E3E</color>
+    <color name="rcs_status_value_neutral">#5F6368</color>
 </resources>

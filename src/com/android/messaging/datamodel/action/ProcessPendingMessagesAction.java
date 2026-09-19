@@ -34,6 +34,7 @@ import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
 import com.android.messaging.datamodel.data.MessageData;
 import com.android.messaging.datamodel.data.ParticipantData;
+import com.android.messaging.rcs.RcsConstants;
 import com.android.messaging.util.BugleGservicesKeys;
 import com.android.messaging.util.BuglePrefs;
 import com.android.messaging.util.BuglePrefsKeys;
@@ -315,15 +316,22 @@ public class ProcessPendingMessagesAction extends Action implements Parcelable {
                         selfId}
                     );
 
-            // Look for messages we could send
+            // Look for messages we could send. RCS-transport rows (2-app split)
+            // also live in this table in OUTGOING_YET_TO_SEND status but are sent
+            // synchronously over the provider by InsertNewMessageAction, NOT by
+            // SendMessageAction; they carry no SMS telephony Uri, so letting them
+            // through here would NPE in MmsUtils.updateSmsMessageSendingStatus.
+            // Exclude them from the SMS/MMS send queue.
             cursor = db.query(DatabaseHelper.MESSAGES_TABLE,
                     MessageData.getProjection(),
                     DatabaseHelper.MessageColumns.STATUS + " IN (?, ?) AND "
-                    + DatabaseHelper.MessageColumns.SELF_PARTICIPANT_ID + " =? ",
+                    + DatabaseHelper.MessageColumns.SELF_PARTICIPANT_ID + " =? AND "
+                    + DatabaseHelper.MessageColumns.TRANSPORT_TYPE + " !=? ",
                     new String[] {
                         Integer.toString(MessageData.BUGLE_STATUS_OUTGOING_YET_TO_SEND),
                         Integer.toString(MessageData.BUGLE_STATUS_OUTGOING_AWAITING_RETRY),
-                        selfId
+                        selfId,
+                        Integer.toString(RcsConstants.TRANSPORT_RCS)
                     },
                     null,
                     null,

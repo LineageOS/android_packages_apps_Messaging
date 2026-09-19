@@ -30,9 +30,15 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
+
 import com.android.messaging.R;
 import com.android.messaging.datamodel.MessagingContentProvider;
+import com.android.messaging.datamodel.action.ActionMonitor;
+import com.android.messaging.datamodel.action.CreateRcsGroupAction;
+import com.android.messaging.datamodel.action.GetOrCreateConversationAction;
 import com.android.messaging.datamodel.data.MessageData;
+import com.android.messaging.datamodel.data.ParticipantData;
 import com.android.messaging.ui.BugleActionBarActivity;
 import com.android.messaging.ui.UIIntents;
 import com.android.messaging.ui.contact.ContactPickerFragment;
@@ -61,6 +67,10 @@ public class ConversationActivity extends BugleActionBarActivity
     // Tracks whether onPause is called.
     private boolean mIsPaused;
 
+    // WAVE-A / A1: true when this new-conversation flow was launched in RCS-group
+    // mode (contact picker shows the group-name field, confirm creates a group).
+    private boolean mNewGroupMode;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +78,12 @@ public class ConversationActivity extends BugleActionBarActivity
         setContentView(R.layout.conversation_activity);
 
         final Intent intent = getIntent();
+
+        // WAVE-A / A1: remember whether we were launched in RCS-group mode. Only
+        // meaningful for a fresh (no conversationId) launch; surviving config
+        // changes is fine because the contact picker keeps the user's chips.
+        mNewGroupMode = intent.getBooleanExtra(
+                UIIntents.UI_INTENT_EXTRA_NEW_GROUP_MODE, false);
 
         // Do our best to restore UI state from saved instance state.
         if (savedInstanceState != null) {
@@ -262,6 +278,70 @@ public class ConversationActivity extends BugleActionBarActivity
         mUiState.onAddMoreParticipants();
     }
 
+    @Override // From ContactPickerFragmentHost
+    public void onCreateRcsGroup(final String groupName,
+            final ArrayList<String> recipientE164s) {
+        // WAVE-A / A1: decide RCS-vs-MMS off the main thread (the provider calls
+        // are blocking binder). On success the action opens the group thread;
+        // on RCS-unavailable / create-failure it falls back to the existing
+        // multi-recipient (group MMS) compose and toasts.
+        CreateRcsGroupAction.createRcsGroup(this, groupName, recipientE164s,
+                new CreateRcsGroupAction.CreateRcsGroupListener() {
+                    @Override
+                    public void onRcsGroupCreated(final String conversationId) {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        // Replace the picker with the freshly created group thread.
+                        finish();
+                        UIIntents.get().launchConversationActivity(
+                                ConversationActivity.this, conversationId, null);
+                    }
+
+                    @Override
+                    public void onRcsGroupFallbackToMms(
+                            final ArrayList<String> recipients) {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        UiUtils.showToast(R.string.rcs_group_fallback_to_mms);
+                        // Fall back to the unchanged group-MMS path: resolve a
+                        // plain multi-recipient conversation and open it.
+                        final ArrayList<ParticipantData> participants =
+                                new ArrayList<>();
+                        for (final String recipient : recipients) {
+                            if (recipient != null && !recipient.trim().isEmpty()) {
+                                participants.add(ParticipantData
+                                        .getFromRawPhoneBySystemLocale(recipient.trim()));
+                            }
+                        }
+                        GetOrCreateConversationAction.getOrCreateConversation(
+                                participants, null, mGroupMmsFallbackListener);
+                    }
+                });
+    }
+
+    // WAVE-A / A1: opens the multi-recipient conversation when an RCS group
+    // create falls back to group MMS.
+    private final GetOrCreateConversationAction.GetOrCreateConversationActionListener
+            mGroupMmsFallbackListener =
+            new GetOrCreateConversationAction.GetOrCreateConversationActionListener() {
+        @Override
+        public void onGetOrCreateConversationSucceeded(final ActionMonitor monitor,
+                final Object data, final String conversationId) {
+            if (isFinishing() || isDestroyed()) {
+                return;
+            }
+            mUiState.onGetOrCreateConversation(conversationId);
+        }
+
+        @Override
+        public void onGetOrCreateConversationFailed(final ActionMonitor monitor,
+                final Object data) {
+            LogUtil.e(LogUtil.BUGLE_TAG, "onCreateRcsGroup MMS fallback failed");
+        }
+    };
+
 
     @Override
     public void onParticipantCountChanged(final boolean canAddMoreParticipants) {
@@ -338,6 +418,19 @@ public class ConversationActivity extends BugleActionBarActivity
                         contactPickerFragment, ContactPickerFragment.FRAGMENT_TAG);
             }
             contactPickerFragment.setHost(this);
+            // WAVE-A / A1: propagate RCS-group creation mode (set from the
+            // launch intent) so the picker shows the group-name field and routes
+            // confirm to onCreateRcsGroup.
+            contactPickerFragment.setGroupCreationMode(mNewGroupMode);
+            // For a brand-new conversation's INITIAL contact pick (not
+            // the long-press New-group flow, not the add-more-participants hybrid
+            // flow), enable the unified deferred picker: multi-select + live RCS
+            // discovery + existing-1:1 preview, RCS group when all capable else
+            // group MMS. Other hosts (forward/share/widget) never reach this and
+            // keep their auto-open behavior.
+            contactPickerFragment.setUnifiedStartMode(!mNewGroupMode
+                    && mUiState.getDesiredContactPickingMode()
+                            == ContactPickerFragment.MODE_PICK_INITIAL_CONTACT);
             contactPickerFragment.setContactPickingMode(mUiState.getDesiredContactPickingMode(),
                     animate);
         } else if (contactPickerFragment != null) {

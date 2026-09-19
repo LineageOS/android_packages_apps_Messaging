@@ -25,7 +25,10 @@
 
     <!-- Application holds CPU wakelock while working in background -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- Application needs SMS/MMS permissions -->
+        <!-- geopush: share the device location over RCS. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<!-- Application needs SMS/MMS permissions -->
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_MMS" />
@@ -34,6 +37,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <!-- DR carrier-RCS stack: requestNetwork(NET_CAPABILITY_IMS) to route SIP over
+         the IMS APN (so the P-CSCF N5 QoS policy-auth succeeds). IMS is a restricted
+         network capability; signature perm, granted by the platform signature. -->
+    <uses-permission android:name="android.permission.CONNECTIVITY_USE_RESTRICTED_NETWORKS" />
     <!-- Application needs CONTACT permissions -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
@@ -48,6 +55,28 @@
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Held to bind an out-of-tree RCS provider app; see aidl/. -->
+    <uses-permission android:name="org.lineageos.rcs.permission.BIND_RCS_PROVIDER" />
+
+    <!-- Ride-Shannon SipDelegate path: these are
+         internal|role perms auto-granted by SmsRoleBehavior to the SYSTEM
+         SMS-role holder, BUT only if intersected with the package's requested
+         permissions (Permissions.grantAsUser line ~134 retainAll vs
+         requestedPermissions). Without declaring them here the grant silently
+         drops — empirically confirmed on device 2026-06-02. Required for
+         SipDelegateManager.createSipDelegate / isSupported(). -->
+    <uses-permission android:name="android.permission.PERFORM_IMS_SINGLE_REGISTRATION" />
+    <uses-permission android:name="android.permission.ACCESS_RCS_USER_CAPABILITY_EXCHANGE" />
+    <!-- MODIFY_PHONE_STATE (signature; this app is platform-signed) — required for
+         ProvisioningManager.notifyRcsAutoConfigurationReceived, the FED/push path that
+         hands Shannon a full ACS RCC.07 config doc directly (SHANNON_INJECT_CONFIG). -->
+    <uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
+    <queries>
+        <intent>
+            <action android:name="org.lineageos.rcs.provider.action.BIND_RCS_PROVIDER" />
+        </intent>
+    </queries>
 
     <!--  Optional features -->
     <uses-feature
@@ -201,6 +230,38 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.appsettings.RcsSettingsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/rcs_settings_title"
+            android:parentActivityName="com.android.messaging.ui.appsettings.ApplicationSettingsActivity"
+            android:screenOrientation="user"
+            android:theme="@style/BugleTheme.SettingsActivity" />
+
+        <!-- 2-app split: modal carrier/Google RCS Terms-of-Service consent
+             dialog. Surfaced from RcsCarrierTosReceiver (inline or via the
+             pending-ToS notification). Not exported; additive, never touches
+             the SMS/MMS path. -->
+        <activity
+            android:name=".ui.rcs.RcsCarrierTosActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:parentActivityName="com.android.messaging.ui.appsettings.RcsSettingsActivity"
+            android:screenOrientation="user"
+            android:theme="@style/BugleTheme.DialogActivity" />
+
+        <!-- RBM: verified-business info screen, opened from
+             the conversation brand header. Not exported. -->
+        <activity
+            android:name=".ui.rcs.RbmBusinessInfoActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:label="@string/rbm_business_info_title"
+            android:screenOrientation="user"
+            android:theme="@style/BugleTheme.SettingsActivity" />
+
         <!-- Handles sharing intent -->
         <activity
             android:name=".ui.conversationlist.ShareIntentActivity"
@@ -351,6 +412,57 @@
             </intent-filter>
         </receiver>
 
+        <!-- 2-app split: catch the port-addressed Pev3 ACS OTP (TMo delivers it
+             as a DATA_SMS, which the normal SMS path ignores) and forward it to
+             the provider via submitOtp. DATA_SMS only: does NOT touch the
+             SMS_DELIVER text path, so normal SMS delivery is unchanged. -->
+        <receiver
+            android:name=".rcs.RcsOtpReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter>
+                <action android:name="android.intent.action.DATA_SMS_RECEIVED" />
+                <data android:scheme="sms" />
+            </intent-filter>
+        </receiver>
+
+        <!-- 2-app split: surfaces the carrier/Google RCS Terms-of-Service prompt
+             (dialog inline, else a pending-ToS notification). Receives only the
+             package-scoped ACTION_CARRIER_TOS_REQUIRED fired by ProviderTransport;
+             not exported. -->
+        <receiver
+            android:name=".rcs.RcsCarrierTosReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.android.messaging.rcs.action.CARRIER_TOS_REQUIRED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Woken by the JibeRcsProvider when an inbound RCS message arrived while we
+             were unbound (dormant device: the 466 FCM tickle wakes only the provider
+             process, not this UI app). Cold-starts us → BugleApplication.onCreate →
+             ProviderTransport.init() rebinds → drain → deliver + notify. Exported but
+             signature-permission-gated so only the same-signed provider can send it. -->
+        <receiver
+            android:name=".rcs.RcsProviderWakeReceiver"
+            android:exported="true"
+            android:permission="org.lineageos.rcs.permission.BIND_RCS_PROVIDER">
+            <intent-filter>
+                <action android:name="org.lineageos.rcs.provider.action.WAKE_FOR_INBOUND" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Multi-transport RCS framework (design §6.4): the in-process carrier-IMS
+             (SIP/MSRP) transport engine, isolated in its own :ims process so a
+             JAIN-SIP/MSRP or SipDelegate crash is contained and does not take down
+             the UI. SMS-role + PERFORM_IMS_SINGLE_REGISTRATION are per-UID, so this
+             process still holds them. Not exported: bound only by the main-process
+             CarrierImsTransport facade via an explicit-component Intent. -->
+        <service
+            android:name=".rcs.carrier.CarrierImsService"
+            android:exported="false"
+            android:process=":ims" />
+
         <receiver
             android:name=".receiver.SendStatusReceiver"
             android:exported="false">
@@ -401,6 +513,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.USER_UNLOCKED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
@@ -425,6 +538,111 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.telephony.action.DEFAULT_SMS_SUBSCRIPTION_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Multi-transport framework (design §4.1, §5.4): provider install /
+             uninstall / replace is a discovery + selection trigger. Fires on any
+             package change; ProviderRegistry.discover() does the cheap re-resolve
+             and no-ops when the changed package isn't an RCS provider. -->
+        <receiver
+            android:name=".rcs.RcsProviderPackageReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only RCS send trigger for the E2E harness. Exported so adb
+             can reach it, but gated inside onReceive on FLAG_DEBUGGABLE so it
+             is inert on a user build. -->
+        <receiver
+            android:name=".rcs.RcsDebugSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.SEND_TEST_RCS" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only: send through the REAL compose path (InsertNewMessageAction)
+             so the E2EE gate auto-activates. Inert on a user build. -->
+        <receiver
+            android:name=".rcs.RcsDebugComposeSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.COMPOSE_SEND" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only trigger that drives the in-process carrier-IMS (SIP/MSRP)
+             transport directly (startForSub / warmPeer / sendMessage), bypassing
+             the RouteSelector eligibility gate so the rig can exercise the :ims
+             SR/DR + MSRP path before real carrier eligibility resolves. Exported
+             for adb; inert on a user build (gated on Build.TYPE inside onReceive). -->
+        <receiver
+            android:name=".rcs.RcsDebugCarrierDriveReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.CARRIER_START" />
+                <action android:name="com.android.messaging.debug.CARRIER_WARM" />
+                <action android:name="com.android.messaging.debug.CARRIER_SEND" />
+                <action android:name="com.android.messaging.debug.CARRIER_PLAIN" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only RCS FT-HTTP (image) trigger (FLOW-4c): generate a unique
+             test JPEG + send it through the provider seam (upload to copper +
+             kind=36 file descriptor). Exported for adb; inert on a user build
+             (gated on Build.TYPE inside onReceive). -->
+        <receiver
+            android:name=".rcs.RcsDebugFtSendReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.SEND_FT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only: trigger acceptIncomingFile (full-file download) for a
+             pending inbound RCS-media message by rcs_message_id. Lets the
+             FtHttpDownloader be exercised on a non-image / large file that has
+             no tappable bubble. Inert on a user build. -->
+        <receiver
+            android:name=".rcs.RcsDebugFtAcceptReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.ACCEPT_FT" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only RCS group trigger (FLOW-4b): create a group + send a
+             group message through the provider seam. Exported for adb; inert on
+             a user build (gated on Build.TYPE inside onReceive). -->
+        <receiver
+            android:name=".rcs.RcsDebugGroupReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.CREATE_GROUP" />
+                <action android:name="com.android.messaging.debug.SEND_GROUP" />
+                <action android:name="com.android.messaging.debug.GROUP_INFO" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Debug-only native SipDelegate-ride trigger. Create the delegate
+             (CPM 1-1 tags) / dump status / send a CPM MESSAGE / destroy. Exported
+             so adb can reach it; inert on a user build (gated on Build.TYPE inside
+             onReceive). -->
+        <receiver
+            android:name=".rcs.sip.SipDelegateDebugReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.messaging.debug.SHANNON_PULL_CONFIG" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_CREATE" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_STATUS" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_SEND" />
+                <action android:name="com.android.messaging.debug.SIPDELEGATE_DESTROY" />
             </intent-filter>
         </receiver>
 

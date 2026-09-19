@@ -21,6 +21,7 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -44,16 +45,45 @@ public class ConversationMessageBubbleView extends LinearLayout {
     private final ConversationMessageBubbleData mData;
     private int mRunningStartWidth;
     private ViewGroup mBubbleBackground;
+    // Emoji-reactions: the reaction badge overlaps the bubble's inner-bottom
+    // corner (iMessage/Google-Messages style) rather than flowing below it.
+    private View mReactions;
+    private View mAttachments;
+    private boolean mReactionIncoming;
 
     public ConversationMessageBubbleView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         mData = new ConversationMessageBubbleData();
+        // The reaction badge is positioned (in onLayout) straddling the bubble's
+        // bottom edge, so it must be allowed to draw outside the normal child box.
+        setClipChildren(false);
+        setClipToPadding(false);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         mBubbleBackground = findViewById(R.id.message_text_and_info);
+        mReactions = findViewById(R.id.reactions_container);
+        mAttachments = findViewById(R.id.message_attachments);
+    }
+
+    /** Which side the reaction badge hugs: incoming bubbles (start-aligned) put it
+     *  at their END corner, outgoing at their START corner — i.e. the inner side,
+     *  toward the center of the thread. Set from ConversationMessageView.bind(). */
+    public void setReactionIncoming(final boolean incoming) {
+        mReactionIncoming = incoming;
+    }
+
+    /** The bottom-most visible bubble element the reaction badge anchors to. */
+    private View reactionAnchor() {
+        if (mBubbleBackground != null && mBubbleBackground.getVisibility() != GONE) {
+            return mBubbleBackground;
+        }
+        if (mAttachments != null && mAttachments.getVisibility() != GONE) {
+            return mAttachments;
+        }
+        return null;
     }
 
     @Override
@@ -74,6 +104,42 @@ public class ConversationMessageBubbleView extends LinearLayout {
             mBubbleBackground.getLayoutParams().width = LayoutParams.WRAP_CONTENT;
         }
         mBubbleBackground.requestLayout();
+        // NB: the badge's vertical overlap onto the bubble is reserved via a
+        // NEGATIVE top margin on reactions_container (set in the layout XML), so
+        // LinearLayout computes the (reduced) total height in one consistent
+        // measure pass. We deliberately do NOT post-hoc shrink the measured height
+        // here -- doing that re-measured and CLIPPED the bubble background's top
+        // padding on the first message after an info/system row (b/ the avatar +
+        // morph requestLayout re-measure against the shrunk parent height).
+    }
+
+    @Override
+    protected void onLayout(final boolean changed, final int l, final int t,
+            final int r, final int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (mReactions == null || mReactions.getVisibility() == GONE) {
+            return;
+        }
+        final View anchor = reactionAnchor();
+        if (anchor == null) {
+            return;
+        }
+        // Straddle the bubble's bottom edge at the inner corner, overlapping it by
+        // a fixed amount so the lower part hangs below (iMessage style). The
+        // negative reactions_container top margin already reserved this overlap in
+        // measure; here we only fix the horizontal inner-corner position + keep the
+        // vertical consistent with that reservation.
+        final int badgeW = mReactions.getMeasuredWidth();
+        final int badgeH = mReactions.getMeasuredHeight();
+        final int overlap = getResources()
+                .getDimensionPixelSize(R.dimen.reaction_badge_overlap);
+        final int inset = getResources()
+                .getDimensionPixelSize(R.dimen.reaction_badge_side_inset);
+        final int top = anchor.getBottom() - overlap;
+        final int left = mReactionIncoming
+                ? anchor.getRight() - badgeW + inset   // incoming -> END (inner) corner
+                : anchor.getLeft() - inset;            // outgoing -> START (inner) corner
+        mReactions.layout(left, top, left + badgeW, top + badgeH);
     }
 
     public void setMorphWidth(final int width) {

@@ -30,35 +30,53 @@
         android:background="@color/action_bar_background_color"
         app:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
-        <com.android.messaging.ui.MaxHeightScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:maxHeight="@dimen/compose_message_chips_view_max_height">
+            android:orientation="vertical">
 
-            <com.android.messaging.ui.contact.ContactRecipientAutoCompleteView
-                android:forceDarkAllowed="false"
-                android:id="@+id/recipient_text_view"
-                style="@style/RecipientEditTextView"
+            <!-- WAVE-A / A1: optional group-name input, shown only in RCS-group
+                 creation mode (GONE for the unchanged 1:1 / group-MMS flow). -->
+            <EditText
+                android:id="@+id/group_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:minHeight="@dimen/compose_message_contacts_height"
-                android:popupBackground="@drawable/contact_popup_background"
-                android:dropDownWidth="match_parent"
-                android:hint="@string/recipient_hint"
-                app:avatarPosition="start"
-                app:chipHeight="@dimen/compose_message_chip_height"
-                app:chipPadding="@dimen/compose_message_chip_padding"
-                app:imageSpanAlignment="baseline"
-                app:unselectedChipTextColor="@color/chips_text_color"
-                app:unselectedChipBackgroundColor="@color/chips_background_color">
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:hint="@string/group_name_hint"
+                android:visibility="gone" />
 
-                <!-- Put focus on the chips view by default so soft keyboard can be shown -->
-                <requestFocus />
-            </com.android.messaging.ui.contact.ContactRecipientAutoCompleteView>
+            <com.android.messaging.ui.MaxHeightScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:maxHeight="@dimen/compose_message_chips_view_max_height">
 
-        </com.android.messaging.ui.MaxHeightScrollView>
+                <com.android.messaging.ui.contact.ContactRecipientAutoCompleteView
+                    android:forceDarkAllowed="false"
+                    android:id="@+id/recipient_text_view"
+                    style="@style/RecipientEditTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:minHeight="@dimen/compose_message_contacts_height"
+                    android:popupBackground="@drawable/contact_popup_background"
+                    android:dropDownWidth="match_parent"
+                    android:hint="@string/recipient_hint"
+                    app:avatarPosition="start"
+                    app:chipHeight="@dimen/compose_message_chip_height"
+                    app:chipPadding="@dimen/compose_message_chip_padding"
+                    app:imageSpanAlignment="baseline"
+                    app:unselectedChipTextColor="@color/chips_text_color"
+                    app:unselectedChipBackgroundColor="@color/chips_background_color">
+
+                    <!-- Put focus on the chips view by default so soft keyboard can be shown -->
+                    <requestFocus />
+                </com.android.messaging.ui.contact.ContactRecipientAutoCompleteView>
+
+            </com.android.messaging.ui.MaxHeightScrollView>
+
+        </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
 

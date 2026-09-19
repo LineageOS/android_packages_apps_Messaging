@@ -1,5 +1,5 @@
 //  Copyright (C) 2015 The Android Open Source Project
-//  Copyright (C) 2024 The LineageOS Project
+//  Copyright (C) 2024-2026 The LineageOS Project
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -20,43 +20,39 @@ package {
     ],
 }
 
-soong_config_module_type {
-    name: "messaging_java_defaults",
-    module_type: "java_defaults",
-    config_namespace: "messaging",
-    bool_variables: ["build_variant_eng"],
-    properties: ["optimize"],
+// 2-app split: simplified from LineageOS's
+// soong_config eng/user proguard-variant dance (the keep_runtime_invisible_
+// annotations field + nested conditions_default aren't valid in this AOSP
+// Soong). Plain java_defaults with the release proguard flags. Revisit if the
+// eng-variant test-proguard split is ever needed.
+java_defaults {
+    name: "messaging_defaults",
+    optimize: {
+        proguard_flags_files: [
+            "proguard.flags",
+            "proguard-release.flags",
+        ],
+    },
 }
 
-messaging_java_defaults {
-    name: "messaging_defaults",
-    soong_config_variables: {
-        build_variant_eng: {
-            optimize: {
-                keep_runtime_invisible_annotations: true,
-                proguard_flags_files: [
-                    "proguard.flags",
-                    "proguard-test.flags",
-                ],
-            },
-            conditions_default: {
-                optimize: {
-                    keep_runtime_invisible_annotations: true,
-                    proguard_flags_files: [
-                        "proguard.flags",
-                        "proguard-release.flags",
-                    ],
-                }
-            },
-        },
-    },
+
+filegroup {
+    name: "messaging-srcs",
+    srcs: ["src/**/*.java"],
 }
 
 
 android_app {
     name: "messaging",
 
-    srcs: ["src/**/*.java"],
+    // Platform-signed so it can hold the signature|privileged BIND_RCS_PROVIDER
+    // permission used to bind an RCS provider app, and so the native-IMS path
+    // can reach the telephony APIs it needs.
+    certificate: "platform",
+
+    // A filegroup rather than a glob so that anything else needing "the app's
+    // sources" refers to the same list by construction.
+    srcs: [":messaging-srcs"],
 
     defaults: ["messaging_defaults"],
 
@@ -66,6 +62,11 @@ android_app {
         "androidx.appcompat_appcompat",
         "androidx.collection_collection",
         "androidx.core_core",
+        // Emoji-reactions: the AndroidX EmojiCompat validity trie. Used to gate
+        // an arbitrary user-picked glyph (the picker "+" path) to a real emoji
+        // BEFORE we send it as a reaction -- "any emoji" is a validity check, not
+        // an allowlist (see design-emoji-reactions-2026-06-09.md).
+        "androidx.emoji2_emoji2",
         "androidx.exifinterface_exifinterface",
         "androidx.fragment_fragment",
         "androidx.media_media",
@@ -80,17 +81,35 @@ android_app {
         "libchips",
         "libphonenumber",
         "libphotoviewer",
+        // The RCS provider contract (IRcsProvider + callback + parcelables),
+        // consumed by the rcs/ client classes. See aidl/.
+        "messaging-rcs-contract-aidl",
+        // JAIN-SIP reference implementation (javax.sip.* + gov.nist.*) for the
+        // Dual-Registration (DR) carrier-RCS stack (design §6.3, D6): the app-owned
+        // SIP-REGISTER-over-IMS-APN path in rcs/carrier/** (CarrierRcsTransport +
+        // CarrierSipRegistrar + CarrierMessageSender + its own MSRP), driven by
+        // CarrierStackDrModeDriver when the modem lacks the SipDelegate single-
+        // registration API. The carrier + MSRP + CPIM/SIP + SDP source now lives in
+        // this repo (com.android.messaging.rcs.carrier.**, compiled via the app
+        // src glob); only the external JAIN-SIP library is pulled in here.
+        "nist-sip",
+        // The MLS operation retry queue (rework 5.6). The SCHEDULE lives in the engine module
+        // (MlsRetryPolicy, pure and host-tested) because its two verified negatives -- no dedup of
+        // scheduled work, linear rather than exponential backoff -- are the parts that are easy to
+        // get wrong and expensive to discover. This is only the carrier for it.
+        "androidx.work_work-runtime",
     ],
 
     aaptflags: [
-        "--version-name",
-        "1.0.001",
+        // No --version-name here: aapt2 applies it only "if none is present" in
+        // the manifest, so setting it in both places would be two sources for one
+        // value with the loser silent.
         "--version-code",
-        "10001040",
+        "10001680",
     ],
     required: [
         "libframesequence",
-        "libgiftranscode",
+        "libgiftranscode2",
         "com.android.messaging.allowlist",
     ],
     optimize: {
@@ -99,7 +118,13 @@ android_app {
         enabled: true,
     },
 
-    sdk_version: "current",
+    // system_current (not plain current): the ride-Shannon SipDelegate path
+    // (rcs/sip/) uses @SystemApi telephony-ims classes (SipDelegateManager,
+    // SipDelegateConnection, DelegateRegistrationState, ProvisioningManager.
+    // setRcsClientConfiguration, etc.) which are not in the public SDK. The app
+    // is platform-signed + system SMS-role holder, so the system API surface is
+    // the correct compile target.
+    sdk_version: "system_current",
 
     product_specific: true,
 }
@@ -109,5 +134,4 @@ prebuilt_etc {
     product_specific: true,
     sub_dir: "sysconfig",
     src: "com.android.messaging.allowlist.xml",
-    filename_from_src: true,
 }

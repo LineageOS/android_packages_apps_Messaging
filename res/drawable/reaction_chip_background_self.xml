@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2026 The LineageOS Project
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+-->
+<!-- Reaction badge, OWN-reaction variant: same bubble-cutout ring as the default
+     badge but the inner surface is accent-tinted so the user can see which
+     reaction is theirs (the long-press picker shows it selected to remove/change). -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/window_background" />
+            <corners android:radius="@dimen/reaction_badge_corner_radius" />
+        </shape>
+    </item>
+    <item
+        android:left="@dimen/reaction_badge_ring_width"
+        android:top="@dimen/reaction_badge_ring_width"
+        android:right="@dimen/reaction_badge_ring_width"
+        android:bottom="@dimen/reaction_badge_ring_width">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/reaction_chip_background_self" />
+            <corners android:radius="@dimen/reaction_badge_corner_radius" />
+        </shape>
+    </item>
+</layer-list>

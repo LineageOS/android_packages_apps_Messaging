@@ -28,6 +28,12 @@
         appcompat:showAsAction="ifRoom"/>
 
     <item
+        android:id="@+id/action_share_location"
+        android:orderInCategory="85"
+        android:title="@string/action_share_location"
+        android:showAsAction="never"/>
+
+    <item
         android:id="@+id/action_add_contact"
         android:icon="@drawable/ic_person_add_light"
         android:orderInCategory="90"

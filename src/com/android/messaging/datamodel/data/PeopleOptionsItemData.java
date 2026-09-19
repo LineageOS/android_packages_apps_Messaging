@@ -20,17 +20,24 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.android.messaging.R;
+import com.android.messaging.rcs.ReadReceiptSettings;
 import com.android.messaging.util.Assert;
 
 public class PeopleOptionsItemData {
     // Identification for each setting that's surfaced to the UI layer.
     public static final int SETTING_NOTIFICATION = 0;
     public static final int SETTING_BLOCKED = 1;
-    public static final int SETTINGS_COUNT = 2;
+    // RCS read-receipts (DISPLAYED IMDN) per-conversation override. Only shown
+    // for 1:1 RCS-capable threads (gated by PeopleAndOptionsFragment); when
+    // shown it binds a Default/On/Off tri-state from ReadReceiptSettings.
+    public static final int SETTING_RCS_READ_RECEIPTS = 2;
+    public static final int SETTINGS_COUNT = 3;
 
     private String mTitle;
+    private String mSubtitle;
     private int mItemId;
     private ParticipantData mOtherParticipant;
+    private String mConversationId;
 
     private final Context mContext;
 
@@ -44,9 +51,12 @@ public class PeopleOptionsItemData {
      * separate options to display for the conversation, e.g. notification settings).
      */
     public void bind(
-            final Cursor cursor, final ParticipantData otherParticipant, final int settingType) {
+            final Cursor cursor, final ParticipantData otherParticipant, final int settingType,
+            final String conversationId) {
         mItemId = settingType;
         mOtherParticipant = otherParticipant;
+        mConversationId = conversationId;
+        mSubtitle = null;
 
         switch (settingType) {
             case SETTING_NOTIFICATION:
@@ -60,6 +70,25 @@ public class PeopleOptionsItemData {
                 mTitle = mContext.getString(resourceId, otherParticipant.getDisplayDestination());
                 break;
 
+            case SETTING_RCS_READ_RECEIPTS:
+                mTitle = mContext.getString(R.string.rcs_read_receipts_conversation_title);
+                final int override = ReadReceiptSettings.getThreadOverride(conversationId);
+                final int summaryRes;
+                switch (override) {
+                    case ReadReceiptSettings.OVERRIDE_ON:
+                        summaryRes = R.string.rcs_read_receipts_state_on;
+                        break;
+                    case ReadReceiptSettings.OVERRIDE_OFF:
+                        summaryRes = R.string.rcs_read_receipts_state_off;
+                        break;
+                    case ReadReceiptSettings.OVERRIDE_DEFAULT:
+                    default:
+                        summaryRes = R.string.rcs_read_receipts_state_default;
+                        break;
+                }
+                mSubtitle = mContext.getString(summaryRes);
+                break;
+
              default:
                  Assert.fail("Unsupported conversation option type!");
         }
@@ -69,11 +98,19 @@ public class PeopleOptionsItemData {
         return mTitle;
     }
 
+    public String getSubtitle() {
+        return mSubtitle;
+    }
+
     public int getItemId() {
         return mItemId;
     }
 
     public ParticipantData getOtherParticipant() {
         return mOtherParticipant;
+    }
+
+    public String getConversationId() {
+        return mConversationId;
     }
 }

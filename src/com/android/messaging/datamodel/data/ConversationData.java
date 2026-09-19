@@ -459,6 +459,11 @@ public class ConversationData extends BindableData {
         return mConversationMetadata.getName();
     }
 
+    /** E2EE: true iff an E2EE plane is active for this conversation. */
+    public boolean isE2eeEncrypted() {
+        return mConversationMetadata != null && mConversationMetadata.isE2eeEncrypted();
+    }
+
     public boolean getIsArchived() {
         return mConversationMetadata.getIsArchived();
     }
@@ -600,6 +605,19 @@ public class ConversationData extends BindableData {
                 }
             }
         }
+    }
+
+    /**
+     * Send a message forcing the legacy SMS path, bypassing RCS-first routing.
+     * Backs the user-selected "Send as SMS" escape hatch for a failed RCS
+     * message. Never an automatic fallback. Mirrors {@link #sendMessage} but
+     * always routes through {@link InsertNewMessageAction#insertNewSmsMessage}.
+     */
+    public void sendMessageAsSms(final BindingBase<ConversationData> binding,
+            final MessageData message) {
+        Assert.isTrue(TextUtils.equals(mConversationId, message.getConversationId()));
+        Assert.isTrue(binding.getData() == this);
+        InsertNewMessageAction.insertNewSmsMessage(message);
     }
 
     public void downloadMessage(final BindingBase<ConversationData> binding,

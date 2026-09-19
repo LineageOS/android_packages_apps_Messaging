@@ -18,11 +18,16 @@
 package com.android.messaging.datamodel.action;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import org.lineageos.rcs.provider.IRcsProviderCallback;
+
+import com.android.messaging.Factory;
 import com.android.messaging.datamodel.BugleDatabaseOperations;
 import com.android.messaging.datamodel.BugleNotifications;
 import com.android.messaging.datamodel.DataModel;
@@ -30,8 +35,13 @@ import com.android.messaging.datamodel.DatabaseHelper;
 import com.android.messaging.datamodel.DatabaseHelper.MessageColumns;
 import com.android.messaging.datamodel.DatabaseWrapper;
 import com.android.messaging.datamodel.MessagingContentProvider;
+import com.android.messaging.rcs.ProviderTransport;
+import com.android.messaging.rcs.RcsMessageStore;
+import com.android.messaging.rcs.ReadReceiptSettings;
 import com.android.messaging.sms.MmsUtils;
 import com.android.messaging.util.LogUtil;
+
+import java.util.List;
 
 /**
  * Action used to mark all the messages in a conversation as read
@@ -86,10 +96,70 @@ public class MarkAsReadAction extends Action implements Parcelable {
         } finally {
             db.endTransaction();
         }
+
+        // RCS: the user opened/read this thread, so emit a DISPLAYED (read)
+        // receipt to the peer for each previously-unread inbound RCS message.
+        // DELIVERED is already auto-sent on receive (ReceiveRcsMessageAction);
+        // this is the read half. SMS/MMS rows are untouched. We run on the
+        // action-service thread (off-main), so the synchronous IMDN dispatch is
+        // fine here.
+        sendDisplayedReceiptsForRcs(db, conversationId);
+
         // After marking messages as read, update the notifications. This will
         // clear the now stale notifications.
         BugleNotifications.update(false/*silent*/, BugleNotifications.UPDATE_ALL);
         return null;
+    }
+
+    /**
+     * For every inbound RCS message in {@code conversationId} that has a server
+     * message id and has not yet had a DISPLAYED receipt sent, dispatch the
+     * IMDN to the peer and stamp {@code rcs_displayed_timestamp} so it fires
+     * exactly once. No-op when there is no bound RCS provider or no eligible
+     * rows (the common SMS-only case).
+     */
+    private static void sendDisplayedReceiptsForRcs(final DatabaseWrapper db,
+            final String conversationId) {
+        // Read-receipt gate (global default + per-thread override). When the
+        // user has read receipts OFF for this thread, suppress the DISPLAYED
+        // IMDN entirely. CRITICAL: bail out BEFORE markDisplayedSent so the
+        // rows keep rcs_displayed_timestamp == 0 and re-fire on a later
+        // mark-as-read if the user turns read receipts back ON. The DELIVERED
+        // IMDN (ReceiveRcsMessageAction) is a separate path and is never gated.
+        if (!ReadReceiptSettings.resolve(conversationId)) {
+            return;
+        }
+        final List<RcsMessageStore.PendingDisplayed> pending =
+                RcsMessageStore.findUndisplayedInboundRcs(db, conversationId);
+        if (pending.isEmpty()) {
+            return;
+        }
+        final Context context = Factory.get().getApplicationContext();
+        final ProviderTransport transport = ProviderTransport.getInstance(context);
+        for (final RcsMessageStore.PendingDisplayed p : pending) {
+            // Claim the row first (idempotent stamp) so a racing mark-as-read
+            // can't double-send; only dispatch if we won the claim.
+            final int claimed = RcsMessageStore.markDisplayedSent(
+                    db, p.localMessageId, System.currentTimeMillis());
+            if (claimed <= 0) {
+                continue;
+            }
+            if (TextUtils.isEmpty(p.peerDestination)) {
+                LogUtil.w(TAG, "IMDN DISPLAYED skipped for " + p.rcsMessageId
+                        + ": unknown peer destination");
+                continue;
+            }
+            // The DISPLAYED receipt mis-binds exactly as the DELIVERED one did: stamped
+            // by peer alone it resolves the 1:1 for a message that arrived in a group. Recovered
+            // from the row rather than carried on PendingDisplayed, because the conversation the
+            // message belongs to is already what that query joins against.
+            final String rcsGroupId = RcsMessageStore.findGroupIdByRcsMessageId(p.rcsMessageId);
+            transport.sendImdn(p.rcsMessageId, p.peerDestination,
+                    IRcsProviderCallback.IMDN_DISPLAYED, rcsGroupId);
+            LogUtil.i(TAG, "IMDN DISPLAYED sent for " + p.rcsMessageId
+                    + " -> " + p.peerDestination
+                    + (rcsGroupId == null ? " (1:1)" : " in group " + rcsGroupId));
+        }
     }
 
     private MarkAsReadAction(final Parcel in) {

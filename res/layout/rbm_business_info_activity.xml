@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2026 The LineageOS Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/rbm_info_section_gap" >
+
+        <!-- Header: the bot's hero image when defined; GONE (no band) otherwise.
+             The logo half-overlaps its bottom edge. -->
+        <com.android.messaging.ui.AsyncImageView
+            android:id="@+id/rbm_info_hero"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rbm_info_hero_height"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:importantForAccessibility="no" />
+
+        <com.android.messaging.ui.AsyncImageView
+            android:id="@+id/rbm_info_logo"
+            android:layout_width="@dimen/rbm_info_logo_size"
+            android:layout_height="@dimen/rbm_info_logo_size"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/rbm_info_section_gap"
+            android:visibility="gone"
+            android:importantForAccessibility="no" />
+
+        <TextView
+            android:id="@+id/rbm_info_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rbm_info_row_padding_v"
+            android:gravity="center_horizontal"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <TextView
+            android:id="@+id/rbm_info_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="12sp"
+            android:textColor="?android:attr/textColorSecondary"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/rbm_info_verified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <com.android.messaging.ui.AsyncImageView
+                android:id="@+id/rbm_info_verified_badge"
+                android:layout_width="@dimen/rbm_verified_badge_size"
+                android:layout_height="@dimen/rbm_verified_badge_size"
+                android:layout_marginEnd="4dp"
+                android:importantForAccessibility="no" />
+
+            <TextView
+                android:id="@+id/rbm_info_verified_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:textColor="?android:attr/textColorSecondary" />
+
+        </LinearLayout>
+
+        <!-- Quick actions (Call / Website / Email). Each item is GONE unless the
+             brand carries that contact. -->
+        <LinearLayout
+            android:id="@+id/rbm_info_actions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/rbm_info_section_gap"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/rbm_info_action_call"
+                style="@style/RbmInfoAction" >
+                <ImageView style="@style/RbmInfoActionIcon" android:src="@drawable/ic_rbm_call" />
+                <TextView style="@style/RbmInfoActionLabel" android:text="@string/rbm_info_call" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rbm_info_action_website"
+                style="@style/RbmInfoAction" >
+                <ImageView style="@style/RbmInfoActionIcon" android:src="@drawable/ic_rbm_web" />
+                <TextView style="@style/RbmInfoActionLabel" android:text="@string/rbm_info_website" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rbm_info_action_email"
+                style="@style/RbmInfoAction" >
+                <ImageView style="@style/RbmInfoActionIcon" android:src="@drawable/ic_rbm_email" />
+                <TextView style="@style/RbmInfoActionLabel" android:text="@string/rbm_info_email" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- About -->
+        <TextView
+            android:id="@+id/rbm_info_about_header"
+            style="@style/RbmInfoSectionHeader"
+            android:text="@string/rbm_info_about" />
+
+        <TextView
+            android:id="@+id/rbm_info_description"
+            style="@style/ConversationMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/rbm_info_h_margin"
+            android:layout_marginEnd="@dimen/rbm_info_h_margin"
+            android:textColor="?android:attr/textColorPrimary" />
+
+        <!-- Details (rows added by the activity) -->
+        <TextView
+            android:id="@+id/rbm_info_details_header"
+            style="@style/RbmInfoSectionHeader"
+            android:text="@string/rbm_info_details" />
+
+        <LinearLayout
+            android:id="@+id/rbm_info_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/rbm_info_h_margin"
+            android:layout_marginEnd="@dimen/rbm_info_h_margin"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+</ScrollView>

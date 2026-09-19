@@ -19,7 +19,9 @@ package {
 }
 
 cc_library_shared {
-    name: "libgiftranscode",
+    // Renamed from libgiftranscode to avoid colliding with the in-tree AOSP
+    // packages/apps/Messaging (both define it).
+    name: "libgiftranscode2",
     static_libs: ["libgif"],
     // Link to Android logging (liblog.so) and dynamic linker (libdl.so) libraries
     shared_libs: [

@@ -33,6 +33,7 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.view.ViewPropertyAnimator;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AbsListView;
+import android.widget.PopupMenu;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewGroupCompat;
@@ -79,6 +80,8 @@ public class ConversationListFragment extends Fragment implements ConversationLi
                                         final boolean isLongClick,
                                         final ConversationListItemView conversationView);
         void onCreateConversationClick();
+        // WAVE-A / A1: start the new-RCS-group flow (contact picker in group mode).
+        void onCreateGroupConversationClick();
         boolean isConversationSelected(final String conversationId);
         boolean isSwipeAnimatable();
         boolean isSelectionMode();
@@ -226,6 +229,11 @@ public class ConversationListFragment extends Fragment implements ConversationLi
             mStartNewConversationButton.setVisibility(View.VISIBLE);
             mStartNewConversationButton.setOnClickListener(clickView ->
                     mHost.onCreateConversationClick());
+            // WAVE-A / A1: long-press the START CHAT FAB to open a small menu
+            // {New conversation, New group}. Plain tap is byte-for-byte the
+            // existing new-conversation flow; long-press is a purely additive
+            // affordance for starting an RCS group.
+            mStartNewConversationButton.setOnLongClickListener(this::showNewConversationMenu);
         }
 
         // The root view has a non-null background, which by default is deemed by the framework
@@ -287,6 +295,32 @@ public class ConversationListFragment extends Fragment implements ConversationLi
 
     public void updateUi() {
         mAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * WAVE-A / A1: long-press speed-dial off the START CHAT FAB offering
+     * {New conversation, New group}. Returns true (consumes the long-press) so
+     * the FAB doesn't also fire its normal click.
+     */
+    private boolean showNewConversationMenu(final View anchor) {
+        if (mHost == null) {
+            return false;
+        }
+        final PopupMenu popup = new PopupMenu(requireActivity(), anchor);
+        popup.getMenuInflater().inflate(R.menu.new_conversation_popup_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(item -> {
+            final int id = item.getItemId();
+            if (id == R.id.action_new_conversation) {
+                mHost.onCreateConversationClick();
+                return true;
+            } else if (id == R.id.action_new_group) {
+                mHost.onCreateGroupConversationClick();
+                return true;
+            }
+            return false;
+        });
+        popup.show();
+        return true;
     }
 
     @Override

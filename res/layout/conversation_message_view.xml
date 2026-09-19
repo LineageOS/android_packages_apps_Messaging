@@ -31,6 +31,21 @@
         android:layout_gravity="center_vertical"
         android:importantForAccessibility="no" />
 
+    <!-- WAVE-B: centered, muted group lifecycle event status line (created /
+         member added / removed / left / renamed). Hidden by default; shown only
+         for a TRANSPORT_RCS_SYSTEM row, in which case the contact icon and the
+         message bubble above are hidden. No avatar, no bubble, full-width
+         centered. -->
+    <TextView
+        android:id="@+id/conversation_system_message"
+        style="@style/ConversationSystemMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:visibility="gone"
+        android:importantForAccessibility="yes" />
+
     <com.android.messaging.ui.conversation.ConversationMessageBubbleView
         android:id="@+id/message_content"
         android:orientation="vertical"
@@ -120,6 +135,196 @@
 
             </LinearLayout>
 
+            <!-- geopush: location card for an RCS location share. An
+                 OSM static-map thumbnail + a reverse-geocoded address line (falls
+                 back to lat/lon). GONE for every non-location row; populated by
+                 bindLocationCard(); tap opens the device's default map app. -->
+            <LinearLayout
+                android:id="@+id/location_card"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:visibility="gone">
+
+                <!-- Map frame: the Wikimedia static map (centered on the point)
+                     with a pin overlaid at the center. The pin tip sits at the
+                     center via a half-height upward margin. -->
+                <FrameLayout
+                    android:layout_width="240dp"
+                    android:layout_height="140dp">
+
+                    <com.android.messaging.ui.AsyncImageView
+                        android:id="@+id/location_map"
+                        android:layout_width="240dp"
+                        android:layout_height="140dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/action_share_location" />
+
+                    <ImageView
+                        android:id="@+id/location_pin"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="32dp"
+                        android:src="@drawable/ic_location_pin"
+                        android:contentDescription="@null" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/location_address"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    style="@style/ConversationMessage" />
+
+            </LinearLayout>
+
+            <!-- RBM: rich-card body for an inbound bot message.
+                 Default VERTICAL (media on top, then title + description); when the
+                 card is HORIZONTAL, bindRbmCard() flips this row to
+                 horizontal so the media sits beside the text column. GONE for every
+                 non-bot row; populated by bindRbmCard(). Raw JSON body is hidden
+                 when a card renders. -->
+            <LinearLayout
+                android:id="@+id/rbm_card"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
+
+                <!-- Media (image, or video thumbnail with a centered play badge).
+                     The FrameLayout lets the play badge overlay it. -->
+                <FrameLayout
+                    android:id="@+id/rbm_card_media_frame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/rbm_card_media_bottom_margin"
+                    android:visibility="gone" >
+
+                    <com.android.messaging.ui.AsyncImageView
+                        android:id="@+id/rbm_card_media"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxHeight="@dimen/rbm_card_media_max_height"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitCenter"
+                        app:cornerRadius="@dimen/attachment_rounded_corner_radius"
+                        android:contentDescription="@string/rbm_card_media_content_description" />
+
+                    <ImageView
+                        android:id="@+id/rbm_card_media_play"
+                        android:layout_width="@dimen/rbm_media_play_size"
+                        android:layout_height="@dimen/rbm_media_play_size"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_rbm_play"
+                        android:visibility="gone"
+                        android:contentDescription="@string/rbm_card_media_content_description" />
+
+                </FrameLayout>
+
+                <!-- File attachment (non-image / non-video, no thumbnail): icon +
+                     derived file name. -->
+                <LinearLayout
+                    android:id="@+id/rbm_card_file"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/rbm_card_media_bottom_margin"
+                    android:visibility="gone" >
+
+                    <ImageView
+                        android:layout_width="@dimen/rbm_file_icon_size"
+                        android:layout_height="@dimen/rbm_file_icon_size"
+                        android:layout_marginEnd="@dimen/rbm_chip_spacing"
+                        android:src="@drawable/ic_attachment_dark"
+                        android:contentDescription="@string/rbm_card_media_content_description" />
+
+                    <TextView
+                        android:id="@+id/rbm_card_file_name"
+                        style="@style/ConversationMessage"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="middle"
+                        android:textColor="@color/message_text_color_incoming" />
+
+                </LinearLayout>
+
+                <!-- Text column: kept together so HORIZONTAL mode can place it
+                     beside the media (bindRbmCard flips its width to 0+weight). -->
+                <LinearLayout
+                    android:id="@+id/rbm_card_textcol"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <!-- Single-card text sits on the dark incoming RCS bubble, so it
+                         uses the incoming (light) text colour in both themes. -->
+                    <TextView
+                        android:id="@+id/rbm_card_title"
+                        style="@style/ConversationMessageTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/message_text_color_incoming"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/rbm_card_description"
+                        style="@style/ConversationMessage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/message_text_color_incoming"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- RBM: horizontal carousel of cards
+                 (richCard.carouselCard). Shown instead of rbm_card when the
+                 message carries >1 card; each card item is inflated from
+                 rbm_carousel_card into the strip by bindCarousel(). GONE for a
+                 single card and every non-bot row. -->
+            <HorizontalScrollView
+                android:id="@+id/rbm_carousel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:overScrollMode="never"
+                android:visibility="gone" >
+
+                <LinearLayout
+                    android:id="@+id/rbm_carousel_strip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
+
+            <!-- RBM (Phase 6): page-position dots that signal the carousel is
+                 horizontally scrollable; the active dot tracks scrollX. Populated
+                 by ConversationMessageView.bindCarousel(); GONE otherwise. -->
+            <LinearLayout
+                android:id="@+id/rbm_carousel_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/rbm_suggestions_top_margin"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/message_text"
                 style="@style/ConversationMessage"
@@ -127,6 +332,17 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 android:importantForAccessibility="no" />
+
+            <!-- RBM: "Selected option" sub-label under the reply text
+                 of a tapped suggestion-chip echo. GONE for every other row. -->
+            <TextView
+                android:id="@+id/rbm_selected_option"
+                style="@style/ConversationMessageStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rbm_selected_option_label"
+                android:textColor="@color/timestamp_text_outgoing"
+                android:visibility="gone" />
 
             <com.android.messaging.ui.LineWrapLayout
                 android:id="@+id/message_metadata"
@@ -164,9 +380,45 @@
                     style="@style/SmsDeliverdBadge"
                     android:src="@drawable/ic_sms_delivery_ok"
                     android:visibility="gone" />
+                <!-- Per-message E2EE lock (scheme-blind) — shown when the message
+                     arrived under any E2EE scheme. -->
+                <ImageView
+                    android:id="@+id/e2ee_lock_icon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="2dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_e2ee_lock"
+                    android:contentDescription="@string/e2ee_encrypted_message"
+                    android:visibility="gone" />
             </com.android.messaging.ui.LineWrapLayout>
 
         </com.android.messaging.ui.conversation.MessageBubbleBackground>
+
+        <!-- Emoji-reactions: the reaction chips render here, below the bubble
+             body, wrapping across lines. Hidden (GONE) for any message with no
+             reactions. Populated/recycled by ConversationMessageView
+             .bindReactions(); gravity follows incoming (START) / outgoing (END).
+             LineWrapLayout is the same primitive the metadata row uses. -->
+        <com.android.messaging.ui.LineWrapLayout
+            android:id="@+id/reactions_container"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/reaction_container_top_margin"
+            android:visibility="gone" />
+
+        <!-- RBM: suggestion chips for a bot card, wrapping
+             across lines below the card bubble. GONE for every non-bot row;
+             populated/recycled by ConversationMessageView.bindRbmSuggestions(). -->
+        <com.android.messaging.ui.LineWrapLayout
+            android:id="@+id/rbm_suggestions_container"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/rbm_suggestions_top_margin"
+            android:visibility="gone" />
 
     </com.android.messaging.ui.conversation.ConversationMessageBubbleView>
 
