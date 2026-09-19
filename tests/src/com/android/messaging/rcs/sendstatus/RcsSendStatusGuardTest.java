@@ -58,6 +58,32 @@ public class RcsSendStatusGuardTest {
     private static final String LOCATION =
             "src/com/android/messaging/datamodel/action/SendRcsLocationAction.java";
 
+    /**
+     * The heart of it: the app-owned MLS arm must WRITE the outcome it measured.
+     *
+     * <p>Before this, {@code tryInsertSendingRcsMessage} called {@code sendAppOwned}, read
+     * {@code SENT} / {@code FAILED} out of it, used the answer only to pick the next branch, and
+     * then inserted the row at {@code BUGLE_STATUS_OUTGOING_YET_TO_SEND} like every other path —
+     * which no RCS writer ever moves. Both mappers must appear, because recording only
+     * {@code message_status} would leave {@code rcs_status} at {@code NONE} forever and make the row
+     * distinguishable from a callback-driven one for every query keyed on it.
+     */
+    @Test
+    public void appOwnedSendRecordsItsMeasuredOutcome() throws IOException {
+        final String body = SourceScan.bodyOf(
+                SourceScan.codeOnly(SourceScan.read(INSERT)), "tryInsertSendingRcsMessage");
+        assertTrue("tryInsertSendingRcsMessage not found in " + INSERT
+                + " — this guard has gone stale, not green", body.length() > 500);
+        assertTrue("the app-owned arm must still be the one measuring the outcome",
+                SourceScan.count(body, "sendAppOwned(") >= 1);
+        assertEquals("tryInsertSendingRcsMessage must stamp the measured message_status via "
+                        + "RcsSendStatus.bugleStatusForMeasuredHandoff; without it the row goes in "
+                        + "at OUTGOING_YET_TO_SEND and reads \"Sending…\" forever",
+                1, SourceScan.count(body, "bugleStatusForMeasuredHandoff("));
+        assertEquals("tryInsertSendingRcsMessage must stamp the measured rcs_status via "
+                        + "RcsSendStatus.rcsStatusForMeasuredHandoff",
+                1, SourceScan.count(body, "rcsStatusForMeasuredHandoff("));
+    }
 
     /**
      * <b>EVERY outgoing-RCS row-writer must either RECORD its measured outcome or be fed by a verb
@@ -101,8 +127,7 @@ public class RcsSendStatusGuardTest {
         // Sites whose verb DOES fire a ProviderSink, so an async onMessageStatus moves the row.
         // Both go out through RcsProviderService.sendFile -> TachyonTransport.sendFile.
         final List<String> sinkFed = java.util.Arrays.asList(
-                "tryInsertSendingRcsMessage", "tryInsertSendingRcsFile",
-                "tryInsertSendingRcsGroupMessage", "tryInsertSendingRcsGroupFile");
+                "tryInsertSendingRcsFile", "tryInsertSendingRcsGroupFile");
 
         final String insert = SourceScan.codeOnly(SourceScan.read(INSERT));
         final String location = SourceScan.codeOnly(SourceScan.read(LOCATION));
@@ -200,13 +225,12 @@ public class RcsSendStatusGuardTest {
                         + "queue below excludes TRANSPORT_RCS, so an RCS row that reaches it is "
                         + "parked at \"Sending…\" and never sent",
                 1, reads.size());
-        // The RCS arm must RETURN rather than fall through. There is no over-RCS resend on this
-        // route, so the honest outcome is to leave the row FAILED with "Send as SMS" still
-        // offered -- what must never happen is reaching the SMS queue below, which excludes
-        // TRANSPORT_RCS and therefore parks the row at "Sending..." and never sends it.
-        final List<Integer> branch = SourceScan.indicesOf(body, "return null;");
-        assertTrue("the RCS arm must return before the SMS path, not fall into it",
-                !branch.isEmpty());
+        final List<Integer> branch = SourceScan.indicesOf(body, "resendOverRcs(");
+        assertEquals("the RCS arm must hand off to the over-RCS resend. If it was "
+                        + "renamed, re-derive this guard; if it was REMOVED, a failed RCS row is "
+                        + "back to having a plaintext SMS as its only recovery on a conversation "
+                        + "the app called encrypted.",
+                1, branch.size());
         final List<Integer> writes =
                 SourceScan.indicesOf(body, "BUGLE_STATUS_OUTGOING_YET_TO_SEND");
         assertEquals("the YET_TO_SEND write should still be here exactly once (SMS/MMS keep it)",
@@ -217,11 +241,28 @@ public class RcsSendStatusGuardTest {
         assertTrue("the RCS branch must be taken BEFORE the YET_TO_SEND write too",
                 branch.get(0).intValue() < writes.get(0).intValue());
 
-        // No assertion here about ProcessPendingMessagesAction. The SMS path BELOW this branch
-        // uses it legitimately, and a scan from the branch onwards reaches that path -- it
-        // measured 2 and would have been a guard that fails on correct code. What actually
-        // protects the row is the ordering asserted above: the transport-type check and the
-        // return both precede the YET_TO_SEND write, so an RCS row never reaches the queue.
+        // AND THE BRANCH ITSELF MUST NOT RE-CREATE THE TRIP IT EXISTS TO AVOID.
+        final String rcsArm = SourceScan.bodyOf(src, "resendOverRcs");
+        assertTrue("resendOverRcs not found in " + RESEND, rcsArm.length() > 200);
+        assertEquals("the over-RCS resend must NEVER write BUGLE_STATUS_OUTGOING_YET_TO_SEND. That "
+                        + "status is terminal by neglect on a TRANSPORT_RCS row — nothing moves it "
+                        + "— so writing it here would restore the exact \"Sending…\" forever trip "
+                        + "that was removed, through the control offered to escape it.",
+                0, SourceScan.count(rcsArm, "BUGLE_STATUS_OUTGOING_YET_TO_SEND"));
+        assertEquals("the over-RCS resend must NEVER hand the row to ProcessPendingMessagesAction. "
+                        + "That queue excludes TRANSPORT_RCS by name, so it cannot send this row "
+                        + "and scheduling it only looks like progress.",
+                0, SourceScan.count(rcsArm, "ProcessPendingMessagesAction"));
+        assertEquals("the over-RCS resend must reach MlsProviderTransport.resendByUser — the SAME "
+                        + "machinery a peer-reported resend uses. A second implementation of "
+                        + "\"resend this message\" is a maintenance cost and an interop risk, and "
+                        + "it would have to re-derive invariant 62 and the §10.3 ledger.",
+                1, SourceScan.count(rcsArm, "resendByUser("));
+        assertTrue("the over-RCS resend must record its measured outcome: the send is synchronous, "
+                        + "so reaching the row write IS the measurement and there is no callback "
+                        + "coming to fix it up later",
+                SourceScan.count(rcsArm, "bugleStatusForMeasuredHandoff(") >= 1
+                        && SourceScan.count(rcsArm, "rcsStatusForMeasuredHandoff(") >= 1);
     }
 
     /**

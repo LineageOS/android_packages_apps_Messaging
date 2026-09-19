@@ -250,6 +250,13 @@ java_test_host {
     // them and fail to compile.
     srcs: [
         "tests/src/com/android/messaging/rcs/carrier/**/*.java",
+        // RccMlsBody is app-side (com.android.messaging.rcs.e2ee) and pure Java. The carrier leg
+        // unframes with it at the hop that decrypts, so the binary-safety test for that
+        // hop needs to build a real framed payload rather than a hand-rolled imitation of one.
+        // Compiled in here for the same reason messaging-mls-engine-host-tests compiles it: it is
+        // not engine code, so promoting it into the shared engine library would make that library's
+        // charter untrue.
+        "src/com/android/messaging/rcs/e2ee/RccMlsBody.java",
         // Which bearer the SIP registrar targets, and who is authoritative about the P-CSCF.
         // Pure Java on purpose — the SystemProperties read lives at its one call site in
         // CarrierSipRegistrar, which is Android-coupled and untestable here, so that the DECISION
@@ -257,6 +264,10 @@ java_test_host {
         "src/com/android/messaging/rcs/carrier/CarrierSipPlane.java",
     ],
     static_libs: [
+        // RccMlsBody imports com.android.messaging.rcs.engine.mls.RccContentDisposition.
+        // messaging-mls-engine is a DEVICE java_library and cannot serve a java_test_host;
+        // messaging-mls-policy-host is the host variant and already lists that source.
+        "messaging-mls-policy-host",
         "messaging-rcs-msrp-host",
         "messaging-rcs-msrp-session-host",
         "messaging-rcs-sip-host",
@@ -308,60 +319,6 @@ java_test_host {
         "junit-host",
     ],
     test_suites: ["general-tests"],
-}
-
-// ============================================================================
-// THE NATIVE HALF OF THE MLS ENGINE. Its Java half lives in engine/.
-// ============================================================================
-// The pure-Rust MLS core (mls-rs), BUILT FROM SOURCE by Soong against the crates in
-// external/mls-rs. libmlsopenmlsbridge = the JNI face (jni/mls_openmls_bridge.c) that
-// whole-static-links it. Java face: OpenMlsNative -> OpenMlsEngine.
-rust_ffi_static {
-    name: "librcs_mls_ffi",
-    crate_name: "rcs_mls_ffi",
-    srcs: ["rust/rcs_mls_ffi/src/lib.rs"],
-    edition: "2021",
-    enabled: false,
-    arch: { arm64: { enabled: true } },
-    compile_multilib: "first",
-    // The relaxed lint set, not the platform default. This crate was built out-of-tree by cargo
-    // until it moved into the build, so it has never been written to AOSP's Rust style: the
-    // platform set adds -D missing-docs (about 150 findings across a 7,200-line FFI surface) and
-    // -D unsafe_op_in_unsafe_fn (about 175, each needing an unsafe block inside an already-unsafe
-    // fn). "vendor" still runs clippy and still denies warnings, so the build is gated, not waved
-    // through -- the 20 findings it did report were fixed rather than suppressed.
-    lints: "vendor",
-    clippy_lints: "vendor",
-    rustlibs: [
-        "libmls_rs_fork",
-        "libmls_rs_core_mls_rs",
-        "libmls_rs_crypto_rustcrypto",
-        "libmls_rs_identity_x509",
-        "libzeroize_mls_rs",
-        "libgetrandom_mls_rs",
-        "libder_mls_rs",
-        "libx509_cert_mls_rs",
-        "libsha2",
-        "libp256",
-    ],
-    system_ext_specific: true,
-    // Package-agnostic Rust MLS staticlib with a plain C ABI, so more than one JNI
-    // bridge can link it. An out-of-tree provider that needs it should be added here.
-    visibility: ["//packages/apps/Messaging"],
-}
-
-cc_library_shared {
-    name: "libmlsopenmlsbridge",
-    srcs: ["jni/mls_openmls_bridge.c"],
-    header_libs: ["jni_headers"],
-    whole_static_libs: ["librcs_mls_ffi"],
-    shared_libs: ["liblog"],
-    compile_multilib: "64",
-    enabled: false,
-    arch: { arm64: { enabled: true } },
-    system_ext_specific: true,
-    // One bridge and one engine java_library means one set of JNI symbols and no drift.
-    visibility: ["//packages/apps/Messaging"],
 }
 
 // ============================================================================
@@ -914,4 +871,103 @@ java_library_host {
         "engine/src/com/android/messaging/rcs/engine/mls/MlsServerBundle.java",
     ],
     visibility: ["//packages/apps/Messaging"],
+}
+
+// ============================================================================
+// THE NATIVE HALF OF THE MLS ENGINE. Its Java half lives in engine/.
+// ============================================================================
+// The pure-Rust MLS core (mls-rs), BUILT FROM SOURCE by Soong against the crates in
+// external/mls-rs. libmlsopenmlsbridge = the JNI face (jni/mls_openmls_bridge.c) that
+// whole-static-links it. Java face: OpenMlsNative -> OpenMlsEngine.
+rust_ffi_static {
+    name: "librcs_mls_ffi",
+    crate_name: "rcs_mls_ffi",
+    srcs: ["rust/rcs_mls_ffi/src/lib.rs"],
+    edition: "2021",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    compile_multilib: "first",
+    // The relaxed lint set, not the platform default. This crate was built out-of-tree by cargo
+    // until it moved into the build, so it has never been written to AOSP's Rust style: the
+    // platform set adds -D missing-docs (about 150 findings across a 7,200-line FFI surface) and
+    // -D unsafe_op_in_unsafe_fn (about 175, each needing an unsafe block inside an already-unsafe
+    // fn). "vendor" still runs clippy and still denies warnings, so the build is gated, not waved
+    // through -- the 20 findings it did report were fixed rather than suppressed.
+    lints: "vendor",
+    clippy_lints: "vendor",
+    rustlibs: [
+        "libmls_rs_fork",
+        "libmls_rs_core_mls_rs",
+        "libmls_rs_crypto_rustcrypto",
+        "libmls_rs_identity_x509",
+        "libzeroize_mls_rs",
+        "libgetrandom_mls_rs",
+        "libder_mls_rs",
+        "libx509_cert_mls_rs",
+        "libsha2",
+        "libp256",
+    ],
+    system_ext_specific: true,
+    // Package-agnostic Rust MLS staticlib with a plain C ABI, so more than one JNI
+    // bridge can link it. An out-of-tree provider that needs it should be added here.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+cc_library_shared {
+    name: "libmlsopenmlsbridge",
+    srcs: ["jni/mls_openmls_bridge.c"],
+    header_libs: ["jni_headers"],
+    whole_static_libs: ["librcs_mls_ffi"],
+    shared_libs: ["liblog"],
+    compile_multilib: "64",
+    enabled: false,
+    arch: { arm64: { enabled: true } },
+    system_ext_specific: true,
+    // One bridge and one engine java_library means one set of JNI symbols and no drift.
+    visibility: ["//packages/apps/Messaging"],
+}
+
+// Host-side unit tests for the MLS engine's pure-Java pieces — the RCC.16 spec crypto (Annex C.1
+// commitments, C.2/C.3 file encryption, §7.6.3 VerifiableDerivedContent) and the recovery policy.
+//
+// Separate from the carrier suite on purpose: these cover the ENGINE, and the carrier module's name
+// would stop being true if they were folded in.
+//
+// These are the only place the byte-level spec constructions can be pinned at all: the peers we
+// need to interoperate with cannot be asked, so each test recomputes the construction from the
+// spec text rather than round-tripping our own encoder against our own decoder.
+java_test_host {
+    name: "messaging-mls-engine-host-tests",
+    srcs: [
+        "tests/src/com/android/messaging/rcs/engine/**/*.java",
+        // The shared source-scanning helper, listed by path rather than copied. It is NOT MLS
+        // code -- the send-status guards use it too, which is why it does not live under
+        // engine/mls any more. A second hand-rolled copy of read/codeOnly/bodyOf is exactly the
+        // drift it was extracted to stop.
+        "tests/src/com/android/messaging/rcs/SourceScan.java",
+        // RccMlsBody is app-side (com.android.messaging.rcs.e2ee), not engine code — but it is pure
+        // Java and it is one HALF of the inbound content boundary; the other half,
+        // RccContentDisposition, is already in messaging-mls-policy-host. Compiled into the test
+        // target rather than promoted into the shared engine library so that library's charter
+        // ("the decisions both owners must apply identically") stays honest.
+        "src/com/android/messaging/rcs/e2ee/RccMlsBody.java",
+        // Same reason as the lines above. MlsSendRouting is app-side
+        // policy rather than a decision both owners must apply identically — the PROVIDER has no
+        // padlock to be honest about — so it lives in rcs.e2ee and is compiled into the test target
+        // instead of being promoted into the shared engine library.
+        //
+        // AND THE PLACEMENT IS LOAD-BEARING, not a filing preference. An import of
+        // com.android.messaging.rcs.engine.mls.* is term (b) of MlsGateCounterDurabilityGuardTest's
+        // "provider MLS layer", so putting this class in the engine module pulled the whole of
+        // InsertNewMessageAction — a 2,000-line Bugle action — into that layer, and with it six
+        // unrelated Bugle constants the guard then demanded rows for. That was measured, not predicted: the
+        // guard went red on exactly those six. The action talks to rcs.e2ee, which is the boundary
+        // it already had.
+        "src/com/android/messaging/rcs/e2ee/MlsSendRouting.java",
+    ],
+    static_libs: [
+        "messaging-mls-policy-host",
+        "junit-host",
+    ],
+    test_suites: ["general-tests"],
 }
