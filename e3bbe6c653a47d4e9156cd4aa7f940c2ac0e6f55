@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aafe6f00_b0042bc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 10067
+      },
+      "writtenOn": "2026-09-21T07:00:38Z",
+      "side": 1,
+      "message": "also add https://github.com/LineageOS/charter/blob/main/ai-coding-assistants.md to your changes; i somewhat can\u0027t imagine you bothered writing these comments yourself.",
+      "revId": "e3bbe6c653a47d4e9156cd4aa7f940c2ac0e6f55",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14b01ebe_a46185c9",
