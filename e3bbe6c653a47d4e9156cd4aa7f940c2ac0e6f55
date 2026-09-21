@@ -51,6 +51,24 @@
       "parentUuid": "14b01ebe_a46185c9",
       "revId": "e3bbe6c653a47d4e9156cd4aa7f940c2ac0e6f55",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b802da6e_ba248987",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 11883
+      },
+      "writtenOn": "2026-09-21T17:01:02Z",
+      "side": 1,
+      "message": "Sadly messaging isn\u0027t in a good shape, running random LLM on it might work, and then fail completely.\nSomething from 0 is the only path forward imo",
+      "parentUuid": "d140c9c3_abb4b7c1",
+      "revId": "e3bbe6c653a47d4e9156cd4aa7f940c2ac0e6f55",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
