@@ -33,6 +33,24 @@
       "message": "Isn\u0027t this inverted?\nIf the child is null doesn\u0027t that mean it\u0027s a \"single\" notification?\n\nPlease help me figure this out",
       "revId": "e3bbe6c653a47d4e9156cd4aa7f940c2ac0e6f55",
       "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d140c9c3_abb4b7c1",
+        "filename": "src/com/android/messaging/datamodel/BugleNotifications.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 21070
+      },
+      "writtenOn": "2026-09-21T16:59:27Z",
+      "side": 1,
+      "message": "TBH I already gave up on the Messaging app, and @priv.luk@gmail.com was right, I used AI for the Messaging app changes, you can edit it or simply close these changes if you don\u0027t have time, probably we should start from scratch later ...",
+      "parentUuid": "14b01ebe_a46185c9",
+      "revId": "e3bbe6c653a47d4e9156cd4aa7f940c2ac0e6f55",
+      "serverId": "1ec6b3db-b2c1-4fa4-84a2-4c7efe89ba71"
     }
   ]
 }
