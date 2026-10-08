@@ -25,6 +25,7 @@ import com.android.messaging.Factory;
 import com.android.messaging.datamodel.action.UpdateMessageNotificationAction;
 import com.android.messaging.util.BuglePrefsKeys;
 import com.android.messaging.util.LogUtil;
+import com.android.messaging.util.PhoneUtils;
 
 /**
  * Receives notification of boot completion and package replacement
@@ -32,6 +33,9 @@ import com.android.messaging.util.LogUtil;
 public class BootAndPackageReplacedReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        if (!PhoneUtils.getDefault().isDefaultSmsApp()) {
+            return;
+        }
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())
                 || Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
             // Repost unseen notifications
