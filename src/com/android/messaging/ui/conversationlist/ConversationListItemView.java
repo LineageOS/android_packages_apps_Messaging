@@ -171,6 +171,14 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
         mListItemUnreadTypeface = Typefaces.getRobotoBold();
 
         setTransitionGroup(true);
+
+        // The swipeable container is marked importantForAccessibility="no" in
+        // conversation_list_item_view.xml, so the row itself is the node exposed to
+        // accessibility services. Give it the click listeners as well, otherwise
+        // ACTION_CLICK on the row succeeds but nothing happens, and screen readers cannot
+        // open a conversation from the list.
+        setOnClickListener(this);
+        setOnLongClickListener(this);
     }
 
     @Override
@@ -620,7 +628,10 @@ public class ConversationListItemView extends FrameLayout implements OnClickList
     }
 
     private boolean processClick(final View v, final boolean isLongClick) {
-        Assert.isTrue(v == mSwipeableContainer || v == mContactIconView || v == mImagePreviewView);
+        // The row itself receives the click when it is activated from an accessibility
+        // service, since the swipeable container is not part of the accessibility tree.
+        Assert.isTrue(v == mSwipeableContainer || v == mContactIconView
+                || v == mImagePreviewView || v == this);
         Assert.notNull(mData.getName());
 
         if (mHostInterface != null) {
