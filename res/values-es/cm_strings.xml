@@ -18,5 +18,5 @@
     <string name="swipe_to_delete_conversation_pref_title">Deslizar para eliminar</string>
     <string name="swipe_to_delete_conversation_pref_summary">Desliza a la derecha para borrar una conversación</string>
     <string name="notification_channel_messages_title">Mensajes</string>
-    <string name="start_chat">Iniciar charla</string>
+    <string name="start_chat">Iniciar chat</string>
 </resources>
